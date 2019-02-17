@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Rui Vieira" />
+        <meta name="copyright" content="Rui Vieira" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content=", misc, " />
+
+<meta property="og:title" content="Containerised Streaming Data Generation using State-Space Models "/>
+<meta property="og:url" content="./containerised-streaming-data-generation-using-state-space-models.html" />
+<meta property="og:description" content="To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern …" />
+<meta property="og:site_name" content="Rui Vieira" />
+<meta property="og:article:author" content="Rui Vieira" />
+<meta property="og:article:published_time" content="2018-05-12T19:21:00+01:00" />
+<meta name="twitter:title" content="Containerised Streaming Data Generation using State-Space Models ">
+<meta name="twitter:description" content="To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern …">
+
+        <title>Containerised Streaming Data Generation using State-Space Models  · Rui Vieira
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/tipuesearch/tipuesearch.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif-slanted.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:creator" content="@ruimvieira">
+
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="./"><span class=site-name>Rui Vieira</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href=".">Home</a></li>
+                            <li ><a href="./pages/about.html">About</a></li>
+                            <li ><a href="./categories.html">Categories</a></li>
+                            <li ><a href="./tags.html">Tags</a></li>
+                            <li ><a href="./archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page-header span6 offset2">
+    <h1><a href="./containerised-streaming-data-generation-using-state-space-models.html"> Containerised Streaming Data Generation using State-Space Models  </a></h1>
+        <i>Posted on <time pubdate="pubdate" datetime="2018-05-12T19:21:00+01:00">May 12, 2018</time></i>
+
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            
+            <p>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as <a href="https://kafka.apache.org/">Apache Kafka</a> and <a href="https://spark.apache.org/">Apache Spark</a> and deployment in a cloud environment like <a href="https://www.openshift.com/">OpenShift</a> with tools such as <a href="https://radanalytics.io/">oshinko</a>.</p>
+<p>Simulating data is not trivial, since we might want to capture complex characteristic to evaluate our algorithms in conditions similar to the real world.</p>
+<p>In this post I'll introduce a tool, <a href="https://github.com/ruivieira/timeseries-mock">timeseries-mock</a>, which allows for a simple, containerised deployment of a data simulator along with some of the theory behind the data generation.</p>
+<h2>State-space models</h2>
+<p>A common way of modelling these patterns is to use state-space models (SSM). SSMs can be divided into a model and a observation structure.</p>
+<div class="math">\begin{align}
+Y_t|\theta_t,\Phi &amp;\sim f\left(y_t|\theta_t,\Phi_t\right) \\
+\theta_t|\theta_{t-1},\Phi_t &amp;\sim g\left(\theta_t|\theta_{t-1},\Phi_t\right).
+\end{align}</div>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/ssm_diagram.png"></p>
+<p>It is clear from the above that the state possesses a Markovian nature. The state at time <span class="math">\(t\)</span>, <span class="math">\(\theta_t\)</span> will on depend on the previous value, <span class="math">\(\theta_{t-1}\)</span> and an observation at time <span class="math">\(t\)</span>, <span class="math">\(y_t\)</span> will only depend on the current state, <span class="math">\(\theta_t\)</span>, that is:</p>
+<div class="math">\begin{align*}
+p\left(\theta_{t}|\theta_{0:t-1},y_{0:t-1}\right)&amp;=p\left(\theta_{t}|\theta_{t-1}\right) \\
+p\left(\theta_{t-1}|\theta_{t:T},y_{t:T}\right)&amp;=p\left(\theta_{t-1}|\theta_{t}\right) \\
+p\left(y_{t}|\theta_{0:t},y_{0:t-1}\right)&amp;=p\left(y_{t}|\theta_{t}\right).
+\end{align*}</div>
+<p>In this post we will focus on a specific instance of SSMs, namely Dynamic Generalised Linear Models (DGLMs). If you want a deeper theoretical analysis of DGLMs I strongly recommend Mike West and Jeff Harrison's "<a href="https://www.springer.com/gb/book/9780387947259">Bayesian Forecasting and Dynamic Models</a>" (1997).</p>
+<p>In DGLMs, the observation follows a distribution from the exponential family, <span class="math">\(E\left(\cdot\right)\)</span> such, that</p>
+<div class="math">\begin{align}
+Y_t|\theta_t,\Phi &amp;\sim E\left(\eta_t,\Phi\right) \\
+\eta_t|\theta_t &amp;= L\left(\mathsf{F}^T \theta_t\right)
+\end{align}</div>
+<p>where <span class="math">\(L\left(\cdot\right)\)</span> is the linear predictor and the state evolves according to a multivariate normal (MVN) distribution:</p>
+<div class="math">\begin{align}
+\theta_t \sim \mathcal{N}\left(\theta_t;\mathsf{G}\theta_{t-1},\mathsf{W}\right)
+\end{align}</div>
+<h2>Structure</h2>
+<p>The fundamental way in which <code>timeseries-mock</code> works is by specifying the underlying structure and observational model in a YAML configuration file. In the following sections we will look at the options available in terms of structural and observational components and look at how to represent them. As we've seen from (5), the structure will allows us to define the underlying patterns of the state evolution <span class="math">\(\lbrace \theta_1, \theta_2, \cdots, \theta_t\rbrace\)</span>. One of the advantages of DGLMs is the ability to compose several simpler components into a single complex structure. We will then look at some of these "fundamental" components.</p>
+<h3>Mean</h3>
+<p>An underlying mean component will represent a random-walk scalar state which can be specified in the configuration file by</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+    <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+</pre></div>
+
+
+<p>In this case <code>start</code> will correspond the mean of the state prior, <span class="math">\(m_0\)</span>, and <code>noise</code> will correspond to the prior's variance, <span class="math">\(\tau^2\)</span>, that is</p>
+<div class="math">$$ \theta_0 \sim \mathcal{N}\left(m_0, \tau^2\right). $$</div>
+<p>In the figure below we can see the above configuration for, respectively, a higher and lower value of <code>noise</code>.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/lc.png"></p>
+<h3>Seasonality</h3>
+<p>Seasonality is represented by Fourier components. A Fourier component can be completely specified by providing the <code>period</code>, <code>start</code>, <code>noise</code> and <code>harmonics</code>.
+The <code>start</code> and <code>noise</code> parameters are analogous to the mean components we saw previously.
+The <code>period</code> parameter refers to how long does it take for the cyclical pattern to repeat. This is done relatively to your time-point interval, such that
+</p>
+<div class="math">$$
+P = p_{\text{fourier}}\cdot p_{\text{stream}}.
+$$</div>
+<p>
+That is, if your stream's rate is one observation every 100 milliseconds, <span class="math">\(p_{\text{stream}}=0.1\)</span>, and the harmonic's period is 2000, <span class="math">\(p_{\text{fourier}}=1000\)</span>, then the seasonal component will repeat every <span class="math">\(200\)</span> seconds. The configuration example</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+    <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">200</span>
+    <span class="l l-Scalar l-Scalar-Plain">harmonics</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+    <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
+</pre></div>
+
+
+<p>will create a sequence of state vectors <span class="math">\(\boldsymbol{\theta}_{0:T}\)</span> with five components, such that:
+</p>
+<div class="math">$$
+\boldsymbol{\theta}_t = \lbrace\theta_{1,t},\cdots,\theta_{5,t}\rbrace.
+$$</div>
+<p>In this example, <code>period</code> refers to the number of time-points for each cycle's repetition and <code>harmonics</code> to the number of Fourier harmonics used. "Simpler" cyclic patterns usually require less harmonics. In the figure below we show on the lowest and highest frequency harmonics, on the left and right respectively.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/fourier.png"></p>
+<h3>AR(<em>p</em>)</h3>
+<p>An AR(<span class="math">\(p\)</span>) (Auto-Regressive) component can be specified using the directives:</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">arma</span>
+    <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">coefficients</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1,0.3,0.15</span>
+    <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+</pre></div>
+
+
+<p>In the above example we would be creating an AR(3) component, with respective coefficients <span class="math">\(\phi=\lbrace 0.1,0.3,0.15 \rbrace\)</span>. These coefficients will take part of the state model as</p>
+<div class="math">$$
+\mathsf{G} = \begin{bmatrix}
+\phi_1 &amp; \phi_2 &amp; \cdots &amp; \phi_{p-1} &amp; \phi_p \\
+1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+\vdots &amp; &amp; \ddots &amp; \vdots &amp; \vdots \\
+0 &amp; \cdots &amp; 0 &amp; 1 &amp; 0
+\end{bmatrix}
+$$</div>
+<p>In the following plots we show respectively the first and second component of the AR(3) state vector.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/arma3.png"></p>
+<h3>Composing</h3>
+<p>Structural composition of DGLM structures amounts to the individual composition of the state covariance matrix and state/observational evolution matrices such that:</p>
+<div class="math">\begin{align*}
+    \mathsf{F}^T &amp;= \begin{bmatrix}\mathsf{F}_1 &amp; \mathsf{F}_2 &amp; \dots &amp; \mathsf{F}_i\end{bmatrix}^T \\
+    \mathsf{G} &amp;= \text{blockdiag}\left(\mathsf{G}_1, \mathsf{G}_2, \dots, \mathsf{G}_i\right) \\
+    \mathsf{W} &amp;= \text{blockdiag}\left(\mathsf{W}_1, \mathsf{W}_2, \dots, \mathsf{W}_i\right)
+\end{align*}</div>
+<p>To express the composition of structures in the YAML configuration, we simply enumerate the separate components under the <code>structure</code> key. As as example, to compose the previous <code>mean</code> and <code>seasonal</code> components, we would simply write:</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+    <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+    <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">200</span>
+    <span class="l l-Scalar l-Scalar-Plain">harmonics</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+    <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
+</pre></div>
+
+
+<p>This would create a structure containing both an underlying mean <em>and</em> a seasonal component.</p>
+<h2>Observations</h2>
+<p>As we have seen from (3) that an observational model can be coupled with a structure to complete the DGLM specification. In the following sections we will look at some example observational models and in which situations they might be useful.</p>
+<h3>Continuous</h3>
+<p>Continuous observations are useful to model real valued data such as stock prices, temperature readings, <em>etc.</em> This can be achieved by specifying the observational component as a Gaussian distribution such that:</p>
+<div class="math">$$
+Y_t|\Phi \sim \mathcal{N}\left(y_t|\eta_t, \mathsf{W}\right).
+$$</div>
+<p>In terms of the configuration file we can write</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+    <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+</pre></div>
+
+
+<p>The following plot shows the coupling of the structure used in the <code>mean</code> section with the continuous (example above) observational model.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/continous.png"></p>
+<h3>Discrete</h3>
+<p>Discrete observations, sometimes referred as "count data", can be used to model integer quantities. This can be achieved by using a Poisson distribution in the observational model, such that:</p>
+<div class="math">$$
+Y_t|\Phi \sim \text{Po}\left(y_t|\eta_t\right)
+$$</div>
+<p>An example configuration would be:</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">discrete</span>
+</pre></div>
+
+
+<p>In this case we will use the previous ARMA(3) structure example and couple it with a discrete observational model. The result is shown in the plot below:</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/discrete.png"></p>
+<h3>Categorical</h3>
+<p>In the categorical case, we model the observations according to a binomial distribution, such that</p>
+<div class="math">$$
+Y_t \sim \text{Bin}\left(y_t|\eta_t,r\right),
+$$</div>
+<p>where <span class="math">\(r\)</span> represents the number of categories. A typical example would be the case where <span class="math">\(r=1\)</span> which would represent a binary outcome (0 or 1). The following configuration implements this very case:</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+ <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+   <span class="l l-Scalar l-Scalar-Plain">categories</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+
+
+<p>We can see in the plot below (<em>states on the left, observations on the right</em>) a realisation of this stream, when using the previous seasonal example structure.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/categorical.png"></p>
+<p>Often, when simulating a data stream, we might be interested in the category labels themselves, rather than a numerical value. The generator allows to pass directly a list of labels and output the labelled observations. Let's assume we wanted to generate a stream of random DNA nucleotides (C, T, A and G). The generator allows to pass the labels directly and output the direct mapping between observations and label, that is:</p>
+<div class="math">$$ y_t: \lbrace 0, 1, 2, 3 \rbrace \mapsto \lbrace\text{C, T, A, G}\rbrace  $$</div>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+ <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+   <span class="l l-Scalar l-Scalar-Plain">values</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">C,T,A,G</span>
+</pre></div>
+
+
+<p>Using the same seasonal structure and observation model as above, the output would then be:</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/categorical_nucleotides.png"></p>
+<h2>Composite model</h2>
+<p>In a real-world scenario we are interested in simulating multivariate data and that comprises of different observational models. For instance, combining observation components from categorical, continuous, etc...</p>
+<p>The approach taken for multivariate composite models, is that the structures are composed as seen previously into a single one and the resulting state vector is then "collapsed" into a vector on natural parameters, <span class="math">\(\eta_t\)</span> which are then used to sample the individual observation components.</p>
+<div class="math">\begin{align}
+\theta_t &amp;= \lbrace\underbrace{\theta_{1}, \theta_{2}, \theta_{3}}_{\eta_1}, \underbrace{\theta_{4}, \theta_{5}, \theta_{6}}_{\eta_2}\rbrace \\
+y &amp;= f(\eta_t) \\
+ &amp;= \lbrace f_1(\eta_1), f_2(\eta_2)\rbrace
+\end{align}</div>
+<p>The model composition can be expressed by grouping the different structures and observations under a <code>compose</code> key:</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">compose</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>          <span class="c1"># component 1</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+      <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>          <span class="c1"># component 2</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+      <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">5.0</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3.7</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+</pre></div>
+
+
+<h3>Examples</h3>
+<p>We will look at two separate examples, one that creates a stream of simulated stock prices and one that generates a fake HTTP log.</p>
+<p>We assume we want to simulate a stream of per-day stock prices for 3 different companies, each with different characteristics. In this case, we will model the following:</p>
+<ul>
+<li>Company A's stocks start at quite a high value ($700) and are quite stable throughout time</li>
+<li>Company B's stocks start slightly lower than A ($500) and are quite stable in the long run, but show heavy fluctuation from day to day</li>
+<li>Company C's stocks start at $600 are very unpredictable</li>
+</ul>
+<p>Since we will be using per-day data we won't be streaming this in realtime! We can map each daily observation to a second in our stream so we will specify a <code>period=1</code>. All stocks will exhibit a small monthly effect (<code>period=30</code>), which will be indicated by a <code>noise=0.01</code> and a yearly effect (<code>period=365</code>) with a <code>noise=2.5</code>.</p>
+<p>The resulting configuration will be:</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">compose</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span> <span class="c1"># company A</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+      <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">700</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>  <span class="c1"># low structural variance</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+      <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>   <span class="c1"># monthly seasonality</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+      <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">365.</span> <span class="c1"># yearly seasonality</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.7</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.05</span>  <span class="c1"># low observational variance</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span> <span class="c1"># company B</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+      <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">500</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>  <span class="c1"># low structural variance</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+      <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>   <span class="c1"># monthly seasonality</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+      <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">365.</span> <span class="c1"># yearly seasonality</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3.7</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3.00</span>  <span class="c1"># higher observational variance</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span> <span class="c1"># company C</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+      <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">600</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0</span>  <span class="c1"># higher structural variance</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+      <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>   <span class="c1"># monthly seasonality</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+      <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">365.</span> <span class="c1"># yearly seasonality</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+      <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">4.0</span>  <span class="c1"># higher observational variance</span>
+</pre></div>
+
+
+<p>A realisation of this stream looks like the figure below.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/mv_continous.png"></p>
+<p>To generate the fake HTTP log we will make the following assumptions:</p>
+<ul>
+<li>We will have a request type (<code>GET</code>, <code>POST</code>, <code>PUT</code>) which will vary following a random walk</li>
+<li>A set of visited pages which, for illustration purposes, will be limited to (<code>/site/page.htm</code>, <code>/site/index.htm</code> and <code>/internal/example.htm</code>). We also want that the URLs visited follow a seasonal pattern.</li>
+<li>An IP address in the IPv4 format (<em>i.e.</em> <code>0-255.0-255.0-255.0-255</code>)</li>
+</ul>
+<p>It is clear that for all variables the appropriate observational model is the categorical one. For the request type and the visited page we can pass directly the category name in the configuration file and for the IP we simply need four categorical observations with <span class="math">\(r=255\)</span>.</p>
+<p>If the underlying structure is the same, a useful shortcut to specify several observation component is the <code>replicate</code> key. In this particular example to generate four <code>0-255</code> numbers with an underlying mean as the structure, we simple use:</p>
+<div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">replicate</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+      <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+        <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2.1</span>
+      <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+        <span class="l l-Scalar l-Scalar-Plain">categories</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255</span>
+</pre></div>
+
+
+<p>The full configuration for the HTTP log simulation could then be something like this:</p>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">compose</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+        <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+      <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+        <span class="l l-Scalar l-Scalar-Plain">values</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">GET,POST,PUT</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+        <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+        <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0</span>
+        <span class="l l-Scalar l-Scalar-Plain">period</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">15</span>
+        <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.2</span>
+      <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+        <span class="l l-Scalar l-Scalar-Plain">values</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/site/page.htm,/site/index.htm,/internal/example.htm</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">replicate</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+      <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+        <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2.1</span>
+      <span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+        <span class="l l-Scalar l-Scalar-Plain">categories</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255</span>
+</pre></div>
+
+
+<p>Which would provide a similar result as shown below.</p>
+<div class="highlight"><pre><span></span><span class="k">[&quot;PUT&quot;, &quot;/internal/example.htm&quot;, 171, 158, 59, 89]</span>
+<span class="k">[&quot;GET&quot;, &quot;/internal/example.htm&quot;, 171, 253, 71, 146]</span>
+<span class="k">[&quot;PUT&quot;, &quot;/internal/example.htm&quot;, 224, 252, 9, 156]</span>
+<span class="k">[&quot;POST&quot;, &quot;/site/index.htm&quot;, 143, 253, 6, 126]</span>
+<span class="k">[&quot;POST&quot;, &quot;/site/page.htm&quot;, 238, 254, 2, 48]</span>
+<span class="k">[&quot;GET&quot;, &quot;/site/page.htm&quot;, 228, 252, 52, 126]</span>
+<span class="k">[&quot;POST&quot;, &quot;/internal/example.htm&quot;, 229, 234, 103, 233]</span>
+<span class="k">[&quot;GET&quot;, &quot;/internal/example.htm&quot;, 185, 221, 109, 195]</span>
+<span class="na">...</span>
+</pre></div>
+
+
+<h1>Setting up the generator</h1>
+<p>As I have mentioned in the beginning of this post, we want to fit the data simulation solution into a cloud computing workflow. To illustrate this we will use the <a href="https://www.openshift.com/">OpenShift</a> platform which allows for the deployment of containerised applications. A typical setup for a streaming data processing application would be as illustrated in the figure below. We have several sources connected to a message broker, such as Apache Kafka in this case. Data might be partitioned into "topics" which are then consumed by different applications, each performing data processing, either independently or in a distributed manner.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/kafka.png"></p>
+<p>An advantage of <code>timeseries-mock</code> would then be to replace the "real" data sources with a highly configurable simulator either for the prototyping or initial testing phase. If we consider our previous example of the "fake" HTTP log generation, an application for Web log analytics could be prototyped and tested with simulated log data very quickly, without being blocked by the lack of suitable real data.</p>
+<p>Since the data is consumed by proxy via the message broker's topics, we could later on replace the simulator with real data sources seamlessly without an impact on any of the applications.</p>
+<p>To setup the generator (and assuming Kafka and your consumer application are already running on OpenShift) we only need to perform two steps:</p>
+<ul>
+<li>Write the data specifications in a YAML configuration</li>
+<li>Use the <code>s2i</code> to deploy the simulator</li>
+</ul>
+<p>The <code>s2i</code> functionality of OpenShift <a href="https://github.com/openshift/source-to-image">allows to create</a> deployment ready images by simply pointing to a source code location. In this case we could simply write:</p>
+<div class="highlight"><pre><span></span>oc new-app centos/python-36-centos7~https://github.com/ruivieira/timeseries-mock <span class="se">\</span>
+  -e <span class="nv">KAFKA_BROKERS</span><span class="o">=</span>kafka:9092 <span class="se">\</span>
+  -e <span class="nv">KAFKA_TOPIC</span><span class="o">=</span>example <span class="se">\</span>
+  -e <span class="nv">CONF</span><span class="o">=</span>examples/mean_continuous.yml <span class="se">\</span>
+  --name<span class="o">=</span>emitter
+</pre></div>
+
+
+<p>In this case, we would deploy a simulator generating data according to the specifications in <code>mean_continuous.yml</code>. This data will be sent to the topic <code>example</code> of a Kafka broker running on port <code>9092</code>.</p>
+<p><img alt="Gibbs &lt;&gt;" src="images/ssm/kafka_ssm.png"></p>
+<p>The stream will be ready to consume and message payload will a stream of serialised JSON strings. In the case of the simulated HTTP log this would be:</p>
+<div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="err">name:</span> <span class="nt">&quot;HTTP log&quot;</span>
+  <span class="err">values</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;/internal/example.htm&quot;</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">221</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li><code>name</code> - the name given to this stream in the configuration file</li>
+<li><code>values</code> - a single observation for this stream</li>
+</ul>
+<p>After consuming the data it is straight-forward to do any post-processing if needed. For instance, the <code>values</code> above could be easily transformed into a standard Apache Web server log line.</p>
+<p>I hope you found this tool useful, simple to use and configure. Some future work includes adding more observations distributions beyond the exponential family and the ability to directly add transformation rules to the generated observations.</p>
+<p>If you have any suggestions, use cases (or found an issue!), please let me know in the <a href="https://github.com/ruivieira/timeseries-mock">repository</a>.</p>
+<p>If you have any comments please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> (or <a href="https://twitter.com/ruimvieira">Twitter</a>).</p>
+<p>Happy coding!</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            
+            
+            <hr/>
+        </div>
+        <!--<section>-->
+        <!--<div class="span2" style="float:right;font-size:0.9em;">-->
+            <!---->
+            <!--<h4>Published</h4>-->
+            <!---->
+            <!--<time pubdate="pubdate" datetime="2018-05-12T19:21:00+01:00">May 12, 2018</time>-->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!--<h4>Category</h4>-->
+            <!--<a class="category-link" href="./categories.html#misc-ref">misc</a>-->
+            <!---->
+            <!---->
+            <!--<h4>Contact</h4>
+    <a href="#" title="My You can add links in your config file Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-you can add links in your config file sidebar-social-links"></i></a>
+    <a href="#" title="My Another social link Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-another social link sidebar-social-links"></i></a>
+-->
+            <!---->
+        <!--</div>-->
+        <!--</section>-->
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+        <div id="push"></div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    
+    </body>
+    <!-- Theme: Elegant built for Pelican
+    License : http://oncrashreboot.com/pelican-elegant -->
+</html>

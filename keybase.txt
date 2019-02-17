@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/ruivieira
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://ruivieira.github.io
+  * I am ruivieira (https://keybase.io/ruivieira) on keybase.
+  * I have a public key ASBjeq-GKGX-y__2bagmL1DfRw0uQdI-yg3ZzYdH1Ar0WAo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120637aaf862865fecbfff66da8262f50df470d2e41d23eca0dd9cd8747d40af4580a",
+      "host": "keybase.io",
+      "kid": "0120637aaf862865fecbfff66da8262f50df470d2e41d23eca0dd9cd8747d40af4580a",
+      "uid": "ab33dd4f6650969fe4997286dd348a19",
+      "username": "ruivieira"
+    },
+    "merkle_root": {
+      "ctime": 1550424461,
+      "hash": "4289ab2401140b43a1c079d4e6dbe8fa0e1d7d4d706a48ad4e018829d6182c5b57d808d331df60e98f19e4070713ec6f7548b6a70c5f32940be15239d4132408",
+      "hash_meta": "15f08fc55b4955dfed75d6e78f623c0ea2dd3d61c93d47bb3852dc457c02c5c9",
+      "seqno": 4781067
+    },
+    "service": {
+      "entropy": "as2Mka3q57ZVoxhHr1I2GUly",
+      "hostname": "ruivieira.github.io",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "3.0.0"
+  },
+  "ctime": 1550424475,
+  "expire_in": 504576000,
+  "prev": "f10676ff9747fd238e2d993b04240f900910d1ac4005eca65758d74f2063f234",
+  "seqno": 20,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgY3qvhihl/sv/9m2oJi9Q30cNLkHSPsoN2c2HR9QK9FgKp3BheWxvYWTESpcCFMQg8QZ2/5dH/SOOLZk7BCQPkAkQ0axABeymV1jXTyBj8jTEIHQIqHf8GOWTNW7NzO7vATlW4joGafC9UFf2LycQVhKPAgHCo3NpZ8RAph5H13zOIYDiTvXEQ8D0TddpO15M36DDJ+YXpY02ivuzEt0E024EMyhBjv/Zp986PDhkX6F0Ykszmq0oDtA+DqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIKTrUqj5UvHpZF+OtF7FO8hVKWmWx2n92/zK95r/3XAGo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/ruivieira
+
+==================================================================

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Rui Vieira" />
+        <meta name="copyright" content="Rui Vieira" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="statistics, statistics, code, " />
+
+<meta property="og:title" content="t as mixture of Normals "/>
+<meta property="og:url" content="./t-as-mixture-of-normals.html" />
+<meta property="og:description" content="(Based on Rasmus Bååth&#39;s post) A scaled \(t\) distribution, with \(\mu\) mean, \(s\) scale and \(\nu\) degrees of freedom, can be simulated from a mixture of Normals with \(\mu\) mean and precisions following a Gamma distribution: \begin{align} y &amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\ \sigma^2 &amp;\sim \mathcal …" />
+<meta property="og:site_name" content="Rui Vieira" />
+<meta property="og:article:author" content="Rui Vieira" />
+<meta property="og:article:published_time" content="2016-11-27T14:00:00+00:00" />
+<meta name="twitter:title" content="t as mixture of Normals ">
+<meta name="twitter:description" content="(Based on Rasmus Bååth&#39;s post) A scaled \(t\) distribution, with \(\mu\) mean, \(s\) scale and \(\nu\) degrees of freedom, can be simulated from a mixture of Normals with \(\mu\) mean and precisions following a Gamma distribution: \begin{align} y &amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\ \sigma^2 &amp;\sim \mathcal …">
+
+        <title>t as mixture of Normals  · Rui Vieira
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/tipuesearch/tipuesearch.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif-slanted.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:creator" content="@ruimvieira">
+
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="./"><span class=site-name>Rui Vieira</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href=".">Home</a></li>
+                            <li ><a href="./pages/about.html">About</a></li>
+                            <li ><a href="./categories.html">Categories</a></li>
+                            <li ><a href="./tags.html">Tags</a></li>
+                            <li ><a href="./archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page-header span6 offset2">
+    <h1><a href="./t-as-mixture-of-normals.html"> t as mixture of Normals  </a></h1>
+        <i>Posted on <time pubdate="pubdate" datetime="2016-11-27T14:00:00+00:00">November 27, 2016</time></i>
+
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            
+            <p>(Based on Rasmus Bååth's <a href="http://www.sumsar.net/blog/2013/12/t-as-a-mixture-of-normals/">post</a>)</p>
+<p>A scaled <span class="math">\(t\)</span> distribution, with <span class="math">\(\mu\)</span> mean, <span class="math">\(s\)</span> scale and <span class="math">\(\nu\)</span> degrees of freedom, can be simulated 
+from a mixture of Normals with <span class="math">\(\mu\)</span> mean and precisions following a Gamma distribution:</p>
+<div class="math">\begin{align}
+y &amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\
+\sigma^2 &amp;\sim \mathcal{IG}\left(\frac{\nu}{2},s^2\frac{\nu}{2}\right)
+\end{align}</div>
+<p>Since I've recently pickep up again the <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a> in
+my spare time, I've decided to replicate the previously mentioned post using a Crystal one-liner. To simulate 10,000 samples from </p>
+<p><span class="math">\(t_2\left(0,3\right)\)</span> using the mixture, we can then write:</p>
+<div class="highlight"><pre><span></span>samples = (0..10000).map { |x| 
+ Normal.sample 0.0, 1.0/Math.sqrt(Gamma.sample 1.0, 9.0) 
+}
+</pre></div>
+
+
+<p>We can see the mixture distribution (histogram) converging nicely to the <span class="math">\(t_2(0,3)\)</span> (red):</p>
+<p><span class="videobox">
+            <video width="600" height="400" preload="none" controls poster="None" loop autoplay><source src='/images/t_mixture.mp4' type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></video></span></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            
+            
+            <hr/>
+        </div>
+        <!--<section>-->
+        <!--<div class="span2" style="float:right;font-size:0.9em;">-->
+            <!---->
+            <!--<h4>Published</h4>-->
+            <!---->
+            <!--<time pubdate="pubdate" datetime="2016-11-27T14:00:00+00:00">Nov 27, 2016</time>-->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!--<h4>Category</h4>-->
+            <!--<a class="category-link" href="./categories.html#statistics-code-ref">statistics, code</a>-->
+            <!---->
+            <!---->
+            <!--<h4>Tags</h4>-->
+            <!--<ul class="list-of-tags tags-in-article">-->
+                <!---->
+                <!--<li><a href="./tags.html#statistics-ref">statistics-->
+                    <!---->
+                    <!--<span>1</span>-->
+                    <!--</a></li>-->
+                <!---->
+            <!--</ul>-->
+            <!---->
+            <!--<h4>Contact</h4>
+    <a href="#" title="My You can add links in your config file Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-you can add links in your config file sidebar-social-links"></i></a>
+    <a href="#" title="My Another social link Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-another social link sidebar-social-links"></i></a>
+-->
+            <!---->
+        <!--</div>-->
+        <!--</section>-->
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+        <div id="push"></div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    
+    </body>
+    <!-- Theme: Elegant built for Pelican
+    License : http://oncrashreboot.com/pelican-elegant -->
+</html>

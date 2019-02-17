@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Rui Vieira" />
+        <meta name="copyright" content="Rui Vieira" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content=", code, " />
+
+<meta property="og:title" content="A Gibbs sampler in Crystal "/>
+<meta property="og:url" content="./a-gibbs-sampler-in-crystal.html" />
+<meta property="og:description" content="Recently, I&#39;ve been following with interest the development of the Crystal language. Crystal is a statically type language with a syntax resembling Ruby&#39;s. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to …" />
+<meta property="og:site_name" content="Rui Vieira" />
+<meta property="og:article:author" content="Rui Vieira" />
+<meta property="og:article:published_time" content="2016-04-11T22:04:00+01:00" />
+<meta name="twitter:title" content="A Gibbs sampler in Crystal ">
+<meta name="twitter:description" content="Recently, I&#39;ve been following with interest the development of the Crystal language. Crystal is a statically type language with a syntax resembling Ruby&#39;s. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to …">
+
+        <title>A Gibbs sampler in Crystal  · Rui Vieira
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/tipuesearch/tipuesearch.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif-slanted.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:creator" content="@ruimvieira">
+
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="./"><span class=site-name>Rui Vieira</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href=".">Home</a></li>
+                            <li ><a href="./pages/about.html">About</a></li>
+                            <li ><a href="./categories.html">Categories</a></li>
+                            <li ><a href="./tags.html">Tags</a></li>
+                            <li ><a href="./archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page-header span6 offset2">
+    <h1><a href="./a-gibbs-sampler-in-crystal.html"> A Gibbs sampler in Crystal  </a></h1>
+        <i>Posted on <time pubdate="pubdate" datetime="2016-04-11T22:04:00+01:00">April 11, 2016</time></i>
+
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            
+            <p>Recently, I've been following with interest the development of the <a href="http://crystal-lang.org/">Crystal language</a>.</p>
+<p>Crystal is a statically type language with a syntax resembling Ruby's.
+The main features which drawn me to it were its simple boilerplate-free syntax
+(which is ideal for quick prototyping), tied with the ability to compile directly
+to native code along with a dead simple way of creating bindings to existing C code.</p>
+<p>These features make it quite attractive, in my opinion, for scientific computing.</p>
+<p>To test it against more popular languages, I've decided to run the Gibbs sampling examples created in
+<a href="https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/">Darren Wilkinson's blog</a>.
+I recommend reading this post, and in fact, if you are interested in Mathematics
+and scientific computing in general, I <em>strongly</em> recommend you follow the
+<a href="https://darrenjw.wordpress.com/">blog</a>.</p>
+<p>As explained in the linked post, I will make a Gibbs sampler for</p>
+<div class="math">$$f\left(x,y\right)=kx^2\exp\left\lbrace-xy^2-y^2+2y-4x\right\rbrace$$</div>
+<p>with</p>
+<div class="math">\begin{align}
+x|y &amp;\sim Ga\left(3,y^2+4\right) \\
+y|x &amp;\sim N\left(\frac{1}{1+x},\frac{1}{2\left(1+x\right)}\right)
+\end{align}</div>
+<p>The original examples were ran again, without any code alterations. I've just added the Crystal version.
+This implementation uses a <a href="https://github.com/ruivieira/crystal-gsl">very simple wrapper</a>
+I wrote to the famous <a href="http://www.gnu.org/software/gsl/">GNU Scientific Language</a> (GSL).</p>
+<div class="highlight"><pre><span></span>require &quot;../libs/gsl/statistics.cr&quot;
+require &quot;math&quot;
+
+def gibbs(n : Int = 50000, thin : Int = 1000)
+x = 0.0
+y = 0.0
+puts &quot;Iter  x  y&quot;
+(0..n).each do |i|
+  (0..thin).each do |j|
+    x = Statistics::Gamma.sample(3.0, y*y+4.0)
+    y = Statistics::Normal.sample(1.0/(x+1.0), 1.0/Math.sqrt(2.0*x+2.0))
+  end
+  puts &quot;#{i} #{x} #{y}&quot;
+end
+end
+
+gibbs
+</pre></div>
+
+
+<p>(As you can see, the Crystal code is quite similar to the Python one).<p></p>
+<p>To make sure it's a fair comparison, I ran it in compiled (and optimised) mode build using</p>
+<div class="highlight"><pre><span></span>crystal build gibbs.cr --release
+time ./gibbs &gt; gibbs_crystal.csv
+</pre></div>
+
+
+<p>Looking at the results, you can see that they are consistent with the other implementations:</p>
+<p><img alt="Gibbs &lt;&gt;" src="{filename}/images/gibbs.png"></p>
+<p>The timings for each of the different versions (ran in a 1.7 GHz Intel Core i7 Macbook Air) were</p>
+<table class="table table-hover">
+<thead>
+  <tr>
+    <th>Language</th>
+    <th>Time (s)</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>R</td><td>364.8</td>
+  </tr>
+  <tr>
+    <td>Python</td><td>144.0</td>
+  </tr>
+  <tr>
+    <td>Scala</td><td>9.896</td>
+  </tr>
+  <tr>
+    <td>Crystal</td><td>5.171</td>
+  </tr>
+  <tr>
+    <td>C</td><td>5.038</td>
+  </tr>
+</tbody>
+</table>
+
+<p>So there you have it. A Ruby-like language which can easily compete with C performance-wise.
+I sincerely hope that Crystal gets some traction in the scientific community.
+That of course won't depend solely on its merits but rather on an active community
+along with a strong library ecosystem.
+This is lacking at the moment, simply because it is relatively new language
+with the specs and standard library still being finalised.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            
+            
+            <hr/>
+        </div>
+        <!--<section>-->
+        <!--<div class="span2" style="float:right;font-size:0.9em;">-->
+            <!---->
+            <!--<h4>Published</h4>-->
+            <!---->
+            <!--<time pubdate="pubdate" datetime="2016-04-11T22:04:00+01:00">Apr 11, 2016</time>-->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!--<h4>Category</h4>-->
+            <!--<a class="category-link" href="./categories.html#code-ref">code</a>-->
+            <!---->
+            <!---->
+            <!--<h4>Contact</h4>
+    <a href="#" title="My You can add links in your config file Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-you can add links in your config file sidebar-social-links"></i></a>
+    <a href="#" title="My Another social link Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-another social link sidebar-social-links"></i></a>
+-->
+            <!---->
+        <!--</div>-->
+        <!--</section>-->
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+        <div id="push"></div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    
+    </body>
+    <!-- Theme: Elegant built for Pelican
+    License : http://oncrashreboot.com/pelican-elegant -->
+</html>
