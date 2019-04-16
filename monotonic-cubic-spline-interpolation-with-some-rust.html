@@ -14,12 +14,12 @@
 
 <meta property="og:title" content="Monotonic Cubic Spline interpolation (with some Rust) "/>
 <meta property="og:url" content="./monotonic-cubic-spline-interpolation-with-some-rust.html" />
-<meta property="og:description" content="Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which allows to fit a smooth continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone …" />
+<meta property="og:description" content="Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot. In …" />
 <meta property="og:site_name" content="Rui Vieira" />
 <meta property="og:article:author" content="Rui Vieira" />
 <meta property="og:article:published_time" content="2019-04-03T17:09:00+01:00" />
 <meta name="twitter:title" content="Monotonic Cubic Spline interpolation (with some Rust) ">
-<meta name="twitter:description" content="Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which allows to fit a smooth continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone …">
+<meta name="twitter:description" content="Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot. In …">
 
         <title>Monotonic Cubic Spline interpolation (with some Rust)  · Rui Vieira
 </title>
@@ -41,6 +41,7 @@
 </script>
         <meta name="twitter:card" content="summary">
         <meta name="twitter:creator" content="@ruimvieira">
+        <meta name="twitter:image" content="https://ruivieira.github.io/images/splines/interpolation.png">
 
     </head>
     <body>
@@ -84,12 +85,12 @@
         <div class="span8 offset2 article-content">
 
             
-            <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which allows to fit a smooth continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
+            <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
 In this post I’ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson [<a href="#ref-1">Fritsch2005</a><a name="ref-1-origin"></a>] in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
 <h2>Rust</h2>
-<p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  pratically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and it's concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
+<p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  pratically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and its concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
 <p>Idiomatic Rust Object-Oriented Programming (OOP) has several characteristics which differ significantly from “traditional” OOP languages.
-Rust achieves data and behaviour encapsulation by mean of defining data structure blueprints (called <code>struct</code>) and then defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple “class” <code>Foo</code> would consist of:</p>
+Rust achieves data and behaviour encapsulation by means of defining data structure blueprints (called <code>struct</code>) and then defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple “class” <code>Foo</code> would consist of:</p>
 <div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
