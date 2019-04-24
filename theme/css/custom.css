@@ -13,6 +13,11 @@ img[alt$="<>"] {
     margin: auto;
     float: none !important;
 }
+figcaption {
+    text-align: center;
+    font-size: 90%;
+}
+
 
 video {
     display: block;
