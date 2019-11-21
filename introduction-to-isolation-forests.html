@@ -1,276 +1,198 @@
-<!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8"> 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Rui Vieira" />
-        <meta name="copyright" content="Rui Vieira" />
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    <!-- Yes, HTML by hand... -->
 
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary">
+    <title>Rui Vieira's blog</title>
 
-<meta name="keywords" content=", misc, " />
+    <link rel="stylesheet" href="/css/stylesheet.css">
+    <link rel="stylesheet" href="/css/trac.css">
 
-<meta property="og:title" content="Introduction to Isolation Forests "/>
-<meta property="og:url" content="./introduction-to-isolation-forests.html" />
-<meta property="og:description" content="Isolation Forests (IFs), presented in Liu et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of Isolation Trees (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path …" />
-<meta property="og:site_name" content="Rui Vieira" />
-<meta property="og:article:author" content="Rui Vieira" />
-<meta property="og:article:published_time" content="2018-10-30T21:05:00+00:00" />
-<meta name="twitter:title" content="Introduction to Isolation Forests ">
-<meta name="twitter:description" content="Isolation Forests (IFs), presented in Liu et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of Isolation Trees (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path …">
 
-        <title>Introduction to Isolation Forests  · Rui Vieira
-</title>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/tipuesearch/tipuesearch.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif-slanted.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-10507665-2', 'auto');
-    ga('send', 'pageview');
-</script>
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:creator" content="@ruimvieira">
-        <meta name="twitter:image" content="https://ruivieira.github.io/images/isolationforests/bst_steps.png">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 
-    </head>
-    <body>
-        <div id="content-sans-footer">
-        <div class="navbar navbar-static-top navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="./"><span class=site-name>Rui Vieira</span></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav pull-right top-menu">
-                            <li ><a href=".">Home</a></li>
-                            <li ><a href="./pages/about.html">About</a></li>
-                            <li ><a href="./categories.html">Categories</a></li>
-                            <li ><a href="./tags.html">Tags</a></li>
-                            <li ><a href="./archives.html">Archives</a></li>
-                            <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span1"></div>
-                <div class="span10">
-<article>
-<div class="row-fluid">
-    <header class="page-header span6 offset2">
-    <h1><a href="./introduction-to-isolation-forests.html"> Introduction to Isolation Forests  </a></h1>
-        <i>Posted on <time pubdate="pubdate" datetime="2018-10-30T21:05:00+00:00">October 30, 2018</time></i>
-
-    </header>
-</div>
-
-<div class="row-fluid">
-        <div class="span8 offset2 article-content">
-
-            
-            <p><em>Isolation Forests</em> (IFs), presented in Liu <em>et. al</em> (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of
-<em>Isolation Trees</em> (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.</p>
-<p>ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the <a href="https://en.wikipedia.org/wiki/Binary_search_tree">Binary Search Tree</a> (BSTs). In a very simplified way, BSTs are a special instance of tree structures where keys are kept in such an order that a node search is performed by iteratively (or recursively) choosing a left or right branch based on a quantitative comparison (<em>e.g.</em> lesser or greater). Node insertion is performed by doing a tree search, using the method described previously, until reaching an <em>external node</em>, where the new node will be inserted. This allows for efficient node searches since, on average, half the tree will not be visited. To illustrate this assume the values <span class="math">\(x=[1, 10, 2, 4, 3, 5, 26, 9, 7, 54]\)</span> and the respective insertion on a BST. The intermediate steps would then be as shown below.</p>
-<p><img alt="" src="images/isolationforests/bst_steps.png"></p>
-<p>One of the properties of BSTs is that, with randomly generated data, the path between the root node and the outliers will typically be shorter. We can see from the illustration below that, with our example data, the path length for (say) 7 is twice the length than for the suspicious value of 54. This property will play an important role in the IF algorithm, as we will see further on.</p>
-<p><img alt="" src="images/isolationforests/bst_path_length.png"></p>
-<h2>Isolation Trees</h2>
-<p>Since ITs are the fundamental component of IFs, we will start by describing their building process. We start by defining <span class="math">\(t\)</span> as the number of trees in the IF, <span class="math">\(\mathcal{D}\)</span> as the training data (contained in an <span class="math">\(n\)</span>-dimensional feature space, <span class="math">\(\mathcal{D} \subset \mathbb{R}^n\)</span>) and <span class="math">\(\psi\)</span> as the subsampling size. The building of a IT consists then in recursively partitioning the data <span class="math">\(\mathcal{D}\)</span> by sampling (without replacement) a subsample <span class="math">\(\mathcal{D}^{\prime}\)</span> of size <span class="math">\(\psi\)</span>. We then build an isolation tree <span class="math">\(\mathcal{T}^{\prime}\)</span> with this subsample (in order to later add it to the isolation forest <span class="math">\(\mathcal{F}\)</span>) and the process is repeated <span class="math">\(t\)</span> times.</p>
-<p>To build an isolation tree <span class="math">\(\mathcal{T}^{\prime}\)</span> from the subsample we proceed as follows: if the data subsample <span class="math">\(\mathcal{D}^{\prime}\)</span> is indivisible, a tree is returned containing a single <em>external node</em> corresponding to the feature dimensions, <span class="math">\(n\)</span>.  If it can be divided, a series of steps must be performed. Namely, if we consider <span class="math">\(Q = \lbrace q_1,\dots,q_n\rbrace\)</span> as the list of features in <span class="math">\(\mathcal{D}^{\prime}\)</span>, we select a random feature <span class="math">\(q \in Q\)</span> and a random <em>split point</em> <span class="math">\(p\)</span> such that
-</p>
-<div class="math">$$
-\min(q) &lt; p &lt; \max(q), \qquad q \in Q.
-$$</div>
-<p>
-Based on the cut-off point <span class="math">\(p\)</span>, we filter the features into a BST's left and right nodes according to
-</p>
-<div class="math">$$
-\mathcal{D}_l := \lbrace \mathcal{D}^{\prime} : q \in Q,  q&lt;p\rbrace \\
-\mathcal{D}_r := \lbrace \mathcal{D}^{\prime} : q \in Q,  q \geq p\rbrace,
-$$</div>
-<p>
-and return an <em>internal node</em> having an isolation tree with left and right nodes as respectively <span class="math">\(\mathcal{D}_l\)</span> and <span class="math">\(\mathcal{D}_r\)</span>.</p>
-<p>To illustrate this (and the general method of identifying anomalies in a two dimensional feature space, <span class="math">\(x\in\mathbb{R}^2\)</span>) we will look at some simulated data and its processing. We start by simulating two clusters of data from a multivariate normal distribution, one centred in <span class="math">\(x_a=[-10, 10]\)</span> and another centred in <span class="math">\(x_b=[10, 10]\)</span>, with a variance of <span class="math">\(\Sigma=\text{diag}(2, 2)\)</span>, that is
-</p>
-<div class="math">$$
-X_a \sim \mathcal{N}\left([-10, -10], \text{diag}(2, 2)\right) \\
-X_b \sim \mathcal{N}\left([10, 10], \text{diag}(2, 2)\right).
-$$</div>
-<p>
-The particular realisation of this simulation looks like this:</p>
-<p><img alt="" src="images/isolationforests/data.png"></p>
-<p>Below we illustrate the building of a <em>single</em> IT (given the data), illustrating the feature split point <span class="math">\(p\)</span> and respective division of the feature list into <em>left</em> or <em>right</em> IT nodes. The process is conducted recursively until the feature list is no longer divisible. As mentioned previously, this process, the creation of an IT, is repeated <span class="math">\(t\)</span> times in order to create the IF.</p>
-<p><span class="videobox">
-            <video width="None" height="None" preload="none" controls poster="None" loop autoplay><source src='/images/isolationforests/split.mp4' type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></video></span></p>
-<p>In order to perform anomaly detection (<em>e.g.</em> observation scoring) we will then use the IT equivalent of the BST unsuccessful search heuristics. An external node termination in an IT is equivalent to a BST unsuccessful search. Given an observation <span class="math">\(x\)</span>, our goal is then to calculate the score for this observation, given our defined subsampling size, that is, <span class="math">\(s(x,\psi)\)</span>.</p>
-<p>This technique amounts to partitioning the feature space randomly until feature points are "isolated". Intuitively, points in high density regions will need more partitioning steps, whereas anomalies (by definition away from high density regions) will need fewer splits. Since the building of the ITs is performed in a randomised fashion and using a subsample of the data, this density predictor can be average over a number of ITs, the <em>Isolation Forest</em>.</p>
-<p>Intuitively, this could be done by calculating the average path length for our <span class="math">\(\mathcal{T}_n, n=1,\dots,t\)</span> ITs, <span class="math">\(\overline{h}(x)\)</span>. However, as pointed in Liu <em>et. al</em> (2012), a problem with calculating this is that maximum possible height of each <span class="math">\(\mathcal{T}_n\)</span> grows as <span class="math">\(\mathcal{O}(\log(\psi))\)</span>. To compare <span class="math">\(h(x)\)</span> given different subsampling sizes, a normalisation factor, <span class="math">\(c(\psi)\)</span> must be established. This can be calculated by</p>
-<div class="math">$$
-\begin{align}
-c(\psi) = \begin{cases}
-2H(\psi-1)-2\frac{\psi-1}{n},&amp;\text{if}\ \psi &gt;2,\\
-1, &amp;\text{if}\ \psi=2,\\
-0, &amp;\text{otherwise}, 
-\end{cases}
-\end{align}
-$$</div>
-<p>
-where <span class="math">\(H(i)\)</span> is the harmonic number estimated by</p>
-<div class="math">$$
-H(i)\approx\log(i) + e.
-$$</div>
-<p>Denoting <span class="math">\(h_{max}\)</span> as the tree height limit and e as the <em>current path length</em>, initialised as <span class="math">\(e=0\)</span> we can then calculate <span class="math">\(h(x)\)</span> recursively as:</p>
-<div class="math">$$
-\begin{align}
-h(x,\mathcal{T},h_{max},e) = \begin{cases}
-h(x,\mathcal{T}_{n,left},h_{max},e+1) &amp;\text{if}\ x_a &lt; q_{\mathcal{T}} \\
-h(x,\mathcal{T}_{n,right},h_{max},e+1) &amp;\text{if}\ x_a \geq q_{\mathcal{T}} \\
-e+c(\mathcal{T_{n,s}}) &amp;\text{if}\ \mathcal{T} \text{is a terminal node or}\ e \geq h_{max}.
-\end{cases}
-\end{align}
-$$</div>
-<p>Given these quantities we can then, finally, calculate the anomaly score, <span class="math">\(s\)</span> as</p>
-<div class="math">$$
-s(x,\psi) = 2^{-\frac{\text{E}[h(x)]}{c(\psi)}},
-$$</div>
-<p>
-with <span class="math">\(\text{E}[h(x)]\)</span> being the average <span class="math">\(h(x)\)</span> for a collection of ITs.</p>
-<h3>Parameters</h3>
-<p>As mentioned in Liu <em>et. al</em> (2012), the empirical subsampling size <span class="math">\(\psi=2^8\)</span> is typically enough to perform anomaly detection in a wide range of data. Regarding the number of trees, <span class="math">\(t\)</span> no considerable accuracy gain is usually observed with <span class="math">\(t&gt;100\)</span>. In the plots below, we can see the score calculation for two point in our data, namely an outlier (<span class="math">\(x_o=[3.10, -12.69])\)</span> and a normal observation (<span class="math">\(x_n=[8.65, 9.71]\)</span>) with a varying number of trees and <span class="math">\(\psi=2^8\)</span> (<em>left</em>) and a varying subsample size and <span class="math">\(t=100\)</span> (<em>right</em>). We can see that the score value stabilised quite early on when using <span class="math">\(\psi=2^8\)</span> and that very low subsampling sizes can lead to problems when classifying anomalies.</p>
-<p><img alt="" src="images/isolationforests/avg_score.png"></p>
-<p>Now that we know how to implement an IF algorithm and calculate an anomaly score, we will try to visualise the anomaly score distribution in the vicinity of the simulated data. To do so, we simply create a two dimensional lattice enclosing our data an iteratively calculate <span class="math">\(s(\cdot, \psi)\)</span>. The result is show below:</p>
-<p><img alt="" src="images/isolationforests/score_field.png"></p>
-<p>The above steps fully define a naive isolation forest algorithm, which when applied to the previously simulated data, result in 88% of the anomalies being correctly identified.</p>
-<p><img alt="" src="images/isolationforests/detection.png"></p>
-<p>Thanks for reading! If you have any questions or comments, please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
-<hr>
-<h2>References</h2>
-<ul>
-<li>Liu, F. T., Ting, K. M., &amp; Zhou, Z. H. (2012). <em>Isolation-Based Anomaly Detection.</em> ACM Transactions on Knowledge Discovery from Data, 6(1), 1–39. https://doi.org/10.1145/2133360.2133363</li>
-</ul>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
-            
-            
-            <hr/>
-        </div>
-        <!--<section>-->
-        <!--<div class="span2" style="float:right;font-size:0.9em;">-->
-            <!---->
-            <!--<h4>Published</h4>-->
-            <!---->
-            <!--<time pubdate="pubdate" datetime="2018-10-30T21:05:00+00:00">Oct 30, 2018</time>-->
-            <!---->
-            <!---->
-            <!---->
-            <!---->
-            <!--<h4>Category</h4>-->
-            <!--<a class="category-link" href="./categories.html#misc-ref">misc</a>-->
-            <!---->
-            <!---->
-            <!--<h4>Contact</h4>
-    <a href="#" title="My You can add links in your config file Profile" class="sidebar-social-links" target="_blank">
-    <i class="fa fa-you can add links in your config file sidebar-social-links"></i></a>
-    <a href="#" title="My Another social link Profile" class="sidebar-social-links" target="_blank">
-    <i class="fa fa-another social link sidebar-social-links"></i></a>
--->
-            <!---->
-        <!--</div>-->
-        <!--</section>-->
-</div>
-</article>
-                </div>
-                <div class="span1"></div>
-            </div>
-        </div>
-        <div id="push"></div>
-    </div>
-<footer>
-<div id="footer">
-    <ul class="footer-content">
-    </ul>
-</div>
-</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script>
-            function validateForm(query)
-            {
-                return (query.length > 0);
-            }
-        </script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-10507665-2', 'auto');
+        ga('send', 'pageview');
+    </script>
 
     
-    </body>
-    <!-- Theme: Elegant built for Pelican
-    License : http://oncrashreboot.com/pelican-elegant -->
+  </head>
+  <body>
+    <div id="main">
+        
+
+<h1>Introduction to Isolation Forests</h1>
+<small>2018-10-30 21:05</small>
+
+<p><em>Isolation Forests</em> (IFs), presented in Liu <em>et. al</em> (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of
+<em>Isolation Trees</em> (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.</p>
+
+<p>ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the <a href="https://en.wikipedia.org/wiki/Binary_search_tree">Binary Search Tree</a> (BSTs). In a very simplified way, BSTs are a special instance of tree structures where keys are kept in such an order that a node search is performed by iteratively (or recursively) choosing a left or right branch based on a quantitative comparison (<em>e.g.</em> lesser or greater). Node insertion is performed by doing a tree search, using the method described previously, until reaching an <em>external node</em>, where the new node will be inserted. This allows for efficient node searches since, on average, half the tree will not be visited. To illustrate this assume the values $x=[1, 10, 2, 4, 3, 5, 26, 9, 7, 54]$ and the respective insertion on a BST. The intermediate steps would then be as shown below.</p>
+
+<p><img src="images/isolationforests/bst_steps.png" alt="" width="100%"/></p>
+
+<p>One of the properties of BSTs is that, with randomly generated data, the path between the root node and the outliers will typically be shorter. We can see from the illustration below that, with our example data, the path length for (say) 7 is twice the length than for the suspicious value of 54. This property will play an important role in the IF algorithm, as we will see further on.</p>
+
+<p><img src="images/isolationforests/bst_path_length.png" alt=""  width="100%"/></p>
+
+<h2 id="isolation-trees">Isolation Trees</h2>
+
+<p>Since ITs are the fundamental component of IFs, we will start by describing their building process. We start by defining $t$ as the number of trees in the IF, $\mathcal{D}$ as the training data (contained in an $n$-dimensional feature space, $\mathcal{D} \subset \mathbb{R}^n$) and $\psi$ as the subsampling size. The building of a IT consists then in recursively partitioning the data $\mathcal{D}$ by sampling (without replacement) a subsample $\mathcal{D}^{\prime}$ of size $\psi$. We then build an isolation tree $\mathcal{T}^{\prime}$ with this subsample (in order to later add it to the isolation forest $\mathcal{F}$) and the process is repeated $t$ times.</p>
+
+<p>To build an isolation tree $\mathcal{T}^{\prime}$ from the subsample we proceed as follows: if the data subsample $\mathcal{D}^{\prime}$ is indivisible, a tree is returned containing a single <em>external node</em> corresponding to the feature dimensions, $n$.  If it can be divided, a series of steps must be performed. Namely, if we consider $Q = \lbrace q_1,\dots,q_n\rbrace$ as the list of features in $\mathcal{D}^{\prime}$, we select a random feature $q \in Q$ and a random <em>split point</em> $p$ such that
+<script type="math/tex">% <![CDATA[
+\min(q) < p < \max(q), \qquad q \in Q. %]]></script>
+Based on the cut-off point $p$, we filter the features into a BST’s left and right nodes according to
+<script type="math/tex">% <![CDATA[
+\mathcal{D}_l := \lbrace \mathcal{D}^{\prime} : q \in Q,  q<p\rbrace \\
+\mathcal{D}_r := \lbrace \mathcal{D}^{\prime} : q \in Q,  q \geq p\rbrace, %]]></script>
+and return an <em>internal node</em> having an isolation tree with left and right nodes as respectively $\mathcal{D}_l$ and $\mathcal{D}_r$.</p>
+
+<p>To illustrate this (and the general method of identifying anomalies in a two dimensional feature space, $x\in\mathbb{R}^2$) we will look at some simulated data and its processing. We start by simulating two clusters of data from a multivariate normal distribution, one centred in $x_a=[-10, 10]$ and another centred in $x_b=[10, 10]$, with a variance of $\Sigma=\text{diag}(2, 2)$, that is
+<script type="math/tex">X_a \sim \mathcal{N}\left([-10, -10], \text{diag}(2, 2)\right) \\
+X_b \sim \mathcal{N}\left([10, 10], \text{diag}(2, 2)\right).</script>
+The particular realisation of this simulation looks like this:</p>
+
+<p><img src="images/isolationforests/data.png" alt=""  width="100%"/></p>
+
+<p>Below we illustrate the building of a <em>single</em> IT (given the data), illustrating the feature split point $p$ and respective division of the feature list into <em>left</em> or <em>right</em> IT nodes. The process is conducted recursively until the feature list is no longer divisible. As mentioned previously, this process, the creation of an IT, is repeated $t$ times in order to create the IF.</p>
+
+<p> 
+  <video width="100%" autoplay>
+    <source src="/images/isolationforests/split.mp4" type="video/mp4">
+  </video> 
+</p>
+
+<p>In order to perform anomaly detection (<em>e.g.</em> observation scoring) we will then use the IT equivalent of the BST unsuccessful search heuristics. An external node termination in an IT is equivalent to a BST unsuccessful search. Given an observation $x$, our goal is then to calculate the score for this observation, given our defined subsampling size, that is, $s(x,\psi)$.</p>
+
+<p>This technique amounts to partitioning the feature space randomly until feature points are “isolated”. Intuitively, points in high density regions will need more partitioning steps, whereas anomalies (by definition away from high density regions) will need fewer splits. Since the building of the ITs is performed in a randomised fashion and using a subsample of the data, this density predictor can be average over a number of ITs, the <em>Isolation Forest</em>.</p>
+
+<p>Intuitively, this could be done by calculating the average path length for our $\mathcal{T}<em>n, n=1,\dots,t$ ITs, $\overline{h}(x)$.
+  However, as pointed in Liu _et. al</em> (2012), a problem with calculating this is that maximum possible height of each $\mathcal{T}_n$ grows as $\mathcal{O}(\log(\psi))$. 
+  To compare $h(x)$ given different subsampling sizes, a normalisation factor, $c(\psi)$ must be established. 
+  This can be calculated by</p>
+
+$$
+\begin{align}
+c(\psi) = \begin{cases}
+2H(\psi-1)-2\frac{\psi-1}{n},&\text{if}\ \psi >2,\\
+1, &\text{if}\ \psi=2,\\
+0, &\text{otherwise}, 
+\end{cases}
+\end{align}
+$$
+
+where $H(i)$ is the harmonic number estimated by $H(i)\approx\log(i) + e$.
+
+<p>Denoting $h_{max}$ as the tree height limit and e as the <em>current path length</em>, initialised as $e=0$ we can then calculate $h(x)$ recursively as:</p>
+
+$$
+\begin{align}
+h(x,\mathcal{T},h_{max},e) = \begin{cases}
+h(x,\mathcal{T}_{n,left},h_{max},e+1) &\text{if}\ x_a < q_{\mathcal{T}} \\
+h(x,\mathcal{T}_{n,right},h_{max},e+1) &\text{if}\ x_a \geq q_{\mathcal{T}} \\
+e+c(\mathcal{T_{n,s}}) &\text{if}\ \mathcal{T} \text{is a terminal node or}\ e \geq h_{max}.
+\end{cases}
+\end{align}
+$$
+
+<p>Given these quantities we can then, finally, calculate the anomaly score, $s$ as</p>
+
+<p><script type="math/tex">s(x,\psi) = 2^{-\frac{\text{E}[h(x)]}{c(\psi)}},</script>
+with $\text{E}[h(x)]$ being the average $h(x)$ for a collection of ITs.</p>
+
+<h3 id="parameters">Parameters</h3>
+
+<p>As mentioned in Liu <em>et. al</em> (2012), the empirical subsampling size $\psi=2^8$ is typically enough to perform anomaly detection in a wide range of data. Regarding the number of trees, $t$ no considerable accuracy gain is usually observed with $t&gt;100$. In the plots below, we can see the score calculation for two point in our data, namely an outlier ($x_o=[3.10, -12.69])$ and a normal observation ($x_n=[8.65, 9.71]$) with a varying number of trees and $\psi=2^8$ (<em>left</em>) and a varying subsample size and $t=100$ (<em>right</em>). We can see that the score value stabilised quite early on when using $\psi=2^8$ and that very low subsampling sizes can lead to problems when classifying anomalies.</p>
+
+<p><img src="images/isolationforests/avg_score.png" alt=""  width="100%"/></p>
+
+<p>Now that we know how to implement an IF algorithm and calculate an anomaly score, we will try to visualise the anomaly score distribution in the vicinity of the simulated data. To do so, we simply create a two dimensional lattice enclosing our data an iteratively calculate $s(\cdot, \psi)$. The result is show below:</p>
+
+<p><img src="images/isolationforests/score_field.png" alt=""  width="100%"/></p>
+
+<p>The above steps fully define a naive isolation forest algorithm, which when applied to the previously simulated data, result in 88% of the anomalies being correctly identified.</p>
+
+<p><img src="images/isolationforests/detection.png" alt=""  width="100%"/></p>
+
+<p>Thanks for reading! If you have any questions or comments, please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
+
+<hr />
+
+<h3>References</h3>
+
+* Liu, F. T., Ting, K. M., &amp; Zhou, Z. H. (2012). <em>Isolation-Based Anomaly Detection.</em> ACM Transactions on Knowledge Discovery from Data, 6(1), 1–39. https://doi.org/10.1145/2133360.2133363</p>
+
+
+    </div>
+
+    <div id="sidebar">
+      <h2>Other pages</h2>
+      <ul>
+        <li><a href="/">Posts</a></li>
+        <li><a href="/pages/about.html">About</a></li>
+      </ul>
+    </div>
+
+    <script>
+      (function() {
+        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+        if (elements.length > 1) {
+        var div = document.getElementById('sidebar');
+        div.innerHTML += '<h2>This page</h2>\n';
+        // div.innerHTML += '<ul>\n';
+
+        var list = document.createElement("ul");
+        
+        var i = 1;
+        for (var element of elements) {
+          console.log(element);
+          if (element.nodeName=="H2") {
+            console.log(element.textContent);
+            // add an anchor
+            var anchor = document.createElement("a");
+            anchor.setAttribute('name', i);
+            anchor.classList.add('anchor');
+            element.parentNode.insertBefore(anchor, element.nextSibling);
+            // create list item
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.setAttribute("href", "#" + i);
+            a.textContent = element.textContent;
+            li.appendChild(a);
+            list.append(li);
+            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
+            i++;
+          }
+          div.appendChild(list);
+
+        }
+        div.innerHTML += '</ul>\n';
+      }
+      })();      
+    </script>
+  
+  </body>
 </html>

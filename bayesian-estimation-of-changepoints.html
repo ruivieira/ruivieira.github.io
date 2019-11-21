@@ -1,102 +1,64 @@
-<!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8"> 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Rui Vieira" />
-        <meta name="copyright" content="Rui Vieira" />
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    <!-- Yes, HTML by hand... -->
 
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary">
+    <title>Rui Vieira's blog</title>
 
-<meta name="keywords" content=", misc, " />
+    <link rel="stylesheet" href="/css/stylesheet.css">
+    <link rel="stylesheet" href="/css/trac.css">
 
-<meta property="og:title" content="Bayesian estimation of changepoints "/>
-<meta property="og:url" content="./bayesian-estimation-of-changepoints.html" />
-<meta property="og:description" content="A common introductory problem in Bayesian changepoint detection is the record of UK coal mining disasters from 1851 to 1962. More information can be found in Carlin, Gelfand and Smith (1992). As we can see from the plot below, the number of yearly disasters ranges from 0 to 6 and …" />
-<meta property="og:site_name" content="Rui Vieira" />
-<meta property="og:article:author" content="Rui Vieira" />
-<meta property="og:article:published_time" content="2016-11-29T20:02:00+00:00" />
-<meta name="twitter:title" content="Bayesian estimation of changepoints ">
-<meta name="twitter:description" content="A common introductory problem in Bayesian changepoint detection is the record of UK coal mining disasters from 1851 to 1962. More information can be found in Carlin, Gelfand and Smith (1992). As we can see from the plot below, the number of yearly disasters ranges from 0 to 6 and …">
 
-        <title>Bayesian estimation of changepoints  · Rui Vieira
-</title>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/tipuesearch/tipuesearch.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif-slanted.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-10507665-2', 'auto');
-    ga('send', 'pageview');
-</script>
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:creator" content="@ruimvieira">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 
-    </head>
-    <body>
-        <div id="content-sans-footer">
-        <div class="navbar navbar-static-top navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="./"><span class=site-name>Rui Vieira</span></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav pull-right top-menu">
-                            <li ><a href=".">Home</a></li>
-                            <li ><a href="./pages/about.html">About</a></li>
-                            <li ><a href="./categories.html">Categories</a></li>
-                            <li ><a href="./tags.html">Tags</a></li>
-                            <li ><a href="./archives.html">Archives</a></li>
-                            <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span1"></div>
-                <div class="span10">
-<article>
-<div class="row-fluid">
-    <header class="page-header span6 offset2">
-    <h1><a href="./bayesian-estimation-of-changepoints.html"> Bayesian estimation of changepoints  </a></h1>
-        <i>Posted on <time pubdate="pubdate" datetime="2016-11-29T20:02:00+00:00">November 29, 2016</time></i>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-10507665-2', 'auto');
+        ga('send', 'pageview');
+    </script>
 
-    </header>
-</div>
+    
+  </head>
+  <body>
+    <div id="main">
+        
 
-<div class="row-fluid">
-        <div class="span8 offset2 article-content">
-
-            
-            <p>A common introductory problem in Bayesian changepoint detection is the record of UK coal
+<h1>Bayesian estimation of changepoints</h1>
+<small><time pubdate="pubdate" datetime="2016-11-29T20:02:00+00:00">November 29, 2016</time></small>
+    
+<p>A common introductory problem in Bayesian changepoint detection is the record of UK coal
 mining disasters from 1851 to 1962. More information can be found in
 <a href="http://www.jstor.org/stable/2347570">Carlin, Gelfand and Smith</a> (1992).
 As we can see from the plot below, the number of yearly
 disasters ranges from 0 to 6 and we will assume that at some point within this time 
 range a change in the accident rate has occured.</p>
-<p><img alt="Data &lt;&gt;" src="./images/coal_disasters_data.png"></p>
+<p><img alt="Data &lt;&gt;" src="./images/coal_disasters_data.png" width="100%"></p>
 <p>The number of yearly disasters can be modelled as a Poisson with a unknown rate depending
 on the changepoint <span class="math">\(k\)</span>:</p>
 <div class="math">$$
 y_t \sim \text{Po}\left(\rho\right),\qquad \rho = \begin{cases}
-  \mu, &amp; \text{if}\ t=1,2,\dots,k \\
-  \lambda, &amp; \text{if}\ t = k +1, k + 2, \dots,m 
+\mu, &amp; \text{if}\ t=1,2,\dots,k \\
+\lambda, &amp; \text{if}\ t = k +1, k + 2, \dots,m 
 \end{cases}
 $$</div>
 <p>Our objective is to estimate in which year the change occurs (the changepoint <span class="math">\(k\)</span>) and
@@ -144,10 +106,12 @@ $$</div>
 \end{align}
 $$</div>
 <p>We can define the <span class="math">\(\mu\)</span> update as:</p>
-<div class="highlight"><pre><span></span>def mu_update(data : Array(Int), k : Int, b1 : Float64) : Float64
-Gamma.sample(0.5 + data[0..k].sum, k + b1)
-end
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mu_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b1</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
+
 
 
 <p>The full conditional for <span class="math">\(\lambda\)</span> is:</p>
@@ -158,9 +122,10 @@ end
 \end{align}
 $$</div>
 <p>which we implement as:</p>
-<div class="highlight"><pre><span></span>def lambda_update(data : Array(Int), k : Int, b2 : Float64) : Float64
-Gamma.sample(0.5 + data[(k+1)..M].sum, M - k + b2)
-end
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lambda_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b2</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">..</span><span class="n">M</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">M</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 
 
@@ -172,14 +137,16 @@ b_2 &amp;\sim \mathcal{G}\left(a_2 + c_2,\lambda + d_2\right),
 \end{align}
 $$</div>
 <p>which we will implement as:</p>
-<div class="highlight"><pre><span></span>def b1_update(mu : Float64) : Float64
-Gamma.sample(0.5, mu + 1.0)
-end
 
-def b2_update(lambda : Float64) : Float64
-Gamma.sample(0.5, lambda + 1.0)
-end
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">b1_update</span><span class="p">(</span><span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">b2_update</span><span class="p">(</span><span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lambda</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
+
 
 
 <p>And finally we choose the next year, <span class="math">\(k\)</span>, according to</p>
@@ -191,51 +158,58 @@ $$</div>
 L\left(Y|\Phi\right) = e^{\left(\lambda-\mu\right)k}\left(\frac{\mu}{\lambda}\right)^{\sum_i^k y_i}
 $$</div>
 <p>implemented as</p>
-<div class="highlight"><pre><span></span>def l(data : Array(Int), k : Int, lambda : Float64, mu : Float64) : Float64
-Math::E**((lambda - mu)*k) * (mu / lambda)**(data[0..k].sum)
-end
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">,</span> <span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+    <span class="n">Math</span><span class="o">::</span><span class="n">E</span><span class="o">**</span><span class="p">((</span><span class="n">lambda</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="n">lambda</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 
 
 <p>So, let's start by writing our initials conditions:</p>
-<div class="highlight"><pre><span></span>iterations = 100000
 
-b1 = 1.0
-b2 = 1.0
+<div class="highlight"><pre><span></span><span class="n">iterations</span> <span class="o">=</span> <span class="mi">100000</span>
 
-M = data.size # number of data points
+<span class="n">b1</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-# parameter storage
-mus = Array(Float64).new(iterations, 0.0)
-lambdas = Array(Float64).new(iterations, 0.0)
-ks = Array(Int32).new(iterations, 0)
+<span class="n">M</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="c1"># number of data points</span>
+
+<span class="c1"># parameter storage</span>
+<span class="n">mus</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">ks</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
+
 
 
 <p>We can then cast the priors:</p>
-<div class="highlight"><pre><span></span>mus[0] = Gamma.sample(0.5, b1)
-lambdas[0] = Gamma.sample(0.5, b2)
-ks[0] = Random.new.rand(M)
+
+<div class="highlight"><pre><span></span><span class="n">mus</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
+<span class="n">lambdas</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+<span class="n">ks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Random</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
 </pre></div>
+
 
 
 <p>And define the main body of our Gibbs sampler:</p>
-<div class="highlight"><pre><span></span>(1...iterations).map { |i|
 
-k = ks[i-1]
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="n">iterations</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
 
-mus[i] = mu_update(data, k, b1)
-lambdas[i] = lambda_update(data, k, b2)
+<span class="n">k</span> <span class="o">=</span> <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
 
-b1 = b1_update(mus[i])
-b2 = b2_update(lambdas[i])
+<span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">mu_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
+<span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">lambda_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 
-ks[i] = Multinomial.sample((0...M).map { |kk| 
-  l(data, kk, lambdas[i], mus[i])
-})
+<span class="n">b1</span> <span class="o">=</span> <span class="n">b1_update</span><span class="p">(</span><span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">b2_update</span><span class="p">(</span><span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
 
-}
+<span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Multinomial</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="mi">0</span><span class="o">...</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">kk</span><span class="o">|</span> 
+    <span class="n">l</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kk</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="p">}</span>
 </pre></div>
+
 
 
 <p>Looking at the results, we see that the mean value of <span class="math">\(k\)</span> is 38.761, which seems
@@ -244,10 +218,10 @@ We can visually check this by looking at the graph below. Also plotted are the d
 rates before (<span class="math">\(\mu\)</span>) and after (<span class="math">\(\lambda\)</span>) the change.</p>
 <div class="row text-center">
 <div class="col-xs-6">
-  <img src="/images/coal_disasters_years_gibbs.png" width='100%'>
+<img src="/images/coal_disasters_years_gibbs.png" width='100%'>
 </div>
 <div class="col-xs-6">
-  <img src="/images/coal_disasters_mu_lambda_gibbs.png" width='100%'>
+<img src="/images/coal_disasters_mu_lambda_gibbs.png" width='100%'>
 </div>
 </div>
 
@@ -257,127 +231,69 @@ an equivalent implementation in <code>R</code> the Crystal code executed roughly
 17 times faster.</p>
 <table class="table table-hover">
 <thead>
-  <tr>
-    <th>Language</th>
-    <th>Time (s)</th>
-  </tr>
+<tr>
+<th>Language</th>
+<th>Time (s)</th>
+</tr>
 </thead>
 <tbody>
-  <tr>
-    <td>R</td><td>58.678</td>
-  </tr>
-  <tr>
-    <td>Crystal</td><td>3.587</td>
-  </tr>
+<tr>
+<td>R</td><td>58.678</td>
+</tr>
+<tr>
+<td>Crystal</td><td>3.587</td>
+</tr>
 </tbody>
 </table>
 
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
 
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
-            
-            
-            <hr/>
-        </div>
-        <!--<section>-->
-        <!--<div class="span2" style="float:right;font-size:0.9em;">-->
-            <!---->
-            <!--<h4>Published</h4>-->
-            <!---->
-            <!--<time pubdate="pubdate" datetime="2016-11-29T20:02:00+00:00">Nov 29, 2016</time>-->
-            <!---->
-            <!---->
-            <!---->
-            <!---->
-            <!--<h4>Category</h4>-->
-            <!--<a class="category-link" href="./categories.html#misc-ref">misc</a>-->
-            <!---->
-            <!---->
-            <!--<h4>Contact</h4>
-    <a href="#" title="My You can add links in your config file Profile" class="sidebar-social-links" target="_blank">
-    <i class="fa fa-you can add links in your config file sidebar-social-links"></i></a>
-    <a href="#" title="My Another social link Profile" class="sidebar-social-links" target="_blank">
-    <i class="fa fa-another social link sidebar-social-links"></i></a>
--->
-            <!---->
-        <!--</div>-->
-        <!--</section>-->
-</div>
-</article>
-                </div>
-                <div class="span1"></div>
-            </div>
-        </div>
-        <div id="push"></div>
     </div>
-<footer>
-<div id="footer">
-    <ul class="footer-content">
-    </ul>
-</div>
-</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script>
-            function validateForm(query)
-            {
-                return (query.length > 0);
-            }
-        </script>
 
-    
-    </body>
-    <!-- Theme: Elegant built for Pelican
-    License : http://oncrashreboot.com/pelican-elegant -->
+    <div id="sidebar">
+      <h2>Other pages</h2>
+      <ul>
+        <li><a href="/">Posts</a></li>
+        <li><a href="/pages/about.html">About</a></li>
+      </ul>
+    </div>
+
+    <script>
+      (function() {
+        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+        if (elements.length > 1) {
+        var div = document.getElementById('sidebar');
+        div.innerHTML += '<h2>This page</h2>\n';
+        // div.innerHTML += '<ul>\n';
+
+        var list = document.createElement("ul");
+        
+        var i = 1;
+        for (var element of elements) {
+          console.log(element);
+          if (element.nodeName=="H2") {
+            console.log(element.textContent);
+            // add an anchor
+            var anchor = document.createElement("a");
+            anchor.setAttribute('name', i);
+            anchor.classList.add('anchor');
+            element.parentNode.insertBefore(anchor, element.nextSibling);
+            // create list item
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.setAttribute("href", "#" + i);
+            a.textContent = element.textContent;
+            li.appendChild(a);
+            list.append(li);
+            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
+            i++;
+          }
+          div.appendChild(list);
+
+        }
+        div.innerHTML += '</ul>\n';
+      }
+      })();      
+    </script>
+  
+  </body>
 </html>
