@@ -1,90 +1,52 @@
-<!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8"> 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Rui Vieira" />
-        <meta name="copyright" content="Rui Vieira" />
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    <!-- Yes, HTML by hand... -->
 
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary">
+    <title>Rui Vieira's blog</title>
 
-<meta name="keywords" content=", code, " />
+    <link rel="stylesheet" href="/css/stylesheet.css">
+    <link rel="stylesheet" href="/css/trac.css">
 
-<meta property="og:title" content="MCMC notifications "/>
-<meta property="og:url" content="./mcmc-notifications.html" />
-<meta property="og:description" content="It is said that patience is a virtue but the truth is that no one likes waiting (especially waiting around: this interesting article explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same amount of time entirely …" />
-<meta property="og:site_name" content="Rui Vieira" />
-<meta property="og:article:author" content="Rui Vieira" />
-<meta property="og:article:published_time" content="2015-09-06T11:56:00+01:00" />
-<meta name="twitter:title" content="MCMC notifications ">
-<meta name="twitter:description" content="It is said that patience is a virtue but the truth is that no one likes waiting (especially waiting around: this interesting article explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same amount of time entirely …">
 
-        <title>MCMC notifications  · Rui Vieira
-</title>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/tipuesearch/tipuesearch.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/cmun-serif-slanted.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-10507665-2', 'auto');
-    ga('send', 'pageview');
-</script>
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:creator" content="@ruimvieira">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 
-    </head>
-    <body>
-        <div id="content-sans-footer">
-        <div class="navbar navbar-static-top navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="./"><span class=site-name>Rui Vieira</span></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav pull-right top-menu">
-                            <li ><a href=".">Home</a></li>
-                            <li ><a href="./pages/about.html">About</a></li>
-                            <li ><a href="./categories.html">Categories</a></li>
-                            <li ><a href="./tags.html">Tags</a></li>
-                            <li ><a href="./archives.html">Archives</a></li>
-                            <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span1"></div>
-                <div class="span10">
-<article>
-<div class="row-fluid">
-    <header class="page-header span6 offset2">
-    <h1><a href="./mcmc-notifications.html"> MCMC notifications  </a></h1>
-        <i>Posted on <time pubdate="pubdate" datetime="2015-09-06T11:56:00+01:00">September 6, 2015</time></i>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-10507665-2', 'auto');
+        ga('send', 'pageview');
+    </script>
 
-    </header>
-</div>
+    
+  </head>
+  <body>
+    <div id="main">
+        
 
-<div class="row-fluid">
-        <div class="span8 offset2 article-content">
+<h1>MCMC notifications</h1>
+<small><time pubdate="pubdate" datetime="2015-09-06T11:56:00+01:00">September 6, 2015</time></small>
 
-            
-            <p>It is said that patience is a virtue but the truth is that no one likes waiting
+<p>It is said that patience is a virtue but the truth is that no one likes waiting
 (especially <em>waiting around</em>:
 <a href="http://www.nytimes.com/2012/08/19/opinion/sunday/why-waiting-in-line-is-torture.html?_r=0">this interesting article</a>
 explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same
@@ -101,12 +63,14 @@ after a certain amount of time (especially valid for very long simulations),
 this doesn’t seem to be the standard practice.</p>
 <p>In this post I’ll detail my current setup for being notified <em>exactly</em> of when
 simulations are finished. To implement this setup, the following stack is required:</p>
+
 <ul>
-<li>A <a href="http://openjdk.java.net">JDK</a></li>
-<li><a href="http://maven.apache.org">Apache Maven</a></li>
-<li>A messaging service (<a href="https://www.pushbullet.com">Pushbullet</a></li>
-<li>A smartphone, tablet, smartwatch (or any other internet enabled device)</li>
+    <li>A <a href="http://openjdk.java.net">JDK</a></li>
+    <li><a href="http://maven.apache.org">Apache Maven</a></li>
+    <li>A messaging service (<a href="https://www.pushbullet.com">Pushbullet</a></li>
+    <li>A smartphone, tablet, smartwatch (or any other internet enabled device)</li>
 </ul>
+
 <p>To start, we can create an account in Pushbullet, which will involve, in the
 simplest case, signing up using some authentication service such as Google.</p>
 <p>Next, we will install the client application (available for
@@ -127,19 +91,23 @@ Pushbullet’s v1 API but not the <a href="https://docs.pushbullet.com/#api">new
 Since the project, unfortunately, is not in Maven central, you should build it from scratch.
 Fortunately, in a sensibly configured machine, this is trivial.</p>
 <p>In the machine where you plan to perform the simulations, clone and build <code>jpushbullet</code>.</p>
-<div class="highlight"><pre><span></span>git clone git@github.com:silk8192/jpushbullet.git
-mvn clean install
+
+<div class="highlight"><pre><span></span><span class="n">git</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">silk8192</span><span class="o">/</span><span class="n">jpushbullet</span><span class="p">.</span><span class="n">git</span><span class="w"></span>
+<span class="n">mvn</span><span class="w"> </span><span class="n">clean</span><span class="w"> </span><span class="n">install</span><span class="w"></span>
 </pre></div>
+
 
 
 <p>Once the build is complete, you can add it as a local dependency in your project’s <code>pom.xml</code>:</p>
+
 <div class="highlight"><pre><span></span><span class="nt">&lt;dependencies&gt;</span>
-  <span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>com.shakethat.jpushbullet<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>jpushbullet<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>com.shakethat.jpushbullet<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>jpushbullet<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
 <span class="nt">&lt;/dependencies&gt;</span>
 </pre></div>
+
 
 
 <p>For the purpose of this example, lets assume that you have the following <code>Object</code> as the entry point
@@ -149,39 +117,41 @@ include your personal API key in your committed code. I <em>strongly</em> sugges
 keep this information in a separate file (<em>e.g.</em> in <code>resources</code>), read it at
 runtime and add it to <code>.gitignore</code>.
 That being said, place the messaging code as such:</p>
-<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">benchmarks</span>
+
+<div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">benchmarks</span>
 
 <span class="kn">import</span> <span class="nn">com.shakethat.jpushbullet.PushbulletClient</span>
 
-<span class="nb">object</span> <span class="n">MCMC</span> <span class="p">{</span>
+<span class="n">object</span> <span class="n">MCMC</span> <span class="o">{</span>
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="n">Array</span><span class="p">[</span><span class="n">String</span><span class="p">]):</span><span class="n">Unit</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">def</span> <span class="nf">main</span><span class="o">(</span><span class="n">args</span><span class="o">:</span><span class="n">Array</span><span class="o">[</span><span class="n">String</span><span class="o">]):</span><span class="n">Unit</span> <span class="o">=</span> <span class="o">{</span>
 
-  <span class="o">//</span> <span class="n">Your</span> <span class="n">MCMC</span> <span class="n">code</span>
+  <span class="c1">// Your MCMC code</span>
 
-  <span class="n">val</span> <span class="n">client</span> <span class="o">=</span> <span class="n">new</span> <span class="n">PushbulletClient</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
-  <span class="n">val</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getDevices</span>
-  <span class="n">val</span> <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;MCMC simulation finished&quot;</span>
-  <span class="n">val</span> <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;Some summary can be included&quot;</span>
-  <span class="o">//</span> <span class="n">n</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">preferred</span> <span class="n">device</span> <span class="n">number</span>
-  <span class="n">client</span><span class="o">.</span><span class="n">sendNote</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="n">devices</span><span class="o">.</span><span class="n">getDevices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">getIden</span><span class="p">(),</span> <span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
-<span class="p">}</span>
+  <span class="n">val</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PushbulletClient</span><span class="o">(</span><span class="n">api_key</span><span class="o">)</span>
+  <span class="n">val</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getDevices</span>
+  <span class="n">val</span> <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;MCMC simulation finished&quot;</span>
+  <span class="n">val</span> <span class="n">body</span> <span class="o">=</span> <span class="s">&quot;Some summary can be included&quot;</span>
+  <span class="c1">// n is the preferred device number</span>
+  <span class="n">client</span><span class="o">.</span><span class="na">sendNote</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">devices</span><span class="o">.</span><span class="na">getDevices</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">n</span><span class="o">).</span><span class="na">getIden</span><span class="o">(),</span> <span class="n">title</span><span class="o">,</span> <span class="n">body</span><span class="o">)</span>
+<span class="o">}</span>
 
-<span class="p">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p>Usually, I would call this code via <code>ssh</code> into my main machine from Maven
 (using  <a href="http://scala-tools.org/mvnsites/maven-scala-plugin/">Scala Maven</a>)
 as:</p>
-<div class="highlight"><pre><span></span>nohup mvn scala:run -DmainClass=benchmarks.MCMC &amp;
+
+<div class="highlight"><pre><span></span><span class="n">nohup</span> <span class="n">mvn</span> <span class="n">scala</span><span class="p">:</span><span class="n">run</span> <span class="o">-</span><span class="n">DmainClass</span><span class="o">=</span><span class="n">benchmarks</span><span class="p">.</span><span class="n">MCMC</span> <span class="o">&amp;</span>
 </pre></div>
 
 
 <p>Finally, when the simulation is completed, you will be notified in the client
 devices (you can select which ones by issuing separate <code>sendNote</code> calls)
 and include a result summary, as an example.</p>
-<p><img alt="Pushbullet &lt;&gt;" src="./images/pushbullet.png"></p>
+<p style="text-align: center;"><img alt="Pushbullet &lt;&gt;" src="./images/pushbullet.png" width="50%"></p>
 <p>My current setup generates an R script from a template which is run
 by <code>Rscript</code> in order to produce a PDF report. However, be careful, since file
 quotas in Pushbullet are limited, so text notifications should be used
@@ -190,57 +160,55 @@ without worry of going over the free usage tier.</p>
 <a href="https://github.com/jcgay/send-notification">send-notification</a>,
 a general notification library for Java for which the setup is quite similar.</p>
 <p>Hope this was helpful.</p>
-            
-            
-            <hr/>
-        </div>
-        <!--<section>-->
-        <!--<div class="span2" style="float:right;font-size:0.9em;">-->
-            <!---->
-            <!--<h4>Published</h4>-->
-            <!---->
-            <!--<time pubdate="pubdate" datetime="2015-09-06T11:56:00+01:00">Sep 6, 2015</time>-->
-            <!---->
-            <!---->
-            <!---->
-            <!---->
-            <!--<h4>Category</h4>-->
-            <!--<a class="category-link" href="./categories.html#code-ref">code</a>-->
-            <!---->
-            <!---->
-            <!--<h4>Contact</h4>
-    <a href="#" title="My You can add links in your config file Profile" class="sidebar-social-links" target="_blank">
-    <i class="fa fa-you can add links in your config file sidebar-social-links"></i></a>
-    <a href="#" title="My Another social link Profile" class="sidebar-social-links" target="_blank">
-    <i class="fa fa-another social link sidebar-social-links"></i></a>
--->
-            <!---->
-        <!--</div>-->
-        <!--</section>-->
-</div>
-</article>
-                </div>
-                <div class="span1"></div>
-            </div>
-        </div>
-        <div id="push"></div>
-    </div>
-<footer>
-<div id="footer">
-    <ul class="footer-content">
-    </ul>
-</div>
-</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script>
-            function validateForm(query)
-            {
-                return (query.length > 0);
-            }
-        </script>
 
-    
-    </body>
-    <!-- Theme: Elegant built for Pelican
-    License : http://oncrashreboot.com/pelican-elegant -->
+
+    </div>
+
+    <div id="sidebar">
+      <h2>Other pages</h2>
+      <ul>
+        <li><a href="/">Posts</a></li>
+        <li><a href="/pages/about.html">About</a></li>
+      </ul>
+    </div>
+
+    <script>
+      (function() {
+        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+        if (elements.length > 1) {
+        var div = document.getElementById('sidebar');
+        div.innerHTML += '<h2>This page</h2>\n';
+        // div.innerHTML += '<ul>\n';
+
+        var list = document.createElement("ul");
+        
+        var i = 1;
+        for (var element of elements) {
+          console.log(element);
+          if (element.nodeName=="H2") {
+            console.log(element.textContent);
+            // add an anchor
+            var anchor = document.createElement("a");
+            anchor.setAttribute('name', i);
+            anchor.classList.add('anchor');
+            element.parentNode.insertBefore(anchor, element.nextSibling);
+            // create list item
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.setAttribute("href", "#" + i);
+            a.textContent = element.textContent;
+            li.appendChild(a);
+            list.append(li);
+            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
+            i++;
+          }
+          div.appendChild(list);
+
+        }
+        div.innerHTML += '</ul>\n';
+      }
+      })();      
+    </script>
+  
+  </body>
 </html>
