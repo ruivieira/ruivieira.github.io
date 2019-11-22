@@ -42,26 +42,28 @@
   <body>
     <div id="main">
         
-<h1>Posts</h1>
-      
-      <ul>
-        <li><a href="/introduction-to-balanced-box-decomposition-trees.html">Introduction to Balanced Box-Decomposition Trees</a></li>
-        <li><a href="/monotonic-cubic-spline-interpolation-with-some-rust.html">Monotonic Cubic Spline interpolation (with some Rust)</a></li>
-        <li><a href="/python-monkey-patching-for-readability.html"> Python monkey patching (for readability)</a></li>
-        <li><a href="/introduction-to-isolation-forests.html">Introduction to Isolation Forests</a></li>
-        <li><a href="/mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
-        <li><a href="/containerised-streaming-data-generation-using-state-space-models.html">Containerised Streaming Data Generation using State-Space Models</a></li>
-        <li><a href="/a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
-        <li><a href="/a-streaming-als-implementation.html">A streaming ALS implementation</a></li>
-        <li><a href="/bayesian-estimation-of-changepoints.html">Bayesian estimation of changepoints</a></li>
-        <li><a href="/t-as-mixture-of-normals.html">t as mixture of Normals</a></li>
-        <li><a href="/langtons-ant.html">Langton's Ant</a></li>
-        <li><a href="/a-gibbs-sampler-in-crystal.html">A Gibbs sampler in Crystal</a></li>
-        <li><a href="/mcmc-notifications.html">MCMC notifications</a></li>
-        <li><a href="/gulp.html">gulp</a></li>
-      </ul>
 
-    </div>
+<h1>crystal-gsl</h1>
+
+<h2>Statistics</h2>
+
+<h3>Normal distribution</h3>
+
+<p>The Normal distribution:</p>
+
+$$
+f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2} } e^{ -\frac{(x-\mu)^2}{2\sigma^2} }
+$$
+
+Example:
+
+<div class="highlight"><pre><span></span><span class="n">y1</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+
+
+<img src="/projects/crystal-gsl/images/normal_distribution.png" width="100%">
+
 
     </div>
 
