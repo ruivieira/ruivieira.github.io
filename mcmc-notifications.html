@@ -92,8 +92,8 @@ Since the project, unfortunately, is not in Maven central, you should build it f
 Fortunately, in a sensibly configured machine, this is trivial.</p>
 <p>In the machine where you plan to perform the simulations, clone and build <code>jpushbullet</code>.</p>
 
-<div class="highlight"><pre><span></span><span class="n">git</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">silk8192</span><span class="o">/</span><span class="n">jpushbullet</span><span class="p">.</span><span class="n">git</span><span class="w"></span>
-<span class="n">mvn</span><span class="w"> </span><span class="n">clean</span><span class="w"> </span><span class="n">install</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="err">git clone git@github.com:silk8192/jpushbullet.git</span>
+<span class="err">mvn clean install</span>
 </pre></div>
 
 
@@ -122,21 +122,21 @@ That being said, place the messaging code as such:</p>
 
 <span class="kn">import</span> <span class="nn">com.shakethat.jpushbullet.PushbulletClient</span>
 
-<span class="n">object</span> <span class="n">MCMC</span> <span class="o">{</span>
+<span class="n">object</span> <span class="n">MCMC</span> <span class="p">{</span>
 
-<span class="n">def</span> <span class="nf">main</span><span class="o">(</span><span class="n">args</span><span class="o">:</span><span class="n">Array</span><span class="o">[</span><span class="n">String</span><span class="o">]):</span><span class="n">Unit</span> <span class="o">=</span> <span class="o">{</span>
+<span class="n">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="n">Array</span><span class="o">[</span><span class="n">String</span><span class="o">]</span><span class="p">):</span><span class="n">Unit</span> <span class="o">=</span> <span class="p">{</span>
 
   <span class="c1">// Your MCMC code</span>
 
-  <span class="n">val</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PushbulletClient</span><span class="o">(</span><span class="n">api_key</span><span class="o">)</span>
-  <span class="n">val</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getDevices</span>
+  <span class="n">val</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PushbulletClient</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+  <span class="n">val</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="na">getDevices</span>
   <span class="n">val</span> <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;MCMC simulation finished&quot;</span>
   <span class="n">val</span> <span class="n">body</span> <span class="o">=</span> <span class="s">&quot;Some summary can be included&quot;</span>
   <span class="c1">// n is the preferred device number</span>
-  <span class="n">client</span><span class="o">.</span><span class="na">sendNote</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">devices</span><span class="o">.</span><span class="na">getDevices</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">n</span><span class="o">).</span><span class="na">getIden</span><span class="o">(),</span> <span class="n">title</span><span class="o">,</span> <span class="n">body</span><span class="o">)</span>
-<span class="o">}</span>
+  <span class="n">client</span><span class="p">.</span><span class="na">sendNote</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">devices</span><span class="p">.</span><span class="na">getDevices</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">n</span><span class="p">).</span><span class="na">getIden</span><span class="p">(),</span> <span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 
 
@@ -144,7 +144,7 @@ That being said, place the messaging code as such:</p>
 (using  <a href="http://scala-tools.org/mvnsites/maven-scala-plugin/">Scala Maven</a>)
 as:</p>
 
-<div class="highlight"><pre><span></span><span class="n">nohup</span> <span class="n">mvn</span> <span class="n">scala</span><span class="p">:</span><span class="n">run</span> <span class="o">-</span><span class="n">DmainClass</span><span class="o">=</span><span class="n">benchmarks</span><span class="p">.</span><span class="n">MCMC</span> <span class="o">&amp;</span>
+<div class="highlight"><pre><span></span><span class="err">nohup mvn scala:run -DmainClass=benchmarks.MCMC &amp;</span>
 </pre></div>
 
 

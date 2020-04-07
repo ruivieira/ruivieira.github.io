@@ -44,7 +44,7 @@
         
 
 <h1>Introduction to Balanced Box-Decomposition Trees</h1>
-<small>April 17, 2019</small>
+<small><time pubdate="pubdate" datetime="2019-04-17T19:21:00+01:00">April 17, 2019</time></small>
     
 <p>Stardate 96893.29. You are the USS Euler's Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that <em>both</em> Emacs and Vim should be installed in all computers. You open your favourite editor and, fortunately, know exactly how to formulate the solution to your problem: a <span class="math">\(d\)</span>-dimensional nearest neighbour algorithm.</p>
 <p>Given a dataset <span class="math">\(\mathcal{D}\)</span> of <span class="math">\(n\)</span> points in a space <span class="math">\(X\)</span> we want to be able to tell which are the <em>closest</em> point to a query point <span class="math">\(q \in X\)</span>, preferably in a way which is computationally cheaper than <em>brute force</em> methods (<em>e.g.</em> iterating through all of the points) which typically solve this problem in <span class="math">\(\mathcal{O}(dn)\)</span> [<a href="#ref-1">Arya1998</a><a name="ref-1-origin"></a>]. <span class="math">\(X\)</span> could have <span class="math">\(d\)</span> dimensions (that is <span class="math">\(\mathcal{D} \subset X : \mathbb{R}^d\)</span>) and we define <em>closest</em> using<sup>1</sup> Minkowski distance metrics, that is:</p>
