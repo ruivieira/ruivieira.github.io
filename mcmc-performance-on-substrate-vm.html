@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,77 +25,61 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>MCMC performance on Substrate VM</h1>
-<small><time pubdate="pubdate" datetime="2018-08-02T23:05:00+01:00">August 2, 2018</time></small>
-
-    
-    <p>Recently I've been following (but not very closely, I admit) the development of the <a href="https://www.graalvm.org/">GraalVM</a> project. The project has many interesting goals (such as <a href="http://openjdk.java.net/projects/metropolis/">Project Metropolis</a>, increased JIT performance and others).</p>
-<p>However, having dabbled with projects such as <a href="https://github.com/scala-native/scala-native">Scala native</a> and <a href="https://kotlinlang.org/docs/reference/native-overview.html">Kotlin native</a>, one of the aspects of GraalVM that caught my attention was the <a href="https://github.com/oracle/graal/tree/master/substratevm">SubstrateVM</a>, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.
-I specifically wanted to compare the performance and memory consumption of simple scientific computing tasks when using the JVM and native executables.</p>
-<p>To do this, I picked two simple numerical simulations in the form of toy Gibbs samplers, in order to keep the cores busy for a while.</p>
-<h2>Binomial-Beta case</h2>
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>MCMC performance on Substrate VM</h1>
+    <small><time pubdate="pubdate" datetime="2018-08-02 23:05:00 &#43;0100 BST">August 2, 2018</time></small>                
+    <p>Recently I&rsquo;ve been following (but not very closely, I admit) the development of the <a href="https://www.graalvm.org/">GraalVM</a> project. The project has many interesting goals (such as <a href="http://openjdk.java.net/projects/metropolis/">Project Metropolis</a>, increased JIT performance and others).</p>
+<p>However, having dabbled with projects such as <a href="https://github.com/scala-native/scala-native">Scala native</a> and <a href="https://kotlinlang.org/docs/reference/native-overview.html">Kotlin native</a>, one of the aspects of GraalVM that caught my attention was the <a href="https://github.com/oracle/graal/tree/master/substratevm">SubstrateVM</a>, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</p>
+<p>I specifically wanted to compare the performance and memory consumption of simple scientific computing tasks when using the JVM and native executables.
+To do this, I picked two simple numerical simulations in the form of toy Gibbs samplers, in order to keep the cores busy for a while.</p>
+<h2 id="binomial-beta-case">Binomial-Beta case</h2>
 <p>The first problem chosen was the one of sampling from a Beta-Binomial distribution where we have</p>
-<div class="math">$$
-X \sim \text{Binom}\left(n,\theta\right) \\
+<p>$$
+X \sim \text{Binom}\left(n,\theta\right) \\<br>
 \theta \sim \text{B}\left(a,b\right).
-$$</div>
+$$</p>
 <p>Since we know that</p>
-<div class="math">$$
+<p>$$
 \pi\left(\theta|x\right) \propto \theta^x \left(1-\theta\right)^{n-x}\theta^{a-1}\left(1-\theta\right)^{b-1},
-$$</div>
+$$</p>
 <p>We calculate the joint density</p>
-<div class="math">$$
+<p>$$
 p(x,\theta) = \begin{pmatrix} n \\ x \end{pmatrix} \theta^x \left(1-\theta\right)^{n-x}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\theta^{a-1}\left(1-\theta\right)^{b-1}
-$$</div>
+$$</p>
 <p>The marginal distribution is a Binomial-Beta:</p>
-<div class="math">$$
-p\left(x\right)=\begin{pmatrix} n \\ x \end{pmatrix}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\frac{\Gamma\left(a+b\right)\Gamma\left(b+n-x\right)}{\Gamma\left(a+b+n\right)},\qquad x=0,1,\cdots,n
-$$</div>
-<p>.</p>
+<p>$$
+p\left(x\right)=\begin{pmatrix} n \\ x \end{pmatrix}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\frac{\Gamma\left(a+b\right)\Gamma\left(b+n-x\right)}{\Gamma\left(a+b+n\right)},\qquad x=0,1,\cdots,n.
+$$</p>
 <p>The code for this simulation is available <a href="https://github.com/ruivieira/benchmark-gibbs">here</a>.</p>
-<p>The project is setup so that Maven produces an assembly Jar file, since I've found that to be the easier artifact we can offer to the GraalVM's native compiler. To enable assembly Jars we add the <code>maven-assembly-plugin</code> to <code>pom.xml</code> and specify a main class. The assembly can then be produced simply by executing</p>
-<div class="highlight"><pre><span></span>mvn package
-</pre></div>
-
-
-<p>An assembly Jar should be available in the <code>target</code> folder and named <code>benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</code>. Both the Jar and the native executable allow to specify how many iterations the Gibbs sampler should run for (as well as the thinning factor). If nothing is specified, the default will be used, which is <span class="math">\(50000\)</span> iterations thinned by <span class="math">\(100\)</span>.</p>
-<p>This particular Gibbs sampler was implemented in two variants. One variant stores the samples draws of <span class="math">\(x\)</span> and <span class="math">\(\theta\)</span> in arrays <code>double[]</code> while the other one simply calculates the Gibbs steps by using the previous value, that is <span class="math">\(x_i=f(x_{i-1},\theta_{i-1})\)</span> and then discarding the previous values. The latter has a constant memory cost in <span class="math">\(\mathcal{O}(1)\)</span> in terms of number of iterations, while the former clearly doesn't.</p>
+<p>The project is setup so that Maven produces an assembly Jar file, since I&rsquo;ve found that to be the easier artifact we can offer to the GraalVM&rsquo;s native compiler. To enable assembly Jars we add the <code>maven-assembly-plugin</code> to <code>pom.xml</code> and specify a main class. The assembly can then be produced simply by executing</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mvn package</code></pre></div>
+<p>An assembly Jar should be available in the <code>target</code> folder and named <code>benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</code>.
+Both the Jar and the native executable allow to specify how many iterations the Gibbs sampler should run for (as well as the thinning factor). If nothing is specified, the default will be used, which is $50000$ iterations thinned by $100$.</p>
+<p>This particular Gibbs sampler was implemented in two variants. One variant stores the samples draws of $x$ and $\theta$ in arrays <code>double[]</code> while the other one simply calculates the Gibbs steps by using the previous value, that is $x_i=f(x_{i-1},\theta_{i-1})$ and then discarding the previous values. The latter has a constant memory cost in $\mathcal{O}(1)$ in terms of number of iterations, while the former clearly doesn&rsquo;t.</p>
 <p>We can them proceed with the first test, first benchmarking it under the JVM by running (for both sample history variants):</p>
-<div class="highlight"><pre><span></span>$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store <span class="m">50000</span> <span class="m">100</span>
-$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore <span class="m">50000</span> <span class="m">100</span>
-</pre></div>
-
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store <span class="m">50000</span> <span class="m">100</span>
+$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore <span class="m">50000</span> <span class="m">100</span></code></pre></div>
 <p>(It is important to note that the <code>time</code> command is the executable under <code>/usr/bin</code> and not your shell's builtin.)</p>
 <p>The next step is to build the native image using GraalVM's compiler. This is also quite straight-forward and simply a matter of calling:</p>
 <div class="highlight"><pre><span></span>$GRAALVM_BIN/native-image target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar
 </pre></div>
-
-
 <p>where <code>$GRAALVM_BIN</code> is simply the location where you installed the GraalVM binaries. If the compilation is successful, you should see some information about the compilation steps, such as parsing, inlining, compiling and writing the image. Finally, if using the default, you should have a native executable available in your current directory. Again, the benchmark command is similar to the JVM step, that is:</p>
 <div class="highlight"><pre><span></span>$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies store <span class="m">50000</span> <span class="m">100</span>
 $ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore <span class="m">50000</span> <span class="m">100</span>
 </pre></div>
-
-
 <p>The results from the runs which saved the sampling history on both platforms (JVM and native) were consistent as we can see from the plots below:</p>
 <p><img alt="Data &lt;&gt;" src="./images/gibbs_jvm_native.png" width="100%"></p>
 <p>The (peak) memory consumption and execution time for each version is presented in the table below:</p>
-
 <p>
 <table class="table table-hover">
 <thead>
@@ -125,10 +105,7 @@ $ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore 
 </tbody>
 </table>
 </p>
-
-
 <h2>Another bivariate case</h2>
-
 <p>The second problem chosen is another bivariate model, <a href="/a-gibbs-sampler-in-crystal.html">previously detailed</a> in this blog.
 The code is included in the same repositoty as the Beta-Binomial case and the setup for the benchmarks is similar. The only step needed to run this example is to change the main class in the assemply plugin section of the <code>pom.xml</code> from <code>BinomialBeta</code> to <code>Bivariate</code>. The benchmark results are in the table below:</p>
 <table class="table table-hover">
@@ -148,59 +125,56 @@ The code is included in the same repositoty as the Beta-Binomial case and the se
 </tr>
 </tbody>
 </table>
-
 <p>Now, in this case, the results are much more interesting. The JVM version outperforms the native version in <em>both</em> execution time and memory consumption. I don't have an explanation for this, but if you think you have (or have any other questions) please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
 <p>Thanks for reading!</p>
+</div>
 
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
-
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

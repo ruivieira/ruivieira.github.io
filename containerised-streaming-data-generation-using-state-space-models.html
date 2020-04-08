@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,25 +25,20 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>Containerised Streaming Data Generation using State-Space Models</h1>
-<small><time pubdate="pubdate" datetime="2018-05-12T19:21:00+01:00">May 12, 2018</time></small>
-
-    
-<p>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as <a href="https://kafka.apache.org/">Apache Kafka</a> and <a href="https://spark.apache.org/">Apache Spark</a> and deployment in a cloud environment like <a href="https://www.openshift.com/">OpenShift</a> with tools such as <a href="https://radanalytics.io/">oshinko</a>.</p>
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>Containerised Streaming Data Generation using State-Space Models</h1>
+    <small><time pubdate="pubdate" datetime="2018-05-12 19:21:00 &#43;0100 BST">May 12, 2018</time></small>                
+    <p>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as <a href="https://kafka.apache.org/">Apache Kafka</a> and <a href="https://spark.apache.org/">Apache Spark</a> and deployment in a cloud environment like <a href="https://www.openshift.com/">OpenShift</a> with tools such as <a href="https://radanalytics.io/">oshinko</a>.</p></p>
 <p>Simulating data is not trivial, since we might want to capture complex characteristic to evaluate our algorithms in conditions similar to the real world.</p>
 <p>In this post I'll introduce a tool, <a href="https://github.com/ruivieira/timeseries-mock">timeseries-mock</a>, which allows for a simple, containerised deployment of a data simulator along with some of the theory behind the data generation.</p>
 <h2>State-space models</h2>
@@ -82,8 +73,6 @@ Y_t|\theta_t,\Phi &amp;\sim E\left(\eta_t,\Phi\right) \\
 <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
 <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
 </pre></div>
-
-
 <p>In this case <code>start</code> will correspond the mean of the state prior, <span class="math">\(m_0\)</span>, and <code>noise</code> will correspond to the prior's variance, <span class="math">\(\tau^2\)</span>, that is</p>
 <div class="math">$$ \theta_0 \sim \mathcal{N}\left(m_0, \tau^2\right). $$</div>
 <p>In the figure below we can see the above configuration for, respectively, a higher and lower value of <code>noise</code>.</p>
@@ -105,8 +94,6 @@ That is, if your stream's rate is one observation every 100 milliseconds, <span 
 <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
 <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
 </pre></div>
-
-
 <p>will create a sequence of state vectors <span class="math">\(\boldsymbol{\theta}_{0:T}\)</span> with five components, such that:
 </p>
 <div class="math">$$
@@ -122,8 +109,6 @@ $$</div>
 <span class="l l-Scalar l-Scalar-Plain">coefficients</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1,0.3,0.15</span>
 <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
 </pre></div>
-
-
 <p>In the above example we would be creating an AR(3) component, with respective coefficients <span class="math">\(\phi=\lbrace 0.1,0.3,0.15 \rbrace\)</span>. These coefficients will take part of the state model as</p>
 <div class="math">$$
 \mathsf{G} = \begin{bmatrix}
@@ -153,8 +138,6 @@ $$</div>
 <span class="l l-Scalar l-Scalar-Plain">start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
 <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
 </pre></div>
-
-
 <p>This would create a structure containing both an underlying mean <em>and</em> a seasonal component.</p>
 <h2>Observations</h2>
 <p>As we have seen from (3) that an observational model can be coupled with a structure to complete the DGLM specification. In the following sections we will look at some example observational models and in which situations they might be useful.</p>
@@ -168,8 +151,6 @@ $$</div>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
 <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
 </pre></div>
-
-
 <p>The following plot shows the coupling of the structure used in the <code>mean</code> section with the continuous (example above) observational model.</p>
 <p><img alt="Gibbs &lt;&gt;" src="images/ssm/continous.png" width="100%"></p>
 <h3>Discrete</h3>
@@ -181,8 +162,6 @@ $$</div>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">observations</span><span class="p p-Indicator">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">discrete</span>
 </pre></div>
-
-
 <p>In this case we will use the previous ARMA(3) structure example and couple it with a discrete observational model. The result is shown in the plot below:</p>
 <p><img alt="Gibbs &lt;&gt;" src="images/ssm/discrete.png" width="100%"></p>
 <h3>Categorical</h3>
@@ -195,8 +174,6 @@ $$</div>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
 <span class="l l-Scalar l-Scalar-Plain">categories</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
 </pre></div>
-
-
 <p>We can see in the plot below (<em>states on the left, observations on the right</em>) a realisation of this stream, when using the previous seasonal example structure.</p>
 <p><img alt="Gibbs &lt;&gt;" src="images/ssm/categorical.png" width="100%"></p>
 <p>Often, when simulating a data stream, we might be interested in the category labels themselves, rather than a numerical value. The generator allows to pass directly a list of labels and output the labelled observations. Let's assume we wanted to generate a stream of random DNA nucleotides (C, T, A and G). The generator allows to pass the labels directly and output the direct mapping between observations and label, that is:</p>
@@ -205,8 +182,6 @@ $$</div>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
 <span class="l l-Scalar l-Scalar-Plain">values</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">C,T,A,G</span>
 </pre></div>
-
-
 <p>Using the same seasonal structure and observation model as above, the output would then be:</p>
 <p><img alt="Gibbs &lt;&gt;" src="images/ssm/categorical_nucleotides.png" width="100%"></p>
 <h2>Composite model</h2>
@@ -234,8 +209,6 @@ y &amp;= f(\eta_t) \\
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
 <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
 </pre></div>
-
-
 <h3>Examples</h3>
 <p>We will look at two separate examples, one that creates a stream of simulated stock prices and one that generates a fake HTTP log.</p>
 <p>We assume we want to simulate a stream of per-day stock prices for 3 different companies, each with different characteristics. In this case, we will model the following:</p>
@@ -287,8 +260,6 @@ y &amp;= f(\eta_t) \\
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
 <span class="l l-Scalar l-Scalar-Plain">noise</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">4.0</span>  <span class="c1"># higher observational variance</span>
 </pre></div>
-
-
 <p>A realisation of this stream looks like the figure below.</p>
 <p><img alt="Gibbs &lt;&gt;" src="images/ssm/mv_continous.png" width="100%"></p>
 <p>To generate the fake HTTP log we will make the following assumptions:</p>
@@ -308,8 +279,6 @@ y &amp;= f(\eta_t) \\
 <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
 <span class="l l-Scalar l-Scalar-Plain">categories</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255</span>
 </pre></div>
-
-
 <p>The full configuration for the HTTP log simulation could then be something like this:</p>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">compose</span><span class="p p-Indicator">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
@@ -339,8 +308,6 @@ y &amp;= f(\eta_t) \\
 <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
 <span class="l l-Scalar l-Scalar-Plain">categories</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255</span>
 </pre></div>
-
-
 <p>Which would provide a similar result as shown below.</p>
 <div class="highlight"><pre><span></span><span class="k">[&quot;PUT&quot;, &quot;/internal/example.htm&quot;, 171, 158, 59, 89]</span>
 <span class="k">[&quot;GET&quot;, &quot;/internal/example.htm&quot;, 171, 253, 71, 146]</span>
@@ -352,8 +319,6 @@ y &amp;= f(\eta_t) \\
 <span class="k">[&quot;GET&quot;, &quot;/internal/example.htm&quot;, 185, 221, 109, 195]</span>
 <span class="na">...</span>
 </pre></div>
-
-
 <h1>Setting up the generator</h1>
 <p>As I have mentioned in the beginning of this post, we want to fit the data simulation solution into a cloud computing workflow. To illustrate this we will use the <a href="https://www.openshift.com/">OpenShift</a> platform which allows for the deployment of containerised applications. A typical setup for a streaming data processing application would be as illustrated in the figure below. We have several sources connected to a message broker, such as Apache Kafka in this case. Data might be partitioned into "topics" which are then consumed by different applications, each performing data processing, either independently or in a distributed manner.</p>
 <p><img alt="Gibbs &lt;&gt;" src="images/ssm/kafka.png" width="100%"></p>
@@ -371,8 +336,6 @@ y &amp;= f(\eta_t) \\
 -e <span class="nv">CONF</span><span class="o">=</span>examples/mean_continuous.yml <span class="se">\</span>
 --name<span class="o">=</span>emitter
 </pre></div>
-
-
 <p>In this case, we would deploy a simulator generating data according to the specifications in <code>mean_continuous.yml</code>. This data will be sent to the topic <code>example</code> of a Kafka broker running on port <code>9092</code>.</p>
 <p><img alt="Gibbs &lt;&gt;" src="images/ssm/kafka_ssm.png" width="100%"></p>
 <p>The stream will be ready to consume and message payload will a stream of serialised JSON strings. In the case of the simulated HTTP log this would be:</p>
@@ -381,8 +344,6 @@ y &amp;= f(\eta_t) \\
 <span class="err">values</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;/internal/example.htm&quot;</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">221</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
-
-
 <ul>
 <li><code>name</code> - the name given to this stream in the configuration file</li>
 <li><code>values</code> - a single observation for this stream</li>
@@ -392,56 +353,54 @@ y &amp;= f(\eta_t) \\
 <p>If you have any suggestions, use cases (or found an issue!), please let me know in the <a href="https://github.com/ruivieira/timeseries-mock">repository</a>.</p>
 <p>If you have any comments please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> (or <a href="https://twitter.com/ruimvieira">Twitter</a>).</p>
 <p>Happy coding!</p>
+</div>
 
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
-
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

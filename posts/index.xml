@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Rui Vieira&#39;s blog</title>
+    <link>http://ruivieira.dev/posts/</link>
+    <description>Recent content in Posts on Rui Vieira&#39;s blog</description>
+    <generator>Rui Vieira</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Tue, 07 Apr 2020 23:31:00 +0100</lastBuildDate>
+    
+	<atom:link href="http://ruivieira.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>(Semi) Handcrafted RSS</title>
+      <link>http://ruivieira.dev/semi-handcrafted-rss.html</link>
+      <pubDate>Tue, 07 Apr 2020 23:31:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/semi-handcrafted-rss.html</guid>
+      <description>In the old days, before static site generators.   I&amp;rsquo;ve been using a minimalist blog setup for some time now.
+I was having something of a framework fatigue after switching between a few static site generators. Each new generator I decided to try implied usually either learning a new programming language (Python, Ruby, Go) to perform basic setup and a new template engine syntax. Typically I really wasn&amp;rsquo;t using the vast majority of the feature available for each generator.</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Balanced Box-Decomposition Trees</title>
+      <link>http://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</link>
+      <pubDate>Wed, 17 Apr 2019 19:21:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</guid>
+      <description>Stardate 96893.29. You are the USS Euler&#39;s Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that both Emacs and Vim should be installed in all computers.</description>
+    </item>
+    
+    <item>
+      <title>Monotonic Cubic Spline interpolation (with some Rust)</title>
+      <link>http://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</link>
+      <pubDate>Wed, 03 Apr 2019 23:05:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</guid>
+      <description>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot. In this post I’ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson [Fritsch2005] in the Rust programming language.</description>
+    </item>
+    
+    <item>
+      <title>Python monkey patching (for readability)</title>
+      <link>http://ruivieira.dev/python-monkey-patching-for-readability.html</link>
+      <pubDate>Tue, 02 Apr 2019 23:05:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/python-monkey-patching-for-readability.html</guid>
+      <description>When preparing a Jupyter notebook for a workshop on recommendation engines which I’ve presented with a colleague, I was faced with the following problem:
+ &amp;ldquo;How to break a large class definition into several cells so it can be presented step-by-step.&amp;rdquo;
+ Having the ability to declare a rather complex (and large) Python class in separate cells has several advantages, the obvious one being the ability to fully document each method’s functionality with Markdown, rather than comments.</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Isolation Forests</title>
+      <link>http://ruivieira.dev/introduction-to-isolation-forests.html</link>
+      <pubDate>Tue, 30 Oct 2018 19:21:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/introduction-to-isolation-forests.html</guid>
+      <description>Isolation Forests (IFs), presented in Liu et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of Isolation Trees (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.
+ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the Binary Search Tree (BSTs).</description>
+    </item>
+    
+    <item>
+      <title>MCMC performance on Substrate VM</title>
+      <link>http://ruivieira.dev/mcmc-performance-on-substrate-vm.html</link>
+      <pubDate>Thu, 02 Aug 2018 23:05:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/mcmc-performance-on-substrate-vm.html</guid>
+      <description>Recently I&amp;rsquo;ve been following (but not very closely, I admit) the development of the GraalVM project. The project has many interesting goals (such as Project Metropolis, increased JIT performance and others).
+However, having dabbled with projects such as Scala native and Kotlin native, one of the aspects of GraalVM that caught my attention was the SubstrateVM, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</description>
+    </item>
+    
+    <item>
+      <title>Containerised Streaming Data Generation using State-Space Models</title>
+      <link>http://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</link>
+      <pubDate>Sat, 12 May 2018 19:21:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</guid>
+      <description>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as Apache Kafka and Apache Spark and deployment in a cloud environment like OpenShift with tools such as oshinko.</description>
+    </item>
+    
+    <item>
+      <title>A simple Python benchmark exercise</title>
+      <link>http://ruivieira.dev/a-simple-python-benchmark-exercise.html</link>
+      <pubDate>Sun, 22 Apr 2018 15:21:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/a-simple-python-benchmark-exercise.html</guid>
+      <description>Recently when discussing the Crystal language and specifically the Gibbs sample blog post with a colleague, he mentioned that the Python benchmark numbers looked a bit off and not consistent with his experience of numerical programming in Python.
+To recall the numbers:
+  Language Time (s)     R364.8   Python144.0   Scala9.896   Crystal5.171   C5.038    To have a better understanding of what is happening, I&amp;rsquo;ve decided to profile and benchmark that code (running on Python 3.</description>
+    </item>
+    
+    <item>
+      <title>A streaming ALS implementation</title>
+      <link>http://ruivieira.dev/a-streaming-als-implementation.html</link>
+      <pubDate>Mon, 18 Dec 2017 12:36:00 +0000</pubDate>
+      
+      <guid>http://ruivieira.dev/a-streaming-als-implementation.html</guid>
+      <description>In this blog post I would like to talk a little bit about recommendation engines in general and how to build a streaming recommendation engine on top of Apache Spark.
+I will start by introducing the concept of collaborative filtering, and focus in two variants: batch and streaming Alternating Least Squares (ALS). I will look at the principles of a streaming distributed recommendation engine on Spark and finally, I’ll talk about practical issues when using these methods.</description>
+    </item>
+    
+    <item>
+      <title>Bayesian estimation of changepoints</title>
+      <link>http://ruivieira.dev/bayesian-estimation-of-changepoints.html</link>
+      <pubDate>Tue, 29 Nov 2016 20:02:00 +0000</pubDate>
+      
+      <guid>http://ruivieira.dev/bayesian-estimation-of-changepoints.html</guid>
+      <description>A common introductory problem in Bayesian changepoint detection is the record of UK coal mining disasters from 1851 to 1962. More information can be found in Carlin, Gelfand and Smith (1992).
+As we can see from the plot below, the number of yearly disasters ranges from 0 to 6 and we will assume that at some point within this time range a change in the accident rate has occured.
+The number of yearly disasters can be modelled as a Poisson with a unknown rate depending on the changepoint $k$:</description>
+    </item>
+    
+    <item>
+      <title>t as mixture of Normals</title>
+      <link>http://ruivieira.dev/t-as-mixture-of-normals.html</link>
+      <pubDate>Sun, 27 Nov 2016 14:00:00 +0000</pubDate>
+      
+      <guid>http://ruivieira.dev/t-as-mixture-of-normals.html</guid>
+      <description>(Based on Rasmus Bååth&amp;rsquo;s post)
+A scaled $t$ distribution, with $\mu$ mean, $s$ scale and $\nu$ degrees of freedom, can be simulated from a mixture of Normals with $\mu$ mean and precisions following a Gamma distribution:
+\begin{align} y &amp;amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\
+\sigma^2 &amp;amp;\sim \mathcal{IG}\left(\frac{\nu}{2},s^2\frac{\nu}{2}\right) \end{align}
+Since I&amp;rsquo;ve recently pickep up again the crystal-gsl in my spare time, I&amp;rsquo;ve decided to replicate the previously mentioned post using a Crystal one-liner.
+To simulate 10,000 samples from $t_2\left(0,3\right)$ using the mixture, we can then write:</description>
+    </item>
+    
+    <item>
+      <title>Langton&#39;s Ant</title>
+      <link>http://ruivieira.dev/langtons-ant.html</link>
+      <pubDate>Thu, 23 Jun 2016 21:55:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/langtons-ant.html</guid>
+      <description>Last week, at the North East Functional Programming meet up, we were given a code Kata consisting of the Langton&amp;rsquo;s ant algorithm. I&amp;rsquo;ve had a go at Scala but decided later on to put a live version in this blog. I considered several implementation options, such as scala.js and Elm, but in the end decided to implement it in plain Javascript.
+  Add ant</description>
+    </item>
+    
+    <item>
+      <title>A Gibbs Sampler in Crystal</title>
+      <link>http://ruivieira.dev/a-gibbs-sampler-in-crystal.html</link>
+      <pubDate>Mon, 11 Apr 2016 22:04:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/a-gibbs-sampler-in-crystal.html</guid>
+      <description>Recently, I&amp;rsquo;ve been following with interest the development of the Crystal language.
+Crystal is a statically type language with a syntax resembling Ruby&amp;rsquo;s. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to native code along with a dead simple way of creating bindings to existing C code.
+These features make it quite attractive, in my opinion, for scientific computing.</description>
+    </item>
+    
+    <item>
+      <title>MCMC notifications</title>
+      <link>http://ruivieira.dev/mcmc-notifications.html</link>
+      <pubDate>Sun, 06 Sep 2015 11:56:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/mcmc-notifications.html</guid>
+      <description>It is said that patience is a virtue but the truth is that no one likes waiting (especially waiting around: this interesting article explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same amount of time entirely in the claim area).
+Anyone performing computationally heavy work, such as Monte Carlo methods, will know that these are usually computationally expensive algorithms which, even in modern hardware, can result in waiting times in the magnitude of hours, days and even weeks.</description>
+    </item>
+    
+    <item>
+      <title>gulp</title>
+      <link>http://ruivieira.dev/gulp.html</link>
+      <pubDate>Thu, 31 Jul 2014 07:52:00 +0100</pubDate>
+      
+      <guid>http://ruivieira.dev/gulp.html</guid>
+      <description>I have been working in a new library called gulp which you can find on https://github.com/ruivieira/gulp
+On the project&#39;s page there are some usage examples but I will try to summarise the main points here.
+The purpose of this library is to facilitate the parallel development of R and Java code, using rJava as the bridge. Creating bindings in rJava is quite simple, the tricky part of the process (in my opinion) being the maintenance of the bindings (usually done by hand) when refactoring your code.</description>
+    </item>
+    
+  </channel>
+</rss>

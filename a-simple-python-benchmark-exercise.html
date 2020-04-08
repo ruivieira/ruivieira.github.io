@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,25 +25,21 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>A simple Python benchmark exercise</h1>
-<small><time pubdate="pubdate" datetime="2018-04-22T15:21:00+01:00">April 22, 2018</small></i>
-    
-<p>Recently when discussing the Crystal language and
-specifically the <a href="https://ruivieira.github.io/a-gibbs-sampler-in-crystal.html">Gibbs sample blog post</a> with a colleague, he mentioned that the Python benchmark
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>A simple Python benchmark exercise</h1>
+    <small><time pubdate="pubdate" datetime="2018-04-22 15:21:00 &#43;0100 BST">April 22, 2018</time></small>                
+    <p>Recently when discussing the Crystal language and
+specifically the <a href="/a-gibbs-sampler-in-crystal.html">Gibbs sample blog post</a> with a colleague, he mentioned that the Python benchmark
 numbers looked a bit off and not consistent with his experience of numerical
 programming in Python.</p>
 <p>To recall the numbers:</p>
@@ -76,26 +68,22 @@ programming in Python.</p>
 </tr>
 </tbody>
 </table>
-
-<p>To have a better understanding of what is happening, I've decided to profile and benchmark that code (running on Python 3.6).
-The code is the following:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">math</span>
+<p>To have a better understanding of what is happening, I&rsquo;ve decided to profile and benchmark that code (running on Python 3.6).</p>
+<p>The code is the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">math</span>
 
 <span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Iter  x  y&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">thin</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gammavariate</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">4</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Iter  x  y&#34;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">thin</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gammavariate</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">y</span>  <span class="n">y</span> <span class="o">+</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span>  <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<span class="n">gibbs</span><span class="p">()</span>
-</pre></div>
-
-
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;main&#34;</span><span class="p">:</span>
+    <span class="n">gibbs</span><span class="p">()</span></code></pre></div>
 <p>Profiling this code with <code>cProfile</code> gives the following results:</p>
 <table class="table table-hover">
 <thead>
@@ -169,32 +157,28 @@ The code is the following:</p>
 </tr>
 </tbody>
 </table>
-
 <p>The results look different than the original ones on account of being performed on a different machine. However, we will just look into the relative code performance between different implementations and whether the code itself has room for optimisation.</p>
 <p>Surprisingly, the console I/O took a much smaller proportion of the execution time than I expected (0.4%).
-On the other hand, as expected, the bulk of the execution time is spent on the <code>gammavariate</code> and <code>gauss</code> methods.
-These methods, however, are provided by the Python's standard library <code>random</code>, which underneath makes heavy usage of <code>C</code> code (mainly by <a href="https://github.com/python/cpython/blob/master/Lib/random.py#L35">usage</a> of the <code>random()</code> function). </p>
-<p>For the second run of the code, I've decided to use <code>numpy</code> to sample from the Gamma and Normal distributions. The new code, <code>gibbs_np.py</code>, is provided below.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+On the other hand, as expected, the bulk of the execution time is spent on the <code>gammavariate</code> and <code>gauss</code> methods.</p>
+<p>These methods, however, are provided by the Python&rsquo;s standard library <code>random</code>, which underneath makes heavy usage of <code>C</code> code (mainly by <a href="https://github.com/python/cpython/blob/master/Lib/random.py#L35">usage</a> of the <code>random()</code> function).</p>
+<p>For the second run of the code, I&rsquo;ve decided to use <code>numpy</code> to sample from the Gamma and Normal distributions. The new code, <code>gibbs_np.py</code>, is provided below.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
 <span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Iter  x  y&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">thin</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">4</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Iter  x  y&#34;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">thin</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">y</span>  <span class="n">y</span> <span class="o">+</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span>  <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<span class="n">gibbs</span><span class="p">()</span>
-</pre></div>
-
-
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;main&#34;</span><span class="p">:</span>
+    <span class="n">gibbs</span><span class="p">()</span></code></pre></div>
 <p>We can see from the plots below that the results from both modules are identical.</p>
-<p><img alt="Gibbs &lt;&gt;" src="./images/gibbs_modules.png" width="100%"></p>
+<p><img src="/images/gibbs_modules.png" alt="Gibbs modules"></p>
 <p>The profiling results for the <code>numpy</code> version were:</p>
 <table class="table table-hover">
 <thead>
@@ -224,7 +208,6 @@ These methods, however, are provided by the Python's standard library <code>rand
 <td> 6127 </td>
 <td>2.3%</td>
 </tr>
-
 <tr>
 <td>&ltbuilt-in method builtins.print&gt</td>
 <td> 50001 </td>
@@ -239,68 +222,66 @@ These methods, however, are provided by the Python's standard library <code>rand
 </tr>
 </tbody>
 </table>
-
-<p>A few interesting results from this benchmark were the fact that using <code>numpy</code> or <code>random</code> didn't make much difference overall (264.4 and 271.3 seconds, respectively).
-This is despite the fact that, apparently, the Gamma sampling seems to perform better in <code>numpy</code> but the Normal sampling seems to be faster in the <code>random</code> library.
-You will notice that we've still used Python's built-in <code>math.sqrt</code> since it is known that for scalar usage it out-performs <code>numpy</code>'s equivalent.</p>
+<p>A few interesting results from this benchmark were the fact that using <code>numpy</code> or <code>random</code> didn&rsquo;t make much difference overall (264.4 and 271.3 seconds, respectively).</p>
+<p>This is despite the fact that, apparently, the Gamma sampling seems to perform better in <code>numpy</code> but the Normal sampling seems to be faster in the <code>random</code> library.</p>
+<p>You will notice that we&rsquo;ve still used Python&rsquo;s built-in <code>math.sqrt</code> since it is known that for scalar usage it out-performs <code>numpy</code>'s equivalent.</p>
 <p>Unfortunately, in my view, we are just witnessing a fact of life: <em>Python is not the best language for number crunching</em>.</p>
-<p>Since the bulk of the computational time, as we've seen, is due to the sampling of the Normal and Gamma distributions, it is clear that in our code there is little room for optimisation except the sampling methods themselves.</p>
-<p>A few possible solutions would be to:</p>
+<p>Since the bulk of the computational time, as we&rsquo;ve seen, is due to the sampling of the Normal and Gamma distributions, it is clear that in our code there is little room for optimisation except the sampling methods themselves.
+A few possible solutions would be to:</p>
 <ul>
 <li>Convert the code to <code>Cython</code></li>
 <li>Use FFI to call a highly optimised native library which provides Gamma and Normal distributions (such as <a href="https://www.gnu.org/software/gsl/">GSL</a>)</li>
 </ul>
 <p>Nevertheless, personally I still find Python a great language for quick prototyping of algorithms and with an excellent scientific computing libraries ecosystem. Keep on <em>Pythoning</em>.</p>
 
+</div>
 
-    </div>
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

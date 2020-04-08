@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,24 +25,20 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>Monotonic Cubic Spline interpolation (with some Rust)</h1>
-<small>April 3, 2019</small>
-
-<p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>Monotonic Cubic Spline interpolation (with some Rust)</h1>
+    <small><time pubdate="pubdate" datetime="2019-04-03 23:05:00 &#43;0100 BST">April 3, 2019</time></small>                
+    <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
 In this post I’ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson [<a href="#ref-1">Fritsch2005</a><a name="ref-1-origin"></a>] in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
 <h2>Rust</h2>
 <p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  pratically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and its concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
@@ -54,26 +46,23 @@ In this post I’ll show how to implement the method developed by F. N. Fritsch 
 Rust achieves data and behaviour encapsulation by means of defining data structure blueprints (called <code>struct</code>) and then 
 defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple “class” <code>Foo</code> 
 would consist of:</p>
-
-<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="k">impl</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">fn</span> <span class="nf">new</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="k">fn</span> <span class="nf">method</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="w">  </span><span class="k">fn</span> <span class="nf">static_method</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Foo</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">f</span><span class="p">.</span><span class="n">method</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">Foo</span>::<span class="n">static_method</span><span class="p">();</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-
-
+<div class="highlight"><pre class="chroma"><code class="language-rust" data-lang="rust"><span class="k">struct</span> <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w"></span><span class="p">}</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">impl</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">    </span><span class="k">fn</span> <span class="nf">new</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{};</span><span class="w">
+</span><span class="w">  </span><span class="p">}</span><span class="w">
+</span><span class="w">  </span><span class="k">fn</span> <span class="nf">method</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span><span class="w">  </span><span class="k">fn</span> <span class="nf">static_method</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span><span class="w"></span><span class="p">}</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Foo</span>::<span class="n">new</span><span class="p">();</span><span class="w">
+</span><span class="w">    </span><span class="n">f</span><span class="p">.</span><span class="n">method</span><span class="p">();</span><span class="w">
+</span><span class="w">    </span><span class="n">Foo</span>::<span class="n">static_method</span><span class="p">();</span><span class="w">
+</span><span class="w"></span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>The “constructor” is defined typically as <code>new()</code>, but any “static” method which returns an initialised <code>struct</code> <em>can</em> be a constructor and “object” methods include the passing of the <code>self</code> instance not unlike languages such as Python. The <code>&amp;mut self</code> refers to the control or exclusive access to <code>self</code> and it is not directly related to <code>mut</code> mutability control. These concepts touch on Rust's borrowing and ownership model which, unfortunately, are <em>way</em> beyond the scope of this blog post. A nice introduction is provided by the "<em>Rust programming book</em>" available <a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">here</a>.
 Our implementation aims at building a MCSI class <code>MonotonicCubicSpline</code> by splitting the algorithm into the slope calculation at <em>construction</em> time, a <em>Hermite interpolation</em> function and a <em>partial application function generator</em>. This will follow the general structure</p>
 <div class="highlight"><pre><span></span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -81,26 +70,21 @@ Our implementation aims at building a MCSI class <code>MonotonicCubicSpline</cod
 <span class="w">    </span><span class="n">m_y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">m_m</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-
-<span class="k">impl</span><span class="w"> </span><span class="n">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<p><span class="k">impl</span><span class="w"> </span><span class="n">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">x</span><span class="w"> </span>: <span class="kp">&amp;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span>: <span class="kp">&amp;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="c1">// &hellip;</span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hermite</span><span class="p">(</span><span class="n">point</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">y</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">m</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">))</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="c1">// ...</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">interpolate</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">point</span><span class="w"> </span>: <span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="c1">// ...</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">fn</span> <span class="nf">partial</span><span class="p">(</span><span class="n">x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="nb">Fn</span><span class="p">(</span><span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="c1">// ...</span>
+<span class="w">     </span><span class="c1">// &hellip;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span></p>
+<p><span class="w">  </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">interpolate</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">point</span><span class="w"> </span>: <span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="c1">// &hellip;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span></p>
+<p><span class="w">    </span><span class="k">fn</span> <span class="nf">partial</span><span class="p">(</span><span class="n">x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="nb">Fn</span><span class="p">(</span><span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="c1">// &hellip;</span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
-
-
+</pre></div></p>
 <p><code>Vec</code> is a vector, a typed growable collection available in Rust's standard library with documentation available <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">here</a>.</p>
 <h2>Monotonic Cubic Splines</h2>
 <p>MCSI hinges on the concept of cubic Hermite interpolators. The Hermite interpolation for the unit interval for a generic interval <span class="math">\((x_k,x_{k+1})\)</span> is</p>
@@ -125,15 +109,12 @@ t &amp;= \frac{x-x_k}{h}.
 $$</div>
 <p>This associated Rust method is the above mentioned “static” <code>MonotonicCubicSpline::hermite()</code>:</p>
 <div class="highlight"><pre><span></span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hermite</span><span class="p">(</span><span class="n">point</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">y</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">m</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">))</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<p><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">point</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">3.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="p">(</span><span class="mf">3.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0</span><span class="p">))</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
-
-
+</pre></div></p>
 <p>where the tuples correspond to <span class="math">\(x \to (x_k, x_{k+1})\)</span>, <span class="math">\(t \to (y_k, y_{k+1})\)</span> and <span class="math">\(m \to (m_k, m_{k+1})\)</span></p>
 <p>For a series of data points <span class="math">\((x_k, y_k)\)</span> with <span class="math">\(k=1,\dots,n\)</span> we then calculate the slopes of the secant lines between consecutive points, that is:</p>
 <div class="math">$$\Delta_k = \frac{\Delta y_{k}}{\Delta x_k}\qquad, \text{for}\ k=1,\dots,n-1$$</div>
@@ -142,15 +123,12 @@ $$</div>
 <p>Since the data is represented by the vectors <code>x : Vec&lt;f64&gt;</code> and <code>y : Vec&lt;f64&gt;</code> we implement this in the “constructor”:</p>
 <div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">secants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">0.0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
 <span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">slopes</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">0.0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="p">];</span><span class="w"></span>
-
-<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="p">..(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<p><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="p">..(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o"><em></span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o"></em></span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o"><em></span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o"></em></span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
 <span class="w">    </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dx</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
-
-
+</pre></div></p>
 <p>The next step is to average the secants in order to get the tangents, such that</p>
 <div class="math">$$m_k = \frac{\Delta_{k-1}+\Delta_k}{2}\qquad, \text{for}\ k=2,\dots,n-1$$</div>
 <p>.</p>
@@ -161,8 +139,6 @@ $$</div>
 <span class="p">}</span><span class="w"></span>
 <span class="n">slopes</span><span class="p">[</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
 </pre></div>
-
-
 <p>By definition, we want to ensure monotonicity of the interpolated points, but to guarantee this we must avoid the interpolation spline to go too far from a certain radius of the control points. 
 If we define <span class="math">\(\alpha_k\)</span> and <span class="math">\(\beta_k\)</span> as</p>
 <div class="math">$$\begin{aligned}
@@ -199,8 +175,6 @@ t &amp;= \frac{3}{h}.
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
-
-
 <p>We are now able to define a “smooth function” generator using MCSI. We generate a smooth function <span class="math">\(g(\cdot)\)</span> given a set of <span class="math">\((x_k, y_k)\)</span> points, such that</p>
 <div class="math">$$f(x_k, y_k, p) \to g(p).$$</div>
 <h2>Partial application</h2>
@@ -215,74 +189,66 @@ t &amp;= \frac{3}{h}.
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </pre></div>
-
-
 <p>An example of how to generate a concrete smoothed continuous function from a set of control points can be:</p>
 <div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">10.0</span><span class="p">];</span><span class="w"></span>
 <span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span><span class="w"> </span><span class="mf">10.5</span><span class="p">];</span><span class="w"></span>
-
-<span class="kd">let</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"></span>
-
-<span class="c1">// calculate an interpolated point</span>
+<p><span class="kd">let</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"></span></p>
+<p><span class="c1">// calculate an interpolated point</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="mf">0.39</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-
-
+</pre></div></p>
 <p><img alt="interpolation" src="images/splines/interpolation.png" width="100%"></p>
 <p>The full code can be found <a href="https://gitlab.com/ruivieira/mentat/blob/master/src/lib.rs">here</a>.</p>
 <h2>References</h2>
 <p><a name="ref-1">[Fritsch2005]</a> Fritsch, F. N., &amp; Carlson, R. E. (2005). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em>. https://doi.org/10.1137/0717021 <a href="#ref-1-origin">🔝</a></p>
 <p><a name="ref-2">[Curry1958]</a> Curry, Haskell; Feys, Robert (1958). Combinatory logic. I (2 ed.). Amsterdam, Netherlands: North-Holland Publishing Company. <a href="#ref-2-origin">🔝</a></p>
+</div>
 
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
-
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

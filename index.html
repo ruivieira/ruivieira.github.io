@@ -6,112 +6,142 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
-    <link rel="stylesheet" href="/css/trac.css">
-
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true
-        }
-      });
-    </script>
     
-    <script type="text/javascript"
-        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
+    <link rel="stylesheet" href="/css/style.css">
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
-
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
     
-  </head>
-  <body>
-    <div id="main">
-        
-<h1>Posts</h1>
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>Posts</h1>
+        <ul>
+          
+          <li class="first">
+            <a href="http://ruivieira.dev/semi-handcrafted-rss.html" title="(Semi) Handcrafted RSS">(Semi) Handcrafted RSS</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html" title="Introduction to Balanced Box-Decomposition Trees">Introduction to Balanced Box-Decomposition Trees</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html" title="Monotonic Cubic Spline interpolation (with some Rust)">Monotonic Cubic Spline interpolation (with some Rust)</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/python-monkey-patching-for-readability.html" title="Python monkey patching (for readability)">Python monkey patching (for readability)</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/introduction-to-isolation-forests.html" title="Introduction to Isolation Forests">Introduction to Isolation Forests</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/mcmc-performance-on-substrate-vm.html" title="MCMC performance on Substrate VM">MCMC performance on Substrate VM</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html" title="Containerised Streaming Data Generation using State-Space Models">Containerised Streaming Data Generation using State-Space Models</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/a-simple-python-benchmark-exercise.html" title="A simple Python benchmark exercise">A simple Python benchmark exercise</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/a-streaming-als-implementation.html" title="A streaming ALS implementation">A streaming ALS implementation</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/bayesian-estimation-of-changepoints.html" title="Bayesian estimation of changepoints">Bayesian estimation of changepoints</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/t-as-mixture-of-normals.html" title="t as mixture of Normals">t as mixture of Normals</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/langtons-ant.html" title="Langton&#39;s Ant">Langton&#39;s Ant</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/a-gibbs-sampler-in-crystal.html" title="A Gibbs Sampler in Crystal">A Gibbs Sampler in Crystal</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/mcmc-notifications.html" title="MCMC notifications">MCMC notifications</a>
+          </li>
+          
+          <li >
+            <a href="http://ruivieira.dev/gulp.html" title="gulp">gulp</a>
+          </li>
+          
+        </ul>
+</div>
+
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
+
+  <div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
+
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
       
-      <ul>
-        <li><a href="/handcrafted-rss.html">Handcrafted RSS</a></li>
-        <li><a href="/introduction-to-balanced-box-decomposition-trees.html">Introduction to Balanced Box-Decomposition Trees</a></li>
-        <li><a href="/monotonic-cubic-spline-interpolation-with-some-rust.html">Monotonic Cubic Spline interpolation (with some Rust)</a></li>
-        <li><a href="/python-monkey-patching-for-readability.html"> Python monkey patching (for readability)</a></li>
-        <li><a href="/introduction-to-isolation-forests.html">Introduction to Isolation Forests</a></li>
-        <li><a href="/mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
-        <li><a href="/containerised-streaming-data-generation-using-state-space-models.html">Containerised Streaming Data Generation using State-Space Models</a></li>
-        <li><a href="/a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
-        <li><a href="/a-streaming-als-implementation.html">A streaming ALS implementation</a></li>
-        <li><a href="/bayesian-estimation-of-changepoints.html">Bayesian estimation of changepoints</a></li>
-        <li><a href="/t-as-mixture-of-normals.html">t as mixture of Normals</a></li>
-        <li><a href="/langtons-ant.html">Langton's Ant</a></li>
-        <li><a href="/a-gibbs-sampler-in-crystal.html">A Gibbs sampler in Crystal</a></li>
-        <li><a href="/mcmc-notifications.html">MCMC notifications</a></li>
-        <li><a href="/gulp.html">gulp</a></li>
-      </ul>
 
-    </div>
-
-    </div>
-
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
-
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

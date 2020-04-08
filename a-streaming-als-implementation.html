@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,50 +25,45 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>A streaming ALS implementation</h1>
-<small><time pubdate="pubdate" datetime="2017-12-18T12:36:00+00:00">December 18, 2017</time></small>
-
-    
-<p>In this blog post I would like to talk a little bit about recommendation engines in general and how to build a streaming recommendation engine on top of <a href="https://spark.apache.org/">Apache Spark</a>.</p>
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>A streaming ALS implementation</h1>
+    <small><time pubdate="pubdate" datetime="2017-12-18 12:36:00 &#43;0000 GMT">December 18, 2017</time></small>                
+    <p>In this blog post I would like to talk a little bit about recommendation engines in general and how to build a streaming recommendation engine on top of <a href="https://spark.apache.org/">Apache Spark</a>.</p>
 <p>I will start by introducing the concept of <a href="#collab">collaborative filtering</a>, and focus in two variants: <a href="#batch_als">batch</a> and <a href="#streaming_als">streaming</a> Alternating Least Squares (ALS). I will look at the principles of a streaming distributed recommendation engine on Spark and finally, I’ll talk about practical issues when using these methods.</p>
-<h2>Recommendation engines</h2>
-<p>So what <em>are</em> "recommendation engines"?</p>
-<p>Recommendation engines are a popular method to match <em>users</em>, <em>products</em> and historical <em>data</em> on user behaviour.                   </p>
-<h2>Collaborative filtering <a name="collab"></a></h2>
-<p>In the majority of cases, we assume there’s a unique mapping between a <em>user</em> <span class="math">\(x\)</span>, a <em>product</em> <span class="math">\(y\)</span> and <em>rating</em> <span class="math">\(\mathsf{R}_{x,y}\)</span>.</p>
-<div class="math">$$
+<h2 id="recommendation-engines">Recommendation engines</h2>
+<p>So what <em>are</em> &ldquo;recommendation engines&rdquo;?</p>
+<p>Recommendation engines are a popular method to match <em>users</em>, <em>products</em> and historical <em>data</em> on user behaviour.</p>
+<h2 id="collaborative-filtering-a-namecollaba">Collaborative filtering <a name="collab"></a></h2>
+<p>In the majority of cases, we assume there’s a unique mapping between a <em>user</em> $x$, a <em>product</em> $y$ and <em>rating</em> $\mathsf{R}_{x,y}$.</p>
+<p>$$
 \left(x,y\right) \mapsto \mathsf{R}_{x,y}
-$$</div>
-<p>The “collaborative” aspect refers to the fact that we are using collective information from a group of users and “filtering” is simply a synonym for “prediction”.</p>
-<p>So, we use collaborative filtering quite frequently in our daily life and it really seems like common sense.</p>
-<p>The main principle is that if a group of people tend to collectively have similar tastes, it is more likely that they agree on an unknown product.
-Let’s imagine that you have a number of friends with whom you share a very similar musical taste, let’s call it <code>A</code> and another group, <code>B</code>, compared to which you have very different musical tastes. 
-If group <code>A</code> and group <code>B</code> both recommend you a new album which they regard highly, which one would you pick?</p>
-<p>You will probably pick the album from group <code>A</code>, right? So that’s collaborative filtering in a nutshell.</p>
-<p><img alt="Data &lt;&gt;" src="images/als/groups.png" width="100%"></p>
+$$</p>
+<p>The &ldquo;collaborative&rdquo; aspect refers to the fact that we are using collective information from a group of users and &ldquo;filtering&rdquo; is simply a synonym for &ldquo;prediction&rdquo;.</p>
+<p>So, we use collaborative filtering quite frequently in our daily life and it really seems like common sense.
+The main principle is that if a group of people tend to collectively have similar tastes, it is more likely that they agree on an unknown product.
+Let’s imagine that you have a number of friends with whom you share a very similar musical taste, let’s call it <code>A</code> and another group, <code>B</code>, compared to which you have very different musical tastes.</p>
+<p>If group <code>A</code> and group <code>B</code> both recommend you a new album which they regard highly, which one would you pick?
+You will probably pick the album from group <code>A</code>, right? So that’s collaborative filtering in a nutshell.</p>
+<p><img src="/images/als/groups.png" alt="Data"></p>
 <p><em>Bonus question</em>: what if an album is considered really bad by group <code>B</code>? Does it mean you’ll like it?</p>
-<p>It’s difficult to tell. Because group <code>A</code> has relevance to you, it’s easy to match. 
+<p>It’s difficult to tell. Because group <code>A</code> has relevance to you, it’s easy to match.
 Because <code>B</code> is too dissimilar, a low rating is not very informative.</p>
-<h2>Alternating Least Squares (ALS)</h2>
-<p>One of the most popular collaborative filtering methods is <a href="https://link.springer.com/chapter/10.1007/978-3-540-68880-8_32"><em>Alternating Least Squares</em></a> (ALS)
-In ALS we assume that the available rating data can be represented in a sparse matrix form, that is, we will assume a sequential ordering of both users and products. Each entry of the matrix will then represent the rating for a unique pair of user and products.</p>
-<p>If we then consider ratings data as a matrix, let's call it <span class="math">\(\mathsf{R}\)</span>, the <em>user</em> and <em>product</em> ids will represent coordinates in a ratings matrix and the actual rating will be the value for that particular entry. To keep the notation consistent with the above we simply call the entry <span class="math">\((x,y)\)</span> as <span class="math">\(\mathsf{R}_{x,y}\)</span>. This will look something like the matrix represented in the figure below.</p>
-<p><img alt="Data &lt;&gt;" src="images/als/ratings_table.png" width="100%"></p>
-<p>The idea behind ALS is to factorise the ratings matrix <span class="math">\(\mathsf{R}_{x,y}\)</span>  into two matrices <span class="math">\(\mathsf{U}\)</span> and <span class="math">\(\mathsf{P}\)</span>, which in turn, when multiplied back, will return an approximation of the original ratings matrix, that is:</p>
+<h2 id="alternating-least-squares-als">Alternating Least Squares (ALS)</h2>
+<p>One of the most popular collaborative filtering methods is <a href="https://link.springer.com/chapter/10.1007/978-3-540-68880-8_32">Alternating Least Squares</a> (ALS).</p>
+<p>In ALS we assume that the available rating data can be represented in a sparse matrix form, that is, we will assume a sequential ordering of both users and products. Each entry of the matrix will then represent the rating for a unique pair of user and products.</p>
+<p>If we then consider ratings data as a matrix, let&rsquo;s call it $\mathsf{R}$, the <em>user</em> and <em>product</em> ids will represent coordinates in a ratings matrix and the actual rating will be the value for that particular entry. To keep the notation consistent with the above we simply call the entry $(x,y)$ as $\mathsf{R}_{x,y}$. This will look something like the matrix represented in the figure below.</p>
+<p><img src="/images/als/ratings_table.png" alt="Ratings table"></p>
+<p>The idea behind ALS is to factorise the ratings matrix $\mathsf{R}_{x,y}$  into two matrices <span class="math">(\mathsf{U})</span> and <span class="math">(\mathsf{P})</span>, which in turn, when multiplied back, will return an approximation of the original ratings matrix, that is:</p></p>
 <div class="math">$$
 \mathsf{R} \approx \hat{\mathsf{R}} = \mathsf{U}^T \mathsf{P}
 $$</div>
@@ -205,16 +196,12 @@ $$</div>
 <p><img alt="Data &lt;&gt;" src="images/als/RDD.png" width="100%"></p>
 <p>For the streaming ALS application we will use <code>RDD</code>s to implement the algorithm. Spark’s MLlib provides a collaborative filtering implementation based on the distributed batch ALS which we’ve covered previously. The API is quite simple and to train a model we need:</p>
 <div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">model</span> <span class="k">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">ratings</span><span class="o">,</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iterations</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
-
-<span class="k">case</span> <span class="k">class</span> <span class="nc">Rating</span><span class="o">(</span><span class="n">int</span> <span class="n">user</span><span class="o">,</span> <span class="n">int</span> <span class="n">product</span><span class="o">,</span> <span class="n">double</span> <span class="n">rating</span><span class="o">)</span> 
-
-<span class="k">val</span> <span class="n">ratings</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]</span>
+<p><span class="k">case</span> <span class="k">class</span> <span class="nc">Rating</span><span class="o">(</span><span class="n">int</span> <span class="n">user</span><span class="o">,</span> <span class="n">int</span> <span class="n">product</span><span class="o">,</span> <span class="n">double</span> <span class="n">rating</span><span class="o">)</span></p>
+<p><span class="k">val</span> <span class="n">ratings</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]</span>
 <span class="k">val</span> <span class="n">rank</span><span class="k">:</span> <span class="kt">int</span>
 <span class="k">val</span> <span class="n">iterations</span><span class="k">:</span> <span class="kt">int</span>
 <span class="k">val</span> <span class="n">lambda</span><span class="k">:</span> <span class="kt">Double</span>
-</pre></div>
-
-
+</pre></div></p>
 <ul>
 <li>An <code>RDD</code> containing the ratings. The <code>RDD</code> has elements of the class <code>Rating</code>, which is basically a wrapper around a tuple of user id, product id and rating. This <code>RDD</code> corresponds to all the entries in our ratings matrix used previously.</li>
 <li>The <code>rank</code> which corresponds to the number of elements in our latent factor vectors (this would be the number of columns or rows in our <span class="math">\(\mathsf{U}\)</span> and <span class="math">\(\mathsf{P}\)</span> matrices).</li>
@@ -224,18 +211,12 @@ $$</div>
 <p>Since we have the data, the question is then how to choose the parameters. A typical method is to split the original ratings data into two random sets, one for training and one for validation. We then proceed to train the model to several different parameters, usually according to a grid search, and calculate some error measure between the predicted and validation ratings, choosing the parameters which minimise the error.</p>
 <p>Once the model is trained, we get a <code>MatrixFactorizationModel</code> instance, which is basically a wrapper for the latent factors as <code>RDD</code>s.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">model</span> <span class="k">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">ratings</span><span class="o">,</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iterations</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
-
-<span class="n">model</span><span class="k">:</span> <span class="kt">MatrixFactorizationModel</span>
-
-<span class="k">class</span> <span class="nc">MatrixFactorizationModel</span> <span class="o">{</span>
-
-<span class="k">val</span> <span class="n">userFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span>
-<span class="k">val</span> <span class="n">productFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span>
-
-<span class="o">}</span>
-</pre></div>
-
-
+<p><span class="n">model</span><span class="k">:</span> <span class="kt">MatrixFactorizationModel</span></p>
+<p><span class="k">class</span> <span class="nc">MatrixFactorizationModel</span> <span class="o">{</span></p>
+<p><span class="k">val</span> <span class="n">userFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span>
+<span class="k">val</span> <span class="n">productFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span></p>
+<p><span class="o">}</span>
+</pre></div></p>
 <p>One we have the trained model, we can now perform predictions.</p>
 <h3>Streaming data</h3>
 <p>We now want to build a streaming recommender system. For this scenario, we will assume that the observations take the form of a Spark’s <em>Discretised Stream</em> or <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html#discretized-streams-dstreams">DStream</a>. With DStreams we consume the stream as mini-batches of <code>RDD</code>s over a certain interval window.</p>
@@ -247,11 +228,8 @@ $$</div>
 <p>First, we start by establishing the quantities and data structures needed to implement streaming ALS.</p>
 <p>We’ve seen in the previous slides that the recursions for the gradient calculation take the following form, here presented in pseudo-code:</p>
 <div class="highlight"><pre><span></span><span class="n">userBias</span> <span class="o">+=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">error</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">userBias</span><span class="o">)</span> 
-
-<span class="n">userFeature</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">+=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">error</span> <span class="o">*</span>  <span class="n">prodFeature</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">userFeature</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
-</pre></div>
-
-
+<p><span class="n">userFeature</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">+=</span> <span class="n">gamma</span> <span class="o"><em></span> <span class="o">(</span><span class="n">error</span> <span class="o"></em></span>  <span class="n">prodFeature</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">userFeature</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+</pre></div></p>
 <p>We create a <code>Factor</code> class to encapsulate the features and the corresponding bias.</p>
 <p>We recall that in the Spark ALS implementation, the features were stored in <code>RDD</code>s typed as a tuple of <code>(id, Array)</code>, where now we have an equivalent form of <code>(id, Factor)</code> which allows us to capture the bias. I’ll now provide a quick overview of the steps required to go from the initial ratings stream to the trained model, in terms of Spark’s <code>RDD</code> operations. </p>
 <p>Similarly to Spark’s ALS, we can assume that the model data will be in the form of <code>Rating</code>’s <code>RDD</code>s. These, as we’ve seen, will correspond to a mini-batch of ratings from our data stream. We first need to create the initial user and product latent factors for the observed data and we would start by creating two separate <code>RDD</code>s from the data, one keyed by user id, the other by product id.</p>
@@ -268,16 +246,12 @@ This is straightforward to calculate for each element as we can see from the pse
 $$</div>
 <div class="highlight"><pre><span></span><span class="n">prediction</span> <span class="k">=</span> <span class="n">dot</span><span class="o">(</span><span class="n">userFactors</span><span class="o">.</span><span class="n">features</span><span class="o">,</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">features</span><span class="o">)</span> <span class="o">+</span> <span class="n">userFactors</span><span class="o">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">bias</span>
 </pre></div>
-
-
 <p>Given the prediction, the error is also straightforward to calculate, since the real rating is also included in this <code>RDD</code>.</p>
 <div class="math">$$
 \epsilon_{x,y} = \mathsf{R}_{x,y} - \hat{\mathsf{R}}_{x,y}
 $$</div>
 <div class="highlight"><pre><span></span><span class="n">eps</span> <span class="k">=</span> <span class="n">rating</span> <span class="o">-</span> <span class="n">prediction</span>
 </pre></div>
-
-
 <p>And now, since we have the error, we can also easily calculate the update term for the user and product features. As mentioned previously,  <code>gamma</code> and <code>lambda</code> are known model parameters which we pick ourselves when instantiating the streaming ALS algorithm.</p>
 <div class="math">$$
 \gamma \left(\epsilon_{x,y}\mathsf{U}_x-\lambda^{\prime}\mathsf{P}_y\right)
@@ -286,16 +260,12 @@ $$</div>
 <span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">eps</span> <span class="o">*</span> <span class="n">userFactors</span><span class="o">.</span><span class="n">features</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">features</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
 <span class="o">}</span>
 </pre></div>
-
-
 <p>Finally, we update the user and product biases given the model parameters and the previous bias.</p>
 <div class="math">$$
 \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right)
 $$</div>
 <div class="highlight"><pre><span></span><span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">eps</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">bias</span><span class="o">)</span>
 </pre></div>
-
-
 <p>These calculated gradients can now be mapped to a new <code>RDD</code> which we will use to update the final biases and latent factors.</p>
 <p>The last step is to split the gradients according to user and product, and finally, when in possession of all the individual gradients, we reduce them into latent factors by performing an aggregated sum for each user and product.</p>
 <p>So these steps define the entirety of the streaming ALS operation. For each observation window, we calculate the latent factors <code>RDD</code>, and on the following window we update these factors, given the current observations.</p>
@@ -314,26 +284,19 @@ $$</div>
 <p>The data is available as a set of Comma Separated Value files, each containing different variables, but we are mainly interested in the <code>ratings</code> file which contains four variables: a unique user and movie id, represented as integers, a rating represented by a value from 0 to 5 with steps of 0.5 and a timestamp for when the movie was rated by this user.</p>
 <p>First, we’ll start by training a batch ALS model using the MovieLens data. We assume that we already have the observations as an <code>RDD</code> of ratings and simply split the data into 80% for training and 20% for validation.</p>
 <div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">split</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]]</span> <span class="k">=</span> <span class="n">ratings</span><span class="o">.</span><span class="n">randomSplit</span><span class="o">(</span><span class="mf">0.8</span><span class="o">,</span> <span class="mf">0.2</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="n">model</span> <span class="k">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iter</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
-</pre></div>
-
-
+<p><span class="k">val</span> <span class="n">model</span> <span class="k">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iter</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
+</pre></div></p>
 <p>Here, we won’t show the steps to determine the best parameters for this dataset, were we performed a simple parameter grid search over a number of possible candidates. The Spark ALS API is quite simple and to train the model we simply pass the training <code>RDD</code> and the parameters.</p>
 <p>We can now use the remaining 20% of the observations to calculate the RMSE between the model predictions and the actual ratings.</p>
 <p>We now can persist the validation <code>RDD</code>, so we can use the exact same one for the streaming ALS run.</p>
 <div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">predictions</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]</span> <span class="k">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span> <span class="n">x</span> <span class="k">=&gt;</span>
 <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">))</span>
 <span class="o">}</span>
-
-<span class="k">val</span> <span class="n">pairs</span> <span class="k">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">((</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">),</span> <span class="n">x</span><span class="o">.</span><span class="n">rating</span><span class="o">))</span>
+<p><span class="k">val</span> <span class="n">pairs</span> <span class="k">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">((</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">),</span> <span class="n">x</span><span class="o">.</span><span class="n">rating</span><span class="o">))</span>
 <span class="o">.</span><span class="n">join</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">((</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">),</span> <span class="n">x</span><span class="o">.</span><span class="n">rating</span><span class="o">))</span>
-<span class="o">.</span><span class="n">values</span>
-
-<span class="nc">Val</span> <span class="nc">RMSE</span> <span class="k">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="o">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">_1</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">_2</span><span class="o">,</span> <span class="mi">2</span><span class="o">)).</span><span class="n">mean</span><span class="o">())</span>
-</pre></div>
-
-
+<span class="o">.</span><span class="n">values</span></p>
+<p><span class="nc">Val</span> <span class="nc">RMSE</span> <span class="k">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="o">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">_1</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">_2</span><span class="o">,</span> <span class="mi">2</span><span class="o">)).</span><span class="n">mean</span><span class="o">())</span>
+</pre></div></p>
 <p>In order to test the streaming version, we first need to define a data source. We start with the original MovieLens data and remove all the ratings from the validation observations.</p>
 <p>We then create a simulated stream of observations using <a href="https://kafka.apache.org/">Kafka</a>, with an interval of 5 seconds and with 1000 observations in each mini-batch. These are arbitrary numbers, chosen just for practical reasons. We could have, for instance, a single observation in each mini-batch.</p>
 <p>It is not guaranteed that the best parameters (namely <code>rank</code> and <code>lambda</code>) chosen for the batch version are the best for the streaming implementation, however we’ve decided to use the same ones. For each mini-batch we then incrementally train the model and calculate the RMSE up to that point. Given the actual ratings in the validation set and the model’s prediction, the RMSE calculation is the same as in the batch version. And looking at the results, we can see that with each mini-batch (of 1000 observations), the RMSE from the streaming version (in blue) is edging towards the batch value (plotted as the horizontal dashed line). </p>
@@ -360,56 +323,54 @@ This means that we have no guarantee that the best parameters for a initial batc
 <p>Also, to make predictions we might have to try and perform random access to the latent factors <code>RDDs</code>. This also can be quite inefficient since we are using <code>lookup</code> methods.</p>
 <p>If you want to get straight setting up your own distributed recommendation engine, I highly suggest you start with Spark's builtin solution. I would highly recommended looking at the <code>jiminy</code> project (part of the <a href="https://radanalytics.io/">https://radanalytics.io/</a> community), a micro-service oriented complete recommendation engine, ready to deploy on <a href="https://www.openshift.com/">OpenShift</a>.</p>
 <p>The engine is split into services such as a <a href="https://github.com/radanalyticsio/jiminy-predictor">predictor</a> and a <a href="https://github.com/radanalyticsio/jiminy-modeler">modeler</a>, along with a <a href="https://github.com/radanalyticsio/jiminy-html-server">front-end</a> and <a href="https://github.com/radanalyticsio/jiminy-tools">tools</a> to simplify tasks (such as using the MovieLens data) and it's a great way to look at how to put a modern recommender engine together and also a great code read.</p>
+</div>
 
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
-
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/trac.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
+
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>(Semi) Handcrafted RSS</h1>
+    <small><time pubdate="pubdate" datetime="2020-04-07 23:31:00 &#43;0100 BST">April 7, 2020</time></small>                
+    <figure>
+    <img src="/images/incidental/scribe.jpg"/> <figcaption>
+            <h4>In the old days, before static site generators.</h4>
+        </figcaption>
+</figure>
+
+<p>I&rsquo;ve been using a minimalist blog setup for some time now.</p>
+<p>I was having something of a framework fatigue after switching between a few static site generators.
+Each new generator I decided to try implied usually either learning a new programming language (<a href="https://docs.getpelican.com/en/stable/">Python</a>, <a href="https://jekyllrb.com/">Ruby</a>, <a href="https://gohugo.io/">Go</a>) to perform basic setup <em>and</em> a new template engine syntax. Typically I really wasn&rsquo;t using the vast majority of the feature available
+for each generator. And finally, most of the generators I tried over the years rely on heavy configuration if I want to maintain the
+site organisation and look.
+I&rsquo;ve discussed with some friends and colleagues why it&rsquo;s my opinion that a plain HTML blog is still superior to other solutions (such as Markdown couple with some generator framework). I&rsquo;ll leave my arguments to a future post.</p>
+<p>However, I am still using <em>some form</em> of generator. The blog writing process at the moment is the following:</p>
+<ul>
+<li>I write the content of the post to an HTML fragment (no <code>HEAD</code>, etc.). All files are HTML and in the same folder.</li>
+<li>I have a shell script to walk through the files in the input folder and add a common header, footer and process all code blocks with syntax highlighting.</li>
+<li>Save the &ldquo;processed&rdquo; files to an output folder</li>
+<li>Upload (currently to <a href="https://github.com/ruivieira/ruivieira.github.io">Github</a> to be served via Github pages).</li>
+</ul>
+<p>The HTML fragments are minimal, for instance:</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>A post-modern title<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Yes, this could be an entire blog post.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></pre></div>
+<p>The point is, where do we draw the line on <em>what is</em> static generator? For the purpose of this post I won&rsquo;t consider a loose collection
+of specialised scripts to be a static generator. There is no configuration, no convention, no themeing ability <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. You can argue that this is what many generators do, but I think that&rsquo;s beyond the scope of this short post.</p>
+<p>Since my static blog is straightforward, with minimal markup, why not create something equally simple for RSS generation?
+To do so, I&rsquo;ve decided to go the way of &ldquo;handcrafted&rdquo; HTML.</p>
+<p>However, I was accustomed to a static site generator to generate some goodies, such as syndication feeds automatically.</p>
+<p>I&rsquo;ve decided to add an RSS feed to the site, using minimal dependencies (only shell scripting and a couple of universal user-land tools such as <code>grep</code>, <code>cat</code>, etc.). This approach has the added benefit that it can be used to expose other types of data as an RSS feed, such as server and periodic job logs, etc.</p>
+<p>We start by adding the feed header to the <code>index.xml</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">&#34;1.0&#34;</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">&#34;utf-8&#34;</span>?&gt;
+&lt;rss <span class="nv">version</span><span class="o">=</span><span class="s2">&#34;2.0&#34;</span>&gt;
+        &lt;channel&gt;
+
+                &lt;title&gt;Rui Vieira<span class="s1">&#39;s blog&lt;/title&gt;
+</span><span class="s1">                &lt;description&gt;Rui Vieira&#39;</span>s personal blog&lt;/description&gt;
+                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
+                &lt;lastBuildDate&gt;<span class="k">$(</span>date<span class="k">)</span>&lt;/lastBuildDate&gt;
+EOF</code></pre></div>
+<p>The <a href="https://validator.w3.org/feed/docs/rss2.html">RSS 2.0 specification</a> is quite simple in terms of the minimum requirements for a valid feed.
+The mandatory &ldquo;header&rdquo; fields are simply</p>
+<ul>
+<li><code>title</code>, the name of the channel.</li>
+<li><code>link</code>, the URL to the HTML website corresponding to the channel.</li>
+<li><code>description</code>, phrase or sentence describing the channel.</li>
+</ul>
+<p>In terms of feed items, according to the specification, at <em>least</em> one of title or description must be present, and all remaining elements are optional.</p>
+<p>We use the following in this feed:</p>
+<ul>
+<li><code>title</code>, the title of the item.</li>
+<li><code>link</code>, the URL of the item.</li>
+<li><code>pubDate</code>, indicates when the item was published.</li>
+</ul>
+<p><code>pubDate</code> needs to conform with <a href="https://tools.ietf.org/html/rfc822">RFC 822</a>.</p>
+<blockquote>
+<p>Just as interesting tidbit, RFC 822 (which defines Internet Text Message formats) is one of the core email RFCs.
+It predates <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> by six years (1982) and it’s itself based on 1977’s
+<a href="https://tools.ietf.org/html/rfc733">RFC 733</a>.</p>
+</blockquote>
+<p>We then loop over all the input files to build the RSS entries.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">FILES</span><span class="o">=</span>input/*.html
+<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">do</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&#34;</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&#34;</span>
+    <span class="c1"># extract title ...</span>
+    <span class="c1"># write entry to index.xml</span>
+<span class="k">done</span></code></pre></div>
+<h2 id="using-bash">Using Bash</h2>
+<p>First, extract the title. The actual title is not inside the <code>&lt;title&gt;</code> tag, but on the first header <code>&lt;h1&gt;</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat output/nb-estimation.html <span class="p">|</span>  grep -E <span class="s2">&#34;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&#34;</span> <span class="p">|</span> sed <span class="s1">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span></code></pre></div>
+<p>The first produces:</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;main&#34;</span><span class="p">&gt;&lt;</span><span class="nt">h1</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;negative-binomial-estimation&#34;</span><span class="p">&gt;</span>Negative Binomial estimation<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span></code></pre></div>
+<p>While the second produces:</p>
+<div class="highlight"><pre class="chroma"><code class="language-plain" data-lang="plain">Negative Binomial estimations</code></pre></div>
+<p>Now, what happens if we have more than one <code>&lt;h1&gt;</code> header? UNIX pipelines to the rescue.
+We simple retrieve the <em>first</em> line of the matching grep, by inserting a <code>head -1</code>.</p>
+<p>To get the modified date of <code>$FILE</code> we can use:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">date -r <span class="nv">$FILE</span>.html</code></pre></div>
+<p>The final RSS feed build is:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat &gt;output/index.xml <span class="s">&lt;&lt;EOF
+</span><span class="s">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
+</span><span class="s">&lt;rss version=&#34;2.0&#34;&gt;
+</span><span class="s">        &lt;channel&gt;
+</span><span class="s">
+</span><span class="s">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;
+</span><span class="s">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;
+</span><span class="s">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
+</span><span class="s">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;
+</span><span class="s">EOF</span>
+
+<span class="nv">FILES</span><span class="o">=</span>input/*.html
+<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">do</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&#34;</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&#34;</span>
+    <span class="nv">TITLE</span><span class="o">=</span><span class="k">$(</span>cat output/<span class="nv">$FILENAME</span>.html <span class="p">|</span> grep -E <span class="s2">&#34;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&#34;</span> <span class="p">|</span> head -1 <span class="p">|</span> sed <span class="s1">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span><span class="k">)</span>
+    cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF
+</span><span class="s">                &lt;item&gt;
+</span><span class="s">                        &lt;title&gt;$TITLE&lt;/title&gt;
+</span><span class="s">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;
+</span><span class="s">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;
+</span><span class="s">                &lt;/item&gt;
+</span><span class="s">EOF</span>
+<span class="k">done</span>
+
+cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF
+</span><span class="s">        &lt;/channel&gt;
+</span><span class="s">&lt;/rss&gt;
+</span><span class="s">EOF</span></code></pre></div>
+<h2 id="using-python">Using Python</h2>
+<p>Another possibility is use a specialised tool just extract an RSS item from an HTML file.
+To do so, we just need to parse the necessary data and replace the extraction part of the loop.
+This is, after all, along the lines of the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>:
+create specialised tools with focus on modularity and reusability.</p>
+<p>To do, we create a simple script called <code>post_title.py</code>. It will use the <em>Beatiful Soup</em> library, which you can install
+using:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ pip install beautifulsoup4</code></pre></div>
+<p>The script will simply read an HTML file, extract the title and return:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">from bs4 import BeautifulSoup
+import sys
+
+with open<span class="o">(</span>sys.argv<span class="o">[</span>1<span class="o">]</span>, <span class="s1">&#39;r&#39;</span><span class="o">)</span> as file:
+    <span class="nv">data</span> <span class="o">=</span> file.read<span class="o">()</span>
+
+<span class="nv">soup</span> <span class="o">=</span> BeautifulSoup<span class="o">(</span>data, <span class="nv">features</span><span class="o">=</span><span class="s2">&#34;html.parser&#34;</span><span class="o">)</span>
+
+print<span class="o">(</span>soup.h1.string<span class="o">)</span></code></pre></div>
+<p>This script can now be used to replace the title extraction:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat &gt;output/index.xml <span class="s">&lt;&lt;EOF
+</span><span class="s">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
+</span><span class="s">&lt;rss version=&#34;2.0&#34;&gt;
+</span><span class="s">        &lt;channel&gt;
+</span><span class="s">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;
+</span><span class="s">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;
+</span><span class="s">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
+</span><span class="s">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;
+</span><span class="s">EOF</span>
+
+<span class="nv">FILES</span><span class="o">=</span>input/*.html
+<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">do</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&#34;</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&#34;</span>
+    cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF
+</span><span class="s">                &lt;item&gt;
+</span><span class="hl"><span class="s">                        &lt;title&gt;$(post_title.py $FILENAME.html)&lt;/title&gt;
+</span></span><span class="s">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;
+</span><span class="s">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;
+</span><span class="s">                &lt;/item&gt;
+</span><span class="s">EOF</span>
+<span class="k">done</span>
+
+cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF
+</span><span class="s">        &lt;/channel&gt;
+</span><span class="s">&lt;/rss&gt;
+</span><span class="s">EOF</span>
+</code></pre></div><p>The reason why the whole RSS feed is not generated in Python is to have the title extraction as a &ldquo;function&rdquo; which can be mapped to
+whichever logic the shell script is using.</p>
+<p>Hope this could be useful to you.
+Happy coding!</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>Apart from plain CSS themeing, that is. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+</div>
+
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
+
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
+</html>

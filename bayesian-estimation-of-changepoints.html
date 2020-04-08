@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,145 +25,115 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>Bayesian estimation of changepoints</h1>
-<small><time pubdate="pubdate" datetime="2016-11-29T20:02:00+00:00">November 29, 2016</time></small>
-    
-<p>A common introductory problem in Bayesian changepoint detection is the record of UK coal
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>Bayesian estimation of changepoints</h1>
+    <small><time pubdate="pubdate" datetime="2016-11-29 20:02:00 &#43;0000 GMT">November 29, 2016</time></small>                
+    <p>A common introductory problem in Bayesian changepoint detection is the record of UK coal
 mining disasters from 1851 to 1962. More information can be found in
-<a href="http://www.jstor.org/stable/2347570">Carlin, Gelfand and Smith</a> (1992).
-As we can see from the plot below, the number of yearly
-disasters ranges from 0 to 6 and we will assume that at some point within this time 
+<a href="http://www.jstor.org/stable/2347570">Carlin, Gelfand and Smith</a> (1992).</p>
+<p>As we can see from the plot below, the number of yearly
+disasters ranges from 0 to 6 and we will assume that at some point within this time
 range a change in the accident rate has occured.</p>
-<p><img alt="Data &lt;&gt;" src="./images/coal_disasters_data.png" width="100%"></p>
+<p><img src="/images/coal_disasters_data.png" alt="Data"></p>
 <p>The number of yearly disasters can be modelled as a Poisson with a unknown rate depending
-on the changepoint <span class="math">\(k\)</span>:</p>
-<div class="math">$$
+on the changepoint $k$:</p>
+<p>$$
 y_t \sim \text{Po}\left(\rho\right),\qquad \rho = \begin{cases}
-\mu, &amp; \text{if}\ t=1,2,\dots,k \\
-\lambda, &amp; \text{if}\ t = k +1, k + 2, \dots,m 
+\mu, &amp; \text{if}\ t=1,2,\dots,k \\<br>
+\lambda, &amp; \text{if}\ t = k +1, k + 2, \dots,m
 \end{cases}
-$$</div>
-<p>Our objective is to estimate in which year the change occurs (the changepoint <span class="math">\(k\)</span>) and
-the acident rate before (<span class="math">\(\mu\)</span>) and after (<span class="math">\(\lambda\)</span>) the changepoint amounting to the parameter 
-set <span class="math">\(\Phi = \left\lbrace\mu,\lambda,k\right\rbrace\)</span>. 
-We will use <a href="https://crystal-lang.org/">Crystal</a>
-(with <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a>) 
+$$</p>
+<p>Our objective is to estimate in which year the change occurs (the changepoint $k$) and
+the acident rate before ($\mu$) and after ($\lambda$) the changepoint amounting to the parameter
+set $\Phi = \left\lbrace\mu,\lambda,k\right\rbrace$.</p>
+<p>We will use <a href="https://crystal-lang.org/">Crystal</a> (with <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a>)
 to perform the estimation.</p>
 <p>We start by placing independent priors on the parameters:</p>
 <ul>
-<li><span class="math">\(k \sim \mathcal{U}\left(0, m\right)\)</span></li>
-<li><span class="math">\(\mu \sim \mathcal{G}\left(a_1, b_1\right)\)</span></li>
-<li><span class="math">\(\lambda \sim \mathcal{G}\left(a_2, b_2\right)\)</span></li>
+<li>$k \sim \mathcal{U}\left(0, m\right)$</li>
+<li>$\mu \sim \mathcal{G}\left(a_1, b_1\right)$</li>
+<li>$\lambda \sim \mathcal{G}\left(a_2, b_2\right)$</li>
 </ul>
-<p>For the remainder we'll set <span class="math">\(a_1=a_2=0.5\)</span>, <span class="math">\(c_1=c_2=0\)</span> and <span class="math">\(d_1=d_2=1\)</span>.
-The joint posterior of <span class="math">\(\Phi\)</span> is then:</p>
-<div class="math">$$
+<p>For the remainder we&rsquo;ll set $a_1=a_2=0.5$, $c_1=c_2=0$ and $d_1=d_2=1$.
+The joint posterior of $\Phi$ is then:</p>
+<p>$$
 \pi\left(\Phi|Y\right) \propto p\left(Y|\Phi\right) \pi\left(k\right) \pi\left(\mu\right) \pi\left(\lambda\right),
-$$</div>
+$$</p>
 <p>where the likelihood is</p>
-<div class="math">$$
+<p>$$
 \begin{align}
-p\left(Y|\Phi\right) &amp;= \prod_{i=1}^{k} p\left(y_i|\mu,k\right) \prod_{i=k+1}^{m} p\left(y_i|\lambda,k\right) \\
+p\left(Y|\Phi\right) &amp;= \prod_{i=1}^{k} p\left(y_i|\mu,k\right) \prod_{i=k+1}^{m} p\left(y_i|\lambda,k\right) \\<br>
 &amp;= \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!}.
 \end{align}
-$$</div>
+$$</p>
 <p>As such, the full joint posterior can be written as:</p>
-<div class="math">$$
+<p>$$
 \begin{align}
-\pi\left(\Phi|Y\right) &amp;\propto 
-\prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} 
-\prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!}
-\left(\mu^{a_1-1} e^{-\mu b_1}\right)
-\left(\lambda^{a_2-1} e^{-\lambda b_2}\right)
-\frac{1}{m} \\
-&amp;= \mu^{a_1 + \sum_{1}^{k}y_i - 1}e^{-\mu\left(k+b_1\right)}
-\lambda^{a_2 + \sum_{k+1}^{m}y_i - 1}e^{-\lambda\left(m-k+b_2\right)}
+\pi\left(\Phi|Y\right) &amp;\propto \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!} \left(\mu^{a_1-1} e^{-\mu b_1}\right) \left(\lambda^{a_2-1} e^{-\lambda b_2}\right) \frac{1}{m} \\<br>
+&amp;= \mu^{a_1 + \sum_{1}^{k}y_i - 1}e^{-\mu\left(k+b_1\right)} \lambda^{a_2 + \sum_{k+1}^{m}y_i - 1}e^{-\lambda\left(m-k+b_2\right)}
 \end{align}.
-$$</div>
-<p>It follows that the full conditionals are, for <span class="math">\(\mu\)</span>:</p>
-<div class="math">$$
+$$</p>
+<p>It follows that the full conditionals are, for $\mu$:</p>
+<p>$$
 \begin{align}
-\pi\left(\mu|\lambda,k,Y\right) &amp;\propto \mu^{a_1 + \sum_{i=1}^{k}y_i-1}e^{-\mu\left(k+b_1\right)} \\
+\pi\left(\mu|\lambda,k,Y\right) &amp;\propto \mu^{a_1 + \sum_{i=1}^{k}y_i-1}e^{-\mu\left(k+b_1\right)} \\<br>
 &amp;= \mathcal{G}\left(a_1+\sum_{i=1}^{k}y_i, k + b_1\right)
 \end{align}
-$$</div>
-<p>We can define the <span class="math">\(\mu\)</span> update as:</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mu_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b1</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+$$</p>
+<p>We can define the $\mu$ update as:</p>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="k">def</span> <span class="nf">mu_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b1</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-
-
-
-<p>The full conditional for <span class="math">\(\lambda\)</span> is:</p>
-<div class="math">$$
+<span class="k">end</span></code></pre></div>
+<p>The full conditional for $\lambda$ is:</p>
+<p>$$
 \begin{align}
-\pi\left(\lambda|\mu,k,Y\right) &amp;\propto \lambda^{a_2 + \sum_{i=k+1}^{m}y_i-1}e^{-\lambda\left(m-k+b_2\right)} \\
+\pi\left(\lambda|\mu,k,Y\right) &amp;\propto \lambda^{a_2 + \sum_{i=k+1}^{m}y_i-1}e^{-\lambda\left(m-k+b_2\right)} \<br>
 &amp;= \mathcal{G}\left(a_2+\sum_{i=k+1}^{m}y_i, m - k + b_2\right),
 \end{align}
-$$</div>
+$$</p>
 <p>which we implement as:</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lambda_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b2</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="k">def</span> <span class="nf">lambda_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b2</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">..</span><span class="n">M</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">M</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-
-
+<span class="k">end</span></code></pre></div>
 <p>The next step is to take</p>
-<div class="math">$$
+<p>$$
 \begin{align}
-b_1 &amp;\sim \mathcal{G}\left(a_1 + c_1,\mu + d_1\right) \\
+b_1 &amp;\sim \mathcal{G}\left(a_1 + c_1,\mu + d_1\right) \<br>
 b_2 &amp;\sim \mathcal{G}\left(a_2 + c_2,\lambda + d_2\right),
 \end{align}
-$$</div>
+$$</p>
 <p>which we will implement as:</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">b1_update</span><span class="p">(</span><span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="k">def</span> <span class="nf">b1_update</span><span class="p">(</span><span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">b2_update</span><span class="p">(</span><span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lambda</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-
-
-
-<p>And finally we choose the next year, <span class="math">\(k\)</span>, according to</p>
-<div class="math">$$
+<span class="k">end</span></code></pre></div>
+<p>And finally we choose the next year, $k$, according to</p>
+<p>$$
 p\left(k|Y,\Phi\right)=\frac{L\left(Y|\Phi\right)}{\sum_{k^{\prime}} L\left(Y|\Phi^{\prime}\right)}
-$$</div>
+$$</p>
 <p>where</p>
-<div class="math">$$
+<p>$$
 L\left(Y|\Phi\right) = e^{\left(\lambda-\mu\right)k}\left(\frac{\mu}{\lambda}\right)^{\sum_i^k y_i}
-$$</div>
+$$</p>
 <p>implemented as</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">,</span> <span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">,</span> <span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
     <span class="n">Math</span><span class="o">::</span><span class="n">E</span><span class="o">**</span><span class="p">((</span><span class="n">lambda</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="n">lambda</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-
-
-<p>So, let's start by writing our initials conditions:</p>
-
-<div class="highlight"><pre><span></span><span class="n">iterations</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="k">end</span></code></pre></div>
+<p>So, let&rsquo;s start by writing our initials conditions:</p>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="n">iterations</span> <span class="o">=</span> <span class="mi">100000</span>
 
 <span class="n">b1</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">b2</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -177,58 +143,35 @@ $$</div>
 <span class="c1"># parameter storage</span>
 <span class="n">mus</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 <span class="n">lambdas</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">ks</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-
-
-
+<span class="n">ks</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></code></pre></div>
 <p>We can then cast the priors:</p>
-
-<div class="highlight"><pre><span></span><span class="n">mus</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="n">mus</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
 <span class="n">lambdas</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
-<span class="n">ks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Random</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
-</pre></div>
-
-
-
+<span class="n">ks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Random</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span></code></pre></div>
 <p>And define the main body of our Gibbs sampler:</p>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="n">iterations</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
 
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="n">iterations</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
 
-<span class="n">k</span> <span class="o">=</span> <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+    <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">mu_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
+    <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">lambda_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 
-<span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">mu_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
-<span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">lambda_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">b1_update</span><span class="p">(</span><span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">b2_update</span><span class="p">(</span><span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
 
-<span class="n">b1</span> <span class="o">=</span> <span class="n">b1_update</span><span class="p">(</span><span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
-<span class="n">b2</span> <span class="o">=</span> <span class="n">b2_update</span><span class="p">(</span><span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
-
-<span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Multinomial</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="mi">0</span><span class="o">...</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">kk</span><span class="o">|</span> 
-    <span class="n">l</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kk</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
-<span class="p">})</span>
-
-<span class="p">}</span>
-</pre></div>
-
-
-
-<p>Looking at the results, we see that the mean value of <span class="math">\(k\)</span> is 38.761, which seems
-to indicate that the change in accident rates occured somewhere near <span class="math">\(1850+38.761\approx 1889\)</span>.
-We can visually check this by looking at the graph below. Also plotted are the density for the accident
-rates before (<span class="math">\(\mu\)</span>) and after (<span class="math">\(\lambda\)</span>) the change.</p>
-<div class="row text-center">
-<div class="col-xs-6">
-<img src="/images/coal_disasters_years_gibbs.png" width='100%'>
-</div>
-<div class="col-xs-6">
-<img src="/images/coal_disasters_mu_lambda_gibbs.png" width='100%'>
-</div>
-</div>
-
+    <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Multinomial</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="mi">0</span><span class="o">...</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">kk</span><span class="o">|</span> 
+        <span class="n">l</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kk</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">}</span></code></pre></div>
+<p>Looking at the results, we see that the mean value of $k$ is 38.761, which seems
+to indicate that the change in accident rates occured somewhere near $1850+38.761\approx 1889$.</p>
+<p>We can visually check this by looking at the graph below. Also plotted are the density for the accident
+rates before ($\mu$) and after ($\lambda$) the change.</p>
+<p><img src="/images/coal_disasters_years_gibbs.png" alt="Coal disasters years"></p>
+<p><img src="/images/coal_disasters_mu_lambda_gibbs.png" alt="Mu, Lambda Gibbs"></p>
 <p>Of course, one the main advantages of implementing the solution in Crystal
-is not only the boilerplate-free code, but the execution speed. Compared to
-an equivalent implementation in <code>R</code> the Crystal code executed roughly
-17 times faster.</p>
+is not only the boilerplate-free code, but the execution speed.
+Compared to an equivalent implementation in <code>R</code> the Crystal code executed roughly 17 times faster.</p>
 <table class="table table-hover">
 <thead>
 <tr>
@@ -245,56 +188,54 @@ an equivalent implementation in <code>R</code> the Crystal code executed roughly
 </tr>
 </tbody>
 </table>
+</div>
 
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
-
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

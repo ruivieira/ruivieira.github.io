@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Fira+Code&display=swap');
 .highlight .hll { background-color: #ffffcc }
+.sourceLine {
+    font-family: 'Fira Code', monospace !important;
+    font-size: 12px;
+}
+
+code {
+    font-family: 'Fira Code', monospace !important;
+    font-size: 12px;
+}
+
 div.highlight  { 
     background: #ffffff; 
     font-family: 'Fira Code', monospace !important;

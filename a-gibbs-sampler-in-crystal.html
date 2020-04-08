@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,77 +25,63 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>A Gibbs sampler in Crystal</h1>
-<small><time pubdate="pubdate" datetime="2016-04-11T22:04:00+01:00">April 11, 2016</time></small>
-
-<p>Recently, I've been following with interest the development of the <a href="http://crystal-lang.org/">Crystal language</a>.</p>
-<p>Crystal is a statically type language with a syntax resembling Ruby's.
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>A Gibbs Sampler in Crystal</h1>
+    <small><time pubdate="pubdate" datetime="2016-04-11 22:04:00 &#43;0100 BST">April 11, 2016</time></small>                
+    <p>Recently, I&rsquo;ve been following with interest the development of the <a href="http://crystal-lang.org/">Crystal</a> language.</p>
+<p>Crystal is a statically type language with a syntax resembling Ruby&rsquo;s.
 The main features which drawn me to it were its simple boilerplate-free syntax
 (which is ideal for quick prototyping), tied with the ability to compile directly
 to native code along with a dead simple way of creating bindings to existing C code.</p>
 <p>These features make it quite attractive, in my opinion, for scientific computing.</p>
-<p>To test it against more popular languages, I've decided to run the Gibbs sampling examples created in
-<a href="https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/">Darren Wilkinson's blog</a>.
-I recommend reading this post, and in fact, if you are interested in Mathematics
+<p>To test it against more popular languages, I&rsquo;ve decided to run the Gibbs sampling examples created in
+<a href="https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/">Darren Wilkinson&rsquo;s blog</a>.</p>
+<p>I recommend reading this post, and in fact, if you are interested in Mathematics
 and scientific computing in general, I <em>strongly</em> recommend you follow the
 <a href="https://darrenjw.wordpress.com/">blog</a>.</p>
 <p>As explained in the linked post, I will make a Gibbs sampler for</p>
-<div class="math">$$f\left(x,y\right)=kx^2\exp\left\lbrace-xy^2-y^2+2y-4x\right\rbrace$$</div>
+<p>$$f\left(x,y\right)=kx^2\exp\left\lbrace-xy^2-y^2+2y-4x\right\rbrace$$</p>
 <p>with</p>
-<div class="math">\begin{align}
-x|y &amp;\sim Ga\left(3,y^2+4\right) \\
+<p>\begin{align}
+x|y &amp;\sim Ga\left(3,y^2+4\right) \\<br>
 y|x &amp;\sim N\left(\frac{1}{1+x},\frac{1}{2\left(1+x\right)}\right)
-\end{align}</div>
-<p>The original examples were ran again, without any code alterations. I've just added the Crystal version.
+\end{align}</p>
+<p>The original examples were ran again, without any code alterations. I&rsquo;ve just added the Crystal version.
 This implementation uses a <a href="https://github.com/ruivieira/crystal-gsl">very simple wrapper</a>
 I wrote to the famous <a href="http://www.gnu.org/software/gsl/">GNU Scientific Language</a> (GSL).</p>
-
-<div class="highlight"><pre><span></span><span class="k">require</span> <span class="s2">&quot;../libs/gsl/statistics.cr&quot;</span>
-<span class="k">require</span> <span class="s2">&quot;math&quot;</span>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="k">require</span> <span class="s2">&#34;../libs/gsl/statistics.cr&#34;</span>
+<span class="k">require</span> <span class="s2">&#34;math&#34;</span>
 
 <span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="nb">Int</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span> <span class="p">:</span> <span class="nb">Int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="nb">puts</span> <span class="s2">&quot;Iter  x  y&quot;</span>
+    <span class="nb">puts</span> <span class="s2">&#34;Iter  x  y&#34;</span>
     <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
         <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">thin</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mf">4.0</span><span class="p">)</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">1.0</span><span class="p">),</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mf">2.0</span><span class="p">))</span>
         <span class="k">end</span>
-        <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="nb">puts</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">y</span><span class="si">}</span><span class="s2">&#34;</span>
     <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="n">gibbs</span>
-</pre></div>
-
-
-
-<p>(As you can see, the Crystal code is quite similar to the Python one).<p></p>
-<p>To make sure it's a fair comparison, I ran it in compiled (and optimised) mode build using</p>
-
-<div class="highlight"><pre><span></span><span class="err">crystal build gibbs.cr --release</span>
-<span class="err">time ./gibbs &gt; gibbs_crystal.csv</span>
-</pre></div>
-
-
-
+<span class="n">gibbs</span></code></pre></div>
+<p>(As you can see, the Crystal code is quite similar to the Python one).</p>
+<p>To make sure it&rsquo;s a fair comparison, I ran it in compiled (and optimised) mode build using</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ crystal build gibbs.cr --release
+$ <span class="nb">time</span> ./gibbs &gt; gibbs_crystal.csv</code></pre></div>
 <p>Looking at the results, you can see that they are consistent with the other implementations:</p>
-<p><img alt="Gibbs &lt;&gt;" src="./images/gibbs.png" width="100%"></p>
+<p><img src="/images/gibbs.png" alt="Gibbs"></p>
 <p>The timings for each of the different versions (ran in a 1.7 GHz Intel Core i7 Macbook Air) were</p>
 <table class="table table-hover">
 <thead>
@@ -126,63 +108,61 @@ I wrote to the famous <a href="http://www.gnu.org/software/gsl/">GNU Scientific 
 </tr>
 </tbody>
 </table>
-
 <p>So there you have it. A Ruby-like language which can easily compete with C performance-wise.
 I sincerely hope that Crystal gets some traction in the scientific community.
-That of course won't depend solely on its merits but rather on an active community
+That of course won&rsquo;t depend solely on its merits but rather on an active community
 along with a strong library ecosystem.
 This is lacking at the moment, simply because it is relatively new language
 with the specs and standard library still being finalised.</p>
 
+</div>
 
-    </div>
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>

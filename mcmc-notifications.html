@@ -6,13 +6,9 @@
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
-    <!-- Yes, HTML by hand... -->
-
-    <title>Rui Vieira's blog</title>
-
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/trac.css">
-
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -29,24 +25,20 @@
     </script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-10507665-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-10507665-2', 'auto');
+    ga('send', 'pageview');
+</script>
 
-    
-  </head>
-  <body>
-    <div id="main">
-        
-
-<h1>MCMC notifications</h1>
-<small><time pubdate="pubdate" datetime="2015-09-06T11:56:00+01:00">September 6, 2015</time></small>
-
-<p>It is said that patience is a virtue but the truth is that no one likes waiting
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>MCMC notifications</h1>
+    <small><time pubdate="pubdate" datetime="2015-09-06 11:56:00 &#43;0100 BST">September 6, 2015</time></small>                
+    <p>It is said that patience is a virtue but the truth is that no one likes waiting
 (especially <em>waiting around</em>:
 <a href="http://www.nytimes.com/2012/08/19/opinion/sunday/why-waiting-in-line-is-torture.html?_r=0">this interesting article</a>
 explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same
@@ -63,14 +55,12 @@ after a certain amount of time (especially valid for very long simulations),
 this doesn’t seem to be the standard practice.</p>
 <p>In this post I’ll detail my current setup for being notified <em>exactly</em> of when
 simulations are finished. To implement this setup, the following stack is required:</p>
-
 <ul>
     <li>A <a href="http://openjdk.java.net">JDK</a></li>
     <li><a href="http://maven.apache.org">Apache Maven</a></li>
     <li>A messaging service (<a href="https://www.pushbullet.com">Pushbullet</a></li>
     <li>A smartphone, tablet, smartwatch (or any other internet enabled device)</li>
 </ul>
-
 <p>To start, we can create an account in Pushbullet, which will involve, in the
 simplest case, signing up using some authentication service such as Google.</p>
 <p>Next, we will install the client application (available for
@@ -91,25 +81,15 @@ Pushbullet’s v1 API but not the <a href="https://docs.pushbullet.com/#api">new
 Since the project, unfortunately, is not in Maven central, you should build it from scratch.
 Fortunately, in a sensibly configured machine, this is trivial.</p>
 <p>In the machine where you plan to perform the simulations, clone and build <code>jpushbullet</code>.</p>
-
-<div class="highlight"><pre><span></span><span class="err">git clone git@github.com:silk8192/jpushbullet.git</span>
-<span class="err">mvn clean install</span>
-</pre></div>
-
-
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git clone git@github.com:silk8192/jpushbullet.git
+mvn clean install</code></pre></div>
 <p>Once the build is complete, you can add it as a local dependency in your project’s <code>pom.xml</code>:</p>
-
-<div class="highlight"><pre><span></span><span class="nt">&lt;dependencies&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependencies&gt;</span>
     <span class="nt">&lt;dependency&gt;</span>
         <span class="nt">&lt;groupId&gt;</span>com.shakethat.jpushbullet<span class="nt">&lt;/groupId&gt;</span>
         <span class="nt">&lt;artifactId&gt;</span>jpushbullet<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;/dependency&gt;</span>
-<span class="nt">&lt;/dependencies&gt;</span>
-</pre></div>
-
-
-
+<span class="nt">&lt;/dependencies&gt;</span></code></pre></div>
 <p>For the purpose of this example, lets assume that you have the following <code>Object</code> as the entry point
 of your simulation. The next step is to add a call to the Pushbullet service
 before the exit point. Please keep in mind that it is <em>very bad</em> practice to
@@ -117,37 +97,29 @@ include your personal API key in your committed code. I <em>strongly</em> sugges
 keep this information in a separate file (<em>e.g.</em> in <code>resources</code>), read it at
 runtime and add it to <code>.gitignore</code>.
 That being said, place the messaging code as such:</p>
-
-<div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">benchmarks</span>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">benchmarks</span>
 
 <span class="kn">import</span> <span class="nn">com.shakethat.jpushbullet.PushbulletClient</span>
 
-<span class="n">object</span> <span class="n">MCMC</span> <span class="p">{</span>
+<span class="n">object</span> <span class="n">MCMC</span> <span class="o">{</span>
 
-<span class="n">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="n">Array</span><span class="o">[</span><span class="n">String</span><span class="o">]</span><span class="p">):</span><span class="n">Unit</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">def</span> <span class="nf">main</span><span class="o">(</span><span class="n">args</span><span class="o">:</span><span class="n">Array</span><span class="o">[</span><span class="n">String</span><span class="o">]):</span><span class="n">Unit</span> <span class="o">=</span> <span class="o">{</span>
 
-  <span class="c1">// Your MCMC code</span>
+  <span class="c1">// Your MCMC code
+</span><span class="c1"></span>
+  <span class="n">val</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PushbulletClient</span><span class="o">(</span><span class="n">api_key</span><span class="o">)</span>
+  <span class="n">val</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getDevices</span>
+  <span class="n">val</span> <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;MCMC simulation finished&#34;</span>
+  <span class="n">val</span> <span class="n">body</span> <span class="o">=</span> <span class="s">&#34;Some summary can be included&#34;</span>
+  <span class="c1">// n is the preferred device number
+</span><span class="c1"></span>  <span class="n">client</span><span class="o">.</span><span class="na">sendNote</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">devices</span><span class="o">.</span><span class="na">getDevices</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">n</span><span class="o">).</span><span class="na">getIden</span><span class="o">(),</span> <span class="n">title</span><span class="o">,</span> <span class="n">body</span><span class="o">)</span>
+<span class="o">}</span>
 
-  <span class="n">val</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PushbulletClient</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
-  <span class="n">val</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="na">getDevices</span>
-  <span class="n">val</span> <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;MCMC simulation finished&quot;</span>
-  <span class="n">val</span> <span class="n">body</span> <span class="o">=</span> <span class="s">&quot;Some summary can be included&quot;</span>
-  <span class="c1">// n is the preferred device number</span>
-  <span class="n">client</span><span class="p">.</span><span class="na">sendNote</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">devices</span><span class="p">.</span><span class="na">getDevices</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">n</span><span class="p">).</span><span class="na">getIden</span><span class="p">(),</span> <span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="p">}</span>
-</pre></div>
-
-
+<span class="o">}</span></code></pre></div>
 <p>Usually, I would call this code via <code>ssh</code> into my main machine from Maven
 (using  <a href="http://scala-tools.org/mvnsites/maven-scala-plugin/">Scala Maven</a>)
 as:</p>
-
-<div class="highlight"><pre><span></span><span class="err">nohup mvn scala:run -DmainClass=benchmarks.MCMC &amp;</span>
-</pre></div>
-
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ nohup mvn scala:run -DmainClass<span class="o">=</span>benchmarks.MCMC <span class="p">&amp;</span></code></pre></div>
 <p>Finally, when the simulation is completed, you will be notified in the client
 devices (you can select which ones by issuing separate <code>sendNote</code> calls)
 and include a result summary, as an example.</p>
@@ -160,56 +132,54 @@ without worry of going over the free usage tier.</p>
 <a href="https://github.com/jcgay/send-notification">send-notification</a>,
 a general notification library for Java for which the setup is quite similar.</p>
 <p>Hope this was helpful.</p>
+</div>
 
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
 
-    </div>
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
 
-    <div id="sidebar">
-      <h2>Other pages</h2>
-      <ul>
-        <li><a href="/">Posts</a></li>
-        <li><a href="/projects/index.html">Projects</a></li>
-        <li><a href="/pages/about.html">About</a></li>
-      </ul>
-    </div>
-
-    <script>
-      (function() {
-        var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-        if (elements.length > 1) {
-        var div = document.getElementById('sidebar');
-        div.innerHTML += '<h2>This page</h2>\n';
-        // div.innerHTML += '<ul>\n';
-
-        var list = document.createElement("ul");
-        
-        var i = 1;
-        for (var element of elements) {
-          console.log(element);
-          if (element.nodeName=="H2") {
-            console.log(element.textContent);
-            // add an anchor
-            var anchor = document.createElement("a");
-            anchor.setAttribute('name', i);
-            anchor.classList.add('anchor');
-            element.parentNode.insertBefore(anchor, element.nextSibling);
-            // create list item
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#" + i);
-            a.textContent = element.textContent;
-            li.appendChild(a);
-            list.append(li);
-            // div.innerHTML += '<li><a href="#'+i+'">' + element.textContent + '</a></li>\n';
-            i++;
-          }
-          div.appendChild(list);
-
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
         }
-        div.innerHTML += '</ul>\n';
+        div.appendChild(list);
+
       }
-      })();      
-    </script>
-  
-  </body>
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
 </html>
