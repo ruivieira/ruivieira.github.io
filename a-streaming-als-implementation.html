@@ -24,14 +24,20 @@
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
 
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-10507665-2', 'auto');
-    ga('send', 'pageview');
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-10507665-2', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
+
 
     </head>
 <body>
@@ -63,19 +69,19 @@ Because <code>B</code> is too dissimilar, a low rating is not very informative.<
 <p>In ALS we assume that the available rating data can be represented in a sparse matrix form, that is, we will assume a sequential ordering of both users and products. Each entry of the matrix will then represent the rating for a unique pair of user and products.</p>
 <p>If we then consider ratings data as a matrix, let&rsquo;s call it $\mathsf{R}$, the <em>user</em> and <em>product</em> ids will represent coordinates in a ratings matrix and the actual rating will be the value for that particular entry. To keep the notation consistent with the above we simply call the entry $(x,y)$ as $\mathsf{R}_{x,y}$. This will look something like the matrix represented in the figure below.</p>
 <p><img src="/images/als/ratings_table.png" alt="Ratings table"></p>
-<p>The idea behind ALS is to factorise the ratings matrix $\mathsf{R}_{x,y}$  into two matrices <span class="math">(\mathsf{U})</span> and <span class="math">(\mathsf{P})</span>, which in turn, when multiplied back, will return an approximation of the original ratings matrix, that is:</p></p>
-<div class="math">$$
+<p>The idea behind ALS is to factorise the ratings matrix $\mathsf{R}_{x,y}$  into two matrices $\mathsf{U}$ and $\mathsf{P}$, which in turn, when multiplied back, will return an approximation of the original ratings matrix, that is:</p>
+<p>$$
 \mathsf{R} \approx \hat{\mathsf{R}} = \mathsf{U}^T \mathsf{P}
-$$</div>
-<p>To “predict” a missing rating for a user <span class="math">\(x\)</span> and product <span class="math">\(y\)</span>, we can simply multiply two vectors, namely the <span class="math">\(x\)</span> row from the user latent factors and the <span class="math">\(y\)</span> column from the product latent factors, <span class="math">\(\hat{\mathsf{R}}_{x,y}\)</span>, that is:</p>
-<div class="math">$$
+$$</p>
+<p>To “predict” a missing rating for a user $x$ and product $y$, we can simply multiply two vectors, namely the $x$ row from the user latent factors and the $y$ column from the product latent factors, $\hat{\mathsf{R}}_{x,y}$, that is:</p>
+<p>$$
 \hat{\mathsf{R}}_{x,y} = \mathsf{U}_x^T \mathsf{P}_y
-$$</div>
+$$</p>
 <p>There are several ways to tackle this factorisation problem and we will cover two of them in here. We will first look at a <a href="#batch_als">batch method</a>, which aims at factorising using the whole of the ratings matrix and a <a href="#streaming_als">stochastic gradient descent method</a>, which uses a single observation at a time.</p>
-<h3>Batch ALS <a name="batch_als"></a></h3>
-<p>This factorisation is performed by first defining an (objective) loss function (here called <span class="math">\(\ell\)</span>). 
-A general form is represented below where, as before, <span class="math">\(\mathsf{R}_{x,y}\)</span> is the <em>true rating</em> and <span class="math">\(\hat{\mathsf{R}}_{x,y}\)</span> is the 
-<em>predicted rating</em>, calculated as seen previously. The remaining terms are simply regularisation terms to help prevent overfitting.</p>
+<h3 id="batch-als-a-namebatch_alsa">Batch ALS <a name="batch_als"></a></h3>
+<p>This factorisation is performed by first defining an (objective) loss function (here called $\ell$).
+A general form is represented below where, as before, <span class="math">(\mathsf{R}<em>{x,y})</span> is the <em>true rating</em> and <span class="math">(\hat{\mathsf{R}}</em>{x,y})</span> is the
+<em>predicted rating</em>, calculated as seen previously. The remaining terms are simply regularisation terms to help prevent overfitting.</p></p>
 <div class="math">$$
 \ell = \sum c_{x,y} \left(\mathsf{R}_{x,y} - \underbrace{\mathsf{U}_x^T \mathsf{P}_y}_{\hat{\mathsf{R}}_{x,t}}\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 +  \left\lVert \mathsf{P} \right\rVert^2\right)
 $$</div>
