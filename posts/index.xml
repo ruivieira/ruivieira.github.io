@@ -5,9 +5,15 @@
     <link>http://ruivieira.dev/posts/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Tue, 07 Apr 2020 23:31:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 13 Apr 2020 15:21:00 +0100</lastBuildDate>
     
     
+    
+    <item>
+      <title>Serving Models with Seldon</title>
+      <link>http://ruivieira.dev/serving-models-with-seldon.html</link>
+      <pubDate>Mon, 13 Apr 2020 15:21:00 +0100</pubDate>
+    </item>
     
     <item>
       <title>(Semi) Handcrafted RSS</title>

@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Serving Models with Seldon"/>
+<meta name="twitter:description" content="Models! Get your models here!   Deploying machine learning models in production comes with several requirements. We must manage the model lifecycle. We need reproducibility and typically use containerised workflows.
+Seldon is a tool which aims at providing a production workflow for machine learning models, allowing to build model serving containers which expose well-defined APIs.
+In this post, I&rsquo;ll show how to create a simple model and how to deploy it with Seldon."/>
+
+
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/trac.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-10507665-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+    </head>
+<body>
+<div id="main" class="container">
+    <h1>Serving Models with Seldon</h1>
+    <small><time pubdate="pubdate" datetime="2020-04-13 15:21:00 &#43;0100 BST">April 13, 2020</time></small>                
+    <figure>
+    <img src="/images/seldon/cover.jpg"/> <figcaption>
+            <h4>Models! Get your models here!</h4>
+        </figcaption>
+</figure>
+
+<p>Deploying machine learning models in production comes with several requirements.
+We must manage the model lifecycle. We need reproducibility and typically use containerised workflows.</p>
+<p><a href="https://github.com/SeldonIO/seldon-core">Seldon</a> is a tool which aims at providing a production workflow for machine learning models, allowing to build model serving containers which expose well-defined APIs.</p>
+<p>In this post, I&rsquo;ll show how to create a simple model and how to deploy it with Seldon. The model is a customer segmentation one. The goal is to classify a customer according to a segment (0, 1 or 2), according to its age, income, whether they engaged with previous campaigns and the campaign type.</p>
+<p>Once we train the model, we deploy it with Seldon in a container orchestration
+platform such as <a href="https://kubernetes.io/">Kubernetes</a> and <a href="https://www.openshift.com/">OpenShift</a>.</p>
+<h2 id="create-data">Create data</h2>
+<p>We use the Python&rsquo;s <a href="https://scikit-learn.org/stable/"><code>scikit-learn</code></a> to train our model.
+However, we must first simulate some data to train it.
+We start by simulating the users age ($a$) and income ($c$). We assume income is correlated with age.</p>
+<p>\begin{align}
+c|a &amp;\sim \mathcal{N}\left(a + 20, 100\right) \\<br>
+a|k &amp;\sim \mathcal{U}\left(A_k, B_k\right),\quad A=\left\lbrace16, 25, 50, 61\right\rbrace,B=\left\lbrace24, 49, 60, 90\right\rbrace  \\<br>
+k &amp;\sim \mathcal{M}\left(4, \left\lbrace 0.15, 0.4, 0.2, 0.25\right\rbrace\right)
+\end{align}</p>
+<figure>
+    <img src="/images/seldon/seldon_hist_age_income.png"/> <figcaption>
+            <h4>Figure 1. Distribution of age and income</h4>
+        </figcaption>
+</figure>
+
+<p>Let&rsquo;s assume we have eight distinct events ($e=\left(0, 1, \dots, 7\right)$). We sample them from a multinomial
+distribution and also assume that two different age bands have different distributions, just to add some variation.</p>
+<p>$$
+e = \begin{cases} \mathcal{M}\left(7, \left\lbrace 0.026, 0.195, 0.156, 0.208, 0.130, 0.205, 0.078 \right\rbrace\right) &amp; \text{if}\ a &lt; 50 \\<br>
+\mathcal{M}\left(7, \left\lbrace 0.052, 0.143, 0.169, 0.182, 0.164, 0.182, 0.104 \right\rbrace\right) &amp; \text{if}\ a \geq 50
+\end{cases}
+$$</p>
+<figure>
+    <img src="/images/seldon/seldon_hist_event_income.png"/> <figcaption>
+            <h4>Figure 2. Distribution of age and events</h4>
+        </figcaption>
+</figure>
+
+<p>The responses are calculated as <code>0</code> or <code>1</code>, representing &ldquo;true&rdquo; or &ldquo;false&rdquo;, and sampled from Bernoulli
+distributions, with different distributions depending on the event, again just to add some variation.</p>
+<p>$$
+r = \begin{cases}
+\text{Bernoulli}\left(0.6\right) &amp; \text{if}\ e \in \left(2, 3, 4, 6\right) \\<br>
+\text{Bernoulli}\left(0.4\right) &amp; \text{if}\ e \in \left(1, 5, 7\right)
+\end{cases}
+$$</p>
+<p>To predict the response of a customer, we use a logistic model, with coefficients $\beta_{age}=-0.0004$ and
+$\beta_{income}=0.0001$. For the customer level, we use a negative binomial model with coefficients
+$\beta_{age}=-0.0233$ and $\beta_{income}=0.0054$.
+This results in the following distribution of customer levels:</p>
+<figure>
+    <img src="/images/seldon/seldon_level.png"/> <figcaption>
+            <h4>Figure 3. Distribution of user levels</h4>
+        </figcaption>
+</figure>
+
+<p>Finally, we create the response according to negative binomial model with coefficients $\beta_{level}=0.1862$ and
+$\beta_{response}=0.2076$. We get the following segments, stratified by age and income:</p>
+<figure>
+    <img src="/images/seldon/seldon_segments.png"/> <figcaption>
+            <h4>Figure 4. Segments per age and income</h4>
+        </figcaption>
+</figure>
+
+<h2 id="train-model">Train model</h2>
+<p>Now that we have our simulated data, we can train a model.
+Generally, it is straightforward to train model data when in <code>pandas</code> data frame format.
+Let&rsquo;s proceed with creating a data frame with the data we&rsquo;ve just generated:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span> <span class="s1">&#39;income&#39;</span><span class="p">:</span> <span class="n">income</span><span class="p">,</span>
+         <span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="n">_class</span><span class="p">,</span> <span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span>
+         <span class="s1">&#39;segment&#39;</span><span class="p">:</span> <span class="n">segment</span><span class="p">,</span> <span class="s1">&#39;events&#39;</span><span class="p">:</span> <span class="n">events</span> <span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div><p>We now create the training and testing datasets. The first thing is to define the
+classifier&rsquo;s <code>inputs</code> and <code>outputs</code> and then splitting each of them into training and testing.
+Here I have used a split of 60%/40% for training and testing respectively.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;income&#39;</span><span class="p">,</span> <span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="s1">&#39;events&#39;</span><span class="p">]]</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;segment&#39;</span><span class="p">]</span>
+
+<span class="c1"># split dataset</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> \
+    <span class="n">train_test_split</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span>
+                     <span class="n">outputs</span><span class="p">,</span>
+                     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+                     <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</code></pre></div><p>We use a Random Forest classifier as the underlying algorithm for our model.
+These are available in <code>sciki-learn</code> with the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html"><code>RandomForestClassifier</code></a> class.
+However, <code>scikit-learn</code> does not support categorical variables out of the box <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.
+To deal with them, we build a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html"><code>Pipeline</code></a>, which allows to chain multiple
+transformations to our data, including a categorical variable processor, such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OrdinalEncoder.html"><code>OrdinalEncoder</code></a> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.
+We use <a href="https://github.com/scikit-learn-contrib/sklearn-pandas"><code>DataFrameMapper</code></a> to apply the encoder to the <code>response</code> and <code>events</code> columns and leave
+the remaining unchanged.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="k">def</span> <span class="nf">build_RF_pipeline</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">rf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">rf</span><span class="p">:</span>
+        <span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+        <span class="p">(</span><span class="s2">&#34;mapper&#34;</span><span class="p">,</span> <span class="n">DataFrameMapper</span><span class="p">([</span>
+            <span class="p">([</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="s1">&#39;events&#39;</span><span class="p">],</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">OrdinalEncoder</span><span class="p">()),</span>
+            <span class="p">([</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;income&#39;</span><span class="p">],</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="p">])),</span>
+        <span class="p">(</span><span class="s2">&#34;classifier&#34;</span><span class="p">,</span> <span class="n">rf</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pipeline</span>
+</code></pre></div><p>The actual training involves a simple hyper-parameter estimation using
+<a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html"><code>RandomizedSearchCV</code></a>. This method performs a type of parameter grid search but restricting
+the search to only the specified values. For the scope of this post, it is not
+necessary to perform an exhaustive hyperparameter estimation.
+The <code>RF_estimation</code> function returns the best-fitted model after searching
+with the test dataset.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">RF_estimation</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span>
+                  <span class="n">estimator_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                  <span class="n">depth_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                  <span class="n">min_samples_split</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                  <span class="n">min_samples_leaf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c1"># hyper-parameter estimation</span>
+    <span class="n">n_estimators</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                                                <span class="n">stop</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                                <span class="n">num</span><span class="o">=</span><span class="n">estimator_steps</span><span class="p">)]</span>
+    <span class="n">max_depth</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">depth_steps</span><span class="p">)]</span>
+    <span class="n">max_depth</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">min_samples_split</span><span class="p">:</span>
+        <span class="n">min_samples_split</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">min_samples_leaf</span><span class="p">:</span>
+        <span class="n">min_samples_leaf</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">bootstrap</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]</span>
+    <span class="n">random_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="n">n_estimators</span><span class="p">,</span>
+                   <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="n">max_depth</span><span class="p">,</span>
+                   <span class="s1">&#39;min_samples_split&#39;</span><span class="p">:</span> <span class="n">min_samples_split</span><span class="p">,</span>
+                   <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="n">min_samples_leaf</span><span class="p">,</span>
+                   <span class="s1">&#39;bootstrap&#39;</span><span class="p">:</span> <span class="n">bootstrap</span><span class="p">}</span>
+
+    <span class="n">rf_random</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span>
+                    <span class="n">estimator</span><span class="o">=</span><span class="n">RandomForestClassifier</span><span class="p">(),</span>
+                    <span class="n">param_distributions</span><span class="o">=</span><span class="n">random_grid</span><span class="p">,</span>
+                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                    <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_absolute_error&#39;</span><span class="p">,</span>
+                    <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rf_random</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+    <span class="n">best_random</span> <span class="o">=</span> <span class="n">rf_random</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+    <span class="k">return</span> <span class="n">best_random</span>
+</code></pre></div><p>After applying the parameter estimation, we take the best scoring model
+and calculate the MSE. Unsurprisingly (given the simple model and simulated data),
+we get a very good fit.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">rf_predictions</span> <span class="o">=</span> <span class="n">random_forest_pipeline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;MSE: {random_forest_pipeline.score(X_test, y_test)*100}%&#34;</span><span class="p">)</span>
+<span class="c1"># MSE: 99.95%</span>
+</code></pre></div><p>The final step is serialising the model. Serialisation is necessary since we only serve the pre-trained model.
+To do so, we use the <a href="https://github.com/joblib/joblib"><code>joblib</code></a> library and
+save the model to a <code>model.pkl</code> file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">joblib</span>
+
+<span class="c1">#save mode in filesystem</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">random_forest_pipeline</span><span class="p">,</span> <span class="s1">&#39;model.pkl&#39;</span><span class="p">)</span>
+</code></pre></div><h2 id="deploy-model">Deploy model</h2>
+<p>It is important to note that we don&rsquo;t need the model training code included in the Seldon server.
+The purpose of Seldon is not to <em>train</em> models, but to <em>deploy</em> them and manage their lifecycle.
+This workflow means that a typical Seldon deployment would only include the prediction endpoint implementation and
+a serialised model.
+This provision is made by firstly create a <em>wrapper</em> for our model which implements the Seldon endpoints.</p>
+<h3 id="simple-model">Simple model</h3>
+<p>We create a Python script called <code>Model.py</code> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.
+The primary prediction endpoint uses the following signature:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span>
+</code></pre></div><p>The wrapper is straightforward, in this example.
+We use the <code>joblib</code> library again, to load the serialised model <code>model.pkl</code>,
+and then pass through any JSON payload as inputs (<code>X</code>) to the model to get
+a prediction as well as using Python&rsquo;s default <a href="https://docs.python.org/3/library/logging.html">logging</a>
+to provide some feedback.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Initializing.&#34;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Loading model.&#34;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;model.pkl&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">features_names</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</code></pre></div><p>We now build the model using the <code>s2i</code> (<a href="https://github.com/openshift/source-to-image">source-to-image</a>).
+As the name implies, <code>s2i</code>'s allow to create
+a container image from source code, taking care of any necessary intermediate steps.
+Seldon support several types of builds (such as Python, R and Java) <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
+<p>Typically <code>s2i</code>'s rely on certain conventions (over configuration) on your application structure.
+A requirement when building a Seldon model using its <code>s2i</code> is to provide some specific environment variables.
+These are usually stored in a file located in <code>$REPO/.s2i/environment</code>.
+For instance, for this model we use:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">MODEL_NAME</span><span class="o">=</span><span class="s">Model</span>
+<span class="na">API_TYPE</span><span class="o">=</span><span class="s">REST</span>
+<span class="na">SERVICE_TYPE</span><span class="o">=</span><span class="s">MODEL</span>
+<span class="na">PERSISTENCE</span><span class="o">=</span><span class="s">0</span>
+</code></pre></div><p>The <code>MODEL_NAME</code> corresponds to the script we&rsquo;ve created previously, <code>Model.py</code> and instructs Seldon to use it as
+the REST endpoint provider. <code>API_TYPE</code> defines the endpoint interface. We use the REST interface, other possibilities include
+gRPC, for instance.</p>
+<figure>
+    <img src="/images/seldon/diagram.png"/> <figcaption>
+            <h4>Figure 5. Seldon s2i workflow</h4>
+        </figcaption>
+</figure>
+
+<p>To build the container image using the <code>s2i</code>, assuming you want an image named <code>$NAME</code> and tagged with <code>$TAG</code>,
+we simply need to run:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ s2i build <span class="nv">$REPO</span> <span class="se">\
+</span><span class="se"></span>  seldonio/seldon-core-s2i-python36:0.18 <span class="se">\
+</span><span class="se"></span>  <span class="nv">$NAME</span>:<span class="nv">$TAG</span>
+</code></pre></div><p>You can provide the location of your source code either by specifying a remote Git repository or by
+passing a local one.
+Once the container image builds, you can now run it using, for instance:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">docker run -i --rm -p 5000:5000 <span class="nv">$NAME</span>:<span class="nv">$TAG</span>
+</code></pre></div><p>Let&rsquo;s get a prediction from the model:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl --header <span class="s2">&#34;Content-Type: application/json&#34;</span> <span class="se">\
+</span><span class="se"></span>  --request POST <span class="se">\
+</span><span class="se"></span>  --data <span class="s1">&#39;{&#34;data&#34;:{&#34;ndarray&#34;:[[34.0, 100.0, 1, 2]]}}&#39;</span> <span class="se">\
+</span><span class="se"></span>  http://localhost:5000/predict
+</code></pre></div><p>This will return a prediction:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;names&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;t:0&#34;</span><span class="p">,</span><span class="s2">&#34;t:1&#34;</span><span class="p">,</span><span class="s2">&#34;t:2&#34;</span><span class="p">],</span>
+        <span class="nt">&#34;ndarray&#34;</span><span class="p">:</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.9980208571211083</span><span class="p">,</span><span class="mf">0.00197914287889168</span><span class="p">]]},</span>
+    <span class="nt">&#34;meta&#34;</span><span class="p">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div><p>This response corresponds to the probability of each segment (<code>0</code>, <code>1</code> and <code>2</code>), respectively.
+We can see that a customer with this profile is classified as a segment <code>1</code> with
+an associated probability of 99.8%.</p>
+<h3 id="with-metrics">With metrics</h3>
+<p>Seldon provides basic metrics by default, covering service, predictor and model name, version and image.
+However, you can directly add custom metrics.
+Going back to our <code>Model</code> wrapper class, we add a new method called <code>metrics</code> which returns custom metrics.
+The metrics are compatible with Prometheus and, therefore, the metric type should be familiar if you have
+dealt with Prometheus before.
+These include, for instance:</p>
+<ul>
+<li>Counters</li>
+<li>Gauges</li>
+<li>Timers</li>
+</ul>
+<p>Let&rsquo;s add to the wrapper:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Initializing.&#34;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Loading model.&#34;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;model.pkl&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">features_names</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1"># new custom metrics endpoint</span>
+    <span class="k">def</span> <span class="nf">metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="c1"># a counter which will increase by the given value</span>
+            <span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;COUNTER&#34;</span><span class="p">,</span> <span class="s2">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;mycounter&#34;</span><span class="p">,</span> <span class="s2">&#34;value&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+             <span class="c1"># a gauge which will be set to given value</span>
+            <span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;GAUGE&#34;</span><span class="p">,</span> <span class="s2">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;mygauge&#34;</span><span class="p">,</span> <span class="s2">&#34;value&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+            <span class="c1"># a timer which will add sum and count metrics - assumed millisecs</span>
+            <span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;TIMER&#34;</span><span class="p">,</span> <span class="s2">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;mytimer&#34;</span><span class="p">,</span> <span class="s2">&#34;value&#34;</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">},</span>
+        <span class="p">]</span>
+</code></pre></div><p>If we now request a new prediction, as previously, we can see the custom metrics included in the model&rsquo;s response.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;names&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;t:0&#34;</span><span class="p">,</span><span class="s2">&#34;t:1&#34;</span><span class="p">,</span><span class="s2">&#34;t:2&#34;</span><span class="p">],</span>
+        <span class="nt">&#34;ndarray&#34;</span><span class="p">:[[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.9980208571211083</span><span class="p">,</span><span class="mf">0.00197914287889168</span><span class="p">]]},</span>
+    <span class="nt">&#34;meta&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;metrics&#34;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="nt">&#34;key&#34;</span><span class="p">:</span><span class="s2">&#34;mycounter&#34;</span><span class="p">,</span><span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;COUNTER&#34;</span><span class="p">,</span><span class="nt">&#34;value&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span>
+            <span class="p">{</span><span class="nt">&#34;key&#34;</span><span class="p">:</span><span class="s2">&#34;mygauge&#34;</span><span class="p">,</span><span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;GAUGE&#34;</span><span class="p">,</span><span class="nt">&#34;value&#34;</span><span class="p">:</span><span class="mi">10</span><span class="p">},</span>
+            <span class="p">{</span><span class="nt">&#34;key&#34;</span><span class="p">:</span><span class="s2">&#34;mytimer&#34;</span><span class="p">,</span><span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;TIMER&#34;</span><span class="p">,</span><span class="nt">&#34;value&#34;</span><span class="p">:</span><span class="mf">1.1</span><span class="p">}]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>These values are available via the Prometheus endpoint.</p>
+<p>The model can also be easily deployed in a container platform, for instance, OpenShift.
+Assuming you are logged to a cluster and your image is a registry accessible by OpenShift,
+you can simply deploy it using:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ oc new-app <span class="nv">$NAME</span>:<span class="nv">$TAG</span>
+</code></pre></div><p>I hope this was useful to you.
+Happy coding!</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>As of the time of writing. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>Other encoders are available in <code>scikit-learn</code>. I recommend you experiment with some of them. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>You can use any file name, as long as it&rsquo;s consistent with <code>.s2i/environment</code>, which we&rsquo;ll look at soon. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p>More information can be found <a href="https://docs.seldon.io/projects/seldon-core/en/latest/wrappers/s2i.html">here</a>. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+</div>
+
+<div id="sidebar">
+    <h2>Other pages</h2>
+    <ul>
+      <li><a href="/">Posts</a></li>
+      <li><a href="/projects/index.html">Projects</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+    </ul>
+  </div>
+
+  <script>
+    (function() {
+      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+      if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+      
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName=="H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+    })();      
+  </script>
+
+</body>
+</html>

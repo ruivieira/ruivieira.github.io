@@ -3,6 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="t as mixture of Normals"/>
+<meta name="twitter:description" content="(Based on Rasmus Bååth&rsquo;s post)
+A scaled $t$ distribution, with $\mu$ mean, $s$ scale and $\nu$ degrees of freedom, can be simulated from a mixture of Normals with $\mu$ mean and precisions following a Gamma distribution:
+\begin{align} y &amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\
+\sigma^2 &amp;\sim \mathcal{IG}\left(\frac{\nu}{2},s^2\frac{\nu}{2}\right) \end{align}
+Since I&rsquo;ve recently pickep up again the crystal-gsl in my spare time, I&rsquo;ve decided to replicate the previously mentioned post using a Crystal one-liner.
+To simulate 10,000 samples from $t_2\left(0,3\right)$ using the mixture, we can then write:"/>
+
+
     <meta name="author" content="Rui Vieira" />
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
