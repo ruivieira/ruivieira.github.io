@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rui Vieira&#39;s blog</title>
+    <link>http://ruivieira.dev/micro/</link>
+    <generator>Rui Vieira</generator>
+    <copyright>en-gb</copyright>
+    <lastBuildDate>Fri, 04 Oct 2019 14:10:46 +0200</lastBuildDate>
+    
+    
+    
+    <item>
+      <title>My new Tutorial</title>
+      <link>http://ruivieira.dev/micro/1/</link>
+      <pubDate>Fri, 04 Oct 2019 14:10:46 +0200</pubDate>
+    </item>
+    
+  </channel>
+</rss>

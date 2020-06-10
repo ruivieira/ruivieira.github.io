@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Alegreya&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css?family=Alegreya&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -128,4 +128,34 @@ figure figcaption {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Micro blogging styling */
+.micro-block {
+  display: block;
+  width: auto;
+  font-size: inherit;
+  margin: 2rem;
+  margin-left: 2rem;
+  padding: 0.5em;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+  padding-left: 0.75em;
+  padding-right: 1em;
+  background: hsl(60, 29%, 94%);
+  border: 1px solid #ccb;
+  border-left-color: rgb(204, 204, 187);
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left: 0.4rem solid #ccb;
+}
+
+.micro-date {
+  font-size: 11px;
+  color: gray;
+}
+
+.micro-link {
+  font-size: 11px;
+  color: gray;
 }
