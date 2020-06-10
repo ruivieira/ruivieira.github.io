@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "https://ruivieira.dev/micro/*"
-  to = "https://micro.ruivieira.dev/:splat"
-  status = 200
-  force = true #COMMENT: ensure that we always redirect
