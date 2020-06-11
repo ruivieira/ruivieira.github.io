@@ -48,8 +48,11 @@ if (!doNotTrack) {
     </head>
 <body>
 <div id="main" class="container">
+  <div>
     <h1>Monotonic Cubic Spline interpolation (with some Rust)</h1>
     <small><time pubdate="pubdate" datetime="2019-04-03 23:05:00 &#43;0100 BST">April 3, 2019</time></small>                
+  </div>
+  <div class="content">
     <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
 In this post I’ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson [<a href="#ref-1">Fritsch2005</a><a name="ref-1-origin"></a>] in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
 <h2>Rust</h2>
@@ -213,6 +216,7 @@ t &amp;= \frac{3}{h}.
 <h2>References</h2>
 <p><a name="ref-1">[Fritsch2005]</a> Fritsch, F. N., &amp; Carlson, R. E. (2005). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em>. https://doi.org/10.1137/0717021 <a href="#ref-1-origin">🔝</a></p>
 <p><a name="ref-2">[Curry1958]</a> Curry, Haskell; Feys, Robert (1958). Combinatory logic. I (2 ed.). Amsterdam, Netherlands: North-Holland Publishing Company. <a href="#ref-2-origin">🔝</a></p>
+  </div>
 </div>
 
 <div id="sidebar">

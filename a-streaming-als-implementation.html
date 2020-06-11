@@ -49,8 +49,11 @@ if (!doNotTrack) {
     </head>
 <body>
 <div id="main" class="container">
+  <div>
     <h1>A streaming ALS implementation</h1>
     <small><time pubdate="pubdate" datetime="2017-12-18 12:36:00 &#43;0000 GMT">December 18, 2017</time></small>                
+  </div>
+  <div class="content">
     <p>In this blog post I would like to talk a little bit about recommendation engines in general and how to build a streaming recommendation engine on top of <a href="https://spark.apache.org/">Apache Spark</a>.</p>
 <p>I will start by introducing the concept of <a href="#collab">collaborative filtering</a>, and focus in two variants: <a href="#batch_als">batch</a> and <a href="#streaming_als">streaming</a> Alternating Least Squares (ALS). I will look at the principles of a streaming distributed recommendation engine on Spark and finally, I’ll talk about practical issues when using these methods.</p>
 <h2 id="recommendation-engines">Recommendation engines</h2>
@@ -336,6 +339,7 @@ This means that we have no guarantee that the best parameters for a initial batc
 <p>Also, to make predictions we might have to try and perform random access to the latent factors <code>RDDs</code>. This also can be quite inefficient since we are using <code>lookup</code> methods.</p>
 <p>If you want to get straight setting up your own distributed recommendation engine, I highly suggest you start with Spark's builtin solution. I would highly recommended looking at the <code>jiminy</code> project (part of the <a href="https://radanalytics.io/">https://radanalytics.io/</a> community), a micro-service oriented complete recommendation engine, ready to deploy on <a href="https://www.openshift.com/">OpenShift</a>.</p>
 <p>The engine is split into services such as a <a href="https://github.com/radanalyticsio/jiminy-predictor">predictor</a> and a <a href="https://github.com/radanalyticsio/jiminy-modeler">modeler</a>, along with a <a href="https://github.com/radanalyticsio/jiminy-html-server">front-end</a> and <a href="https://github.com/radanalyticsio/jiminy-tools">tools</a> to simplify tasks (such as using the MovieLens data) and it's a great way to look at how to put a modern recommender engine together and also a great code read.</p>
+  </div>
 </div>
 
 <div id="sidebar">

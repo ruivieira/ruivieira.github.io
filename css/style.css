@@ -130,6 +130,15 @@ img {
   height: auto;
 }
 
+.content {
+  padding-top: 40px;
+}
+
+h2 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
 /* Micro blogging styling */
 .micro-block {
   display: block;

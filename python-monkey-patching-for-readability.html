@@ -50,8 +50,11 @@ if (!doNotTrack) {
     </head>
 <body>
 <div id="main" class="container">
+  <div>
     <h1>Python monkey patching (for readability)</h1>
     <small><time pubdate="pubdate" datetime="2019-04-02 23:05:00 &#43;0100 BST">April 2, 2019</time></small>                
+  </div>
+  <div class="content">
     <p>When preparing a <a href="https://jupyter.org/">Jupyter</a> notebook for a workshop on recommendation engines which I’ve presented with a colleague, I was faced with the following problem:</p>
 <blockquote>
 <p>&ldquo;How to break a large class definition into several cells so it can be presented step-by-step.&rdquo;</p>
@@ -222,6 +225,7 @@ Ideally, we should get the builtin's namespace so we can freely set attributes a
 <p>“Monkey patching” is usually, and rightly so, considered a code smell, due to the increased indirection and potential source of unwanted surprises.
 However, having the ability to “monkey patch” classes in Python allows us to write Jupyter notebooks in a more literate, fluid way rather than presenting the user with a “wall of code”.</p>
 <p>Thank you for reading. If you have any comments or suggestions please drop me a message on <a href="https://mastodon.technology/@ruivieira">Mastodon</a>.</p>
+  </div>
 </div>
 
 <div id="sidebar">

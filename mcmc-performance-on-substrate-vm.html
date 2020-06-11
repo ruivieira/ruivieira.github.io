@@ -49,8 +49,11 @@ if (!doNotTrack) {
     </head>
 <body>
 <div id="main" class="container">
+  <div>
     <h1>MCMC performance on Substrate VM</h1>
     <small><time pubdate="pubdate" datetime="2018-08-02 23:05:00 &#43;0100 BST">August 2, 2018</time></small>                
+  </div>
+  <div class="content">
     <p>Recently I&rsquo;ve been following (but not very closely, I admit) the development of the <a href="https://www.graalvm.org/">GraalVM</a> project. The project has many interesting goals (such as <a href="http://openjdk.java.net/projects/metropolis/">Project Metropolis</a>, increased JIT performance and others).</p>
 <p>However, having dabbled with projects such as <a href="https://github.com/scala-native/scala-native">Scala native</a> and <a href="https://kotlinlang.org/docs/reference/native-overview.html">Kotlin native</a>, one of the aspects of GraalVM that caught my attention was the <a href="https://github.com/oracle/graal/tree/master/substratevm">SubstrateVM</a>, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</p>
 <p>I specifically wanted to compare the performance and memory consumption of simple scientific computing tasks when using the JVM and native executables.
@@ -140,6 +143,7 @@ The code is included in the same repositoty as the Beta-Binomial case and the se
 </table>
 <p>Now, in this case, the results are much more interesting. The JVM version outperforms the native version in <em>both</em> execution time and memory consumption. I don't have an explanation for this, but if you think you have (or have any other questions) please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
 <p>Thanks for reading!</p>
+  </div>
 </div>
 
 <div id="sidebar">
