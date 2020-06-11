@@ -139,6 +139,10 @@ h2 {
   padding-bottom: 15px;
 }
 
+.pagination li{
+  display: inline;
+}
+
 /* Micro blogging styling */
 .micro-block {
   display: block;
