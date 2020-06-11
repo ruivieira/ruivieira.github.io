@@ -5,14 +5,20 @@
     <link>http://ruivieira.dev/micro/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Fri, 04 Oct 2019 14:10:46 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2020 00:53:46 +0200</lastBuildDate>
     
     
     
     <item>
-      <title>My new Tutorial</title>
+      <title>CVSS3 and severity</title>
+      <link>http://ruivieira.dev/micro/2/</link>
+      <pubDate>Thu, 11 Jun 2020 00:53:46 +0200</pubDate>
+    </item>
+    
+    <item>
+      <title>Micro blogging</title>
       <link>http://ruivieira.dev/micro/1/</link>
-      <pubDate>Fri, 04 Oct 2019 14:10:46 +0200</pubDate>
+      <pubDate>Wed, 10 Jun 2020 19:13:46 +0200</pubDate>
     </item>
     
   </channel>

@@ -75,29 +75,28 @@ my spare time, I&rsquo;ve decided to replicate the previously mentioned post usi
 </div>
 
 <div id="sidebar">
-    <h2>Other pages</h2>
-    <ul>
-      <li><a href="/">Posts</a></li>
-      <li><a href="/micro/">Micro</a></li>
-      <li><a href="/projects/index.html">Projects</a></li>
-      <li><a href="/pages/about.html">About</a></li>
-    </ul>
-  </div>
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
 
-  <script>
-    (function() {
-      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-      if (elements.length > 1) {
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
       var div = document.getElementById('sidebar');
       div.innerHTML += '<h2>This page</h2>\n';
       
 
       var list = document.createElement("ul");
-      
+
       var i = 1;
       for (var element of elements) {
         console.log(element);
-        if (element.nodeName=="H2") {
+        if (element.nodeName == "H2") {
           console.log(element.textContent);
           
           var anchor = document.createElement("a");
@@ -119,8 +118,8 @@ my spare time, I&rsquo;ve decided to replicate the previously mentioned post usi
       }
       div.innerHTML += '</ul>\n';
     }
-    })();      
-  </script>
+  })();      
+</script>
 
 </body>
 </html>

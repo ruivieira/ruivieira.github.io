@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="My new Tutorial"/>
+<meta name="twitter:title" content="Micro blogging"/>
 <meta name="twitter:description" content="Trying out a section of the site for &ldquo;micro blogging&rdquo;. This is will include random, assorted thoughts. &ldquo;Macro&rdquo; blogging (also known as &ldquo;Posts&quot;) will be available in the usual section."/>
 
 
@@ -48,38 +48,37 @@ if (!doNotTrack) {
     </head>
 <body>
 <div id="main" class="container">
-    <h1>My new Tutorial</h1>
-    <small><time pubdate="pubdate" datetime="2019-10-04 14:10:46 &#43;0200 &#43;0200">October 4, 2019</time></small>                
-    <p>Trying out a section of the site for &ldquo;<em>micro blogging</em>&rdquo;.
+    <h1>Micro blogging</h1>
+    <small><time pubdate="pubdate" datetime="2020-06-10 19:13:46 &#43;0200 &#43;0200">June 10, 2020</time></small>                
+    <p>Trying out <a href="/micro">a section</a> of the site for &ldquo;<em>micro blogging</em>&rdquo;.
 This is will include random, assorted thoughts.
-&ldquo;<em>Macro</em>&rdquo; blogging (also known as &ldquo;<em>Posts</em>&quot;) will be available in the usual section.</p>
+&ldquo;<em>Macro</em>&rdquo; blogging (also known as &ldquo;<em>Posts</em>&quot;) will be available in the <a href="/">usual section</a>.</p>
 
 </div>
 
 <div id="sidebar">
-    <h2>Other pages</h2>
-    <ul>
-      <li><a href="/">Posts</a></li>
-      <li><a href="/micro/">Micro</a></li>
-      <li><a href="/projects/index.html">Projects</a></li>
-      <li><a href="/pages/about.html">About</a></li>
-    </ul>
-  </div>
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
 
-  <script>
-    (function() {
-      var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-      if (elements.length > 1) {
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
       var div = document.getElementById('sidebar');
       div.innerHTML += '<h2>This page</h2>\n';
       
 
       var list = document.createElement("ul");
-      
+
       var i = 1;
       for (var element of elements) {
         console.log(element);
-        if (element.nodeName=="H2") {
+        if (element.nodeName == "H2") {
           console.log(element.textContent);
           
           var anchor = document.createElement("a");
@@ -101,8 +100,8 @@ This is will include random, assorted thoughts.
       }
       div.innerHTML += '</ul>\n';
     }
-    })();      
-  </script>
+  })();      
+</script>
 
 </body>
 </html>

@@ -3,12 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://ruivieira.dev/posts/</loc>
-    <lastmod>2020-04-13T15:21:00+01:00</lastmod>
+    <loc>http://ruivieira.dev/micro/</loc>
+    <lastmod>2020-06-11T00:53:46+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://ruivieira.dev/micro/2/</loc>
+    <lastmod>2020-06-11T00:53:46+02:00</lastmod>
   </url>
   
   <url>
     <loc>http://ruivieira.dev/</loc>
+    <lastmod>2020-06-11T00:53:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ruivieira.dev/micro/1/</loc>
+    <lastmod>2020-06-10T19:13:46+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ruivieira.dev/posts/</loc>
     <lastmod>2020-04-13T15:21:00+01:00</lastmod>
   </url>
   
@@ -25,17 +41,6 @@
   <url>
     <loc>http://ruivieira.dev/semi-handcrafted-rss.html</loc>
     <lastmod>2020-04-07T23:31:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://ruivieira.dev/micro/</loc>
-    <lastmod>2019-10-04T14:10:46+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://ruivieira.dev/micro/1/</loc>
-    <lastmod>2019-10-04T14:10:46+02:00</lastmod>
   </url>
   
   <url>

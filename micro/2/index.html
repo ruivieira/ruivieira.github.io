@@ -1,31 +1,37 @@
 <!DOCTYPE HTML>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Rui Vieira" />
-  <meta name="copyright" content="Rui Vieira" />
-  <meta name="generator" content="Rui Vieira">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/trac.css">
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-        processEscapes: true
-      }
-    });
-  </script>
-
-  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CVSS3 and severity"/>
+<meta name="twitter:description" content="CVSS (Common Vulnerability Scoring System) is a standard measure of a vulnerability&rsquo;s severity. It takes several factors into account, such as impact, temporal and environmental metrics. For a dataset that I&rsquo;m working on, this is a comparison of the CVSS3 score against the more coarse grained &ldquo;severity&rdquo; score. We normalise the impact data (originally from $[0, 3]$) as well as the cvss3_score and produce a regression plot.
+from sklearn import preprocessing import numpy as np scaler = preprocessing."/>
 
 
-  
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/trac.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -40,17 +46,12 @@ if (!doNotTrack) {
 </script>
 
 
-</head>
-
+    </head>
 <body>
-  <div id="main" class="container">
-    <h1>µ blogging</h1>
-
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/2/">2020-06-11 00:53:46 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p><a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System">CVSS</a> (Common Vulnerability Scoring System) is a standard
+<div id="main" class="container">
+    <h1>CVSS3 and severity</h1>
+    <small><time pubdate="pubdate" datetime="2020-06-11 00:53:46 &#43;0200 &#43;0200">June 11, 2020</time></small>                
+    <p><a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System">CVSS</a> (Common Vulnerability Scoring System) is a standard
 measure of a vulnerability&rsquo;s severity. It takes several factors into account, such as <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System#Impact_metrics">impact</a>, <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System#Temporal_metrics">temporal</a> and <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System#Environmental_metrics">environmental</a> metrics.
 For a dataset that I&rsquo;m working on, this is a comparison of the CVSS3 score against the more coarse grained &ldquo;<em>severity</em>&rdquo; score.
 We normalise the <code>impact</code> data (originally from $[0, 3]$) as well as the <code>cvss3_score</code> and produce a regression plot.</p>
@@ -65,23 +66,9 @@ We normalise the <code>impact</code> data (originally from $[0, 3]$) as well as 
 <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;CVSS3&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Impact&#39;</span><span class="p">)</span>
 </code></pre></div><p><img src="/images/micro/1_1.png" alt=""></p>
 
-      </div>
-    </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/1/">2020-06-10 19:13:46 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p>Trying out <a href="/micro">a section</a> of the site for &ldquo;<em>micro blogging</em>&rdquo;.
-This is will include random, assorted thoughts.
-&ldquo;<em>Macro</em>&rdquo; blogging (also known as &ldquo;<em>Posts</em>&quot;) will be available in the <a href="/">usual section</a>.</p>
+</div>
 
-      </div>
-    </div>
-    
-
-  </div>
-
-  <div id="sidebar">
+<div id="sidebar">
   <h2>Other pages</h2>
   <ul>
     <li><a href="/">Posts</a></li>
@@ -129,5 +116,4 @@ This is will include random, assorted thoughts.
 </script>
 
 </body>
-
 </html>

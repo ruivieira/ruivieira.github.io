@@ -142,7 +142,7 @@ img {
   padding-left: 0.5em;
   padding-left: 0.75em;
   padding-right: 1em;
-  background: hsl(60, 29%, 94%);
+  /* background: hsl(60, 29%, 94%); */
   border: 1px solid #ccb;
   border-left-color: rgb(204, 204, 187);
   border-left-style: solid;

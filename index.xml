@@ -5,9 +5,21 @@
     <link>http://ruivieira.dev/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Mon, 13 Apr 2020 15:21:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2020 00:53:46 +0200</lastBuildDate>
     
     
+    
+    <item>
+      <title>CVSS3 and severity</title>
+      <link>http://ruivieira.dev/micro/2/</link>
+      <pubDate>Thu, 11 Jun 2020 00:53:46 +0200</pubDate>
+    </item>
+    
+    <item>
+      <title>Micro blogging</title>
+      <link>http://ruivieira.dev/micro/1/</link>
+      <pubDate>Wed, 10 Jun 2020 19:13:46 +0200</pubDate>
+    </item>
     
     <item>
       <title>Serving Models with Seldon</title>
@@ -25,12 +37,6 @@
       <title>(Semi) Handcrafted RSS</title>
       <link>http://ruivieira.dev/semi-handcrafted-rss.html</link>
       <pubDate>Tue, 07 Apr 2020 23:31:00 +0100</pubDate>
-    </item>
-    
-    <item>
-      <title>My new Tutorial</title>
-      <link>http://ruivieira.dev/micro/1/</link>
-      <pubDate>Fri, 04 Oct 2019 14:10:46 +0200</pubDate>
     </item>
     
     <item>
