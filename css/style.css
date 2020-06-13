@@ -4,11 +4,12 @@
   margin: 0;
   padding: 0;
 
-  font-family: 'Alegreya', serif;
+  font-family: 'EB Garamond', serif;
 }
 
 body {
   background: #fff;
+  font-size: 16px;
 }
 
 a {
@@ -36,7 +37,7 @@ a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
 }
 
 #main h1 {
-  font-size: 40px;
+  font-size: 2.5em;
   font-weight: normal;
 
   line-height: 40px;
@@ -46,9 +47,7 @@ a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
 
 #main p {
   margin: 20px 0;
-
-  font-size: 15px;
-
+  font-size: 1em;
   line-height: 20px;
 }
 
@@ -57,7 +56,7 @@ a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
 }
 
 #main li {
-  font-size: 15px;
+  font-size: 1em;
 
   line-height: 20px;
 }
@@ -86,7 +85,7 @@ a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
 #sidebar h2 {
   text-transform: uppercase;
 
-  font-size: 13px;
+  font-size: 1em;
 
   color: #333;
 
@@ -102,7 +101,7 @@ a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
 }
 
 #sidebar li {
-  font-size: 14px;
+  font-size: 1em;
 
   line-height: 20px;
 }
@@ -122,7 +121,7 @@ figure figcaption {
   text-align: center;
   padding-left: 10%;
   padding-right: 10%;
-  font-size: 13px;
+  font-size: 0.9em;
 }
 
 img {
@@ -141,6 +140,10 @@ h2 {
 
 .pagination li{
   display: inline;
+}
+
+.date {
+  color: #777;
 }
 
 /* Micro blogging styling */
@@ -164,11 +167,11 @@ h2 {
 }
 
 .micro-date {
-  font-size: 11px;
+  font-size: 0.75em;
   color: gray;
 }
 
 .micro-link {
-  font-size: 11px;
+  font-size: 0.75em;
   color: gray;
 }

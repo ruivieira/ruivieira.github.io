@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="gulp"/>
-<meta name="twitter:description" content="I have been working in a new library called gulp which you can find on https://github.com/ruivieira/gulp
-On the project&#39;s page there are some usage examples but I will try to summarise the main points here.
-The purpose of this library is to facilitate the parallel development of R and Java code, using rJava as the bridge. Creating bindings in rJava is quite simple, the tricky part of the process (in my opinion) being the maintenance of the bindings (usually done by hand) when refactoring your code."/>
+<meta name="twitter:title" content="Checking for uninitialised dates in Go"/>
+<meta name="twitter:description" content="In a recent Go project where I&rsquo;ve used an object-relational mapper (GORM), I needed to whether a time.Time (mapped to a potential NULL database field) had been initialized of not.
+Go&rsquo;s initialisation value for time.Time is 0001-01-01 00:00:00 &#43;0000 UTC (1st January 2001). It turns out time.Time provides a convenient method (IsZero()) to do just this.
+import &#34;time&#34; var myDate time.Time if myDate.IsZero() { // not initialised } else { // initialised } "/>
 
 
     <meta name="author" content="Rui Vieira" />
@@ -51,22 +51,25 @@ if (!doNotTrack) {
 <body>
 <div id="main" class="container">
   <div>
-    <h1>gulp</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2014-07-31 07:52:00 &#43;0100 BST">July 31, 2014</time></small>                
+    <h1>Checking for uninitialised dates in Go</h1>
+    <small class="date"><time pubdate="pubdate" datetime="2020-06-13 21:59:46 &#43;0200 &#43;0200">June 13, 2020</time></small>                
   </div>
   <div class="content">
-    <p>I have been working in a new library called <em>gulp</em> which you can find on <a href="https://github.com/ruivieira/gulp">https://github.com/ruivieira/gulp</a></p>
-<p>On the project's page there are some usage examples but I will try to summarise the main points here.</p>
-<p>The purpose of this library is to facilitate the parallel development of R and Java code, using <a href="http://cran.r-project.org/web/packages/rJava/index.html">rJava</a> 
-as the bridge. Creating bindings in rJava is quite simple, the tricky part of the process (in my opinion) being the 
-maintenance of the bindings (usually done by hand) when refactoring your code.
-As an example, let's assume you have the following Java class</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">$R</span>
-<span class="nd">@ExportClassReference</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">&#34;test&#34;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
-    <span class="c1">// Java code
-</span><span class="c1"></span><span class="o">}</span></code></pre></div>
-<p>That you wish to call from R.</p>
+    <p>In a recent <a href="https://golang.org/">Go</a> project where I&rsquo;ve used an object-relational
+mapper (<a href="https://gorm.io/">GORM</a>), I needed to  whether a <code>time.Time</code>
+(mapped to a potential <code>NULL</code> database field) had been initialized of not.</p>
+<p>Go&rsquo;s initialisation value for <code>time.Time</code> is <code>0001-01-01 00:00:00 +0000 UTC</code> (1st January 2001). It turns out <code>time.Time</code> provides
+a convenient method (<a href="https://golang.org/pkg/time/#Time.IsZero"><code>IsZero()</code></a>) to do just this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="s">&#34;time&#34;</span>
+
+ <span class="kd">var</span> <span class="nx">myDate</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span>
+
+<span class="k">if</span> <span class="nx">myDate</span><span class="p">.</span><span class="nf">IsZero</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// not initialised
+</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// initialised
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div>
   </div>
 </div>
 

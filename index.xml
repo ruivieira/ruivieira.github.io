@@ -5,9 +5,15 @@
     <link>http://ruivieira.dev/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Thu, 11 Jun 2020 00:53:46 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jun 2020 21:59:46 +0200</lastBuildDate>
     
     
+    
+    <item>
+      <title>Checking for uninitialised dates in Go</title>
+      <link>http://ruivieira.dev/micro/3/</link>
+      <pubDate>Sat, 13 Jun 2020 21:59:46 +0200</pubDate>
+    </item>
     
     <item>
       <title>CVSS3 and severity</title>
