@@ -5,9 +5,15 @@
     <link>http://ruivieira.dev/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Sat, 13 Jun 2020 21:59:46 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jun 2020 16:17:46 +0200</lastBuildDate>
     
     
+    
+    <item>
+      <title>Closures returning object literals in Javascript</title>
+      <link>http://ruivieira.dev/micro/4/</link>
+      <pubDate>Sun, 14 Jun 2020 16:17:46 +0200</pubDate>
+    </item>
     
     <item>
       <title>Checking for uninitialised dates in Go</title>
