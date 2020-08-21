@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python dynamic inheritance and factory methods"/>
+<meta name="twitter:description" content="Python supports dynamic inheritance which means you can declare a class parent at runtime. This can be applied to a class declaration nested in a method, giving the ability to create versatile &ldquo;factory&rdquo; methods. As an example:
+def factory(parent): class Subclass(parent): def __init__(self, message): parent.__init__(self, message) return Subclass This will create a subclass with parent as a parent as return the class definition. If we now define two base classes:"/>
+
+
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/trac.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-10507665-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+    </head>
+<body>
+<div id="main" class="container">
+  <div>
+    <h1>Python dynamic inheritance and factory methods</h1>
+    <small class="date"><time pubdate="pubdate" datetime="2020-08-21 16:17:32 &#43;0200 &#43;0200">August 21, 2020</time></small>                
+  </div>
+  <div class="content">
+    <p>Python supports <em>dynamic inheritance</em> which means you can declare a class parent at runtime. This can be applied to a class declaration nested in a method, giving the ability to create versatile &ldquo;factory&rdquo; methods. As an example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Subclass</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="n">parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Subclass</span>
+</code></pre></div><p>This will create a subclass with <code>parent</code> as a parent as return the class definition.
+If we now define two base classes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">ParentZombie</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;I am the ZOMBY WOOF: {message}&#34;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ParentWoof</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Tellin&#39; you all the Zomby troof: {message}&#34;</span><span class="p">)</span>
+</code></pre></div><p>We can now decide the subclass at runtime. For instance:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentZombie</span><span class="p">)</span>
+<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
+</code></pre></div><p>Will print <code>I am the ZOMBY WOOF: woof!</code> and:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentWoof</span><span class="p">)</span>
+<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
+</code></pre></div><p>Will print <code>Tellin' you all the Zomby troof: woof!</code>.</p>
+<p>I haven&rsquo;t found a situation where I needed this, but it&rsquo;s good to know it is possible.</p>
+
+  </div>
+</div>
+
+<div id="sidebar">
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
+
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName == "H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+  })();      
+</script>
+
+</body>
+</html>

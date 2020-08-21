@@ -5,9 +5,15 @@
     <link>http://ruivieira.dev/micro/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Sun, 14 Jun 2020 16:17:46 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2020 16:17:32 +0200</lastBuildDate>
     
     
+    
+    <item>
+      <title>Python dynamic inheritance and factory methods</title>
+      <link>http://ruivieira.dev/micro/5/</link>
+      <pubDate>Fri, 21 Aug 2020 16:17:32 +0200</pubDate>
+    </item>
     
     <item>
       <title>Closures returning object literals in Javascript</title>

@@ -48,6 +48,38 @@ if (!doNotTrack) {
 
     
     <div class="micro-block">
+      <span class="micro-date"><a href="http://ruivieira.dev/micro/5/">2020-08-21 16:17:32 &#43;0200 &#43;0200</a></span>
+      <div>
+        <p>Python supports <em>dynamic inheritance</em> which means you can declare a class parent at runtime. This can be applied to a class declaration nested in a method, giving the ability to create versatile &ldquo;factory&rdquo; methods. As an example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Subclass</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="n">parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Subclass</span>
+</code></pre></div><p>This will create a subclass with <code>parent</code> as a parent as return the class definition.
+If we now define two base classes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">ParentZombie</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;I am the ZOMBY WOOF: {message}&#34;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ParentWoof</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Tellin&#39; you all the Zomby troof: {message}&#34;</span><span class="p">)</span>
+</code></pre></div><p>We can now decide the subclass at runtime. For instance:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentZombie</span><span class="p">)</span>
+<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
+</code></pre></div><p>Will print <code>I am the ZOMBY WOOF: woof!</code> and:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentWoof</span><span class="p">)</span>
+<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
+</code></pre></div><p>Will print <code>Tellin' you all the Zomby troof: woof!</code>.</p>
+<p>I haven&rsquo;t found a situation where I needed this, but it&rsquo;s good to know it is possible.</p>
+
+      </div>
+    </div>
+    
+    <div class="micro-block">
       <span class="micro-date"><a href="http://ruivieira.dev/micro/4/">2020-06-14 16:17:46 &#43;0200 &#43;0200</a></span>
       <div>
         <p>Let&rsquo;s assume we have an array of data which we want to process into an array of objects (in Javascript).
