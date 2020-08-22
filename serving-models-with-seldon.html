@@ -49,13 +49,74 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Serving Models with Seldon</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2020-04-13 15:21:00 &#43;0100 BST">April 13, 2020</time></small>                
-  </div>
-  <div class="content">
-    <figure>
+
+
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
+
+
+  <div id="sidebar">
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
+
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName == "H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+  })();      
+</script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Serving Models with Seldon</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2020-04-13 15:21:00 &#43;0100 BST">April 13, 2020</time></small>                
+        </div>
+        
+      <div>
+        <figure>
     <img src="/images/seldon/cover.jpg"/> <figcaption>
             <h4>Models! Get your models here!</h4>
         </figcaption>
@@ -365,55 +426,12 @@ Happy coding!</p>
 </ol>
 </section>
 
+      </div>
+    </div>
+
+
+
   </div>
-</div>
-
-<div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-</div>
-
-<script>
-  (function () {
-    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById('sidebar');
-      div.innerHTML += '<h2>This page</h2>\n';
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute('name', i);
-          anchor.classList.add('anchor');
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-
-      }
-      div.innerHTML += '</ul>\n';
-    }
-  })();      
-</script>
 
 </body>
 </html>

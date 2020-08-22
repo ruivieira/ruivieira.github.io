@@ -48,13 +48,74 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Introduction to Isolation Forests</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2018-10-30 19:21:00 &#43;0100 &#43;0100">October 30, 2018</time></small>                
-  </div>
-  <div class="content">
-    <p><em>Isolation Forests</em> (IFs), presented in Liu <em>et. al</em> (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of
+
+
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
+
+
+  <div id="sidebar">
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
+
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName == "H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+  })();      
+</script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Introduction to Isolation Forests</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2018-10-30 19:21:00 &#43;0100 &#43;0100">October 30, 2018</time></small>                
+        </div>
+        
+      <div>
+        <p><em>Isolation Forests</em> (IFs), presented in Liu <em>et. al</em> (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of
 <em>Isolation Trees</em> (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.</p>
 <p>ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the <a href="https://en.wikipedia.org/wiki/Binary_search_tree">Binary Search Tree</a> (BSTs). In a very simplified way, BSTs are a special instance of tree structures where keys are kept in such an order that a node search is performed by iteratively (or recursively) choosing a left or right branch based on a quantitative comparison (<em>e.g.</em> lesser or greater). Node insertion is performed by doing a tree search, using the method described previously, until reaching an <em>external node</em>, where the new node will be inserted. This allows for efficient node searches since, on average, half the tree will not be visited. To illustrate this assume the values $x=[1, 10, 2, 4, 3, 5, 26, 9, 7, 54]$ and the respective insertion on a BST. The intermediate steps would then be as shown below.</p>
 <p><img src="images/isolationforests/bst_steps.png" alt="" width="100%"/></p>
@@ -124,55 +185,12 @@ with $\text{E}[h(x)]$ being the average $h(x)$ for a collection of ITs.</p>
 <li>Liu, F. T., Ting, K. M., &amp; Zhou, Z. H. (2012). <em>Isolation-Based Anomaly Detection.</em> ACM Transactions on Knowledge Discovery from Data, 6(1), 1–39. <a href="https://doi.org/10.1145/2133360.2133363">https://doi.org/10.1145/2133360.2133363</a></p></li>
 </ul>
 
+      </div>
+    </div>
+
+
+
   </div>
-</div>
-
-<div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-</div>
-
-<script>
-  (function () {
-    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById('sidebar');
-      div.innerHTML += '<h2>This page</h2>\n';
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute('name', i);
-          anchor.classList.add('anchor');
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-
-      }
-      div.innerHTML += '</ul>\n';
-    }
-  })();      
-</script>
 
 </body>
 </html>

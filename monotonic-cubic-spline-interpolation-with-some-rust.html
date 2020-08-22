@@ -47,13 +47,74 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Monotonic Cubic Spline interpolation (with some Rust)</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2019-04-03 23:05:00 &#43;0100 BST">April 3, 2019</time></small>                
-  </div>
-  <div class="content">
-    <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
+
+
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
+
+
+  <div id="sidebar">
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
+
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName == "H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+  })();      
+</script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Monotonic Cubic Spline interpolation (with some Rust)</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2019-04-03 23:05:00 &#43;0100 BST">April 3, 2019</time></small>                
+        </div>
+        
+      <div>
+        <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
 In this post I’ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson [<a href="#ref-1">Fritsch2005</a><a name="ref-1-origin"></a>] in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
 <h2>Rust</h2>
 <p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  pratically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and its concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
@@ -216,55 +277,12 @@ t &amp;= \frac{3}{h}.
 <h2>References</h2>
 <p><a name="ref-1">[Fritsch2005]</a> Fritsch, F. N., &amp; Carlson, R. E. (2005). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em>. https://doi.org/10.1137/0717021 <a href="#ref-1-origin">🔝</a></p>
 <p><a name="ref-2">[Curry1958]</a> Curry, Haskell; Feys, Robert (1958). Combinatory logic. I (2 ed.). Amsterdam, Netherlands: North-Holland Publishing Company. <a href="#ref-2-origin">🔝</a></p>
+      </div>
+    </div>
+
+
+
   </div>
-</div>
-
-<div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-</div>
-
-<script>
-  (function () {
-    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById('sidebar');
-      div.innerHTML += '<h2>This page</h2>\n';
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute('name', i);
-          anchor.classList.add('anchor');
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-
-      }
-      div.innerHTML += '</ul>\n';
-    }
-  })();      
-</script>
 
 </body>
 </html>

@@ -47,13 +47,74 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Introduction to Balanced Box-Decomposition Trees</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2019-04-17 19:21:00 &#43;0100 BST">April 17, 2019</time></small>                
-  </div>
-  <div class="content">
-    <p>Stardate 96893.29. You are the USS Euler's Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that <em>both</em> Emacs and Vim should be installed in all computers. You open your favourite editor and, fortunately, know exactly how to formulate the solution to your problem: a <span class="math">\(d\)</span>-dimensional nearest neighbour algorithm.</p>
+
+
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
+
+
+  <div id="sidebar">
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
+
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName == "H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+  })();      
+</script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Introduction to Balanced Box-Decomposition Trees</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2019-04-17 19:21:00 &#43;0100 BST">April 17, 2019</time></small>                
+        </div>
+        
+      <div>
+        <p>Stardate 96893.29. You are the USS Euler's Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that <em>both</em> Emacs and Vim should be installed in all computers. You open your favourite editor and, fortunately, know exactly how to formulate the solution to your problem: a <span class="math">\(d\)</span>-dimensional nearest neighbour algorithm.</p>
 <p>Given a dataset <span class="math">\(\mathcal{D}\)</span> of <span class="math">\(n\)</span> points in a space <span class="math">\(X\)</span> we want to be able to tell which are the <em>closest</em> point to a query point <span class="math">\(q \in X\)</span>, preferably in a way which is computationally cheaper than <em>brute force</em> methods (<em>e.g.</em> iterating through all of the points) which typically solve this problem in <span class="math">\(\mathcal{O}(dn)\)</span> [<a href="#ref-1">Arya1998</a><a name="ref-1-origin"></a>]. <span class="math">\(X\)</span> could have <span class="math">\(d\)</span> dimensions (that is <span class="math">\(\mathcal{D} \subset X : \mathbb{R}^d\)</span>) and we define <em>closest</em> using<sup>1</sup> Minkowski distance metrics, that is:</p>
 <div class="math">$$L_m = \left(\sum_{i=1}^d |p_i - q_i|^m\right)^{\frac{1}{m}},\qquad p,q \in X : \mathbb{R}^d.$$</div>
 <p>A potential solution for this problem would be to use <em>kd</em>-trees, which for low dimenson scenarios provide <span class="math">\(\mathcal{O}(\log n)\)</span> query times [<a href="#ref-2">Friedman1977</a><a name="ref-2-origin"></a>]. However, as the number of dimensions increase (as quickly as <span class="math">\(d&gt;2\)</span>) the query times also increase as <span class="math">\(2^d\)</span>.</p>
@@ -175,55 +236,12 @@ y_{outer}-y_{inner} = 0 &amp;\lor y_{outer}-y_{inner} \nleq w.
 multidimensional point sets with applications to k-nearest-neighbors and
 n-body potential fields. <em>Journal of the ACM</em>, <em>42</em>(1), 67-90. <a href="#ref-4-origin">🔝</a></p>
 
+      </div>
+    </div>
+
+
+
   </div>
-</div>
-
-<div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-</div>
-
-<script>
-  (function () {
-    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById('sidebar');
-      div.innerHTML += '<h2>This page</h2>\n';
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute('name', i);
-          anchor.classList.add('anchor');
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-
-      }
-      div.innerHTML += '</ul>\n';
-    }
-  })();      
-</script>
 
 </body>
 </html>

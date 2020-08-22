@@ -48,42 +48,16 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Python dynamic inheritance and factory methods</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2020-08-21 16:17:32 &#43;0200 &#43;0200">August 21, 2020</time></small>                
-  </div>
-  <div class="content">
-    <p>Python supports <em>dynamic inheritance</em> which means you can declare a class parent at runtime. This can be applied to a class declaration nested in a method, giving the ability to create versatile &ldquo;factory&rdquo; methods. As an example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
-    <span class="k">class</span> <span class="nc">Subclass</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-            <span class="n">parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">Subclass</span>
-</code></pre></div><p>This will create a subclass with <code>parent</code> as a parent as return the class definition.
-If we now define two base classes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">ParentZombie</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;I am the ZOMBY WOOF: {message}&#34;</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">ParentWoof</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Tellin&#39; you all the Zomby troof: {message}&#34;</span><span class="p">)</span>
-</code></pre></div><p>We can now decide the subclass at runtime. For instance:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentZombie</span><span class="p">)</span>
-<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
-</code></pre></div><p>Will print <code>I am the ZOMBY WOOF: woof!</code> and:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentWoof</span><span class="p">)</span>
-<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
-</code></pre></div><p>Will print <code>Tellin' you all the Zomby troof: woof!</code>.</p>
-<p>I haven&rsquo;t found a situation where I needed this, but it&rsquo;s good to know it is possible.</p>
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
 
-  </div>
-</div>
 
-<div id="sidebar">
+  <div id="sidebar">
   <h2>Other pages</h2>
   <ul>
     <li><a href="/">Posts</a></li>
@@ -129,6 +103,50 @@ If we now define two base classes:</p>
     }
   })();      
 </script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Python dynamic inheritance and factory methods</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2020-08-21 16:17:32 &#43;0200 &#43;0200">August 21, 2020</time></small>                
+        </div>
+        
+      <div>
+        <p>Python supports <em>dynamic inheritance</em> which means you can declare a class parent at runtime. This can be applied to a class declaration nested in a method, giving the ability to create versatile &ldquo;factory&rdquo; methods. As an example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Subclass</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+            <span class="n">parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Subclass</span>
+</code></pre></div><p>This will create a subclass with <code>parent</code> as a parent as return the class definition.
+If we now define two base classes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">ParentZombie</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;I am the ZOMBY WOOF: {message}&#34;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ParentWoof</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Tellin&#39; you all the Zomby troof: {message}&#34;</span><span class="p">)</span>
+</code></pre></div><p>We can now decide the subclass at runtime. For instance:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentZombie</span><span class="p">)</span>
+<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
+</code></pre></div><p>Will print <code>I am the ZOMBY WOOF: woof!</code> and:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentWoof</span><span class="p">)</span>
+<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
+</code></pre></div><p>Will print <code>Tellin' you all the Zomby troof: woof!</code>.</p>
+<p>I haven&rsquo;t found a situation where I needed this, but it&rsquo;s good to know it is possible.</p>
+
+      </div>
+    </div>
+
+
+
+  </div>
 
 </body>
 </html>

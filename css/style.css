@@ -1,15 +1,10 @@
 /* @import url('https://fonts.googleapis.com/css?family=Alegreya&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap");
 * {
   margin: 0;
   padding: 0;
-
-  font-family: 'EB Garamond', serif;
-}
-
-body {
-  background: #fff;
-  font-size: 16px;
+  font-family: "EB Garamond", serif;
 }
 
 a {
@@ -25,24 +20,34 @@ a:hover {
   color: #f90;
 }
 
-a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
-
-#main {
-  position: absolute;
-
-  top: 40px;
-  left: 280px;
-
-  width: 500px;
+a.anchor {
+  display: block;
+  position: relative;
+  top: -50px;
+  visibility: hidden;
 }
 
-#main h1 {
+#main > h1 {
   font-size: 2.5em;
   font-weight: normal;
-
   line-height: 40px;
-
   letter-spacing: -1px;
+  padding-left: 10px;
+}
+
+#main > p {
+  padding-left: 20px 0;
+  font-size: 1em;
+  line-height: 20px;
+}
+
+#main > li {
+  font-size: 1em;
+  line-height: 20px;
+}
+
+#main > ul > li {
+  list-style-type: square;
 }
 
 #main p {
@@ -51,13 +56,14 @@ a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
   line-height: 20px;
 }
 
-#main ul, #main ol {
-  margin: 20px;
+#main > ul,
+#main > ol {
+  padding-left: 35px;
+  width: 90%;
 }
 
 #main li {
   font-size: 1em;
-
   line-height: 20px;
 }
 
@@ -65,72 +71,23 @@ a.anchor { display: block; position: relative; top: -50px; visibility: hidden; }
   list-style-type: square;
 }
 
-#sidebar {
-  /* position: absolute; */
-
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-
-  top: 40px;
-  left: 20px;
-  width: 200px;
-
-  padding: 20px 20px 0 0;
-
-  border-right: 1px solid #ccc;
-
-  text-align: right;
-}
-
-#sidebar h2 {
-  text-transform: uppercase;
-
-  font-size: 1em;
-
-  color: #333;
-
-  letter-spacing: 1px;
-
-  line-height: 20px;
-}
-
-#sidebar ul {
-  list-style-type: none;
-
-  margin: 20px 0;
-}
-
-#sidebar li {
-  font-size: 1em;
-
-  line-height: 20px;
-}
-
 /* custom elements */
+
 figure {
   display: inline-block;
-  margin: 20px; /* adjust as needed */
+  margin: 10px;
+  /* adjust as needed */
 }
 
-figure img {
-  vertical-align: top;
-  margin-bottom: 10px;
-}
-
-figure figcaption {
+figure > figcaption {
   text-align: center;
   padding-left: 10%;
   padding-right: 10%;
   font-size: 0.9em;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.content {
-  padding-top: 40px;
+.footnotes {
+  font-size: 0.7rem;
 }
 
 h2 {
@@ -138,7 +95,11 @@ h2 {
   padding-bottom: 15px;
 }
 
-.pagination li{
+h4 {
+  font-size: 0.75rem;
+}
+
+.pagination li {
   display: inline;
 }
 
@@ -146,25 +107,16 @@ h2 {
   color: #777;
 }
 
-/* Micro blogging styling */
-.micro-block {
-  display: block;
-  width: auto;
-  font-size: inherit;
-  margin: 2rem;
-  margin-left: 2rem;
-  padding: 0.5em;
-  padding-right: 0.5em;
-  padding-left: 0.5em;
-  padding-left: 0.75em;
-  padding-right: 1em;
-  /* background: hsl(60, 29%, 94%); */
-  border: 1px solid #ccb;
-  border-left-color: rgb(204, 204, 187);
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left: 0.4rem solid #ccb;
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
+
+/* Micro blogging styling */
 
 .micro-date {
   font-size: 0.75em;
@@ -174,4 +126,150 @@ h2 {
 .micro-link {
   font-size: 0.75em;
   color: gray;
+}
+
+/* Responsive design */
+
+@media screen and (max-width: 499px) {
+  body {
+    background: #fff;
+    font-size: 17px;
+  }
+
+  #navigation {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    background-color: #eee;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    font-weight: normal;
+    line-height: 40px;
+    letter-spacing: -1px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  #navigation > .nav-item {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1.5rem;
+  }
+  #sidebar {
+    display: none !important;
+  }
+  #content {
+    position: absolute;
+    top: 50px;
+  }
+  .container {
+    width: 100%;
+  }
+  p > img,
+  figure > img {
+    vertical-align: top;
+    margin-bottom: 10px;
+    max-width: 100%;
+  }
+  .micro-block {
+    width: auto;
+    font-size: inherit;
+    margin-top: 2rem;
+    padding-left: 0.75em;
+    padding-right: 1em;
+    border: 1px solid #ccb;
+    border-left-color: rgb(204, 204, 187);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left: 0.4rem solid #ccb;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  body {
+    background: #fff;
+    font-size: 17px;
+  }
+
+  #navigation {
+    display: none !important;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    font-weight: normal;
+    line-height: 40px;
+    letter-spacing: -1px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  #sidebar {
+    position: fixed;
+    z-index: 1;
+    top: 6%;
+    left: 0px;
+    width: 20%;
+    padding-top: 0px;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+    text-align: right;
+    min-height: 100%;
+    height: 100%;
+  }
+  .container {
+    position: absolute;
+    left: 20%;
+    margin-left: 50px;
+    max-width: 50%;
+    top: 6%;
+  }
+  #sidebar > ul {
+    list-style-type: none;
+    margin: 20px 0;
+  }
+  #sidebar > li {
+    font-size: 1em;
+    line-height: 20px;
+  }
+  #sidebar h2 {
+    text-transform: uppercase;
+    font-size: 1em;
+    color: #333;
+    letter-spacing: 1px;
+    line-height: 20px;
+  }
+  figure {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  p > img,
+  figure > img {
+    vertical-align: top;
+    margin-bottom: 10px;
+    max-width: 100%;
+  }
+  .micro-block {
+    width: auto;
+    font-size: inherit;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    padding-left: 0.75em;
+    padding-right: 1em;
+    border: 1px solid #ccb;
+    border-left-color: rgb(204, 204, 187);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left: 0.4rem solid #ccb;
+  }
 }

@@ -47,13 +47,74 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Containerised Streaming Data Generation using State-Space Models</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2018-05-12 19:21:00 &#43;0100 BST">May 12, 2018</time></small>                
-  </div>
-  <div class="content">
-    <p>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as <a href="https://kafka.apache.org/">Apache Kafka</a> and <a href="https://spark.apache.org/">Apache Spark</a> and deployment in a cloud environment like <a href="https://www.openshift.com/">OpenShift</a> with tools such as <a href="https://radanalytics.io/">oshinko</a>.</p></p>
+
+
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
+
+
+  <div id="sidebar">
+  <h2>Other pages</h2>
+  <ul>
+    <li><a href="/">Posts</a></li>
+    <li><a href="/micro/">µ-posts</a></li>
+    <li><a href="/pages/about.html">About</a></li>
+  </ul>
+</div>
+
+<script>
+  (function () {
+    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    if (elements.length > 1) {
+      var div = document.getElementById('sidebar');
+      div.innerHTML += '<h2>This page</h2>\n';
+      
+
+      var list = document.createElement("ul");
+
+      var i = 1;
+      for (var element of elements) {
+        console.log(element);
+        if (element.nodeName == "H2") {
+          console.log(element.textContent);
+          
+          var anchor = document.createElement("a");
+          anchor.setAttribute('name', i);
+          anchor.classList.add('anchor');
+          element.parentNode.insertBefore(anchor, element.nextSibling);
+          
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute("href", "#" + i);
+          a.textContent = element.textContent;
+          li.appendChild(a);
+          list.append(li);
+          
+          i++;
+        }
+        div.appendChild(list);
+
+      }
+      div.innerHTML += '</ul>\n';
+    }
+  })();      
+</script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Containerised Streaming Data Generation using State-Space Models</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2018-05-12 19:21:00 &#43;0100 BST">May 12, 2018</time></small>                
+        </div>
+        
+      <div>
+        <p>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as <a href="https://kafka.apache.org/">Apache Kafka</a> and <a href="https://spark.apache.org/">Apache Spark</a> and deployment in a cloud environment like <a href="https://www.openshift.com/">OpenShift</a> with tools such as <a href="https://radanalytics.io/">oshinko</a>.</p></p>
 <p>Simulating data is not trivial, since we might want to capture complex characteristic to evaluate our algorithms in conditions similar to the real world.</p>
 <p>In this post I'll introduce a tool, <a href="https://github.com/ruivieira/timeseries-mock">timeseries-mock</a>, which allows for a simple, containerised deployment of a data simulator along with some of the theory behind the data generation.</p>
 <h2>State-space models</h2>
@@ -368,55 +429,12 @@ y &amp;= f(\eta_t) \\
 <p>If you have any suggestions, use cases (or found an issue!), please let me know in the <a href="https://github.com/ruivieira/timeseries-mock">repository</a>.</p>
 <p>If you have any comments please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> (or <a href="https://twitter.com/ruimvieira">Twitter</a>).</p>
 <p>Happy coding!</p>
+      </div>
+    </div>
+
+
+
   </div>
-</div>
-
-<div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-</div>
-
-<script>
-  (function () {
-    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById('sidebar');
-      div.innerHTML += '<h2>This page</h2>\n';
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute('name', i);
-          anchor.classList.add('anchor');
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-
-      }
-      div.innerHTML += '</ul>\n';
-    }
-  })();      
-</script>
 
 </body>
 </html>

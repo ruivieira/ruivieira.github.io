@@ -52,33 +52,16 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>t as mixture of Normals</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2016-11-27 14:00:00 &#43;0000 GMT">November 27, 2016</time></small>                
-  </div>
-  <div class="content">
-    <p>(Based on Rasmus Bååth&rsquo;s <a href="http://www.sumsar.net/blog/2013/12/t-as-a-mixture-of-normals/">post</a>)</p>
-<p>A scaled $t$ distribution, with $\mu$ mean, $s$ scale and $\nu$ degrees of freedom, can be simulated
-from a mixture of Normals with $\mu$ mean and precisions following a Gamma distribution:</p>
-<p>\begin{align}
-y &amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\<br>
-\sigma^2 &amp;\sim \mathcal{IG}\left(\frac{\nu}{2},s^2\frac{\nu}{2}\right)
-\end{align}</p>
-<p>Since I&rsquo;ve recently pickep up again the <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a> in
-my spare time, I&rsquo;ve decided to replicate the previously mentioned post using a Crystal one-liner.</p>
-<p>To simulate 10,000 samples from $t_2\left(0,3\right)$ using the mixture, we can then write:</p>
-<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="n">samples</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10000</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
-    <span class="n">Normal</span><span class="o">.</span><span class="n">sample</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span> 
-<span class="p">}</span></code></pre></div>
-<p>We can see the mixture distribution (histogram) converging nicely to the $(t_2(0,3)$ (red):</p>
-<p>
-    <video controls loop autoplay width="100%"><source src='/images/t_mixture.mp4' type='video/mp4'></video>
-</p>
-  </div>
-</div>
 
-<div id="sidebar">
+
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
+
+
+  <div id="sidebar">
   <h2>Other pages</h2>
   <ul>
     <li><a href="/">Posts</a></li>
@@ -124,6 +107,41 @@ my spare time, I&rsquo;ve decided to replicate the previously mentioned post usi
     }
   })();      
 </script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>t as mixture of Normals</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2016-11-27 14:00:00 &#43;0000 GMT">November 27, 2016</time></small>                
+        </div>
+        
+      <div>
+        <p>(Based on Rasmus Bååth&rsquo;s <a href="http://www.sumsar.net/blog/2013/12/t-as-a-mixture-of-normals/">post</a>)</p>
+<p>A scaled $t$ distribution, with $\mu$ mean, $s$ scale and $\nu$ degrees of freedom, can be simulated
+from a mixture of Normals with $\mu$ mean and precisions following a Gamma distribution:</p>
+<p>\begin{align}
+y &amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\<br>
+\sigma^2 &amp;\sim \mathcal{IG}\left(\frac{\nu}{2},s^2\frac{\nu}{2}\right)
+\end{align}</p>
+<p>Since I&rsquo;ve recently pickep up again the <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a> in
+my spare time, I&rsquo;ve decided to replicate the previously mentioned post using a Crystal one-liner.</p>
+<p>To simulate 10,000 samples from $t_2\left(0,3\right)$ using the mixture, we can then write:</p>
+<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="n">samples</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10000</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+    <span class="n">Normal</span><span class="o">.</span><span class="n">sample</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">)</span> 
+<span class="p">}</span></code></pre></div>
+<p>We can see the mixture distribution (histogram) converging nicely to the $(t_2(0,3)$ (red):</p>
+<p>
+    <video controls loop autoplay width="100%"><source src='/images/t_mixture.mp4' type='video/mp4'></video>
+</p>
+      </div>
+    </div>
+
+
+
+  </div>
 
 </body>
 </html>

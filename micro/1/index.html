@@ -47,20 +47,16 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Micro blogging</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2020-06-10 19:13:46 &#43;0200 &#43;0200">June 10, 2020</time></small>                
-  </div>
-  <div class="content">
-    <p>Trying out <a href="/micro">a section</a> of the site for &ldquo;<em>micro blogging</em>&rdquo;.
-This is will include random, assorted thoughts.
-&ldquo;<em>Macro</em>&rdquo; blogging (also known as &ldquo;<em>Posts</em>&quot;) will be available in the <a href="/">usual section</a>.</p>
 
-  </div>
-</div>
 
-<div id="sidebar">
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
+
+
+  <div id="sidebar">
   <h2>Other pages</h2>
   <ul>
     <li><a href="/">Posts</a></li>
@@ -106,6 +102,28 @@ This is will include random, assorted thoughts.
     }
   })();      
 </script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Micro blogging</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2020-06-10 19:13:46 &#43;0200 &#43;0200">June 10, 2020</time></small>                
+        </div>
+        
+      <div>
+        <p>Trying out <a href="/micro">a section</a> of the site for &ldquo;<em>micro blogging</em>&rdquo;.
+This is will include random, assorted thoughts.
+&ldquo;<em>Macro</em>&rdquo; blogging (also known as &ldquo;<em>Posts</em>&quot;) will be available in the <a href="/">usual section</a>.</p>
+
+      </div>
+    </div>
+
+
+
+  </div>
 
 </body>
 </html>

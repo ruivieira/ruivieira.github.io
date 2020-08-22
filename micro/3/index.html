@@ -49,31 +49,16 @@ if (!doNotTrack) {
 
     </head>
 <body>
-<div id="main" class="container">
-  <div>
-    <h1>Checking for uninitialised dates in Go</h1>
-    <small class="date"><time pubdate="pubdate" datetime="2020-06-13 21:59:46 &#43;0200 &#43;0200">June 13, 2020</time></small>                
-  </div>
-  <div class="content">
-    <p>In a recent <a href="https://golang.org/">Go</a> project where I&rsquo;ve used an object-relational
-mapper (<a href="https://gorm.io/">GORM</a>), I needed to  whether a <code>time.Time</code>
-(mapped to a potential <code>NULL</code> database field) had been initialized of not.</p>
-<p>Go&rsquo;s initialisation value for <code>time.Time</code> is <code>0001-01-01 00:00:00 +0000 UTC</code> (1st January 2001). It turns out <code>time.Time</code> provides
-a convenient method (<a href="https://golang.org/pkg/time/#Time.IsZero"><code>IsZero()</code></a>) to do just this.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="s">&#34;time&#34;</span>
 
- <span class="kd">var</span> <span class="nx">myDate</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span>
 
-<span class="k">if</span> <span class="nx">myDate</span><span class="p">.</span><span class="nf">IsZero</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// not initialised
-</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="c1">// initialised
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div>
-  </div>
-</div>
+  <nav id="navigation">
+    <span class="nav-item"><a href="/">Posts</a></span> ●
+    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
+    <span class="nav-item"><a href="/pages/about.html">About</a></span>
+</nav>
 
-<div id="sidebar">
+
+  <div id="sidebar">
   <h2>Other pages</h2>
   <ul>
     <li><a href="/">Posts</a></li>
@@ -119,6 +104,39 @@ a convenient method (<a href="https://golang.org/pkg/time/#Time.IsZero"><code>Is
     }
   })();      
 </script>
+
+  <div id="content" class="container">
+  <div class="columns">
+
+    <div class="column">
+      
+        <div>
+          <h1>Checking for uninitialised dates in Go</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2020-06-13 21:59:46 &#43;0200 &#43;0200">June 13, 2020</time></small>                
+        </div>
+        
+      <div>
+        <p>In a recent <a href="https://golang.org/">Go</a> project where I&rsquo;ve used an object-relational
+mapper (<a href="https://gorm.io/">GORM</a>), I needed to  whether a <code>time.Time</code>
+(mapped to a potential <code>NULL</code> database field) had been initialized of not.</p>
+<p>Go&rsquo;s initialisation value for <code>time.Time</code> is <code>0001-01-01 00:00:00 +0000 UTC</code> (1st January 2001). It turns out <code>time.Time</code> provides
+a convenient method (<a href="https://golang.org/pkg/time/#Time.IsZero"><code>IsZero()</code></a>) to do just this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="s">&#34;time&#34;</span>
+
+ <span class="kd">var</span> <span class="nx">myDate</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span>
+
+<span class="k">if</span> <span class="nx">myDate</span><span class="p">.</span><span class="nf">IsZero</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// not initialised
+</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// initialised
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div>
+      </div>
+    </div>
+
+
+
+  </div>
 
 </body>
 </html>
