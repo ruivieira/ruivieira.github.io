@@ -74,9 +74,17 @@ a.anchor {
 /* custom elements */
 
 figure {
-  display: inline-block;
-  margin: 10px;
-  /* adjust as needed */
+  display: block;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+figure > img {
+  display: block;
+  max-width: 500px;
 }
 
 figure > figcaption {
@@ -138,12 +146,14 @@ pre {
 
   #navigation {
     width: 100%;
+    z-index: 1;
     height: 50px;
     text-align: center;
-    background-color: #eee;
+    background: rgb(230, 230, 230);
     position: fixed;
     top: 0;
     left: 0;
+    padding-top: 10px;
   }
 
   h1 {
@@ -170,12 +180,6 @@ pre {
   }
   .container {
     width: 100%;
-  }
-  p > img,
-  figure > img {
-    vertical-align: top;
-    margin-bottom: 10px;
-    max-width: 100%;
   }
   .micro-block {
     width: auto;
@@ -228,7 +232,7 @@ pre {
     position: absolute;
     left: 20%;
     margin-left: 50px;
-    max-width: 50%;
+    max-width: 800px;
     top: 6%;
   }
   #sidebar > ul {
@@ -246,17 +250,7 @@ pre {
     letter-spacing: 1px;
     line-height: 20px;
   }
-  figure {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-  }
-  p > img,
-  figure > img {
-    vertical-align: top;
-    margin-bottom: 10px;
-    max-width: 100%;
-  }
+
   .micro-block {
     width: auto;
     font-size: inherit;
