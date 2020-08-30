@@ -103,6 +103,41 @@ if (!doNotTrack) {
 
     
     <div class="micro-block">
+      <span class="micro-date"><a href="http://ruivieira.dev/micro/6/">2020-08-30 16:06:32 &#43;0200 &#43;0200</a></span>
+      <div>
+        <p>If I have two random variables with a binomial distribution, such as:</p>
+<p>$$
+\begin{aligned}
+X &amp;\sim \text{Binom}\left(K, a\right) \\<br>
+Y &amp;\sim \text{Binom}\left(K, b\right),
+\end{aligned}
+$$</p>
+<p>what is the expection</p>
+<p>$$
+\mathbb{E}\left[|bX-aY|\right]?
+$$</p>
+<p>For a large enough $K$, let&rsquo;s use the CLT and approximate $X$ and $Y$ with $X_p$ and $Y_p$, respectively:</p>
+<p>$$
+\begin{align}
+X_p &amp;\sim \mathcal{N}\left(Ka, Ka(1-a)\right)\\<br>
+Y_p &amp;\sim \mathcal{N}\left(Kb, Kb(1-b)\right).
+\end{align}
+$$</p>
+<p>Let&rsquo;s take as an example $K=200, a=0.2, b=0.7$. As illustrated below:</p>
+<p><img src="/images/micro/6_1.png" alt=""></p>
+<p>This implies that $bX-aY$ has a distribution $\mathcal{N}\left(0, \sigma^2\right)$, whith $\sigma^2$:</p>
+<p>$$
+\sigma^2 = Kab(a+b-2ab).
+$$</p>
+<p>We can then calcualte the expectation as:</p>
+<p>$$
+\mathbb{E}\left[bX-aY\right] = \sqrt{\frac{2}{\pi}\sigma}=\sqrt{\frac{2Kab}{\pi}(a+b-2ab)}.
+$$</p>
+
+      </div>
+    </div>
+    
+    <div class="micro-block">
       <span class="micro-date"><a href="http://ruivieira.dev/micro/5/">2020-08-21 16:17:32 &#43;0200 &#43;0200</a></span>
       <div>
         <p>Python supports <em>dynamic inheritance</em> which means you can declare a class parent at runtime. This can be applied to a class declaration nested in a method, giving the ability to create versatile &ldquo;factory&rdquo; methods. As an example:</p>

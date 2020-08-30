@@ -5,9 +5,15 @@
     <link>http://ruivieira.dev/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Fri, 21 Aug 2020 16:17:32 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2020 16:06:32 +0200</lastBuildDate>
     
     
+    
+    <item>
+      <title>Approximating binomials with normals</title>
+      <link>http://ruivieira.dev/micro/6/</link>
+      <pubDate>Sun, 30 Aug 2020 16:06:32 +0200</pubDate>
+    </item>
     
     <item>
       <title>Python dynamic inheritance and factory methods</title>

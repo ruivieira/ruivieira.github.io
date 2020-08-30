@@ -87,6 +87,14 @@ figure > img {
   max-width: 500px;
 }
 
+img {
+  display: block;
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 500px;
+}
+
 figure > figcaption {
   text-align: center;
   padding-left: 10%;
@@ -134,6 +142,11 @@ pre {
 .micro-link {
   font-size: 0.75em;
   color: gray;
+}
+
+.micro-block > div {
+  margin-top: 15px;
+  margin-bottom: 25px;
 }
 
 /* Responsive design */
@@ -265,5 +278,6 @@ pre {
     border-left-style: solid;
     border-left-width: 1px;
     border-left: 0.4rem solid #ccb;
+    
   }
 }
