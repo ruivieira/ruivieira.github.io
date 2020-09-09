@@ -5,9 +5,15 @@
     <link>http://ruivieira.dev/micro/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Sun, 30 Aug 2020 16:06:32 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2020 22:06:32 +0200</lastBuildDate>
     
     
+    
+    <item>
+      <title>Linear separability and Perceptrons</title>
+      <link>http://ruivieira.dev/micro/7/</link>
+      <pubDate>Tue, 08 Sep 2020 22:06:32 +0200</pubDate>
+    </item>
     
     <item>
       <title>Approximating binomials with normals</title>

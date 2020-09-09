@@ -103,7 +103,15 @@ figure > figcaption {
 }
 
 .footnotes {
-  font-size: 0.7rem;
+  font-size: 1.1rem;
+  margin-top: 50px;
+}
+
+.footnotes > hr {
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+  margin-bottom: 20px;
 }
 
 h2 {
