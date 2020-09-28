@@ -302,7 +302,7 @@ On the other hand, as expected, the bulk of the execution time is spent on the <
 </table>
 <p>A few interesting results from this benchmark were the fact that using <code>numpy</code> or <code>random</code> didn&rsquo;t make much difference overall (264.4 and 271.3 seconds, respectively).</p>
 <p>This is despite the fact that, apparently, the Gamma sampling seems to perform better in <code>numpy</code> but the Normal sampling seems to be faster in the <code>random</code> library.</p>
-<p>You will notice that we&rsquo;ve still used Python&rsquo;s built-in <code>math.sqrt</code> since it is known that for scalar usage it out-performs <code>numpy</code>'s equivalent.</p>
+<p>You will notice that we&rsquo;ve still used Python&rsquo;s built-in <code>math.sqrt</code> since it is known that for scalar usage it out-performs <code>numpy</code>&rsquo;s equivalent.</p>
 <p>Unfortunately, in my view, we are just witnessing a fact of life: <em>Python is not the best language for number crunching</em>.</p>
 <p>Since the bulk of the computational time, as we&rsquo;ve seen, is due to the sampling of the Normal and Gamma distributions, it is clear that in our code there is little room for optimisation except the sampling methods themselves.
 A few possible solutions would be to:</p>

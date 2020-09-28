@@ -1,31 +1,40 @@
 <!DOCTYPE HTML>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Rui Vieira" />
-  <meta name="copyright" content="Rui Vieira" />
-  <meta name="generator" content="Rui Vieira">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/trac.css">
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-        processEscapes: true
-      }
-    });
-  </script>
-
-  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Clustering metrics: Dunn index"/>
+<meta name="twitter:description" content="There are several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the Dunn index, Davis-Bouldin index and Silhoutte index.
+But before we start, let&rsquo;s introduce some concepts.
+We are interested in clustering algorithms for a dataset $\mathcal{D}$ with $N$ elements in a $n$-dimensional real space, that is:
+$$ \mathcal{D} = {x_1, x_2, \ldots, x_N} \in \mathbb{R}^p $$
+The clustering algorithm will create a set $C$ of $K$ distinct disjoint groups from $\mathcal{D}$ $C={c_1, c_2, \ldots, c_k}$, such that:"/>
 
 
-  
+    <meta name="author" content="Rui Vieira" />
+    <meta name="copyright" content="Rui Vieira" />
+    <meta name="generator" content="Rui Vieira"> 
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/trac.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    
+    <script type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -40,9 +49,9 @@ if (!doNotTrack) {
 </script>
 
 
-</head>
-
+    </head>
 <body>
+
 
   <div id="navigation">
     <span class="nav-item"><a href="/">Posts</a></span> ●
@@ -99,11 +108,15 @@ if (!doNotTrack) {
 </script>
 
   <div id="content" class="container">
-    <h1>µ-posts</h1>
+  <div class="columns">
 
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/8/">2020-09-28 08:25:32 &#43;0200 &#43;0200</a></span>
+    <div class="column">
+      
+        <div>
+          <h1>Clustering metrics: Dunn index</h1>
+          <small class="date"><time pubdate="pubdate" datetime="2020-09-28 08:25:32 &#43;0200 &#43;0200">September 28, 2020</time></small>                
+        </div>
+        
       <div>
         <p>There are  several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the <em>Dunn index</em>, <em>Davis-Bouldin index</em> and <em>Silhoutte index</em>.</p>
 <p>But before we start, let&rsquo;s introduce some concepts.</p>
@@ -260,230 +273,10 @@ We first generate the new dataset.</p>
 
       </div>
     </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/7/">2020-09-08 22:06:32 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p>What is a linearly separable dataset and how to test it?</p>
-<p>Formally, we can define an $n$-dimensional dataset as linearly separable if a hyperplane can completely separate two subsets.
-If we assume two subsets $A$ and $B$, such that $A={A^1,\ldots,A^a} \subseteq \mathbb{R}^d$ and $B={B^1,\ldots,B^b} \subset \mathbb{R}^d$ then:</p>
-<p>$$
-\exists a \in \mathbb{R}^n, b\in\mathbb{R}:A\subset\{x\in\mathbb{R}^n:a^Tx&gt;b\}, B\subset\{x\in\mathbb{R}^n:a^T\leq b\}
-$$</p>
-<p>Let&rsquo;s illustrate this concept by first generating two datasets in $\mathbb{R}^2$, one clearly <em>non-separable</em> and another clearly <em>separable</em> and by a supervised learning technique with both to separate them.</p>
-<h2 id="generating-datasets">Generating datasets</h2>
-<p>To generate a clearly <em>non-separable</em> data, we can generate two concentric datasets in $\mathbb{R}^2$. To do that we will use <code>scikit-learn</code> utility method <code>make_circles</code><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">datasets</span>
-
-<span class="n">N</span> <span class="o">=</span> <span class="mi">2000</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">noise</span><span class="o">=.</span><span class="mo">05</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/7_1.png" alt=""></p>
-<p>Intuitively, we know that this dataset is non-separable. We cannot see any line that could cleanly divided these two datasets.
-We now generate a clearly <em>separable</em> dataset and to do so, we use the <code>make_blobs</code> (also<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> from <code>scikit-learn</code>):</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X2</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/7_2.png" alt=""></p>
-<p>Again, intuitively, we know that this dataset is separable since we can clearly see that it is possible to separate these two datasets.</p>
-<h2 id="perceptron">Perceptron</h2>
-<p>The venerable Perceptron (which has a fascinating<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> history, by the way) is a simple binary classifier. For our scope, we will simply define it as a <em>threshold function</em> with the form:</p>
-<p>$$
-f(\mathbf{x}) =
-\begin{cases}
-1\qquad\text{if}\ \mathbf{w}\cdot\mathbf{x} + b &gt; 0, \\<br>
-0\qquad\text{otherwise}
-\end{cases}.
-$$</p>
-<p>Taking an input $\mathbf{x}$, the Perceptron return a binary classification, $f(\mathbf{x})$ using weights $\mathbf{w}$ and a bias $b$.</p>
-<p>We will simply apply <code>scitkit-learn</code>&rsquo;s Perceptron implementation to both datasets (after normalisation) and try to estimate a separation line.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python">
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Perceptron</span>
-
-<span class="c1"># normalisation</span>
-<span class="n">sc</span><span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-<span class="c1"># fitting</span>
-<span class="n">perceptron</span> <span class="o">=</span> <span class="n">Perceptron</span><span class="p">(</span><span class="n">random_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">perceptron</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</code></pre></div><p>If we plot our decision boundary (below), we can see that our intuition was correct, of course. The perceptron simply could not find a clear separation between the two subsets.</p>
-<p><img src="/images/micro/7_3.png" alt=""></p>
-<p>If we repeat the process for the <em>separable</em> dataset, then we will see that this time the Perceptron was able to find such a separation.</p>
-<p><img src="/images/micro/7_4.png" alt=""></p>
-<p>We can quantify how well the Perceptron fared using the <code>perceptron.score()</code> method<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. This method returns the mean accuracy of the given data and labels. If we have a score of $1.0$, that means that it was able to completely separate the subsets and the label predictions were totally correct.
-For the non-separable dataset, we get a score of $0.634$, which means that the method fared pretty badly, as expected. On the other hand, the score for the separable dataset we get of score of $1.0$.</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_circles.html">https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_circles.html</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2" role="doc-endnote">
-<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html">https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:3" role="doc-endnote">
-<p><a href="https://en.wikipedia.org/wiki/Perceptron#History">https://en.wikipedia.org/wiki/Perceptron#History</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:4" role="doc-endnote">
-<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.score">https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.score</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
-
-      </div>
-    </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/6/">2020-08-30 16:06:32 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p>If I have two random variables with a binomial distribution, such as:</p>
-<p>$$
-\begin{aligned}
-X &amp;\sim \text{Binom}\left(K, a\right) \\<br>
-Y &amp;\sim \text{Binom}\left(K, b\right),
-\end{aligned}
-$$</p>
-<p>what is the expection</p>
-<p>$$
-\mathbb{E}\left[|bX-aY|\right]?
-$$</p>
-<p>For a large enough $K$, let&rsquo;s use the CLT and approximate $X$ and $Y$ with $X_p$ and $Y_p$, respectively:</p>
-<p>$$
-\begin{align}
-X_p &amp;\sim \mathcal{N}\left(Ka, Ka(1-a)\right)\\<br>
-Y_p &amp;\sim \mathcal{N}\left(Kb, Kb(1-b)\right).
-\end{align}
-$$</p>
-<p>Let&rsquo;s take as an example $K=200, a=0.2, b=0.7$. As illustrated below:</p>
-<p><img src="/images/micro/6_1.png" alt=""></p>
-<p>This implies that $bX-aY$ has a distribution $\mathcal{N}\left(0, \sigma^2\right)$, whith $\sigma^2$:</p>
-<p>$$
-\sigma^2 = Kab(a+b-2ab).
-$$</p>
-<p>We can then calcualte the expectation as:</p>
-<p>$$
-\mathbb{E}\left[bX-aY\right] = \sqrt{\frac{2}{\pi}\sigma}=\sqrt{\frac{2Kab}{\pi}(a+b-2ab)}.
-$$</p>
-
-      </div>
-    </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/5/">2020-08-21 16:17:32 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p>Python supports <em>dynamic inheritance</em> which means you can declare a class parent at runtime. This can be applied to a class declaration nested in a method, giving the ability to create versatile &ldquo;factory&rdquo; methods. As an example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
-    <span class="k">class</span> <span class="nc">Subclass</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-            <span class="n">parent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">Subclass</span>
-</code></pre></div><p>This will create a subclass with <code>parent</code> as a parent as return the class definition.
-If we now define two base classes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">ParentZombie</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;I am the ZOMBY WOOF: {message}&#34;</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">ParentWoof</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;Tellin&#39; you all the Zomby troof: {message}&#34;</span><span class="p">)</span>
-</code></pre></div><p>We can now decide the subclass at runtime. For instance:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentZombie</span><span class="p">)</span>
-<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
-</code></pre></div><p>Will print <code>I am the ZOMBY WOOF: woof!</code> and:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Zombie</span> <span class="o">=</span> <span class="n">factory</span><span class="p">(</span><span class="n">ParentWoof</span><span class="p">)</span>
-<span class="n">Zombie</span><span class="p">(</span><span class="s2">&#34;woof!&#34;</span><span class="p">)</span>
-</code></pre></div><p>Will print <code>Tellin' you all the Zomby troof: woof!</code>.</p>
-<p>I haven&rsquo;t found a situation where I needed this, but it&rsquo;s good to know it is possible.</p>
-
-      </div>
-    </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/4/">2020-06-14 16:17:46 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p>Let&rsquo;s assume we have an array of data which we want to process into an array of objects (in Javascript).
-For instance:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">];</span>
-
-<span class="kr">const</span> <span class="nx">squares</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">x</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">{</span> <span class="nx">number</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">square</span><span class="o">:</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span> <span class="p">};</span>
-<span class="p">});</span>
-
-<span class="c1">// [{ number: 1, square: 1 },
-</span><span class="c1">// { number: 2, square: 4 }, ...]
-</span></code></pre></div><p>How do we force the parser to treat the object literal as an <code>Object</code> (without <code>return</code>)?
-This won&rsquo;t work, clearly:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">x</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="nx">number</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">square</span><span class="o">:</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span>
-<span class="p">});</span>
-<span class="c1">// Syntax error
-</span></code></pre></div><p>In order to do this, we simply need to wrap the literal in parenthesis.
-This forces the parser to treat it as a literal and it works as expected:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">x</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">({</span> <span class="nx">number</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">square</span><span class="o">:</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span> <span class="p">}));</span>
-<span class="c1">// [{ number: 1, square: 1 },
-</span><span class="c1">// { number: 2, square: 4 }, ...]
-</span></code></pre></div>
-      </div>
-    </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/3/">2020-06-13 21:59:46 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p>In a recent <a href="https://golang.org/">Go</a> project where I&rsquo;ve used an object-relational
-mapper (<a href="https://gorm.io/">GORM</a>), I needed to  whether a <code>time.Time</code>
-(mapped to a potential <code>NULL</code> database field) had been initialized of not.</p>
-<p>Go&rsquo;s initialisation value for <code>time.Time</code> is <code>0001-01-01 00:00:00 +0000 UTC</code> (1st January 2001). It turns out <code>time.Time</code> provides
-a convenient method (<a href="https://golang.org/pkg/time/#Time.IsZero"><code>IsZero()</code></a>) to do just this.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="s">&#34;time&#34;</span>
-
- <span class="kd">var</span> <span class="nx">myDate</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span>
-
-<span class="k">if</span> <span class="nx">myDate</span><span class="p">.</span><span class="nf">IsZero</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// not initialised
-</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="c1">// initialised
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div>
-      </div>
-    </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/2/">2020-06-11 00:53:46 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p><a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System">CVSS</a> (Common Vulnerability Scoring System) is a standard
-measure of a vulnerability&rsquo;s severity. It takes several factors into account, such as <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System#Impact_metrics">impact</a>, <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System#Temporal_metrics">temporal</a> and <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System#Environmental_metrics">environmental</a> metrics.
-For a dataset that I&rsquo;m working on, this is a comparison of the CVSS3 score against the more coarse grained &ldquo;<em>severity</em>&rdquo; score.
-We normalise the <code>impact</code> data (originally from $[0, 3]$) as well as the <code>cvss3_score</code> and produce a regression plot.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">MinMaxScaler</span><span class="p">()</span>
-<span class="n">scaled_data</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">scaled_data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">y</span><span class="o">=</span><span class="n">scaled_data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">x_estimator</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;CVSS3&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Impact&#39;</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/1_1.png" alt=""></p>
-
-      </div>
-    </div>
-    
-    <div class="micro-block">
-      <span class="micro-date"><a href="http://ruivieira.dev/micro/1/">2020-06-10 19:13:46 &#43;0200 &#43;0200</a></span>
-      <div>
-        <p>Trying out <a href="/micro">a section</a> of the site for &ldquo;<em>micro blogging</em>&rdquo;.
-This is will include random, assorted thoughts.
-&ldquo;<em>Macro</em>&rdquo; blogging (also known as &ldquo;<em>Posts</em>&quot;) will be available in the <a href="/">usual section</a>.</p>
-
-      </div>
-    </div>
-    
 
   </div>
 
-  
-
 </body>
-
 </html>

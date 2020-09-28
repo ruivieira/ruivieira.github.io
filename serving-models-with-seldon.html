@@ -309,10 +309,10 @@ to provide some feedback.</p>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">features_names</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div><p>We now build the model using the <code>s2i</code> (<a href="https://github.com/openshift/source-to-image">source-to-image</a>).
-As the name implies, <code>s2i</code>'s allow to create
+As the name implies, <code>s2i</code>&rsquo;s allow to create
 a container image from source code, taking care of any necessary intermediate steps.
 Seldon support several types of builds (such as Python, R and Java) <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
-<p>Typically <code>s2i</code>'s rely on certain conventions (over configuration) on your application structure.
+<p>Typically <code>s2i</code>&rsquo;s rely on certain conventions (over configuration) on your application structure.
 A requirement when building a Seldon model using its <code>s2i</code> is to provide some specific environment variables.
 These are usually stored in a file located in <code>$REPO/.s2i/environment</code>.
 For instance, for this model we use:</p>

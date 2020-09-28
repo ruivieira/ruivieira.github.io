@@ -5,9 +5,15 @@
     <link>http://ruivieira.dev/micro/</link>
     <generator>Rui Vieira</generator>
     <copyright>en-gb</copyright>
-    <lastBuildDate>Tue, 08 Sep 2020 22:06:32 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2020 08:25:32 +0200</lastBuildDate>
     
     
+    
+    <item>
+      <title>Clustering metrics: Dunn index</title>
+      <link>http://ruivieira.dev/micro/8/</link>
+      <pubDate>Mon, 28 Sep 2020 08:25:32 +0200</pubDate>
+    </item>
     
     <item>
       <title>Linear separability and Perceptrons</title>
