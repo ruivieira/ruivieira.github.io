@@ -31,6 +31,8 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/trac.css" />
+    <link rel="stylesheet" type="text/css" href="_static/book.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -227,6 +229,16 @@
    Exercise 1.01
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise-1-02">
+   Exercise 1.02
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise-1-03">
+   Exercise 1.03
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -404,6 +416,115 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exercise-1-02">
+<h2>Exercise 1.02<a class="headerlink" href="#exercise-1-02" title="Permalink to this headline">¶</a></h2>
+<p>Translate the following expression into prefix form:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{5+4\left(2-\left(3-\left(6+\frac{4}{5}\right)\right)\right)}{3\left(6-2\right)\left(2-7\right)}
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">/</span>
+ <span class="p">(</span><span class="nb">+</span> <span class="mi">5</span> <span class="mi">4</span>
+    <span class="p">(</span><span class="nb">-</span> <span class="mi">2</span>
+       <span class="p">(</span><span class="nb">-</span> <span class="mi">3</span>
+          <span class="p">(</span><span class="nb">+</span> <span class="mi">6</span>
+             <span class="p">(</span><span class="nb">/</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)))))</span>
+ <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span>
+    <span class="p">(</span><span class="nb">-</span> <span class="mi">6</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">-</span> <span class="mi">2</span> <span class="mi">7</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.24666666666666667
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="exercise-1-03">
+<h2>Exercise 1.03<a class="headerlink" href="#exercise-1-03" title="Permalink to this headline">¶</a></h2>
+<p>Define a procedure that takes three numbers as arguments and returns the sum of the squares of the two larger numbers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">defn</span> <span class="nv">square</span> <span class="nv">[x]</span> <span class="p">(</span><span class="nb">*</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+ 
+<span class="p">(</span><span class="nv">defn</span> <span class="nv">sum-of-squares</span> <span class="nv">[x</span> <span class="nv">y]</span>
+  <span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nv">square</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">square</span> <span class="nv">y</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nv">defn</span> <span class="nv">sum-of-squares-of-two-largest</span> <span class="nv">[x</span> <span class="nv">y</span> <span class="nv">z]</span>
+  <span class="p">(</span><span class="nb">cond</span>
+   <span class="nv">[</span><span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">))</span> <span class="p">(</span><span class="nv">sum-of-squares</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span><span class="nv">]</span>
+   <span class="nv">[</span><span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">x</span> <span class="nv">z</span><span class="p">))</span> <span class="p">(</span><span class="nv">sum-of-squares</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span><span class="nv">]</span>
+   <span class="nv">[</span><span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">z</span> <span class="nv">y</span><span class="p">))</span> <span class="p">(</span><span class="nv">sum-of-squares</span> <span class="nv">x</span> <span class="nv">z</span><span class="p">)</span><span class="nv">]</span>
+   <span class="nv">[True</span> <span class="p">(</span><span class="nv">sum-of-squares</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">)</span><span class="nv">]</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">sum-of-squares-of-two-largest</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">sum-of-squares-of-two-largest</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">sum-of-squares-of-two-largest</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">sum-of-squares-of-two-largest</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-lisp notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">sum-of-squares-of-two-largest</span> <span class="mi">4</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
 </pre></div>
 </div>
 </div>

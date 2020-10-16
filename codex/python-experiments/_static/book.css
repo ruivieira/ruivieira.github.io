@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Fira+Code&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "EB Garamond", serif !important;
+  font-size: 17px !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+pre {
+  font-family: "Fira Code", monospace !important;
+}
+
+h1 {
+  font-family: "EB Garamond", serif !important;
+  font-size: 2.5em;
+  font-weight: normal;
+  line-height: 40px;
+  letter-spacing: -1px;
+  padding-left: 10px;
+}
+
+h2 {
+  font-family: "EB Garamond", serif !important;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+h3 {
+  font-family: "EB Garamond", serif !important;
+}
+
+div.cell div.cell_input {
+  background: #ffffff;
+  font-family: "Fira Code", monospace !important;
+  border-left: 1px dotted black;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0em;
+  margin-right: 2em;
+  white-space: nowrap;
+  line-height: 1.5;
+  font-size: 0.9em;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+
+  /* padding-left: 0em;
+padding-right: 0em;
+border: 1px #ccc solid;
+    border-left-color: rgb(204, 204, 204);
+    border-left-width: 1px;
+background-color: #f7f7f7;
+border-left-color: green;
+border-left-width: medium; */
+}
+
+.bd-sidebar nav ul.nav a:hover,
+.bd-sidebar nav ul.nav li.active > a,
+.bd-sidebar nav ul.nav li.active > a:hover {
+  color: #f30;
+}
+
+main.bd-content #main-content a,
+main.bd-content #main-content a:visited {
+  color: #f30;
+}
+
+/* Table of contents colours */
+.bd-toc nav li.active > a.active {
+  border-left: 2px solid #f30;
+}
+
+.bd-toc nav a:hover,
+.bd-toc nav li.active > a.active {
+  color: #f30;
+}
+
+.dropdown-buttons-trigger {
+  display: none !important;
+}
