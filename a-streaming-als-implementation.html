@@ -63,6 +63,7 @@ if (!doNotTrack) {
     <li><a href="/">Posts</a></li>
     <li><a href="/micro/">µ-posts</a></li>
     <li><a href="/pages/about.html">About</a></li>
+    <li><a href="/pages/codex.html">Codex</a></li>
   </ul>
 </div>
 
@@ -131,7 +132,7 @@ The main principle is that if a group of people tend to collectively have simila
 Let’s imagine that you have a number of friends with whom you share a very similar musical taste, let’s call it <code>A</code> and another group, <code>B</code>, compared to which you have very different musical tastes.</p>
 <p>If group <code>A</code> and group <code>B</code> both recommend you a new album which they regard highly, which one would you pick?
 You will probably pick the album from group <code>A</code>, right? So that’s collaborative filtering in a nutshell.</p>
-<p><img src="/images/als/groups.png" alt="Data"></p>
+<p><img loading="lazy" src="/images/als/groups.png" alt="Data"    /></p>
 <p><em>Bonus question</em>: what if an album is considered really bad by group <code>B</code>? Does it mean you’ll like it?</p>
 <p>It’s difficult to tell. Because group <code>A</code> has relevance to you, it’s easy to match.
 Because <code>B</code> is too dissimilar, a low rating is not very informative.</p>
@@ -139,7 +140,7 @@ Because <code>B</code> is too dissimilar, a low rating is not very informative.<
 <p>One of the most popular collaborative filtering methods is <a href="https://link.springer.com/chapter/10.1007/978-3-540-68880-8_32">Alternating Least Squares</a> (ALS).</p>
 <p>In ALS we assume that the available rating data can be represented in a sparse matrix form, that is, we will assume a sequential ordering of both users and products. Each entry of the matrix will then represent the rating for a unique pair of user and products.</p>
 <p>If we then consider ratings data as a matrix, let&rsquo;s call it $\mathsf{R}$, the <em>user</em> and <em>product</em> ids will represent coordinates in a ratings matrix and the actual rating will be the value for that particular entry. To keep the notation consistent with the above we simply call the entry $(x,y)$ as $\mathsf{R}_{x,y}$. This will look something like the matrix represented in the figure below.</p>
-<p><img src="/images/als/ratings_table.png" alt="Ratings table"></p>
+<p><img loading="lazy" src="/images/als/ratings_table.png" alt="Ratings table"    /></p>
 <p>The idea behind ALS is to factorise the ratings matrix $\mathsf{R}_{x,y}$  into two matrices $\mathsf{U}$ and $\mathsf{P}$, which in turn, when multiplied back, will return an approximation of the original ratings matrix, that is:</p>
 <p>$$
 \mathsf{R} \approx \hat{\mathsf{R}} = \mathsf{U}^T \mathsf{P}

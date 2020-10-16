@@ -64,6 +64,7 @@ if (!doNotTrack) {
     <li><a href="/">Posts</a></li>
     <li><a href="/micro/">µ-posts</a></li>
     <li><a href="/pages/about.html">About</a></li>
+    <li><a href="/pages/codex.html">Codex</a></li>
   </ul>
 </div>
 
@@ -122,7 +123,7 @@ mining disasters from 1851 to 1962. More information can be found in
 <p>As we can see from the plot below, the number of yearly
 disasters ranges from 0 to 6 and we will assume that at some point within this time
 range a change in the accident rate has occured.</p>
-<p><img src="/images/coal_disasters_data.png" alt="Data"></p>
+<p><img loading="lazy" src="/images/coal_disasters_data.png" alt="Data"    /></p>
 <p>The number of yearly disasters can be modelled as a Poisson with a unknown rate depending
 on the changepoint $k$:</p>
 <p>$$
@@ -245,8 +246,8 @@ $$</p>
 to indicate that the change in accident rates occured somewhere near $1850+38.761\approx 1889$.</p>
 <p>We can visually check this by looking at the graph below. Also plotted are the density for the accident
 rates before ($\mu$) and after ($\lambda$) the change.</p>
-<p><img src="/images/coal_disasters_years_gibbs.png" alt="Coal disasters years"></p>
-<p><img src="/images/coal_disasters_mu_lambda_gibbs.png" alt="Mu, Lambda Gibbs"></p>
+<p><img loading="lazy" src="/images/coal_disasters_years_gibbs.png" alt="Coal disasters years"    /></p>
+<p><img loading="lazy" src="/images/coal_disasters_mu_lambda_gibbs.png" alt="Mu, Lambda Gibbs"    /></p>
 <p>Of course, one the main advantages of implementing the solution in Crystal
 is not only the boilerplate-free code, but the execution speed.
 Compared to an equivalent implementation in <code>R</code> the Crystal code executed roughly 17 times faster.</p>

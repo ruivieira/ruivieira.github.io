@@ -66,6 +66,7 @@ if (!doNotTrack) {
     <li><a href="/">Posts</a></li>
     <li><a href="/micro/">µ-posts</a></li>
     <li><a href="/pages/about.html">About</a></li>
+    <li><a href="/pages/codex.html">Codex</a></li>
   </ul>
 </div>
 
@@ -163,7 +164,7 @@ First, we will create a compact and well-separated dataset using the <a href="ht
 We will create a dataset of $\mathbb{R}^2$ data (for easier plotting), with three clusters.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/8/output_4_0.png" alt="png"></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/8/output_4_0.png" alt="png"    /></p>
 <p>We now cluster the data<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> and we will have, as expected three distinct clusters, plotted below.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">cluster</span>
 
@@ -177,7 +178,7 @@ We will create a dataset of $\mathbb{R}^2$ data (for easier plotting), with thre
 <span class="n">clus1</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">clus2</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
 <span class="n">k_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">clus0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">clus1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">clus2</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-</code></pre></div><p><img src="/images/micro/8/output_9_0.png" alt="png"></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/8/output_9_0.png" alt="png"    /></p>
 <p>Let&rsquo;s focus now on two of these cluster, let&rsquo;s call them $c_k$ and $c_l$.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ck</span> <span class="o">=</span> <span class="n">k_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">cl</span> <span class="o">=</span> <span class="n">k_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -256,7 +257,7 @@ We first generate the new dataset.</p>
 <span class="n">clus1</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">clus2</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
 <span class="n">k_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">clus0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">clus1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">clus2</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-</code></pre></div><p><img src="/images/micro/8/output_30_1.png" alt="png"></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/8/output_30_1.png" alt="png"    /></p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dunn</span><span class="p">(</span><span class="n">k_list</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python">    <span class="mf">0.019563892388205984</span>
 </code></pre></div><section class="footnotes" role="doc-endnotes">

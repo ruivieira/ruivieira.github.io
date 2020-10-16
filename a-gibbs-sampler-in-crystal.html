@@ -64,6 +64,7 @@ if (!doNotTrack) {
     <li><a href="/">Posts</a></li>
     <li><a href="/micro/">µ-posts</a></li>
     <li><a href="/pages/about.html">About</a></li>
+    <li><a href="/pages/codex.html">Codex</a></li>
   </ul>
 </div>
 
@@ -159,7 +160,7 @@ I wrote to the famous <a href="http://www.gnu.org/software/gsl/">GNU Scientific 
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ crystal build gibbs.cr --release
 $ <span class="nb">time</span> ./gibbs &gt; gibbs_crystal.csv</code></pre></div>
 <p>Looking at the results, you can see that they are consistent with the other implementations:</p>
-<p><img src="/images/gibbs.png" alt="Gibbs"></p>
+<p><img loading="lazy" src="/images/gibbs.png" alt="Gibbs"    /></p>
 <p>The timings for each of the different versions (ran in a 1.7 GHz Intel Core i7 Macbook Air) were</p>
 <table class="table table-hover">
 <thead>

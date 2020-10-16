@@ -57,6 +57,7 @@ if (!doNotTrack) {
     <li><a href="/">Posts</a></li>
     <li><a href="/micro/">µ-posts</a></li>
     <li><a href="/pages/about.html">About</a></li>
+    <li><a href="/pages/codex.html">Codex</a></li>
   </ul>
 </div>
 
@@ -150,7 +151,7 @@ First, we will create a compact and well-separated dataset using the <a href="ht
 We will create a dataset of $\mathbb{R}^2$ data (for easier plotting), with three clusters.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/8/output_4_0.png" alt="png"></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/8/output_4_0.png" alt="png"    /></p>
 <p>We now cluster the data<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> and we will have, as expected three distinct clusters, plotted below.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">cluster</span>
 
@@ -164,7 +165,7 @@ We will create a dataset of $\mathbb{R}^2$ data (for easier plotting), with thre
 <span class="n">clus1</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">clus2</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
 <span class="n">k_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">clus0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">clus1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">clus2</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-</code></pre></div><p><img src="/images/micro/8/output_9_0.png" alt="png"></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/8/output_9_0.png" alt="png"    /></p>
 <p>Let&rsquo;s focus now on two of these cluster, let&rsquo;s call them $c_k$ and $c_l$.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ck</span> <span class="o">=</span> <span class="n">k_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">cl</span> <span class="o">=</span> <span class="n">k_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -243,7 +244,7 @@ We first generate the new dataset.</p>
 <span class="n">clus1</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">clus2</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
 <span class="n">k_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">clus0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">clus1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">clus2</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-</code></pre></div><p><img src="/images/micro/8/output_30_1.png" alt="png"></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/8/output_30_1.png" alt="png"    /></p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dunn</span><span class="p">(</span><span class="n">k_list</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python">    <span class="mf">0.019563892388205984</span>
 </code></pre></div><section class="footnotes" role="doc-endnotes">
@@ -277,11 +278,11 @@ $$</p>
 
 <span class="n">N</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">noise</span><span class="o">=.</span><span class="mo">05</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/7_1.png" alt=""></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/7_1.png" alt=""    /></p>
 <p>Intuitively, we know that this dataset is non-separable. We cannot see any line that could cleanly divided these two datasets.
 We now generate a clearly <em>separable</em> dataset and to do so, we use the <code>make_blobs</code> (also<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> from <code>scikit-learn</code>):</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X2</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/7_2.png" alt=""></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/7_2.png" alt=""    /></p>
 <p>Again, intuitively, we know that this dataset is separable since we can clearly see that it is possible to separate these two datasets.</p>
 <h2 id="perceptron">Perceptron</h2>
 <p>The venerable Perceptron (which has a fascinating<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> history, by the way) is a simple binary classifier. For our scope, we will simply define it as a <em>threshold function</em> with the form:</p>
@@ -306,9 +307,9 @@ $$</p>
 <span class="n">perceptron</span> <span class="o">=</span> <span class="n">Perceptron</span><span class="p">(</span><span class="n">random_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">perceptron</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </code></pre></div><p>If we plot our decision boundary (below), we can see that our intuition was correct, of course. The perceptron simply could not find a clear separation between the two subsets.</p>
-<p><img src="/images/micro/7_3.png" alt=""></p>
+<p><img loading="lazy" src="/images/micro/7_3.png" alt=""    /></p>
 <p>If we repeat the process for the <em>separable</em> dataset, then we will see that this time the Perceptron was able to find such a separation.</p>
-<p><img src="/images/micro/7_4.png" alt=""></p>
+<p><img loading="lazy" src="/images/micro/7_4.png" alt=""    /></p>
 <p>We can quantify how well the Perceptron fared using the <code>perceptron.score()</code> method<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. This method returns the mean accuracy of the given data and labels. If we have a score of $1.0$, that means that it was able to completely separate the subsets and the label predictions were totally correct.
 For the non-separable dataset, we get a score of $0.634$, which means that the method fared pretty badly, as expected. On the other hand, the score for the separable dataset we get of score of $1.0$.</p>
 <section class="footnotes" role="doc-endnotes">
@@ -354,7 +355,7 @@ Y_p &amp;\sim \mathcal{N}\left(Kb, Kb(1-b)\right).
 \end{align}
 $$</p>
 <p>Let&rsquo;s take as an example $K=200, a=0.2, b=0.7$. As illustrated below:</p>
-<p><img src="/images/micro/6_1.png" alt=""></p>
+<p><img loading="lazy" src="/images/micro/6_1.png" alt=""    /></p>
 <p>This implies that $bX-aY$ has a distribution $\mathcal{N}\left(0, \sigma^2\right)$, whith $\sigma^2$:</p>
 <p>$$
 \sigma^2 = Kab(a+b-2ab).
@@ -464,7 +465,7 @@ We normalise the <code>impact</code> data (originally from $[0, 3]$) as well as 
             <span class="n">y</span><span class="o">=</span><span class="n">scaled_data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
             <span class="n">x_estimator</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;CVSS3&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Impact&#39;</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/micro/1_1.png" alt=""></p>
+</code></pre></div><p><img loading="lazy" src="/images/micro/1_1.png" alt=""    /></p>
 
       </div>
     </div>
