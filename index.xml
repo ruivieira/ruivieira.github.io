@@ -10,6 +10,12 @@
     
     
     <item>
+      <title>About</title>
+      <link>http://ruivieira.dev/pages/about.html</link>
+      <pubDate>Sun, 18 Oct 2020 09:37:49 +0100</pubDate>
+    </item>
+    
+    <item>
       <title>Codex</title>
       <link>http://ruivieira.dev/pages/codex.html</link>
       <pubDate>Fri, 16 Oct 2020 11:26:49 +0100</pubDate>
@@ -67,12 +73,6 @@
       <title>Serving Models with Seldon</title>
       <link>http://ruivieira.dev/serving-models-with-seldon.html</link>
       <pubDate>Mon, 13 Apr 2020 15:21:00 +0100</pubDate>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>http://ruivieira.dev/pages/about.html</link>
-      <pubDate>Wed, 08 Apr 2020 09:37:49 +0100</pubDate>
     </item>
     
     <item>

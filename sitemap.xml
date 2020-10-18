@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://ruivieira.dev/pages/about.html</loc>
+    <lastmod>2020-10-18T09:37:49+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://ruivieira.dev/pages/codex.html</loc>
     <lastmod>2020-10-16T11:26:49+01:00</lastmod>
   </url>
@@ -65,11 +70,6 @@
   <url>
     <loc>http://ruivieira.dev/serving-models-with-seldon.html</loc>
     <lastmod>2020-04-13T15:21:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://ruivieira.dev/pages/about.html</loc>
-    <lastmod>2020-04-08T09:37:49+01:00</lastmod>
   </url>
   
   <url>

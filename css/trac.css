@@ -1,16 +1,21 @@
-@import url("https://fonts.googleapis.com/css?family=Fira+Code&display=swap");
+@font-face {
+  font-family: JuliaMono;
+  src: url("/fonts/JuliaMono-Regular.woff2") format("woff2"),
+    url("fonts/JuliaMono-Regular.ttf") format("truetype");
+}
+
 .highlight .hll {
   background-color: #ffffcc;
 }
 
 code {
-  font-family: "Fira Code", monospace !important;
+  font-family: "JuliaMono", monospace !important;
   font-size: 0.9em;
 }
 
 div.highlight {
   background: #ffffff;
-  font-family: "Fira Code", monospace !important;
+  font-family: "JuliaMono", monospace !important;
   border-left: 1px dotted black;
   padding-left: 1em;
   padding-right: 1em;
@@ -24,7 +29,7 @@ div.highlight {
 }
 
 div.highlight pre span {
-  font-family: "Fira Code", monospace !important;
+  font-family: "JuliaMono", monospace !important;
   font-size: 0.9em;
 }
 .highlight .c {
