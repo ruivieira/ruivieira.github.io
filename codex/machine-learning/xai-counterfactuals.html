@@ -59,6 +59,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Fairness" href="fairness.html" />
     <link rel="prev" title="Clustering metrics" href="clustering-metrics.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -113,6 +114,28 @@
 </ul>
 <p class="caption">
  <span class="caption-text">
+  Processing
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="data-processing.html">
+   Data processing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sklearn-pipelines.html">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     sklearn
+    </span>
+   </code>
+   Pipelines
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
   Clustering
  </span>
 </p>
@@ -132,6 +155,18 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Counterfactuals
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Fairness
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="fairness.html">
+   Fairness
   </a>
  </li>
 </ul>
@@ -544,7 +579,7 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found counterfactual: [ 0.7061086 -1.       ] after 61 steps. This point has an outcome of 0 with a probability 0.9005250650993007
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found counterfactual: [ 0.71714572 -1.        ] after 62 steps. This point has an outcome of 0 with a probability 0.9006155482955803
 </pre></div>
 </div>
 </div>
@@ -758,16 +793,16 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.25577383, -0.95745509],
-       [ 0.0336813 , -1.79692661],
-       [ 0.09820958, -1.31526447],
-       [ 0.3611595 , -0.56441395],
-       [ 0.04800713, -0.21214814],
-       [-0.05120045, -1.00207731],
-       [ 0.2624183 , -0.54794125],
-       [-0.04330414, -0.22626617],
-       [ 0.06132387, -1.51629978],
-       [ 0.41022322, -1.15799546]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.12333427, -0.46324525],
+       [-0.03758527, -0.91819404],
+       [ 0.41905576, -1.32758644],
+       [-0.01909207, -0.75496882],
+       [ 0.25285669, -0.69164928],
+       [-0.0333781 , -0.84177979],
+       [-0.02939262, -1.00232283],
+       [ 0.13554405, -0.63725115],
+       [ 0.41866679, -1.05087368],
+       [ 0.14027026, -0.43527362]])
 </pre></div>
 </div>
 </div>
@@ -824,13 +859,13 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>543 ennemies found in initial sphere. Zooming in...
-68 ennemies found in initial sphere. Zooming in...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>505 ennemies found in initial sphere. Zooming in...
+88 ennemies found in initial sphere. Zooming in...
 0 ennemies found in initial sphere. Zooming in...
 Exploring...
 Final number of iterations:  12
 Final radius:  (0.4000000000000001, 1.0)
-Final number of ennemies:  2
+Final number of ennemies:  4
 </pre></div>
 </div>
 </div>
@@ -862,16 +897,16 @@ Final number of ennemies:  2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>484 ennemies found in initial sphere. Zooming in...
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>65 ennemies found in initial sphere. Zooming in...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>512 ennemies found in initial sphere. Zooming in...
+78 ennemies found in initial sphere. Zooming in...
 0 ennemies found in initial sphere. Zooming in...
 Exploring...
-Final number of iterations:  12
-Final radius:  (0.4000000000000001, 1.0)
-Final number of ennemies:  3
-[-0.07602685 -1.01589592]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Final number of iterations:  13
+Final radius:  (0.4250000000000001, 1.0)
+Final number of ennemies:  143
+[-0.07657774 -0.96195606]
 </pre></div>
 </div>
 </div>
@@ -967,6 +1002,7 @@ Final number of ennemies:  3
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="clustering-metrics.html" title="previous page">Clustering metrics</a>
+    <a class='right-next' id="next-link" href="fairness.html" title="next page">Fairness</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

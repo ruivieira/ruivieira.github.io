@@ -89,3 +89,8 @@ main.bd-content #main-content a:visited {
 .dropdown-buttons-trigger {
   display: none !important;
 }
+
+/* make the table font slight smaller */
+table {
+  font-size: 0.9rem !important;
+}
