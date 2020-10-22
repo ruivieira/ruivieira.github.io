@@ -83,3 +83,12 @@ main.bd-content #main-content a:visited {
 table {
   font-size: 0.9rem !important;
 }
+
+/* Replace icon in hidden menu */
+.bd-toc .tocsection:after {
+  content: "\e905" !important;
+  font-family: "icomoon" !important;
+  font-weight: 900;
+  padding-left: 0.5em;
+  transition: opacity 0.3s ease;
+}
