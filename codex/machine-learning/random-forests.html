@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Introduction &#8212; Machine Learning</title>
+    <title>Random forests &#8212; Machine Learning</title>
     
   <style>
 /*!
@@ -2910,6 +2910,7 @@ var detectLanguage = (language) => {
     
     
     
+    
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -2944,7 +2945,7 @@ var detectLanguage = (language) => {
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="#">
+  <a class="reference internal" href="intro.html">
    Introduction
   </a>
  </li>
@@ -2988,9 +2989,9 @@ var detectLanguage = (language) => {
   Supervised learning
  </span>
 </p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="random-forests.html">
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Random forests
   </a>
  </li>
@@ -3064,7 +3065,7 @@ var detectLanguage = (language) => {
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
+        <a class="dropdown-buttons" href="_sources/random-forests.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -3078,10 +3079,38 @@ var detectLanguage = (language) => {
 
         <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/random-forests.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMy4wLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA0NC40IDQ0LjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ0LjQgNDQuNDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6bm9uZTtzdHJva2U6I0Y1QTI1MjtzdHJva2Utd2lkdGg6NTtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9DQoJLnN0MXtmaWxsOm5vbmU7c3Ryb2tlOiM1NzlBQ0E7c3Ryb2tlLXdpZHRoOjU7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQ0KCS5zdDJ7ZmlsbDpub25lO3N0cm9rZTojRTY2NTgxO3N0cm9rZS13aWR0aDo1O3N0cm9rZS1taXRlcmxpbWl0OjEwO30NCjwvc3R5bGU+DQo8dGl0bGU+bG9nbzwvdGl0bGU+DQo8Zz4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzMuOSw2LjRjMy42LDMuOSwzLjQsOS45LTAuNSwxMy41cy05LjksMy40LTEzLjUtMC41cy0zLjQtOS45LDAuNS0xMy41bDAsMEMyNC4yLDIuNCwzMC4yLDIuNiwzMy45LDYuNHoiLz4NCgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMzUuMSwyNy4zYzIuNiw0LjYsMS4xLDEwLjQtMy41LDEzYy00LjYsMi42LTEwLjQsMS4xLTEzLTMuNXMtMS4xLTEwLjQsMy41LTEzbDAsMA0KCQlDMjYuNiwyMS4yLDMyLjQsMjIuNywzNS4xLDI3LjN6Ii8+DQoJPHBhdGggY2xhc3M9InN0MiIgZD0iTTI1LjksMTcuOGMyLjYsNC42LDEuMSwxMC40LTMuNSwxM3MtMTAuNCwxLjEtMTMtMy41cy0xLjEtMTAuNCwzLjUtMTNsMCwwQzE3LjUsMTEuNywyMy4zLDEzLjIsMjUuOSwxNy44eiIvPg0KCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0xOS4yLDI2LjRjMy4xLTQuMyw5LjEtNS4yLDEzLjMtMi4xYzEuMSwwLjgsMiwxLjgsMi43LDMiLz4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTkuOSwxOS40Yy0zLjYtMy45LTMuNC05LjksMC41LTEzLjVzOS45LTMuNCwxMy41LDAuNSIvPg0KPC9nPg0KPC9zdmc+DQo=" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/random-forests.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo" src="data:image/png;base64,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" alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
     </div>
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualise-decision-trees">
+   Visualise decision trees
+  </a>
+ </li>
+</ul>
+
+        </nav>
         
     </div>
 </div>
@@ -3090,20 +3119,100 @@ var detectLanguage = (language) => {
         
               <div>
                 
-  <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>This book contains introductory notes to the topic of Machine Learning and Data Science in general.</p>
-<div class="toctree-wrapper compound">
+  <div class="section" id="random-forests">
+<h1>Random forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h1>
+<p>Let’s train a random forest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/titanic/train.csv&quot;</span><span class="p">)</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/titanic/test.csv&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
 </div>
-<div class="toctree-wrapper compound">
 </div>
-<div class="toctree-wrapper compound">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span> <span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;Fare&quot;</span><span class="p">]]</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+
+<span class="n">le</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">])</span>
+<span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
 </div>
-<div class="toctree-wrapper compound">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">input_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">]</span>
+
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_train</span><span class="p">[</span><span class="n">input_names</span><span class="p">],</span> <span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;Survived&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestClassifier()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualise-decision-trees">
+<h2>Visualise decision trees<a class="headerlink" href="#visualise-decision-trees" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">export_text</span>
+
+<span class="n">tree</span> <span class="o">=</span> <span class="n">export_text</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">input_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1000</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|--- Sex &lt;= 0.50
+|   |--- Age &lt;= 12.00
+|   |   |--- Age &lt;= 8.50
+|   |   |   |--- Age &lt;= 3.50
+|   |   |   |   |--- Age &lt;= 1.38
+|   |   |   |   |   |--- class: 1.0
+|   |   |   |   |--- Age &gt;  1.38
+|   |   |   |   |   |--- Age &lt;= 2.50
+|   |   |   |   |   |   |--- class: 0.0
+|   |   |   |   |   |--- Age &gt;  2.50
+|   |   |   |   |   |   |--- class: 0.0
+|   |   |   |--- Age &gt;  3.50
+|   |   |   |   |--- Age &lt;= 5.50
+|   |   |   |   |   |--- class: 1.0
+|   |   |   |   |--- Age &gt;  5.50
+|   |   |   |   |   |--- Age &lt;= 7.50
+|   |   |   |   |   |   |--- Age &lt;= 6.50
+|   |   |   |   |   |   |   |--- class: 1.0
+|   |   |   |   |   |   |--- Age &gt;  6.50
+|   |   |   |   |   |   |   |--- class: 1.0
+|   |   |   |   |   |--- Age &gt;  7.50
+|   |   |   |   |   |   |--- class: 0.0
+|   |   |--- Age &gt;  8.50
+|   |   |   |--- class: 0.0
+|   |--- Age &gt;  12.00
+|   |   |--- Age &lt;= 40.50
+|   |   |   |--- Age &lt;= 31.50
+|   |   |   |   |--- Age &lt;= 24.50
+|   |   |   |   |   |--- Age &lt;= 21.50
+|   |   |   |   |   |   |--- Age 
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -3116,16 +3225,16 @@ var detectLanguage = (language) => {
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "ml"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "ml",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'ml'</script>
 
               </div>
               
@@ -3135,7 +3244,8 @@ var detectLanguage = (language) => {
     
     <div class="prev-next-bottom">
         
-    <a class="right-next" id="next-link" href="synthetic-data.html" title="next page">Generating synthetic data</a>
+    <a class="left-prev" id="prev-link" href="sklearn-pipelines.html" title="previous page"><code class="docutils literal notranslate"><span class="pre">sklearn</span></code> Pipelines</a>
+    <a class="right-next" id="next-link" href="clustering-metrics.html" title="next page">Clustering metrics</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

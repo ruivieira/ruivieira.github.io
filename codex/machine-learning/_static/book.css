@@ -17,6 +17,7 @@ a {
 
 pre {
   font-family: "JuliaMono", monospace !important;
+  font-size: 0.9rem !important;
 }
 
 h1 {
@@ -54,15 +55,23 @@ div.cell div.cell_input {
   border-top: none;
   border-right: none;
   border-bottom: none;
+}
 
-  /* padding-left: 0em;
-padding-right: 0em;
-border: 1px #ccc solid;
-    border-left-color: rgb(204, 204, 204);
-    border-left-width: 1px;
-background-color: #f7f7f7;
-border-left-color: green;
-border-left-width: medium; */
+.cell_output .output pre,
+.cell_input pre {
+  background: #ffffff;
+  font-family: "JuliaMono", monospace !important;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0em;
+  margin-right: 2em;
+  line-height: 1.5;
+  font-size: 0.9em;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
 }
 
 .bd-sidebar nav ul.nav a:hover,

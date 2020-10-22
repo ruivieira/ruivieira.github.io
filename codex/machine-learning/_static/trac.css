@@ -9,7 +9,7 @@
 
 code {
   font-family: "JuliaMono", monospace !important;
-  font-size: 0.9em;
+  font-size: 0.9em !important;
 }
 
 div.highlight {
@@ -22,14 +22,13 @@ div.highlight {
   margin-bottom: 1em;
   margin-left: 0em;
   margin-right: 2em;
-  white-space: nowrap;
   line-height: 1.5;
-  font-size: 0.9em;
+  font-size: 0.9em !important;
 }
 
 div.highlight pre span {
   font-family: "JuliaMono", monospace !important;
-  font-size: 0.9em;
+  font-size: 0.9em !important;
 }
 .highlight .c {
   color: #999988;
