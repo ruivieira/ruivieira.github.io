@@ -73,14 +73,20 @@ if (!doNotTrack) {
     <li><a href="/codex/machine-learning">Machine learning</a></li>
     <li><a href="/codex/python-experiments">Python experiments</a></li>
   </ul>
+  <h2>Playground</h2>
+  <ul>
+    <li><a href="/playground/machine-learning">Machine learning</a></li>
+  </ul>
 </div>
 
 <script>
   (function () {
-    var elements = document.getElementById('main').querySelectorAll("h1, h2, h3, h4, h5, h6");
+    var elements = document
+      .getElementById("main")
+      .querySelectorAll("h1, h2, h3, h4, h5, h6");
     if (elements.length > 1) {
-      var div = document.getElementById('sidebar');
-      div.innerHTML += '<h2>This page</h2>\n';
+      var div = document.getElementById("sidebar");
+      div.innerHTML += "<h2>This page</h2>\n";
       
 
       var list = document.createElement("ul");
@@ -92,8 +98,8 @@ if (!doNotTrack) {
           console.log(element.textContent);
           
           var anchor = document.createElement("a");
-          anchor.setAttribute('name', i);
-          anchor.classList.add('anchor');
+          anchor.setAttribute("name", i);
+          anchor.classList.add("anchor");
           element.parentNode.insertBefore(anchor, element.nextSibling);
           
           var li = document.createElement("li");
@@ -106,12 +112,12 @@ if (!doNotTrack) {
           i++;
         }
         div.appendChild(list);
-
       }
-      div.innerHTML += '</ul>\n';
+      div.innerHTML += "</ul>\n";
     }
-  })();      
+  })();
 </script>
+
 
   <div id="content" class="container">
   <div class="columns">
