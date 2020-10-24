@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
@@ -155,4 +155,121 @@
     <loc>http://ruivieira.dev/tags/</loc>
   </url>
   
+  
+  
+
+  
+
+  
+
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/clustering-metrics.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/data-processing.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/fairness-demographic_parity.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/fairness-introduction.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/fairness.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/genindex.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/index.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/intro.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/random-forests.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/search.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/sklearn-pipelines.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/synthetic-data.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
+  
+    <url>
+      <loc>http://ruivieira.dev/codex/machine-learning/xai-counterfactuals.html</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+
 </urlset>

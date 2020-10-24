@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search &#8212; Machine Learning</title>
+    <title>Demographic parity &#8212; Machine Learning</title>
     
   <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -34,7 +34,6 @@
     
   <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
 
-    
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -54,15 +53,12 @@
         const thebe_selector_output = ".output"
     </script>
     
-    <script src="_static/searchtools.js"></script>
     
     
-  <script src="searchindex.js" defer></script>
-  
+    
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
-
 
 
 
@@ -86,7 +82,7 @@
 </a>
 </div>
 
-<form class="bd-search d-flex align-items-center" action="#" method="get">
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
 </form>
@@ -174,14 +170,14 @@
   Fairness
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="fairness-introduction.html">
    Introduction
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="fairness-demographic_parity.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Demographic parity
   </a>
  </li>
@@ -220,10 +216,26 @@
 
         <!-- Launch buttons -->
 
+
+
     </div>
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-fat-forensics">
+   Using FAT forensics
+  </a>
+ </li>
+</ul>
+
+        </nav>
         
     </div>
 </div>
@@ -232,27 +244,25 @@
         
               <div>
                 
-  <h1 id="search-documentation">Search</h1>
-  <div id="fallback" class="admonition warning">
-  <script>$('#fallback').hide();</script>
-  <p>
-    Please activate JavaScript to enable the search
-    functionality.
-  </p>
-  </div>
-  <p>
-    Searching for multiple words only shows matches that contain
-    all words.
-  </p>
-  <form action="" method="get">
-    <input type="text" name="q" aria-labelledby="search-documentation" value="">
-    <input type="submit" value="search">
-    <span id="search-progress" style="padding-left: 10px"></span>
-  </form>
-  
-  <div id="search-results">
-  
-  </div>
+  <div class="section" id="demographic-parity">
+<span id="fairness-demographic-parity"></span><h1>Demographic parity<a class="headerlink" href="#demographic-parity" title="Permalink to this headline">¶</a></h1>
+<p>As introduced in <a class="reference internal" href="fairness-introduction.html#fairness-introduction"><span class="std std-ref">Introduction</span></a> and according to <a class="bibtex reference internal" href="xai-counterfactuals.html#kusner2017" id="id1">[KLRS17]</a>:</p>
+<blockquote>
+<div><p>A predictor <span class="math notranslate nohighlight">\(\hat{Y}\)</span> satisfies demographic parity if <span class="math notranslate nohighlight">\(P(\hat{Y}|A=0)=P(\hat{Y}|A=1)\)</span>.</p>
+</div></blockquote>
+<div class="section" id="using-fat-forensics">
+<h2>Using FAT forensics<a class="headerlink" href="#using-fat-forensics" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-fairness-demographic_parity-0"><dl class="citation">
+<dt class="bibtex label" id="kusner2017"><span class="brackets"><a class="fn-backref" href="#id1">KLRS17</a></span></dt>
+<dd><p>Matt Kusner, Joshua Loftus, Chris Russell, and Ricardo Silva. Counterfactual fairness. <em>Advances in Neural Information Processing Systems</em>, 2017-Decem(Nips):4067–4077, 2017. <a class="reference external" href="https://arxiv.org/abs/1703.06856">arXiv:1703.06856</a>.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+    
+    <script>kernelName = 'ml'</script>
 
               </div>
               
@@ -262,6 +272,7 @@
     
     <div class="prev-next-bottom">
         
+    <a class="left-prev" id="prev-link" href="fairness-introduction.html" title="previous page">Introduction</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

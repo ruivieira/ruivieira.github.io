@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fairness &#8212; Machine Learning</title>
+    <title>Introduction &#8212; Machine Learning</title>
     
   <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -52,6 +52,7 @@
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
+    
     
     
     
@@ -173,7 +174,12 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Fairness
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fairness-demographic_parity.html">
+   Demographic parity
   </a>
  </li>
 </ul>
@@ -244,8 +250,8 @@
         
               <div>
                 
-  <div class="section" id="fairness">
-<h1>Fairness<a class="headerlink" href="#fairness" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="introduction">
+<span id="fairness-introduction"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>Different fairness methods are available:</p>
 <ul class="simple">
 <li><p>Unawareness</p></li>
@@ -277,6 +283,7 @@ Any</p>
 <blockquote>
 <div><p>A predictor <span class="math notranslate nohighlight">\(\hat{Y}\)</span> satisfies demographic parity if <span class="math notranslate nohighlight">\(P(\hat{Y}|A=0)=P(\hat{Y}|A=1)\)</span>.</p>
 </div></blockquote>
+<p>This is explained in more detail in <a class="reference internal" href="fairness-demographic_parity.html#fairness-demographic-parity"><span class="std std-ref">Demographic parity</span></a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
@@ -623,11 +630,11 @@ Any</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;y&#39;}, xlabel=&#39;[Sex]&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/fairness_18_1.png" src="_images/fairness_18_1.png">
-<img alt="_images/fairness_18_2.png" src="_images/fairness_18_2.png">
+<img alt="_images/fairness-introduction_18_1.png" src="_images/fairness-introduction_18_1.png">
+<img alt="_images/fairness-introduction_18_2.png" src="_images/fairness-introduction_18_2.png">
 </div>
 </div>
-<p id="bibtex-bibliography-fairness-0"><dl class="citation">
+<p id="bibtex-bibliography-fairness-introduction-0"><dl class="citation">
 <dt class="bibtex label" id="kusner2017"><span class="brackets">KLRS17</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>,<a href="#id3">3</a>)</span></dt>
 <dd><p>Matt Kusner, Joshua Loftus, Chris Russell, and Ricardo Silva. Counterfactual fairness. <em>Advances in Neural Information Processing Systems</em>, 2017-Decem(Nips):4067–4077, 2017. <a class="reference external" href="https://arxiv.org/abs/1703.06856">arXiv:1703.06856</a>.</p>
 </dd>
@@ -648,6 +655,7 @@ Any</p>
     <div class="prev-next-bottom">
         
     <a class="left-prev" id="prev-link" href="xai-counterfactuals.html" title="previous page">Counterfactuals</a>
+    <a class="right-next" id="next-link" href="fairness-demographic_parity.html" title="next page">Demographic parity</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
