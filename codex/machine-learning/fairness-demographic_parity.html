@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css">
     <link rel="stylesheet" href="_static/pygments.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css">
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css">
+    
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
     <link rel="stylesheet" type="text/css" href="_static/trac.css">
@@ -41,7 +41,7 @@
     <script src="_static/language_data.js"></script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+    
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -249,13 +249,6 @@
   <a class="reference internal nav-link" href="#disparity">
    Disparity
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#calculating-the-demographic-parity">
-     Calculating the demographic parity
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
@@ -288,11 +281,12 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fatf.utils.data.datasets</span> <span class="k">as</span> <span class="nn">fatf_datasets</span>
 
 <span class="n">hr_data_dict</span> <span class="o">=</span> <span class="n">fatf_datasets</span><span class="o">.</span><span class="n">load_health_records</span><span class="p">()</span>
-<span class="n">hr_data</span> <span class="o">=</span> <span class="n">hr_data_dict</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">hr_data</span> <span class="o">=</span> <span class="n">hr_data_dict</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>This dataset contains the following input features:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hr_data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span>
@@ -305,9 +299,10 @@
 </div>
 </div>
 </div>
+<p>And the following potential outcomes:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hr_data_dict</span><span class="p">[</span><span class="s1">&#39;target_names&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hr_data_dict</span><span class="p">[</span><span class="s2">&quot;target_names&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -317,11 +312,12 @@
 </div>
 </div>
 </div>
+<p>These are encoded numerically as:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">hr_target</span> <span class="o">=</span> <span class="n">hr_data_dict</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+<span class="n">hr_target</span> <span class="o">=</span> <span class="n">hr_data_dict</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
 <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hr_target</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -337,24 +333,223 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">0</span></code> is a failed treatment</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> is a successful one.</p></li>
 </ul>
-<div class="section" id="grouping-outcomes-by-gender">
-<h3>Grouping outcomes by gender<a class="headerlink" href="#grouping-outcomes-by-gender" title="Permalink to this headline">¶</a></h3>
+<p>Let’s convert the data to a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fatf.utils.data.tools</span> <span class="k">as</span> <span class="nn">fatf_data_tools</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">gender_grouping</span> <span class="o">=</span> <span class="n">fatf_data_tools</span><span class="o">.</span><span class="n">group_by_column</span><span class="p">(</span><span class="n">hr_data</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">)</span>
-<span class="n">gender_grouping</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Female data indices: </span><span class="si">{</span><span class="n">gender_grouping</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Male data indices: </span><span class="si">{</span><span class="n">gender_grouping</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">hr_data_dict</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20-Oct-25 18:59:43 fatf.utils.array.tools INFO     Using numpy&#39;s numpy.lib.recfunctions.structured_to_unstructured as fatf.utils.array.tools.structured_to_unstructured and fatf.utils.array.tools.structured_to_unstructured_row.
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>email</th>
+      <th>age</th>
+      <th>weight</th>
+      <th>gender</th>
+      <th>zipcode</th>
+      <th>diagnosis</th>
+      <th>dob</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Heidi Mitchell</td>
+      <td>uboyd@hotmail.com</td>
+      <td>74</td>
+      <td>52</td>
+      <td>female</td>
+      <td>1121</td>
+      <td>cancer</td>
+      <td>03/06/2018</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Tina Burns</td>
+      <td>stevenwheeler@williams.bi</td>
+      <td>3</td>
+      <td>86</td>
+      <td>female</td>
+      <td>0323</td>
+      <td>hip</td>
+      <td>26/09/2017</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Justin Brown</td>
+      <td>velasquezjake@gmail.com</td>
+      <td>26</td>
+      <td>56</td>
+      <td>female</td>
+      <td>0100</td>
+      <td>heart</td>
+      <td>26/12/2015</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brent Parker</td>
+      <td>kennethsingh@strong-foley</td>
+      <td>70</td>
+      <td>57</td>
+      <td>male</td>
+      <td>3131</td>
+      <td>heart</td>
+      <td>02/10/2011</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Bryan Norton</td>
+      <td>erica36@hotmail.com</td>
+      <td>48</td>
+      <td>57</td>
+      <td>male</td>
+      <td>0301</td>
+      <td>hip</td>
+      <td>09/09/2012</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We now add the outcomes (targets):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hr_data_dict</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>email</th>
+      <th>age</th>
+      <th>weight</th>
+      <th>gender</th>
+      <th>zipcode</th>
+      <th>diagnosis</th>
+      <th>dob</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Heidi Mitchell</td>
+      <td>uboyd@hotmail.com</td>
+      <td>74</td>
+      <td>52</td>
+      <td>female</td>
+      <td>1121</td>
+      <td>cancer</td>
+      <td>03/06/2018</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Tina Burns</td>
+      <td>stevenwheeler@williams.bi</td>
+      <td>3</td>
+      <td>86</td>
+      <td>female</td>
+      <td>0323</td>
+      <td>hip</td>
+      <td>26/09/2017</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Justin Brown</td>
+      <td>velasquezjake@gmail.com</td>
+      <td>26</td>
+      <td>56</td>
+      <td>female</td>
+      <td>0100</td>
+      <td>heart</td>
+      <td>26/12/2015</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brent Parker</td>
+      <td>kennethsingh@strong-foley</td>
+      <td>70</td>
+      <td>57</td>
+      <td>male</td>
+      <td>3131</td>
+      <td>heart</td>
+      <td>02/10/2011</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Bryan Norton</td>
+      <td>erica36@hotmail.com</td>
+      <td>48</td>
+      <td>57</td>
+      <td>male</td>
+      <td>0301</td>
+      <td>hip</td>
+      <td>09/09/2012</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We will now construct a confusion, as in <a class="reference internal" href="metrics-error.html#errormetrics-confusionmatrix"><span class="std std-ref">Confusion matrix</span></a>, but for the <em>protected attribute</em> <code class="docutils literal notranslate"><span class="pre">gender</span></code>.</p>
+<p>We start by grouping the outcome per gender.</p>
+<div class="section" id="grouping-outcomes-by-gender">
+<h3>Grouping outcomes by gender<a class="headerlink" href="#grouping-outcomes-by-gender" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span><span class="p">]</span>
+<span class="n">m_subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Female data indices: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">f_subset</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Male data indices: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">m_subset</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Female data indices: [0, 1, 2, 6, 9, 12, 13, 14, 16, 17, 18, 19]
 Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 </pre></div>
@@ -364,14 +559,13 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 <p>Calculating female treatment outcomes:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_female</span> <span class="o">=</span> <span class="n">hr_target</span><span class="p">[</span><span class="n">gender_grouping</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
-<span class="n">target_female_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">target_female</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">target_female_counts</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_subset_target_count</span> <span class="o">=</span> <span class="n">f_subset</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f_subset_target_count</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0, 1]), array([5, 7]))
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{1: 7, 0: 5}
 </pre></div>
 </div>
 </div>
@@ -379,43 +573,47 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 <p>And calculating male treatment outcomes:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_male</span> <span class="o">=</span> <span class="n">hr_target</span><span class="p">[</span><span class="n">gender_grouping</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
-<span class="n">target_male_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">target_male</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">target_male_counts</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_subset_target_count</span> <span class="o">=</span> <span class="n">m_subset</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m_subset_target_count</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0, 1]), array([5, 4]))
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: 5, 1: 4}
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">target_male_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]},</span>
-<span class="p">{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">target_male_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]},</span>
-<span class="p">{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">target_female_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]},</span>
-<span class="p">{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">target_female_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]}])</span>
+<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;outcome&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="n">m_subset_target_count</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="n">m_subset_target_count</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="n">f_subset_target_count</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="n">f_subset_target_count</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;outcome&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">pdf</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/fairness-demographic_parity_15_0.png" src="_images/fairness-demographic_parity_15_0.png">
+<img alt="_images/fairness-demographic_parity_23_0.png" src="_images/fairness-demographic_parity_23_0.png">
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">female_fail_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_female_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">target_female_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-<span class="n">female_success_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_female_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">target_female_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Female ratios: sucess = </span><span class="si">{</span><span class="n">female_success_ratio</span><span class="si">}</span><span class="s2">, fail=</span><span class="si">{</span><span class="n">female_fail_ratio</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_fail_ratio</span> <span class="o">=</span> <span class="n">f_subset_target_count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">f_subset</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">f_success_ratio</span> <span class="o">=</span> <span class="n">f_subset_target_count</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">f_subset</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Female ratios: sucess = </span><span class="si">{</span><span class="n">f_success_ratio</span><span class="si">}</span><span class="s2">, fail=</span><span class="si">{</span><span class="n">f_fail_ratio</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -427,9 +625,9 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">male_fail_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_male_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">target_male_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-<span class="n">male_success_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_male_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">target_male_counts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Male ratios: sucess = </span><span class="si">{</span><span class="n">male_success_ratio</span><span class="si">}</span><span class="s2">, fail=</span><span class="si">{</span><span class="n">male_fail_ratio</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_fail_ratio</span> <span class="o">=</span> <span class="n">m_subset_target_count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">m_subset</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">m_success_ratio</span> <span class="o">=</span> <span class="n">m_subset_target_count</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">m_subset</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Male ratios: sucess = </span><span class="si">{</span><span class="n">m_success_ratio</span><span class="si">}</span><span class="s2">, fail=</span><span class="si">{</span><span class="n">m_fail_ratio</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -441,28 +639,32 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 </div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span><span class="p">:</span> <span class="n">male_fail_ratio</span><span class="p">},</span>
-<span class="p">{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span><span class="p">:</span> <span class="n">male_success_ratio</span><span class="p">},</span>
-<span class="p">{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span><span class="p">:</span> <span class="n">female_fail_ratio</span><span class="p">},</span>
-<span class="p">{</span><span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;outcome&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;ratio&#39;</span><span class="p">:</span> <span class="n">female_success_ratio</span><span class="p">}])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="n">m_fail_ratio</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="n">m_success_ratio</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="n">f_fail_ratio</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="n">f_success_ratio</span><span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;outcome&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;ratio&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;outcome&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;ratio&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">pdf</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/fairness-demographic_parity_18_0.png" src="_images/fairness-demographic_parity_18_0.png">
+<img alt="_images/fairness-demographic_parity_26_0.png" src="_images/fairness-demographic_parity_26_0.png">
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">abs</span><span class="p">(</span><span class="n">female_success_ratio</span> <span class="o">-</span> <span class="n">male_success_ratio</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">f_success_ratio</span> <span class="o">-</span> <span class="n">m_success_ratio</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.13888888888888895
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.13888888888888895
 </pre></div>
 </div>
 </div>
@@ -473,63 +675,196 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 <h2>Disparity<a class="headerlink" href="#disparity" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fatf.utils.models</span> <span class="k">as</span> <span class="nn">fatf_models</span>
-<span class="n">clf</span> <span class="o">=</span> <span class="n">fatf_models</span><span class="o">.</span><span class="n">KNN</span><span class="p">()</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">hr_data</span><span class="p">,</span> <span class="n">hr_target</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hr_predictions</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">hr_data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fatf.utils.metrics.tools</span> <span class="k">as</span> <span class="nn">fatf_metric_tools</span>
-<span class="kn">import</span> <span class="nn">fatf.utils.metrics.metrics</span> <span class="k">as</span> <span class="nn">fatf_performance_metrics</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
 
-<span class="n">hr_confusion_matrix</span> <span class="o">=</span> <span class="n">fatf_metric_tools</span><span class="o">.</span><span class="n">get_confusion_matrix</span><span class="p">(</span><span class="n">hr_target</span><span class="p">,</span> <span class="n">hr_predictions</span><span class="p">)</span>
-<span class="n">fatf_performance_metrics</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">hr_confusion_matrix</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>
+
+<span class="n">gender_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">diagnosis_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">gender</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">diagnosis</span> <span class="o">=</span> <span class="n">diagnosis_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">diagnosis</span><span class="p">)</span>
+
+<span class="n">clf2</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">clf2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="s2">&quot;diagnosis&quot;</span><span class="p">]],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7619047619047619
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KNeighborsClassifier(n_neighbors=3)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gender_cm</span> <span class="o">=</span> <span class="n">fatf_metric_tools</span><span class="o">.</span><span class="n">confusion_matrix_per_subgroup_indexed</span><span class="p">(</span><span class="n">gender_grouping</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">hr_target</span><span class="p">,</span><span class="n">hr_predictions</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hr_target</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">clf2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="s2">&quot;diagnosis&quot;</span><span class="p">]])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;predictions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>email</th>
+      <th>age</th>
+      <th>weight</th>
+      <th>gender</th>
+      <th>zipcode</th>
+      <th>diagnosis</th>
+      <th>dob</th>
+      <th>target</th>
+      <th>predictions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Heidi Mitchell</td>
+      <td>uboyd@hotmail.com</td>
+      <td>74</td>
+      <td>52</td>
+      <td>0</td>
+      <td>1121</td>
+      <td>0</td>
+      <td>03/06/2018</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Tina Burns</td>
+      <td>stevenwheeler@williams.bi</td>
+      <td>3</td>
+      <td>86</td>
+      <td>0</td>
+      <td>0323</td>
+      <td>2</td>
+      <td>26/09/2017</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Justin Brown</td>
+      <td>velasquezjake@gmail.com</td>
+      <td>26</td>
+      <td>56</td>
+      <td>0</td>
+      <td>0100</td>
+      <td>1</td>
+      <td>26/12/2015</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Brent Parker</td>
+      <td>kennethsingh@strong-foley</td>
+      <td>70</td>
+      <td>57</td>
+      <td>1</td>
+      <td>3131</td>
+      <td>1</td>
+      <td>02/10/2011</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Bryan Norton</td>
+      <td>erica36@hotmail.com</td>
+      <td>48</td>
+      <td>57</td>
+      <td>1</td>
+      <td>0301</td>
+      <td>2</td>
+      <td>09/09/2012</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unique_labels</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">gender</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+<span class="n">grouped_cm</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">unique_labels</span><span class="p">:</span>
+    <span class="n">subgroup</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="n">label</span><span class="p">]</span>
+    <span class="n">positive_class</span> <span class="o">=</span> <span class="n">subgroup</span><span class="p">[</span><span class="n">subgroup</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">negative_class</span> <span class="o">=</span> <span class="n">subgroup</span><span class="p">[</span><span class="n">subgroup</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">TP</span> <span class="o">=</span> <span class="n">positive_class</span><span class="p">[</span><span class="n">positive_class</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">positive_class</span><span class="o">.</span><span class="n">predictions</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">TN</span> <span class="o">=</span> <span class="n">negative_class</span><span class="p">[</span><span class="n">negative_class</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">negative_class</span><span class="o">.</span><span class="n">predictions</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">FP</span> <span class="o">=</span> <span class="n">positive_class</span><span class="p">[</span><span class="n">positive_class</span><span class="o">.</span><span class="n">target</span> <span class="o">!=</span> <span class="n">positive_class</span><span class="o">.</span><span class="n">predictions</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">FN</span> <span class="o">=</span> <span class="n">negative_class</span><span class="p">[</span><span class="n">negative_class</span><span class="o">.</span><span class="n">target</span> <span class="o">!=</span> <span class="n">negative_class</span><span class="o">.</span><span class="n">predictions</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grouped_cm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">TP</span><span class="p">,</span> <span class="n">FP</span><span class="p">],</span> <span class="p">[</span><span class="n">FN</span><span class="p">,</span> <span class="n">TN</span><span class="p">]]))</span>
+
+<span class="n">grouped_cm</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[array([[0, 0],
+        [2, 3]]),
+ array([[6, 3],
+        [2, 3]])]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fatf_performance_metrics</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">gender_cm</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">cm</span><span class="p">):</span>
+    <span class="n">TP</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">FP</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">FN</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">TN</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">TN</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">TN</span> <span class="o">+</span> <span class="n">FP</span> <span class="o">+</span> <span class="n">FN</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Female accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="p">(</span><span class="n">grouped_cm</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8333333333333334
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Female accuracy: 0.6
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fatf_performance_metrics</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">gender_cm</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Male accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="p">(</span><span class="n">grouped_cm</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6666666666666666
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Male accuracy: 0.6428571428571429
 </pre></div>
 </div>
 </div>
@@ -538,12 +873,15 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fatf.fairness.models.measures</span> <span class="k">as</span> <span class="nn">fatf_fairness_models</span>
 
-<span class="n">gender_equal_accuracy</span> <span class="o">=</span> <span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">equal_accuracy</span><span class="p">(</span><span class="n">gender_cm</span><span class="p">)</span>
+<span class="n">gender_equal_accuracy</span> <span class="o">=</span> <span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">equal_accuracy</span><span class="p">(</span><span class="n">grouped_cm</span><span class="p">)</span>
 <span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">disparate_impact_check</span><span class="p">(</span><span class="n">gender_equal_accuracy</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20-Oct-26 10:52:38 fatf.utils.array.tools INFO     Using numpy&#39;s numpy.lib.recfunctions.structured_to_unstructured as fatf.utils.array.tools.structured_to_unstructured and fatf.utils.array.tools.structured_to_unstructured_row.
+</pre></div>
+</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
 </pre></div>
 </div>
@@ -551,21 +889,21 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gender_equal_opportunity</span> <span class="o">=</span> <span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">equal_opportunity</span><span class="p">(</span><span class="n">gender_cm</span><span class="p">)</span>
-<span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">disparate_impact_check</span><span class="p">(</span><span class="n">gender_equal_opportunity</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gender_equal_opportunity</span> <span class="o">=</span> <span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">equal_opportunity</span><span class="p">(</span><span class="n">grouped_cm</span><span class="p">)</span>
+<span class="n">gender_equal_opportunity</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[False,  True],
+       [ True, False]])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gender_demographic_parity</span> <span class="o">=</span> <span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">demographic_parity</span><span class="p">(</span><span class="n">gender_cm</span><span class="p">)</span>
-<span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">disparate_impact_check</span><span class="p">(</span><span class="n">gender_demographic_parity</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">disparate_impact_check</span><span class="p">(</span><span class="n">gender_equal_opportunity</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -577,7 +915,33 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">abs</span><span class="p">(</span><span class="n">female_fail_ratio</span> <span class="o">-</span> <span class="n">male_fail_ratio</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gender_demographic_parity</span> <span class="o">=</span> <span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">demographic_parity</span><span class="p">(</span><span class="n">grouped_cm</span><span class="p">)</span>
+<span class="n">gender_demographic_parity</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[False,  True],
+       [ True, False]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fatf_fairness_models</span><span class="o">.</span><span class="n">disparate_impact_check</span><span class="p">(</span><span class="n">gender_demographic_parity</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">abs</span><span class="p">(</span><span class="n">f_fail_ratio</span> <span class="o">-</span> <span class="n">m_fail_ratio</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -586,10 +950,6 @@ Male data indices: [3, 4, 5, 7, 8, 10, 11, 15, 20]
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="calculating-the-demographic-parity">
-<h3>Calculating the demographic parity<a class="headerlink" href="#calculating-the-demographic-parity" title="Permalink to this headline">¶</a></h3>
-<p>Calculate a confusion matrix per sub-group.</p>
 </div>
 </div>
 <div class="section" id="references">

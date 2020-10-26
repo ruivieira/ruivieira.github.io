@@ -166,14 +166,6 @@
 
   
     <url>
-      <loc>http://ruivieira.dev/codex/machine-learning/clustering-metrics.html</loc>
-      <changefreq>weekly</changefreq>
-      <priority>0.3</priority>
-    </url>
-  
-
-  
-    <url>
       <loc>http://ruivieira.dev/codex/machine-learning/data-processing.html</loc>
       <changefreq>weekly</changefreq>
       <priority>0.3</priority>
@@ -191,14 +183,6 @@
   
     <url>
       <loc>http://ruivieira.dev/codex/machine-learning/fairness-introduction.html</loc>
-      <changefreq>weekly</changefreq>
-      <priority>0.3</priority>
-    </url>
-  
-
-  
-    <url>
-      <loc>http://ruivieira.dev/codex/machine-learning/fairness.html</loc>
       <changefreq>weekly</changefreq>
       <priority>0.3</priority>
     </url>
@@ -252,8 +236,6 @@
       <changefreq>weekly</changefreq>
       <priority>0.3</priority>
     </url>
-  
-
   
 
   

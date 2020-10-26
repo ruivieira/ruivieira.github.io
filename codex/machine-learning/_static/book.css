@@ -28,6 +28,9 @@ h2 {
 h3 {
   font-family: "EB Garamond", serif !important;
 }
+.container {
+  padding-right: 0 !important;
+}
 div.cell div.cell_input {
   background: #fff;
   font-family: "JuliaMono", monospace !important;
@@ -40,7 +43,7 @@ div.cell div.cell_input {
   margin-right: 2em;
   white-space: nowrap;
   line-height: 1.5;
-  font-size: 0.9em;
+  font-size: 0.9rem !important;
   border-top: 0;
   border-right: 0;
   border-bottom: 0;
@@ -56,10 +59,17 @@ div.cell div.cell_input {
   margin-left: 0;
   margin-right: 2em;
   line-height: 1.5;
-  font-size: 0.9em;
+  font-size: 0.9rem !important;
   border-top: 0;
   border-right: 0;
   border-bottom: 0;
+}
+
+.cell_output .output.text_plain,
+.cell_output .output.stream,
+.cell_output .output.stderr {
+  border: 0;
+  font-size: 0.9rem !important;
 }
 .bd-sidebar nav ul.nav a:hover,
 .bd-sidebar nav ul.nav li.active > a,

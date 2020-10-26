@@ -14,7 +14,7 @@ div.highlight {
   background: #fff;
   font-family: "JuliaMono", monospace !important;
   border-left: 1px dotted black;
-  padding-left: 1em;
+  /* padding-left: 1em; */
   padding-right: 1em;
   margin-top: 1em;
   margin-bottom: 1em;

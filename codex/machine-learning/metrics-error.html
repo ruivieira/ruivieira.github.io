@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css">
     <link rel="stylesheet" href="_static/pygments.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css">
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css">
+    
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
     <link rel="stylesheet" type="text/css" href="_static/trac.css">
@@ -41,7 +41,7 @@
     <script src="_static/language_data.js"></script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+    
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -253,7 +253,7 @@
   <div class="section" id="error-metrics">
 <h1>Error metrics<a class="headerlink" href="#error-metrics" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="confusion-matrix">
-<h2>Confusion matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">¶</a></h2>
+<span id="errormetrics-confusionmatrix"></span><h2>Confusion matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">¶</a></h2>
 <p>The confusion matrix is typically applied to binary outcome classification problems.</p>
 <p>It revolves are the concepts of false and positive outcomes for classification as such:</p>
 <ul class="simple">
@@ -325,23 +325,23 @@ ACC &amp;= \frac{TP+TN}{P+N} \
   <tbody>
     <tr>
       <th>0</th>
-      <td>little-endian</td>
-      <td>little-endian</td>
+      <td>big-endian</td>
+      <td>big-endian</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>little-endian</td>
       <td>big-endian</td>
+      <td>little-endian</td>
     </tr>
     <tr>
       <th>2</th>
       <td>little-endian</td>
-      <td>big-endian</td>
+      <td>little-endian</td>
     </tr>
     <tr>
       <th>3</th>
       <td>big-endian</td>
-      <td>little-endian</td>
+      <td>big-endian</td>
     </tr>
     <tr>
       <th>4</th>
@@ -361,22 +361,22 @@ ACC &amp;= \frac{TP+TN}{P+N} \
     <tr>
       <th>96</th>
       <td>big-endian</td>
-      <td>big-endian</td>
+      <td>little-endian</td>
     </tr>
     <tr>
       <th>97</th>
-      <td>big-endian</td>
-      <td>big-endian</td>
+      <td>little-endian</td>
+      <td>little-endian</td>
     </tr>
     <tr>
       <th>98</th>
-      <td>little-endian</td>
-      <td>little-endian</td>
+      <td>big-endian</td>
+      <td>big-endian</td>
     </tr>
     <tr>
       <th>99</th>
-      <td>big-endian</td>
-      <td>big-endian</td>
+      <td>little-endian</td>
+      <td>little-endian</td>
     </tr>
   </tbody>
 </table>
@@ -399,7 +399,7 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TP=37, TN=50, FP=7, FN=6
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TP=43, TN=43, FP=4, FN=10
 </pre></div>
 </div>
 </div>
@@ -413,7 +413,7 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy=0.87
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy=0.86
 </pre></div>
 </div>
 </div>
@@ -446,8 +446,8 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[37  7]
- [ 6 50]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[43  4]
+ [10 43]]
 </pre></div>
 </div>
 </div>
