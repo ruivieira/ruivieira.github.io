@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>parrot &#8212; python-experiments</title>
+    <title>Data science with coconut &#8212; python-experiments</title>
     
   <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -112,9 +112,9 @@
   parrot
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="parrot.html">
    parrot
   </a>
  </li>
@@ -124,14 +124,14 @@
   Coconut
  </span>
 </p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="coconut-introduction.html">
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Data science with coconut
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="coconut-introduction.html#linear-regression">
+  <a class="reference internal" href="#linear-regression">
    Linear Regression
   </a>
  </li>
@@ -189,6 +189,37 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Data science with coconut
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression">
+   Linear Regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#basic-function">
+     Basic function
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plotting">
+     Plotting
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -196,99 +227,96 @@
         
               <div>
                 
-  <div class="section" id="parrot">
-<h1>parrot<a class="headerlink" href="#parrot" title="Permalink to this headline">¶</a></h1>
-<p>Read Twitter’s API tokens.</p>
+  <div class="section" id="data-science-with-coconut">
+<h1>Data science with coconut<a class="headerlink" href="#data-science-with-coconut" title="Permalink to this headline">¶</a></h1>
+<p>This is an attempt to rewrite an introductory notebook to data science and machine learning in the <a class="reference external" href="http://coconut-lang.org/">coconut</a> language.</p>
+</div>
+<div class="section" id="linear-regression">
+<h1>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basic-function">
+<h2>Basic function<a class="headerlink" href="#basic-function" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">configparser</span>
+<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
-<span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;../../../../python/python-experiments/twitter.tokens&quot;</span><span class="p">)</span>
-
-<span class="n">api_key</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;secrets&quot;</span><span class="p">][</span><span class="s2">&quot;api_key&quot;</span><span class="p">]</span>
-<span class="n">api_secret</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;secrets&quot;</span><span class="p">][</span><span class="s2">&quot;api_secret&quot;</span><span class="p">]</span>
-<span class="n">consumer_token</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;secrets&quot;</span><span class="p">][</span><span class="s2">&quot;consumer_token&quot;</span><span class="p">]</span>
-<span class="n">consumer_secret</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;secrets&quot;</span><span class="p">][</span><span class="s2">&quot;consumer_secret&quot;</span><span class="p">]</span>
+<span class="n">warm_up_exercise</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Build the API object.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">warm_up_exercise()</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tweepy</span>
-
-<span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">api_secret</span><span class="p">)</span>
-<span class="n">auth</span><span class="o">.</span><span class="n">set_access_token</span><span class="p">(</span><span class="n">consumer_token</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">)</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Build the <code class="docutils literal notranslate"><span class="pre">Parrot</span></code> class.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">parrot</span> <span class="k">as</span> <span class="nn">p</span>
-
-<span class="n">parrot</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">Parrot</span><span class="p">(</span><span class="n">api</span><span class="o">=</span><span class="n">api</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Get my own tweets and train the model.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parrot</span><span class="o">.</span><span class="n">train_user</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s2">&quot;ruimvieira&quot;</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Generate 20 fake tweets.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tweets</span> <span class="o">=</span> <span class="n">parrot</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="n">warm_up_exercise</span><span class="p">()</span> <span class="o">|&gt;</span> <span class="nb">print</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>@otomojamjam @tusk_music #tuskfestival https://t.co/joUu2dJ1SE.
-Google+ is the 5 year old with a keyboard is the 5 year old bottle of Worcestershire sauce in the MOC #redhat ⁦@devconf_us⁩ #defineFUTURE https://t.co/yIFNxlrVNL.
-This seems to be… https://t.co/IKR10se38U.
-@dumpsternaut @mycoliza Yes, but if you don&#39;t really r… https://t.co/DXMWJT1i7v.
-Looking forward to speak about streaming recommendation engines at @berlinbuzzwords, June 2018.… https://t.co/4OxGcjtas0. https://t.co/6uP8MjSBfl.
-A type of fairground distorting mirror where you don&#39;t provide much info, it will just load whatever is available under that… https://t.co/C5Rshhgbyv.
-@TorturingNurse thanks for the #tuskfestival report @tusk_music https://t.co/bSFQLOJquG.
-Craig Leon #tuskfestival @tusk_music @BrothersHameed https://t.co/qZXWz2OXJd.
-Weekend contrite lessons: setting up multiple accounts on Twitter and building your own social media data is hilarious.
-. The discussion seems to have disappeared from “prefere… https://t.co/sbXxUXThy0.
-So absorbed into Terry Riley almost forget a photo for the always great @willb at @DataSphere_conf #DataSphere #Krakow https://t.co/aoxQmGpPgL. waiting for the follow.
-Looking forward to speak about streaming recommendation engines at @berlinbuzzwords, June 2018.… https://t.co/4OxGcjtas0. https://t.co/6uP8MjSBfl.
-A one year old bottle of Worcestershire sauce in the back of the Tusk-mini gig in 2014!
-CodeReady Containers is awesome. https://t.co/1qpN9PX2fY.
-@dumpsternaut @mycoliza Yes, but if you specify the path.
-I have great memories of the cupboard that you completely forgot about..
-The option seems to work like describe… https://t.co/kBhpnffkvD.
-Google+ is the 5 year old with a keyboard is the 5 year old with a keyboard is the 5 year old bottle of Worcestershire sauce in the back of the Tusk-mini gig in 2014!
-I&#39;ll be talking about Istio on #Kubernetes ⁦@devconf_us⁩ #defineFUTURE #Boston https://t.co/dfUWwhSISn.
-@TorturingNurse thanks for the always great @willb at @DataSphere_conf #DataSphere #Krakow https://t.co/aoxQmGpPgL. waiting for the #tuskfestival report @tusk_music https://t.co/bSFQLOJquG.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1 0 0 0 0]
+ [0 1 0 0 0]
+ [0 0 1 0 0]
+ [0 0 0 1 0]
+ [0 0 0 0 1]]
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plotting">
+<h2>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h2>
+<p>The data <code class="docutils literal notranslate"><span class="pre">ex1data1.txt</span></code> has only two properties: profit and population.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="k">data</span> <span class="err">= </span><span class="nc">open</span><span class="p">(</span><span class="s2">&quot;data/ml/ex1data1.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="o">$</span><span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">|&gt;</span> <span class="nb">fmap</span><span class="o">$</span><span class="p">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="k">data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">y</span> <span class="o">|&gt;</span> <span class="nb">len</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>97
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">plot_data()</span></code> uses scatter plot to visualize the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="k">def</span> <span class="nf">plot_data</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training data&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Population of City in 10,000s&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Profit in $10,000s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">|*&gt;</span> <span class="n">plot_data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/coconut-introduction_13_0.png" src="_images/coconut-introduction_13_0.png">
 </div>
 </div>
 </div>
 </div>
 
     
-    <script>kernelName = 'python-experiments-book'</script>
+    <script>kernelName = 'coconut'</script>
 
               </div>
               
@@ -298,8 +326,8 @@ I&#39;ll be talking about Istio on #Kubernetes ⁦@devconf_us⁩ #defineFUTURE #
     
     <div class="prev-next-bottom">
         
-    <a class="left-prev" id="prev-link" href="intrplate.html" title="previous page">intrplate</a>
-    <a class="right-next" id="next-link" href="coconut-introduction.html" title="next page">Data science with coconut</a>
+    <a class="left-prev" id="prev-link" href="parrot.html" title="previous page">parrot</a>
+    <a class="right-next" id="next-link" href="sicp-chapter1.html" title="next page">Chapter 1</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
