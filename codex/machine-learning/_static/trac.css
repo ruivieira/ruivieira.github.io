@@ -9,6 +9,10 @@
 code {
   font-family: "JuliaMono", monospace !important;
   font-size: 0.8em !important;
+  background-color: rgb(243, 243, 243);
+  color: rgb(23, 23, 23);
+  border-radius: 0.5rem;
+  padding: 0.2rem;
 }
 div.highlight {
   background: #fff;

@@ -32,9 +32,9 @@ h3 {
   padding-right: 0 !important;
 }
 div.cell div.cell_input {
-  background: #fff;
+  background: rgb(243, 243, 243);
   font-family: "JuliaMono", monospace !important;
-  border-left: 1px dotted black;
+  border: 0 !important;
   padding-left: 1em;
   padding-right: 1em;
   margin-top: 1em;
@@ -50,7 +50,7 @@ div.cell div.cell_input {
 }
 .cell_output .output pre,
 .cell_input pre {
-  background: #fff;
+  background: rgb(243, 243, 243);
   font-family: "JuliaMono", monospace !important;
   padding-left: 1em;
   padding-right: 1em;
@@ -92,6 +92,14 @@ main.bd-content #main-content a:visited {
 }
 table {
   font-size: 0.9rem !important;
+  overflow: hidden;
+}
+table:hover {
+  overflow-y: scroll;
+}
+td {
+  font-family: JuliaMono, monospace !important;
+  font-size: 0.8rem;
 }
 
 /* Replace icon in hidden menu */

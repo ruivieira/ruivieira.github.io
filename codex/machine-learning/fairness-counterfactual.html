@@ -240,10 +240,15 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data">
-   Data
+  <a class="reference internal nav-link" href="#building-counterfactually-fair-models">
+   Building counterfactually fair models
   </a>
   <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data">
+     Data
+    </a>
+   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#pre-processing">
      Pre-processing
@@ -262,36 +267,58 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#unfair-model">
-   Unfair model
+  <a class="reference internal nav-link" href="#models">
+   Models
   </a>
   <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unfair-model">
+     Unfair model
+    </a>
+   </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#full-model">
      Full model
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fairness-through-unawareness-ftu">
+     Fairness through unawareness (FTU)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#latent-variable-model">
+     Latent variable model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#additive-error-model">
+     Additive error model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#comparison">
+     Comparison
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fairness-through-unawareness-ftu">
-   Fairness through unawareness (FTU)
+  <a class="reference internal nav-link" href="#measuring-counterfactual-fairness">
+   Measuring counterfactual fairness
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#latent-variable-model">
-   Latent variable model
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#additive-error-model">
-   Additive error model
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#comparison">
-   Comparison
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#statistical-parity-difference-disparate-impact">
+     Statistical Parity Difference / Disparate Impact
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#finding-sensitive-features">
+     Finding sensitive features
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
@@ -311,8 +338,10 @@
                 
   <div class="section" id="counterfactual-fairness">
 <h1>Counterfactual fairness<a class="headerlink" href="#counterfactual-fairness" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="building-counterfactually-fair-models">
+<h2>Building counterfactually fair models<a class="headerlink" href="#building-counterfactually-fair-models" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="data">
-<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
 <p>To evaluate <em>counterfactual fairness</em> we will be using the “law school” dataset <a class="bibtex reference internal" href="xai-counterfactuals.html#mcintyre2018law" id="id1">[MS18]</a>.</p>
 <p>The Law School Admission Council conducted a survey across 163 law schools in the United States.
 It contains information on 21,790 law students such as their entrance exam scores (<code class="docutils literal notranslate"><span class="pre">LSAT</span></code>), their
@@ -418,6 +447,7 @@ However, the <code class="docutils literal notranslate"><span class="pre">LSAT</
   </tbody>
 </table>
 </div></div></div>
+</div>
 </div>
 <div class="section" id="pre-processing">
 <h3>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h3>
@@ -892,8 +922,10 @@ We will use the same ratio as in <a class="bibtex reference internal" href="xai-
 </div>
 </div>
 </div>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="unfair-model">
-<h2>Unfair model<a class="headerlink" href="#unfair-model" title="Permalink to this headline">¶</a></h2>
+<h3>Unfair model<a class="headerlink" href="#unfair-model" title="Permalink to this headline">¶</a></h3>
 <p>As detailed in <a class="bibtex reference internal" href="xai-counterfactuals.html#kusner2017" id="id3">[KLRS17]</a>, the concept of counterfactual fairness holds
 under three levels of assumptions of increasing strength.</p>
 <p>The first of such levels is <strong>Level 1</strong>, where <span class="math notranslate nohighlight">\(\hat{Y}\)</span> is built using only the observable non-descendants of <span class="math notranslate nohighlight">\(A\)</span>.
@@ -907,6 +939,7 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <li><p>An <strong>Unaware</strong> model (FTU), which will be trained will all the variables, except the protected attributes <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
 </ul>
 <p>Let’s proceed with calculating the <strong>Full</strong> model.</p>
+</div>
 <div class="section" id="full-model">
 <h3>Full model<a class="headerlink" href="#full-model" title="Permalink to this headline">¶</a></h3>
 <p>As mentioned previously, the full model will be a simple linear regression in order to predict <code class="docutils literal notranslate"><span class="pre">ZFYA</span></code> using all of the variables.</p>
@@ -1049,9 +1082,8 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 </div>
-</div>
 <div class="section" id="fairness-through-unawareness-ftu">
-<h2>Fairness through unawareness (FTU)<a class="headerlink" href="#fairness-through-unawareness-ftu" title="Permalink to this headline">¶</a></h2>
+<h3>Fairness through unawareness (FTU)<a class="headerlink" href="#fairness-through-unawareness-ftu" title="Permalink to this headline">¶</a></h3>
 <p>As also mentioned in <a class="bibtex reference internal" href="xai-counterfactuals.html#kusner2017" id="id4">[KLRS17]</a>, the second baseline we will use is an <strong>Unaware</strong> model (FTU), which will be trained will all the variables, except the protected attributes <span class="math notranslate nohighlight">\(A\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1158,7 +1190,7 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 <div class="section" id="latent-variable-model">
-<h2>Latent variable model<a class="headerlink" href="#latent-variable-model" title="Permalink to this headline">¶</a></h2>
+<h3>Latent variable model<a class="headerlink" href="#latent-variable-model" title="Permalink to this headline">¶</a></h3>
 <p>Still according to <a class="bibtex reference internal" href="xai-counterfactuals.html#kusner2017" id="id5">[KLRS17]</a>, a <strong>Level 2</strong> approach will model latent ‘fair’ variables which are parents of observed variables.</p>
 <p>If we consider a predictor parameterised by <span class="math notranslate nohighlight">\(\theta\)</span>, such as:</p>
 <div class="math notranslate nohighlight">
@@ -1292,8 +1324,8 @@ CompoundStep
         }
     </style>
   <progress value="8000" class="" max="8000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-  100.00% [8000/8000 01:22<00:00 0="" 4="" Sampling="" chains,="" divergences]="" <=""></00:00>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 94 seconds.
+  100.00% [8000/8000 01:39<00:00 0="" 4="" Sampling="" chains,="" divergences]="" <=""></00:00>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 113 seconds.
 The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.
 The estimated number of effective samples is smaller than 200 for some parameters.
 </pre></div>
@@ -1310,15 +1342,15 @@ The estimated number of effective samples is smaller than 200 for some parameter
 <span class="c1"># Thin the samples before plotting</span>
 <span class="n">k_trace</span> <span class="o">=</span> <span class="n">train_estimates</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">::</span><span class="mi">100</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">k_trace</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">k_trace</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">k_trace</span><span class="p">)),</span> <span class="n">k_trace</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">k_trace</span><span class="p">)),</span> <span class="n">k_trace</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/fairness-counterfactual_52_0.png" src="_images/fairness-counterfactual_52_0.png">
+<img alt="_images/fairness-counterfactual_54_0.png" src="_images/fairness-counterfactual_54_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1329,13 +1361,13 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.20658037],
-       [-0.04806536],
-       [-0.01335303],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.07387113],
+       [ 0.06945975],
+       [ 0.21226271],
        ...,
-       [ 0.09076849],
-       [ 0.11204019],
-       [ 0.02730821]])
+       [-0.02085344],
+       [-0.16937514],
+       [-0.07507356]])
 </pre></div>
 </div>
 </div>
@@ -1377,8 +1409,8 @@ CompoundStep
         }
     </style>
   <progress value="8000" class="" max="8000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-  100.00% [8000/8000 00:33<00:00 0="" 4="" Sampling="" chains,="" divergences]="" <=""></00:00>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 48 seconds.
+  100.00% [8000/8000 00:31<00:00 0="" 4="" Sampling="" chains,="" divergences]="" <=""></00:00>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 44 seconds.
 The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.
 The estimated number of effective samples is smaller than 200 for some parameters.
 </pre></div>
@@ -1393,13 +1425,13 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.2111925 ],
-       [ 0.29696172],
-       [-0.16900098],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.25399602],
+       [ 0.22089667],
+       [ 0.03343039],
        ...,
-       [-0.01713051],
-       [-0.07469816],
-       [-0.30665221]])
+       [-0.08745347],
+       [ 0.05997235],
+       [-0.15362317]])
 </pre></div>
 </div>
 </div>
@@ -1427,8 +1459,8 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.01980993,  0.25255695,  0.00280441, ...,  0.08420585,
-        0.05335002, -0.07097563])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.25729078,  0.23596663,  0.11519207, ...,  0.03731302,
+        0.13229164, -0.00531661])
 </pre></div>
 </div>
 </div>
@@ -1441,7 +1473,7 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0067887409029733226
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.0008970605112028629
 </pre></div>
 </div>
 </div>
@@ -1454,16 +1486,16 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9244257176167182
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9279955826497653
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="additive-error-model">
-<h2>Additive error model<a class="headerlink" href="#additive-error-model" title="Permalink to this headline">¶</a></h2>
+<h3>Additive error model<a class="headerlink" href="#additive-error-model" title="Permalink to this headline">¶</a></h3>
 <p>Finally, in <strong>Level 3</strong>, we model <code class="docutils literal notranslate"><span class="pre">GPA</span></code>, <code class="docutils literal notranslate"><span class="pre">LSAT</span></code>, and <code class="docutils literal notranslate"><span class="pre">FYA</span></code> as continuous variables with additive error terms
-independent of race and sex<a class="footnote-reference brackets" href="#id8" id="id6">2</a>.</p>
+independent of race and sex<a class="footnote-reference brackets" href="#id10" id="id6">2</a>.</p>
 <p>This corresponds to</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1501,17 +1533,17 @@ First we calculate <span class="math notranslate nohighlight">\(\epsilon_{GPA}\)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0       -0.241797
-1       -0.341797
-2       -0.100195
-5       -0.873242
-6        0.058203
-           ...   
-27472    0.799805
-27473    0.358203
-27474    0.658203
-27475   -0.300195
-27476   -0.100195
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0       -0.242
+1       -0.342
+2       -0.100
+5       -0.873
+6        0.058
+         ...  
+27472    0.800
+27473    0.358
+27474    0.658
+27475   -0.300
+27476   -0.100
 Name: UGPA, Length: 21791, dtype: float64
 </pre></div>
 </div>
@@ -1526,17 +1558,17 @@ Name: UGPA, Length: 21791, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        1.789062
-1       -1.210938
-2       -7.689453
-5        5.054688
-6       -0.210938
-           ...   
-27472   -4.689453
-27473    0.789062
-27474   -1.210938
-27475   -6.689453
-27476   -9.689453
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        1.789
+1       -1.211
+2       -7.689
+5        5.055
+6       -0.211
+         ...  
+27472   -4.689
+27473    0.789
+27474   -1.211
+27475   -6.689
+27476   -9.689
 Name: LSAT, Length: 21791, dtype: float64
 </pre></div>
 </div>
@@ -1548,15 +1580,13 @@ Name: LSAT, Length: 21791, dtype: float64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
-
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">epsilons_gpa</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">epsilons_gpa</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;$\epsilon_</span><span class="si">{GPA}</span><span class="s2">$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\epsilon_</span><span class="si">{GPA}</span><span class="s2">$&quot;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">epsilons_LSAT</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">epsilons_LSAT</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;$\epsilon_</span><span class="si">{LSAT}</span><span class="s2">$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\epsilon_</span><span class="si">{LSAT}</span><span class="s2">$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1564,7 +1594,7 @@ Name: LSAT, Length: 21791, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/fairness-counterfactual_73_0.png" src="_images/fairness-counterfactual_73_0.png">
+<img alt="_images/fairness-counterfactual_75_0.png" src="_images/fairness-counterfactual_75_0.png">
 </div>
 </div>
 <p>We finally use the calculated <span class="math notranslate nohighlight">\(\epsilon\)</span> to train a model in order to predict <code class="docutils literal notranslate"><span class="pre">FYA</span></code>.
@@ -1656,8 +1686,8 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 </div>
 </div>
 <div class="section" id="comparison">
-<h2>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h2>
-<p>The score so far are:</p>
+<h3>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h3>
+<p>The scores, so far, are:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unfair score:</span><span class="se">\t</span><span class="si">{</span><span class="n">score_unfair</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1670,7 +1700,7 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unfair score:	0.12701634112845117
 FTU score:	0.0917442226187073
-L2 score:	0.0067887409029733226
+L2 score:	-0.0008970605112028629
 Fair add score:	0.04475841449183948
 </pre></div>
 </div>
@@ -1688,9 +1718,120 @@ Fair add score:	0.04475841449183948
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unfair RMSE:	0.8666709890234552
 FTU RMSE:	0.8840061503773576
-L2 RMSE:	0.9244257176167182
+L2 RMSE:	0.9279955826497653
 Fair add RMSE:	0.9065835039365202
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="measuring-counterfactual-fairness">
+<h2>Measuring counterfactual fairness<a class="headerlink" href="#measuring-counterfactual-fairness" title="Permalink to this headline">¶</a></h2>
+<p>First, we will measure two quantities, the <strong>Statistical Parity Difference</strong> (SPD)<a class="footnote-reference brackets" href="#spd" id="id8">3</a> and <strong>Disparate impact</strong> (DI)<a class="footnote-reference brackets" href="#di" id="id9">4</a>.</p>
+<div class="section" id="statistical-parity-difference-disparate-impact">
+<h3>Statistical Parity Difference / Disparate Impact<a class="headerlink" href="#statistical-parity-difference-disparate-impact" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fairlearn.metrics</span> <span class="kn">import</span> <span class="n">demographic_parity_difference</span><span class="p">,</span> <span class="n">demographic_parity_ratio</span>
+
+<span class="n">parities</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">impacts</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+    <span class="n">parity</span> <span class="o">=</span> <span class="n">demographic_parity_difference</span><span class="p">(</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
+                                                <span class="n">sensitive_features</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
+    <span class="n">di</span> <span class="o">=</span> <span class="n">demographic_parity_ratio</span><span class="p">(</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
+                                                <span class="n">sensitive_features</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
+    <span class="n">parities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parity</span><span class="p">)</span>
+    <span class="n">impacts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">di</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_parities</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;protected&#39;</span><span class="p">:</span><span class="n">A</span><span class="p">,</span><span class="s1">&#39;parity&#39;</span><span class="p">:</span><span class="n">parities</span><span class="p">,</span><span class="s1">&#39;impact&#39;</span><span class="p">:</span><span class="n">impacts</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Statistical Parity Difference and Disparate Impact&#39;</span><span class="p">)</span>
+
+<span class="n">width</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">df_parities</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span><span class="s1">&#39;protected&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;parity&#39;</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">width</span><span class="p">,</span> 
+       <span class="n">position</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">df_parities</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span><span class="s1">&#39;protected&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;impact&#39;</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">width</span><span class="p">,</span> 
+       <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.55</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="n">patches</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Stat Parity Diff&#39;</span><span class="p">],</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
+<span class="n">patches</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Disparate Impact&#39;</span><span class="p">],</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)):</span>
+    <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Protected Features&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Statistical Parity Difference&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Disparate Impact&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/fairness-counterfactual_93_0.png" src="_images/fairness-counterfactual_93_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="finding-sensitive-features">
+<h3>Finding sensitive features<a class="headerlink" href="#finding-sensitive-features" title="Permalink to this headline">¶</a></h3>
+<p>Typically a <span class="math notranslate nohighlight">\(SPD &gt; 0.1\)</span> and a <span class="math notranslate nohighlight">\(DI &lt; 0.9\)</span> might indicate discrimination on those features.
+All <em>protected attributes</em> fail the SPD test and, in our dataset, we have two features (<code class="docutils literal notranslate"><span class="pre">Hispanic</span></code> and <code class="docutils literal notranslate"><span class="pre">Mexican</span></code>) which clearly fail the DI test.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Mexican&quot;</span><span class="p">,</span> <span class="s2">&quot;Hispanic&quot;</span><span class="p">]:</span>
+    <span class="n">spd</span> <span class="o">=</span> <span class="n">demographic_parity_difference</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
+                                        <span class="n">y_pred</span><span class="o">=</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
+                                        <span class="n">sensitive_features</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SPD(</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">spd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">di</span> <span class="o">=</span> <span class="n">demographic_parity_ratio</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
+                                  <span class="n">y_pred</span><span class="o">=</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
+                                  <span class="n">sensitive_features</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DI(</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">di</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SPD(Mexican) = 0.0014017257538768636
+DI(Mexican) = 0.5556529360210342
+SPD(Hispanic) = 0.003272247102713093
+DI(Hispanic) = 0.34227833235466826
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -1708,8 +1849,14 @@ Fair add RMSE:	0.9065835039365202
 </p>
 <hr class="docutils">
 <dl class="footnote brackets">
-<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id6">2</a></span></dt>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id6">2</a></span></dt>
 <dd><p>That may in turn be correlated with one-another.</p>
+</dd>
+<dt class="label" id="spd"><span class="brackets"><a class="fn-backref" href="#id8">3</a></span></dt>
+<dd><p>See <a class="reference internal" href="fairness-demographic_parity.html#fairness-demographic-parity-difference"><span class="std std-ref">Demographic parity difference</span></a>.</p>
+</dd>
+<dt class="label" id="di"><span class="brackets"><a class="fn-backref" href="#id9">4</a></span></dt>
+<dd><p>See <a class="reference internal" href="fairness-demographic_parity.html#fairness-disparate-impact"><span class="std std-ref">Disparate Impact</span></a>.</p>
 </dd>
 </dl>
 </div>
