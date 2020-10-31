@@ -26,9 +26,6 @@
     
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="_static/trac.css">
-    <link rel="stylesheet" type="text/css" href="_static/book.css">
     <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
@@ -64,14 +61,14 @@
 
 
 
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"></head>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/trac.css"></head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
 
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
     
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
@@ -256,7 +253,7 @@
         
     </div>
 </div>
-    <div id="main-content" class="row">
+    <div id="content" class="container">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -295,8 +292,8 @@ Any</p>
 <div><p>A predictor <span class="math notranslate nohighlight">\(\hat{Y}\)</span> satisfies demographic parity if <span class="math notranslate nohighlight">\(P(\hat{Y}|A=0)=P(\hat{Y}|A=1)\)</span>.</p>
 </div></blockquote>
 <p>This is explained in more detail in <a class="reference internal" href="fairness-demographic_parity.html#fairness-demographic-parity"><span class="std std-ref">Demographic parity</span></a>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -307,13 +304,13 @@ Any</p>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -426,15 +423,15 @@ Any</p>
 </table>
 </div></div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span> <span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;Fare&quot;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
 
 <span class="n">le</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">LabelEncoder</span><span class="p">()</span>
@@ -447,13 +444,13 @@ Any</p>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -530,8 +527,8 @@ Any</p>
 </table>
 </div></div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">])</span>
 <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
 <span class="n">df_test</span> <span class="o">=</span> <span class="n">df_test</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
@@ -540,8 +537,8 @@ Any</p>
 </div>
 </div>
 <p>Train the model.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
@@ -551,14 +548,14 @@ Any</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogisticRegression(random_state=23)
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fairlearn.metrics</span> <span class="kn">import</span> <span class="n">demographic_parity_difference</span><span class="p">,</span> <span class="n">equalized_odds_difference</span>
 
 
@@ -568,16 +565,16 @@ Any</p>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bl_test_probs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">bl_test_labels</span> <span class="o">=</span> <span class="p">(</span><span class="n">bl_test_probs</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_sex</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">Sex</span><span class="o">.</span><span class="n">values</span>
 <span class="n">test_survived</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">Survived</span><span class="o">.</span><span class="n">values</span>
 <span class="n">mask</span> <span class="o">=</span> <span class="n">test_sex</span> <span class="o">==</span> <span class="mi">1</span>
@@ -585,8 +582,8 @@ Any</p>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_ftu</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
 <span class="n">X_ftu</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">y_ftu</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span>
@@ -594,22 +591,22 @@ Any</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogisticRegression(random_state=23)
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_probs</span> <span class="o">=</span> <span class="n">model_ftu</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_ftu</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">test_pred_labels</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_probs</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># baseline metrics</span>
 <span class="n">bl_test_acc</span> <span class="o">=</span> <span class="n">binary_accuracy</span><span class="p">(</span><span class="n">test_survived</span><span class="p">,</span> <span class="n">bl_test_labels</span><span class="p">)</span>
 <span class="n">bl_test_dpd</span> <span class="o">=</span> <span class="n">demographic_parity_difference</span><span class="p">(</span>
@@ -621,8 +618,8 @@ Any</p>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">base_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -637,7 +634,7 @@ Any</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;y&#39;}, xlabel=&#39;[Sex]&#39;&gt;
 </pre></div>
 </div>

@@ -26,9 +26,6 @@
     
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="_static/trac.css">
-    <link rel="stylesheet" type="text/css" href="_static/book.css">
     <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
@@ -64,14 +61,14 @@
 
 
 
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"></head>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/trac.css"></head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
 
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
     
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
@@ -251,7 +248,7 @@
         
     </div>
 </div>
-    <div id="main-content" class="row">
+    <div id="content" class="container">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -281,8 +278,8 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 \end{align}</p>
 <p>where <span class="math notranslate nohighlight">\(TP\)</span> is the number of true positives in dataset, <span class="math notranslate nohighlight">\(TN\)</span> the number of true negatives, <em>etc…</em></p>
 <p>Let’s illustrate this is with a mock dataset.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">random</span>
@@ -299,13 +296,13 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -390,8 +387,8 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </div></div></div>
 </div>
 <p>Let’s calculate the number of false positive, true negatives, <em>etc…</em>:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">positive_class</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">endianness</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 <span class="n">negative_class</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">endianness</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
 
@@ -404,21 +401,21 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TP=43, TN=43, FP=4, FN=10
 </pre></div>
 </div>
 </div>
 </div>
 <p>The accuracy will then be:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ACC</span> <span class="o">=</span> <span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="o">+</span><span class="n">FP</span><span class="o">+</span><span class="n">FN</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;accuracy=</span><span class="si">{</span><span class="n">ACC</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy=0.86
 </pre></div>
 </div>
@@ -444,22 +441,22 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </tbody>
 </table>
 <p>Let’s calculate the confusion matrix, using the above quantities.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">TP</span><span class="p">,</span> <span class="n">FP</span><span class="p">],</span> <span class="p">[</span><span class="n">FN</span><span class="p">,</span> <span class="n">TN</span><span class="p">]])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[43  4]
  [10 43]]
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -473,7 +470,7 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/metrics-error_12_0.png" src="_images/metrics-error_12_0.png">
 </div>
 </div>

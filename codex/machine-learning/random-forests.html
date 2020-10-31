@@ -26,9 +26,6 @@
     
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="_static/trac.css">
-    <link rel="stylesheet" type="text/css" href="_static/book.css">
     <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
@@ -64,14 +61,14 @@
 
 
 
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"></head>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/trac.css"></head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
 
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
     
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
@@ -251,7 +248,7 @@
         
     </div>
 </div>
-    <div id="main-content" class="row">
+    <div id="content" class="container">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -259,8 +256,8 @@
   <div class="section" id="random-forests">
 <h1>Random forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h1>
 <p>Let’s train a random forest.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -271,8 +268,8 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[[</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span> <span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;Fare&quot;</span><span class="p">]]</span>
 
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
@@ -287,8 +284,8 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 
 <span class="n">input_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">]</span>
@@ -298,7 +295,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RandomForestClassifier()
 </pre></div>
 </div>
@@ -306,8 +303,8 @@
 </div>
 <div class="section" id="visualise-decision-trees">
 <h2>Visualise decision trees<a class="headerlink" href="#visualise-decision-trees" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">export_text</span>
 
 <span class="n">tree</span> <span class="o">=</span> <span class="n">export_text</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">input_names</span><span class="p">)</span>
@@ -315,7 +312,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|--- Sex &lt;= 0.50
 |   |--- Age &lt;= 48.50
 |   |   |--- Age &lt;= 42.50

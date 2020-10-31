@@ -26,9 +26,6 @@
     
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="_static/trac.css">
-    <link rel="stylesheet" type="text/css" href="_static/book.css">
     <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
@@ -64,14 +61,14 @@
 
 
 
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"></head>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/trac.css"></head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
 
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
     
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
@@ -266,7 +263,7 @@
         
     </div>
 </div>
-    <div id="main-content" class="row">
+    <div id="content" class="container">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -277,8 +274,8 @@
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>To create the dataset, we will use the same technique as used in <a class="reference internal" href="synthetic-data.html#data-classification"><span class="std std-ref">Classification data</span></a>.</p>
 <p>We will create two well separated clusters in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>, corresponding to two features <span class="math notranslate nohighlight">\(f_1\)</span> and <span class="math notranslate nohighlight">\(f_2\)</span>, with an associated outcome <span class="math notranslate nohighlight">\(y=f(f_1, f_2)\)</span> with possible values <em>true</em> (<span class="math notranslate nohighlight">\(y=1\)</span>) and <em>false</em> (<span class="math notranslate nohighlight">\(y=1\)</span>).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
 
@@ -313,8 +310,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
@@ -337,13 +334,13 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/xai-counterfactuals_3_0.png" src="_images/xai-counterfactuals_3_0.png">
 </div>
 </div>
 <p>We will now train an SVC model with the generated data.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
@@ -354,20 +351,20 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SVC(probability=True)
 </pre></div>
 </div>
 </div>
 </div>
 <p>And calculate the model’s accuracy.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SVM classification accuracy: &quot;</span><span class="p">,</span> <span class="n">svm</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SVM classification accuracy:  1.0
 </pre></div>
 </div>
@@ -380,8 +377,8 @@
 p^{\prime}=(f_1^{\prime}, f_2^{\prime}): y^{\prime}=f(p^{\prime})=\sim y
 \]</div>
 <p>Let’s define our input as point <span class="math notranslate nohighlight">\(p=(-0.5, -1)\)</span> and visualise it along with the predicted outcome.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -392,15 +389,15 @@ p^{\prime}=(f_1^{\prime}, f_2^{\prime}): y^{\prime}=f(p^{\prime})=\sim y
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y=f([-0.5, -1]) predicted as true
 </pre></div>
 </div>
 </div>
 </div>
 <p>We therefore are interested in the set of features <span class="math notranslate nohighlight">\(p^{\prime}\)</span> which will have a prediction of <em>false</em>.</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">ListedColormap</span>
 
@@ -433,13 +430,13 @@ p^{\prime}=(f_1^{\prime}, f_2^{\prime}): y^{\prime}=f(p^{\prime})=\sim y
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/xai-counterfactuals_11_0.png" src="_images/xai-counterfactuals_11_0.png">
 </div>
 </div>
 <p>We define now a function, <code class="docutils literal notranslate"><span class="pre">nearest</span></code>, which will return the existing data <em>point</em> that is closest to the input and which provides a counterfactual (that is, <code class="docutils literal notranslate"><span class="pre">false</span></code> outcome).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">nearest</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the data point closest to p, which has a &#39;false&#39; outcome&quot;&quot;&quot;</span>
     <span class="n">data_n</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
@@ -463,8 +460,8 @@ p^{\prime}=(f_1^{\prime}, f_2^{\prime}): y^{\prime}=f(p^{\prime})=\sim y
 \[
 d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{n}|p_{i}-q_{i}|
 \]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">loss_function_l1norm</span><span class="p">(</span><span class="n">x_dash</span><span class="p">):</span>
     <span class="n">L</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_dash</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">cdist</span><span class="p">(</span>
         <span class="n">example</span><span class="p">,</span> <span class="n">x_dash</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;cityblock&quot;</span>
@@ -492,8 +489,8 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 <p>For completeness we will also show the data point which is <em>closest</em> to our original input <span class="math notranslate nohighlight">\(p\)</span>, but with a different outcome.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">DistanceMetric</span>
 
@@ -510,15 +507,15 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p=([[ 0.79255422 -1.43485286]]) predicted as false
 </pre></div>
 </div>
 </div>
 </div>
 <p>We use the <em>Nelder-Mead</em> method to minimise the loss function <code class="docutils literal notranslate"><span class="pre">loss_function_mad</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span><span class="p">,</span> <span class="n">pdist</span>
@@ -564,14 +561,14 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found counterfactual: [ 0.71714572 -1.        ] after 62 steps. This point has an outcome of 0 with a probability 0.9006155482955803
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span>
@@ -612,7 +609,7 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/xai-counterfactuals_20_0.png" src="_images/xai-counterfactuals_20_0.png">
 </div>
 </div>
@@ -620,8 +617,8 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 <div class="section" id="growing-spheres-method">
 <h2>Growing Spheres method<a class="headerlink" href="#growing-spheres-method" title="Permalink to this headline">¶</a></h2>
 <p>The <em>Growing Spheres</em> method <a class="bibtex reference internal" href="#id2" id="id1">[LLM+17]</a> consists of:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
@@ -634,8 +631,8 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">X_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
@@ -658,27 +655,27 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/xai-counterfactuals_24_0.png" src="_images/xai-counterfactuals_24_0.png">
 </div>
 </div>
 <p>We will use an SVC model as before, but now we will simply train it on the <em>train</em> dataset.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svm</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; ### Accuracy:&quot;</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">/</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ### Accuracy: 1.0
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_classification_contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">clf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
     <span class="c1">## Inspired by scikit-learn documentation</span>
     <span class="n">h</span> <span class="o">=</span> <span class="mf">0.02</span>  <span class="c1"># step size in the mesh</span>
@@ -700,8 +697,8 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 <li><p>number of “enemies”, <code class="docutils literal notranslate"><span class="pre">n_enemies</span> <span class="pre">=</span> <span class="pre">999</span></code></p></li>
 <li><p>the number of points inside the layer, <code class="docutils literal notranslate"><span class="pre">n_layer=200</span></code></p></li>
 </ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">radius</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">n_enemies</span> <span class="o">=</span> <span class="mi">99</span>
 <span class="n">n_layer</span> <span class="o">=</span> <span class="mi">2000</span>
@@ -710,16 +707,16 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 <p>Let’s also add a normalising function:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_inside_ball</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">center</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
@@ -732,15 +729,15 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">first_layer</span> <span class="o">=</span> <span class="n">generate_inside_ball</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">p_input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">segment</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">radius</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="n">n_layer</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">first_layer</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
     <span class="n">first_layer</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
@@ -754,12 +751,12 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/xai-counterfactuals_34_0.png" src="_images/xai-counterfactuals_34_0.png">
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">enemies_in_layer</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="n">caps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">layer</span> <span class="o">=</span> <span class="n">generate_inside_ball</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">caps</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
@@ -772,13 +769,13 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enemies_in_layer</span><span class="p">(</span><span class="n">p_input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">segment</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">radius</span><span class="p">),</span> <span class="n">model</span><span class="o">=</span><span class="n">svm</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="p">:]</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.12333427, -0.46324525],
        [-0.03758527, -0.91819404],
        [ 0.41905576, -1.32758644],
@@ -793,8 +790,8 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">exploration</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">n_ennemies</span><span class="p">,</span> <span class="n">caps</span><span class="p">,</span> <span class="n">decrease_radius</span><span class="p">,</span> <span class="n">n_in_layer</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 
     <span class="n">radius_</span> <span class="o">=</span> <span class="n">radius</span>
@@ -830,8 +827,8 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enemies</span> <span class="o">=</span> <span class="n">exploration</span><span class="p">(</span>
     <span class="n">obs</span><span class="o">=</span><span class="n">p_input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
@@ -844,7 +841,7 @@ d_{1}(\mathbf {p} ,\mathbf {q} )=\|\mathbf {p} -\mathbf {q} \|_{1}=\sum _{i=1}^{
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>505 ennemies found in initial sphere. Zooming in...
 88 ennemies found in initial sphere. Zooming in...
 0 ennemies found in initial sphere. Zooming in...
@@ -856,8 +853,8 @@ Final number of ennemies:  4
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">pairwise_distances</span>
 
 
@@ -882,7 +879,7 @@ Final number of ennemies:  4
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>512 ennemies found in initial sphere. Zooming in...
 78 ennemies found in initial sphere. Zooming in...
 0 ennemies found in initial sphere. Zooming in...
@@ -897,8 +894,8 @@ Final number of ennemies:  143
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
@@ -937,7 +934,7 @@ Final number of ennemies:  143
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/xai-counterfactuals_40_0.png" src="_images/xai-counterfactuals_40_0.png">
 </div>
 </div>

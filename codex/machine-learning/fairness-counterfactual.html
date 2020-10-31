@@ -26,9 +26,6 @@
     
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="_static/trac.css">
-    <link rel="stylesheet" type="text/css" href="_static/book.css">
     <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
@@ -63,14 +60,14 @@
 
 
 
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"></head>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/trac.css"></head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
 
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
     
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
@@ -331,7 +328,7 @@
         
     </div>
 </div>
-    <div id="main-content" class="row">
+    <div id="content" class="container">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -350,8 +347,8 @@ Given this data, a school may wish to predict if an applicant will have a high <
 also like to make sure these predictions are not biased by an individual’s race and sex.
 However, the <code class="docutils literal notranslate"><span class="pre">LSAT</span></code>, <code class="docutils literal notranslate"><span class="pre">GPA</span></code>, and <code class="docutils literal notranslate"><span class="pre">FYA</span></code> scores, may be biased due to social factors.</p>
 <p>We start by importing the data into a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/law_data.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -359,7 +356,7 @@ However, the <code class="docutils literal notranslate"><span class="pre">LSAT</
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -452,14 +449,14 @@ However, the <code class="docutils literal notranslate"><span class="pre">LSAT</
 <div class="section" id="pre-processing">
 <h3>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h3>
 <p>We now pre-process the data. We start by creating categorical “dummy” variables according to the <code class="docutils literal notranslate"><span class="pre">race</span></code> variable.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;race&quot;</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">prefix_sep</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -591,8 +588,8 @@ However, the <code class="docutils literal notranslate"><span class="pre">LSAT</
 </div></div></div>
 </div>
 <p>We also want to expand the <code class="docutils literal notranslate"><span class="pre">sex</span></code> variable into <code class="docutils literal notranslate"><span class="pre">male</span></code>/<code class="docutils literal notranslate"><span class="pre">female</span></code> categorical variables and remove the original.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;male&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;female&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">])</span>
@@ -600,7 +597,7 @@ However, the <code class="docutils literal notranslate"><span class="pre">LSAT</
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -738,14 +735,14 @@ However, the <code class="docutils literal notranslate"><span class="pre">LSAT</
 </div></div></div>
 </div>
 <p>We will also convert the entrance exam scores (<code class="docutils literal notranslate"><span class="pre">LSAT</span></code>) to a discrete variable.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;LSAT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;LSAT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -888,8 +885,8 @@ However, the <code class="docutils literal notranslate"><span class="pre">LSAT</
 <p><em>Counterfactual fairness</em> enforces that a distribution over possible predictions for an individual should
 remain unchanged in a world where an individual’s protected attributes <span class="math notranslate nohighlight">\(A\)</span> had been different in a causal sense</p>
 <p>Let’s start by defining the <em>protected attributes</em>. Obvious candidates are the different categorical variables for ethnicity (<code class="docutils literal notranslate"><span class="pre">Asian</span></code>, <code class="docutils literal notranslate"><span class="pre">White</span></code>, <code class="docutils literal notranslate"><span class="pre">Black</span></code>, <em>etc</em>) and gender (<code class="docutils literal notranslate"><span class="pre">male</span></code>, <code class="docutils literal notranslate"><span class="pre">female</span></code>).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;Amerindian&quot;</span><span class="p">,</span>
     <span class="s2">&quot;Asian&quot;</span><span class="p">,</span>
@@ -911,8 +908,8 @@ remain unchanged in a world where an individual’s protected attributes <span c
 <h3>Training and testing subsets<a class="headerlink" href="#training-and-testing-subsets" title="Permalink to this headline">¶</a></h3>
 <p>We will now divide the dataset into training and testing subsets.
 We will use the same ratio as in <a class="bibtex reference internal" href="xai-counterfactuals.html#kusner2017" id="id2">[KLRS17]</a>, that is 20%.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">df_train</span><span class="p">,</span> <span class="n">df_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">);</span>
@@ -943,8 +940,8 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <div class="section" id="full-model">
 <h3>Full model<a class="headerlink" href="#full-model" title="Permalink to this headline">¶</a></h3>
 <p>As mentioned previously, the full model will be a simple linear regression in order to predict <code class="docutils literal notranslate"><span class="pre">ZFYA</span></code> using all of the variables.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
 <span class="n">linreg_unfair</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
@@ -953,8 +950,8 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 </div>
 </div>
 <p>The inputs will then be the totality of the variabes (protected variables <span class="math notranslate nohighlight">\(A\)</span>, as well as <code class="docutils literal notranslate"><span class="pre">UGPA</span></code> and <code class="docutils literal notranslate"><span class="pre">LSAT</span></code>).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
@@ -968,7 +965,7 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 0.   0.   0.  ...  1.   3.1 39. ]
  [ 0.   0.   0.  ...  1.   3.5 36. ]
  [ 0.   0.   0.  ...  1.   3.9 46. ]
@@ -981,14 +978,14 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 </div>
 </div>
 <p>As for our target, we are trying to predict <code class="docutils literal notranslate"><span class="pre">ZFYA</span></code> (first year average grade).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">]</span>
 <span class="n">y</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10454    0.56
 14108    0.60
 20624   -0.14
@@ -1005,16 +1002,16 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 <p>We fit the model:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linreg_unfair</span> <span class="o">=</span> <span class="n">linreg_unfair</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>And perform some predictions on the test subset.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
     <span class="p">(</span>
         <span class="n">df_test</span><span class="p">[</span><span class="n">A</span><span class="p">],</span>
@@ -1026,7 +1023,7 @@ Name: ZFYA, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0. ,  0. ,  0. , ...,  0. ,  3.4, 32. ],
        [ 0. ,  0. ,  0. , ...,  1. ,  3.5, 41. ],
        [ 0. ,  0. ,  0. , ...,  1. ,  3.9, 42. ],
@@ -1038,14 +1035,14 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions_unfair</span> <span class="o">=</span> <span class="n">linreg_unfair</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">predictions_unfair</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.08676147,  0.34942627,  0.4609375 , ..., -0.25949097,
         0.19308472,  0.14471436])
 </pre></div>
@@ -1053,21 +1050,21 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 <p>We will also calculate the <em>unfair model</em> score for future use.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score_unfair</span> <span class="o">=</span> <span class="n">linreg_unfair</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">score_unfair</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.12701634112845117
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
 
 <span class="n">RMSE_unfair</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">predictions_unfair</span><span class="p">))</span>
@@ -1075,7 +1072,7 @@ Name: ZFYA, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8666709890234552
 </pre></div>
 </div>
@@ -1085,16 +1082,16 @@ Name: ZFYA, dtype: float64
 <div class="section" id="fairness-through-unawareness-ftu">
 <h3>Fairness through unawareness (FTU)<a class="headerlink" href="#fairness-through-unawareness-ftu" title="Permalink to this headline">¶</a></h3>
 <p>As also mentioned in <a class="bibtex reference internal" href="xai-counterfactuals.html#kusner2017" id="id4">[KLRS17]</a>, the second baseline we will use is an <strong>Unaware</strong> model (FTU), which will be trained will all the variables, except the protected attributes <span class="math notranslate nohighlight">\(A\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linreg_ftu</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>We will create the inputs as previously, but without using the protected attributes, <span class="math notranslate nohighlight">\(A\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_ftu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
     <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;UGPA&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -1105,7 +1102,7 @@ Name: ZFYA, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 3.1, 39. ],
        [ 3.5, 36. ],
        [ 3.9, 46. ],
@@ -1118,16 +1115,16 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 <p>And we fit the model:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linreg_ftu</span> <span class="o">=</span> <span class="n">linreg_ftu</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_ftu</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>Again, let’s perform some predictions on the test subset.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_ftu_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
     <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;UGPA&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;LSAT&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="p">)</span>
@@ -1135,7 +1132,7 @@ Name: ZFYA, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 3.4, 32. ],
        [ 3.5, 41. ],
        [ 3.9, 42. ],
@@ -1147,14 +1144,14 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions_ftu</span> <span class="o">=</span> <span class="n">linreg_ftu</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_ftu_test</span><span class="p">)</span>
 <span class="n">predictions_ftu</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.06909331,  0.35516229,  0.50304555, ..., -0.53109868,
         0.08204563,  0.0226846 ])
 </pre></div>
@@ -1162,27 +1159,27 @@ Name: ZFYA, dtype: float64
 </div>
 </div>
 <p>As previously, let’s calculate this model’s score.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftu_score</span> <span class="o">=</span> <span class="n">linreg_ftu</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_ftu_test</span><span class="p">,</span> <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">ftu_score</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0917442226187073
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RMSE_ftu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">predictions_ftu</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">RMSE_ftu</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8840061503773576
 </pre></div>
 </div>
@@ -1227,8 +1224,8 @@ GPA_0 \sim \mathcal{N}(0, 1) \\
 LSAT_0 \sim \mathcal{N}(0, 1) \\
 GPA_0 \sim \mathcal{N}(0, 1) \\
 \end{split}\]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
 
 <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
@@ -1288,13 +1285,13 @@ GPA_0 \sim \mathcal{N}(0, 1) \\
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_estimates</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
 CompoundStep
 &gt;Metropolis: [sigma_gpa_2]
@@ -1333,8 +1330,8 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <p>Let’s plot a single trace for <span class="math notranslate nohighlight">\(k^{(i)}\)</span>.</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1349,18 +1346,18 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/fairness-counterfactual_54_0.png" src="_images/fairness-counterfactual_54_0.png">
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_estimates</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">train_k</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.07387113],
        [ 0.06945975],
        [ 0.21226271],
@@ -1373,13 +1370,13 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <p>We can now estimate <span class="math notranslate nohighlight">\(k\)</span> using the test data:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_map_estimates</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">df_test</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
 CompoundStep
 &gt;Metropolis: [sigma_gpa_2]
@@ -1417,14 +1414,14 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_map_estimates</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">test_k</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.25399602],
        [ 0.22089667],
        [ 0.03343039],
@@ -1437,55 +1434,55 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </div>
 </div>
 <p>We now build the Level 2 predictor, using <span class="math notranslate nohighlight">\(k\)</span> as the input.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linreg_latent</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linreg_latent</span> <span class="o">=</span> <span class="n">linreg_latent</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_k</span><span class="p">,</span> <span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions_latent</span> <span class="o">=</span> <span class="n">linreg_latent</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_k</span><span class="p">)</span>
 <span class="n">predictions_latent</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.25729078,  0.23596663,  0.11519207, ...,  0.03731302,
         0.13229164, -0.00531661])
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">latent_score</span> <span class="o">=</span> <span class="n">linreg_latent</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_k</span><span class="p">,</span> <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">latent_score</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.0008970605112028629
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RMSE_latent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">predictions_latent</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">RMSE_latent</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9279955826497653
 </pre></div>
 </div>
@@ -1507,8 +1504,8 @@ FYA = b_{FYA} + w^R_{FYA}R + w^S_{FYA}S + \epsilon_{FYA} , \epsilon_{FYA} \sim p
 predict <code class="docutils literal notranslate"><span class="pre">GPA</span></code> and <code class="docutils literal notranslate"><span class="pre">LSAT</span></code>. We then compute the residuals of each model (<em>e.g.</em>, <span class="math notranslate nohighlight">\(\epsilon_{GPA} =GPA−\hat{Y}_{GPA}(R, S)\)</span>).
 We use these residual estimates of <span class="math notranslate nohighlight">\(\epsilon_{GPA}, \epsilon_{LSAT}\)</span> to predict <span class="math notranslate nohighlight">\(FYA\)</span>. In <a class="bibtex reference internal" href="xai-counterfactuals.html#kusner2017" id="id7">[KLRS17]</a> this is called <em>Fair Add</em>.</p>
 <p>Since the process is similar for the individual predictions for <code class="docutils literal notranslate"><span class="pre">GPA</span></code> and <code class="docutils literal notranslate"><span class="pre">LSAT</span></code>, we will write a method to avoid repetion.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_epsilon</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">protected_attr</span><span class="p">):</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">protected_attr</span><span class="p">]</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
@@ -1525,14 +1522,14 @@ We use these residual estimates of <span class="math notranslate nohighlight">\(
 </div>
 <p>Let’s apply it to each variable, individually.
 First we calculate <span class="math notranslate nohighlight">\(\epsilon_{GPA}\)</span>:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epsilons_gpa</span> <span class="o">=</span> <span class="n">calculate_epsilon</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;UGPA&quot;</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
 <span class="n">epsilons_gpa</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0       -0.242
 1       -0.342
 2       -0.100
@@ -1550,14 +1547,14 @@ Name: UGPA, Length: 21791, dtype: float64
 </div>
 </div>
 <p>Next, we calculate <span class="math notranslate nohighlight">\(\epsilon_{LSAT}\)</span>:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epsilons_LSAT</span> <span class="o">=</span> <span class="n">calculate_epsilon</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;LSAT&quot;</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
 <span class="n">epsilons_LSAT</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        1.789
 1       -1.211
 2       -7.689
@@ -1575,8 +1572,8 @@ Name: LSAT, Length: 21791, dtype: float64
 </div>
 </div>
 <p>Let’s visualise the <span class="math notranslate nohighlight">\(\epsilon\)</span> distribution quickly:</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
@@ -1593,14 +1590,14 @@ Name: LSAT, Length: 21791, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/fairness-counterfactual_75_0.png" src="_images/fairness-counterfactual_75_0.png">
 </div>
 </div>
 <p>We finally use the calculated <span class="math notranslate nohighlight">\(\epsilon\)</span> to train a model in order to predict <code class="docutils literal notranslate"><span class="pre">FYA</span></code>.
 We start by getting the subset of the <span class="math notranslate nohighlight">\(\epsilon\)</span> which match the training indices.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
     <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">epsilons_gpa</span><span class="p">[</span><span class="n">df_train</span><span class="o">.</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -1611,7 +1608,7 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.24179687,  1.7890625 ],
        [ 0.15820312, -1.2109375 ],
        [ 0.55820312,  8.7890625 ],
@@ -1623,8 +1620,8 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linreg_fair_add</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
 
 <span class="n">linreg_fair_add</span> <span class="o">=</span> <span class="n">linreg_fair_add</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
@@ -1636,8 +1633,8 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 </div>
 </div>
 <p>We now use this model to calculate the predictions</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
     <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">epsilons_gpa</span><span class="p">[</span><span class="n">df_test</span><span class="o">.</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -1650,7 +1647,7 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.04394693,  0.24454891,  0.35558793, ..., -0.38844376,
         0.06136776,  0.01295201])
 </pre></div>
@@ -1658,27 +1655,27 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 </div>
 </div>
 <p>And as previously, we calculate the model’s score:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fair_add_score</span> <span class="o">=</span> <span class="n">linreg_fair_add</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fair_add_score</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.04475841449183948
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RMSE_fair_add</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">predictions_fair_add</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">RMSE_fair_add</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9065835039365202
 </pre></div>
 </div>
@@ -1688,8 +1685,8 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 <div class="section" id="comparison">
 <h3>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h3>
 <p>The scores, so far, are:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unfair score:</span><span class="se">\t</span><span class="si">{</span><span class="n">score_unfair</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FTU score:</span><span class="se">\t</span><span class="si">{</span><span class="n">ftu_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L2 score:</span><span class="se">\t</span><span class="si">{</span><span class="n">latent_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1697,7 +1694,7 @@ We start by getting the subset of the <span class="math notranslate nohighlight"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unfair score:	0.12701634112845117
 FTU score:	0.0917442226187073
 L2 score:	-0.0008970605112028629
@@ -1706,8 +1703,8 @@ Fair add score:	0.04475841449183948
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unfair RMSE:</span><span class="se">\t</span><span class="si">{</span><span class="n">RMSE_unfair</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FTU RMSE:</span><span class="se">\t</span><span class="si">{</span><span class="n">RMSE_ftu</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L2 RMSE:</span><span class="se">\t</span><span class="si">{</span><span class="n">RMSE_latent</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1715,7 +1712,7 @@ Fair add score:	0.04475841449183948
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unfair RMSE:	0.8666709890234552
 FTU RMSE:	0.8840061503773576
 L2 RMSE:	0.9279955826497653
@@ -1731,8 +1728,8 @@ Fair add RMSE:	0.9065835039365202
 <p>First, we will measure two quantities, the <strong>Statistical Parity Difference</strong> (SPD)<a class="footnote-reference brackets" href="#spd" id="id8">3</a> and <strong>Disparate impact</strong> (DI)<a class="footnote-reference brackets" href="#di" id="id9">4</a>.</p>
 <div class="section" id="statistical-parity-difference-disparate-impact">
 <h3>Statistical Parity Difference / Disparate Impact<a class="headerlink" href="#statistical-parity-difference-disparate-impact" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fairlearn.metrics</span> <span class="kn">import</span> <span class="n">demographic_parity_difference</span><span class="p">,</span> <span class="n">demographic_parity_ratio</span>
 
 <span class="n">parities</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1749,15 +1746,15 @@ Fair add RMSE:	0.9065835039365202
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_parities</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;protected&#39;</span><span class="p">:</span><span class="n">A</span><span class="p">,</span><span class="s1">&#39;parity&#39;</span><span class="p">:</span><span class="n">parities</span><span class="p">,</span><span class="s1">&#39;impact&#39;</span><span class="p">:</span><span class="n">impacts</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -1802,7 +1799,7 @@ Fair add RMSE:	0.9065835039365202
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/fairness-counterfactual_93_0.png" src="_images/fairness-counterfactual_93_0.png">
 </div>
 </div>
@@ -1811,8 +1808,8 @@ Fair add RMSE:	0.9065835039365202
 <h3>Finding sensitive features<a class="headerlink" href="#finding-sensitive-features" title="Permalink to this headline">¶</a></h3>
 <p>Typically a <span class="math notranslate nohighlight">\(SPD &gt; 0.1\)</span> and a <span class="math notranslate nohighlight">\(DI &lt; 0.9\)</span> might indicate discrimination on those features.
 All <em>protected attributes</em> fail the SPD test and, in our dataset, we have two features (<code class="docutils literal notranslate"><span class="pre">Hispanic</span></code> and <code class="docutils literal notranslate"><span class="pre">Mexican</span></code>) which clearly fail the DI test.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Mexican&quot;</span><span class="p">,</span> <span class="s2">&quot;Hispanic&quot;</span><span class="p">]:</span>
     <span class="n">spd</span> <span class="o">=</span> <span class="n">demographic_parity_difference</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
                                         <span class="n">y_pred</span><span class="o">=</span><span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> 
@@ -1825,7 +1822,7 @@ All <em>protected attributes</em> fail the SPD test and, in our dataset, we have
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SPD(Mexican) = 0.0014017257538768636
 DI(Mexican) = 0.5556529360210342
 SPD(Hispanic) = 0.003272247102713093

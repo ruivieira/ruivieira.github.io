@@ -26,9 +26,6 @@
     
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
     
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="_static/trac.css">
-    <link rel="stylesheet" type="text/css" href="_static/book.css">
     <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
@@ -64,14 +61,14 @@
 
 
 
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"></head>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/trac.css"></head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
 
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
     
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
@@ -316,7 +313,7 @@
         
     </div>
 </div>
-    <div id="main-content" class="row">
+    <div id="content" class="container">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -333,16 +330,16 @@
 <p>What does a regression consist of?</p>
 <p>For this section we will mainly use <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_regression.html"><code class="docutils literal notranslate"><span class="pre">make_regression</span></code></a> method.</p>
 <p>For reproducibility, we will set a <code class="docutils literal notranslate"><span class="pre">random_state</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random_state</span> <span class="o">=</span> <span class="mi">23</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>We will create a dataset using <code class="docutils literal notranslate"><span class="pre">make_regression</span></code>’s random linear regression model with input features <span class="math notranslate nohighlight">\(x=(f_1,f_2,f_3,f_4)\)</span> and an output <span class="math notranslate nohighlight">\(y\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -371,7 +368,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 0.87305874 -1.63096187  0.52538404 -0.19035824]
  [ 1.00698671  0.79834941 -0.04057655 -0.31358605]
  [-0.61464273  1.65110321  0.75791487 -0.0039844 ]
@@ -389,8 +386,8 @@
 </div>
 </div>
 <p>Let’s turn this dataset into a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;f</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_FEATURES</span><span class="p">)])</span>
 
 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -398,13 +395,13 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -476,8 +473,8 @@
 </div></div></div>
 </div>
 <p>Let’s plot the data:</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
 
 
@@ -498,15 +495,15 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_9_0.png" src="_images/synthetic-data_9_0.png">
 </div>
 </div>
 <div class="section" id="changing-the-gaussian-noise-level">
 <h3>Changing the Gaussian noise level<a class="headerlink" href="#changing-the-gaussian-noise-level" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">noise</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">make_regression</span></code> allows to adjust the scale of the data’s gaussian centered noise.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span>
     <span class="n">n_samples</span><span class="o">=</span><span class="n">N_SAMPLES</span><span class="p">,</span>
     <span class="n">n_features</span><span class="o">=</span><span class="n">N_FEATURES</span><span class="p">,</span>
@@ -528,13 +525,13 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_regression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">N_FEATURES</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_13_0.png" src="_images/synthetic-data_13_0.png">
 </div>
 </div>
@@ -542,8 +539,8 @@
 <div class="section" id="visualising-increasing-noise">
 <h3>Visualising increasing noise<a class="headerlink" href="#visualising-increasing-noise" title="Permalink to this headline">¶</a></h3>
 <p>Let’s increase the noise by <span class="math notranslate nohighlight">\(10^i\)</span>, for <span class="math notranslate nohighlight">\(i=1, 2, 3\)</span> and see what the data looks like.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N_SAMPLES</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
 
 
@@ -572,8 +569,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
     <span class="n">fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;f</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;y</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">fit_fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
@@ -591,7 +588,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_16_0.png" src="_images/synthetic-data_16_0.png">
 </div>
 </div>
@@ -600,8 +597,8 @@
 <div class="section" id="classification-data">
 <span id="data-classification"></span><h2>Classification data<a class="headerlink" href="#classification-data" title="Permalink to this headline">¶</a></h2>
 <p>To generate data for classification we will use the <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_classification.html"><code class="docutils literal notranslate"><span class="pre">make_classification</span></code></a> method.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
 
 <span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
@@ -631,13 +628,13 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -708,8 +705,8 @@
 </table>
 </div></div></div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
@@ -732,7 +729,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_20_0.png" src="_images/synthetic-data_20_0.png">
 </div>
 </div>
@@ -740,8 +737,8 @@
 <h3>Cluster separation<a class="headerlink" href="#cluster-separation" title="Permalink to this headline">¶</a></h3>
 <p>According to the docs<a class="footnote-reference brackets" href="#id4" id="id1">2</a>, <code class="docutils literal notranslate"><span class="pre">class_sep</span></code> is the factor multiplying the hypercube size.</p>
 <p>Larger values spread out the clusters/classes and make the classification task easier.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_FEATURES</span> <span class="o">=</span> <span class="mi">4</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span>
@@ -769,8 +766,8 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
@@ -793,13 +790,13 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_23_0.png" src="_images/synthetic-data_23_0.png">
 </div>
 </div>
 <p>We can make the cluster separability more difficult, by decreasing the value of <code class="docutils literal notranslate"><span class="pre">class_sep</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_FEATURES</span> <span class="o">=</span> <span class="mi">4</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span>
@@ -827,8 +824,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
@@ -851,7 +848,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_26_0.png" src="_images/synthetic-data_26_0.png">
 </div>
 </div>
@@ -860,8 +857,8 @@
 <h3>Noise level<a class="headerlink" href="#noise-level" title="Permalink to this headline">¶</a></h3>
 <p>According to the documentation<a class="footnote-reference brackets" href="#id4" id="id2">2</a>, <code class="docutils literal notranslate"><span class="pre">flip_y</span></code> is the fraction of samples whose class is assigned randomly.</p>
 <p>Larger values introduce noise in the labels and make the classification task harder.</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_FEATURES</span> <span class="o">=</span> <span class="mi">4</span>
 
 
@@ -898,12 +895,12 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_28_0.png" src="_images/synthetic-data_28_0.png">
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N_SAMPLES</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
@@ -940,7 +937,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_29_0.png" src="_images/synthetic-data_29_0.png">
 </div>
 </div>
@@ -948,8 +945,8 @@
 </div>
 <div class="section" id="separability">
 <h2>Separability<a class="headerlink" href="#separability" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 
 <span class="n">N_FEATURE</span> <span class="o">=</span> <span class="mi">4</span>
@@ -969,8 +966,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
@@ -992,13 +989,13 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_32_0.png" src="_images/synthetic-data_32_0.png">
 </div>
 </div>
 <p>To make a cluster more separable we can change <code class="docutils literal notranslate"><span class="pre">cluster_std</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span>
     <span class="n">n_samples</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
     <span class="n">n_features</span><span class="o">=</span><span class="n">N_FEATURES</span><span class="p">,</span>
@@ -1014,8 +1011,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
@@ -1037,13 +1034,13 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_35_0.png" src="_images/synthetic-data_35_0.png">
 </div>
 </div>
 <p>By decreasing <code class="docutils literal notranslate"><span class="pre">cluster_std</span></code> we make them less separable.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span>
     <span class="n">n_samples</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
     <span class="n">n_features</span><span class="o">=</span><span class="n">N_FEATURES</span><span class="p">,</span>
@@ -1059,8 +1056,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
@@ -1082,28 +1079,28 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_38_0.png" src="_images/synthetic-data_38_0.png">
 </div>
 </div>
 <div class="section" id="anisotropic-data">
 <h3>Anisotropic data<a class="headerlink" href="#anisotropic-data" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transformation</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">transformation</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_0</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;f</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1111,8 +1108,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">],</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f2&quot;</span><span class="p">],</span>
@@ -1126,7 +1123,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_43_0.png" src="_images/synthetic-data_43_0.png">
 </div>
 </div>
@@ -1136,8 +1133,8 @@
 <h2>Concentric clusters<a class="headerlink" href="#concentric-clusters" title="Permalink to this headline">¶</a></h2>
 <p>Sometimes we might be interested in creating a non-separable cluster.</p>
 <p>The simples way is to create concentric clusters with the <code class="docutils literal notranslate"><span class="pre">make_circles</span></code> method.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_circles</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span>
@@ -1149,8 +1146,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">],</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f2&quot;</span><span class="p">],</span>
@@ -1164,15 +1161,15 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_47_0.png" src="_images/synthetic-data_47_0.png">
 </div>
 </div>
 <div class="section" id="adding-noise">
 <h3>Adding noise<a class="headerlink" href="#adding-noise" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">noise</span></code> parameter allows to create a concentric noisy dataset.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span>
     <span class="n">n_samples</span><span class="o">=</span><span class="n">N_SAMPLES</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.6</span>
 <span class="p">)</span>
@@ -1182,8 +1179,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">],</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f2&quot;</span><span class="p">],</span>
@@ -1197,7 +1194,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_50_0.png" src="_images/synthetic-data_50_0.png">
 </div>
 </div>
@@ -1206,8 +1203,8 @@
 <div class="section" id="moon-clusters">
 <h2>Moon clusters<a class="headerlink" href="#moon-clusters" title="Permalink to this headline">¶</a></h2>
 <p>A shape that can be useful to other methos (such as counterfactuals, for instance) is the <code class="docutils literal notranslate"><span class="pre">make_moons</span></code> method.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_moons</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span>
@@ -1219,8 +1216,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">],</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f2&quot;</span><span class="p">],</span>
@@ -1234,15 +1231,15 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_53_0.png" src="_images/synthetic-data_53_0.png">
 </div>
 </div>
 <div class="section" id="id3">
 <h3>Adding noise<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>As usual, the <code class="docutils literal notranslate"><span class="pre">noise</span></code> parameter allows to control the noise.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span>
     <span class="n">n_samples</span><span class="o">=</span><span class="n">N_SAMPLES</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span>
 <span class="p">)</span>
@@ -1252,8 +1249,8 @@
 </div>
 </div>
 </div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-input docutils">
+<div class="cell_input docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">],</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;f2&quot;</span><span class="p">],</span>
@@ -1267,7 +1264,7 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
+<div class="cell_output docutils">
 <img alt="_images/synthetic-data_56_0.png" src="_images/synthetic-data_56_0.png">
 </div>
 </div>

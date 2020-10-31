@@ -4,28 +4,66 @@
     url("fonts/JuliaMono-Regular.ttf") format("truetype");
 }
 
-.highlight .hll {
-  background-color: #ffffcc;
+/* .highlight .hll { */
+/* background-color: #ffffcc; */
+/* } */
+div.highlight,
+div.cell div.cell_input {
+  background: rgb(240, 240, 240);
+  font-family: "JuliaMono", monospace !important;
+  border-left: 1px dotted black !important;
+  padding-left: 1em;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 2em;
+  line-height: 1.5;
+  font-size: 0.9em !important;
+}
+
+.cell_output .output.text_plain,
+.cell_output .output.traceback,
+.cell_output .output.stream,
+.cell_output .output.stderr {
+  background: rgb(240, 240, 240);
+  font-size: 0.9rem !important;
+}
+
+div.highlight > pre {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* IF the div.highlight is INSIDE a div.cell_input, remove borders */
+div > div.cell_input.docutils {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+div > div.cell_input.docutils > pre {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 code {
   font-family: "JuliaMono", monospace !important;
-  font-size: 0.9em;
+  font-size: 0.9em !important;
+  background: rgb(240, 240, 240);
+  color: rgb(23, 23, 23);
+  border-radius: 0.5rem;
+  padding: 0.2rem;
 }
-
-div.highlight {
-  background: #ffffff;
+/* Inline code */
+code > span.pre,
+p > code,
+p > a > code {
   font-family: "JuliaMono", monospace !important;
-  border-left: 1px dotted black;
-  padding-left: 1em;
-  padding-right: 1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 0em;
-  margin-right: 2em;
-  white-space: nowrap;
-  line-height: 1.5;
-  font-size: 0.9em;
+  font-size: 0.8em !important;
 }
 
 div.highlight pre span {

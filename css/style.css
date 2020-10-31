@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   font-family: "EB Garamond", serif;
+  line-height: 1.65rem;
 }
 
 a {
@@ -73,16 +74,18 @@ a.anchor {
 
 figure {
   display: block;
-  max-width: 500px;
+  max-width: 650px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 figure > img {
   display: block;
-  max-width: 500px;
+  max-width: 650px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 img {
@@ -90,7 +93,9 @@ img {
   width: 85%;
   margin-left: auto;
   margin-right: auto;
-  max-width: 500px;
+  max-width: 650px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 figure > figcaption {
@@ -112,12 +117,24 @@ figure > figcaption {
   margin-bottom: 20px;
 }
 
+h1,
+h2,
+h3 {
+  color: black !important;
+}
+
 h2 {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  font-family: "EB Garamond", serif !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+h3 {
+  font-family: "EB Garamond", serif !important;
 }
 
 h4 {
+  font-family: "EB Garamond", serif !important;
   font-size: 0.75rem;
 }
 
@@ -130,12 +147,25 @@ h4 {
 }
 
 pre {
-  overflow-x: auto;
+  font-family: "JuliaMono", monospace !important;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+  font-size: 0.9rem !important;
+  overflow: hidden;
+}
+table {
+  font-size: 0.9rem !important;
+  overflow: hidden;
+}
+table:hover {
+  overflow-y: scroll;
+}
+td {
+  font-family: JuliaMono, monospace !important;
+  font-size: 0.8rem;
 }
 
 /* Micro blogging styling */
@@ -155,8 +185,7 @@ pre {
   margin-bottom: 25px;
 }
 
-/* Responsive design */
-
+/* Responsive for small scree (e.g. mobile) */
 @media screen and (max-width: 499px) {
   body {
     background: #fff;
@@ -176,6 +205,7 @@ pre {
   }
 
   h1 {
+    font-family: "EB Garamond", serif !important;
     font-size: 2.5em;
     font-weight: normal;
     line-height: 40px;
@@ -199,6 +229,7 @@ pre {
   }
   .container {
     width: 100%;
+    padding-right: 0 !important;
   }
   .micro-block {
     width: auto;
@@ -214,10 +245,13 @@ pre {
   }
 }
 
+/* Responsive for wide screen (e.g. desktop) */
 @media screen and (min-width: 500px) {
   body {
     background: #fff;
     font-size: 17px;
+    margin: 0;
+    padding: 0;
   }
 
   #navigation {
@@ -225,6 +259,7 @@ pre {
   }
 
   h1 {
+    font-family: "EB Garamond", serif !important;
     font-size: 2.5em;
     font-weight: normal;
     line-height: 40px;
@@ -232,6 +267,7 @@ pre {
     padding-left: 10px;
     margin-bottom: 20px;
     margin-top: 20px;
+    letter-spacing: -1px;
   }
 
   #sidebar {
@@ -248,10 +284,11 @@ pre {
     height: 100%;
   }
   .container {
-    position: absolute;
-    left: 20%;
-    margin-left: 50px;
-    max-width: 800px;
+    /* position: absolute; */
+    margin-left: 20%;
+    padding-left: 50px;
+    /* margin-left: 50px; */
+    max-width: 70%;
     top: 6%;
   }
   #sidebar > ul {
@@ -285,4 +322,137 @@ pre {
     border-left-width: 1px;
     border-left: 0.4rem solid #ccb;
   }
+  .container-xl {
+    max-width: 100%;
+  }
+}
+
+/* Codex related */
+
+nav.bd-links {
+  padding-right: 20px;
+}
+
+/* Color of sidebar links */
+.bd-sidebar nav ul.nav li a,
+.bd-sidebar nav ul.nav ul li a {
+  color: #f30;
+  font-size: 1rem !important;
+}
+
+/* Reset height for sidebar links */
+nav.bd-links > ul.nav a {
+  padding: 0 !important;
+}
+nav > p.caption {
+  text-transform: uppercase;
+  font-size: 1em;
+  color: #333;
+  letter-spacing: 1px;
+  line-height: 20px;
+}
+
+.cell_output .output pre,
+.cell_input pre {
+  background: rgb(240, 240, 240);
+  border: 0 !important;
+  font-family: "JuliaMono", monospace !important;
+  /* padding-left: 1em; */
+  padding-right: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 2em;
+  line-height: 1.5;
+  font-size: 0.9rem !important;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+.cell_output .output.text_plain,
+.cell_output .output.stream,
+.cell_output .output.stderr {
+  border: 0;
+  padding-left: 0px !important;
+  font-size: 0.9rem !important;
+}
+div.cell_output.docutils {
+  padding-left: 0px !important;
+}
+.bd-sidebar nav ul.nav a:hover,
+.bd-sidebar nav ul.nav li.active > a,
+.bd-sidebar nav ul.nav li.active > a:hover {
+  color: #f30;
+}
+/* Navbar max width reset */
+.bd-sidebar,
+.bd-topbar-whitespace {
+  max-width: 100%;
+}
+main.bd-content #main-content a,
+main.bd-content #main-content a:visited {
+  color: #f30;
+}
+.bd-toc nav li.active > a.active {
+  border-left: 2px solid #f30;
+}
+.bd-toc nav a:hover,
+.bd-toc nav li.active > a.active {
+  color: #f30;
+}
+.dropdown-buttons-trigger {
+  display: none !important;
+}
+/* Replace icon in hidden menu */
+.bd-toc .tocsection:after {
+  content: "\e905" !important;
+  font-family: "icomoon" !important;
+  font-weight: 900;
+  padding-left: 0.5em;
+  transition: opacity 0.3s ease;
+}
+a.left-prev,
+a.right-next {
+  background: rgb(240, 240, 240);
+  padding: 2px 10px 5px 10px !important;
+  border: 0;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: 0.95rem !important;
+}
+
+a.left-prev:hover,
+a.right-next:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+a.left-prev:before {
+  content: "\2B9C " !important;
+  font-size: 1.25rem !important;
+  margin-right: 0.25rem;
+}
+a.right-next:after {
+  content: "\2B9E " !important;
+  font-size: 1.25rem !important;
+  margin-left: 0.25rem;
+}
+
+.output.stderr {
+  background: rgb(240, 240, 240) !important;
+}
+
+h1 > a,
+h2 > a,
+h3 > a {
+  display: none !important;
+}
+
+h1:hover > a,
+h2:hover > a,
+h3:hover > a {
+  display: inline !important;
+}
+
+li > p {
+  margin-bottom: 0 !important;
 }
