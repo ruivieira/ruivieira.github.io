@@ -15,8 +15,9 @@ To recall the numbers:
     <meta name="copyright" content="Rui Vieira" />
     <meta name="generator" content="Rui Vieira"> 
     
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/trac.css">
+    
+<link rel="stylesheet" href="/css/style.css" />
+
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/x-mathjax-config">
@@ -79,7 +80,7 @@ if (!doNotTrack) {
 <script>
   (function () {
     var elements = document
-      .getElementById("main")
+      .querySelector(".column")
       .querySelectorAll("h1, h2, h3, h4, h5, h6");
     if (elements.length > 1) {
       var div = document.getElementById("sidebar");
