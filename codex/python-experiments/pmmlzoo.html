@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\(","\)"] ],
+                    processEscapes: true
+                }
+            });
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <style>
+   .container { padding-left: 0 !important; }
+  </style>
+  <link href="/css/trac.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="_static/icomoon.css" rel="stylesheet"/>
+  <link as="font" crossorigin="" href="_static/icomoon.woff" rel="preload" type="font/woff"/>
+  <link as="font" crossorigin="" href="/fonts/JuliaMono-Regular.woff2" rel="preload" type="font/woff2"/>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   PMML Zoo — python-experiments
+  </title>
+  <link href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" rel="stylesheet" type="text/css">
+  </link>
+ </head>
+ <body data-offset="80" data-spy="scroll" data-target="#bd-toc-nav">
+  <div class="container-xl">
+   <div class="row">
+    <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
+     <div class="navbar-brand-box">
+      <a class="navbar-brand text-wrap" href="index.html">
+       <img alt="logo" class="logo" src="_static/felix-graduated.png"/>
+       <h1 class="site-logo" id="site-title">
+        python-experiments
+       </h1>
+      </a>
+     </div>
+     <nav aria-label="Main navigation" class="bd-links" id="bd-docs-nav">
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="introduction.html">
+         python-experiments
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        intrplate
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="intrplate.html">
+         intrplate
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        parrot
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="parrot.html">
+         parrot
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        Coconut
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="coconut-introduction.html">
+         Data science with coconut
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="coconut-introduction.html#linear-regression">
+         Linear Regression
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        SICP
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="sicp-chapter1.html">
+         Chapter 1
+        </a>
+       </li>
+      </ul>
+     </nav>
+     <!-- To handle the deprecated key -->
+    </div>
+    <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+     <div class="row topbar fixed-top container-xl">
+      <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+      </div>
+      <!-- Table of contents -->
+      <div class="d-none d-md-block col-md-2 bd-toc show">
+       <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list">
+        </i>
+        Contents
+       </div>
+       <nav id="bd-toc-nav">
+        <ul class="nav section-nav flex-column">
+         <li class="toc-h2 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#generating-data">
+           Generating data
+          </a>
+          <ul class="nav section-nav flex-column">
+           <li class="toc-h3 nav-item toc-entry">
+            <a class="reference internal nav-link" href="#continuous-data">
+             Continuous data
+            </a>
+           </li>
+           <li class="toc-h3 nav-item toc-entry">
+            <a class="reference internal nav-link" href="#discrete-data">
+             Discrete data
+            </a>
+           </li>
+           <li class="toc-h3 nav-item toc-entry">
+            <a class="reference internal nav-link" href="#categorical-data">
+             Categorical data
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li class="toc-h2 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#generating-models">
+           Generating models
+          </a>
+         </li>
+        </ul>
+       </nav>
+      </div>
+     </div>
+     <div class="container" id="content">
+      <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+       <div>
+        <div class="section" id="pmml-zoo">
+         <h1>
+          PMML Zoo
+          <a class="headerlink" href="#pmml-zoo" title="Permalink to this headline">
+           ¶
+          </a>
+         </h1>
+         <div class="section" id="generating-data">
+          <h2>
+           Generating data
+           <a class="headerlink" href="#generating-data" title="Permalink to this headline">
+            ¶
+           </a>
+          </h2>
+          <p>
+           Data is generated for three main types of inputs:
+          </p>
+          <ul class="simple">
+           <li>
+            <p>
+             Continuous numerical values
+            </p>
+           </li>
+           <li>
+            <p>
+             Discrete numerical values
+            </p>
+           </li>
+           <li>
+            <p>
+             Categorical values
+            </p>
+           </li>
+          </ul>
+          <p>
+           The process is similar for all three, where an histogram is interpolated from the points supplied, and
+consequently data is sample from that histogram.
+          </p>
+          <p>
+           Let’s look at some examples.
+          </p>
+          <div class="section" id="continuous-data">
+           <h3>
+            Continuous data
+            <a class="headerlink" href="#continuous-data" title="Permalink to this headline">
+             ¶
+            </a>
+           </h3>
+           <div class="admonition note">
+            <p class="admonition-title">
+             Note
+            </p>
+            <p>
+             <code class="docutils literal notranslate">
+              <span class="pre">
+               create_numerical_series
+              </span>
+             </code>
+             uses cubic spline interpolation,
+which means you have to provide
+             <em>
+              at least
+             </em>
+             four data points.
+            </p>
+           </div>
+           <p>
+            Let’s start with creating an histogram which will represent the distribution of an
+            <code class="docutils literal notranslate">
+             <span class="pre">
+              income
+             </span>
+            </code>
+            variable.
+You can supply the “seed” data in the form of a pair
+            <code class="docutils literal notranslate">
+             <span class="pre">
+              (income,
+             </span>
+             <span class="pre">
+              frequency)
+             </span>
+            </code>
+            .
+The frequency is a relative measure, so don’t worry about the actual value.
+           </p>
+           <p>
+            For instance, just for illustration, if we wanted an income distribution where 45 year olds earned double than the 20 and 60 year old we
+could either do:
+           </p>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="kn">import</span> <span class="nn">pmmlzoo.pmmlzoo</span> <span class="k">as</span> <span class="nn">zoo</span>
+
+<span class="n">age_examples</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">45.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]</span>
+<span class="n">series</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">create_continuous_histogram</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">age_examples</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Age"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Age distribution"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <img alt="_images/pmmlzoo_5_0.png" src="_images/pmmlzoo_5_0.png">
+             </img>
+            </div>
+           </div>
+           <p>
+            We can now sample from this histogram:
+           </p>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">sample_from_histogram</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <div class="output stream highlight-myst-ansi notranslate">
+              <div class="highlight">
+               <pre><span></span>[42.62626262626263, 25.656565656565657, 26.86868686868687, 30.505050505050505, 26.464646464646464, 45.858585858585855, 28.88888888888889, 39.39393939393939, 36.56565656565657, 52.323232323232325, 22.02020202020202, 51.515151515151516, 35.35353535353535, 45.858585858585855, 36.56565656565657, 34.141414141414145, 55.55555555555556, 54.74747474747475, 25.252525252525253, 52.72727272727273, 43.838383838383834, 37.77777777777778, 57.57575757575758, 53.93939393939394, 30.909090909090907, 27.676767676767675, 43.43434343434343, 27.676767676767675, 55.95959595959596, 53.535353535353536, 22.02020202020202, 27.272727272727273, 51.111111111111114, 32.121212121212125, 33.73737373737374, 49.494949494949495, 41.01010101010101, 38.18181818181818, 51.515151515151516, 41.41414141414141, 37.37373737373737, 32.92929292929293, 32.121212121212125, 46.26262626262626, 54.74747474747475, 52.72727272727273, 34.141414141414145, 57.17171717171717, 29.696969696969695, 33.73737373737374, 29.292929292929294, 40.60606060606061, 27.676767676767675, 28.080808080808083, 39.39393939393939, 42.62626262626263, 47.474747474747474, 41.81818181818181, 36.96969696969697, 30.505050505050505, 35.35353535353535, 44.24242424242424, 38.18181818181818, 47.07070707070707, 47.474747474747474, 58.78787878787879, 33.73737373737374, 35.75757575757576, 58.78787878787879, 24.444444444444443, 28.080808080808083, 47.07070707070707, 50.707070707070706, 53.535353535353536, 29.292929292929294, 32.525252525252526, 42.62626262626263, 51.515151515151516, 25.252525252525253, 55.15151515151515, 50.707070707070706, 52.72727272727273, 57.17171717171717, 39.39393939393939, 32.525252525252526, 48.686868686868685, 24.04040404040404, 32.92929292929293, 31.313131313131315, 30.1010101010101, 26.464646464646464, 59.5959595959596, 50.707070707070706, 46.26262626262626, 53.13131313131313, 47.878787878787875, 43.43434343434343, 42.62626262626263, 34.141414141414145, 38.18181818181818, 49.09090909090909, 44.24242424242424, 34.141414141414145, 39.7979797979798, 41.41414141414141, 53.13131313131313, 53.535353535353536, 55.15151515151515, 35.75757575757576, 53.13131313131313, 47.474747474747474, 20.80808080808081, 58.38383838383838, 36.161616161616166, 34.94949494949495, 44.24242424242424, 29.696969696969695, 43.43434343434343, 31.313131313131315, 40.2020202020202, 53.535353535353536, 44.24242424242424, 53.535353535353536, 35.35353535353535, 26.060606060606062, 51.91919191919192, 60.0, 47.474747474747474, 24.04040404040404, 42.22222222222222, 31.313131313131315, 44.24242424242424, 50.707070707070706, 49.494949494949495, 51.111111111111114, 47.07070707070707, 38.58585858585859, 39.39393939393939, 27.272727272727273, 38.58585858585859, 26.464646464646464, 38.98989898989899, 49.494949494949495, 38.18181818181818, 36.96969696969697, 52.72727272727273, 33.73737373737374, 20.0, 32.525252525252526, 23.232323232323232, 58.38383838383838, 30.505050505050505, 56.76767676767677, 41.81818181818181, 48.282828282828284, 43.838383838383834, 37.37373737373737, 38.98989898989899, 43.43434343434343, 40.60606060606061, 41.01010101010101, 40.2020202020202, 54.74747474747475, 33.333333333333336, 51.111111111111114, 52.323232323232325, 30.505050505050505, 24.848484848484848, 49.898989898989896, 36.56565656565657, 32.525252525252526, 55.95959595959596, 47.474747474747474, 47.474747474747474, 35.35353535353535, 49.898989898989896, 47.474747474747474, 48.282828282828284, 48.686868686868685, 38.58585858585859, 50.707070707070706, 38.98989898989899, 52.72727272727273, 26.060606060606062, 33.333333333333336, 43.838383838383834, 34.94949494949495, 40.2020202020202, 46.26262626262626, 26.86868686868687, 37.77777777777778, 45.45454545454545, 55.15151515151515, 38.58585858585859, 39.39393939393939, 31.313131313131315, 47.878787878787875, 34.141414141414145, 38.98989898989899, 33.73737373737374, 33.73737373737374, 45.05050505050505, 23.232323232323232, 33.333333333333336, 41.01010101010101, 38.58585858585859, 46.26262626262626, 21.616161616161616, 28.484848484848484, 35.75757575757576, 24.04040404040404, 35.75757575757576, 47.878787878787875, 32.92929292929293, 38.58585858585859, 32.525252525252526, 22.828282828282827, 30.505050505050505, 20.404040404040405, 55.15151515151515, 20.80808080808081, 45.05050505050505, 45.45454545454545, 45.05050505050505, 39.7979797979798, 42.22222222222222, 35.35353535353535, 58.78787878787879, 50.3030303030303, 32.525252525252526, 47.07070707070707, 42.22222222222222, 49.09090909090909, 53.13131313131313, 45.858585858585855, 38.98989898989899, 43.03030303030303, 38.58585858585859, 35.75757575757576, 23.232323232323232, 22.424242424242426, 41.01010101010101, 34.54545454545455, 30.909090909090907, 58.78787878787879, 57.57575757575758, 52.72727272727273, 21.616161616161616, 46.66666666666667, 51.111111111111114, 49.494949494949495, 23.636363636363637, 44.64646464646465, 53.13131313131313, 36.96969696969697, 46.66666666666667, 55.95959595959596, 32.92929292929293, 27.272727272727273, 38.98989898989899, 56.76767676767677, 59.19191919191919, 49.09090909090909, 42.22222222222222, 53.13131313131313, 37.37373737373737, 51.515151515151516, 36.161616161616166, 27.676767676767675, 31.717171717171716, 31.313131313131315, 33.73737373737374, 41.81818181818181, 44.64646464646465, 38.98989898989899, 53.535353535353536, 46.26262626262626, 28.484848484848484, 37.77777777777778, 26.464646464646464, 28.484848484848484, 30.909090909090907, 23.636363636363637, 33.333333333333336, 25.656565656565657, 46.26262626262626, 43.03030303030303, 36.96969696969697, 51.515151515151516, 41.81818181818181, 43.838383838383834, 43.43434343434343, 26.060606060606062, 56.76767676767677, 60.0, 24.04040404040404, 34.54545454545455, 24.444444444444443, 40.2020202020202, 38.98989898989899, 34.141414141414145, 40.60606060606061, 54.343434343434346, 57.57575757575758, 32.525252525252526, 31.313131313131315, 58.78787878787879, 23.232323232323232, 26.060606060606062, 33.333333333333336, 33.333333333333336, 47.07070707070707, 24.04040404040404, 52.323232323232325, 36.161616161616166, 30.505050505050505, 36.96969696969697, 34.141414141414145, 28.88888888888889, 47.07070707070707, 36.56565656565657, 30.1010101010101, 53.13131313131313, 34.94949494949495, 25.252525252525253, 37.77777777777778, 30.1010101010101, 38.18181818181818, 41.01010101010101, 57.97979797979798, 57.17171717171717, 34.141414141414145, 41.81818181818181, 54.343434343434346, 32.92929292929293, 49.494949494949495, 30.1010101010101, 45.05050505050505, 36.161616161616166, 57.17171717171717, 45.05050505050505, 35.75757575757576, 37.37373737373737, 30.909090909090907, 48.282828282828284, 35.75757575757576, 42.22222222222222, 51.111111111111114, 41.01010101010101, 24.444444444444443, 25.656565656565657, 32.525252525252526, 23.636363636363637, 24.444444444444443, 38.58585858585859, 53.535353535353536, 46.26262626262626, 40.2020202020202, 22.424242424242426, 32.92929292929293, 59.5959595959596, 43.838383838383834, 44.64646464646465, 58.78787878787879, 38.18181818181818, 31.717171717171716, 46.26262626262626, 37.77777777777778, 30.909090909090907, 26.060606060606062, 37.37373737373737, 38.58585858585859, 36.96969696969697, 46.26262626262626, 32.525252525252526, 43.838383838383834, 20.404040404040405, 36.161616161616166, 26.060606060606062, 32.92929292929293, 35.75757575757576, 32.92929292929293, 22.424242424242426, 50.707070707070706, 21.616161616161616, 34.94949494949495, 36.56565656565657, 26.060606060606062, 48.686868686868685, 40.60606060606061, 36.96969696969697, 36.161616161616166, 60.0, 47.474747474747474, 43.43434343434343, 34.94949494949495, 56.36363636363636, 45.45454545454545, 36.56565656565657, 34.94949494949495, 41.41414141414141, 26.86868686868687, 31.717171717171716, 33.333333333333336, 45.45454545454545, 38.98989898989899, 30.1010101010101, 29.292929292929294, 35.35353535353535, 41.01010101010101, 39.39393939393939, 38.18181818181818, 42.22222222222222, 51.111111111111114, 24.444444444444443, 56.36363636363636, 50.707070707070706, 32.525252525252526, 40.60606060606061, 41.81818181818181, 46.66666666666667, 20.0, 41.41414141414141, 30.1010101010101, 43.838383838383834, 35.75757575757576, 41.01010101010101, 28.88888888888889, 40.2020202020202, 37.77777777777778, 28.88888888888889, 28.080808080808083, 24.444444444444443, 33.73737373737374, 36.161616161616166, 31.313131313131315, 53.535353535353536, 48.282828282828284, 43.838383838383834, 40.2020202020202, 25.656565656565657, 51.515151515151516, 23.232323232323232, 22.424242424242426, 57.17171717171717, 50.707070707070706, 57.57575757575758, 45.858585858585855, 48.282828282828284, 37.77777777777778, 35.75757575757576, 37.37373737373737, 34.54545454545455, 43.838383838383834, 31.717171717171716, 35.35353535353535, 59.19191919191919, 55.55555555555556, 36.56565656565657, 20.0, 36.96969696969697, 32.92929292929293, 38.18181818181818, 51.515151515151516, 41.81818181818181, 25.252525252525253, 35.75757575757576, 34.94949494949495, 49.898989898989896, 35.35353535353535, 42.62626262626263, 53.535353535353536, 33.73737373737374, 34.94949494949495, 37.37373737373737, 35.35353535353535, 24.04040404040404, 40.2020202020202, 47.474747474747474, 42.22222222222222, 44.24242424242424, 41.41414141414141, 46.26262626262626, 51.515151515151516, 31.717171717171716, 37.77777777777778, 30.909090909090907, 57.17171717171717, 40.2020202020202, 28.080808080808083, 20.0, 41.01010101010101, 26.060606060606062, 37.37373737373737, 39.39393939393939, 55.55555555555556, 30.505050505050505, 39.39393939393939, 43.43434343434343, 36.56565656565657, 45.05050505050505, 29.292929292929294, 28.88888888888889, 41.41414141414141, 21.21212121212121, 22.02020202020202, 23.232323232323232, 27.676767676767675, 34.94949494949495, 32.92929292929293, 24.444444444444443, 52.323232323232325, 36.161616161616166, 49.494949494949495, 53.93939393939394, 43.03030303030303, 41.41414141414141, 23.636363636363637, 54.343434343434346, 34.141414141414145, 50.707070707070706, 44.64646464646465, 23.636363636363637, 48.282828282828284, 28.080808080808083, 39.7979797979798, 30.1010101010101, 21.616161616161616, 32.92929292929293, 32.121212121212125, 44.24242424242424, 54.74747474747475, 55.55555555555556, 23.636363636363637, 27.676767676767675, 27.272727272727273, 34.141414141414145, 55.15151515151515, 22.02020202020202, 48.686868686868685, 35.35353535353535, 34.54545454545455, 36.96969696969697, 41.41414141414141, 28.88888888888889, 39.7979797979798, 45.05050505050505, 25.252525252525253, 26.86868686868687, 43.838383838383834, 52.323232323232325, 55.55555555555556, 27.676767676767675, 51.515151515151516, 39.39393939393939, 36.96969696969697, 57.17171717171717, 47.474747474747474, 23.232323232323232, 42.62626262626263, 57.17171717171717, 53.535353535353536, 40.60606060606061, 27.676767676767675, 28.88888888888889, 30.505050505050505, 30.505050505050505, 22.02020202020202, 22.424242424242426, 38.98989898989899, 24.848484848484848, 25.252525252525253, 30.505050505050505, 25.656565656565657, 32.92929292929293, 21.616161616161616, 29.292929292929294, 44.24242424242424, 54.343434343434346, 54.343434343434346, 32.525252525252526, 38.18181818181818, 52.323232323232325, 56.36363636363636, 43.03030303030303, 27.676767676767675, 29.696969696969695, 46.26262626262626, 32.121212121212125, 52.323232323232325, 56.76767676767677, 43.43434343434343, 28.88888888888889, 47.878787878787875, 41.81818181818181, 52.323232323232325, 28.88888888888889, 30.1010101010101, 52.323232323232325, 23.232323232323232, 36.96969696969697, 50.3030303030303, 32.92929292929293, 34.94949494949495, 51.515151515151516, 26.86868686868687, 38.58585858585859, 27.676767676767675, 41.81818181818181, 58.78787878787879, 30.505050505050505, 27.272727272727273, 31.717171717171716, 39.39393939393939, 52.72727272727273, 33.73737373737374, 28.88888888888889, 45.858585858585855, 26.464646464646464, 52.323232323232325, 28.484848484848484, 56.36363636363636, 34.54545454545455, 26.86868686868687, 31.313131313131315, 57.57575757575758, 49.898989898989896, 38.98989898989899, 55.95959595959596, 34.54545454545455, 21.616161616161616, 43.838383838383834, 50.707070707070706, 32.525252525252526, 43.838383838383834, 36.161616161616166, 36.56565656565657, 34.54545454545455, 55.95959595959596, 43.43434343434343, 43.03030303030303, 27.676767676767675, 26.464646464646464, 34.94949494949495, 48.686868686868685, 43.43434343434343, 49.494949494949495, 42.62626262626263, 30.505050505050505, 59.19191919191919, 30.909090909090907, 24.444444444444443, 50.707070707070706, 46.26262626262626, 60.0, 44.24242424242424, 39.7979797979798, 48.282828282828284, 34.54545454545455, 20.404040404040405, 38.58585858585859, 28.484848484848484, 45.05050505050505, 41.41414141414141, 26.464646464646464, 43.838383838383834, 44.64646464646465, 57.97979797979798, 47.474747474747474, 34.141414141414145, 32.525252525252526, 28.484848484848484, 53.13131313131313, 49.898989898989896, 55.95959595959596, 59.19191919191919, 38.18181818181818, 41.81818181818181, 24.444444444444443, 27.272727272727273, 26.060606060606062, 42.62626262626263, 50.707070707070706, 46.26262626262626, 45.05050505050505, 44.64646464646465, 24.444444444444443, 24.848484848484848, 52.323232323232325, 56.76767676767677, 28.484848484848484, 55.15151515151515, 51.515151515151516, 42.22222222222222, 45.45454545454545, 34.94949494949495, 40.2020202020202, 27.676767676767675, 43.03030303030303, 24.04040404040404, 57.17171717171717, 27.676767676767675, 55.95959595959596, 53.93939393939394, 47.474747474747474, 49.09090909090909, 41.41414141414141, 34.54545454545455, 44.24242424242424, 51.111111111111114, 52.323232323232325, 53.13131313131313, 20.0, 26.464646464646464, 50.707070707070706, 53.535353535353536, 58.38383838383838, 50.3030303030303, 52.323232323232325, 41.81818181818181, 22.424242424242426, 38.98989898989899, 50.707070707070706, 50.3030303030303, 32.121212121212125, 28.080808080808083, 58.38383838383838, 46.66666666666667, 25.656565656565657, 27.272727272727273, 45.05050505050505, 31.717171717171716, 28.080808080808083, 56.76767676767677, 43.03030303030303, 30.1010101010101, 27.676767676767675, 27.272727272727273, 35.75757575757576, 38.98989898989899, 55.15151515151515, 42.22222222222222, 28.484848484848484, 34.94949494949495, 41.01010101010101, 25.656565656565657, 27.676767676767675, 51.91919191919192, 24.444444444444443, 47.474747474747474, 43.03030303030303, 56.76767676767677, 34.94949494949495, 20.80808080808081, 47.878787878787875, 53.93939393939394, 36.161616161616166, 38.18181818181818, 54.343434343434346, 30.505050505050505, 25.656565656565657, 22.02020202020202, 41.01010101010101, 39.7979797979798, 59.5959595959596, 44.24242424242424, 59.5959595959596, 47.474747474747474, 42.62626262626263, 28.484848484848484, 36.96969696969697, 45.45454545454545, 58.78787878787879, 31.313131313131315, 35.35353535353535, 56.36363636363636, 40.2020202020202, 42.62626262626263, 24.848484848484848, 40.60606060606061, 48.282828282828284, 42.62626262626263, 32.121212121212125, 51.91919191919192, 42.22222222222222, 35.35353535353535, 43.43434343434343, 20.80808080808081, 51.515151515151516, 27.272727272727273, 57.97979797979798, 29.292929292929294, 43.43434343434343, 51.515151515151516, 36.96969696969697, 40.2020202020202, 46.26262626262626, 45.05050505050505, 36.161616161616166, 27.272727272727273, 45.05050505050505, 30.505050505050505, 36.161616161616166, 41.01010101010101, 46.26262626262626, 53.13131313131313, 22.424242424242426, 45.858585858585855, 53.93939393939394, 51.91919191919192, 44.64646464646465, 28.080808080808083, 34.54545454545455, 26.060606060606062, 43.43434343434343, 53.13131313131313, 53.535353535353536, 24.04040404040404, 24.04040404040404, 47.474747474747474, 42.62626262626263, 21.616161616161616, 47.07070707070707, 50.707070707070706, 56.76767676767677, 52.323232323232325, 23.636363636363637, 28.080808080808083, 51.111111111111114, 44.24242424242424, 55.95959595959596, 32.121212121212125, 47.07070707070707, 40.60606060606061, 27.272727272727273, 32.92929292929293, 43.838383838383834, 41.81818181818181, 31.313131313131315, 46.26262626262626, 49.898989898989896, 58.38383838383838, 34.54545454545455, 31.717171717171716, 48.686868686868685, 53.535353535353536, 53.93939393939394, 39.39393939393939, 47.474747474747474, 59.5959595959596, 37.37373737373737, 51.111111111111114, 53.535353535353536, 32.92929292929293, 36.56565656565657, 35.75757575757576, 32.525252525252526, 43.43434343434343, 44.64646464646465, 26.060606060606062, 49.09090909090909, 44.64646464646465, 34.141414141414145, 27.676767676767675, 41.41414141414141, 21.21212121212121, 42.22222222222222, 54.343434343434346, 49.09090909090909, 57.17171717171717, 44.24242424242424, 38.98989898989899, 31.313131313131315, 32.92929292929293, 34.54545454545455, 26.86868686868687, 56.36363636363636, 42.62626262626263, 41.41414141414141, 33.333333333333336, 52.72727272727273, 52.323232323232325, 22.828282828282827, 51.111111111111114, 45.858585858585855, 47.07070707070707, 31.717171717171716, 39.39393939393939, 50.707070707070706, 41.81818181818181, 26.060606060606062, 30.1010101010101, 53.535353535353536, 56.76767676767677, 37.37373737373737, 26.86868686868687, 56.76767676767677, 51.515151515151516, 36.161616161616166, 48.282828282828284, 38.98989898989899, 25.656565656565657, 54.343434343434346, 41.01010101010101, 28.88888888888889, 43.03030303030303, 38.98989898989899, 48.686868686868685, 24.848484848484848, 54.74747474747475, 31.313131313131315, 47.07070707070707, 26.86868686868687, 22.424242424242426, 51.515151515151516, 37.37373737373737, 20.80808080808081, 38.98989898989899, 30.505050505050505, 29.292929292929294, 20.404040404040405, 44.64646464646465, 26.86868686868687, 56.76767676767677, 26.464646464646464, 33.333333333333336, 47.878787878787875, 33.333333333333336, 53.93939393939394, 39.7979797979798, 56.36363636363636, 58.78787878787879, 23.636363636363637, 38.98989898989899, 42.62626262626263, 28.88888888888889, 45.05050505050505, 28.484848484848484, 58.38383838383838, 32.92929292929293, 53.535353535353536, 51.111111111111114, 37.37373737373737, 29.292929292929294, 47.878787878787875, 37.77777777777778, 30.909090909090907, 59.19191919191919, 43.03030303030303, 50.3030303030303, 37.77777777777778, 31.717171717171716, 23.232323232323232, 47.07070707070707, 28.484848484848484, 50.3030303030303, 37.37373737373737, 36.56565656565657, 49.494949494949495, 40.60606060606061, 37.37373737373737, 32.92929292929293, 45.05050505050505, 22.424242424242426, 37.37373737373737, 41.01010101010101, 55.15151515151515, 24.444444444444443, 57.97979797979798, 54.343434343434346, 52.72727272727273, 33.73737373737374, 36.96969696969697, 60.0, 38.18181818181818, 42.22222222222222, 38.98989898989899, 41.41414141414141, 43.43434343434343, 48.686868686868685, 46.26262626262626, 36.96969696969697, 42.22222222222222, 49.494949494949495, 35.35353535353535, 45.05050505050505, 35.35353535353535, 35.35353535353535, 24.444444444444443, 35.35353535353535, 55.55555555555556, 58.38383838383838, 41.01010101010101, 46.26262626262626, 54.74747474747475, 53.535353535353536, 23.636363636363637, 37.37373737373737, 27.272727272727273, 33.73737373737374]
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Age"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Simulated age data"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <img alt="_images/pmmlzoo_8_0.png" src="_images/pmmlzoo_8_0.png">
+             </img>
+            </div>
+           </div>
+           <p>
+            Let’s try a slightly more complex variable, with an
+            <code class="docutils literal notranslate">
+             <span class="pre">
+              income
+             </span>
+            </code>
+            variable.
+           </p>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">income_examples</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">],</span> <span class="p">[</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]]</span>
+<span class="n">series</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">create_continuous_histogram</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">income_examples</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Income"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Income distribution"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <img alt="_images/pmmlzoo_11_0.png" src="_images/pmmlzoo_11_0.png">
+             </img>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">sample_from_histogram</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Income"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Simulated income data"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <img alt="_images/pmmlzoo_13_0.png" src="_images/pmmlzoo_13_0.png"/>
+            </div>
+           </div>
+          </div>
+          <div class="section" id="discrete-data">
+           <h3>
+            Discrete data
+            <a class="headerlink" href="#discrete-data" title="Permalink to this headline">
+             ¶
+            </a>
+           </h3>
+           <p>
+            With discrete data, the principle is the same. Let’s say we wanted to represent
+            <code class="docutils literal notranslate">
+             <span class="pre">
+              employment_years
+             </span>
+            </code>
+            .
+           </p>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]]</span>
+<span class="n">series</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">create_discrete_histogram</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <img alt="_images/pmmlzoo_17_0.png" src="_images/pmmlzoo_17_0.png"/>
+            </div>
+           </div>
+           <p>
+            Let’s create a noisy discrete dataset.
+           </p>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">sample_from_histogram</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Years employed"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Simulated years employed data"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <img alt="_images/pmmlzoo_20_0.png" src="_images/pmmlzoo_20_0.png"/>
+            </div>
+           </div>
+          </div>
+          <div class="section" id="categorical-data">
+           <h3>
+            Categorical data
+            <a class="headerlink" href="#categorical-data" title="Permalink to this headline">
+             ¶
+            </a>
+           </h3>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">'high'</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="s1">'low'</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">],</span> <span class="p">[</span><span class="s1">'medium'</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">]]</span>
+<span class="n">series</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">create_categorical_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">sample_from_histogram</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Level"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Simulated level data"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <img alt="_images/pmmlzoo_24_0.png" src="_images/pmmlzoo_24_0.png"/>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">FormatStrFormatter</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">FormatStrFormatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%.0f</span><span class="s1">'</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">nbins</span><span class="o">=</span><span class="mi">16</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <div class="output traceback highlight-ipythontb notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">15</span><span class="o">-</span><span class="mi">7</span><span class="n">c6045483c3a</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> 
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> 
+
+<span class="ne">ValueError</span>: invalid literal for int() with base 10: 'high'
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <p>
+            And also a “noisy” variant to the categorical data.
+           </p>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">create_categorical_series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <div class="output traceback highlight-ipythontb notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">16</span><span class="o">-</span><span class="n">bfa7bf467c6d</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">series</span> <span class="o">=</span> <span class="n">zoo</span><span class="o">.</span><span class="n">create_categorical_series</span><span class="p">(</span><span class="k">data</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: module 'pmmlzoo.pmmlzoo' has no attribute 'create_categorical_series'
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">series</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">FormatStrFormatter</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">series</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">series</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">FormatStrFormatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%.0f</span><span class="s1">'</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">nbins</span><span class="o">=</span><span class="mi">16</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="section" id="generating-models">
+          <h2>
+           Generating models
+           <a class="headerlink" href="#generating-models" title="Permalink to this headline">
+            ¶
+           </a>
+          </h2>
+         </div>
+        </div>
+        <script>
+         kernelName = 'python-experiments-book'
+        </script>
+       </div>
+      </div>
+     </div>
+     <div class="prev-next-bottom">
+     </div>
+     <footer class="footer mt-5 mt-md-0">
+      <div class="">
+       <p>
+        By Rui Vieira
+        <br/>
+        © Copyright 2020.
+        <br/>
+       </p>
+      </div>
+     </footer>
+    </main>
+   </div>
+  </div>
+  <script>
+   let hideButton = function(element) {
+          const element_to_hide = element.nextElementSibling;
+          console.log(element_to_hide);
+          if (window.getComputedStyle(element_to_hide).display === "none") {
+              // it is already hidden, show now.
+              element_to_hide.style.display = "block";
+              element.textContent = "hide";
+          } else {
+              // it is showing, hide
+              element_to_hide.style.display = "none";
+              element.textContent = "show";
+          }
+      }
+    // trying to follow the section
+    let isInViewport = function (el) {
+      let box = el.getBoundingClientRect();
+      var rect     = el.getBoundingClientRect(),
+      vWidth   = window.innerWidth || document.documentElement.clientWidth,
+      vHeight  = window.innerHeight || document.documentElement.clientHeight,
+      efp      = function (x, y) { return document.elementFromPoint(x, y) };
+
+      // Return false if it's not in the viewport
+      if (rect.right < 0 || rect.bottom < 0 || rect.left > vWidth || rect.top > vHeight)
+      return false;
+
+          // Return true if any of its four corners are visible
+          return (
+          el.contains(efp(rect.left,  rect.top))
+          ||  el.contains(efp(rect.right, rect.top))
+          ||  el.contains(efp(rect.right, rect.bottom))
+          ||  el.contains(efp(rect.left,  rect.bottom))
+          );
+      };
+      const menu_entries = Array.from(document.querySelectorAll("li.toc-entry"));
+      let findMenuEntyById = function(id) {
+        return menu_entries.filter(menu_entry =>
+            menu_entry.getElementsByTagName("a")[0].hash == `#${id}`)
+      }
+      const sections = Array.from(document.querySelectorAll("div.section>div.section"));
+
+      let current_section = sections[0].id;
+      console.log("Adding listener");
+      window.addEventListener('scroll', function (event) {
+          const visible = sections.filter(isInViewport);
+        if (visible.map(x => x.id).slice(-1)[0] != undefined) {
+            current_section = visible.map(x => x.id).slice(-1)[0];
+            menu_entries.forEach(entry => entry.classList.remove("current-section"));
+            const menu_entry = findMenuEntyById(current_section)[0];
+            menu_entry.classList.add("current-section");
+        }
+        console.log(`Current: ${current_section}`);
+        console.log(`Corresponding menu: ${findMenuEntyById(current_section)[0]}`)
+  }, false);
+  </script>
+  <!-- Google Analytics -->
+  <script>
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-10507665-2', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js">
+  </script>
+  <!-- End Google Analytics -->
+ </body>
+</html>

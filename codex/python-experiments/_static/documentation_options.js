@@ -1,1 +1,12 @@
-var DOCUMENTATION_OPTIONS={URL_ROOT:document.getElementById("documentation_options").getAttribute("data-url_root"),VERSION:"",LANGUAGE:"None",COLLAPSE_INDEX:!1,BUILDER:"html",FILE_SUFFIX:".html",LINK_SUFFIX:".html",HAS_SOURCE:!0,SOURCELINK_SUFFIX:"",NAVIGATION_WITH_KEYS:!0};
+var DOCUMENTATION_OPTIONS = {
+    URL_ROOT: document.getElementById("documentation_options").getAttribute('data-url_root'),
+    VERSION: '',
+    LANGUAGE: 'None',
+    COLLAPSE_INDEX: false,
+    BUILDER: 'html',
+    FILE_SUFFIX: '.html',
+    LINK_SUFFIX: '.html',
+    HAS_SOURCE: true,
+    SOURCELINK_SUFFIX: '',
+    NAVIGATION_WITH_KEYS: true
+};

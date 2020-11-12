@@ -1,365 +1,432 @@
-
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data science with coconut &#8212; python-experiments</title>
-    
-  <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
-
-    
-  
-  
-  
-
-    
-      
-  
-  
-
-    
-    <link rel="stylesheet" href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css">
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css">
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css">
-    
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
-    
-    <link rel="stylesheet" type="text/css" href="_static/trac.css">
-    <link rel="stylesheet" type="text/css" href="_static/book.css">
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
-    
-  <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
-
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script src="_static/togglebutton.js"></script>
-    
-    
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    
-    
-    
-    
-    
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
-
-
-
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"></head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
-  
-  <img src="_static/felix-graduated.png" class="logo" alt="logo">
-  
-  
-  <h1 class="site-logo" id="site-title">python-experiments</h1>
-  
-</a>
-</div>
-
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
-</form>
-
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="introduction.html">
-   python-experiments
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  intrplate
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="intrplate.html">
-   intrplate
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  parrot
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="parrot.html">
-   parrot
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Coconut
- </span>
-</p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Data science with coconut
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#linear-regression">
-   Linear Regression
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  SICP
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="sicp-chapter1.html">
-   Chapter 1
-  </a>
- </li>
-</ul>
-
-</nav>
-
- <!-- To handle the deprecated key -->
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+ <head>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\(","\)"] ],
+                    processEscapes: true
+                }
+            });
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <style>
+   .container { padding-left: 0 !important; }
+  </style>
+  <link href="/css/trac.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="_static/icomoon.css" rel="stylesheet"/>
+  <link as="font" crossorigin="" href="_static/icomoon.woff" rel="preload" type="font/woff"/>
+  <link as="font" crossorigin="" href="/fonts/JuliaMono-Regular.woff2" rel="preload" type="font/woff2"/>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Data science with coconut — python-experiments
+  </title>
+  <link href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" rel="stylesheet" type="text/css">
+  </link>
+ </head>
+ <body data-offset="80" data-spy="scroll" data-target="#bd-toc-nav">
+  <div class="container-xl">
+   <div class="row">
+    <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
+     <div class="navbar-brand-box">
+      <a class="navbar-brand text-wrap" href="index.html">
+       <img alt="logo" class="logo" src="_static/felix-graduated.png"/>
+       <h1 class="site-logo" id="site-title">
+        python-experiments
+       </h1>
+      </a>
+     </div>
+     <nav aria-label="Main navigation" class="bd-links" id="bd-docs-nav">
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="introduction.html">
+         python-experiments
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        intrplate
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="intrplate.html">
+         intrplate
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        parrot
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="parrot.html">
+         parrot
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        Coconut
+       </span>
+      </p>
+      <ul class="current nav sidenav_l1">
+       <li class="toctree-l1 current active">
+        <a class="current reference internal" href="#">
+         Data science with coconut
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="#linear-regression">
+         Linear Regression
+        </a>
+       </li>
+      </ul>
+      <p class="caption">
+       <span class="caption-text">
+        SICP
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="sicp-chapter1.html">
+         Chapter 1
+        </a>
+       </li>
+      </ul>
+     </nav>
+     <!-- To handle the deprecated key -->
     </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="tooltip" data-placement="left" data-target=".site-navigation" aria-controls="site-navigation" aria-expanded="true" aria-label="Toggle navigation" title="Toggle navigation">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
-        <!-- Source interaction buttons -->
-
-
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
-
-        <!-- Launch buttons -->
-
-
-
-    </div>
-
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
+    <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+     <div class="row topbar fixed-top container-xl">
+      <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+      </div>
+      <!-- Table of contents -->
+      <div class="d-none d-md-block col-md-2 bd-toc show">
+       <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list">
+        </i>
+        Contents
+       </div>
+       <nav id="bd-toc-nav">
+        <ul class="nav section-nav flex-column">
+         <li class="toc-h1 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#">
+           Data science with coconut
+          </a>
+         </li>
+         <li class="toc-h1 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#linear-regression">
+           Linear Regression
+          </a>
+          <ul class="nav section-nav flex-column">
+           <li class="toc-h2 nav-item toc-entry">
+            <a class="reference internal nav-link" href="#basic-function">
+             Basic function
+            </a>
+           </li>
+           <li class="toc-h2 nav-item toc-entry">
+            <a class="reference internal nav-link" href="#plotting">
+             Plotting
+            </a>
             <ul class="nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Data science with coconut
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#linear-regression">
-   Linear Regression
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#basic-function">
-     Basic function
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plotting">
-     Plotting
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-        </nav>
-        
-    </div>
-</div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
-                
-  <div class="section" id="data-science-with-coconut">
-<h1>Data science with coconut<a class="headerlink" href="#data-science-with-coconut" title="Permalink to this headline">¶</a></h1>
-<p>This is an attempt to rewrite an introductory notebook to data science and machine learning in the <a class="reference external" href="http://coconut-lang.org/">coconut</a> language.</p>
-</div>
-<div class="section" id="linear-regression">
-<h1>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="basic-function">
-<h2>Basic function<a class="headerlink" href="#basic-function" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+             <li class="toc-h3 nav-item toc-entry">
+              <a class="reference internal nav-link" href="#gradient-descent">
+               Gradient descent
+              </a>
+             </li>
+            </ul>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </nav>
+      </div>
+     </div>
+     <div class="container" id="content">
+      <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+       <div>
+        <div class="section" id="data-science-with-coconut">
+         <h1>
+          Data science with coconut
+          <a class="headerlink" href="#data-science-with-coconut" title="Permalink to this headline">
+           ¶
+          </a>
+         </h1>
+         <p>
+          This is an attempt to rewrite an introductory notebook to data science and machine learning in the
+          <a class="reference external" href="http://coconut-lang.org/">
+           coconut
+          </a>
+          language.
+         </p>
+        </div>
+        <div class="section" id="linear-regression">
+         <h1>
+          Linear Regression
+          <a class="headerlink" href="#linear-regression" title="Permalink to this headline">
+           ¶
+          </a>
+         </h1>
+         <div class="section" id="basic-function">
+          <h2>
+           Basic function
+           <a class="headerlink" href="#basic-function" title="Permalink to this headline">
+            ¶
+           </a>
+          </h2>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-coconut notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">warm_up_exercise</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Run <code class="docutils literal notranslate"><span class="pre">warm_up_exercise()</span></code>:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="n">warm_up_exercise</span><span class="p">()</span> <span class="o">|&gt;</span> <span class="nb">print</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1 0 0 0 0]
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <p>
+           Run
+           <code class="docutils literal notranslate">
+            <span class="pre">
+             warm_up_exercise()
+            </span>
+           </code>
+           :
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-coconut notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="n">warm_up_exercise</span><span class="p">()</span> <span class="o">|&gt;</span> <span class="nb">print</span>
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <div class="output stream highlight-myst-ansi notranslate">
+             <div class="highlight">
+              <pre><span></span>[[1 0 0 0 0]
  [0 1 0 0 0]
  [0 0 1 0 0]
  [0 0 0 1 0]
  [0 0 0 0 1]]
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="plotting">
-<h2>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h2>
-<p>The data <code class="docutils literal notranslate"><span class="pre">ex1data1.txt</span></code> has only two properties: profit and population.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="k">data</span> <span class="err">= </span><span class="nc">open</span><span class="p">(</span><span class="s2">&quot;data/ml/ex1data1.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="o">$</span><span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">|&gt;</span> <span class="nb">fmap</span><span class="o">$</span><span class="p">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="k">data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="section" id="plotting">
+          <h2>
+           Plotting
+           <a class="headerlink" href="#plotting" title="Permalink to this headline">
+            ¶
+           </a>
+          </h2>
+          <p>
+           The data
+           <code class="docutils literal notranslate">
+            <span class="pre">
+             ex1data1.txt
+            </span>
+           </code>
+           has only two properties: profit and population.
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-coconut notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">data</span> <span class="err">= </span><span class="nc">open</span><span class="p">(</span><span class="s2">"data/ml/ex1data1.txt"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="o">$</span><span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span>
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-coconut notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">|&gt;</span> <span class="nb">fmap</span><span class="o">$</span><span class="p">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="k">data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
 <span class="n">m</span> <span class="o">=</span> <span class="n">y</span> <span class="o">|&gt;</span> <span class="nb">len</span>
 <span class="n">m</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>97
-</pre></div>
-</div>
-</div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">plot_data()</span></code> uses scatter plot to visualize the data.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <div class="output text_plain highlight-myst-ansi notranslate">
+             <div class="highlight">
+              <pre><span></span>97
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <p>
+           The
+           <code class="docutils literal notranslate">
+            <span class="pre">
+             plot_data()
+            </span>
+           </code>
+           uses scatter plot to visualize the data.
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-coconut notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 
 <span class="k">def</span> <span class="nf">plot_data</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training data&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Population of City in 10,000s&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Profit in $10,000s&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-coconut notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Training data'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Population of City in 10,000s'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Profit in $10,000s'</span><span class="p">)</span>
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">|*&gt;</span> <span class="n">plot_data</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/coconut-introduction_13_0.png" src="_images/coconut-introduction_13_0.png">
-</div>
-</div>
-</div>
-</div>
-
-    
-    <script>kernelName = 'coconut'</script>
-
-              </div>
-              
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <img alt="_images/coconut-introduction_12_0.png" src="_images/coconut-introduction_12_0.png">
+            </img>
+           </div>
+          </div>
+          <div class="section" id="gradient-descent">
+           <h3>
+            Gradient descent
+            <a class="headerlink" href="#gradient-descent" title="Permalink to this headline">
+             ¶
+            </a>
+           </h3>
+           <p>
+            In this part, we will fit the linear regression parameters to our dataset using gradient descent. Parameters are initialized as follows:
+           </p>
+           <ul class="simple">
+            <li>
+             <p>
+              Add a column of ones to
+              <span class="math notranslate nohighlight">
+               \(x\)
+              </span>
+              to accommodate the
+              <span class="math notranslate nohighlight">
+               \(\theta_0\)
+              </span>
+              intercept term:
+             </p>
+            </li>
+           </ul>
+          </div>
+         </div>
         </div>
-    </div>
-    
-    
-    <div class="prev-next-bottom">
-        
-    <a class="left-prev" id="prev-link" href="parrot.html" title="previous page">parrot</a>
-    <a class="right-next" id="next-link" href="sicp-chapter1.html" title="next page">Chapter 1</a>
-
-    </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Rui Vieira<br>
-        
-            &copy; Copyright 2020.<br>
-      </p>
-    </div>
-  </footer>
-</main>
-
-
+        <script>
+         kernelName = 'coconut'
+        </script>
+       </div>
       </div>
-    </div>
+     </div>
+     <div class="prev-next-bottom">
+      <a class="left-prev" href="parrot.html" id="prev-link" title="previous page">
+       parrot
+      </a>
+      <a class="right-next" href="sicp-chapter1.html" id="next-link" title="next page">
+       Chapter 1
+      </a>
+     </div>
+     <footer class="footer mt-5 mt-md-0">
+      <div class="">
+       <p>
+        By Rui Vieira
+        <br/>
+        © Copyright 2020.
+        <br/>
+       </p>
+      </div>
+     </footer>
+    </main>
+   </div>
+  </div>
+  <script>
+   let hideButton = function(element) {
+          const element_to_hide = element.nextElementSibling;
+          console.log(element_to_hide);
+          if (window.getComputedStyle(element_to_hide).display === "none") {
+              // it is already hidden, show now.
+              element_to_hide.style.display = "block";
+              element.textContent = "hide";
+          } else {
+              // it is showing, hide
+              element_to_hide.style.display = "none";
+              element.textContent = "show";
+          }
+      }
+    // trying to follow the section
+    let isInViewport = function (el) {
+      let box = el.getBoundingClientRect();
+      var rect     = el.getBoundingClientRect(),
+      vWidth   = window.innerWidth || document.documentElement.clientWidth,
+      vHeight  = window.innerHeight || document.documentElement.clientHeight,
+      efp      = function (x, y) { return document.elementFromPoint(x, y) };
 
-    
-  <script src="_static/js/index.3da636dd464baa7582d2.js"></script>
+      // Return false if it's not in the viewport
+      if (rect.right < 0 || rect.bottom < 0 || rect.left > vWidth || rect.top > vHeight)
+      return false;
 
+          // Return true if any of its four corners are visible
+          return (
+          el.contains(efp(rect.left,  rect.top))
+          ||  el.contains(efp(rect.right, rect.top))
+          ||  el.contains(efp(rect.right, rect.bottom))
+          ||  el.contains(efp(rect.left,  rect.bottom))
+          );
+      };
+      const menu_entries = Array.from(document.querySelectorAll("li.toc-entry"));
+      let findMenuEntyById = function(id) {
+        return menu_entries.filter(menu_entry =>
+            menu_entry.getElementsByTagName("a")[0].hash == `#${id}`)
+      }
+      const sections = Array.from(document.querySelectorAll("div.section>div.section"));
 
-    
-    <!-- Google Analytics -->
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      let current_section = sections[0].id;
+      console.log("Adding listener");
+      window.addEventListener('scroll', function (event) {
+          const visible = sections.filter(isInViewport);
+        if (visible.map(x => x.id).slice(-1)[0] != undefined) {
+            current_section = visible.map(x => x.id).slice(-1)[0];
+            menu_entries.forEach(entry => entry.classList.remove("current-section"));
+            const menu_entry = findMenuEntyById(current_section)[0];
+            menu_entry.classList.add("current-section");
+        }
+        console.log(`Current: ${current_section}`);
+        console.log(`Corresponding menu: ${findMenuEntyById(current_section)[0]}`)
+  }, false);
+  </script>
+  <!-- Google Analytics -->
+  <script>
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
       ga('create', 'UA-10507665-2', 'auto');
       ga('set', 'anonymizeIp', true);
       ga('send', 'pageview');
-    </script>
-    <script async src="https://www.google-analytics.com/analytics.js"></script>
-    <!-- End Google Analytics -->
-    
-  </body>
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js">
+  </script>
+  <!-- End Google Analytics -->
+ </body>
 </html>

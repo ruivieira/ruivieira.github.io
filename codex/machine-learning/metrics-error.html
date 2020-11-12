@@ -1,311 +1,324 @@
-
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error metrics &#8212; Machine Learning</title>
-    
-  <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
-
-    
-  
-  
-  
-
-    
-      
-  
-  
-
-    
-    <link rel="stylesheet" href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css">
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css">
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css">
-    
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
-    
-    <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
-    
-  <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
-
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script src="_static/togglebutton.js"></script>
-    
-    
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    
-    
-    
-    
-    
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
-
-
-
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><style>.container { padding-left: 0 !important; }</style></head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
-    
-        <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
-  
-  <img src="_static/rat.png" class="logo" alt="logo">
-  
-  
-  <h1 class="site-logo" id="site-title">Machine Learning</h1>
-  
-</a>
-</div>
-
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
-</form>
-
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
-   Introduction
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Data
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="synthetic-data.html">
-   Generating synthetic data
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Processing
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="data-processing.html">
-   Data processing
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sklearn-pipelines.html">
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     sklearn
-    </span>
-   </code>
-   Pipelines
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Supervised learning
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="random-forests.html">
-   Random forests
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Metrics
- </span>
-</p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="metrics-distance.html">
-   Distance metrics
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Error metrics
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Explainability
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="xai-counterfactuals.html">
-   Counterfactuals
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Fairness
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="fairness-introduction.html">
-   Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="fairness-demographic_parity.html">
-   Demographic parity
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="fairness-counterfactual.html">
-   Counterfactual fairness
-  </a>
- </li>
-</ul>
-
-</nav>
-
- <!-- To handle the deprecated key -->
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+ <head>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\(","\)"] ],
+                    processEscapes: true
+                }
+            });
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <style>
+   .container { padding-left: 0 !important; }
+  </style>
+  <link href="/css/trac.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="_static/icomoon.css" rel="stylesheet"/>
+  <link as="font" crossorigin="" href="_static/icomoon.woff" rel="preload" type="font/woff"/>
+  <link as="font" crossorigin="" href="/fonts/JuliaMono-Regular.woff2" rel="preload" type="font/woff2"/>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Error metrics — Machine Learning
+  </title>
+ </head>
+ <body data-offset="80" data-spy="scroll" data-target="#bd-toc-nav">
+  <div class="container-xl">
+   <div class="row">
+    <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
+     <div class="navbar-brand-box">
+      <a class="navbar-brand text-wrap" href="index.html">
+       <img alt="logo" class="logo" src="_static/rat.png"/>
+       <h1 class="site-logo" id="site-title">
+        Machine Learning
+       </h1>
+      </a>
+     </div>
+     <nav aria-label="Main navigation" class="bd-links" id="bd-docs-nav">
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="intro.html">
+         Introduction
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Data
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="data-synthetic.html">
+         Generating synthetic data
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="data-imbalanced.html">
+         Imbalanced data
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Processing
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="data-processing.html">
+         Data processing
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="sklearn-pipelines.html">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           sklearn
+          </span>
+         </code>
+         Pipelines
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Supervised learning
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="random-forests.html">
+         Random forests
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Metrics
+       </span>
+      </p>
+      <ul class="current nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="metrics-distance.html">
+         Distance metrics
+        </a>
+       </li>
+       <li class="toctree-l1 current active">
+        <a class="current reference internal" href="#">
+         Error metrics
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Explainability
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="xai-counterfactuals.html">
+         Counterfactuals
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Fairness
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-introduction.html">
+         Introduction
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-demographic_parity.html">
+         Demographic parity
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-counterfactual.html">
+         Counterfactual fairness
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-orthogonal-projections.html">
+         Orthogonal projections
+        </a>
+       </li>
+      </ul>
+     </nav>
+     <!-- To handle the deprecated key -->
     </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="tooltip" data-placement="left" data-target=".site-navigation" aria-controls="site-navigation" aria-expanded="true" aria-label="Toggle navigation" title="Toggle navigation">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
-        <!-- Source interaction buttons -->
-
-
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
-
-        <!-- Launch buttons -->
-
-
-
-    </div>
-
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#confusion-matrix">
-   Confusion matrix
-  </a>
- </li>
-</ul>
-
-        </nav>
-        
-    </div>
-</div>
-    <div id="content" class="container">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
-                
-  <div class="section" id="error-metrics">
-<h1>Error metrics<a class="headerlink" href="#error-metrics" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="confusion-matrix">
-<span id="errormetrics-confusionmatrix"></span><h2>Confusion matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">¶</a></h2>
-<p>The confusion matrix is typically applied to binary outcome classification problems.</p>
-<p>It revolves are the concepts of false and positive outcomes for classification as such:</p>
-<ul class="simple">
-<li><p><strong>True Negative (TN)</strong>, when both the prediction and the true value are negative</p></li>
-<li><p><strong>True Positive (TP)</strong>, when both the prediction and the true value are positive</p></li>
-<li><p><strong>False Positive (FP)</strong>, when the prediction is positive and the true value is negative</p></li>
-<li><p><strong>False Negative (FN)</strong>, when the prediction is negative and the true value is positive</p></li>
-</ul>
-<div class="margin sidebar">
-<p class="sidebar-title">Type I and II errors</p>
-<p>False Positive and false negative errors are also commonly known as
-Type I and type II errors, respectively.</p>
-</div>
-<p>Let’s show how we can calculate a confusion matrix from scratch.</p>
-<p>The first thing to calculate is the <strong>accuracy</strong> (<span class="math notranslate nohighlight">\(ACC\)</span>), which we calculate as</p>
-<p>\begin{align}
+    <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+     <div class="row topbar fixed-top container-xl">
+      <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+      </div>
+      <!-- Table of contents -->
+      <div class="d-none d-md-block col-md-2 bd-toc show">
+       <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list">
+        </i>
+        Contents
+       </div>
+       <nav id="bd-toc-nav">
+        <ul class="nav section-nav flex-column">
+         <li class="toc-h2 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#confusion-matrix">
+           Confusion matrix
+          </a>
+         </li>
+        </ul>
+       </nav>
+      </div>
+     </div>
+     <div class="container" id="content">
+      <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+       <div>
+        <div class="section" id="error-metrics">
+         <h1>
+          Error metrics
+          <a class="headerlink" href="#error-metrics" title="Permalink to this headline">
+           ¶
+          </a>
+         </h1>
+         <div class="section" id="confusion-matrix">
+          <span id="errormetrics-confusionmatrix">
+          </span>
+          <h2>
+           Confusion matrix
+           <a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">
+            ¶
+           </a>
+          </h2>
+          <p>
+           The confusion matrix is typically applied to binary outcome classification problems.
+          </p>
+          <p>
+           It revolves are the concepts of false and positive outcomes for classification as such:
+          </p>
+          <ul class="simple">
+           <li>
+            <p>
+             <strong>
+              True Negative (TN)
+             </strong>
+             , when both the prediction and the true value are negative
+            </p>
+           </li>
+           <li>
+            <p>
+             <strong>
+              True Positive (TP)
+             </strong>
+             , when both the prediction and the true value are positive
+            </p>
+           </li>
+           <li>
+            <p>
+             <strong>
+              False Positive (FP)
+             </strong>
+             , when the prediction is positive and the true value is negative
+            </p>
+           </li>
+           <li>
+            <p>
+             <strong>
+              False Negative (FN)
+             </strong>
+             , when the prediction is negative and the true value is positive
+            </p>
+           </li>
+          </ul>
+          <div class="margin sidebar">
+           <p class="sidebar-title">
+            Type I and II errors
+           </p>
+           <p>
+            False Positive and false negative errors are also commonly known as
+Type I and type II errors, respectively.
+           </p>
+          </div>
+          <p>
+           Let’s show how we can calculate a confusion matrix from scratch.
+          </p>
+          <p>
+           The first thing to calculate is the
+           <strong>
+            accuracy
+           </strong>
+           (
+           <span class="math notranslate nohighlight">
+            \(ACC\)
+           </span>
+           ), which we calculate as
+          </p>
+          <p>
+           \begin{align}
 ACC &amp;= \frac{TP+TN}{P+N} \
 &amp;= \frac{TP+TN}{TP+TN+FP+FN},
-\end{align}</p>
-<p>where <span class="math notranslate nohighlight">\(TP\)</span> is the number of true positives in dataset, <span class="math notranslate nohighlight">\(TN\)</span> the number of true negatives, <em>etc…</em></p>
-<p>Let’s illustrate this is with a mock dataset.</p>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+\end{align}
+          </p>
+          <p>
+           where
+           <span class="math notranslate nohighlight">
+            \(TP\)
+           </span>
+           is the number of true positives in dataset,
+           <span class="math notranslate nohighlight">
+            \(TN\)
+           </span>
+           the number of true negatives,
+           <em>
+            etc…
+           </em>
+          </p>
+          <p>
+           Let’s illustrate this is with a mock dataset.
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">random</span>
 
-<span class="n">endianness</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;big-endian&#39;</span><span class="p">,</span> <span class="s1">&#39;little-endian&#39;</span><span class="p">]</span>
+<span class="n">endianness</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'big-endian'</span><span class="p">,</span> <span class="s1">'little-endian'</span><span class="p">]</span>
 
 <span class="n">to_endian</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">endianness</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;endianness&#39;</span><span class="p">])</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;predicted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">endianness</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">&lt;</span><span class="mf">0.9</span> <span class="k">else</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'endianness'</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'predicted'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">endianness</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">&lt;</span><span class="mf">0.9</span> <span class="k">else</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">df</span><span class="o">.</span><span class="n">endianness</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">endianness</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">to_endian</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">predicted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">predicted</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">to_endian</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="n">df</span>
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <div class="output text_html">
+             <div>
+              <style scoped="">
+               .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -316,80 +329,163 @@ ACC &amp;= \frac{TP+TN}{P+N} \
     .dataframe thead th {
         text-align: right;
     }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>endianness</th>
-      <th>predicted</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>big-endian</td>
-      <td>big-endian</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>big-endian</td>
-      <td>little-endian</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>little-endian</td>
-      <td>little-endian</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>big-endian</td>
-      <td>big-endian</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>little-endian</td>
-      <td>little-endian</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>95</th>
-      <td>big-endian</td>
-      <td>big-endian</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>big-endian</td>
-      <td>little-endian</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>little-endian</td>
-      <td>little-endian</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>big-endian</td>
-      <td>big-endian</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>little-endian</td>
-      <td>little-endian</td>
-    </tr>
-  </tbody>
-</table>
-<p>100 rows × 2 columns</p>
-</div></div></div>
-</div>
-<p>Let’s calculate the number of false positive, true negatives, <em>etc…</em>:</p>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">positive_class</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">endianness</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+              </style>
+              <table border="0" class="dataframe">
+               <thead>
+                <tr style="text-align: right;">
+                 <th>
+                 </th>
+                 <th>
+                  endianness
+                 </th>
+                 <th>
+                  predicted
+                 </th>
+                </tr>
+               </thead>
+               <tbody>
+                <tr>
+                 <th>
+                  0
+                 </th>
+                 <td>
+                  big-endian
+                 </td>
+                 <td>
+                  big-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  1
+                 </th>
+                 <td>
+                  big-endian
+                 </td>
+                 <td>
+                  little-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  2
+                 </th>
+                 <td>
+                  little-endian
+                 </td>
+                 <td>
+                  little-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  3
+                 </th>
+                 <td>
+                  big-endian
+                 </td>
+                 <td>
+                  big-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  4
+                 </th>
+                 <td>
+                  little-endian
+                 </td>
+                 <td>
+                  little-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  ...
+                 </th>
+                 <td>
+                  ...
+                 </td>
+                 <td>
+                  ...
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  95
+                 </th>
+                 <td>
+                  big-endian
+                 </td>
+                 <td>
+                  big-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  96
+                 </th>
+                 <td>
+                  big-endian
+                 </td>
+                 <td>
+                  little-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  97
+                 </th>
+                 <td>
+                  little-endian
+                 </td>
+                 <td>
+                  little-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  98
+                 </th>
+                 <td>
+                  big-endian
+                 </td>
+                 <td>
+                  big-endian
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  99
+                 </th>
+                 <td>
+                  little-endian
+                 </td>
+                 <td>
+                  little-endian
+                 </td>
+                </tr>
+               </tbody>
+              </table>
+              <p>
+               100 rows × 2 columns
+              </p>
+             </div>
+            </div>
+           </div>
+          </div>
+          <p>
+           Let’s calculate the number of false positive, true negatives,
+           <em>
+            etc…
+           </em>
+           :
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="n">positive_class</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">endianness</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 <span class="n">negative_class</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">endianness</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
 
 <span class="n">TP</span> <span class="o">=</span> <span class="n">positive_class</span><span class="p">[</span><span class="n">positive_class</span><span class="o">.</span><span class="n">endianness</span><span class="o">==</span><span class="n">positive_class</span><span class="o">.</span><span class="n">predicted</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
@@ -397,131 +493,243 @@ ACC &amp;= \frac{TP+TN}{P+N} \
 <span class="n">FP</span> <span class="o">=</span> <span class="n">positive_class</span><span class="p">[</span><span class="n">positive_class</span><span class="o">.</span><span class="n">endianness</span><span class="o">!=</span><span class="n">positive_class</span><span class="o">.</span><span class="n">predicted</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">FN</span> <span class="o">=</span> <span class="n">negative_class</span><span class="p">[</span><span class="n">negative_class</span><span class="o">.</span><span class="n">endianness</span><span class="o">!=</span><span class="n">negative_class</span><span class="o">.</span><span class="n">predicted</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TP=</span><span class="si">{</span><span class="n">TP</span><span class="si">}</span><span class="s2">, TN=</span><span class="si">{</span><span class="n">TN</span><span class="si">}</span><span class="s2">, FP=</span><span class="si">{</span><span class="n">FP</span><span class="si">}</span><span class="s2">, FN=</span><span class="si">{</span><span class="n">FN</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TP=43, TN=43, FP=4, FN=10
-</pre></div>
-</div>
-</div>
-</div>
-<p>The accuracy will then be:</p>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ACC</span> <span class="o">=</span> <span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="o">+</span><span class="n">FP</span><span class="o">+</span><span class="n">FN</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;accuracy=</span><span class="si">{</span><span class="n">ACC</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>accuracy=0.86
-</pre></div>
-</div>
-</div>
-</div>
-<p>The matrix is then presented as</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p>Positive</p></th>
-<th class="head"><p>Negative</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Positive</p></td>
-<td><p>TP</p></td>
-<td><p>FP</p></td>
-</tr>
-<tr class="row-odd"><td><p>Negative</p></td>
-<td><p>FN</p></td>
-<td><p>TN</p></td>
-</tr>
-</tbody>
-</table>
-<p>Let’s calculate the confusion matrix, using the above quantities.</p>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">TP</span><span class="p">,</span> <span class="n">FP</span><span class="p">],</span> <span class="p">[</span><span class="n">FN</span><span class="p">,</span> <span class="n">TN</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TP=</span><span class="si">{</span><span class="n">TP</span><span class="si">}</span><span class="s2">, TN=</span><span class="si">{</span><span class="n">TN</span><span class="si">}</span><span class="s2">, FP=</span><span class="si">{</span><span class="n">FP</span><span class="si">}</span><span class="s2">, FN=</span><span class="si">{</span><span class="n">FN</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <div class="output stream highlight-myst-ansi notranslate">
+             <div class="highlight">
+              <pre><span></span>TP=43, TN=43, FP=4, FN=10
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <p>
+           The accuracy will then be:
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="n">ACC</span> <span class="o">=</span> <span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="o">+</span><span class="n">FP</span><span class="o">+</span><span class="n">FN</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"accuracy=</span><span class="si">{</span><span class="n">ACC</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <div class="output stream highlight-myst-ansi notranslate">
+             <div class="highlight">
+              <pre><span></span>accuracy=0.86
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <p>
+           The matrix is then presented as
+          </p>
+          <table class="colwidths-auto table">
+           <thead>
+            <tr class="row-odd">
+             <th class="head">
+              <p>
+              </p>
+             </th>
+             <th class="head">
+              <p>
+               Positive
+              </p>
+             </th>
+             <th class="head">
+              <p>
+               Negative
+              </p>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr class="row-even">
+             <td>
+              <p>
+               Positive
+              </p>
+             </td>
+             <td>
+              <p>
+               TP
+              </p>
+             </td>
+             <td>
+              <p>
+               FP
+              </p>
+             </td>
+            </tr>
+            <tr class="row-odd">
+             <td>
+              <p>
+               Negative
+              </p>
+             </td>
+             <td>
+              <p>
+               FN
+              </p>
+             </td>
+             <td>
+              <p>
+               TN
+              </p>
+             </td>
+            </tr>
+           </tbody>
+          </table>
+          <p>
+           Let’s calculate the confusion matrix, using the above quantities.
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">TP</span><span class="p">,</span> <span class="n">FP</span><span class="p">],</span> <span class="p">[</span><span class="n">FN</span><span class="p">,</span> <span class="n">TN</span><span class="p">]])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[43  4]
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <div class="output stream highlight-myst-ansi notranslate">
+             <div class="highlight">
+              <pre><span></span>[[43  4]
  [10 43]]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide-input docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="cell tag_hide-input docutils">
+           <button class="input-toggle" onclick="hideButton(this)">
+            show
+           </button>
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">df_cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df_cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">annot_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">})</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion matrix&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df_cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">annot_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">16</span><span class="p">})</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Confusion matrix"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<img alt="_images/metrics-error_12_0.png" src="_images/metrics-error_12_0.png">
-</div>
-</div>
-</div>
-</div>
-
-    
-    <script>kernelName = 'ml'</script>
-
-              </div>
-              
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <img alt="_images/metrics-error_12_0.png" src="_images/metrics-error_12_0.png">
+            </img>
+           </div>
+          </div>
+         </div>
         </div>
-    </div>
-    
-    
-    <div class="prev-next-bottom">
-        
-    <a class="left-prev" id="prev-link" href="metrics-distance.html" title="previous page">Distance metrics</a>
-    <a class="right-next" id="next-link" href="xai-counterfactuals.html" title="next page">Counterfactuals</a>
-
-    </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Rui Vieira<br>
-        
-            &copy; Copyright 2020.<br>
-      </p>
-    </div>
-  </footer>
-</main>
-
-
+        <script>
+         kernelName = 'ml'
+        </script>
+       </div>
       </div>
-    </div>
+     </div>
+     <div class="prev-next-bottom">
+      <a class="left-prev" href="metrics-distance.html" id="prev-link" title="previous page">
+       Distance metrics
+      </a>
+      <a class="right-next" href="xai-counterfactuals.html" id="next-link" title="next page">
+       Counterfactuals
+      </a>
+     </div>
+     <footer class="footer mt-5 mt-md-0">
+      <div class="">
+       <p>
+        By Rui Vieira
+        <br/>
+        © Copyright 2020.
+        <br/>
+       </p>
+      </div>
+     </footer>
+    </main>
+   </div>
+  </div>
+  <script>
+   let hideButton = function(element) {
+          const element_to_hide = element.nextElementSibling;
+          console.log(element_to_hide);
+          if (window.getComputedStyle(element_to_hide).display === "none") {
+              // it is already hidden, show now.
+              element_to_hide.style.display = "block";
+              element.textContent = "hide";
+          } else {
+              // it is showing, hide
+              element_to_hide.style.display = "none";
+              element.textContent = "show";
+          }
+      }
+    // trying to follow the section
+    let isInViewport = function (el) {
+      let box = el.getBoundingClientRect();
+      var rect     = el.getBoundingClientRect(),
+      vWidth   = window.innerWidth || document.documentElement.clientWidth,
+      vHeight  = window.innerHeight || document.documentElement.clientHeight,
+      efp      = function (x, y) { return document.elementFromPoint(x, y) };
 
-    
-  <script src="_static/js/index.3da636dd464baa7582d2.js"></script>
+      // Return false if it's not in the viewport
+      if (rect.right < 0 || rect.bottom < 0 || rect.left > vWidth || rect.top > vHeight)
+      return false;
 
+          // Return true if any of its four corners are visible
+          return (
+          el.contains(efp(rect.left,  rect.top))
+          ||  el.contains(efp(rect.right, rect.top))
+          ||  el.contains(efp(rect.right, rect.bottom))
+          ||  el.contains(efp(rect.left,  rect.bottom))
+          );
+      };
+      const menu_entries = Array.from(document.querySelectorAll("li.toc-entry"));
+      let findMenuEntyById = function(id) {
+        return menu_entries.filter(menu_entry =>
+            menu_entry.getElementsByTagName("a")[0].hash == `#${id}`)
+      }
+      const sections = Array.from(document.querySelectorAll("div.section>div.section"));
 
-    
-    <!-- Google Analytics -->
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      let current_section = sections[0].id;
+      console.log("Adding listener");
+      window.addEventListener('scroll', function (event) {
+          const visible = sections.filter(isInViewport);
+        if (visible.map(x => x.id).slice(-1)[0] != undefined) {
+            current_section = visible.map(x => x.id).slice(-1)[0];
+            menu_entries.forEach(entry => entry.classList.remove("current-section"));
+            const menu_entry = findMenuEntyById(current_section)[0];
+            menu_entry.classList.add("current-section");
+        }
+        console.log(`Current: ${current_section}`);
+        console.log(`Corresponding menu: ${findMenuEntyById(current_section)[0]}`)
+  }, false);
+  </script>
+  <!-- Google Analytics -->
+  <script>
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
       ga('create', 'UA-10507665-2', 'auto');
       ga('set', 'anonymizeIp', true);
       ga('send', 'pageview');
-    </script>
-    <script async src="https://www.google-analytics.com/analytics.js"></script>
-    <!-- End Google Analytics -->
-    
-  </body>
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js">
+  </script>
+  <!-- End Google Analytics -->
+ </body>
 </html>

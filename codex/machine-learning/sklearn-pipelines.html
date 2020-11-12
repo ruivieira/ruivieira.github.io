@@ -1,307 +1,262 @@
-
 <!DOCTYPE html>
-
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sklearn Pipelines &#8212; Machine Learning</title>
-    
-  <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
-
-    
-  
-  
-  
-
-    
-      
-  
-  
-
-    
-    <link rel="stylesheet" href="_static/sphinx-book-theme.2d2078699c18a0efb88233928e1cf6ed.css" type="text/css">
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css">
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css">
-    
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css">
-    
-    <link rel="stylesheet" type="text/css" href="_static/icomoon.css">
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
-    
-  <link rel="preload" as="script" href="_static/js/index.3da636dd464baa7582d2.js">
-
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script src="_static/togglebutton.js"></script>
-    
-    
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.be0a4a0c39cd630af62a2fcf693f3f06.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    
-    
-    
-    
-    
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
-
-
-
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/fonts/JuliaMono-Regular.woff2"><link rel="preload" as="font" type="font/woff" crossorigin="" href="_static/icomoon.woff"><link rel="stylesheet" href="_static/icomoon.css"><link rel="stylesheet" href="/css/style.css"><style>.container { padding-left: 0 !important; }</style></head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
-    
-        <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
-  
-  <img src="_static/rat.png" class="logo" alt="logo">
-  
-  
-  <h1 class="site-logo" id="site-title">Machine Learning</h1>
-  
-</a>
-</div>
-
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
-</form>
-
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
-   Introduction
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Data
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="synthetic-data.html">
-   Generating synthetic data
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Processing
- </span>
-</p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="data-processing.html">
-   Data processing
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     sklearn
-    </span>
-   </code>
-   Pipelines
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Supervised learning
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="random-forests.html">
-   Random forests
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Metrics
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="metrics-distance.html">
-   Distance metrics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="metrics-error.html">
-   Error metrics
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Explainability
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="xai-counterfactuals.html">
-   Counterfactuals
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Fairness
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="fairness-introduction.html">
-   Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="fairness-demographic_parity.html">
-   Demographic parity
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="fairness-counterfactual.html">
-   Counterfactual fairness
-  </a>
- </li>
-</ul>
-
-</nav>
-
- <!-- To handle the deprecated key -->
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+ <head>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\(","\)"] ],
+                    processEscapes: true
+                }
+            });
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <style>
+   .container { padding-left: 0 !important; }
+  </style>
+  <link href="/css/trac.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="_static/icomoon.css" rel="stylesheet"/>
+  <link as="font" crossorigin="" href="_static/icomoon.woff" rel="preload" type="font/woff"/>
+  <link as="font" crossorigin="" href="/fonts/JuliaMono-Regular.woff2" rel="preload" type="font/woff2"/>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   sklearn Pipelines — Machine Learning
+  </title>
+ </head>
+ <body data-offset="80" data-spy="scroll" data-target="#bd-toc-nav">
+  <div class="container-xl">
+   <div class="row">
+    <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="sidebar">
+     <div class="navbar-brand-box">
+      <a class="navbar-brand text-wrap" href="index.html">
+       <img alt="logo" class="logo" src="_static/rat.png"/>
+       <h1 class="site-logo" id="site-title">
+        Machine Learning
+       </h1>
+      </a>
+     </div>
+     <nav aria-label="Main navigation" class="bd-links" id="bd-docs-nav">
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="intro.html">
+         Introduction
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Data
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="data-synthetic.html">
+         Generating synthetic data
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="data-imbalanced.html">
+         Imbalanced data
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Processing
+       </span>
+      </p>
+      <ul class="current nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="data-processing.html">
+         Data processing
+        </a>
+       </li>
+       <li class="toctree-l1 current active">
+        <a class="current reference internal" href="#">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           sklearn
+          </span>
+         </code>
+         Pipelines
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Supervised learning
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="random-forests.html">
+         Random forests
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Metrics
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="metrics-distance.html">
+         Distance metrics
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="metrics-error.html">
+         Error metrics
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Explainability
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="xai-counterfactuals.html">
+         Counterfactuals
+        </a>
+       </li>
+      </ul>
+      <p class="caption collapsible-parent">
+       <span class="caption-text">
+        Fairness
+       </span>
+      </p>
+      <ul class="nav sidenav_l1">
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-introduction.html">
+         Introduction
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-demographic_parity.html">
+         Demographic parity
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-counterfactual.html">
+         Counterfactual fairness
+        </a>
+       </li>
+       <li class="toctree-l1">
+        <a class="reference internal" href="fairness-orthogonal-projections.html">
+         Orthogonal projections
+        </a>
+       </li>
+      </ul>
+     </nav>
+     <!-- To handle the deprecated key -->
     </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="tooltip" data-placement="left" data-target=".site-navigation" aria-controls="site-navigation" aria-expanded="true" aria-label="Toggle navigation" title="Toggle navigation">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
-        <!-- Source interaction buttons -->
-
-
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
-
-        <!-- Launch buttons -->
-
-
-
-    </div>
-
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
+    <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+     <div class="row topbar fixed-top container-xl">
+      <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+      </div>
+      <!-- Table of contents -->
+      <div class="d-none d-md-block col-md-2 bd-toc show">
+       <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list">
+        </i>
+        Contents
+       </div>
+       <nav id="bd-toc-nav">
+        <ul class="nav section-nav flex-column">
+         <li class="toc-h2 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#custom-pipelines">
+           Custom pipelines
+          </a>
+          <ul class="nav section-nav flex-column">
+           <li class="toc-h3 nav-item toc-entry">
+            <a class="reference internal nav-link" href="#select-columns">
+             Select columns
+            </a>
+           </li>
+           <li class="toc-h3 nav-item toc-entry">
+            <a class="reference internal nav-link" href="#value-manipulation">
+             Value manipulation
+            </a>
             <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#custom-pipelines">
-   Custom pipelines
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#select-columns">
-     Select columns
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#value-manipulation">
-     Value manipulation
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#extracting-name">
-       Extracting name
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#encoding-labels">
-       Encoding labels
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
-</ul>
-
-        </nav>
-        
-    </div>
-</div>
-    <div id="content" class="container">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
-                
-  <div class="section" id="sklearn-pipelines">
-<h1><code class="docutils literal notranslate"><span class="pre">sklearn</span></code> Pipelines<a class="headerlink" href="#sklearn-pipelines" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="custom-pipelines">
-<span id="pipelines-pipelines"></span><h2>Custom pipelines<a class="headerlink" href="#custom-pipelines" title="Permalink to this headline">¶</a></h2>
-<p>Let’s start with the Titanic data as an example.</p>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+             <li class="toc-h4 nav-item toc-entry">
+              <a class="reference internal nav-link" href="#extracting-name">
+               Extracting name
+              </a>
+             </li>
+             <li class="toc-h4 nav-item toc-entry">
+              <a class="reference internal nav-link" href="#encoding-labels">
+               Encoding labels
+              </a>
+             </li>
+            </ul>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </nav>
+      </div>
+     </div>
+     <div class="container" id="content">
+      <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+       <div>
+        <div class="section" id="sklearn-pipelines">
+         <h1>
+          <code class="docutils literal notranslate">
+           <span class="pre">
+            sklearn
+           </span>
+          </code>
+          Pipelines
+          <a class="headerlink" href="#sklearn-pipelines" title="Permalink to this headline">
+           ¶
+          </a>
+         </h1>
+         <div class="section" id="custom-pipelines">
+          <span id="pipelines-pipelines">
+          </span>
+          <h2>
+           Custom pipelines
+           <a class="headerlink" href="#custom-pipelines" title="Permalink to this headline">
+            ¶
+           </a>
+          </h2>
+          <p>
+           Let’s start with the Titanic data as an example.
+          </p>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/titanic/train.csv&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/titanic/train.csv"</span><span class="p">)</span>
+</pre>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="cell docutils">
+           <div class="cell_input docutils">
+            <div class="highlight-ipython3 notranslate">
+             <div class="highlight">
+              <pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre>
+             </div>
+            </div>
+           </div>
+           <div class="cell_output docutils">
+            <div class="output text_html">
+             <div>
+              <style scoped="">
+               .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -312,136 +267,313 @@
     .dataframe thead th {
         text-align: right;
     }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>PassengerId</th>
-      <th>Survived</th>
-      <th>Pclass</th>
-      <th>Name</th>
-      <th>Sex</th>
-      <th>Age</th>
-      <th>SibSp</th>
-      <th>Parch</th>
-      <th>Ticket</th>
-      <th>Fare</th>
-      <th>Cabin</th>
-      <th>Embarked</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Braund, Mr. Owen Harris</td>
-      <td>male</td>
-      <td>22.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>A/5 21171</td>
-      <td>7.2500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
-      <td>female</td>
-      <td>38.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>PC 17599</td>
-      <td>71.2833</td>
-      <td>C85</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3</td>
-      <td>1</td>
-      <td>3</td>
-      <td>Heikkinen, Miss. Laina</td>
-      <td>female</td>
-      <td>26.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>STON/O2. 3101282</td>
-      <td>7.9250</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>4</td>
-      <td>1</td>
-      <td>1</td>
-      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
-      <td>female</td>
-      <td>35.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>113803</td>
-      <td>53.1000</td>
-      <td>C123</td>
-      <td>S</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>5</td>
-      <td>0</td>
-      <td>3</td>
-      <td>Allen, Mr. William Henry</td>
-      <td>male</td>
-      <td>35.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>373450</td>
-      <td>8.0500</td>
-      <td>NaN</td>
-      <td>S</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="section" id="select-columns">
-<h3>Select columns<a class="headerlink" href="#select-columns" title="Permalink to this headline">¶</a></h3>
-<p>A <code class="docutils literal notranslate"><span class="pre">TransformerMixin</span></code> which allows to select a dataframe column subset.</p>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">TransformerMixin</span>
+              </style>
+              <table border="0" class="dataframe">
+               <thead>
+                <tr style="text-align: right;">
+                 <th>
+                 </th>
+                 <th>
+                  PassengerId
+                 </th>
+                 <th>
+                  Survived
+                 </th>
+                 <th>
+                  Pclass
+                 </th>
+                 <th>
+                  Name
+                 </th>
+                 <th>
+                  Sex
+                 </th>
+                 <th>
+                  Age
+                 </th>
+                 <th>
+                  SibSp
+                 </th>
+                 <th>
+                  Parch
+                 </th>
+                 <th>
+                  Ticket
+                 </th>
+                 <th>
+                  Fare
+                 </th>
+                 <th>
+                  Cabin
+                 </th>
+                 <th>
+                  Embarked
+                 </th>
+                </tr>
+               </thead>
+               <tbody>
+                <tr>
+                 <th>
+                  0
+                 </th>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  3
+                 </td>
+                 <td>
+                  Braund, Mr. Owen Harris
+                 </td>
+                 <td>
+                  male
+                 </td>
+                 <td>
+                  22.0
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  A/5 21171
+                 </td>
+                 <td>
+                  7.2500
+                 </td>
+                 <td>
+                  NaN
+                 </td>
+                 <td>
+                  S
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  1
+                 </th>
+                 <td>
+                  2
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  Cumings, Mrs. John Bradley (Florence Briggs Th...
+                 </td>
+                 <td>
+                  female
+                 </td>
+                 <td>
+                  38.0
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  PC 17599
+                 </td>
+                 <td>
+                  71.2833
+                 </td>
+                 <td>
+                  C85
+                 </td>
+                 <td>
+                  C
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  2
+                 </th>
+                 <td>
+                  3
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  3
+                 </td>
+                 <td>
+                  Heikkinen, Miss. Laina
+                 </td>
+                 <td>
+                  female
+                 </td>
+                 <td>
+                  26.0
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  STON/O2. 3101282
+                 </td>
+                 <td>
+                  7.9250
+                 </td>
+                 <td>
+                  NaN
+                 </td>
+                 <td>
+                  S
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  3
+                 </th>
+                 <td>
+                  4
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  Futrelle, Mrs. Jacques Heath (Lily May Peel)
+                 </td>
+                 <td>
+                  female
+                 </td>
+                 <td>
+                  35.0
+                 </td>
+                 <td>
+                  1
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  113803
+                 </td>
+                 <td>
+                  53.1000
+                 </td>
+                 <td>
+                  C123
+                 </td>
+                 <td>
+                  S
+                 </td>
+                </tr>
+                <tr>
+                 <th>
+                  4
+                 </th>
+                 <td>
+                  5
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  3
+                 </td>
+                 <td>
+                  Allen, Mr. William Henry
+                 </td>
+                 <td>
+                  male
+                 </td>
+                 <td>
+                  35.0
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  0
+                 </td>
+                 <td>
+                  373450
+                 </td>
+                 <td>
+                  8.0500
+                 </td>
+                 <td>
+                  NaN
+                 </td>
+                 <td>
+                  S
+                 </td>
+                </tr>
+               </tbody>
+              </table>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="section" id="select-columns">
+           <h3>
+            Select columns
+            <a class="headerlink" href="#select-columns" title="Permalink to this headline">
+             ¶
+            </a>
+           </h3>
+           <p>
+            A
+            <code class="docutils literal notranslate">
+             <span class="pre">
+              TransformerMixin
+             </span>
+            </code>
+            which allows to select a dataframe column subset.
+           </p>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">TransformerMixin</span>
 
 <span class="k">class</span> <span class="nc">SelectColumns</span><span class="p">(</span><span class="n">TransformerMixin</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span>
 
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SelectColumns&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"SelectColumns"</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transformer</span> <span class="o">=</span> <span class="n">SelectColumns</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">])</span>
+</pre>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="cell docutils">
+            <div class="cell_input docutils">
+             <div class="highlight-ipython3 notranslate">
+              <div class="highlight">
+               <pre><span></span><span class="n">transformer</span> <span class="o">=</span> <span class="n">SelectColumns</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'Survived'</span><span class="p">])</span>
 <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
+</pre>
+              </div>
+             </div>
+            </div>
+            <div class="cell_output docutils">
+             <div class="output text_html">
+              <div>
+               <style scoped="">
+                .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -452,85 +584,180 @@
     .dataframe thead th {
         text-align: right;
     }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Name</th>
-      <th>Survived</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Braund, Mr. Owen Harris</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Heikkinen, Miss. Laina</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Allen, Mr. William Henry</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>886</th>
-      <td>Montvila, Rev. Juozas</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>887</th>
-      <td>Graham, Miss. Margaret Edith</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>888</th>
-      <td>Johnston, Miss. Catherine Helen "Carrie"</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>889</th>
-      <td>Behr, Mr. Karl Howell</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>890</th>
-      <td>Dooley, Mr. Patrick</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>891 rows × 2 columns</p>
-</div></div></div>
-</div>
-</div>
-<div class="section" id="value-manipulation">
-<h3>Value manipulation<a class="headerlink" href="#value-manipulation" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="extracting-name">
-<h4>Extracting name<a class="headerlink" href="#extracting-name" title="Permalink to this headline">¶</a></h4>
-<p>Creating a custom pipeline to extract a partial <code class="docutils literal notranslate"><span class="pre">Name</span></code> from the dataframe.</p>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+               </style>
+               <table border="0" class="dataframe">
+                <thead>
+                 <tr style="text-align: right;">
+                  <th>
+                  </th>
+                  <th>
+                   Name
+                  </th>
+                  <th>
+                   Survived
+                  </th>
+                 </tr>
+                </thead>
+                <tbody>
+                 <tr>
+                  <th>
+                   0
+                  </th>
+                  <td>
+                   Braund, Mr. Owen Harris
+                  </td>
+                  <td>
+                   0
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   1
+                  </th>
+                  <td>
+                   Cumings, Mrs. John Bradley (Florence Briggs Th...
+                  </td>
+                  <td>
+                   1
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   2
+                  </th>
+                  <td>
+                   Heikkinen, Miss. Laina
+                  </td>
+                  <td>
+                   1
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   3
+                  </th>
+                  <td>
+                   Futrelle, Mrs. Jacques Heath (Lily May Peel)
+                  </td>
+                  <td>
+                   1
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   4
+                  </th>
+                  <td>
+                   Allen, Mr. William Henry
+                  </td>
+                  <td>
+                   0
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   ...
+                  </th>
+                  <td>
+                   ...
+                  </td>
+                  <td>
+                   ...
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   886
+                  </th>
+                  <td>
+                   Montvila, Rev. Juozas
+                  </td>
+                  <td>
+                   0
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   887
+                  </th>
+                  <td>
+                   Graham, Miss. Margaret Edith
+                  </td>
+                  <td>
+                   1
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   888
+                  </th>
+                  <td>
+                   Johnston, Miss. Catherine Helen "Carrie"
+                  </td>
+                  <td>
+                   0
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   889
+                  </th>
+                  <td>
+                   Behr, Mr. Karl Howell
+                  </td>
+                  <td>
+                   1
+                  </td>
+                 </tr>
+                 <tr>
+                  <th>
+                   890
+                  </th>
+                  <td>
+                   Dooley, Mr. Patrick
+                  </td>
+                  <td>
+                   0
+                  </td>
+                 </tr>
+                </tbody>
+               </table>
+               <p>
+                891 rows × 2 columns
+               </p>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="section" id="value-manipulation">
+           <h3>
+            Value manipulation
+            <a class="headerlink" href="#value-manipulation" title="Permalink to this headline">
+             ¶
+            </a>
+           </h3>
+           <div class="section" id="extracting-name">
+            <h4>
+             Extracting name
+             <a class="headerlink" href="#extracting-name" title="Permalink to this headline">
+              ¶
+             </a>
+            </h4>
+            <p>
+             Creating a custom pipeline to extract a partial
+             <code class="docutils literal notranslate">
+              <span class="pre">
+               Name
+              </span>
+             </code>
+             from the dataframe.
+            </p>
+            <div class="cell docutils">
+             <div class="cell_input docutils">
+              <div class="highlight-ipython3 notranslate">
+               <div class="highlight">
+                <pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
 <span class="k">class</span> <span class="nc">DataframeFunctionTransformer</span><span class="p">(</span><span class="n">TransformerMixin</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
@@ -541,38 +768,49 @@
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_name</span><span class="p">(</span><span class="n">input_df</span><span class="p">):</span>
-    <span class="n">input_df</span><span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_df</span><span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre>
+               </div>
+              </div>
+             </div>
+            </div>
+            <div class="cell docutils">
+             <div class="cell_input docutils">
+              <div class="highlight-ipython3 notranslate">
+               <div class="highlight">
+                <pre><span></span><span class="k">def</span> <span class="nf">process_name</span><span class="p">(</span><span class="n">input_df</span><span class="p">):</span>
+    <span class="n">input_df</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_df</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">input_df</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">DataframeFunctionTransformer</span><span class="p">(</span><span class="n">process_name</span><span class="p">))</span>
+</pre>
+               </div>
+              </div>
+             </div>
+            </div>
+            <div class="cell docutils">
+             <div class="cell_input docutils">
+              <div class="highlight-ipython3 notranslate">
+               <div class="highlight">
+                <pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">DataframeFunctionTransformer</span><span class="p">(</span><span class="n">process_name</span><span class="p">))</span>
 <span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)[[</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Survived&quot;</span><span class="p">]]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
+</pre>
+               </div>
+              </div>
+             </div>
+            </div>
+            <div class="cell docutils">
+             <div class="cell_input docutils">
+              <div class="highlight-ipython3 notranslate">
+               <div class="highlight">
+                <pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)[[</span><span class="s2">"Name"</span><span class="p">,</span> <span class="s2">"Survived"</span><span class="p">]]</span>
+</pre>
+               </div>
+              </div>
+             </div>
+             <div class="cell_output docutils">
+              <div class="output text_html">
+               <div>
+                <style scoped="">
+                 .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -583,85 +821,167 @@
     .dataframe thead th {
         text-align: right;
     }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Name</th>
-      <th>Survived</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Braund</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Cumings</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Heikkinen</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Futrelle</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Allen</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>886</th>
-      <td>Montvila</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>887</th>
-      <td>Graham</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>888</th>
-      <td>Johnston</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>889</th>
-      <td>Behr</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>890</th>
-      <td>Dooley</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>891 rows × 2 columns</p>
-</div></div></div>
-</div>
-</div>
-<div class="section" id="encoding-labels">
-<h4>Encoding labels<a class="headerlink" href="#encoding-labels" title="Permalink to this headline">¶</a></h4>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+                </style>
+                <table border="0" class="dataframe">
+                 <thead>
+                  <tr style="text-align: right;">
+                   <th>
+                   </th>
+                   <th>
+                    Name
+                   </th>
+                   <th>
+                    Survived
+                   </th>
+                  </tr>
+                 </thead>
+                 <tbody>
+                  <tr>
+                   <th>
+                    0
+                   </th>
+                   <td>
+                    Braund
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    1
+                   </th>
+                   <td>
+                    Cumings
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    2
+                   </th>
+                   <td>
+                    Heikkinen
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    3
+                   </th>
+                   <td>
+                    Futrelle
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    4
+                   </th>
+                   <td>
+                    Allen
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    ...
+                   </th>
+                   <td>
+                    ...
+                   </td>
+                   <td>
+                    ...
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    886
+                   </th>
+                   <td>
+                    Montvila
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    887
+                   </th>
+                   <td>
+                    Graham
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    888
+                   </th>
+                   <td>
+                    Johnston
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    889
+                   </th>
+                   <td>
+                    Behr
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    890
+                   </th>
+                   <td>
+                    Dooley
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                 </tbody>
+                </table>
+                <p>
+                 891 rows × 2 columns
+                </p>
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="section" id="encoding-labels">
+            <h4>
+             Encoding labels
+             <a class="headerlink" href="#encoding-labels" title="Permalink to this headline">
+              ¶
+             </a>
+            </h4>
+            <div class="cell docutils">
+             <div class="cell_input docutils">
+              <div class="highlight-ipython3 notranslate">
+               <div class="highlight">
+                <pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">class</span> <span class="nc">LabelEncoder</span><span class="p">(</span><span class="n">TransformerMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LabelEncoder&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"LabelEncoder"</span><span class="p">:</span>
         <span class="n">encoders</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
             <span class="n">v</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
@@ -679,21 +999,26 @@
 
         <span class="c1"># Return without nans</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils">
-<div class="cell_input docutils">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
-<span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
+</pre>
+               </div>
+              </div>
+             </div>
+            </div>
+            <div class="cell docutils">
+             <div class="cell_input docutils">
+              <div class="highlight-ipython3 notranslate">
+               <div class="highlight">
+                <pre><span></span><span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">'Pclass'</span><span class="p">,</span> <span class="s1">'Sex'</span><span class="p">]])</span>
+</pre>
+               </div>
+              </div>
+             </div>
+             <div class="cell_output docutils">
+              <div class="output text_html">
+               <div>
+                <style scoped="">
+                 .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -704,126 +1029,246 @@
     .dataframe thead th {
         text-align: right;
     }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Pclass</th>
-      <th>Sex</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>886</th>
-      <td>2</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>887</th>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>888</th>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>889</th>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>890</th>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>891 rows × 2 columns</p>
-</div></div></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-    
-    <script>kernelName = 'ml-book'</script>
-
+                </style>
+                <table border="0" class="dataframe">
+                 <thead>
+                  <tr style="text-align: right;">
+                   <th>
+                   </th>
+                   <th>
+                    Pclass
+                   </th>
+                   <th>
+                    Sex
+                   </th>
+                  </tr>
+                 </thead>
+                 <tbody>
+                  <tr>
+                   <th>
+                    0
+                   </th>
+                   <td>
+                    0
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    1
+                   </th>
+                   <td>
+                    1
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    2
+                   </th>
+                   <td>
+                    0
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    3
+                   </th>
+                   <td>
+                    1
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    4
+                   </th>
+                   <td>
+                    0
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    ...
+                   </th>
+                   <td>
+                    ...
+                   </td>
+                   <td>
+                    ...
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    886
+                   </th>
+                   <td>
+                    2
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    887
+                   </th>
+                   <td>
+                    1
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    888
+                   </th>
+                   <td>
+                    0
+                   </td>
+                   <td>
+                    1
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    889
+                   </th>
+                   <td>
+                    1
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                  <tr>
+                   <th>
+                    890
+                   </th>
+                   <td>
+                    0
+                   </td>
+                   <td>
+                    0
+                   </td>
+                  </tr>
+                 </tbody>
+                </table>
+                <p>
+                 891 rows × 2 columns
+                </p>
+               </div>
               </div>
-              
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
         </div>
-    </div>
-    
-    
-    <div class="prev-next-bottom">
-        
-    <a class="left-prev" id="prev-link" href="data-processing.html" title="previous page">Data processing</a>
-    <a class="right-next" id="next-link" href="random-forests.html" title="next page">Random forests</a>
-
-    </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Rui Vieira<br>
-        
-            &copy; Copyright 2020.<br>
-      </p>
-    </div>
-  </footer>
-</main>
-
-
+        <script>
+         kernelName = 'ml-book'
+        </script>
+       </div>
       </div>
-    </div>
+     </div>
+     <div class="prev-next-bottom">
+      <a class="left-prev" href="data-processing.html" id="prev-link" title="previous page">
+       Data processing
+      </a>
+      <a class="right-next" href="random-forests.html" id="next-link" title="next page">
+       Random forests
+      </a>
+     </div>
+     <footer class="footer mt-5 mt-md-0">
+      <div class="">
+       <p>
+        By Rui Vieira
+        <br/>
+        © Copyright 2020.
+        <br/>
+       </p>
+      </div>
+     </footer>
+    </main>
+   </div>
+  </div>
+  <script>
+   let hideButton = function(element) {
+          const element_to_hide = element.nextElementSibling;
+          console.log(element_to_hide);
+          if (window.getComputedStyle(element_to_hide).display === "none") {
+              // it is already hidden, show now.
+              element_to_hide.style.display = "block";
+              element.textContent = "hide";
+          } else {
+              // it is showing, hide
+              element_to_hide.style.display = "none";
+              element.textContent = "show";
+          }
+      }
+    // trying to follow the section
+    let isInViewport = function (el) {
+      let box = el.getBoundingClientRect();
+      var rect     = el.getBoundingClientRect(),
+      vWidth   = window.innerWidth || document.documentElement.clientWidth,
+      vHeight  = window.innerHeight || document.documentElement.clientHeight,
+      efp      = function (x, y) { return document.elementFromPoint(x, y) };
 
-    
-  <script src="_static/js/index.3da636dd464baa7582d2.js"></script>
+      // Return false if it's not in the viewport
+      if (rect.right < 0 || rect.bottom < 0 || rect.left > vWidth || rect.top > vHeight)
+      return false;
 
+          // Return true if any of its four corners are visible
+          return (
+          el.contains(efp(rect.left,  rect.top))
+          ||  el.contains(efp(rect.right, rect.top))
+          ||  el.contains(efp(rect.right, rect.bottom))
+          ||  el.contains(efp(rect.left,  rect.bottom))
+          );
+      };
+      const menu_entries = Array.from(document.querySelectorAll("li.toc-entry"));
+      let findMenuEntyById = function(id) {
+        return menu_entries.filter(menu_entry =>
+            menu_entry.getElementsByTagName("a")[0].hash == `#${id}`)
+      }
+      const sections = Array.from(document.querySelectorAll("div.section>div.section"));
 
-    
-    <!-- Google Analytics -->
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      let current_section = sections[0].id;
+      console.log("Adding listener");
+      window.addEventListener('scroll', function (event) {
+          const visible = sections.filter(isInViewport);
+        if (visible.map(x => x.id).slice(-1)[0] != undefined) {
+            current_section = visible.map(x => x.id).slice(-1)[0];
+            menu_entries.forEach(entry => entry.classList.remove("current-section"));
+            const menu_entry = findMenuEntyById(current_section)[0];
+            menu_entry.classList.add("current-section");
+        }
+        console.log(`Current: ${current_section}`);
+        console.log(`Corresponding menu: ${findMenuEntyById(current_section)[0]}`)
+  }, false);
+  </script>
+  <!-- Google Analytics -->
+  <script>
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
       ga('create', 'UA-10507665-2', 'auto');
       ga('set', 'anonymizeIp', true);
       ga('send', 'pageview');
-    </script>
-    <script async src="https://www.google-analytics.com/analytics.js"></script>
-    <!-- End Google Analytics -->
-    
-  </body>
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js">
+  </script>
+  <!-- End Google Analytics -->
+ </body>
 </html>
