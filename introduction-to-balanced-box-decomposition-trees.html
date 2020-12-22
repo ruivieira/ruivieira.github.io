@@ -1,259 +1,265 @@
-<!DOCTYPE HTML>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Introduction to Balanced Box-Decomposition Trees"/>
-<meta name="twitter:description" content="Stardate 96893.29. You are the USS Euler&#39;s Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that both Emacs and Vim should be installed in all computers."/>
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
 
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+                onload="renderMathInElement(document.body);"></script>
+        <style>
+                @font-face {
+                        font-family: JuliaMono-Regular;
+                        src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+                }
+                body {
+                        font-size: 1.2rem;
+                        color: #1b2d45;
+                }
+                #content {
+                        max-width: 38rem;
+                        padding: 2rem;
+                        margin: auto;
+                }
+                #sidebar {
+                   position: absolute;
+                        top: 0;
+                        left: 0;
+                        max-width: 13rem;
+                        margin-left: 3rem;
+                        margin-top: 3rem;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                        color: #00214d;
+                }
+                pre {
+                        background-color: #eee !important;
+                        overflow-x: scroll;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                        padding: 1rem;
+                }
+                code {
+                        background-color: #eee !important;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                }
+                img {
+                        max-width: 38rem;
+                }
+                .katex { font-size: 1em !important;}
+                .footer {
+                        margin-top: 3rem;
+                        font-size: 0.75rem;
+                        color: #ccc;
+                }
+                .cc-symbol {
+                        font-size: 1rem;
+                }
+                a, a:visited {
+                         
+                         
+                        color: #ff5470;
+                        padding: 1px;
+                        border-radius: 2px;
+                }
+                a.footnote-ref {
+                    font-size: 0.9rem;
+                }
+                a.footnote-ref::before {
+                    content: "[";
+                }
+                a.footnote-ref::after {
+                    content: "]";
+                }
 
-    <meta name="author" content="Rui Vieira" />
-    <meta name="copyright" content="Rui Vieira" />
-    <meta name="generator" content="Rui Vieira"> 
-    
-    
-<link rel="stylesheet" href="/css/style.css" />
+                a:hover {
+                        background-color: #ff5470;
+                        color: #fff;
+                }
+                a[href^="https://"],
+                a[href^="http://"] {
+                        text-decoration: underline;
+                }
 
+                a[href^="https://"]:after,
+                a[href^="http://"]:after {
+                        content: "\2609";
+                        text-decoration: none !important;
+                }
+        </style>
+        <title>ruivieira.dev - Introduction to Balanced Box-Decomposition Trees</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-10507665-2', 'auto');
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true
+            ga('send', 'pageview');
         }
-      });
     </script>
-    
-    <script type="text/javascript"
-        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-
-    
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-10507665-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
-
-    </head>
+</head>
 <body>
 
+<div id="sidebar">
+        
+            <h2>Contents</h2>
+            <ul>
+            
+                <li><a href="#space-decomposition">Space decomposition</a></li>
+            
+                <li><a href="#tree-querying">Tree querying</a></li>
+            
+                <li><a href="#filtering-and-*k*-nn">Filtering and *k*-NN</a></li>
+            
+            </ul>
+        
+        
+                <h2>Backlinks</h2>
 
-  <div id="navigation">
-    <span class="nav-item"><a href="/">Posts</a></span> ●
-    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
-    <span class="nav-item"><a href="/pages/about.html">About</a></span>
-  </div>
+                <ul>
+                        
+                                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+                        
 
+                </ul>
+        
+    <div class="footer">
+        modified 1608130086
+    </div>
 
-  <div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-  <h2>Codex</h2>
-  <ul>
-    <li><a href="/codex/machine-learning">Machine learning</a></li>
-    <li><a href="/codex/python-experiments">Python experiments</a></li>
-  </ul>
-  <h2>Playground</h2>
-  <ul>
-    <li><a href="/playground/machine-learning">Machine learning</a></li>
-  </ul>
 </div>
 
-<script>
-  (function () {
-    var elements = document
-      .querySelector(".column")
-      .querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById("sidebar");
-      div.innerHTML += "<h2>This page</h2>\n";
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute("name", i);
-          anchor.classList.add("anchor");
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-      }
-      div.innerHTML += "</ul>\n";
-    }
-  })();
-</script>
-
-
-  <div id="content" class="container">
-  <div class="columns">
-
-    <div class="column">
-      
-        <div>
-          <h1>Introduction to Balanced Box-Decomposition Trees</h1>
-          <small class="date"><time pubdate="pubdate" datetime="2019-04-17 19:21:00 &#43;0100 BST">April 17, 2019</time></small>                
-        </div>
-        
-      <div>
-        <p>Stardate 96893.29. You are the USS Euler's Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that <em>both</em> Emacs and Vim should be installed in all computers. You open your favourite editor and, fortunately, know exactly how to formulate the solution to your problem: a <span class="math">\(d\)</span>-dimensional nearest neighbour algorithm.</p>
-<p>Given a dataset <span class="math">\(\mathcal{D}\)</span> of <span class="math">\(n\)</span> points in a space <span class="math">\(X\)</span> we want to be able to tell which are the <em>closest</em> point to a query point <span class="math">\(q \in X\)</span>, preferably in a way which is computationally cheaper than <em>brute force</em> methods (<em>e.g.</em> iterating through all of the points) which typically solve this problem in <span class="math">\(\mathcal{O}(dn)\)</span> [<a href="#ref-1">Arya1998</a><a name="ref-1-origin"></a>]. <span class="math">\(X\)</span> could have <span class="math">\(d\)</span> dimensions (that is <span class="math">\(\mathcal{D} \subset X : \mathbb{R}^d\)</span>) and we define <em>closest</em> using<sup>1</sup> Minkowski distance metrics, that is:</p>
-<div class="math">$$L_m = \left(\sum_{i=1}^d |p_i - q_i|^m\right)^{\frac{1}{m}},\qquad p,q \in X : \mathbb{R}^d.$$</div>
-<p>A potential solution for this problem would be to use <em>kd</em>-trees, which for low dimenson scenarios provide <span class="math">\(\mathcal{O}(\log n)\)</span> query times [<a href="#ref-2">Friedman1977</a><a name="ref-2-origin"></a>]. However, as the number of dimensions increase (as quickly as <span class="math">\(d&gt;2\)</span>) the query times also increase as <span class="math">\(2^d\)</span>.</p>
-<p>The case can be made then for <em>approximate</em> nearest neighbour (NN) algorithms and that's precisely what we will discuss here, namely the <em>Balanced Box-Decomposition Tree</em> (BBD, [<a href="#ref-1">Arya1998</a><a name="ref-1-origin"></a>]). The definition of <em>approximate</em> NN for a query point <span class="math">\(q\)</span> can be given as</p>
-<div class="math">$$\text{dist}(p, q) \leq (1+\epsilon)\text{dist}(p^{\star},q),\qquad \epsilon &gt; 0,$$</div>
-<p>where <span class="math">\(p\)</span> is the <em>approximate</em> NN and <span class="math">\(p^{\star}\)</span> is the <em>true</em> NN. Let's consider, for the sake of visualisation, a small two dimensional dataset <span class="math">\(\mathcal{D} \to \mathbb{R}^2\)</span> as shown in Figure 1.</p>
-<figure>
-<img src="images/bbdtrees/small_data.png" width="100%">
-<figcaption><b>Figure 1.</b> A small test dataset in \(\mathbb{R}^2, n=7\).</figcaption>
-</figure>
-<h2>Space decomposition</h2>
-<p>BBD trees belong to the category of hierarchical space decomposition trees. In BBD trees, specifically, space is divided in <span class="math">\(d\)</span>-dimensional rectangles and <em>cells</em>. Cells can either represent another <span class="math">\(d\)</span>-dimensional rectangle or the intersection of two rectangles (one, the <em>outer box</em> fully enclosing the other, the <em>inner box</em>). Another important distinction of BBD trees is that rectangle's <em>size</em> (in this context, the largest length in all of the <span class="math">\(d\)</span> dimensions) is bounded by a constant value.
-The space decomposition must follow an additional rule which is boxes must be <em>sticky</em>. If we consider a inner box <span class="math">\([x_{inner}, y_{inner}]\)</span> contained in a outer box <span class="math">\([x_{outer}, y_{outer}]\)</span>, such that</p>
-<div class="math">$$[x_{inner}, y_{inner}] \subseteq [x_{outer}, y_{outer}],$$</div>
-<p>then, considering <span class="math">\(w = y_{inner} - x_{inner}\)</span>, the box is considered <em>sticky</em> if either</p>
-<div class="math">$$\begin{aligned}
+<div id="content">
+    <h1 id="introduction-to-balanced-box-decomposition-trees">Introduction to Balanced Box-Decomposition Trees</h1>
+<p>Stardate 96893.29.</p>
+<p>You are the USS Euler's Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that <em>both</em> Emacs and Vim should be installed in all computers. You open your favourite editor and, fortunately, know exactly how to formulate the solution to your problem: <strong>a <span class="math inline">\(d\)</span>-dimensional nearest neighbour algorithm</strong>.</p>
+<p>Given a dataset <span class="math inline">\(\mathcal{D}\)</span> of <span class="math inline">\(n\)</span> points in a space <span class="math inline">\(X\)</span> 	we want to be able to tell which are the <em>closest</em> point to a query point <span class="math inline">\(q \in X\)</span>, preferably in a way which is computationally cheaper than <em>brute force</em> methods (<em>e.g.</em> iterating through all of the points) which typically solve this problem in <span class="math inline">\(\mathcal{O}(dn)\)</span> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p><span class="math inline">\(X\)</span> could have <span class="math inline">\(d\)</span> dimensions (that is <span class="math inline">\(\mathcal{D} \subset X : \mathbb{R}^d\)</span>) and we define <em>closest</em> using<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> Minkowski distance metrics, that is:</p>
+<p><span class="math display">\[L_m = \left(\sum_{i=1}^d |p_i - q_i|^m\right)^{\frac{1}{m}},\qquad p,q \in X : \mathbb{R}^d.
+\]</span></p>
+<p>A potential solution for this problem would be to use <em>kd</em>-trees, which for low dimension scenarios provide <span class="math inline">\(\mathcal{O}(\log n)\)</span> query times <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. However, as the number of dimensions increase (as quickly as <span class="math inline">\(d>2\)</span>) the query times also increase as <span class="math inline">\(2^d\)</span>.</p>
+<p>The case can be made then for <em>approximate</em> nearest neighbour (NN) algorithms and that's precisely what we will discuss here, namely the <em>Balanced Box-Decomposition Tree</em> (BBD, <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>). The definition of <em>approximate</em> NN for a query point <span class="math inline">\(q\)</span> can be given as</p>
+<p><span class="math display">\[\text{dist}(p, q) \leq (1+\epsilon)\text{dist}(p^{\star},q),\qquad \epsilon > 0,
+\]</span></p>
+<p>where <span class="math inline">\(p\)</span> is the <em>approximate</em> NN and <span class="math inline">\(p^{\star}\)</span> is the <em>true</em> NN. Let's consider, for the sake of visualisation, a small two dimensional dataset <span class="math inline">\(\mathcal{D} \to \mathbb{R}^2\)</span> as shown in Figure 1.</p>
+<p><img src="./images/bbdtrees/small_data.png" alt="" /><br />
+<strong>Figure 1.</strong> A small test dataset in <span class="math inline">\(\mathbb{R}^2, n=7\)</span>.</p>
+<h2 id="space-decomposition">Space decomposition</h2>
+<p>BBD trees belong to the category of hierarchical space decomposition trees. In BBD trees, specifically, space is divided in <span class="math inline">\(d\)</span>-dimensional rectangles and <em>cells</em>. Cells can either represent another <span class="math inline">\(d\)</span>-dimensional rectangle or the intersection of two rectangles (one, the <em>outer box</em> fully enclosing the other, the <em>inner box</em>). Another important distinction of BBD trees is that rectangle's <em>size</em> (in this context, the largest length in all of the <span class="math inline">\(d\)</span> dimensions) is bounded by a constant value.<br />
+The space decomposition must follow an additional rule which is boxes must be <em>sticky</em>. If we consider a inner box <span class="math inline">\([x_{inner}, y_{inner}]\)</span> contained in a outer box <span class="math inline">\([x_{outer}, y_{outer}]\)</span>, such that</p>
+<p><span class="math display">\[[x_{inner}, y_{inner}] \subseteq [x_{outer}, y_{outer}],
+\]</span></p>
+<p>then, considering <span class="math inline">\(w = y_{inner} - x_{inner}\)</span>, the box is considered <em>sticky</em> if either</p>
+<p><span class="math display">\[\begin{aligned}
 x_{inner}-x_{outer} = 0 &amp;\lor x_{inner}-x_{outer} \nleq w \\
 y_{outer}-y_{inner} = 0 &amp;\lor y_{outer}-y_{inner} \nleq w.
-\end{aligned}$$</div>
-<p>An illustration of the <em>stickiness</em> concept can viewed in the diagram below.</p>
-<figure>
-<img src="images/bbdtrees/sticky.png" width="100%">
-<figcaption><b>Figure 2.</b> Visualisation of the "stickiness" criteria for \(\mathbb{R}^2\) rectangles.</figcaption>
-</figure>
-<p>Stickiness provides some important geometric properties to the space decomposition which will be discussed further on. The actual process of space decomposition will produce a tree of nodes, each with an associated <span class="math">\(d\)</span>-dimensional rectangle enclosing a set of points. Each node will be further decomposed into children nodes, containing a region of space with a subset of the parent's data points. If a node has no children it will be called a <em>leaf</em> node. The division process can occur either by means of:</p>
+\end{aligned}
+\]</span></p>
+<p>An illustration of the stickiness concept can viewed in the diagram below.</p>
+<p><img src="./images/bbdtrees/sticky.png" alt="" /><br />
+<strong>Figure 2.</strong> Visualisation of the &quot;stickiness&quot; criteria for (\mathbb{R}^2) rectangles.</p>
+<p>Stickiness provides some important geometric properties to the space decomposition which will be discussed further on. The actual process of space decomposition will produce a tree of nodes, each with an associated <span class="math inline">\(d\)</span>-dimensional rectangle enclosing a set of points. Each node will be further decomposed into children nodes, containing a region of space with a subset of the parent's data points. If a node has no children it will be called a <em>leaf</em> node. The division process can occur either by means of:</p>
 <ul>
 <li>a <em>fair split</em>, this is done by partitioning the space with an hyperplane, resulting in a <em>low</em> and <em>high</em> children nodes</li>
 <li>a <em>shrink</em>, splitting the box into a inner box (the <em>inner</em> child) and a outer box (the <em>outer</em> child).</li>
 </ul>
-<figure>
-<img src="images/bbdtrees/split.png" width="100%">
-  <figcaption><b>Figure 3.</b> "Fair split" and "shrinking" division strategies example in \(\mathbb{R}^2\) with respective high/low and outer/inner children.</figcaption>
-</figure>
-<p>The initial node of the tree, the <em>root node</em>, will include all the dataset points,  <span class="math">\(\mathcal{D}\)</span>. In the Figure 4 we can see a representation of the root node for the dataset presented above. We can see the node boundaries in dashed red lines as well as the node's center, marked as <span class="math">\(\mu_{root}\)</span>.</p>
-<figure>
-<img src="images/bbdtrees/root_node.png" width="100%">
-  <figcaption><b>Figure 4.</b> Associated cell for the BBD-tree root node for the example dataset. Node boundaries in red and node centre labelled as \(\mu_{root}\).</figcaption>
-</figure>
-<p>The actual method to calculate the division can either be based on the <em>midpoint algorithm</em> or the <em>middle interval algorithm</em>. The method used for these examples is the latter, for which more details can be found in [<a href="#ref-4">Kosaraju1995</a><a name="ref-4-origin"></a>].  The next step is to divide the space according to the previously mentioned rules. As an example, we can see the root node's respective children in Figure 5.</p>
-<figure>
-<img src="images/bbdtrees/root_children.png" width="100%">
-<figcaption><b>Figure 5.</b> BBD-tree root node's lower (<i>left</i>) and upper (<i>right</i>) children. Node boundaries in red and centres labelled with a red cross.</figcaption>
-</figure>
-<p>This process is repeated until the child nodes are leaves and cannot be divided anymore. </p>
-<p>To better visualise the construction process it would be helpful to have a larger tree, so we will now consider still the 2-dimensional case, but now with a larger dataset (Figure 6), consisting of 2000 samples in total, each half from a bivariate Gaussian distribution:</p>
-<div class="math">$$\begin{aligned}
+<p><img src="./images/bbdtrees/split.png" alt="" /><br />
+<strong>Figure 3.</strong> &quot;Fair split&quot; and &quot;shrinking&quot; division strategies example in <span class="math inline">\(\mathbb{R}^2\)</span> with respective high/low and outer/inner children.</p>
+<p>The initial node of the tree, the <em>root node</em>, will include all the dataset points,  <span class="math inline">\(\mathcal{D}\)</span>. In the Figure 4 we can see a representation of the root node for the dataset presented above. We can see the node boundaries in dashed red lines as well as the node's center, marked as <span class="math inline">\(\mu_{root}\)</span>.</p>
+<p><img src="./images/bbdtrees/root_node.png" alt="" /><br />
+<strong>Figure 4.</strong> Associated cell for the BBD-tree root node for the example dataset. Node boundaries in red and node centre labelled as <span class="math inline">\(\mu_{root}\)</span>.</p>
+<p>The actual method to calculate the division can either be based on the <em>midpoint algorithm</em> or the <em>middle interval algorithm</em>. The method used for these examples is the latter, for which more details can be found in <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.  The next step is to divide the space according to the previously mentioned rules. As an example, we can see the root node's respective children in Figure 5.</p>
+<p><img src="./images/bbdtrees/root_children.png" alt="" /><br />
+<strong>Figure 5.</strong> BBD-tree root node's lower (<em>left</em>) and upper (<em>right</em>) children. Node boundaries in red and centres labelled with a red cross.</p>
+<p>This process is repeated until the child nodes are leaves and cannot be divided anymore.<br />
+To better visualise the construction process it would be helpful to have a larger tree, so we will now consider still the 2-dimensional case, but now with a larger dataset (Figure 6), consisting of 2000 samples in total, each half from a bivariate Gaussian distribution:</p>
+<p><span class="math display">\[\begin{aligned}
 \text{X}_1 &amp;\sim \mathcal{N}([0,0], \mathbf{I}) \\
 \text{X}_2 &amp;\sim \mathcal{N}([3, 3], \mathbf{I}). \\
-\end{aligned}$$</div>
-<figure>
-<img src="images/bbdtrees/gaussian_data.png" width="100%">
-<figcaption><b>Figure 6.</b> Larger example dataset in \(\mathbb{R}^2\) consisting of a realisation of \(n=2000\) from two bivariate Gaussian distributions centred in \(\mu_1=(0,0)\) and \(\mu_2=(3,3)\) and with \(\Sigma=\mathbf{I}\).</figcaption>
-</figure>
-<p>With this larger dataset, we have enough points to illustrate the tree node building. This time, we will start from the root node and always follow either the "lower" nodes or the "upper" nodes (as show in Figure 7). We can clearly see the cells getting smaller, until finally we have a single point included (<em>i.e.</em> a <em>leaf</em> node).</p>
-<figure>
-<img src="images/bbdtrees/gaussian_boxes.gif" width="100%">
-  <figcaption><b>Figure 7.</b> BBD-tree node building process for the bivariate dataset. On the left we traverse the upper tree nodes and on the right the lower tree nodes.</figcaption>
-</figure>
-<p>This division process illustrates an important property of BBD-trees. Although other space decomposition algorithms (such as <em>kd</em>-trees) display a geometric reduction of number of points enclosed in each <em>cell</em>, methods such as the BBD-tree, which impose constraints on the cell's size aspect ratio as stated before, display not only a geometric reduction in the number of points, but also in the cell's size as well. The construction cost of a BBD-tree is <span class="math">\(\mathcal{O}(dn \log n)\)</span> and the tree itself will have <span class="math">\(\mathcal{O}(n)\)</span> nodes and <span class="math">\(\mathcal{O}(\log n)\)</span> height.</p>
-<h2>Tree querying</h2>
-<p>Now that we have successfully constructed a BBD-tree, we want to actually find the (approximate) nearest neighbour of an arbitrary query point <span class="math">\(q\)</span> (Figure 8).</p>
-<figure>
-<img src="images/bbdtrees/gaussian_query_point.png" width="100%">
-  <figcaption><b>Figure 8.</b> Query point \(q\) (red) for the bivariate dataset.</figcaption>
-</figure>
-<p>The first step consists in descending the tree in order to locate the smallest cell containing the query point <span class="math">\(q\)</span>. This process is illustrated for the bivariate data in Figure 9.</p>
-<figure>
-<img src="images/bbdtrees/gaussian_query.gif" width="100%">
-  <figcaption><b>Figure 9.</b> BBD-tree descent to locate the smallest cell containing \(q\) (red).</figcaption>
-</figure>
-<p>Once the cell has been located, we proceed to enumerate all the <em>leaf</em> nodes contained by it and calculate our distance metric (<span class="math">\(L_2\)</span> in this case) between the query point <span class="math">\(q\)</span> and the leaf nodes, eventually declaring the point with the smallest <span class="math">\(L_2\)</span> as the aproximate NN. BBD-trees provide strong guarantees that the ANN will be located within this cell and not in a neighbouring cell. In Figure 10 we zoomed in the smallest cell containing <span class="math">\(q\)</span> and show the associated calculated <span class="math">\(L_2\)</span> distance for each node.</p>
-<figure>
-<img src="images/bbdtrees/gaussian_dist.gif" width="100%">
-  <figcaption><b>Figure 10.</b> \(L_2\) distance between leaf nodes and the query point \(q\) inside the smallest cell containing \(q\).</figcaption>
-</figure>
-<p>An important property of BBD-trees is that the tree structure does not need to be recalculated if we change either <span class="math">\(\epsilon\)</span> or if we decide to use another <span class="math">\(L_m\)</span> distance metric [<a href="#ref-1">Arya1998</a><a name="ref-1-origin"></a>]. The query time for a point <span class="math">\(q\)</span> in a BBD-tree is <span class="math">\(\mathcal{O}(\log n)\)</span>. For comparison, if you recall, the query time for a <em>brute force</em> method is typically <span class="math">\(\mathcal{O}(dn)\)</span>.</p>
-<h2>Filtering and <em>k</em>-NN</h2>
-<p>Great. Now that you solved the USS Euler's problem, you want to make a suggestion to the federation. Where to place several star-bases and how to divide the system's coverage between them. An immediate generalisation of this method is easily applicable to the problem of <em>clustering</em>. Note that, at the moment, we are not concerned with determining the "best" clusters for our data<sup>2</sup>. Given a set of points <span class="math">\(Z = \{z_1, z_2, \dots, z_n\}\)</span>, we are concerned now in partitioning the data in clusters centred in each of the <span class="math">\(Z\)</span> points. A way of looking at this, is that we are building, for each point <span class="math">\(z_n\)</span> a Voronoi cell <span class="math">\(V(z_n)\)</span>. This is achieved by a method called <em>filtering</em>. Filtering, in general terms, works by walking the tree with the list of <em>candidate centres</em> (<span class="math">\(Z\)</span>) and pruning points from the candidate list as we move down. We will denote an arbitrary node as <span class="math">\(n\)</span>, <span class="math">\(z^{\star}_w\)</span> and <span class="math">\(n_w\)</span> respectively as the candidate and the node weight, <span class="math">\(z^{\star}_n\)</span> and <span class="math">\(n_n\)</span> as the candidate and node count. The algorithm steps, as detailed in [<a href="#ref-3">Kanungo2002</a><a name="ref-3-origin"></a>], are detailed below:</p>
-<p>Filter(<span class="math">\(n\)</span>, <span class="math">\(Z\)</span>) {<br>
- <span class="math">\(\qquad C \leftarrow n.cell\)</span><br>
- <span class="math">\(\qquad\)</span><strong>if</strong> (<span class="math">\(n\)</span> is a leaf) {<br>
-<span class="math">\(\qquad\qquad z^{\star} \leftarrow\)</span> the closest point in <span class="math">\(Z\)</span> to <span class="math">\(n.point\)</span><br>
- <span class="math">\(\qquad\qquad z^{\star}_w \leftarrow z^{\star}_w + n.point\)</span><br>
-<span class="math">\(\qquad\qquad z^{\star}_n \leftarrow z^{\star}_n + 1\)</span><br><span class="math">\(\qquad\)</span>} <strong>else</strong> {<br>
- <span class="math">\(\qquad\qquad z^{\star} \leftarrow\)</span> the closest point in <span class="math">\(Z\)</span> to <span class="math">\(C\)</span>'s midpoint<br></p>
-<p><span class="math">\(\qquad\qquad\)</span><strong>for each</strong> (<span class="math">\(z \in Z \setminus \{z^{\star}\}\)</span>) {<br><span class="math">\(\qquad\qquad\qquad\)</span><strong>if</strong> (<span class="math">\(z.isFarther(z^{\star},C)\)</span>) {<br><span class="math">\(\qquad\qquad\qquad\qquad Z \leftarrow Z \setminus \{z\}\)</span><br><span class="math">\(\qquad\qquad\qquad\)</span>}<br>
-<span class="math">\(\qquad\qquad\)</span>}<br>
-<span class="math">\(\qquad\qquad\)</span><strong>if</strong> (<span class="math">\(|Z|=1\)</span>) {<br>
-<span class="math">\(\qquad\qquad\qquad z^{\star}_w \leftarrow z^{\star}_w + n_w\)</span><br>
-<span class="math">\(\qquad\qquad\qquad z^{\star}_n \leftarrow z^{\star}_n + n_n\)</span><br>
-<span class="math">\(\qquad\qquad\)</span>} <strong>else</strong> {<br><span class="math">\(\qquad\qquad\qquad\)</span>Filter(<span class="math">\(n_{left}, Z\)</span>)<br>
-<span class="math">\(\qquad\qquad\qquad\)</span>Filter(<span class="math">\(n_{right}, Z\)</span>)<br><span class="math">\(\qquad\qquad\)</span>}<br>
-}<br></p>
-<p>To illustrate the assignment of data points to the centres, we will consider the previous bivariate Gaussian data along with two centres, <span class="math">\(z_1 = \{0,0\}\)</span> and <span class="math">\(z_2 = \{3, 3\}\)</span>. Figure 11 shows the process of splitting the dataset <span class="math">\(\mathcal{D}\)</span> into two clusters, namely the subsets of data points closer to <span class="math">\(z_1\)</span> or <span class="math">\(z_2\)</span>.</p>
-<figure>
-  <img src="images/bbdtrees/gaussian_filtering.gif" width="100%">
-  <figcaption><b>Figure 11.</b> Assignment of points in \(\mathcal{D}\) to \(Z\). Data points coloured according to the assigned center. Lines represent the distance from the cells midpoint to \(Z\).</figcaption>
-</figure>
-<p>We can see in Figure 12 the final cluster assignment of the data points. With a <span class="math">\(\mathbb{R}^2\)</span> dataset and only two centres the organisation of points follows a simple perpendicular bisection of the segment connecting the centres, as expected.</p>
-<figure>
-    <img src="images/bbdtrees/gaussian_filtering_clusters.png" width="100%">
-  <figcaption><b>Figure 12.</b> Final \(\mathcal{D}\) point assignment to clusters centred in \(z_1\) and \(z_2\).</figcaption>
-</figure>
-<p>In Figure 13 we can see more clearly the dataset clusters changing when center <span class="math">\(z_1\)</span> is moving around the plane. BBD-trees can play an important role in improving <em>k</em>-means performance, as described in [<a href="#ref-3">Kanungo2002</a><a name="ref-3-origin"></a>].</p>
-<figure>
-  <img src="images/bbdtrees/gaussian_clustering_dynamic.gif" width="100%">
-  <figcaption><b>Figure 13.</b> Dynamic assignment of points to a cluster using a BBD-tree.</figcaption>
-</figure>
+\end{aligned}
+\]</span></p>
+<p><img src="./images/bbdtrees/gaussian_data.png" alt="" /><br />
+<strong>Figure 6.</strong> Larger example dataset in <span class="math inline">\(\mathbb{R}^2\)</span> consisting of a realisation of <span class="math inline">\(n=2000\)</span> from two bivariate Gaussian distributions centred in <span class="math inline">\(\mu_1=(0,0)\)</span> and <span class="math inline">\(\mu_2=(3,3)\)</span> and with <span class="math inline">\(\Sigma=\mathbf{I}\)</span>.</p>
+<p>With this larger dataset, we have enough points to illustrate the tree node building. This time, we will start from the root node and always follow either the &quot;lower&quot; nodes or the &quot;upper&quot; nodes (as show in Figure 7). We can clearly see the cells getting smaller, until finally we have a single point included (<em>i.e.</em> a <em>leaf</em> node).</p>
+<p><img src="./images/bbdtrees/gaussian_boxes.gif" alt="" /><br />
+<strong>Figure 7.</strong> BBD-tree node building process for the bivariate dataset. On the left we traverse the upper tree nodes and on the right the lower tree nodes.</p>
+<p>This division process illustrates an important property of BBD-trees. Although other space decomposition algorithms (such as <em>kd</em>-trees) display a geometric reduction of number of points enclosed in each <em>cell</em>, methods such as the BBD-tree, which impose constraints on the cell's size aspect ratio as stated before, display not only a geometric reduction in the number of points, but also in the cell's size as well. The construction cost of a BBD-tree is <span class="math inline">\(\mathcal{O}(dn \log n)\)</span> and the tree itself will have <span class="math inline">\(\mathcal{O}(n)\)</span> nodes and <span class="math inline">\(\mathcal{O}(\log n)\)</span> height.</p>
+<h2 id="tree-querying">Tree querying</h2>
+<p>Now that we have successfully constructed a BBD-tree, we want to actually find the (approximate) nearest neighbour of an arbitrary query point <span class="math inline">\(q\)</span> (Figure 8).</p>
+<p><img src="./images/bbdtrees/gaussian_query_point.png" alt="" /><br />
+<strong>Figure 8.</strong> Query point <span class="math inline">\(q\)</span> (red) for the bivariate dataset.</p>
+<p>The first step consists in descending the tree in order to locate the smallest cell containing the query point <span class="math inline">\(q\)</span>. This process is illustrated for the bivariate data in Figure 9.</p>
+<p><img src="./images/bbdtrees/gaussian_query.gif" alt="" /><br />
+<strong>Figure 9.</strong> BBD-tree descent to locate the smallest cell containing <span class="math inline">\(q\)</span> (red).</p>
+<p>Once the cell has been located, we proceed to enumerate all the <em>leaf</em> nodes contained by it and calculate our distance metric <span class="math inline">\(L_2\)</span> in this case) between the query point <span class="math inline">\(q\)</span> and the leaf nodes, eventually declaring the point with the smallest <span class="math inline">\(L_2\)</span> as the aproximate NN. BBD-trees provide strong guarantees that the ANN will be located within this cell and not in a neighbouring cell. In Figure 10 we zoomed in the smallest cell containing <span class="math inline">\(q\)</span> and show the associated calculated <span class="math inline">\(L_2\)</span> distance for each node.</p>
+<p><img src="./images/bbdtrees/gaussian_dist.gif" alt="" /><br />
+<strong>Figure 10.</strong> <span class="math inline">\(L_2\)</span> distance between leaf nodes and the query point <span class="math inline">\(q\)</span> inside the smallest cell containing <span class="math inline">\(q\)</span>.</p>
+<p>An important property of BBD-trees is that the tree structure does not need to be recalculated if we change either <span class="math inline">\(\epsilon\)</span> or if we decide to use another <span class="math inline">\(L_m\)</span> distance metric <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. The query time for a point <span class="math inline">\(q\)</span> in a BBD-tree is <span class="math inline">\(\mathcal{O}(\log n)\)</span>. For comparison, if you recall, the query time for a <em>brute force</em> method is typically <span class="math inline">\(\mathcal{O}(dn)\)</span>.</p>
+<h2 id="filtering-and-k-nn">Filtering and <em>k</em>-NN</h2>
+<p>Great. Now that you solved the USS Euler's problem, you want to make a suggestion to the federation. Where to place several star-bases and how to divide the system's coverage between them. An immediate generalisation of this method is easily applicable to the problem of clustering. Note that, at the moment, we are not concerned with determining the &quot;best&quot; clusters for our data<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>. Given a set of points <span class="math inline">\(Z = \{z_1, z_2, \dots, z_n\}\)</span>, we are concerned now in partitioning the data in clusters centred in each of the <span class="math inline">\(Z\)</span> points. A way of looking at this, is that we are building, for each point <span class="math inline">\(z_n\)</span> a Voronoi cell <span class="math inline">\(V(z_n)\)</span>. This is achieved by a method called <em>filtering</em>. Filtering, in general terms, works by walking the tree with the list of <em>candidate centres</em> (<span class="math inline">\(Z\)</span>) and pruning points from the candidate list as we move down. We will denote an arbitrary node as <span class="math inline">\(n\)</span>, <span class="math inline">\(z^{\star}_w\)</span> and <span class="math inline">\(n_w\)</span> respectively as the candidate and the node weight, <span class="math inline">\(z^{\star}_n\)</span> and <span class="math inline">\(n_n\)</span> as the candidate and node count. The algorithm steps, as detailed in <sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>, are detailed below:</p>
+<p>Filter(<span class="math inline">\(n\)</span>, <span class="math inline">\(Z\)</span>) {<br />
+<span class="math inline">\(\qquad C \leftarrow n.cell\)</span><br />
+<span class="math inline">\(\qquad\)</span> <strong>if</strong> (<span class="math inline">\(n\)</span> is a leaf) {<br />
+<span class="math inline">\(\qquad\qquad z^{\star} \leftarrow\)</span> the closest point in <span class="math inline">\(Z\)</span> to <span class="math inline">\(n.point\)</span><br />
+<span class="math inline">\(\qquad\qquad z^{\star}_w \leftarrow z^{\star}_w + n.point\)</span><br />
+<span class="math inline">\(\qquad\qquad z^{\star}_n \leftarrow z^{\star}_n + 1\qquad\)</span><br />
+} <strong>else</strong> {<br />
+<span class="math inline">\(\qquad\qquad z^{\star} \leftarrow\)</span> the closest point in <span class="math inline">\(Z\)</span> to <span class="math inline">\(C\)</span>'s midpoint<br />
+<span class="math inline">\(\qquad\qquad\)</span><strong>for each</strong> (<span class="math inline">\(z \in Z \setminus \{z^{\star}\}\)</span>) {<br />
+<span class="math inline">\(\qquad\qquad\qquad\)</span> <strong>if</strong> (<span class="math inline">\(z.isFarther(z^{\star},C)\)</span>) {<br />
+<span class="math inline">\(\qquad\qquad\qquad\qquad Z \leftarrow Z \setminus \{z\}\)</span><br />
+<span class="math inline">\(\qquad\qquad\)</span>}<br />
+<span class="math inline">\(\qquad\qquad\)</span><strong>if</strong> (<span class="math inline">\(|Z|=1\)</span>) {<br />
+<span class="math inline">\(\qquad\qquad\qquad z^{\star}_w \leftarrow z^{\star}_w + n_w\)</span><br />
+<span class="math inline">\(\qquad\qquad\qquad z^{\star}_n \leftarrow z^{\star}_n + n_n\)</span><br />
+<span class="math inline">\(\qquad\qquad\)</span>} <strong>else</strong> {<br />
+<span class="math inline">\(\qquad\qquad\qquad\)</span>Filter(<span class="math inline">\(n_{left}, Z\)</span>)<br />
+<span class="math inline">\(\qquad\qquad\qquad\)</span>Filter(<span class="math inline">\(n_{right}, Z\)</span>)<br />
+<span class="math inline">\(\qquad\qquad\)</span>}<br />
+}</p>
+<p>To illustrate the assignment of data points to the centres, we will consider the previous bivariate Gaussian data along with two centres, <span class="math inline">\(z_1 = \{0,0\}\)</span> and <span class="math inline">\(z_2 = \{3, 3\}\)</span>. Figure 11 shows the process of splitting the dataset <span class="math inline">\(\mathcal{D}\)</span> into two clusters, namely the subsets of data points closer to <span class="math inline">\(z_1\)</span> or <span class="math inline">\(z_2\)</span>.</p>
+<p><img src="./images/bbdtrees/gaussian_filtering.gif" alt="" /><br />
+<strong>Figure 11.</strong> Assignment of points in <span class="math inline">\(\mathcal{D}\)</span> to <span class="math inline">\(Z\)</span>. Data points coloured according to the assigned center. Lines represent the distance from the cells midpoint to <span class="math inline">\(Z\)</span>.</p>
+<p>We can see in Figure 12 the final cluster assignment of the data points. With a <span class="math inline">\(\mathbb{R}^2\)</span> dataset and only two centres the organisation of points follows a simple perpendicular bisection of the segment connecting the centres, as expected.</p>
+<p><img src="./images/bbdtrees/gaussian_filtering_clusters.png" alt="" /><br />
+<strong>Figure 12.</strong> Final <span class="math inline">\(\mathcal{D}\)</span> point assignment to clusters centred in <span class="math inline">\(z_1\)</span> and <span class="math inline">\(z_2\)</span>.</p>
+<p>In Figure 13 we can see more clearly the dataset clusters changing when center <span class="math inline">\(z_1\)</span> is moving around the plane. BBD-trees can play an important role in improving <span class="math inline">\(k\)</span>-means performance, as described in <sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>.</p>
+<p><img src="./images/bbdtrees/gaussian_clustering_dynamic.gif" alt="" /><br />
+<strong>Figure 13.</strong> Dynamic assignment of points to a cluster using a BBD-tree.</p>
 <p>This concludes a (short) introduction to BBD-trees, I hope you enjoyed it. If you have any comments or suggestions, please let me know at <a href="https://mastodon.technology/@ruivieira">Mastodon</a>.</p>
-<hr>
-<h3>Footnotes</h3>
-<p><sup>1</sup> The <span class="math">\(L_m\)</span> distance may be pre-computed in this method to avoid recalculation for each query.</p>
-<p><sup>2</sup> This would be a <em>k</em>-means problem. I intend to write a blog post on <em>k</em>-means clustering (and the role BBD-trees can play) in the future.</p>
-<h3>References</h3>
-<p><a name="ref-1">[Arya1998]</a> Arya, S., Mount, D. M., Netanyahu, N. S., Silverman, R., &amp; Wu, A. Y. (1998). An optimal algorithm for approximate nearest neighbor searching fixed dimensions. <em>Journal of the ACM</em>. https://doi.org/10.1145/293347.293348 <a href="#ref-1-origin">🔝</a></p>
-<p><a name="ref-2">[Friedman1977]</a> Friedman, J. H., &amp; Bentley, J. L. (1977). RA Finkel. An algorithm for finding best matches in logarithmic expected time. <em>ACM Transactions on Mathematical Software</em>, <em>3</em>(3), 209-226. <a href="#ref-2-origin">🔝</a></p>
-<p><a name="ref-3">[Kanungo2002]</a> Kanungo, T., Mount, D. M., Netanyahu, N. S., Piatko, C. D., Silverman, R., &amp; Wu, A. Y. (2002). An efficient k-means clustering algorithms: Analysis and implementation. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, <em>24</em>(7), 881–892. https://doi.org/10.1109/TPAMI.2002.1017616 <a href="#ref-3-origin">🔝</a></p>
-<p><a name="ref-4">[Kosaraju1995]</a> Callahan, P. B., &amp; Kosaraju, S. R. (1995). A decomposition of 
-multidimensional point sets with applications to k-nearest-neighbors and
-n-body potential fields. <em>Journal of the ACM</em>, <em>42</em>(1), 67-90. <a href="#ref-4-origin">🔝</a></p>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>Arya, S., Mount, D. M., Netanyahu, N. S., Silverman, R., &amp; Wu, A. Y. (1998). An optimal algorithm for approximate nearest neighbor searching fixed dimensions. <em>Journal of the ACM</em>. https://doi.org/10.1145/293347.293348 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>The <span class="math inline">\(L_m\)</span> distance may be pre-computed in this method to avoid recalculation for each query. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>Friedman, J. H., &amp; Bentley, J. L. (1977). RA Finkel. An algorithm for finding best matches in logarithmic expected time. <em>ACM Transactions on Mathematical Software</em>, 3(3), 209-226. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p>Callahan, P. B., &amp; Kosaraju, S. R. (1995). A decomposition of multidimensional point sets with applications to k-nearest-neighbors and n-body potential fields. <em>Journal of the ACM</em>, <em>42</em>(1), 67-90. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p>This would be a <em>k</em>-means problem. I intend to write a blog post on <em>k</em>-means clustering (and the role BBD-trees can play) in the future. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6" role="doc-endnote">
+<p>Kanungo, T., Mount, D. M., Netanyahu, N. S., Piatko, C. D., Silverman, R., &amp; Wu, A. Y. (2002). An efficient k-means clustering algorithms: Analysis and implementation. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, <em>24</em>(7), 881–892. https://doi.org/10.1109/TPAMI.2002.1017616 <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
-      </div>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
-
-
-
-  </div>
+</div>
 
 </body>
 </html>

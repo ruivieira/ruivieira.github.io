@@ -1,232 +1,201 @@
-<!DOCTYPE HTML>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="MCMC notifications"/>
-<meta name="twitter:description" content="It is said that patience is a virtue but the truth is that no one likes waiting (especially waiting around: this interesting article explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same amount of time entirely in the claim area).
-Anyone performing computationally heavy work, such as Monte Carlo methods, will know that these are usually computationally expensive algorithms which, even in modern hardware, can result in waiting times in the magnitude of hours, days and even weeks."/>
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
 
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+                onload="renderMathInElement(document.body);"></script>
+        <style>
+                @font-face {
+                        font-family: JuliaMono-Regular;
+                        src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+                }
+                body {
+                        font-size: 1.2rem;
+                        color: #1b2d45;
+                }
+                #content {
+                        max-width: 38rem;
+                        padding: 2rem;
+                        margin: auto;
+                }
+                #sidebar {
+                   position: absolute;
+                        top: 0;
+                        left: 0;
+                        max-width: 13rem;
+                        margin-left: 3rem;
+                        margin-top: 3rem;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                        color: #00214d;
+                }
+                pre {
+                        background-color: #eee !important;
+                        overflow-x: scroll;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                        padding: 1rem;
+                }
+                code {
+                        background-color: #eee !important;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                }
+                img {
+                        max-width: 38rem;
+                }
+                .katex { font-size: 1em !important;}
+                .footer {
+                        margin-top: 3rem;
+                        font-size: 0.75rem;
+                        color: #ccc;
+                }
+                .cc-symbol {
+                        font-size: 1rem;
+                }
+                a, a:visited {
+                         
+                         
+                        color: #ff5470;
+                        padding: 1px;
+                        border-radius: 2px;
+                }
+                a.footnote-ref {
+                    font-size: 0.9rem;
+                }
+                a.footnote-ref::before {
+                    content: "[";
+                }
+                a.footnote-ref::after {
+                    content: "]";
+                }
 
-    <meta name="author" content="Rui Vieira" />
-    <meta name="copyright" content="Rui Vieira" />
-    <meta name="generator" content="Rui Vieira"> 
-    
-    
-<link rel="stylesheet" href="/css/style.css" />
+                a:hover {
+                        background-color: #ff5470;
+                        color: #fff;
+                }
+                a[href^="https://"],
+                a[href^="http://"] {
+                        text-decoration: underline;
+                }
 
+                a[href^="https://"]:after,
+                a[href^="http://"]:after {
+                        content: "\2609";
+                        text-decoration: none !important;
+                }
+        </style>
+        <title>ruivieira.dev - MCMC notifications</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-10507665-2', 'auto');
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true
+            ga('send', 'pageview');
         }
-      });
     </script>
-    
-    <script type="text/javascript"
-        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-
-    
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-10507665-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
-
-    </head>
+</head>
 <body>
 
-
-  <div id="navigation">
-    <span class="nav-item"><a href="/">Posts</a></span> ●
-    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
-    <span class="nav-item"><a href="/pages/about.html">About</a></span>
-  </div>
-
-
-  <div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-  <h2>Codex</h2>
-  <ul>
-    <li><a href="/codex/machine-learning">Machine learning</a></li>
-    <li><a href="/codex/python-experiments">Python experiments</a></li>
-  </ul>
-  <h2>Playground</h2>
-  <ul>
-    <li><a href="/playground/machine-learning">Machine learning</a></li>
-  </ul>
-</div>
-
-<script>
-  (function () {
-    var elements = document
-      .querySelector(".column")
-      .querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById("sidebar");
-      div.innerHTML += "<h2>This page</h2>\n";
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute("name", i);
-          anchor.classList.add("anchor");
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-      }
-      div.innerHTML += "</ul>\n";
-    }
-  })();
-</script>
-
-
-  <div id="content" class="container">
-  <div class="columns">
-
-    <div class="column">
-      
-        <div>
-          <h1>MCMC notifications</h1>
-          <small class="date"><time pubdate="pubdate" datetime="2015-09-06 11:56:00 &#43;0100 BST">September 6, 2015</time></small>                
-        </div>
+<div id="sidebar">
         
-      <div>
-        <p>It is said that patience is a virtue but the truth is that no one likes waiting
-(especially <em>waiting around</em>:
-<a href="http://www.nytimes.com/2012/08/19/opinion/sunday/why-waiting-in-line-is-torture.html?_r=0">this interesting article</a>
-explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same
-amount of time entirely in the claim area).</p>
-<p>Anyone performing computationally heavy work, such as Monte Carlo methods, will
-know that these are usually computationally expensive algorithms which, even
-in modern hardware, can result in waiting times in the magnitude of hours,
-days and even weeks.
-These long running times coupled with the fact that in certain cases it is not
-easy to accurately predict how long a certain number of iterations will take,
-usually leads to a tiresome behaviour of constantly checking for good (or bad) news.
-Although it is perfectly possible to specify that your simulation should stop
-after a certain amount of time (especially valid for very long simulations),
-this doesn’t seem to be the standard practice.</p>
-<p>In this post I’ll detail my current setup for being notified <em>exactly</em> of when
-simulations are finished. To implement this setup, the following stack is required:</p>
-<ul>
-    <li>A <a href="http://openjdk.java.net">JDK</a></li>
-    <li><a href="http://maven.apache.org">Apache Maven</a></li>
-    <li>A messaging service (<a href="https://www.pushbullet.com">Pushbullet</a></li>
-    <li>A smartphone, tablet, smartwatch (or any other internet enabled device)</li>
-</ul>
-<p>To start, we can create an account in Pushbullet, which will involve, in the
-simplest case, signing up using some authentication service such as Google.</p>
-<p>Next, we will install the client application (available for
-<a href="https://play.google.com/store/apps/details?id=com.pushbullet.android&amp;hl=en_GB">Android</a>,
-<a href="https://itunes.apple.com/gb/app/pushbullet/id810352052">iOS</a>
-and <a href="https://www.pushbullet.com/apps">most modern browsers</a>)
-after which we can enable notifications (at least in the Android client,
-I’m not familiar with the iPhone version).</p>
-<p>Since my current work started as a plain Java project which in time evolved mainly
-to <a href="http://scala-lang.org">Scala</a>, it consists of an
-unholy mixture of Maven as a build tool for Scala code.
-This shouldn't be a problem for other setups, but I’ll just go through my specific setup
-(<em>i.e.</em> using Maven dependencies to a Scala project).</p>
-<p>To implement communication between the code and the messaging service,
-we can use a simple library such as <a href="https://github.com/silk8192/jpushbullet">jpushbullet</a>.
-The library works well enough, although at the time of writing it only supports
-Pushbullet’s v1 API but not the <a href="https://docs.pushbullet.com/#api">newer v2 API</a>.
-Since the project, unfortunately, is not in Maven central, you should build it from scratch.
-Fortunately, in a sensibly configured machine, this is trivial.</p>
-<p>In the machine where you plan to perform the simulations, clone and build <code>jpushbullet</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git clone git@github.com:silk8192/jpushbullet.git
-mvn clean install</code></pre></div>
-<p>Once the build is complete, you can add it as a local dependency in your project’s <code>pom.xml</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependencies&gt;</span>
-    <span class="nt">&lt;dependency&gt;</span>
-        <span class="nt">&lt;groupId&gt;</span>com.shakethat.jpushbullet<span class="nt">&lt;/groupId&gt;</span>
-        <span class="nt">&lt;artifactId&gt;</span>jpushbullet<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;/dependency&gt;</span>
-<span class="nt">&lt;/dependencies&gt;</span></code></pre></div>
-<p>For the purpose of this example, lets assume that you have the following <code>Object</code> as the entry point
-of your simulation. The next step is to add a call to the Pushbullet service
-before the exit point. Please keep in mind that it is <em>very bad</em> practice to
-include your personal API key in your committed code. I <em>strongly</em> suggest you
-keep this information in a separate file (<em>e.g.</em> in <code>resources</code>), read it at
-runtime and add it to <code>.gitignore</code>.
-That being said, place the messaging code as such:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">benchmarks</span>
+        
+                <h2>Backlinks</h2>
 
-<span class="kn">import</span> <span class="nn">com.shakethat.jpushbullet.PushbulletClient</span>
+                <ul>
+                        
+                                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+                        
 
-<span class="n">object</span> <span class="n">MCMC</span> <span class="o">{</span>
-
-<span class="n">def</span> <span class="nf">main</span><span class="o">(</span><span class="n">args</span><span class="o">:</span><span class="n">Array</span><span class="o">[</span><span class="n">String</span><span class="o">]):</span><span class="n">Unit</span> <span class="o">=</span> <span class="o">{</span>
-
-  <span class="c1">// Your MCMC code
-</span><span class="c1"></span>
-  <span class="n">val</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PushbulletClient</span><span class="o">(</span><span class="n">api_key</span><span class="o">)</span>
-  <span class="n">val</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getDevices</span>
-  <span class="n">val</span> <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;MCMC simulation finished&#34;</span>
-  <span class="n">val</span> <span class="n">body</span> <span class="o">=</span> <span class="s">&#34;Some summary can be included&#34;</span>
-  <span class="c1">// n is the preferred device number
-</span><span class="c1"></span>  <span class="n">client</span><span class="o">.</span><span class="na">sendNote</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="n">devices</span><span class="o">.</span><span class="na">getDevices</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">n</span><span class="o">).</span><span class="na">getIden</span><span class="o">(),</span> <span class="n">title</span><span class="o">,</span> <span class="n">body</span><span class="o">)</span>
-<span class="o">}</span>
-
-<span class="o">}</span></code></pre></div>
-<p>Usually, I would call this code via <code>ssh</code> into my main machine from Maven
-(using  <a href="http://scala-tools.org/mvnsites/maven-scala-plugin/">Scala Maven</a>)
-as:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ nohup mvn scala:run -DmainClass<span class="o">=</span>benchmarks.MCMC <span class="p">&amp;</span></code></pre></div>
-<p>Finally, when the simulation is completed, you will be notified in the client
-devices (you can select which ones by issuing separate <code>sendNote</code> calls)
-and include a result summary, as an example.</p>
-<p style="text-align: center;"><img alt="Pushbullet &lt;&gt;" src="./images/pushbullet.png" width="50%"></p>
-<p>My current setup generates an R script from a template which is run
-by <code>Rscript</code> in order to produce a PDF report. However, be careful, since file
-quotas in Pushbullet are limited, so text notifications should be used
-without worry of going over the free usage tier.</p>
-<p>Keep in mind, that there are other alternatives to <code>jpushbullet</code>, such as
-<a href="https://github.com/jcgay/send-notification">send-notification</a>,
-a general notification library for Java for which the setup is quite similar.</p>
-<p>Hope this was helpful.</p>
-      </div>
+                </ul>
+        
+    <div class="footer">
+        modified 1608503524
     </div>
 
+</div>
 
+<div id="content">
+    <h1 id="mcmc-notifications">MCMC notifications</h1>
+<p>It is said that patience is a virtue but the truth is that no one likes waiting (especially <em>waiting around</em>: <a href="http://www.nytimes.com/2012/08/19/opinion/sunday/why-waiting-in-line-is-torture.html?_r=0">this interesting article</a> explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same amount of time entirely in the claim area).</p>
+<p>Anyone performing computationally heavy work, such as Monte Carlo methods, will know that these are usually computationally expensive algorithms which, even in modern hardware, can result in waiting times in the magnitude of hours, days and even weeks.</p>
+<p>These long running times coupled with the fact that in certain cases it is not easy to accurately predict how long a certain number of iterations will take, usually leads to a tiresome behaviour of constantly checking for good (or bad) news.</p>
+<p>Although it is perfectly possible to specify that your simulation should stop after a certain amount of time (especially valid for very long simulations), this doesn’t seem to be the standard practice.</p>
+<p>In this post I’ll detail my current setup for being notified <em>exactly</em> of when simulations are finished. To implement this setup, the following stack is required:</p>
+<ul>
+<li>A <a href="http://openjdk.java.net">JDK</a></li>
+<li><a href="http://maven.apache.org">Apache Maven</a></li>
+<li>A messaging service <a href="https://www.pushbullet.com">Pushbullet</a></li>
+<li>A smartphone, tablet, smartwatch (or any other internet enabled device)</li>
+</ul>
+<p>To start, we can create an account in Pushbullet, which will involve, in the simplest case, signing up using some authentication service such as Google.</p>
+<p>Next, we will install the client application (available for <a href="https://play.google.com/store/apps/details?id=com.pushbullet.android&amp;hl=en_GB">Android</a>, <a href="https://itunes.apple.com/gb/app/pushbullet/id810352052">iOS</a> and <a href="https://www.pushbullet.com/apps">most modern browsers</a> after which we can enable notifications (at least in the Android client, I’m not familiar with the iPhone version).</p>
+<p>Since my current work started as a plain Java project which in time evolved mainly to &lt;a href=&quot;http://scala-lang.org&quot;&gt;Scala&lt;/a&gt;, it consists of an unholy mixture of Maven as a build tool for Scala code.</p>
+<p>This shouldn't be a problem for other setups, but I’ll just go through my specific setup (<em>i.e.</em> using Maven dependencies to a Scala project).</p>
+<p>To implement communication between the code and the messaging service, we can use a simple library such as <a href="https://github.com/silk8192/jpushbullet">jpushbullet</a>.</p>
+<p>The library works well enough, although at the time of writing it only supports Pushbullet’s v1 API but not the <a href="https://docs.pushbullet.com/#api">newer v2 API</a>.</p>
+<p>Since the project, unfortunately, is not in Maven central, you should build it from scratch. Fortunately, in a sensibly configured machine, this is trivial.</p>
+<p>In the machine where you plan to perform the simulations, clone and build <code>jpushbullet</code>.</p>
+<pre style="background-color:#fff">git clone git@github.com:silk8192/jpushbullet.git
+mvn clean install
+</pre><p>Once the build is complete, you can add it as a local dependency in your project’s <code>pom.xml</code>:</p>
+<pre style="background-color:#fff"><span style="color:#000080">&lt;dependencies&gt;</span>
+	<span style="color:#000080">&lt;dependency&gt;</span>
+		<span style="color:#000080">&lt;groupId&gt;</span>com.shakethat.jpushbullet<span style="color:#000080">&lt;/groupId&gt;</span>
+		<span style="color:#000080">&lt;artifactId&gt;</span>jpushbullet<span style="color:#000080">&lt;/artifactId&gt;</span>
+	<span style="color:#000080">&lt;/dependency&gt;</span>
+<span style="color:#000080">&lt;/dependencies&gt;</span>
+</pre><p>For the purpose of this example, lets assume that you have the following <code>Object</code> as the entry point of your simulation. The next step is to add a call to the Pushbullet service before the exit point. Please keep in mind that it is <em>very bad</em> practice to include your personal API key in your committed code. I <em>strongly</em> suggest you keep this information in a separate file (<em>e.g.</em> in <code>resources</code>), read it at runtime and add it to <code>.gitignore</code>.</p>
+<p>That being said, place the messaging code as such:</p>
+<pre style="background-color:#fff">
+<span style="color:#000;font-weight:bold">package</span> <span style="color:#555">benchmarks</span>
 
-  </div>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">com.shakethat.jpushbullet.PushbulletClient</span>
+
+object MCMC <span style="color:#000;font-weight:bold">{</span>
+
+	def <span style="color:#900;font-weight:bold">main</span><span style="color:#000;font-weight:bold">(</span>args<span style="color:#000;font-weight:bold">:</span>Array<span style="color:#000;font-weight:bold">[</span>String<span style="color:#000;font-weight:bold">]):</span>Unit <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
+
+		<span style="color:#998;font-style:italic">// Your MCMC code
+</span><span style="color:#998;font-style:italic"></span>		val client <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PushbulletClient<span style="color:#000;font-weight:bold">(</span>api<span style="color:#a61717;background-color:#e3d2d2">\</span>_key<span style="color:#000;font-weight:bold">)</span>
+
+		val devices <span style="color:#000;font-weight:bold">=</span> client<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getDevices</span>
+
+		val title <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;MCMC simulation finished&#34;</span>
+
+		val body <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Some summary can be included&#34;</span>
+
+		<span style="color:#998;font-style:italic">// n is the preferred device number
+</span><span style="color:#998;font-style:italic"></span>
+		client<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">sendNote</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">true</span><span style="color:#000;font-weight:bold">,</span> 
+				devices
+					<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getDevices</span>
+					<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span>n<span style="color:#000;font-weight:bold">)</span>
+					<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getIden</span><span style="color:#000;font-weight:bold">(),</span> title<span style="color:#000;font-weight:bold">,</span> body<span style="color:#000;font-weight:bold">)</span>
+
+	<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000;font-weight:bold">}</span>
+</pre><p>Usually, I would call this code via <code>ssh</code> into my main machine from Maven (using <a href="http://scala-tools.org/mvnsites/maven-scala-plugin/">Scala Maven</a> as:</p>
+<pre style="background-color:#fff">$ nohup mvn scala:run -DmainClass<span style="color:#000;font-weight:bold">=</span>benchmarks.MCMC &amp;
+</pre><p>Finally, when the simulation is completed, you will be notified in the client devices (you can select which ones by issuing separate <code>sendNote</code> calls) and include a result summary, as an example.</p>
+<p><img src="./images/pushbullet.png" alt="" /></p>
+<p>My current setup generates an R script from a template which is run by <code>Rscript</code> in order to produce a PDF report. However, be careful, since file quotas in Pushbullet are limited, so text notifications should be used without worry of going over the free usage tier.&gt;</p>
+<p>Keep in mind, that there are other alternatives to <code>jpushbullet</code>, such as <a href="https://github.com/jcgay/send-notification">send-notification</a>, a general notification library for Java for which the setup is quite similar.</p>
+<p>Hope this was helpful.</p>
+
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
 
 </body>
 </html>

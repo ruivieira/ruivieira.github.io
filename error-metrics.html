@@ -89,7 +89,7 @@
                         text-decoration: none !important;
                 }
         </style>
-        <title>ruivieira.dev - index</title>
+        <title>ruivieira.dev - Error metrics</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -110,62 +110,53 @@
             <h2>Contents</h2>
             <ul>
             
-                <li><a href="#welcome">Welcome</a></li>
+                <li><a href="#root-mean-squared-error">Root Mean Squared error</a></li>
             
-                <li><a href="#recent-changes">Recent changes</a></li>
+                <li><a href="#manhattan-distance">Manhattan distance</a></li>
             
             </ul>
         
         
+                <h2>Backlinks</h2>
+
+                <ul>
+                        
+                                <li><a href="a-streaming-als-implementation.html">A streaming ALS implementation</a><sup>&#5833</sup></li>
+                        
+                                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+                        
+
+                </ul>
+        
     <div class="footer">
-        modified 1608503940
+        modified 1608378784
     </div>
 
 </div>
 
 <div id="content">
-    <h1 id="ruivieiradev">ruivieira.dev</h1>
-<pre style="background-color:#fff">-----BEGIN GEEK CODE BLOCK-----
-Version: 3.1
-GCS/M/MU d-- s:+&gt; !a C++$&gt;+++ ULC P+&gt;++ L+++&gt;++++ E-@ W++ 
-!N&gt;+ !o K--? !w O&gt;+ M+ !V PS++@ PE-@ !Y PGP@&gt;++ t+ !5 X++ 
-R@&gt;+ tv+&gt; b++&gt;+++ DI&gt;+ D++&gt;+++ G++&gt;+++ e++++ h---- r+++ z
-------END GEEK CODE BLOCK------
-</pre><h2 id="welcome">Welcome</h2>
-<p>Welcome to <a href="https://ruivieira.dev">ruivieira.dev</a>.</p>
-<p>Formerly, this site used to be a blog. Now it is adhering to the principles of a <a href="digital-garden.html">Digital Garden</a> and following the design principles of the <a href="brutalist-web-design.html">Brutalist Web Design</a>. Technical details about this site are available at <a href="site-details.html">Site details</a>.</p>
-<p>You can still find most of my old &quot;blog posts&quot; here:</p>
-<ul>
-<li><a href="serving-models-with-seldon.html">Serving models with Seldon</a></li>
-<li><a href="semi-handcrafted-rss.html">(Semi) handcrafted RSS</a></li>
-<li><a href="introduction-to-balanced-box-decomposition-trees.html">Introduction to Balanced Box-Decomposition Trees</a></li>
-<li><a href="monotonic-cubic-spline-interpolation-with-some-rust.html">Monotonic Cubic Spline interpolation (with some Rust)</a></li>
-<li><a href="python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a></li>
-<li><a href="introduction-to-isolation-forests.html">Introduction to Isolation Forests</a></li>
-<li><a href="mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
-<li><a href="containerised-streaming-data-generation-using-state-space-models.html">Containerised Streaming Data Generation using State-Space Models</a></li>
-<li><a href="a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
-<li><a href="a-streaming-als-implementation.html">A streaming ALS implementation</a></li>
-<li><a href="bayesian-estimation-of-changepoints.html">Bayesian estimation of changepoints</a></li>
-<li><a href="t-as-mixture-of-normals.html">t as mixture of Normals</a></li>
-<li><a href="langtons-ant.html">Langton's Ant</a></li>
-<li><a href="a-gibbs-sampler-in-crystal.html">A Gibbs Sampler in Crystal</a></li>
-<li><a href="mcmc-notifications.html">MCMC notifications</a></li>
-<li><a href="gulp.html">gulp</a></li>
-</ul>
-<p>Some topics on <a href="machine-learning.html">Machine Learning</a>:</p>
-<ul>
-<li>A section on <a href="explainability.html">Explainability</a>, with focus on
-<ul>
-<li><a href="counterfactuals.html">Counterfactuals</a></li>
-</ul>
-</li>
-</ul>
-<p>There are some areas about programming languages too:</p>
-<ul>
-<li><a href="go.html">Go</a></li>
-</ul>
-<h2 id="recent-changes">Recent changes</h2>
+    <h1 id="error-metrics">Error metrics</h1>
+<h2 id="root-mean-squared-error">Root Mean Squared error</h2>
+<p>A typical way of measuring the difference between observations and results from a predictor.</p>
+<p>The formal definition is:</p>
+<p><span class="math display">\[\begin{aligned}
+RMSE(\hat{\theta}) &= \sqrt{\operatorname{MSE}(\hat{\theta})} \\
+&= \sqrt{\operatorname{E}((\hat{\theta}-\theta)^2)}.
+\end{aligned}
+\]</span></p>
+<p>For <span class="math inline">\(N\)</span> observations <span class="math inline">\(Y=\{y_1,\dots,y_N\}\)</span> we can express it as:</p>
+<p><span class="math display">\[RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
+\]</span></p>
+<h2 id="manhattan-distance">Manhattan distance</h2>
+<p>Given two vectors <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, such that</p>
+<p><span class="math display">\[\begin{aligned}
+p &= \left(p_1, p_2, \dots,p_n\right) \\
+q &= \left(q_1, q_2, \dots,q_n\right)
+\end{aligned}
+\]</span></p>
+<p>we define the Manhattan distance as:</p>
+<p><span class="math display">\[d_1(p, q) = \|p - q\|_1 = \sum_{i=1}^n |p_i-q_i|
+\]</span></p>
 
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira

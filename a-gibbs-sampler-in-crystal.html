@@ -1,179 +1,179 @@
-<!DOCTYPE HTML>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="A Gibbs Sampler in Crystal"/>
-<meta name="twitter:description" content="Recently, I&rsquo;ve been following with interest the development of the Crystal language.
-Crystal is a statically type language with a syntax resembling Ruby&rsquo;s. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to native code along with a dead simple way of creating bindings to existing C code.
-These features make it quite attractive, in my opinion, for scientific computing."/>
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
 
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+                onload="renderMathInElement(document.body);"></script>
+        <style>
+                @font-face {
+                        font-family: JuliaMono-Regular;
+                        src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+                }
+                body {
+                        font-size: 1.2rem;
+                        color: #1b2d45;
+                }
+                #content {
+                        max-width: 38rem;
+                        padding: 2rem;
+                        margin: auto;
+                }
+                #sidebar {
+                   position: absolute;
+                        top: 0;
+                        left: 0;
+                        max-width: 13rem;
+                        margin-left: 3rem;
+                        margin-top: 3rem;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                        color: #00214d;
+                }
+                pre {
+                        background-color: #eee !important;
+                        overflow-x: scroll;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                        padding: 1rem;
+                }
+                code {
+                        background-color: #eee !important;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                }
+                img {
+                        max-width: 38rem;
+                }
+                .katex { font-size: 1em !important;}
+                .footer {
+                        margin-top: 3rem;
+                        font-size: 0.75rem;
+                        color: #ccc;
+                }
+                .cc-symbol {
+                        font-size: 1rem;
+                }
+                a, a:visited {
+                         
+                         
+                        color: #ff5470;
+                        padding: 1px;
+                        border-radius: 2px;
+                }
+                a.footnote-ref {
+                    font-size: 0.9rem;
+                }
+                a.footnote-ref::before {
+                    content: "[";
+                }
+                a.footnote-ref::after {
+                    content: "]";
+                }
 
-    <meta name="author" content="Rui Vieira" />
-    <meta name="copyright" content="Rui Vieira" />
-    <meta name="generator" content="Rui Vieira"> 
-    
-    
-<link rel="stylesheet" href="/css/style.css" />
+                a:hover {
+                        background-color: #ff5470;
+                        color: #fff;
+                }
+                a[href^="https://"],
+                a[href^="http://"] {
+                        text-decoration: underline;
+                }
 
+                a[href^="https://"]:after,
+                a[href^="http://"]:after {
+                        content: "\2609";
+                        text-decoration: none !important;
+                }
+        </style>
+        <title>ruivieira.dev - A Gibbs Sampler in Crystal</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-10507665-2', 'auto');
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true
+            ga('send', 'pageview');
         }
-      });
     </script>
-    
-    <script type="text/javascript"
-        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-
-    
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-10507665-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
-
-    </head>
+</head>
 <body>
 
+<div id="sidebar">
+        
+        
+                <h2>Backlinks</h2>
 
-  <div id="navigation">
-    <span class="nav-item"><a href="/">Posts</a></span> ●
-    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
-    <span class="nav-item"><a href="/pages/about.html">About</a></span>
-  </div>
+                <ul>
+                        
+                                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+                        
 
+                </ul>
+        
+    <div class="footer">
+        modified 1608502336
+    </div>
 
-  <div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-  <h2>Codex</h2>
-  <ul>
-    <li><a href="/codex/machine-learning">Machine learning</a></li>
-    <li><a href="/codex/python-experiments">Python experiments</a></li>
-  </ul>
-  <h2>Playground</h2>
-  <ul>
-    <li><a href="/playground/machine-learning">Machine learning</a></li>
-  </ul>
 </div>
 
-<script>
-  (function () {
-    var elements = document
-      .querySelector(".column")
-      .querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById("sidebar");
-      div.innerHTML += "<h2>This page</h2>\n";
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute("name", i);
-          anchor.classList.add("anchor");
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-      }
-      div.innerHTML += "</ul>\n";
-    }
-  })();
-</script>
-
-
-  <div id="content" class="container">
-  <div class="columns">
-
-    <div class="column">
-      
-        <div>
-          <h1>A Gibbs Sampler in Crystal</h1>
-          <small class="date"><time pubdate="pubdate" datetime="2016-04-11 22:04:00 &#43;0100 BST">April 11, 2016</time></small>                
-        </div>
-        
-      <div>
-        <p>Recently, I&rsquo;ve been following with interest the development of the <a href="http://crystal-lang.org/">Crystal</a> language.</p>
-<p>Crystal is a statically type language with a syntax resembling Ruby&rsquo;s.
-The main features which drawn me to it were its simple boilerplate-free syntax
-(which is ideal for quick prototyping), tied with the ability to compile directly
-to native code along with a dead simple way of creating bindings to existing C code.</p>
-<p>These features make it quite attractive, in my opinion, for scientific computing.</p>
-<p>To test it against more popular languages, I&rsquo;ve decided to run the Gibbs sampling examples created in
-<a href="https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/">Darren Wilkinson&rsquo;s blog</a>.</p>
-<p>I recommend reading this post, and in fact, if you are interested in Mathematics
-and scientific computing in general, I <em>strongly</em> recommend you follow the
-<a href="https://darrenjw.wordpress.com/">blog</a>.</p>
+<div id="content">
+    <h1 id="a-gibbs-sampler-in-crystal">A Gibbs Sampler in Crystal</h1>
+<p>Recently, I've been following with interest the development of the <a href="http://crystal-lang.org/">Crystal</a> language.</p>
+<p>Crystal is a statically type language with a syntax resembling Ruby's. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to native code along with a dead simple way of creating bindings to existing C code.</p>
+<p>These features make it quite attractive, in my opinion, for scientific computing. To test it against more popular languages, I've decided to run the Gibbs sampling examples created in <a href="https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/">Darren Wilkinson's blog</a>.</p>
+<p>I recommend reading this post, and in fact, if you are interested in Mathematics and scientific computing in general, I <em>strongly</em> recommend you follow the <a href="https://darrenjw.wordpress.com/">blog</a>.</p>
 <p>As explained in the linked post, I will make a Gibbs sampler for</p>
-<p>$$f\left(x,y\right)=kx^2\exp\left\lbrace-xy^2-y^2+2y-4x\right\rbrace$$</p>
+<p><span class="math display">\[f\left(x,y\right)=kx^2\exp\left\lbrace-xy^2-y^2+2y-4x\right\rbrace
+\]</span></p>
 <p>with</p>
-<p>\begin{align}
-x|y &amp;\sim Ga\left(3,y^2+4\right) \\<br>
-y|x &amp;\sim N\left(\frac{1}{1+x},\frac{1}{2\left(1+x\right)}\right)
-\end{align}</p>
-<p>The original examples were ran again, without any code alterations. I&rsquo;ve just added the Crystal version.
-This implementation uses a <a href="https://github.com/ruivieira/crystal-gsl">very simple wrapper</a>
-I wrote to the famous <a href="http://www.gnu.org/software/gsl/">GNU Scientific Language</a> (GSL).</p>
-<div class="highlight"><pre class="chroma"><code class="language-crystal" data-lang="crystal"><span class="k">require</span> <span class="s2">&#34;../libs/gsl/statistics.cr&#34;</span>
-<span class="k">require</span> <span class="s2">&#34;math&#34;</span>
+<p><span class="math display">\[\begin{aligned}
+x|y &\sim Ga\left(3,y^2+4\right) \\\\
 
-<span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="nb">Int</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span> <span class="p">:</span> <span class="nb">Int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="nb">puts</span> <span class="s2">&#34;Iter  x  y&#34;</span>
-    <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
-        <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">thin</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mf">4.0</span><span class="p">)</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">1.0</span><span class="p">),</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mf">2.0</span><span class="p">))</span>
-        <span class="k">end</span>
-        <span class="nb">puts</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">y</span><span class="si">}</span><span class="s2">&#34;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
+y|x &\sim N\left(\frac{1}{1+x},\frac{1}{2\left(1+x\right)}\right)
 
-<span class="n">gibbs</span></code></pre></div>
-<p>(As you can see, the Crystal code is quite similar to the Python one).</p>
-<p>To make sure it&rsquo;s a fair comparison, I ran it in compiled (and optimised) mode build using</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ crystal build gibbs.cr --release
-$ <span class="nb">time</span> ./gibbs &gt; gibbs_crystal.csv</code></pre></div>
-<p>Looking at the results, you can see that they are consistent with the other implementations:</p>
-<p><img loading="lazy" src="/images/gibbs.png" alt="Gibbs"    /></p>
+\end{aligned}
+\]</span></p>
+<p>The original examples were ran again, without any code alterations. I've just added the Crystal version.</p>
+<p>This implementation uses a <a href="https://github.com/ruivieira/crystal-gsl">very simple wrapper</a> I wrote to the famous <a href="http://www.gnu.org/software/gsl/">GNU Scientific Language</a> (GSL).</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">require</span> <span style="color:#d14">&#34;../libs/gsl/statistics.cr&#34;</span>
+
+<span style="color:#000;font-weight:bold">require</span> <span style="color:#d14">&#34;math&#34;</span>
+
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">gibbs</span>(n : <span style="color:#0086b3">Int</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">50000</span>, thin : <span style="color:#0086b3">Int</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1000</span>)
+
+	x <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.0</span>
+	y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.0</span>
+
+	<span style="color:#0086b3">puts</span> <span style="color:#d14">&#34;Iter x y&#34;</span>
+
+	(<span style="color:#099">0</span><span style="color:#000;font-weight:bold">..</span>n)<span style="color:#000;font-weight:bold">.</span>each <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">|</span>i<span style="color:#000;font-weight:bold">|</span>
+		(<span style="color:#099">0</span><span style="color:#000;font-weight:bold">..</span>thin)<span style="color:#000;font-weight:bold">.</span>each <span style="color:#000;font-weight:bold">do</span> <span style="color:#000;font-weight:bold">|</span>j<span style="color:#000;font-weight:bold">|</span>
+			x <span style="color:#000;font-weight:bold">=</span> Statistics<span style="color:#000;font-weight:bold">::</span>Gamma<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">3.0</span>, y\<span style="color:#000;font-weight:bold">*</span>y<span style="color:#000;font-weight:bold">+</span><span style="color:#099">4.0</span>)
+			y <span style="color:#000;font-weight:bold">=</span> Statistics<span style="color:#000;font-weight:bold">::</span>Normal<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">1.0</span><span style="color:#000;font-weight:bold">/</span>(x<span style="color:#000;font-weight:bold">+</span><span style="color:#099">1.0</span>), <span style="color:#099">1.0</span><span style="color:#000;font-weight:bold">/</span>Math<span style="color:#000;font-weight:bold">.</span>sqrt(<span style="color:#099">2.0</span>\<span style="color:#000;font-weight:bold">*</span>x<span style="color:#000;font-weight:bold">+</span><span style="color:#099">2.0</span>))
+		<span style="color:#000;font-weight:bold">end</span>
+
+		<span style="color:#0086b3">puts</span> <span style="color:#d14">&#34;</span><span style="color:#d14">#{</span>i<span style="color:#d14">}</span><span style="color:#d14"> </span><span style="color:#d14">#{</span>x<span style="color:#d14">}</span><span style="color:#d14"> </span><span style="color:#d14">#{</span>y<span style="color:#d14">}</span><span style="color:#d14">&#34;</span>
+
+	<span style="color:#000;font-weight:bold">end</span>
+
+<span style="color:#000;font-weight:bold">end</span>
+
+gibbs
+</pre><p>(As you can see, the Crystal code is quite similar to the Python one).</p>
+<p>To make sure it's a fair comparison, I ran it in compiled (and optimised) mode build using</p>
+<pre style="background-color:#fff">$ crystal build gibbs.cr --release
+$ <span style="color:#0086b3">time</span> ./gibbs &gt; gibbs_crystal.csv
+</pre><p>Looking at the results, you can see that they are consistent with the other implementations:</p>
+<p><img src="./images/gibbs.png" alt="Gibbs" /></p>
 <p>The timings for each of the different versions (ran in a 1.7 GHz Intel Core i7 Macbook Air) were</p>
-<table class="table table-hover">
+<table>
 <thead>
 <tr>
 <th>Language</th>
@@ -182,35 +182,36 @@ $ <span class="nb">time</span> ./gibbs &gt; gibbs_crystal.csv</code></pre></div>
 </thead>
 <tbody>
 <tr>
-<td>R</td><td>364.8</td>
+<td>R</td>
+<td>364.8</td>
 </tr>
 <tr>
-<td>Python</td><td>144.0</td>
+<td>Python</td>
+<td>144.0</td>
 </tr>
 <tr>
-<td>Scala</td><td>9.896</td>
+<td>Scala</td>
+<td>9.896</td>
 </tr>
 <tr>
-<td>Crystal</td><td>5.171</td>
+<td>Crystal</td>
+<td>5.171</td>
 </tr>
 <tr>
-<td>C</td><td>5.038</td>
+<td>C</td>
+<td>5.038</td>
 </tr>
 </tbody>
 </table>
-<p>So there you have it. A Ruby-like language which can easily compete with C performance-wise.
-I sincerely hope that Crystal gets some traction in the scientific community.
-That of course won&rsquo;t depend solely on its merits but rather on an active community
-along with a strong library ecosystem.
-This is lacking at the moment, simply because it is relatively new language
-with the specs and standard library still being finalised.</p>
+<p>So there you have it. A Ruby-like language which can easily compete with C performance-wise.</p>
+<p>I sincerely hope that Crystal gets some traction in the scientific community.</p>
+<p>That of course won't depend solely on its merits but rather on an active community along with a strong library ecosystem.</p>
+<p>This is lacking at the moment, simply because it is relatively new language with the specs and standard library still being finalised.</p>
 
-      </div>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
-
-
-
-  </div>
+</div>
 
 </body>
 </html>

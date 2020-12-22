@@ -1,300 +1,318 @@
-<!DOCTYPE HTML>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Monotonic Cubic Spline interpolation (with some Rust)"/>
-<meta name="twitter:description" content="Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot. In this post I’ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson [Fritsch2005] in the Rust programming language."/>
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
 
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+                onload="renderMathInElement(document.body);"></script>
+        <style>
+                @font-face {
+                        font-family: JuliaMono-Regular;
+                        src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+                }
+                body {
+                        font-size: 1.2rem;
+                        color: #1b2d45;
+                }
+                #content {
+                        max-width: 38rem;
+                        padding: 2rem;
+                        margin: auto;
+                }
+                #sidebar {
+                   position: absolute;
+                        top: 0;
+                        left: 0;
+                        max-width: 13rem;
+                        margin-left: 3rem;
+                        margin-top: 3rem;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                        color: #00214d;
+                }
+                pre {
+                        background-color: #eee !important;
+                        overflow-x: scroll;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                        padding: 1rem;
+                }
+                code {
+                        background-color: #eee !important;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                }
+                img {
+                        max-width: 38rem;
+                }
+                .katex { font-size: 1em !important;}
+                .footer {
+                        margin-top: 3rem;
+                        font-size: 0.75rem;
+                        color: #ccc;
+                }
+                .cc-symbol {
+                        font-size: 1rem;
+                }
+                a, a:visited {
+                         
+                         
+                        color: #ff5470;
+                        padding: 1px;
+                        border-radius: 2px;
+                }
+                a.footnote-ref {
+                    font-size: 0.9rem;
+                }
+                a.footnote-ref::before {
+                    content: "[";
+                }
+                a.footnote-ref::after {
+                    content: "]";
+                }
 
-    <meta name="author" content="Rui Vieira" />
-    <meta name="copyright" content="Rui Vieira" />
-    <meta name="generator" content="Rui Vieira"> 
-    
-    
-<link rel="stylesheet" href="/css/style.css" />
+                a:hover {
+                        background-color: #ff5470;
+                        color: #fff;
+                }
+                a[href^="https://"],
+                a[href^="http://"] {
+                        text-decoration: underline;
+                }
 
+                a[href^="https://"]:after,
+                a[href^="http://"]:after {
+                        content: "\2609";
+                        text-decoration: none !important;
+                }
+        </style>
+        <title>ruivieira.dev - Monotonic Cubic Spline interpolation (with some Rust)</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-10507665-2', 'auto');
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true
+            ga('send', 'pageview');
         }
-      });
     </script>
-    
-    <script type="text/javascript"
-        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-
-    
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-10507665-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
-
-    </head>
+</head>
 <body>
 
-
-  <div id="navigation">
-    <span class="nav-item"><a href="/">Posts</a></span> ●
-    <span class="nav-item"><a href="/micro/">µ-posts</a></span> ●
-    <span class="nav-item"><a href="/pages/about.html">About</a></span>
-  </div>
-
-
-  <div id="sidebar">
-  <h2>Other pages</h2>
-  <ul>
-    <li><a href="/">Posts</a></li>
-    <li><a href="/micro/">µ-posts</a></li>
-    <li><a href="/pages/about.html">About</a></li>
-  </ul>
-  <h2>Codex</h2>
-  <ul>
-    <li><a href="/codex/machine-learning">Machine learning</a></li>
-    <li><a href="/codex/python-experiments">Python experiments</a></li>
-  </ul>
-  <h2>Playground</h2>
-  <ul>
-    <li><a href="/playground/machine-learning">Machine learning</a></li>
-  </ul>
-</div>
-
-<script>
-  (function () {
-    var elements = document
-      .querySelector(".column")
-      .querySelectorAll("h1, h2, h3, h4, h5, h6");
-    if (elements.length > 1) {
-      var div = document.getElementById("sidebar");
-      div.innerHTML += "<h2>This page</h2>\n";
-      
-
-      var list = document.createElement("ul");
-
-      var i = 1;
-      for (var element of elements) {
-        console.log(element);
-        if (element.nodeName == "H2") {
-          console.log(element.textContent);
-          
-          var anchor = document.createElement("a");
-          anchor.setAttribute("name", i);
-          anchor.classList.add("anchor");
-          element.parentNode.insertBefore(anchor, element.nextSibling);
-          
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.setAttribute("href", "#" + i);
-          a.textContent = element.textContent;
-          li.appendChild(a);
-          list.append(li);
-          
-          i++;
-        }
-        div.appendChild(list);
-      }
-      div.innerHTML += "</ul>\n";
-    }
-  })();
-</script>
-
-
-  <div id="content" class="container">
-  <div class="columns">
-
-    <div class="column">
-      
-        <div>
-          <h1>Monotonic Cubic Spline interpolation (with some Rust)</h1>
-          <small class="date"><time pubdate="pubdate" datetime="2019-04-03 23:05:00 &#43;0100 BST">April 3, 2019</time></small>                
-        </div>
+<div id="sidebar">
         
-      <div>
-        <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
-In this post I’ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson [<a href="#ref-1">Fritsch2005</a><a name="ref-1-origin"></a>] in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
-<h2>Rust</h2>
-<p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  pratically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and its concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
-<p>Idiomatic Rust Object-Oriented Programming (OOP) has several characteristics which differ significantly from “traditional” OOP languages.
-Rust achieves data and behaviour encapsulation by means of defining data structure blueprints (called <code>struct</code>) and then 
-defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple “class” <code>Foo</code> 
-would consist of:</p>
-<div class="highlight"><pre class="chroma"><code class="language-rust" data-lang="rust"><span class="k">struct</span> <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span><span class="w"></span><span class="p">}</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="k">impl</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span><span class="w">    </span><span class="k">fn</span> <span class="nf">new</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{};</span><span class="w">
-</span><span class="w">  </span><span class="p">}</span><span class="w">
-</span><span class="w">  </span><span class="k">fn</span> <span class="nf">method</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
-</span><span class="w">  </span><span class="k">fn</span> <span class="nf">static_method</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w">
-</span><span class="w"></span><span class="p">}</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Foo</span>::<span class="n">new</span><span class="p">();</span><span class="w">
-</span><span class="w">    </span><span class="n">f</span><span class="p">.</span><span class="n">method</span><span class="p">();</span><span class="w">
-</span><span class="w">    </span><span class="n">Foo</span>::<span class="n">static_method</span><span class="p">();</span><span class="w">
-</span><span class="w"></span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>The “constructor” is defined typically as <code>new()</code>, but any “static” method which returns an initialised <code>struct</code> <em>can</em> be a constructor and “object” methods include the passing of the <code>self</code> instance not unlike languages such as Python. The <code>&amp;mut self</code> refers to the control or exclusive access to <code>self</code> and it is not directly related to <code>mut</code> mutability control. These concepts touch on Rust's borrowing and ownership model which, unfortunately, are <em>way</em> beyond the scope of this blog post. A nice introduction is provided by the "<em>Rust programming book</em>" available <a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">here</a>.
-Our implementation aims at building a MCSI class <code>MonotonicCubicSpline</code> by splitting the algorithm into the slope calculation at <em>construction</em> time, a <em>Hermite interpolation</em> function and a <em>partial application function generator</em>. This will follow the general structure</p>
-<div class="highlight"><pre><span></span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">m_x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">m_y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">m_m</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<p><span class="k">impl</span><span class="w"> </span><span class="n">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">x</span><span class="w"> </span>: <span class="kp">&amp;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span>: <span class="kp">&amp;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// &hellip;</span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hermite</span><span class="p">(</span><span class="n">point</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">y</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">m</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">))</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="c1">// &hellip;</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span></p>
-<p><span class="w">  </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">interpolate</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">point</span><span class="w"> </span>: <span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="c1">// &hellip;</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span></p>
-<p><span class="w">    </span><span class="k">fn</span> <span class="nf">partial</span><span class="p">(</span><span class="n">x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="nb">Fn</span><span class="p">(</span><span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<span class="w">     </span><span class="c1">// &hellip;</span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div></p>
-<p><code>Vec</code> is a vector, a typed growable collection available in Rust's standard library with documentation available <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">here</a>.</p>
-<h2>Monotonic Cubic Splines</h2>
-<p>MCSI hinges on the concept of cubic Hermite interpolators. The Hermite interpolation for the unit interval for a generic interval <span class="math">\((x_k,x_{k+1})\)</span> is</p>
-<div class="math">$$p(x)=p_k h_{00}(t)+ h_{10}(t)(x_{k+1}-x_k)m_k + h_{01}(t)p_{k+1} + h_{11}(t)(x_{k+1}-x_{k})m_{k+1}.$$</div>
-<p>The <span class="math">\(h_{\star}\)</span> functions are usually called the <em>Hermite basis functions</em> in the literature and here we will use the factorised forms of:</p>
-<div class="math">$$\begin{aligned}
-h_{00}(t) &amp;= (1+2t)(1-t)^2 \\
-h_{10}(t) &amp;= t(1-t)^2 \\
-h_{01}(t) &amp;= t^2 (3-2t) \\
-h_{11}(t) &amp;= t^2 (t-1).
-\end{aligned}$$</div>
-<p>This can be rewritten as</p>
-<div class="math">$$
-p(x) = (p_k(1 + 2t) + \Delta x_k m_k  t)(1-t)(1-t) + (p_{k+1} (3 -2t) + \Delta x_k m_{k+1} (t-1))t^2
-$$</div>
-<p>where </p>
-<div class="math">$$
-\begin{aligned}
-\Delta x_k &amp;= x_{k+1} - x_k \\
-t &amp;= \frac{x-x_k}{h}.
-\end{aligned}
-$$</div>
-<p>This associated Rust method is the above mentioned “static” <code>MonotonicCubicSpline::hermite()</code>:</p>
-<div class="highlight"><pre><span></span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hermite</span><span class="p">(</span><span class="n">point</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">y</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">m</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">))</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<p><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">point</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="p">(</span><span class="mf">3.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0</span><span class="p">))</span><span class="w"> </span><span class="o"><em></span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o"></em></span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div></p>
-<p>where the tuples correspond to <span class="math">\(x \to (x_k, x_{k+1})\)</span>, <span class="math">\(t \to (y_k, y_{k+1})\)</span> and <span class="math">\(m \to (m_k, m_{k+1})\)</span></p>
-<p>For a series of data points <span class="math">\((x_k, y_k)\)</span> with <span class="math">\(k=1,\dots,n\)</span> we then calculate the slopes of the secant lines between consecutive points, that is:</p>
-<div class="math">$$\Delta_k = \frac{\Delta y_{k}}{\Delta x_k}\qquad, \text{for}\ k=1,\dots,n-1$$</div>
-<p>with <span class="math">\(\Delta y_k = y_{k+1}-y_k\)</span> and <span class="math">\(\Delta x_k\)</span> as defined previously.</p>
-<p><img alt="secants" src="images/splines/secants.gif" width="100%"></p>
-<p>Since the data is represented by the vectors <code>x : Vec&lt;f64&gt;</code> and <code>y : Vec&lt;f64&gt;</code> we implement this in the “constructor”:</p>
-<div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">secants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">0.0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
-<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">slopes</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">0.0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="p">];</span><span class="w"></span>
-<p><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="p">..(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o"><em></span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o"></em></span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o"><em></span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o"></em></span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
-<span class="w">    </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dx</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div></p>
-<p>The next step is to average the secants in order to get the tangents, such that</p>
-<div class="math">$$m_k = \frac{\Delta_{k-1}+\Delta_k}{2}\qquad, \text{for}\ k=2,\dots,n-1$$</div>
-<p>.</p>
-<p>This is achieved by the code:</p>
-<div class="highlight"><pre><span></span><span class="n">slopes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
-<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="p">..(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-<span class="n">slopes</span><span class="p">[</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
-</pre></div>
-<p>By definition, we want to ensure monotonicity of the interpolated points, but to guarantee this we must avoid the interpolation spline to go too far from a certain radius of the control points. 
-If we define <span class="math">\(\alpha_k\)</span> and <span class="math">\(\beta_k\)</span> as</p>
-<div class="math">$$\begin{aligned}
-\alpha_k &amp;= \frac{m_k}{\Delta_k} \\
-\beta_k &amp;= \frac{m_{k+1}}{\Delta_k},
-\end{aligned}$$</div>
-<p>to ensure the monotonicity of the interpolation we can impose the following constraint on the above quantities:</p>
-<div class="math">$$\phi(\alpha, \beta) = \alpha - \frac{(2\alpha+\beta-3)^2}{3(\alpha+\beta-2)}\geq 0,$$</div>
-<p>that is</p>
-<div class="math">$$\alpha + 2\beta - 3 \leq 0, \text{or}\ 2\alpha+\beta-3 \leq 0$$</div>
-<p>Typically the vector <span class="math">\((\alpha_k, \beta_k)\)</span> is restricted to a circle of radius 3, that is</p>
-<div class="math">$$\alpha^2_l + \beta_k^2&gt;9,$$</div>
-<p>and then setting</p>
-<div class="math">$$m_{k+1} = t\beta_k\Delta_k,$$</div>
-<p>where</p>
-<div class="math">$$\begin{aligned}
-h &amp;= \sqrt{\alpha^2_k + \beta^2_k} \\
-t &amp;= \frac{3}{h}.
-\end{aligned}$$</div>
-<p>One of the ways in which Rust implements polymorphism is through method dispatch. The <code>f64</code> primitive <a href="https://doc.rust-lang.org/std/primitive.f64.html#method.hypot">provides</a> a shorthand for the quantity <span class="math">\(\sqrt{\alpha^2_k + \beta^2_k}\)</span> as <span class="math">\(\alpha.\text{hypot}(\beta)\)</span>. The relevant Rust code will then be:</p>
-<div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="p">..(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
-<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
-<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="p">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">beta</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"></span>
-<span class="w">            </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
-<span class="w">            </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-<p>We are now able to define a “smooth function” generator using MCSI. We generate a smooth function <span class="math">\(g(\cdot)\)</span> given a set of <span class="math">\((x_k, y_k)\)</span> points, such that</p>
-<div class="math">$$f(x_k, y_k, p) \to g(p).$$</div>
-<h2>Partial application</h2>
-<p>Before anything, it is important to recall the difference between partial application and <em>currying</em>, since the two are (incorrectly) used interchangeably quite often.
-<em>Function currying</em> allows to factor functions with multiple arguments into a chain of single-argument functions, that is</p>
-<div class="math">$$f(x, y, z) = h(x)(y)(z)$$</div>
-<p>The concept is prevalent in functional programming, since its initial formalisation [<a href="#ref-2">Curry1958</a><a name="ref-2-origin"></a>]. Partial application, however, generally aims at using an existing function conditioned on some argument as a basis to build functions with a reduced arity. In this case this would be useful since ultimately we want to create a smooth, continuous function based on the control points <span class="math">\((x_k, y_k)\)</span>. The partial application implementation is done in Rust as</p>
-<div class="highlight"><pre><span></span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">partial</span><span class="p">(</span><span class="n">x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="nb">Fn</span><span class="p">(</span><span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">move</span><span class="w"> </span><span class="o">|</span><span class="n">p</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">spline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MonotonicCubicSpline</span>::<span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="n">spline</span><span class="p">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-<p>An example of how to generate a concrete smoothed continuous function from a set of control points can be:</p>
-<div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">10.0</span><span class="p">];</span><span class="w"></span>
-<span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec</span><span class="o">!</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span><span class="w"> </span><span class="mf">10.5</span><span class="p">];</span><span class="w"></span>
-<p><span class="kd">let</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"></span></p>
-<p><span class="c1">// calculate an interpolated point</span>
-<span class="kd">let</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="mf">0.39</span><span class="p">);</span><span class="w"></span>
-</pre></div></p>
-<p><img alt="interpolation" src="images/splines/interpolation.png" width="100%"></p>
-<p>The full code can be found <a href="https://gitlab.com/ruivieira/mentat/blob/master/src/lib.rs">here</a>.</p>
-<h2>References</h2>
-<p><a name="ref-1">[Fritsch2005]</a> Fritsch, F. N., &amp; Carlson, R. E. (2005). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em>. https://doi.org/10.1137/0717021 <a href="#ref-1-origin">🔝</a></p>
-<p><a name="ref-2">[Curry1958]</a> Curry, Haskell; Feys, Robert (1958). Combinatory logic. I (2 ed.). Amsterdam, Netherlands: North-Holland Publishing Company. <a href="#ref-2-origin">🔝</a></p>
-      </div>
+            <h2>Contents</h2>
+            <ul>
+            
+                <li><a href="#monotonic-cubic-splines">Monotonic Cubic Splines</a></li>
+            
+                <li><a href="#partial-application">Partial application</a></li>
+            
+            </ul>
+        
+        
+                <h2>Backlinks</h2>
+
+                <ul>
+                        
+                                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+                        
+
+                </ul>
+        
+    <div class="footer">
+        modified 1608318378
     </div>
 
+</div>
 
+<div id="content">
+    <h1 id="monotonic-cubic-spline-interpolation-with-some-rust">Monotonic Cubic Spline interpolation (with some Rust)</h1>
+<p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.<br />
+In this post I'll show how to implement the method developed by F. N. Fritsch and R. E. Carlson <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
+<h1 id="rust">Rust</h1>
+<p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  practically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and its concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
+<p>Idiomatic Rust Object-Oriented Programming (OOP) has several characteristics which differ significantly from &quot;traditional&quot; OOP languages.<br />
+Rust achieves data and behaviour encapsulation by means of defining data structure blueprints (called <code>struct</code>) and then defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple &quot;class&quot; <code>Foo</code> would consist of:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Foo</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">impl</span><span style="color:#bbb"> </span>Foo<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">new</span>()<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">Foo</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">return</span><span style="color:#bbb"> </span>Foo<span style="color:#bbb"> </span>{};<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">method</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#000;font-weight:bold">mut</span><span style="color:#bbb"> </span><span style="color:#999">self</span>)<span style="color:#bbb"> </span>{}<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">static_method</span>()<span style="color:#bbb"> </span>{}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">main</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">mut</span><span style="color:#bbb"> </span>f<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>Foo::new();<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>f.method();<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Foo::static_method();<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></pre><p>The &quot;constructor&quot; is defined typically as <code>new()</code>, but any &quot;static&quot; method which returns an initialised <code>struct</code> <em>can</em> be a constructor and &quot;object&quot; methods include the passing of the <code>self</code> instance not unlike languages such as Python. The <code>&amp;mut self</code> refers to the control or exclusive access to <code>self</code> and it is not directly related to <code>mut</code> mutability control. These concepts touch on Rust's borrowing and ownership model which, unfortunately, are <em>way</em> beyond the scope of this blog post. A nice introduction is provided by the &quot;<em>Rust programming book</em>&quot; available <a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">here</a>.<br />
+Our implementation aims at building a MCSI class <code>MonotonicCubicSpline</code> by splitting the algorithm into the slope calculation at <em>construction</em> time, a <em>Hermite interpolation</em> function and a <em>partial application function generator</em>. This will follow the general structure</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">MonotonicCubicSpline</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>m_x: <span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>m_y: <span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>m_m: <span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">impl</span><span style="color:#bbb"> </span>MonotonicCubicSpline<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">new</span>(x<span style="color:#bbb"> </span>: <span style="color:#000;font-weight:bold">&amp;</span><span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>,<span style="color:#bbb"> </span>y<span style="color:#bbb"> </span>: <span style="color:#000;font-weight:bold">&amp;</span><span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">MonotonicCubicSpline</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">		</span><span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">hermite</span>(point: <span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span>x<span style="color:#bbb"> </span>: (<span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span><span style="color:#458;font-weight:bold">f64</span>),<span style="color:#bbb"> </span>y: (<span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span><span style="color:#458;font-weight:bold">f64</span>),<span style="color:#bbb"> </span>m: (<span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span><span style="color:#458;font-weight:bold">f64</span>))<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">f64</span> {<span style="color:#bbb">
+</span><span style="color:#bbb">		</span><span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">interpolate</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#000;font-weight:bold">mut</span><span style="color:#bbb"> </span><span style="color:#999">self</span>,<span style="color:#bbb"> </span>point<span style="color:#bbb"> </span>: <span style="color:#458;font-weight:bold">f64</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">f64</span> {<span style="color:#bbb">
+</span><span style="color:#bbb">		</span><span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">partial</span>(x: <span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>,<span style="color:#bbb"> </span>y: <span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">impl</span><span style="color:#bbb"> </span><span style="color:#0086b3">Fn</span>(<span style="color:#458;font-weight:bold">f64</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">f64</span> {<span style="color:#bbb">
+</span><span style="color:#bbb">		</span><span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></pre><p><code>Vec</code> is a vector, a typed growable collection available in Rust's standard library with documentation available <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">here</a>.</p>
+<h2 id="monotonic-cubic-splines">Monotonic Cubic Splines</h2>
+<p>MCSI hinges on the concept of cubic Hermite interpolators. The Hermite interpolation for the unit interval for a generic interval <span class="math inline">\((x_k,x_{k+1})\)</span> is</p>
+<p><span class="math display">\[p(x)=p_k h_{00}(t)+ h_{10}(t)(x_{k+1}-x_k)m_k + \\ h_{01}(t)p_{k+1} + h_{11}(t)(x_{k+1}-x_{k})m_{k+1}.
+\]</span></p>
+<p>The <span class="math inline">\(h_{\star}\)</span> functions are usually called the <em>Hermite basis functions</em> in the literature and here we will use the factorised forms of:</p>
+<p><span class="math display">\[\begin{aligned}
+h_{00}(t) &= (1+2t)(1-t)^2 \\
+h_{10}(t) &= t(1-t)^2 \\
+h_{01}(t) &= t^2 (3-2t) \\
+h_{11}(t) &= t^2 (t-1).
+\end{aligned}
+\]</span></p>
+<p>This can be rewritten as</p>
+<p><span class="math display">\[p(x) = (p_k(1 + 2t) + \Delta x_k m_k  t)(1-t)(1-t) + \\ (p_{k+1} (3 -2t) + \Delta x_k m_{k+1} (t-1))t^2
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\begin{aligned}
+\Delta x_k &= x_{k+1} - x_k \\
+t &= \frac{x-x_k}{h}.
+\end{aligned}
+\]</span></p>
+<p>This associated Rust method is the above mentioned &quot;static&quot; <code>MonotonicCubicSpline::hermite()</code>:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">hermite</span>(point: <span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span>x<span style="color:#bbb"> </span>: (<span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span><span style="color:#458;font-weight:bold">f64</span>),<span style="color:#bbb"> </span>y: (<span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span><span style="color:#458;font-weight:bold">f64</span>),<span style="color:#bbb"> </span>m: (<span style="color:#458;font-weight:bold">f64</span>,<span style="color:#bbb"> </span><span style="color:#458;font-weight:bold">f64</span>))<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">f64</span> {<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>h<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>x.<span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span>x.<span style="color:#099">0</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>t<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>(point<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span>x.<span style="color:#099">0</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">/</span><span style="color:#bbb"> </span>h;<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">return</span><span style="color:#bbb"> </span>(y.<span style="color:#099">0</span><span style="color:#bbb"> </span>(<span style="color:#099">1.0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">2.0</span><span style="color:#bbb"> </span>t)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span>h<span style="color:#bbb"> </span>m.<span style="color:#099">0</span><span style="color:#bbb"> </span>t)<span style="color:#bbb"> </span>(<span style="color:#099">1.0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span>t)<span style="color:#bbb"> </span>(<span style="color:#099">1.0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span>t)<span style="color:#bbb">
+</span><span style="color:#bbb">		</span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span>(y.<span style="color:#099">1</span><span style="color:#bbb"> </span>(<span style="color:#099">3.0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span><span style="color:#099">2.0</span><span style="color:#bbb"> </span>t)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span>h<span style="color:#bbb"> </span>m.<span style="color:#099">1</span><span style="color:#bbb"> </span>(t<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span><span style="color:#099">1.0</span>))<span style="color:#bbb"> </span>t<span style="color:#bbb"> </span>t;<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></pre><p>where the tuples correspond to <span class="math inline">\(x \to (x_k, x_{k+1})\)</span>, <span class="math inline">\(t \to (y_k, y_{k+1})\)</span> and <span class="math inline">\(m \to (m_k, m_{k+1})\)</span></p>
+<p>For a series of data points <span class="math inline">\((x_k, y_k)\)</span> with <span class="math inline">\(k=1,\dots,n\)</span> we then calculate the slopes of the secant lines between consecutive points, that is:</p>
+<p><span class="math display">\[\Delta_k = \frac{\Delta y_{k}}{\Delta x_k},\qquad \text{for}\ k=1,\dots,n-1
+\]</span></p>
+<p>with <span class="math inline">\(Delta y_k = y_{k+1}-y_k\)</span> and <span class="math inline">\(\Delta x_k\)</span> as defined previously.</p>
+<p><img src="./images/splines/secants.gif" alt="" /></p>
+<p>Since the data is represented by the vectors <code>x : Vec&lt;f64&gt;</code> and <code>y : Vec&lt;f64&gt;</code> we implement this in the &quot;constructor&quot;:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">mut</span><span style="color:#bbb"> </span>secants<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>vec<span style="color:#000;font-weight:bold">!</span>[<span style="color:#099">0.0</span><span style="color:#bbb"> </span>;<span style="color:#bbb"> </span>n<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span><span style="color:#099">1</span>];<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">mut</span><span style="color:#bbb"> </span>slopes<span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>vec<span style="color:#000;font-weight:bold">!</span>[<span style="color:#099">0.0</span><span style="color:#bbb"> </span>;<span style="color:#bbb"> </span>n];<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">for</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#099">0</span>..(n<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>dx<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>x[i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">1</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span>x[i];<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>dy<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>y[i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">1</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span>y[i];<span style="color:#bbb">
+</span><span style="color:#bbb">	</span>secants[i]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>dy<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">/</span><span style="color:#bbb"> </span>dx;<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></pre><p>The next step is to average the secants in order to get the tangents, such that</p>
+<p><span class="math display">\[m_k = \frac{\Delta_{k-1}+\Delta_k}{2},\qquad \text{for}\ k=2,\dots,n-1.
+\]</span></p>
+<p>This is achieved by the code:</p>
+<pre style="background-color:#fff">slopes[<span style="color:#099">0</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>secants[<span style="color:#099">0</span>];<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">for</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#099">1</span>..(n<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>slopes[i]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>(secants[i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span><span style="color:#099">1</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span>secants[i])<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#099">0.5</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>slopes[n<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span><span style="color:#099">1</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>secants[n<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#bbb"> </span><span style="color:#099">2</span>];<span style="color:#bbb">
+</span></pre><p>By definition, we want to ensure monotonicity of the interpolated points, but to guarantee this we must avoid the interpolation spline to go too far from a certain radius of the control points.<br />
+If we define <span class="math inline">\(\alpha_k\)</span> and <span class="math inline">\(\beta_k\)</span> as</p>
+<p><span class="math display">\[\begin{aligned}
+\alpha_k &= \frac{m_k}{\Delta_k} \\
+\beta_k &= \frac{m_{k+1}}{\Delta_k},
+\end{aligned}
+\]</span></p>
+<p>to ensure the monotonicity of the interpolation we can impose the following constraint on the above quantities:</p>
+<p><span class="math display">\[\phi(\alpha, \beta) = \alpha - \frac{(2\alpha+\beta-3)^2}{3(\alpha+\beta-2)}\geq 0,
+\]</span></p>
+<p>that is</p>
+<p><span class="math display">\[\alpha + 2\beta - 3 \leq 0, \text{or}\ 2\alpha+\beta-3 \leq 0
+\]</span></p>
+<p>Typically the vector <span class="math inline">\((\alpha_k, \beta_k)\)</span> is restricted to a circle of radius 3, that is</p>
+<p><span class="math display">\[\alpha^2_l + \beta_k^2>9,
+\]</span></p>
+<p>and then setting</p>
+<p><span class="math display">\[m_{k+1} = t\beta_k\Delta_k,
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\begin{aligned}
+h &amp;= \sqrt{\alpha^2_k + \beta^2_k} \\
+t &amp;= \frac{3}{h}.
+\end{aligned}
+\]</span></p>
+<p>One of the ways in which Rust implements polymorphism is through method dispatch. The <code>f64</code> primitive <a href="https://doc.rust-lang.org/std/primitive.f64.html#method.hypot">provides</a> a shorthand for the quantity <span class="math inline">\(\sqrt{\alpha^2_k + \beta^2_k}\)</span> as <span class="math inline">\(\alpha.\text{hypot}(\beta)\)</span>. The relevant Rust code will then be:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">for</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span><span style="color:#099">0</span>..(n<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">if</span><span style="color:#bbb"> </span>secants[i]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">==</span><span style="color:#bbb"> </span><span style="color:#099">0.0</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>slopes[i]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#099">0.0</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>slopes[i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">1</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#099">0.0</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>alpha<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>slopes[i]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">/</span><span style="color:#bbb"> </span>secants[i];<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>beta<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>slopes[i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">1</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">/</span><span style="color:#bbb"> </span>secants[i];<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>h<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>alpha.hypot(beta);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">if</span><span style="color:#bbb"> </span>h<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span><span style="color:#099">3.0</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>t<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#099">3.0</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">/</span><span style="color:#bbb"> </span>h;<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>slopes[i]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>t<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span>alpha<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span>secants[i];<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>slopes[i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">1</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>t<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span>beta<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span>secants[i];<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></pre><p>We are now able to define a &quot;smooth function&quot; generator using MCSI. We generate a smooth function <span class="math inline">\(g(\cdot)\)</span> given a set of <span class="math inline">\((x_k, y_k)\)</span> points, such that</p>
+<p><span class="math display">\[f(x_k, y_k, p) \to g(p).
+\]</span></p>
+<h2 id="partial-application">Partial application</h2>
+<p>Before anything, it is important to recall the difference between partial application and <em>currying</em>, since the two are (incorrectly) used interchangeably quite often.<br />
+<em>Function currying</em> allows to factor functions with multiple arguments into a chain of single-argument functions, that is</p>
+<p><span class="math display">\[f(x, y, z) = h(x)(y)(z)
+\]</span></p>
+<p>The concept is prevalent in functional programming, since its initial formalisation <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. Partial application, however, generally aims at using an existing function conditioned on some argument as a basis to build functions with a reduced arity. In this case this would be useful since ultimately we want to create a smooth, continuous function based on the control points <span class="math inline">\((x_k, y_k)\)</span>. The partial application implementation is done in Rust as</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">partial</span>(x: <span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>,<span style="color:#bbb"> </span>y: <span style="color:#0086b3">Vec</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">f64</span><span style="color:#000;font-weight:bold">&gt;</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">impl</span><span style="color:#bbb"> </span><span style="color:#0086b3">Fn</span>(<span style="color:#458;font-weight:bold">f64</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#458;font-weight:bold">f64</span> {<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">move</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">|</span>p<span style="color:#000;font-weight:bold">|</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">mut</span><span style="color:#bbb"> </span>spline<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>MonotonicCubicSpline::new(<span style="color:#000;font-weight:bold">&amp;</span>x,<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&amp;</span>y);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>spline.interpolate(p)<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></pre><p>An example of how to generate a concrete smoothed continuous function from a set of control points can be:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>x<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>vec<span style="color:#000;font-weight:bold">!</span>[<span style="color:#099">0.0</span>,<span style="color:#bbb"> </span><span style="color:#099">2.0</span>,<span style="color:#bbb"> </span><span style="color:#099">3.0</span>,<span style="color:#bbb"> </span><span style="color:#099">10.0</span>];<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>y<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>vec<span style="color:#000;font-weight:bold">!</span>[<span style="color:#099">1.0</span>,<span style="color:#bbb"> </span><span style="color:#099">4.0</span>,<span style="color:#bbb"> </span><span style="color:#099">8.0</span>,<span style="color:#bbb"> </span><span style="color:#099">10.5</span>];<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>g<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>partial(x,<span style="color:#bbb"> </span>y);<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#998;font-style:italic">// calculate an interpolated point
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>point<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>g(<span style="color:#099">0.39</span>);<span style="color:#bbb">
+</span></pre><p><img src="./images/splines/interpolation.png" alt="" /></p>
+<p>The full code can be found <a href="https://gitlab.com/ruivieira/mentat/blob/master/src/lib.rs">here</a>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>Fritsch, F. N., &amp; Carlson, R. E. (2005). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em>. https://doi.org/10.1137/0717021 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>Curry, Haskell; Feys, Robert (1958). Combinatory logic. I (2 ed.). Amsterdam, Netherlands: North-Holland Publishing Company. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
-  </div>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
 
 </body>
 </html>

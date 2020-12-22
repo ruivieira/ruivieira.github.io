@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+                onload="renderMathInElement(document.body);"></script>
+        <style>
+                @font-face {
+                        font-family: JuliaMono-Regular;
+                        src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+                }
+                body {
+                        font-size: 1.2rem;
+                        color: #1b2d45;
+                }
+                #content {
+                        max-width: 38rem;
+                        padding: 2rem;
+                        margin: auto;
+                }
+                #sidebar {
+                   position: absolute;
+                        top: 0;
+                        left: 0;
+                        max-width: 13rem;
+                        margin-left: 3rem;
+                        margin-top: 3rem;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                        color: #00214d;
+                }
+                pre {
+                        background-color: #eee !important;
+                        overflow-x: scroll;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                        padding: 1rem;
+                }
+                code {
+                        background-color: #eee !important;
+                        font-family: JuliaMono-Regular, monospace;
+                        font-size: 1rem;
+                }
+                img {
+                        max-width: 38rem;
+                }
+                .katex { font-size: 1em !important;}
+                .footer {
+                        margin-top: 3rem;
+                        font-size: 0.75rem;
+                        color: #ccc;
+                }
+                .cc-symbol {
+                        font-size: 1rem;
+                }
+                a, a:visited {
+                         
+                         
+                        color: #ff5470;
+                        padding: 1px;
+                        border-radius: 2px;
+                }
+                a.footnote-ref {
+                    font-size: 0.9rem;
+                }
+                a.footnote-ref::before {
+                    content: "[";
+                }
+                a.footnote-ref::after {
+                    content: "]";
+                }
+
+                a:hover {
+                        background-color: #ff5470;
+                        color: #fff;
+                }
+                a[href^="https://"],
+                a[href^="http://"] {
+                        text-decoration: underline;
+                }
+
+                a[href^="https://"]:after,
+                a[href^="http://"]:after {
+                        content: "\2609";
+                        text-decoration: none !important;
+                }
+        </style>
+        <title>ruivieira.dev - Go</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-10507665-2', 'auto');
+
+            ga('send', 'pageview');
+        }
+    </script>
+</head>
+<body>
+
+<div id="sidebar">
+        
+            <h2>Contents</h2>
+            <ul>
+            
+                <li><a href="#language-design">Language design</a></li>
+            
+                <li><a href="#ci">CI</a></li>
+            
+                <li><a href="#reference">Reference</a></li>
+            
+            </ul>
+        
+        
+                <h2>Backlinks</h2>
+
+                <ul>
+                        
+                                <li><a href="site-details.html">Site details</a><sup>&#5833</sup></li>
+                        
+                                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+                        
+
+                </ul>
+        
+    <div class="footer">
+        modified 1608410860
+    </div>
+
+</div>
+
+<div id="content">
+    <h1 id="the-go-language">The Go language</h1>
+<p>Some notes regarding the <a href="https://golang.org/">Go</a> language.</p>
+<h2 id="language-design">Language design</h2>
+<h3 id="go-doesnt-have-sets">Go doesn't have sets</h3>
+<p>The Go language, notoriously, does not have<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> some common data structures like sets. There are two main reasons for that:</p>
+<ol>
+<li>Go does not have generics<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>Go relies on you writing your own data structures, generally</li>
+</ol>
+<p>Go lacks generics, which prevent writing a ... well, generic and efficient set implementation.<br />
+Also, writing your own (non-generic) set with <code>map</code>s is quite straight-forward.<br />
+The usual structure for a type <code>T</code> is <code>map[T]bool</code>, where the key is the element and the value is just a placeholder. For instance, for a <code>int</code> set:</p>
+<pre style="background-color:#fff">s <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>: <span style="color:#000;font-weight:bold">true</span>, <span style="color:#099">3</span>: <span style="color:#000;font-weight:bold">true</span>}
+</pre><p>where we can add elements:</p>
+<pre style="background-color:#fff">s[<span style="color:#099">1</span>] = <span style="color:#000;font-weight:bold">true</span> <span style="color:#998;font-style:italic">// already present
+</span><span style="color:#998;font-style:italic"></span>s[<span style="color:#099">2</span>] = <span style="color:#000;font-weight:bold">true</span> <span style="color:#998;font-style:italic">// adds new element
+</span></pre><p>Some other techniques for maps replacing sets:</p>
+<h4 id="set-union">Set union</h4>
+<pre style="background-color:#fff">set_union <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{}
+
+<span style="color:#000;font-weight:bold">for</span> k, _ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_1{
+    set_union[k] = <span style="color:#000;font-weight:bold">true</span>
+}
+<span style="color:#000;font-weight:bold">for</span> k, _ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_2{
+    set_union[k] = <span style="color:#000;font-weight:bold">true</span>
+}
+</pre><h4 id="set-intersection">Set intersection</h4>
+<pre style="background-color:#fff">set_intersection <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{}
+<span style="color:#000;font-weight:bold">for</span> k,_ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_1 { 
+  <span style="color:#000;font-weight:bold">if</span> set_2[k] {
+    set_intersection[k] = <span style="color:#000;font-weight:bold">true</span>
+  }
+} 
+</pre><h4 id="set-to-array">Set to array</h4>
+<p>To convert a (map) set to an array:</p>
+<pre style="background-color:#fff">array <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">int</span>, <span style="color:#099">0</span>)
+
+<span style="color:#000;font-weight:bold">for</span> k <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_1 {  
+   array = <span style="color:#0086b3">append</span>(array, k)  
+}
+</pre><h2 id="ci">CI</h2>
+<h3 id="github">GitHub</h3>
+<p>A potential workflow for GitHub is to use <a href="https://github.com/mvdan/github-actions-golang">GitHub Actions for Go</a>.<br />
+An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href="go.html#testing-in-go">Go</a>) and <code>go vet</code> is:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">on</span>:<span style="color:#bbb"> </span>[push,<span style="color:#bbb"> </span>pull_request\]<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Test<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">jobs</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">test</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">strategy</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">matrix</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">go-version</span>:<span style="color:#bbb"> </span>[<span style="color:#099">1.14</span>.x,<span style="color:#bbb"> </span><span style="color:#099">1.15</span>.x]<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">os</span>:<span style="color:#bbb"> </span>[ubuntu-latest]<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">runs-on</span>:<span style="color:#bbb"> </span>${{<span style="color:#bbb"> </span>matrix.os<span style="color:#bbb"> </span>}}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">steps</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Install<span style="color:#bbb"> </span>Go<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">uses</span>:<span style="color:#bbb"> </span>actions/setup-go@v2<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">with</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">go-version</span>:<span style="color:#bbb"> </span>${{<span style="color:#bbb"> </span>matrix.go-version<span style="color:#bbb"> </span>}}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Checkout<span style="color:#bbb"> </span>code<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">uses</span>:<span style="color:#bbb"> </span>actions/checkout@v2<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Test<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">run</span>:<span style="color:#bbb"> </span>go<span style="color:#bbb"> </span>test<span style="color:#bbb"> </span>./...<span style="color:#bbb">
+</span><span style="color:#bbb">	</span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Vet<span style="color:#bbb">
+</span><span style="color:#bbb">	  </span><span style="color:#000;font-weight:bold">run</span>:<span style="color:#bbb"> </span>go<span style="color:#bbb"> </span>vet<span style="color:#bbb"> </span>./...<span style="color:#bbb">
+</span></pre><h2 id="reference">Reference</h2>
+<h3 id="conversions">Conversions</h3>
+<h4 id="how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</h4>
+<pre style="background-color:#fff">b <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;This is a string&#34;</span>)
+</pre><h3 id="templates">Templates</h3>
+<h3 id="check-if-variable-empty">Check if variable empty</h3>
+<p>In a <a href="go.html">Go</a> template you check if a variable is empty by doing:</p>
+<pre style="background-color:#fff">{{<span style="color:#000;font-weight:bold">if</span> .Items}}
+	&lt;ul&gt;
+		{{<span style="color:#000;font-weight:bold">range</span> .Items}}
+			&lt;li&gt;{{.Name}}&lt;<span style="color:#000;font-weight:bold">/</span>li&gt;
+		{{end}}
+	&lt;<span style="color:#000;font-weight:bold">/</span>ul&gt;
+{{end}}
+</pre><h3 id="testing-in-go">Testing in Go</h3>
+<p>Place the tests in your place of choosing, but keep the package declaration. Test functions should be parameterised as <code>(t *testing.T</code> and start with the prefix <code>Test</code>, for instance:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">package</span> main
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">TestFoo</span>(t <span style="color:#000;font-weight:bold">*</span>testing.T) { 
+	value <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">Foo</span>(<span style="color:#099">5</span>, <span style="color:#099">5</span>) 
+	<span style="color:#998;font-style:italic">// ... assertions
+</span></pre><p>The test files themselves must have the suffix <code>*_test.go</code>.<br />
+Call the tests with <code>go test</code>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>As of the time of writing, that is Go 1.15. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
+</body>
+</html>
