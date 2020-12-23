@@ -89,7 +89,7 @@
                         text-decoration: none !important;
                 }
         </style>
-        <title>ruivieira.dev - gulp</title>
+        <title>ruivieira.dev - Python</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -107,10 +107,19 @@
 
 <div id="sidebar">
         
+            <h2>Contents</h2>
+            <ul>
+            
+                <li><a href="#the-many-faces-of-%60print%60">The many faces of `print`</a></li>
+            
+            </ul>
+        
         
                 <h2>Backlinks</h2>
 
                 <ul>
+                        
+                                <li><a href="python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a><sup>&#5833</sup></li>
                         
                                 <li><a href="index.html">index</a><sup>&#5833</sup></li>
                         
@@ -119,25 +128,41 @@
                 </ul>
         
     <div class="footer">
-        modified 1608503918
+        modified 1608764253
     </div>
 
 </div>
 
 <div id="content">
-    <h1 id="gulp">gulp</h1>
-<p>I have been working in a new library called <em>gulp</em> which you can find on <a href="https://github.com/ruivieira/gulp">https://github.com/ruivieira/gulp</a>.</p>
-<p>On the project's page there are some usage examples but I will try to summarise the main points here.</p>
-<p>The purpose of this library is to facilitate the parallel development of R and Java code, using <a href="http://cran.r-project.org/web/packages/rJava/index.html">rJava</a> as the bridge. Creating bindings in <code>rJava</code> is quite simple, the tricky part of the process (in my opinion) being the maintenance of the bindings (usually done by hand) when refactoring your code.</p>
-<p>As an example, let's assume you have the following Java class:</p>
-<pre style="background-color:#fff"><span style="color:#3c5d5d;font-weight:bold">@ExportClassReference</span><span style="color:#000;font-weight:bold">(</span>value<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;test&#34;</span><span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Test</span> <span style="color:#000;font-weight:bold">{</span>
-
-<span style="color:#998;font-style:italic">// Java code
-</span><span style="color:#998;font-style:italic"></span>
-<span style="color:#000;font-weight:bold">}</span>
-</pre><p>That you wish to call from R.</p>
+    <h1 id="python">Python</h1>
+<p>Main page for all things Python.<br />
+Other pages cover specific topics, such as:</p>
+<ul>
+<li><a href="python-pweave.html">How to setup Pweave</a></li>
+</ul>
+<h2 id="the-many-faces-of-print">The many faces of <code>print</code></h2>
+<h3 id="concatenating-arguments">Concatenating arguments</h3>
+<pre style="background-color:#fff">var1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Foo&#34;</span>
+var2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Bar&#34;</span>
+<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;I am &#34;</span>, var1, <span style="color:#d14">&#34; not &#34;</span>, var2)
+</pre><pre><code>I am  Foo  not  Bar
+</code></pre>
+<pre style="background-color:#fff">var1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Foo&#34;</span>
+var2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Bar&#34;</span>
+<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;I am &#34;</span>, var1, <span style="color:#d14">&#34; not &#34;</span>, var2)
+</pre><pre><code>I am  Foo  not  Bar
+</code></pre>
+<p>It is also possible to use separators by using the <code>sep</code> argument:</p>
+<pre style="background-color:#fff">var1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Foo&#34;</span>
+var2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Bar&#34;</span>
+<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;I am&#34;</span>, var1, <span style="color:#d14">&#34;not&#34;</span>, var2, sep<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;!&#34;</span>)
+</pre><pre><code>I am!Foo!not!Bar
+</code></pre>
+<h3 id="string-termination">String termination</h3>
+<p>The <code>end</code> argument allows to specify the suffix of the whole string.</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;This is on radio&#34;</span>, end<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34; (over)&#34;</span>)
+</pre><pre><code>This is on radio (over)
+</code></pre>
 
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira

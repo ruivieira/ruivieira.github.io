@@ -127,11 +127,12 @@
                         
                                 <li><a href="index.html">index</a><sup>&#5833</sup></li>
                         
+                    <li><a href="/content.html">content</a><sup>&#5833</sup></li>
 
                 </ul>
         
     <div class="footer">
-        modified 1608410860
+        modified 1608661133
     </div>
 
 </div>
@@ -205,8 +206,19 @@ An example workflow file, <code>.github/workflows/test.yml</code>, which runs <c
 <h3 id="conversions">Conversions</h3>
 <h4 id="how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</h4>
 <pre style="background-color:#fff">b <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;This is a string&#34;</span>)
+</pre><h3 id="maps">Maps</h3>
+<h4 id="sort-map-keys-alphabetically">Sort map keys alphabetically</h4>
+<p>If a <code>map</code> contains <code>string</code> keys, i.e. <code>var myMap map[string]T</code>, we must sort the map keys independently. For instance:</p>
+<pre style="background-color:#fff">keys <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">string</span>, <span style="color:#099">0</span>)
+<span style="color:#000;font-weight:bold">for</span> k, _ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> myMap {
+    keys = <span style="color:#0086b3">append</span>(keys, k)
+}
+sort.<span style="color:#900;font-weight:bold">Strings</span>(keys)
+<span style="color:#000;font-weight:bold">for</span> _, k <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> keys {
+    fmt.<span style="color:#900;font-weight:bold">Println</span>(k, myMap[k])
+}
 </pre><h3 id="templates">Templates</h3>
-<h3 id="check-if-variable-empty">Check if variable empty</h3>
+<h4 id="check-if-variable-empty">Check if variable empty</h4>
 <p>In a <a href="go.html">Go</a> template you check if a variable is empty by doing:</p>
 <pre style="background-color:#fff">{{<span style="color:#000;font-weight:bold">if</span> .Items}}
 	&lt;ul&gt;
@@ -214,6 +226,11 @@ An example workflow file, <code>.github/workflows/test.yml</code>, which runs <c
 			&lt;li&gt;{{.Name}}&lt;<span style="color:#000;font-weight:bold">/</span>li&gt;
 		{{end}}
 	&lt;<span style="color:#000;font-weight:bold">/</span>ul&gt;
+{{end}}
+</pre><h4 id="looping-over-a-map">Looping over a map</h4>
+<p>Looping over the map <code>var data map[string]bool</code> in a Go template:</p>
+<pre style="background-color:#fff">{{<span style="color:#000;font-weight:bold">range</span> <span style="color:#a61717;background-color:#e3d2d2">$</span>index, <span style="color:#a61717;background-color:#e3d2d2">$</span>element <span style="color:#000;font-weight:bold">:=</span> .}}
+	{{<span style="color:#a61717;background-color:#e3d2d2">$</span>index}}: {{<span style="color:#a61717;background-color:#e3d2d2">$</span>element}}
 {{end}}
 </pre><h3 id="testing-in-go">Testing in Go</h3>
 <p>Place the tests in your place of choosing, but keep the package declaration. Test functions should be parameterised as <code>(t *testing.T</code> and start with the prefix <code>Test</code>, for instance:</p>
