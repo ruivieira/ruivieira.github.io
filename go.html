@@ -114,6 +114,8 @@
             
                 <li><a href="#ci">CI</a></li>
             
+                <li><a href="#containers">Containers</a></li>
+            
                 <li><a href="#reference">Reference</a></li>
             
             </ul>
@@ -132,7 +134,7 @@
                 </ul>
         
     <div class="footer">
-        modified 1608661133
+        modified 1608910815
     </div>
 
 </div>
@@ -202,7 +204,8 @@ An example workflow file, <code>.github/workflows/test.yml</code>, which runs <c
 </span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">run</span>:<span style="color:#bbb"> </span>go<span style="color:#bbb"> </span>test<span style="color:#bbb"> </span>./...<span style="color:#bbb">
 </span><span style="color:#bbb">	</span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Vet<span style="color:#bbb">
 </span><span style="color:#bbb">	  </span><span style="color:#000;font-weight:bold">run</span>:<span style="color:#bbb"> </span>go<span style="color:#bbb"> </span>vet<span style="color:#bbb"> </span>./...<span style="color:#bbb">
-</span></pre><h2 id="reference">Reference</h2>
+</span></pre><h2 id="containers">Containers</h2>
+<h2 id="reference">Reference</h2>
 <h3 id="conversions">Conversions</h3>
 <h4 id="how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</h4>
 <pre style="background-color:#fff">b <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;This is a string&#34;</span>)
@@ -232,6 +235,16 @@ sort.<span style="color:#900;font-weight:bold">Strings</span>(keys)
 <pre style="background-color:#fff">{{<span style="color:#000;font-weight:bold">range</span> <span style="color:#a61717;background-color:#e3d2d2">$</span>index, <span style="color:#a61717;background-color:#e3d2d2">$</span>element <span style="color:#000;font-weight:bold">:=</span> .}}
 	{{<span style="color:#a61717;background-color:#e3d2d2">$</span>index}}: {{<span style="color:#a61717;background-color:#e3d2d2">$</span>element}}
 {{end}}
+</pre><h3 id="processes">Processes</h3>
+<h4 id="executing-external-processes">Executing external processes</h4>
+<p>Executing an external process and directing input and output to <code>Stdout</code> and <code>Stderr</code>.</p>
+<pre style="background-color:#fff">cmd <span style="color:#000;font-weight:bold">:=</span> exec.<span style="color:#900;font-weight:bold">Command</span>(<span style="color:#d14">&#34;ls&#34;</span>, <span style="color:#d14">&#34;-1ao&#34;</span>)
+cmd.Stdout = os.Stdout
+cmd.Stderr = os.Stderr
+err <span style="color:#000;font-weight:bold">:=</span> cmd.<span style="color:#900;font-weight:bold">Run</span>()
+<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+	log.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#d14">&#34;cmd.Run() failed with %s\\n&#34;</span>, err)
+}
 </pre><h3 id="testing-in-go">Testing in Go</h3>
 <p>Place the tests in your place of choosing, but keep the package declaration. Test functions should be parameterised as <code>(t *testing.T</code> and start with the prefix <code>Test</code>, for instance:</p>
 <pre style="background-color:#fff"><span style="color:#000;font-weight:bold">package</span> main
