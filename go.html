@@ -135,7 +135,7 @@
                 </ul>
         
     <div class="footer">
-        modified 1608910815
+        modified 1609284925
     </div>
 
 </div>
@@ -206,7 +206,27 @@ An example workflow file, <code>.github/workflows/test.yml</code>, which runs <c
 </span><span style="color:#bbb">	</span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Vet<span style="color:#bbb">
 </span><span style="color:#bbb">	  </span><span style="color:#000;font-weight:bold">run</span>:<span style="color:#bbb"> </span>go<span style="color:#bbb"> </span>vet<span style="color:#bbb"> </span>./...<span style="color:#bbb">
 </span></pre><h2 id="containers">Containers</h2>
-<h2 id="reference">Reference</h2>
+<h3 id="minimal-example">Minimal example</h3>
+<p>A minimal example of a Go <a href="containers.html">container</a> configuration for a web server running on port <code>8080</code>:</p>
+<pre style="background-color:#fff"><span style="color:#998;font-style:italic"># Start from the latest golang base image  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#d14"> golang:latest  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Add Maintainer Info  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">LABEL</span> <span style="color:#008080">maintainer</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;Rui Vieira&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Set the Current Working Directory inside the container  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">WORKDIR</span><span style="color:#d14"> /app  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Copy go mod and sum files  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">COPY</span> go.mod go.sum ./  <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">RUN</span> go mod download  <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Copy the source from the current directory to the Working Directory inside the container  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">COPY</span> . .  <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Build the Go app  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">RUN</span> go build -o main .  <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Expose port 8080 to the outside world  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">EXPOSE</span><span style="color:#d14"> 8080  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Command to run the executable  </span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">CMD</span> [<span style="color:#d14">&#34;./main&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
+</span></pre><h2 id="reference">Reference</h2>
 <h3 id="conversions">Conversions</h3>
 <h4 id="how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</h4>
 <pre style="background-color:#fff">b <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;This is a string&#34;</span>)
@@ -255,6 +275,8 @@ err <span style="color:#000;font-weight:bold">:=</span> cmd.<span style="color:#
 	<span style="color:#998;font-style:italic">// ... assertions
 </span></pre><p>The test files themselves must have the suffix <code>*_test.go</code>.<br />
 Call the tests with <code>go test</code>.</p>
+<h3 id="resource-bundling">Resource bundling</h3>
+<p>This moved to <a href="go-resource-bundling.html">Go resource bundling</a>.</p>
 <div class="footnotes" role="doc-endnotes">
 <hr />
 <ol>

@@ -90,7 +90,7 @@
                         text-decoration: none !important;
                 }
         </style>
-        <title>ruivieira.dev - Counterfactuals</title>
+        <title>ruivieira.dev - Clojure</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -111,9 +111,7 @@
             <h2>Contents</h2>
             <ul>
             
-                <li><a href="#desiderata">Desiderata</a></li>
-            
-                <li><a href="#wachter-et-al">Wachter et al</a></li>
+                <li><a href="#reference">Reference</a></li>
             
             </ul>
         
@@ -122,8 +120,6 @@
 
                 <ul>
                         
-                                <li><a href="explainability.html">Explainability</a><sup>&#5833</sup></li>
-                        
                                 <li><a href="index.html">index</a><sup>&#5833</sup></li>
                         
                     <li><a href="/content.html">content</a><sup>&#5833</sup></li>
@@ -131,47 +127,28 @@
                 </ul>
         
     <div class="footer">
-        modified 1609200717
+        modified 1609278050
     </div>
 
 </div>
 
 <div id="content">
-    <h1 id="counterfactuals">Counterfactuals</h1>
-<p>A special type of <a href="explainability.html">Explainability</a>.</p>
-<h2 id="desiderata">Desiderata</h2>
-<p>According to Verma <em>et al</em> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> the counterfactual desiderata is:</p>
-<ul>
-<li>Validity</li>
-<li>Actionability</li>
-<li>Sparsity</li>
-<li>Data manifold closeness</li>
-<li>Causality</li>
-<li>Amortised inference</li>
-</ul>
-<h3 id="validity">Validity</h3>
-<h2 id="wachter-et-al">Wachter et al</h2>
-<p>Loss function:</p>
-<p><span class="math display">\[L(x,x^{\prime},y^{\prime},\lambda)=\lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})
-\]</span></p>
-<p>Where</p>
-<ul>
-<li><span class="math inline">\(\hat{f}(x^{\prime})−y^{\prime})^2\)</span> is the quadratic distance between the model prediction for the counterfactual <span class="math inline">\(x^{\prime}\)</span> and the desired outcome <span class="math inline">\(y\)</span></li>
-<li><span class="math inline">\(d(x,x^{\prime})\)</span> is the distance between the instance <span class="math inline">\(x\)</span> to be explained and the counterfactual <span class="math inline">\(x^{\prime}\)</span>
-<ul>
-<li>Usually, <span class="math inline">\(d\)</span> is defined as the <a href="error-metrics.html#manhattan-distance">Manhattan distance</a> weighted with the inverse median absolute deviation (MAD) of each feature.</li>
-</ul>
-</li>
-</ul>
-<div class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p>Verma, Sahil, John Dickerson, and Keegan Hines. &quot;<em>Counterfactual Explanations for Machine Learning: A Review.</em>&quot; <em>arXiv preprint arXiv:2010.10596</em> (2020). <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</div>
+    <h1 id="clojure">Clojure</h1>
+<p>Notes on Clojure.</p>
+<h2 id="reference">Reference</h2>
+<h3 id="concatenating-strings">Concatenating strings</h3>
+<pre style="background-color:#fff">(<span style="color:#900;font-weight:bold">require</span> <span style="color:#000;font-weight:bold">&#39;</span><span style="color:#d14">\[</span><span style="color:#008080">clojure.string</span> <span style="color:#990073">:as</span> <span style="color:#008080">string</span><span style="color:#d14">\]</span>)
 
+(<span style="color:#900;font-weight:bold">string/join</span> [<span style="color:#d14">&#34;foo&#34;</span> <span style="color:#d14">&#34;bar&#34;</span>])
+</pre><h3 id="list-files-recursively">List files recursively</h3>
+<pre style="background-color:#fff">(<span style="color:#0086b3">file-seq </span><span style="color:#d14">&#34;/etc&#34;</span>)
+</pre><p>(Compare with the <a href="java.html#list-files-recursively">Java</a> version.)</p>
+<p>Filter by extension:</p>
+<pre style="background-color:#fff">(<span style="color:#0086b3">filter </span><span style="color:#000;font-weight:bold">#</span>(<span style="color:#900;font-weight:bold">.endsWith</span> (<span style="color:#900;font-weight:bold">.toString</span> <span style="color:#008080">%</span>) <span style="color:#d14">&#34;.conf&#34;</span>) 
+	(<span style="color:#0086b3">file-seq </span><span style="color:#d14">&#34;/etc&#34;</span>)))
+</pre><h3 id="get-home-directory">Get home directory</h3>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def </span><span style="color:#008080">home</span> (<span style="color:#900;font-weight:bold">System/getProperty</span> <span style="color:#d14">&#34;user.home&#34;</span>))
+</pre>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
