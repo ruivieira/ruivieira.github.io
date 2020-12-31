@@ -107,7 +107,7 @@
                         text-decoration: none !important;
                 }
         </style>
-        <title>ruivieira.dev - index</title>
+        <title>ruivieira.dev - Go filesystem operations</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -128,75 +128,72 @@
             <h2>Contents</h2>
             <ul>
             
-                <li><a href="#welcome">Welcome</a></li>
+                <li><a href="#copying-files">Copying files</a></li>
             
-                <li><a href="#recent-changes">Recent changes</a></li>
+                <li><a href="#path-operations">Path operations</a></li>
             
             </ul>
         
         
+                <h2>Backlinks</h2>
+
+                <ul>
+                        
+                                <li><a href="go.html">Go</a><sup>&#5833</sup></li>
+                        
+                    <li><a href="/content.html">content</a><sup>&#5833</sup></li>
+
+                </ul>
+        
     <div class="footer">
-        modified 1609367880
+        modified 1609452893
     </div>
 
 </div>
 
 <div id="content">
-    <h1 id="ruivieiradev">ruivieira.dev</h1>
-<pre style="background-color:#fff">-----BEGIN GEEK CODE BLOCK-----
-Version: 3.1
-GCS/M/MU d-- s:+&gt; !a C++$&gt;+++ ULC P+&gt;++ L+++&gt;++++ E-@ W++ 
-!N&gt;+ !o K--? !w O&gt;+ M+ !V PS++@ PE-@ !Y PGP@&gt;++ t+ !5 X++ 
-R@&gt;+ tv+&gt; b++&gt;+++ DI&gt;+ D++&gt;+++ G++&gt;+++ e++++ h---- r+++ z
-------END GEEK CODE BLOCK------
-</pre><h2 id="welcome">Welcome</h2>
-<p>Welcome to <code>ruivieira.dev</code>.</p>
-<p>Formerly, this site used to be a blog. Currently, it is adhering to the principles of a <a href="digital-garden.html">Digital Garden</a> and following the guidelines of <a href="brutalist-web-design.html">Brutalist Web Design</a>. It is intended to be a collection of notes, a learning journal and a reference -- all growing organically.</p>
-<p>Technical details about this site are available at the <a href="site-details.html">site details</a> page.</p>
-<p>You can still find most of my old &quot;blog posts&quot; here:</p>
-<ul>
-<li><a href="serving-models-with-seldon.html">Serving models with Seldon</a></li>
-<li><a href="semi-handcrafted-rss.html">(Semi) handcrafted RSS</a></li>
-<li><a href="introduction-to-balanced-box-decomposition-trees.html">Introduction to Balanced Box-Decomposition Trees</a></li>
-<li><a href="monotonic-cubic-spline-interpolation-with-some-rust.html">Monotonic Cubic Spline interpolation (with some Rust)</a></li>
-<li><a href="python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a></li>
-<li><a href="introduction-to-isolation-forests.html">Introduction to Isolation Forests</a></li>
-<li><a href="mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
-<li><a href="containerised-streaming-data-generation-using-state-space-models.html">Containerised Streaming Data Generation using State-Space Models</a></li>
-<li><a href="a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
-<li><a href="a-streaming-als-implementation.html">A streaming ALS implementation</a></li>
-<li><a href="bayesian-estimation-of-changepoints.html">Bayesian estimation of changepoints</a></li>
-<li><a href="t-as-mixture-of-normals.html">t as mixture of Normals</a></li>
-<li><a href="langtons-ant.html">Langton's Ant</a></li>
-<li><a href="a-gibbs-sampler-in-crystal.html">A Gibbs Sampler in Crystal</a></li>
-<li><a href="mcmc-notifications.html">MCMC notifications</a></li>
-<li><a href="gulp.html">gulp</a></li>
-</ul>
-<p>Some topics on <a href="machine-learning.html">Machine Learning</a>:</p>
-<ul>
-<li>A section on <a href="explainability.html">Explainability</a>, with focus on
-<ul>
-<li><a href="counterfactuals.html">Counterfactuals</a></li>
-</ul>
-</li>
-</ul>
-<p>There are some areas about programming languages too:</p>
-<ul>
-<li><a href="go.html">Go</a></li>
-<li><a href="python.html">Python</a></li>
-<li><a href="java.html">Java</a></li>
-<li><a href="clojure.html">Clojure</a></li>
-</ul>
-<p>And other frameworks/tools:</p>
-<ul>
-<li><a href="ansible.html">Ansible</a></li>
-<li><a href="emacs.html">Emacs</a></li>
-</ul>
-<h2 id="recent-changes">Recent changes</h2>
-<ul>
-<li><a href="portuguese-christmas-recipes.html">Portuguese Christmas recipes</a></li>
-</ul>
+    <h1 id="go-filesystem-operations">Go filesystem operations</h1>
+<p>Notes on Go filesystem operations.</p>
+<h2 id="copying-files">Copying files</h2>
+<p>Go does not have an utility method to copy files. We have to rely on writing our own implementation using the reading and writing functionality in other packages. As an example:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">package</span> main 
 
+<span style="color:#000;font-weight:bold">import</span> (
+	<span style="color:#d14">&#34;io&#34;</span>
+	<span style="color:#d14">&#34;log&#34;</span>
+	<span style="color:#d14">&#34;os&#34;</span>
+) 
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() { 
+	from, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">Open</span>(<span style="color:#d14">&#34;./foo.txt&#34;</span>)
+	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> { 
+		log.<span style="color:#900;font-weight:bold">Fatal</span>(err) 
+	} 
+	<span style="color:#000;font-weight:bold">defer</span> from.<span style="color:#900;font-weight:bold">Close</span>() 
+	
+	to, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">OpenFile</span>(<span style="color:#d14">&#34;./bar.txt&#34;</span>, os.O_RDWR|os.O_CREATE, <span style="color:#099">0666</span>) 
+	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> { 
+		log.<span style="color:#900;font-weight:bold">Fatal</span>(err) 
+	} 
+	<span style="color:#000;font-weight:bold">defer</span> to.<span style="color:#900;font-weight:bold">Close</span>() 
+	
+	_, err = io.<span style="color:#900;font-weight:bold">Copy</span>(to, from) 
+	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> { 
+		log.<span style="color:#900;font-weight:bold">Fatal</span>(err) 
+	}
+}
+</pre><h2 id="path-operations">Path operations</h2>
+<h3 id="basepath">Basepath</h3>
+<p>To get the basepath of a path string we use the <a href="https://golang.org/pkg/path/#Dir">Dir</a> method:</p>
+<pre style="background-color:#fff">filepath.<span style="color:#900;font-weight:bold">Dir</span>(<span style="color:#d14">&#34;/etc/foo/file.txt&#34;</span>) <span style="color:#998;font-style:italic">// &#34;/etc/foo&#34;
+</span></pre><h3 id="check-if-directory-exists">Check if directory exists</h3>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">if</span> _, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">Stat</span>(<span style="color:#d14">&#34;/etc/foo/&#34;</span>); os.<span style="color:#900;font-weight:bold">IsNotExist</span>(err) {
+	<span style="color:#998;font-style:italic">// do something because it does not exist
+</span><span style="color:#998;font-style:italic"></span>}
+</pre><h3 id="create-nested-directories">Create nested directories</h3>
+<p>Use <a href="https://golang.org/pkg/os/#MkdirAll">MkdirAll</a>:</p>
+<pre style="background-color:#fff">os.<span style="color:#900;font-weight:bold">MkdirAll</span>(<span style="color:#d14">&#34;/etc/long/nested/path/to/create&#34;</span>, os.ModePerm)
+</pre>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>

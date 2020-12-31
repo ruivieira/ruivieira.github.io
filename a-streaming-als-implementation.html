@@ -9,17 +9,20 @@
         
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
                 onload="renderMathInElement(document.body);"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet" />
         <style>
                 @font-face {
                         font-family: JuliaMono-Regular;
                         src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
                 }
                 body {
-                        font-size: 1.2rem;
+                        font-family: Nunito;
+                        font-size: 13pt;
                         color: #1b2d45;
                 }
                 #content {
-                        max-width: 38rem;
+                        max-width: 40rem;
                         padding: 2rem;
                         margin: auto;
                 }
@@ -27,27 +30,40 @@
                    position: absolute;
                         top: 0;
                         left: 0;
-                        max-width: 13rem;
+                        max-width: 16rem;
                         margin-left: 3rem;
                         margin-top: 3rem;
                 }
                 h1, h2, h3, h4, h5, h6 {
                         color: #00214d;
                 }
+                h1 {
+                        font-size: 200%;
+                }
+
+                h2 {
+                        font-size: 167%;
+                }
+                h3 {
+                        font-size: 133%;
+                        font-weight: normal;
+                }
                 pre {
                         background-color: #eee !important;
                         overflow-x: scroll;
                         font-family: JuliaMono-Regular, monospace;
-                        font-size: 1rem;
+                        font-size: 75%;
                         padding: 1rem;
                 }
                 code {
                         background-color: #eee !important;
                         font-family: JuliaMono-Regular, monospace;
-                        font-size: 1rem;
+                        font-size: 75%;
                 }
                 img {
-                        max-width: 38rem;
+                        max-width: 100%;
+                        margin-top: 1rem;
+                        margin-bottom: 1rem;
                 }
                 .katex { font-size: 1em !important;}
                 .footer {
@@ -64,6 +80,7 @@
                         color: #ff5470;
                         padding: 1px;
                         border-radius: 2px;
+                        text-decoration: none;
                 }
                 a.footnote-ref {
                     font-size: 0.9rem;
@@ -131,7 +148,7 @@
                 </ul>
         
     <div class="footer">
-        modified 1608318016
+        modified 1609428623
     </div>
 
 </div>
@@ -188,7 +205,7 @@
 <p><img src="./images/als/rupt.png" alt="" /></p>
 <p>Once we have the factors <span class="math inline">\(\mathsf{U}\)</span> and <span class="math inline">\(\mathsf{P}\)</span>, we can then predict the missing values in <span class="math inline">\(\mathsf{R}\)</span> by using the approximation <span class="math inline">\(\hat{\mathsf{R}}\)</span>.</p>
 <p>It is clear that in a real world scenario we would have <em>many</em> missing ratings, simply due to the assumption that no user rates all products (if they did, the case for a recommendation engine will be significantly weaker). ALS is designed to deal with sparse matrices and to fill the blanks using <em>predicted values</em>. After factorization, our approximated ratings matrix will look something like this:</p>
-<p><img src="./images/als/ratings%5Ctable%5Cfilled.png" alt="" /></p>
+<p><img src="./images/als/ratings_table_filled.png" alt="" /></p>
 <p>As mentioned previously, the first step is then to minimise the loss function. In this case we take the partial derivatives and set them to zero and fortunately this has a closed form solution. We get a system of linear equations which we can easily implement. The system will correspond to the solution of</p>
 <p><span class="math display">\[\frac{\partial \ell}{\partial \mathsf{U}_x}=0, \qquad \frac{\partial \ell}{\partial \mathsf{P}_y}=0.
 \]</span></p>
@@ -223,7 +240,7 @@
 <p>with the approximation as we've seen. The missing ratings in the original matrix will now be filled by values which minimize the least squares recursion and these are taken as the ratings &quot;predictions&quot;.</p>
 <p>To illustrate the working of ALS, let's assume we have a very quirky shop that only ever sells 300 products and has exactly 300 customers. On top of that, users are allowed to use 8 bit to rate the products. We will also assume in this unusual shop that every user has rated every product.</p>
 <p>Now we're humans, and we visualise patterns in colour more easily than in numbers. We will assign a palette to the ratings, so that each rating corresponds to a colour.</p>
-<p><img src="./images/als/colour%5Cmatrix.png" alt="" /></p>
+<p><img src="./images/als/colour_matrix.png" alt="" /></p>
 <p>I think you know where this is going ... we make up this final ratings matrix so now we can visualise the ALS progress.</p>
 <p><img src="./images/als/mona_lisa_pixelated_viridis.png" alt="" /></p>
 <p>So how do we perform this factorisation? The initial step is to fill the latent factors <span class="math inline">\(\mathsf{U}\)</span> and <span class="math inline">\(\mathsf{P}\)</span>) with random values. Since at this point, we assume we don't have any ratings, having random factors will lead to an initial random guess of the ratings matrix.</p>
@@ -270,7 +287,7 @@ b_y &\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 \end{aligned}
 \]</span></p>
 <p>So the practical difference, in terms of streaming data is evident now. Given that, in both methods, the objective is to estimate the latent factors, given the ratings: with batch ALS, whenever we get a new rating, we need to fully recalculate the factors iteratively until we reach convergence. Conversely, with an SGD based factorisation, whenever we have a new rating, we can simply estimate the relevant row and column in the latent factors, by calculating the gradients and adjusting its values.</p>
-<p><img src="./images/als/batch%5Cstreaming%5Ccomparison%5C2.png" alt="" /></p>
+<p><img src="./images/als/batch_streaming_comparison_2.png" alt="" /></p>
 <p>Next we show the previous manufactured ratings matrix being factorised using B-SGD. We now simply recalculate the biases and a single latent factor vector, one observation at the time. We can see that, as expected, the convergence is slower (we <em>are</em> using a single observation at each step) but in the end, it produces a similar result.</p>
 <p><video width="100%" controls loop autoplay><source src='./images/als/sgd_factorization.mp4' type='video/mp4'></video></p>
 <p>Now, this works fine for a single machine implementing streaming ALS. But we are interested in scaling this to something larger than this example so we will use a distributed implementation of ALS. And this is were it can start to get tricky. As it is the case with distributed algorithms, there are some pitfalls which we need to avoid in order to have a performant implementation. We will look at a few of these by looking at the Apache Spark's and its default ALS implementation.</p>
@@ -312,7 +329,7 @@ model<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;
 <p>We can for instance, use the first mini-batch to initialise the model and the following batches to continuously train the model.</p>
 <p>One immediate advantage of using observations as a stream is that we no longer need to keep the entirety of the data in memory or read it from storage. If we consider the batch implementation with a very large dataset if we had a single new observation and wanted to retrain the model, we would have to, for instance, read several million ratings from a database. With a streaming variant we can use that single observation to update the latent factors.</p>
 <p>We will try to recreate Spark's batch ALS API by allowing model training using a ratings <code>RDD</code>, however this time, we consume each <code>RDD</code> from the stream mini-batch and will incrementally train the model as observations trickle in.</p>
-<p><img src="./images/als/dstream%5Cals.png" alt="" /></p>
+<p><img src="./images/als/dstream_als.png" alt="" /></p>
 <p>First, we start by establishing the quantities and data structures needed to implement streaming ALS.</p>
 <p>We've seen in the previous slides that the recursions for the gradient calculation take the following form, here presented in pseudo-code:</p>
 <pre style="background-color:#fff">userBias <span style="color:#000;font-weight:bold">+=</span> gamma <span style="color:#000;font-weight:bold">*</span> (error <span style="color:#000;font-weight:bold">-</span> <span style="color:#000;font-weight:bold">lambda</span> \<span style="color:#000;font-weight:bold">*</span> userBias) 
@@ -321,11 +338,11 @@ userFeature(i) <span style="color:#000;font-weight:bold">+=</span> gamma <span s
 </pre><p>We create a <code>Factor</code> class to encapsulate the features and the corresponding bias.</p>
 <p>We recall that in the Spark ALS implementation, the features were stored in <code>RDD</code>s typed as a tuple of <code>(id, Array)</code>, where now we have an equivalent form of <code>(id, Factor)</code> which allows us to capture the bias. I'll now provide a quick overview of the steps required to go from the initial ratings stream to the trained model, in terms of Spark's <code>RDD</code> operations.</p>
 <p>Similarly to Spark's ALS, we can assume that the model data will be in the form of <code>Rating</code>'s <code>RDD</code>s. These, as we've seen, will correspond to a mini-batch of ratings from our data stream. We first need to create the initial user and product latent factors for the observed data and we would start by creating two separate <code>RDD</code>s from the data, one keyed by user id, the other by product id.</p>
-<p><img src="./images/als/stream%5Cals%5Cstep%5C1.png" alt="" /></p>
+<p><img src="./images/als/stream_als_step_1.png" alt="" /></p>
 <p>For each entry of those new <code>RDD</code>s (the user and product indexed ones) we will now generate a random vector of features. This can be done by simply filling a vector of size <code>rank</code> with random uniform values, but as you will recall, we now also have a bias associated with each entry, which will initially also be set to a random value.</p>
-<p><img src="./images/als/stream%5Cals%5Cstep%5C2.png" alt="" /></p>
+<p><img src="./images/als/stream_als_step_2.png" alt="" /></p>
 <p>We now join the incoming ratings, with the generated user factors (using the user id as the key) getting a resulting <code>RDD</code> consisting of product ids, user ids, ratings and user factors (and the same thing for products and product factors).</p>
-<p><img src="./images/als/stream%5Cals%5Cstep%5C3.png" alt="" /></p>
+<p><img src="./images/als/stream_als_step_3.png" alt="" /></p>
 <p>Finally, we have these two joint <code>RDD</code>s which have all the necessary quantities needed to calculate the partial gradient in each element. Recalling how to calculate a predicted rating in streaming ALS, we need the global bias, the user and product bias and the corresponding user and product latent vectors.</p>
 <p>This is straightforward to calculate for each element as we can see from the pseudo-code.</p>
 <p>Here the <code>dot</code> function is simply a function to calculate the dot product treating the two factor arrays as vectors.</p>
@@ -350,14 +367,14 @@ userFeature(i) <span style="color:#000;font-weight:bold">+=</span> gamma <span s
 <p>The last step is to split the gradients according to user and product, and finally, when in possession of all the individual gradients, we reduce them into latent factors by performing an aggregated sum for each user and product.</p>
 <p>So these steps define the entirety of the streaming ALS operation. For each observation window, we calculate the latent factors <code>RDD</code>, and on the following window we update these factors, given the current observations.</p>
 <p>We've covered the initialisation case, that is, we assumed the case where the model is not initialised and we received the first mini-batch of ratings. If, on the following window, we receive ratings for previously unseen user or products, the procedure is exactly the same, that is, we generate random factors and update as described.</p>
-<p><img src="./images/als/stream%5Cals%5Coverview.png" alt="" /></p>
+<p><img src="./images/als/stream_als_overview.png" alt="" /></p>
 <p>Now I'll just quickly cover the case where we get some ratings from users or for some product we've already seen. For this new set of observations, we proceed exactly as previously, that is, we split the data into separate <code>RDD</code>s, each one containing the ratings but keyed by user and product id. I'll assume that we get a mixture of completely new data, that is, unseen user and products and some ratings for previously seen users and products shown in red.</p>
-<p><img src="./images/als/stream%5Cals%5Cpost%5Cstep%5C1.png" alt="" /></p>
+<p><img src="./images/als/stream_als_post_step_1.png" alt="" /></p>
 <p>The difference now is that, instead of assigning random factors and biases to each entry of these <code>RDD</code>s, we perform a full outer join between them and the current latent factors.</p>
 <p>The strategy is then to keep the matching existing latent factor and create random features and biases just for the user and product entries we haven't seen before.</p>
 <p>Now that we are in possession of this joint <code>RDD</code>, we can apply exactly the same steps as previously to update the factors and repeat these steps for all future incoming observations, allowing us to continuously update the model.</p>
 <p>It is now easy to see that, in the limit situation where we only have one new rating, we would now only have to update a single entry of the latent factors <code>RDD</code>, in contrast with the batch method, where the entirety of the factors would be used in the ALS step.</p>
-<p><img src="./images/als/stream%5Cals%5Cpost%5Cstep%5C2.png" alt="" /></p>
+<p><img src="./images/als/stream_als_post_step_2.png" alt="" /></p>
 <p>Let's look at some results comparing the streaming implementation with the Spark's batch implementation.</p>
 <p>The dataset we have chosen to use in these tests is one of the <a href="https://grouplens.org/datasets/movielens/latest/">MovieLens' datasets</a>. These dataset are a widely used data in recommendation engine research. They are managed by the Lens corporation and are freely available for non-commercial applications.</p>
 <p>These datasets come in several variants, namely a <a href="http://files.grouplens.org/datasets/movielens/ml-latest-small-README.html">small</a> variant, useful for a quick algorithm prototyping and testing, and a <a href="http://files.grouplens.org/datasets/movielens/ml-latest-README.html">full</a> variant, with approximately 26 million ratings (from 45,000 movies and 270,000 users), useful for a more comprehensive testing and benchmark.</p>

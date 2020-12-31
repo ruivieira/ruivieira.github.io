@@ -9,17 +9,20 @@
         
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
                 onload="renderMathInElement(document.body);"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet" />
         <style>
                 @font-face {
                         font-family: JuliaMono-Regular;
                         src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
                 }
                 body {
-                        font-size: 1.2rem;
+                        font-family: Nunito;
+                        font-size: 13pt;
                         color: #1b2d45;
                 }
                 #content {
-                        max-width: 38rem;
+                        max-width: 40rem;
                         padding: 2rem;
                         margin: auto;
                 }
@@ -27,27 +30,40 @@
                    position: absolute;
                         top: 0;
                         left: 0;
-                        max-width: 13rem;
+                        max-width: 16rem;
                         margin-left: 3rem;
                         margin-top: 3rem;
                 }
                 h1, h2, h3, h4, h5, h6 {
                         color: #00214d;
                 }
+                h1 {
+                        font-size: 200%;
+                }
+
+                h2 {
+                        font-size: 167%;
+                }
+                h3 {
+                        font-size: 133%;
+                        font-weight: normal;
+                }
                 pre {
                         background-color: #eee !important;
                         overflow-x: scroll;
                         font-family: JuliaMono-Regular, monospace;
-                        font-size: 1rem;
+                        font-size: 75%;
                         padding: 1rem;
                 }
                 code {
                         background-color: #eee !important;
                         font-family: JuliaMono-Regular, monospace;
-                        font-size: 1rem;
+                        font-size: 75%;
                 }
                 img {
-                        max-width: 38rem;
+                        max-width: 100%;
+                        margin-top: 1rem;
+                        margin-bottom: 1rem;
                 }
                 .katex { font-size: 1em !important;}
                 .footer {
@@ -64,6 +80,7 @@
                         color: #ff5470;
                         padding: 1px;
                         border-radius: 2px;
+                        text-decoration: none;
                 }
                 a.footnote-ref {
                     font-size: 0.9rem;
@@ -115,6 +132,8 @@
             
                 <li><a href="#editor-support">Editor support</a></li>
             
+                <li><a href="#chunk-options">Chunk options</a></li>
+            
             </ul>
         
         
@@ -129,7 +148,7 @@
                 </ul>
         
     <div class="footer">
-        modified 1608731139
+        modified 1609431338
     </div>
 
 </div>
@@ -143,7 +162,8 @@
 <p>At the moment of writing, the editor which, IMO, has the best support for <code>pweave</code> is Atom (using Hydrogen). To install the necessary packages run:</p>
 <pre style="background-color:#fff">apm install language-weave Hydrogen
 apm install language-markdown atom-html-preview pdf-view
-</pre><div class="footnotes" role="doc-endnotes">
+</pre><h2 id="chunk-options">Chunk options</h2>
+<div class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
 <li id="fn:1" role="doc-endnote">
