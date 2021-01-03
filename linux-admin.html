@@ -1,127 +1,40 @@
 <!DOCTYPE html>
 <head>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+          integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-        
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"></script>
 
-        
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-                onload="renderMathInElement(document.body);"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
-        <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet" />
-        <style>
-                @font-face {
-                        font-family: JuliaMono-Regular;
-                        src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
-                }
-                body {
-                        font-family: Nunito;
-                        font-size: 13pt;
-                        color: #1b2d45;
-                }
-                #content {
-                        max-width: 40rem;
-                        padding: 2rem;
-                        margin: auto;
-                }
-                #sidebar {
-                   position: absolute;
-                        top: 0;
-                        left: 0;
-                        max-width: 16rem;
-                        margin-left: 3rem;
-                        margin-top: 3rem;
-                }
-                h1, h2, h3, h4, h5, h6 {
-                        color: #00214d;
-                }
-                h1 {
-                        font-size: 200%;
-                }
-
-                h2 {
-                        font-size: 167%;
-                }
-                h3 {
-                        font-size: 133%;
-                        font-weight: normal;
-                }
-                pre {
-                        background-color: #eee !important;
-                        overflow-x: scroll;
-                        font-family: JuliaMono-Regular, monospace;
-                        font-size: 75%;
-                        padding: 1rem;
-                }
-                code {
-                        background-color: #eee !important;
-                        font-family: JuliaMono-Regular, monospace;
-                        font-size: 75%;
-                }
-                pre > code {
-                    font-size: 100%;
-                }
-                img {
-                        max-width: 100%;
-                        margin-top: 1rem;
-                        margin-bottom: 1rem;
-                }
-                .katex { font-size: 1em !important;}
-                .footer {
-                        margin-top: 3rem;
-                        font-size: 0.75rem;
-                        color: #ccc;
-                }
-                .cc-symbol {
-                        font-size: 1rem;
-                }
-                a, a:visited {
-                         
-                         
-                        color: #ff5470;
-                        padding: 1px;
-                        border-radius: 2px;
-                        text-decoration: none;
-                }
-                a.footnote-ref {
-                    font-size: 0.9rem;
-                }
-                a.footnote-ref::before {
-                    content: "[";
-                }
-                a.footnote-ref::after {
-                    content: "]";
-                }
-
-                a:hover {
-                        background-color: #ff5470;
-                        color: #fff;
-                }
-                a[href^="https://"],
-                a[href^="http://"] {
-                        text-decoration: underline;
-                }
-
-                a[href^="https://"]:after,
-                a[href^="http://"]:after {
-                        content: "\2609";
-                        text-decoration: none !important;
-                }
-        </style>
-        <title>ruivieira.dev - Linux admin</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+    <link href="/assets/style.css" rel="stylesheet"/>
+    <title>ruivieira.dev - Linux admin</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
             ga('create', 'UA-10507665-2', 'auto');
 
             ga('send', 'pageview');
@@ -131,8 +44,8 @@
 <body>
 
 <div id="sidebar">
-        
-        
+    
+    
     <div class="footer">
         modified 1609601001
     </div>

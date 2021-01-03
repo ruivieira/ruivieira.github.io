@@ -1,0 +1,97 @@
+@font-face {
+    font-family: JuliaMono-Regular;
+    src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+}
+body {
+    font-family: Nunito;
+    font-size: 13pt;
+    color: #1b2d45;
+}
+#content {
+    max-width: 40rem;
+    padding: 2rem;
+    margin: auto;
+}
+#sidebar {
+position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 16rem;
+    margin-left: 3rem;
+    margin-top: 3rem;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #00214d;
+}
+h1 {
+    font-size: 200%;
+}
+
+h2 {
+    font-size: 167%;
+}
+h3 {
+    font-size: 133%;
+    font-weight: normal;
+}
+pre {
+    background-color: #eee !important;
+    overflow-x: scroll;
+    font-family: JuliaMono-Regular, monospace;
+    font-size: 75%;
+    padding: 1rem;
+}
+code {
+    background-color: #eee !important;
+    font-family: JuliaMono-Regular, monospace;
+    font-size: 75%;
+}
+pre > code {
+font-size: 100%;
+}
+img {
+    max-width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.katex { font-size: 1em !important;}
+.footer {
+    margin-top: 3rem;
+    font-size: 0.75rem;
+    color: #ccc;
+}
+.cc-symbol {
+    font-size: 1rem;
+}
+a, a:visited {
+    /*background-color: #00ebc7;*/
+    /*color: #00214d;*/
+    color: #ff5470;
+    padding: 1px;
+    border-radius: 2px;
+    text-decoration: none;
+}
+a.footnote-ref {
+font-size: 0.9rem;
+}
+a.footnote-ref::before {
+content: "[";
+}
+a.footnote-ref::after {
+content: "]";
+}
+
+a:hover {
+    background-color: #ff5470;
+    color: #fff;
+}
+a[href^="https://"],
+a[href^="http://"] {
+    text-decoration: underline;
+}
+
+a[href^="https://"]:after,
+a[href^="http://"]:after {
+    content: "\2609";
+    text-decoration: none !important;
+}
