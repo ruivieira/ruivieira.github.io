@@ -20,7 +20,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
-    <title>ruivieira.dev - Machine Learning</title>
+    <title>ruivieira.dev - Distance metrics</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -49,7 +49,9 @@
         <h2>Contents</h2>
         <ul>
             
-                <li class="heading-2"><a href="#metrics">Metrics</a></li>
+                <li class="heading-2"><a href="#l-p-metrics">L-p metrics</a></li>
+            
+                <li class="heading-3"><a href="#manhattan-distance-l1">Manhattan distance (L1)</a></li>
             
         </ul>
     
@@ -58,28 +60,33 @@
 
         <ul>
             
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
             
             <li><a href="/content.html">content</a><sup>&#5833</sup></li>
 
         </ul>
     
     <div class="footer">
-        modified 1609766171
+        modified 1609767993
     </div>
 
 </div>
 
 <div id="content">
-    <h1 id="machine-learning">Machine Learning</h1>
-<p>Notes on machine learning.</p>
-<ul>
-<li><a href="synthetic-data-generation.html">Synthetic data generation</a></li>
-</ul>
-<h2 id="metrics">Metrics</h2>
-<ul>
-<li><a href="error-metrics.html">Error metrics</a></li>
-</ul>
+    <h1 id="distance-metrics">Distance metrics</h1>
+<h2 id="l-p-metrics">L-p metrics</h2>
+<h3 id="manhattan-distance-l1">Manhattan distance (L1)</h3>
+<p>Given two vectors <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, such that</p>
+<p><span class="math display">\[\begin{aligned}
+p &= \left(p_1, p_2, \dots,p_n\right) \\
+q &= \left(q_1, q_2, \dots,q_n\right)
+\end{aligned}
+\]</span></p>
+<p>we define the Manhattan distance as:</p>
+<p><span class="math display">\[d_1(p, q) = \|p - q\|_1 = \sum_{i=1}^n |p_i-q_i|
+\]</span></p>
 
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira

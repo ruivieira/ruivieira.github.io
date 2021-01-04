@@ -49,15 +49,29 @@
         <h2>Contents</h2>
         <ul>
             
-                <li><a href="#regression-data">Regression data</a></li>
+                <li class="heading-2"><a href="#regression-data">Regression data</a></li>
             
-                <li><a href="#classification-data">Classification data</a></li>
+                <li class="heading-3"><a href="#changing-the-gaussian-noise-level">Changing the Gaussian noise level</a></li>
             
-                <li><a href="#separability">Separability</a></li>
+                <li class="heading-3"><a href="#visualising-increasing-noise">Visualising increasing noise</a></li>
             
-                <li><a href="#concentric-clusters">Concentric clusters</a></li>
+                <li class="heading-2"><a href="#classification-data">Classification data</a></li>
             
-                <li><a href="#moon-clusters">Moon clusters</a></li>
+                <li class="heading-3"><a href="#cluster-separation">Cluster separation</a></li>
+            
+                <li class="heading-3"><a href="#noise-level">Noise level</a></li>
+            
+                <li class="heading-2"><a href="#separability">Separability</a></li>
+            
+                <li class="heading-3"><a href="#anisotropic-data">Anisotropic data</a></li>
+            
+                <li class="heading-2"><a href="#concentric-clusters">Concentric clusters</a></li>
+            
+                <li class="heading-3"><a href="#adding-noise">Adding noise</a></li>
+            
+                <li class="heading-2"><a href="#moon-clusters">Moon clusters</a></li>
+            
+                <li class="heading-3"><a href="#adding-noise">Adding noise</a></li>
             
         </ul>
     
@@ -73,7 +87,7 @@
         </ul>
     
     <div class="footer">
-        modified 1609752762
+        modified 1609779783
     </div>
 
 </div>
@@ -89,7 +103,11 @@
 <p>What does a regression consist of?</p>
 <p>For this section we will mainly use <code>scikit-learn</code>'s <a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_regression.html"><code>make_regression</code></a> method.</p>
 <p>For reproducibility, we will set a <code>random_state</code>.</p>
-<pre style="background-color:#fff">random_state <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">23</span>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">warnings</span>
+warnings<span style="color:#000;font-weight:bold">.</span>filterwarnings(<span style="color:#d14">&#39;ignore&#39;</span>)
+warnings<span style="color:#000;font-weight:bold">.</span>simplefilter(<span style="color:#d14">&#39;ignore&#39;</span>)
+
+random_state <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">23</span>
 </pre><p>We will create a dataset using <code>make_regression</code>'s random linear regression model with input features <span class="math inline">\(x=(f_1,f_2,f_3,f_4)\)</span> and an output <span class="math inline">\(y\)</span>.</p>
 <pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">plt</span>
 <span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>
@@ -221,7 +239,7 @@ df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-wei
 
 
 plot_regression(df, N_FEATURES)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_9_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_9_0.png" alt="png" /></p>
 <h3 id="changing-the-gaussian-noise-level">Changing the Gaussian noise level</h3>
 <p>The <code>noise</code> parameter in <code>make_regression</code> allows to adjust the scale of the data's gaussian centered noise.</p>
 <pre style="background-color:#fff">dataset <span style="color:#000;font-weight:bold">=</span> make_regression(
@@ -242,7 +260,7 @@ df <span style="color:#000;font-weight:bold">=</span> pd<span style="color:#000;
 
 df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-weight:bold">=</span> dataset[<span style="color:#099">1</span>]
 </pre><pre style="background-color:#fff">plot_regression(df, N_FEATURES)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_13_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_13_0.png" alt="png" /></p>
 <h3 id="visualising-increasing-noise">Visualising increasing noise</h3>
 <p>Let's increase the noise by <span class="math inline">\(10^i\)</span>, for <span class="math inline">\(i=1, 2, 3\)</span> and see what the data looks like.</p>
 <pre style="background-color:#fff">df <span style="color:#000;font-weight:bold">=</span> pd<span style="color:#000;font-weight:bold">.</span>DataFrame(data<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>zeros((N_SAMPLES, <span style="color:#099">1</span>)))
@@ -283,7 +301,7 @@ df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-wei
     )
     plt<span style="color:#000;font-weight:bold">.</span>xlabel(f<span style="color:#d14">&#34;f{i+1}&#34;</span>)
     plt<span style="color:#000;font-weight:bold">.</span>ylabel(f<span style="color:#d14">&#34;y{i+1}&#34;</span>)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_16_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_16_0.png" alt="png" /></p>
 <p>(data:classification)=</p>
 <h2 id="classification-data">Classification data</h2>
 <p>To generate data for classification we will use the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_classification.html"><code>make_classification</code></a> method.</p>
@@ -401,7 +419,7 @@ len_var <span style="color:#000;font-weight:bold">=</span> <span style="color:#0
     )
     plt<span style="color:#000;font-weight:bold">.</span>xlabel(var1)
     plt<span style="color:#000;font-weight:bold">.</span>ylabel(var2)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_20_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_20_0.png" alt="png" /></p>
 <h3 id="cluster-separation">Cluster separation</h3>
 <p>According to the docs<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, <code>class_sep</code> is the factor multiplying the hypercube size.</p>
 <p>Larger values spread out the clusters/classes and make the classification task easier.</p>
@@ -447,7 +465,7 @@ len_var <span style="color:#000;font-weight:bold">=</span> <span style="color:#0
     )
     plt<span style="color:#000;font-weight:bold">.</span>xlabel(var1)
     plt<span style="color:#000;font-weight:bold">.</span>ylabel(var2)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_23_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_23_0.png" alt="png" /></p>
 <p>We can make the cluster separability more difficult, by decreasing the value of <code>class_sep</code>.</p>
 <pre style="background-color:#fff">N_FEATURES <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">4</span>
 
@@ -491,7 +509,7 @@ len_var <span style="color:#000;font-weight:bold">=</span> <span style="color:#0
     )
     plt<span style="color:#000;font-weight:bold">.</span>xlabel(var1)
     plt<span style="color:#000;font-weight:bold">.</span>ylabel(var2)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_26_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_26_0.png" alt="png" /></p>
 <h3 id="noise-level">Noise level</h3>
 <p>According to the documentation<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, <code>flip_y</code> is the fraction of samples whose class is assigned randomly.</p>
 <p>Larger values introduce noise in the labels and make the classification task harder.</p>
@@ -528,7 +546,7 @@ len_var <span style="color:#000;font-weight:bold">=</span> <span style="color:#0
         edgecolor<span style="color:#000;font-weight:bold">=</span>df[<span style="color:#d14">&#34;y&#34;</span>]<span style="color:#000;font-weight:bold">.</span>apply(<span style="color:#000;font-weight:bold">lambda</span> y: edges[y]),
     )
 plt<span style="color:#000;font-weight:bold">.</span>tight_layout(pad<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3.0</span>)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_28_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_28_0.png" alt="png" /></p>
 <pre style="background-color:#fff">df <span style="color:#000;font-weight:bold">=</span> pd<span style="color:#000;font-weight:bold">.</span>DataFrame(data<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>zeros((N_SAMPLES, <span style="color:#099">1</span>)))
 
 <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(<span style="color:#099">3</span>):
@@ -562,7 +580,7 @@ plt<span style="color:#000;font-weight:bold">.</span>tight_layout(pad<span style
         c<span style="color:#000;font-weight:bold">=</span>df[f<span style="color:#d14">&#34;t{i+1}&#34;</span>]<span style="color:#000;font-weight:bold">.</span>apply(<span style="color:#000;font-weight:bold">lambda</span> y: colours[y]),
         edgecolor<span style="color:#000;font-weight:bold">=</span>df[f<span style="color:#d14">&#34;t{i+1}&#34;</span>]<span style="color:#000;font-weight:bold">.</span>apply(<span style="color:#000;font-weight:bold">lambda</span> y: edges[y]),
     )
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_29_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_29_0.png" alt="png" /></p>
 <h2 id="separability">Separability</h2>
 <pre style="background-color:#fff"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">sklearn.datasets</span> <span style="color:#000;font-weight:bold">import</span> make_blobs
 
@@ -597,7 +615,7 @@ len_var <span style="color:#000;font-weight:bold">=</span> <span style="color:#0
     )
     plt<span style="color:#000;font-weight:bold">.</span>xlabel(var1)
     plt<span style="color:#000;font-weight:bold">.</span>ylabel(var2)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_32_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_32_0.png" alt="png" /></p>
 <p>To make a cluster more separable we can change <code>cluster_std</code>.</p>
 <pre style="background-color:#fff">data <span style="color:#000;font-weight:bold">=</span> make_blobs(
     n_samples<span style="color:#000;font-weight:bold">=</span><span style="color:#099">60</span>,
@@ -628,7 +646,7 @@ len_var <span style="color:#000;font-weight:bold">=</span> <span style="color:#0
     )
     plt<span style="color:#000;font-weight:bold">.</span>xlabel(var1)
     plt<span style="color:#000;font-weight:bold">.</span>ylabel(var2)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_35_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_35_0.png" alt="png" /></p>
 <p>By decreasing <code>cluster_std</code> we make them less separable.</p>
 <pre style="background-color:#fff">data <span style="color:#000;font-weight:bold">=</span> make_blobs(
     n_samples<span style="color:#000;font-weight:bold">=</span><span style="color:#099">60</span>,
@@ -659,7 +677,7 @@ len_var <span style="color:#000;font-weight:bold">=</span> <span style="color:#0
     )
     plt<span style="color:#000;font-weight:bold">.</span>xlabel(var1)
     plt<span style="color:#000;font-weight:bold">.</span>ylabel(var2)
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_38_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_38_0.png" alt="png" /></p>
 <h3 id="anisotropic-data">Anisotropic data</h3>
 <pre style="background-color:#fff">data <span style="color:#000;font-weight:bold">=</span> make_blobs(n_samples<span style="color:#000;font-weight:bold">=</span><span style="color:#099">50</span>, n_features<span style="color:#000;font-weight:bold">=</span><span style="color:#099">2</span>, centers<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3</span>, cluster_std<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1.5</span>)
 </pre><pre style="background-color:#fff">transformation <span style="color:#000;font-weight:bold">=</span> [<span style="color:#099">0.5</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.5</span>], [<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.4</span>, <span style="color:#099">0.8</span>](<span style="color:#099">0.5</span>,<span style="color:#000;font-weight:bold">--</span><span style="color:#099">0.5</span>],<span style="color:#000;font-weight:bold">-</span>[<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.4</span>,<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.8</span><span style="color:#000;font-weight:bold">.</span>html)
@@ -676,7 +694,7 @@ df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-wei
 plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#34;f1&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>ylabel(<span style="color:#d14">&#34;f2&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>show()
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_43_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_43_0.png" alt="png" /></p>
 <h2 id="concentric-clusters">Concentric clusters</h2>
 <p>Sometimes we might be interested in creating a non-separable cluster.</p>
 <p>The simples way is to create concentric clusters with the <code>make_circles</code> method.</p>
@@ -697,7 +715,7 @@ df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-wei
 plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#34;f1&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>ylabel(<span style="color:#d14">&#34;f2&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>show()
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_47_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_47_0.png" alt="png" /></p>
 <h3 id="adding-noise">Adding noise</h3>
 <p>The <code>noise</code> parameter allows to create a concentric noisy dataset.</p>
 <pre style="background-color:#fff">data <span style="color:#000;font-weight:bold">=</span> make_circles(
@@ -715,7 +733,7 @@ df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-wei
 plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#34;f1&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>ylabel(<span style="color:#d14">&#34;f2&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>show()
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_50_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_50_0.png" alt="png" /></p>
 <h2 id="moon-clusters">Moon clusters</h2>
 <p>A shape that can be useful to other methos (such as counterfactuals, for instance) is the <code>make_moons</code> method.</p>
 <pre style="background-color:#fff"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">sklearn.datasets</span> <span style="color:#000;font-weight:bold">import</span> make_moons
@@ -735,7 +753,7 @@ df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-wei
 plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#34;f1&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>ylabel(<span style="color:#d14">&#34;f2&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>show()
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_53_0.png" alt="svg" /></p>
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_53_0.png" alt="png" /></p>
 <h3 id="adding-noise-1">Adding noise</h3>
 <p>As usual, the <code>noise</code> parameter allows to control the noise.</p>
 <pre style="background-color:#fff">data <span style="color:#000;font-weight:bold">=</span> make_moons(
@@ -753,9 +771,8 @@ df[<span style="color:#d14">&#34;y&#34;</span>] <span style="color:#000;font-wei
 plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#34;f1&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>ylabel(<span style="color:#d14">&#34;f2&#34;</span>)
 plt<span style="color:#000;font-weight:bold">.</span>show()
-</pre><p><img src="./figures/Synthetic%20Data%20Generation_56_0.png" alt="svg" /></p>
-<pre style="background-color:#fff">
-</pre><div class="footnotes" role="doc-endnotes">
+</pre><p><img src="./figures/Synthetic%20Data%20Generation_56_0.png" alt="png" /></p>
+<div class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
 <li id="fn:1" role="doc-endnote">

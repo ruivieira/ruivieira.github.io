@@ -49,9 +49,21 @@
         <h2>Contents</h2>
         <ul>
             
-                <li><a href="#desiderata">Desiderata</a></li>
+                <li class="heading-2"><a href="#desiderata">Desiderata</a></li>
             
-                <li><a href="#wachter-et-al">Wachter et al</a></li>
+                <li class="heading-3"><a href="#validity">Validity</a></li>
+            
+                <li class="heading-3"><a href="#actionability">Actionability</a></li>
+            
+                <li class="heading-3"><a href="#sparsity">Sparsity</a></li>
+            
+                <li class="heading-3"><a href="#data-manifold-closeness">Data manifold closeness</a></li>
+            
+                <li class="heading-3"><a href="#causality">Causality</a></li>
+            
+                <li class="heading-3"><a href="#amortised-inference">Amortised inference</a></li>
+            
+                <li class="heading-2"><a href="#wachter-et-al">Wachter et al</a></li>
             
         </ul>
     
@@ -59,6 +71,18 @@
         <h2>Backlinks</h2>
 
         <ul>
+            
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
             
                 <li><a href="explainability.html">Explainability</a><sup>&#5833</sup></li>
             
@@ -69,7 +93,7 @@
         </ul>
     
     <div class="footer">
-        modified 1609200717
+        modified 1609779765
     </div>
 
 </div>
@@ -80,14 +104,46 @@
 <h2 id="desiderata">Desiderata</h2>
 <p>According to Verma <em>et al</em> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> the counterfactual desiderata is:</p>
 <ul>
-<li>Validity</li>
-<li>Actionability</li>
-<li>Sparsity</li>
-<li>Data manifold closeness</li>
-<li>Causality</li>
-<li>Amortised inference</li>
+<li><a href="counterfactuals.html#validity">Validity</a></li>
+<li><a href="counterfactuals.html#actionability">Actionability</a></li>
+<li><a href="counterfactuals.html#sparsity">Sparsity</a></li>
+<li><a href="counterfactuals.html#data-manifold-closeness">Data manifold closeness</a></li>
+<li><a href="counterfactuals.html#causality">Causality</a></li>
+<li><a href="counterfactuals.html#amortised-inference">Amortised inference</a></li>
 </ul>
 <h3 id="validity">Validity</h3>
+<p>We assume that a counterfactual is <em>valid</em> if it solves the optimisation as states in Wachter <em>et al</em><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. If we defined the loss function as</p>
+<p><span class="math display">\[L(x,x^{\prime},y^{\prime},\lambda)=\lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime}),
+\]</span></p>
+<p>we can define the counterfactual as</p>
+<p><span class="math display">\[\arg \underset{x^{\prime}}{\min}\underset{\lambda}{\max} \lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(x \in \mathcal{X}\)</span> is the original data point</li>
+<li><span class="math inline">\(x^{\prime} \in \mathcal{X}\)</span> is the counterfactual</li>
+<li><span class="math inline">\(y^{\prime} \in \mathcal{Y}\)</span> is the desired label</li>
+<li><span class="math inline">\(d\)</span> is a <a href="distance-metrics.html">distance metric</a> to measure the distance between <span class="math inline">\(x\)</span> and <span class="math inline">\(x^{\prime}\)</span>. this could be a <a href="distance-metrics.html#manhattan-distance-l1">L1</a> or L2 distance, a quadratic distance, <em>etc.</em></li>
+</ul>
+<h3 id="actionability">Actionability</h3>
+<p>Still according to <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, <em>actionability</em> refers to the ability of a counterfactual method to separate between <em>mutable</em> and <em>immutable</em> features. Immutable, and additionally legally protected features, shouldn't be changed by a counterfactual implementation. Formally, if we defined our set of mutable (or <em>actionable</em>) features as <span class="math inline">\(\mathcal{A}\)</span>, we have</p>
+<p><span class="math display">\[\arg \underset{x^{\prime} \in \mathcal{A}}{\min}\underset{\lambda}{\max} \lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})
+\]</span></p>
+<h3 id="sparsity">Sparsity</h3>
+<p>According to <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> Shorter counterfactuals are easier to understand and an effective counterfactual implementation should change the least amount of features as possible. If a <em>sparsity penalty</em> term is added to our definition</p>
+<p><span class="math display">\[g(x^{\prime}-x)
+\]</span></p>
+<p>which increases the more features are changed and could be a L0 or <a href="distance-metrics.html#manhattan-distance-l1">L1</a> metric, for instance. We can then define the counterfactual as</p>
+<p><span class="math display">\[\arg \underset{x^{\prime} \in \mathcal{A}}{\min}\underset{\lambda}{\max} \lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})+g(x^{\prime}-x)
+\]</span></p>
+<h3 id="data-manifold-closeness">Data manifold closeness</h3>
+<p>Still according to <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, <em>data manifold closeness</em> is the property which guarantees that the counterfactual will be as close to the training data as possible. This can translate into a more &quot;realistic&quot; counterfactual, since it is possible that the counterfactual would take extreme or never seen before values in order to satisfy the previous conditions. Formally, we can write a penalty term for the adherence to the training data manifold, <span class="math inline">\(\mathcal{X}\)</span> as <span class="math inline">\(l(x^{\prime};\mathcal{X})\)</span> and the define the counterfactual as</p>
+<p><span class="math display">\[\arg \underset{x^{\prime} \in \mathcal{A}}{\min}\underset{\lambda}{\max} \lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})+g(x^{\prime}-x)+l(x^{\prime};\mathcal{X})
+\]</span></p>
+<h3 id="causality">Causality</h3>
+<p>Causality refers to the property where feature changes will impact dependent features. That is, we no longer assume that all features are independent. This implies that the counterfactual method needs to mantain the causal relations between features.</p>
+<h3 id="amortised-inference">Amortised inference</h3>
+<p>Amortised inference refers to the property of a counterfactual search to provide multiple counterfactuals for a single data point.</p>
 <h2 id="wachter-et-al">Wachter et al</h2>
 <p>Loss function:</p>
 <p><span class="math display">\[L(x,x^{\prime},y^{\prime},\lambda)=\lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})
@@ -106,6 +162,9 @@
 <ol>
 <li id="fn:1" role="doc-endnote">
 <p>Verma, Sahil, John Dickerson, and Keegan Hines. &quot;<em>Counterfactual Explanations for Machine Learning: A Review.</em>&quot; <em>arXiv preprint arXiv:2010.10596</em> (2020). <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>Wachter, Sandra, Brent Mittelstadt, and Chris Russell. &quot;<em>Counterfactual explanations without opening the black box: Automated decisions and the GDPR.</em>&quot; <em>Harv. JL &amp; Tech.</em> 31 (2017): 841. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>
