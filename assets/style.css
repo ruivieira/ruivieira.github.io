@@ -95,3 +95,15 @@ a[href^="http://"]:after {
     content: "\2609";
     text-decoration: none !important;
 }
+
+/* Dataframe styling */
+.dataframe * {border-color: none !important; border: none !important; font-family: JuliaMono; font-size: 90%}
+.dataframe th{background: #eee;}
+.dataframe td{text-align: right; min-width:5em;}
+
+/* Format summary rows */
+.dataframe-summary-row tr:last-child,
+.dataframe-summary-col td:last-child{
+    background: #eee;
+    font-weight: 500;
+}
