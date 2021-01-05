@@ -20,7 +20,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
-    <title>ruivieira.dev - Distance metrics</title>
+    <title>ruivieira.dev - Counterfactuals with Constraint Solvers</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -46,23 +46,10 @@
 <div id="sidebar">
     <a href="/">home</a>
     
-        <h2>Contents</h2>
-        <ul>
-            
-                <li class="heading-2"><a href="#l-p-metrics">L-p metrics</a></li>
-            
-                <li class="heading-3"><a href="#manhattan-distance-l1">Manhattan distance (L1)</a></li>
-            
-        </ul>
-    
     
         <h2>Backlinks</h2>
 
         <ul>
-            
-                <li><a href="counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
-            
-                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
             
                 <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
             
@@ -71,24 +58,24 @@
         </ul>
     
     <div class="footer">
-        modified 1609767993
+        modified 1609857870
     </div>
 
 </div>
 
 <div id="content">
-    <h1 id="distance-metrics">Distance metrics</h1>
-<h2 id="l-p-metrics">L-p metrics</h2>
-<h3 id="manhattan-distance-l1">Manhattan distance (L1)</h3>
-<p>Given two vectors <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, such that</p>
-<p><span class="math display">\[\begin{aligned}
-p &= \left(p_1, p_2, \dots,p_n\right) \\
-q &= \left(q_1, q_2, \dots,q_n\right)
-\end{aligned}
+    <h1 id="counterfactuals-with-constraint-solvers">Counterfactuals with constraint solvers</h1>
+<p>An implementation on how to calculate <a href="counterfactuals.html">counterfactuals</a> with Constraint Solvers (namely <a href="optaplanner.html">OptaPlanner</a>) is available <a href="https://github.com/kiegroup/trusty-ai-sandbox/tree/master/explainability/core/counterfactuals">here</a>.</p>
+<p>This implementation satisfies several criteria of the <a href="counterfactuals.html#desiderata">counterfactuals desiderata</a>.</p>
+<p>The penalisation score is represented with a <code>BendableBigDecimal</code>, having three &quot;<em>hard</em>&quot; levels and one &quot;<em>soft</em>&quot; level.</p>
+<p><img src="./images/diagrams/counterfactual_score.png" alt="" /></p>
+<p>The first hard level component, <span class="point">1</span>, penalises the score according to the distance between the prediction, <span class="math inline">\(y^{\prime}\)</span> for the currently proposed solution, <span class="math inline">\(x^{\prime}\)</span> and the original prediction <span class="math inline">\(y\)</span>, that is this our <span class="math inline">\((\hat{f}(x^{\prime})-y^{\prime})^2\)</span>.</p>
+<p>The <a href="counterfactuals.html#actionability">actionability</a> is score with <span class="point">2</span>. This component penalises the score according to number of <em>immutable</em> features which were changed in the counterfactual.</p>
+<p>A confidence score component, <span class="point">3</span> is use to, optionally, impose a minimum confidence threshold to the counterfactual's associated prediction, <span class="math inline">\(x^{\prime}\)</span>.</p>
+<p>Finally, the <em>feature distance</em>, <span class="point">4</span>, penalises the score according to the feature distance. This is the representation of</p>
+<p><span class="math display">\[d(x, x^{\prime}).
 \]</span></p>
-<p>we define the Manhattan distance as:</p>
-<p><span class="math display">\[d_1(p, q) = \|p - q\|_1 = \sum_{i=1}^n |p_i-q_i|
-\]</span></p>
+<p>In the concrete implementation linked above, the distance, <span class="math inline">\(d\)</span>, chosen is a <a href="distance-metrics.html#manhattan-distance-l1">Manhattan</a> (or <span class="math inline">\(L^1\)</span>) distance calculated feature-wise.</p>
 
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira

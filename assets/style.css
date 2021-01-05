@@ -113,3 +113,12 @@ a[href^="http://"]:after {
     background: #eee;
     font-weight: 500;
 }
+.point {
+    border-radius: 50%;
+    padding: 0px 5px 0px 5px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    background: #000;
+    color: #fff;
+    text-align: center;
+}

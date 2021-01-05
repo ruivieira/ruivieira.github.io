@@ -63,7 +63,9 @@
             
                 <li class="heading-3"><a href="#amortised-inference">Amortised inference</a></li>
             
-                <li class="heading-2"><a href="#wachter-et-al">Wachter et al</a></li>
+                <li class="heading-2"><a href="#alternative-methods">Alternative methods</a></li>
+            
+                <li class="heading-3"><a href="#constraint-solvers">Constraint solvers</a></li>
             
         </ul>
     
@@ -71,6 +73,12 @@
         <h2>Backlinks</h2>
 
         <ul>
+            
+                <li><a href="counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
+            
+                <li><a href="counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
             
                 <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
             
@@ -93,7 +101,7 @@
         </ul>
     
     <div class="footer">
-        modified 1609779765
+        modified 1609781002
     </div>
 
 </div>
@@ -144,19 +152,9 @@
 <p>Causality refers to the property where feature changes will impact dependent features. That is, we no longer assume that all features are independent. This implies that the counterfactual method needs to mantain the causal relations between features.</p>
 <h3 id="amortised-inference">Amortised inference</h3>
 <p>Amortised inference refers to the property of a counterfactual search to provide multiple counterfactuals for a single data point.</p>
-<h2 id="wachter-et-al">Wachter et al</h2>
-<p>Loss function:</p>
-<p><span class="math display">\[L(x,x^{\prime},y^{\prime},\lambda)=\lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})
-\]</span></p>
-<p>Where</p>
-<ul>
-<li><span class="math inline">\(\hat{f}(x^{\prime})−y^{\prime})^2\)</span> is the quadratic distance between the model prediction for the counterfactual <span class="math inline">\(x^{\prime}\)</span> and the desired outcome <span class="math inline">\(y\)</span></li>
-<li><span class="math inline">\(d(x,x^{\prime})\)</span> is the distance between the instance <span class="math inline">\(x\)</span> to be explained and the counterfactual <span class="math inline">\(x^{\prime}\)</span>
-<ul>
-<li>Usually, <span class="math inline">\(d\)</span> is defined as the <a href="error-metrics.html#manhattan-distance">Manhattan distance</a> weighted with the inverse median absolute deviation (MAD) of each feature.</li>
-</ul>
-</li>
-</ul>
+<h2 id="alternative-methods">Alternative methods</h2>
+<h3 id="constraint-solvers">Constraint solvers</h3>
+<p>An alternative method to find counterfactuals is to use constraint solvers. This is explored more in-depth in <a href="counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a>.</p>
 <div class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
