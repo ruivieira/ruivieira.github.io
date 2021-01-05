@@ -46,6 +46,23 @@
 <div id="sidebar">
     <a href="/">home</a>
     
+        <h2>Contents</h2>
+        <ul>
+            
+                <li class="heading-2"><a href="#scoring">Scoring</a></li>
+            
+                <li class="heading-2"><a href="#implementation">Implementation</a></li>
+            
+                <li class="heading-3"><a href="#prediction-distance">Prediction distance</a></li>
+            
+                <li class="heading-3"><a href="#actionability-score">Actionability score</a></li>
+            
+                <li class="heading-3"><a href="#confidence-score">Confidence score</a></li>
+            
+                <li class="heading-3"><a href="#feature-distance">Feature distance</a></li>
+            
+        </ul>
+    
     
         <h2>Backlinks</h2>
 
@@ -58,16 +75,17 @@
         </ul>
     
     <div class="footer">
-        modified 1609857870
+        modified 1609890603
     </div>
 
 </div>
 
 <div id="content">
     <h1 id="counterfactuals-with-constraint-solvers">Counterfactuals with constraint solvers</h1>
+<h2 id="scoring">Scoring</h2>
 <p>An implementation on how to calculate <a href="counterfactuals.html">counterfactuals</a> with Constraint Solvers (namely <a href="optaplanner.html">OptaPlanner</a>) is available <a href="https://github.com/kiegroup/trusty-ai-sandbox/tree/master/explainability/core/counterfactuals">here</a>.</p>
 <p>This implementation satisfies several criteria of the <a href="counterfactuals.html#desiderata">counterfactuals desiderata</a>.</p>
-<p>The penalisation score is represented with a <code>BendableBigDecimal</code>, having three &quot;<em>hard</em>&quot; levels and one &quot;<em>soft</em>&quot; level.</p>
+<p>The penalisation score is represented with a <code>BendableBigDecimalScore</code><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, having three &quot;<em>hard</em>&quot; levels and one &quot;<em>soft</em>&quot; level.</p>
 <p><img src="./images/diagrams/counterfactual_score.png" alt="" /></p>
 <p>The first hard level component, <span class="point">1</span>, penalises the score according to the distance between the prediction, <span class="math inline">\(y^{\prime}\)</span> for the currently proposed solution, <span class="math inline">\(x^{\prime}\)</span> and the original prediction <span class="math inline">\(y\)</span>, that is this our <span class="math inline">\((\hat{f}(x^{\prime})-y^{\prime})^2\)</span>.</p>
 <p>The <a href="counterfactuals.html#actionability">actionability</a> is score with <span class="point">2</span>. This component penalises the score according to number of <em>immutable</em> features which were changed in the counterfactual.</p>
@@ -76,6 +94,35 @@
 <p><span class="math display">\[d(x, x^{\prime}).
 \]</span></p>
 <p>In the concrete implementation linked above, the distance, <span class="math inline">\(d\)</span>, chosen is a <a href="distance-metrics.html#manhattan-distance-l1">Manhattan</a> (or <span class="math inline">\(L^1\)</span>) distance calculated feature-wise.</p>
+<h2 id="implementation">Implementation</h2>
+<p><img src="./images/diagrams/counterfactual_impl.png" alt="" /></p>
+<p>Entities are defined by classes such as <code>Integer</code>, <code>Categorical</code>, <code>Boolean</code> or <code>Float</code>, as shown in <span class="point">5</span>.<br />
+Each of the features, shown in <span class="point">6</span>, is created as an instance of one of these entities. For instance, <code>feature1</code> would be of type <code>Integer</code> and <code>feature2</code> would be of type <code>Categorical</code>, <em>etc.</em></p>
+<p>The original data point, <span class="math inline">\(x\)</span> is represented by this set of features (<span class="point">6</span>).</p>
+<p>A planning solution (<code>PlanningSolution</code>), illustrated in <span class="point">7</span> will produce candidate solutions (shown in <span class="point">8</span>)</p>
+<p>For each solution, we propose a new set of features (<span class="math inline">\(x^{\prime}\)</span>) as a counterfactual candidate. For instance, <code>solution A</code> in <span class="point">8</span>.</p>
+<p>In the following section we will look at how each component is calculated. We will refer to each &quot;hard&quot; level component as <span class="math inline">\(H_1, H_2\)</span> and <span class="math inline">\(H_3\)</span> and the &quot;soft&quot; component as <span class="math inline">\(S_1\)</span>. The overal score consists, then, of <span class="math inline">\(S=\{H_1, H_2, H_3, S_1 \}\)</span></p>
+<h3 id="prediction-distance">Prediction distance</h3>
+<p>The first component of the score, <span class="point">1</span> is established by sending the proposed counterfactual <span class="math inline">\(x^{\prime}\)</span>, <span class="point">8</span> to a predictive model, <span class="point">9</span> and calculating the distance between the desired outcome, <span class="math inline">\(y^{\prime}\)</span> and the model's prediction. This is done component wise, for each feature of the output. That is, for a prediction with <span class="math inline">\(N\)</span> features, we calculate</p>
+<p><span class="math display">\[H_1=\left(\sum_i^Nf(x^{\prime}_i) - y^{\prime}_i\right)^2
+\]</span></p>
+<h3 id="actionability-score">Actionability score</h3>
+<p>For the second component, the actionability score, <span class="point">2</span>. We calculate the number of features for the protected set <span class="math inline">\(\mathcal{A}\)</span>, which have a different value from the original. That is, assuming we have a certain number of protectd features <span class="math inline">\(M\)</span>, such that <span class="math inline">\(\mathcal{A}=\{A_1,A_2,\dots,A_M\}\)</span>, we calculate:</p>
+<p><span class="math display">\[H_2 = \sum_{a \in \mathcal{A}} \mathbb{1}(x_a \neq x^{\prime}_a), 
+\]</span></p>
+<h3 id="confidence-score">Confidence score</h3>
+<p>For each feature <span class="math inline">\(i\)</span>, if we have a prediction confidence, <span class="math inline">\(p_i(f(x^{\prime}))\)</span>, we calculate the number of features which have a confidence below a certain predefined threshold, <span class="math inline">\(P_i\)</span>. If the threshold is not defined, this component will always be zero and not influence the counterfactual selection. Assuming we have defined a threshold for all <span class="math inline">\(N\)</span> features, <span class="math inline">\(P = \{P_1, P_2, \dots, P_N\}\)</span> we calculate this score as</p>
+<p><span class="math display">\[H_3 = \sum_i^N \mathbb{1} \left( p_i \left( f(x^{\prime}) < P_i \right) \right)
+\]</span></p>
+<h3 id="feature-distance">Feature distance</h3>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><em>c.f.</em> https://docs.optaplanner.org/8.0.0.Final/optaplanner-javadoc/org/optaplanner/core/api/score/buildin/bendablebigdecimal/BendableBigDecimalScore.html <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
