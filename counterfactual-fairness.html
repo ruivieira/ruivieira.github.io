@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<head>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+          integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+    <link href="/assets/style.css" rel="stylesheet"/>
+    <title>ruivieira.dev - Counterfactual Fairness</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-10507665-2', 'auto');
+
+            ga('send', 'pageview');
+        }
+    </script>
+</head>
+<body>
+
+<div id="sidebar">
+    <a href="/">home</a>
+    
+        <h2>Contents</h2>
+        <ul>
+            
+                <li class="heading-2"><a href="#building-counterfactually-fair-models">Building counterfactually fair models</a></li>
+            
+                <li class="heading-3"><a href="#data">Data</a></li>
+            
+                <li class="heading-3"><a href="#pre-processing">Pre-processing</a></li>
+            
+                <li class="heading-3"><a href="#protected-attributes">Protected attributes</a></li>
+            
+                <li class="heading-3"><a href="#training-and-testing-subsets">Training and testing subsets</a></li>
+            
+                <li class="heading-2"><a href="#models">Models</a></li>
+            
+                <li class="heading-3"><a href="#unfair-model">Unfair model</a></li>
+            
+                <li class="heading-3"><a href="#full-model">Full model</a></li>
+            
+                <li class="heading-3"><a href="#fairness-through-unawareness-ftu">Fairness through unawareness (FTU)</a></li>
+            
+                <li class="heading-3"><a href="#latent-variable-model">Latent variable model</a></li>
+            
+                <li class="heading-3"><a href="#additive-error-model">Additive error model</a></li>
+            
+                <li class="heading-3"><a href="#comparison">Comparison</a></li>
+            
+                <li class="heading-2"><a href="#measuring-counterfactual-fairness">Measuring counterfactual fairness</a></li>
+            
+                <li class="heading-3"><a href="#statistical-parity-difference-/-disparate-impact">Statistical Parity Difference / Disparate Impact</a></li>
+            
+                <li class="heading-3"><a href="#finding-sensitive-features">Finding sensitive features</a></li>
+            
+        </ul>
+    
+    
+        <h2>Backlinks</h2>
+
+        <ul>
+            
+                <li><a href="explainability.html">Explainability</a><sup>&#5833</sup></li>
+            
+                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+            
+            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
+
+        </ul>
+    
+    <div class="footer">
+        modified 1609950835
+    </div>
+
+</div>
+
+<div id="content">
+    <h1 id="counterfactual-fairness">Counterfactual fairness</h1>
+<h2 id="building-counterfactually-fair-models">Building counterfactually fair models</h2>
+<h3 id="data">Data</h3>
+<p>To evaluate <em>counterfactual fairness</em> we will be using the &quot;law school&quot; dataset<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>The Law School Admission Council conducted a survey across 163 law schools in the United States.<br />
+It contains information on 21,790 law students such as their entrance exam scores (<code>LSAT</code>), their<br />
+grade-point average (<code>GPA</code>) collected prior to law school, and their first year average grade (<code>FYA</code>).<br />
+Given this data, a school may wish to predict if an applicant will have a high <code>FYA</code>. The school would<br />
+also like to make sure these predictions are not biased by an individual’s race and sex.<br />
+However, the <code>LSAT</code>, <code>GPA</code>, and <code>FYA</code> scores, may be biased due to social factors.</p>
+<p>We start by importing the data into a Pandas <code>DataFrame</code>.</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">warnings</span>
+
+warnings<span style="color:#000;font-weight:bold">.</span>filterwarnings(<span style="color:#d14">&#34;ignore&#34;</span>)
+</pre><pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">pandas</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">pd</span>
+
+df <span style="color:#000;font-weight:bold">=</span> pd<span style="color:#000;font-weight:bold">.</span>read_csv(<span style="color:#d14">&#34;data/law_data.csv&#34;</span>, index_col<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>)
+df<span style="color:#000;font-weight:bold">.</span>head()
+</pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>race</th>
+      <th>sex</th>
+      <th>LSAT</th>
+      <th>UGPA</th>
+      <th>region_first</th>
+      <th>ZFYA</th>
+      <th>sander_index</th>
+      <th>first_pf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>White</td>
+      <td>1</td>
+      <td>39.0</td>
+      <td>3.1</td>
+      <td>GL</td>
+      <td>-0.98</td>
+      <td>0.782738</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>White</td>
+      <td>1</td>
+      <td>36.0</td>
+      <td>3.0</td>
+      <td>GL</td>
+      <td>0.09</td>
+      <td>0.735714</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>White</td>
+      <td>2</td>
+      <td>30.0</td>
+      <td>3.1</td>
+      <td>MS</td>
+      <td>-0.35</td>
+      <td>0.670238</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Hispanic</td>
+      <td>2</td>
+      <td>39.0</td>
+      <td>2.2</td>
+      <td>NE</td>
+      <td>0.58</td>
+      <td>0.697024</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>White</td>
+      <td>1</td>
+      <td>37.0</td>
+      <td>3.4</td>
+      <td>GL</td>
+      <td>-1.26</td>
+      <td>0.786310</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="pre-processing">Pre-processing</h3>
+<p>We now pre-process the data. We start by creating categorical &quot;dummy&quot; variables according to the <code>race</code> variable.</p>
+<pre style="background-color:#fff">df <span style="color:#000;font-weight:bold">=</span> pd<span style="color:#000;font-weight:bold">.</span>get_dummies(df, columns<span style="color:#000;font-weight:bold">=</span>[<span style="color:#d14">&#34;race&#34;</span>], prefix<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;&#34;</span>, prefix_sep<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;&#34;</span>)
+df<span style="color:#000;font-weight:bold">.</span>iloc[:, : <span style="color:#099">7</span>]<span style="color:#000;font-weight:bold">.</span>head()
+</pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>LSAT</th>
+      <th>UGPA</th>
+      <th>region_first</th>
+      <th>ZFYA</th>
+      <th>sander_index</th>
+      <th>first_pf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>39.0</td>
+      <td>3.1</td>
+      <td>GL</td>
+      <td>-0.98</td>
+      <td>0.782738</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>36.0</td>
+      <td>3.0</td>
+      <td>GL</td>
+      <td>0.09</td>
+      <td>0.735714</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>30.0</td>
+      <td>3.1</td>
+      <td>MS</td>
+      <td>-0.35</td>
+      <td>0.670238</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2</td>
+      <td>39.0</td>
+      <td>2.2</td>
+      <td>NE</td>
+      <td>0.58</td>
+      <td>0.697024</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>37.0</td>
+      <td>3.4</td>
+      <td>GL</td>
+      <td>-1.26</td>
+      <td>0.786310</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre style="background-color:#fff">df<span style="color:#000;font-weight:bold">.</span>iloc[:, <span style="color:#099">7</span> :]<span style="color:#000;font-weight:bold">.</span>head()
+</pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Amerindian</th>
+      <th>Asian</th>
+      <th>Black</th>
+      <th>Hispanic</th>
+      <th>Mexican</th>
+      <th>Other</th>
+      <th>Puertorican</th>
+      <th>White</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>We also want to expand the <code>sex</code> variable into <code>male</code>/<code>female</code> categorical variables and remove the original.</p>
+<pre style="background-color:#fff">df[<span style="color:#d14">&#34;male&#34;</span>] <span style="color:#000;font-weight:bold">=</span> df[<span style="color:#d14">&#34;sex&#34;</span>]<span style="color:#000;font-weight:bold">.</span>map(<span style="color:#000;font-weight:bold">lambda</span> x: <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">if</span> x <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">else</span> <span style="color:#099">0</span>)
+df[<span style="color:#d14">&#34;female&#34;</span>] <span style="color:#000;font-weight:bold">=</span> df[<span style="color:#d14">&#34;sex&#34;</span>]<span style="color:#000;font-weight:bold">.</span>map(<span style="color:#000;font-weight:bold">lambda</span> x: <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">if</span> x <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">else</span> <span style="color:#099">0</span>)
+df <span style="color:#000;font-weight:bold">=</span> df<span style="color:#000;font-weight:bold">.</span>drop(axis<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>, columns<span style="color:#000;font-weight:bold">=</span>[<span style="color:#d14">&#34;sex&#34;</span>])
+</pre><pre style="background-color:#fff">df<span style="color:#000;font-weight:bold">.</span>iloc[:, <span style="color:#099">0</span>:<span style="color:#099">7</span>]<span style="color:#000;font-weight:bold">.</span>head()
+</pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LSAT</th>
+      <th>UGPA</th>
+      <th>region_first</th>
+      <th>ZFYA</th>
+      <th>sander_index</th>
+      <th>first_pf</th>
+      <th>Amerindian</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>39.0</td>
+      <td>3.1</td>
+      <td>GL</td>
+      <td>-0.98</td>
+      <td>0.782738</td>
+      <td>1.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>36.0</td>
+      <td>3.0</td>
+      <td>GL</td>
+      <td>0.09</td>
+      <td>0.735714</td>
+      <td>1.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>30.0</td>
+      <td>3.1</td>
+      <td>MS</td>
+      <td>-0.35</td>
+      <td>0.670238</td>
+      <td>1.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>39.0</td>
+      <td>2.2</td>
+      <td>NE</td>
+      <td>0.58</td>
+      <td>0.697024</td>
+      <td>1.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>37.0</td>
+      <td>3.4</td>
+      <td>GL</td>
+      <td>-1.26</td>
+      <td>0.786310</td>
+      <td>1.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre style="background-color:#fff">df<span style="color:#000;font-weight:bold">.</span>iloc[:, <span style="color:#099">7</span>:]<span style="color:#000;font-weight:bold">.</span>head()
+</pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Asian</th>
+      <th>Black</th>
+      <th>Hispanic</th>
+      <th>Mexican</th>
+      <th>Other</th>
+      <th>Puertorican</th>
+      <th>White</th>
+      <th>male</th>
+      <th>female</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>We will also convert the entrance exam scores (<code>LSAT</code>) to a discrete variable.</p>
+<pre style="background-color:#fff">df[<span style="color:#d14">&#34;LSAT&#34;</span>] <span style="color:#000;font-weight:bold">=</span> df[<span style="color:#d14">&#34;LSAT&#34;</span>]<span style="color:#000;font-weight:bold">.</span>astype(<span style="color:#0086b3">int</span>)
+df<span style="color:#000;font-weight:bold">.</span>iloc[:, :<span style="color:#099">6</span>]<span style="color:#000;font-weight:bold">.</span>head()
+</pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LSAT</th>
+      <th>UGPA</th>
+      <th>region_first</th>
+      <th>ZFYA</th>
+      <th>sander_index</th>
+      <th>first_pf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>39</td>
+      <td>3.1</td>
+      <td>GL</td>
+      <td>-0.98</td>
+      <td>0.782738</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>36</td>
+      <td>3.0</td>
+      <td>GL</td>
+      <td>0.09</td>
+      <td>0.735714</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>30</td>
+      <td>3.1</td>
+      <td>MS</td>
+      <td>-0.35</td>
+      <td>0.670238</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>39</td>
+      <td>2.2</td>
+      <td>NE</td>
+      <td>0.58</td>
+      <td>0.697024</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>37</td>
+      <td>3.4</td>
+      <td>GL</td>
+      <td>-1.26</td>
+      <td>0.786310</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre style="background-color:#fff">df<span style="color:#000;font-weight:bold">.</span>iloc[:, <span style="color:#099">6</span>:]<span style="color:#000;font-weight:bold">.</span>head()
+</pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Amerindian</th>
+      <th>Asian</th>
+      <th>Black</th>
+      <th>Hispanic</th>
+      <th>Mexican</th>
+      <th>Other</th>
+      <th>Puertorican</th>
+      <th>White</th>
+      <th>male</th>
+      <th>female</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="protected-attributes">Protected attributes</h3>
+<p><em>Counterfactual fairness</em> enforces that a distribution over possible predictions for an individual should<br />
+remain unchanged in a world where an individual’s protected attributes <span class="math inline">\(A\)</span> had been different in a causal sense.<br />
+Let's start by defining the <em>protected attributes</em>. Obvious candidates are the different categorical variables for ethnicity (<code>Asian</code>, <code>White</code>, <code>Black</code>, <em>etc</em>) and gender (<code>male</code>, <code>female</code>).</p>
+<pre style="background-color:#fff">A <span style="color:#000;font-weight:bold">=</span> [
+    <span style="color:#d14">&#34;Amerindian&#34;</span>,
+    <span style="color:#d14">&#34;Asian&#34;</span>,
+    <span style="color:#d14">&#34;Black&#34;</span>,
+    <span style="color:#d14">&#34;Hispanic&#34;</span>,
+    <span style="color:#d14">&#34;Mexican&#34;</span>,
+    <span style="color:#d14">&#34;Other&#34;</span>,
+    <span style="color:#d14">&#34;Puertorican&#34;</span>,
+    <span style="color:#d14">&#34;White&#34;</span>,
+    <span style="color:#d14">&#34;male&#34;</span>,
+    <span style="color:#d14">&#34;female&#34;</span>,
+]
+</pre><h3 id="training-and-testing-subsets">Training and testing subsets</h3>
+<p>We will now divide the dataset into training and testing subsets.<br />
+We will use the same ratio as in <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, that is 20%.</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">sklearn.model_selection</span> <span style="color:#000;font-weight:bold">import</span> train_test_split
+
+df_train, df_test <span style="color:#000;font-weight:bold">=</span> train_test_split(df, random_state<span style="color:#000;font-weight:bold">=</span><span style="color:#099">23</span>, test_size<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0.2</span>);
+</pre><h2 id="models">Models</h2>
+<h3 id="unfair-model">Unfair model</h3>
+<p>As detailed in <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, the concept of counterfactual fairness holds<br />
+under three levels of assumptions of increasing strength.</p>
+<p>The first of such levels is <em>Level 1</em>, where <span class="math inline">\(\hat{Y}\)</span> is built using only the observable non-descendants of <span class="math inline">\(A\)</span>.<br />
+This only requires <em>partial</em> causal ordering and no further causal assumptions, but in many problems there will be few, if any,<br />
+observables which are not descendants of protected demographic factors.</p>
+<p>For this dataset, since <code>LSAT</code>, <code>GPA</code>, and <code>FYA</code> are all biased by ethnicity and gender, we cannot use any observed<br />
+features to construct a Level 1 counterfactually fair predictor as described in Level 1.</p>
+<p>Instead (and in order to compare the performance with Level 2 and 3 models) we will build two <em>unfair baselines</em>.</p>
+<ul>
+<li>A <em>Full</em> model, which will be trained with the totality of the variables</li>
+<li>An <em>Unaware</em> model (FTU), which will be trained will all the variables, except the protected attributes <span class="math inline">\(A\)</span>.</li>
+</ul>
+<p>Let's proceed with calculating the <em>Full</em> model.</p>
+<h3 id="full-model">Full model</h3>
+<p>As mentioned previously, the full model will be a simple linear regression in order to predict <code>ZFYA</code> using all of the variables.</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">sklearn.linear_model</span> <span style="color:#000;font-weight:bold">import</span> LinearRegression
+
+linreg_unfair <span style="color:#000;font-weight:bold">=</span> LinearRegression()
+</pre><p>The inputs will then be the totality of the variabes (protected variables <span class="math inline">\(A\)</span>, as well as <code>UGPA</code> and <code>LSAT</code>).</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>
+
+X <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>hstack(
+    (
+        df_train[A],
+        np<span style="color:#000;font-weight:bold">.</span>array(df_train[<span style="color:#d14">&#34;UGPA&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+        np<span style="color:#000;font-weight:bold">.</span>array(df_train[<span style="color:#d14">&#34;LSAT&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+    )
+)
+<span style="color:#000;font-weight:bold">print</span>(X)
+</pre><pre><code>[[ 0.   0.   0.  ...  1.   3.1 39. ]
+ [ 0.   0.   0.  ...  1.   3.5 36. ]
+ [ 0.   0.   0.  ...  1.   3.9 46. ]
+ ...
+ [ 0.   0.   0.  ...  1.   2.9 33. ]
+ [ 0.   0.   0.  ...  0.   2.9 31. ]
+ [ 0.   0.   0.  ...  0.   3.6 39. ]]
+</code></pre>
+<p>As for our target, we are trying to predict <code>ZFYA</code> (first year average grade).</p>
+<pre style="background-color:#fff">y <span style="color:#000;font-weight:bold">=</span> df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>]
+y[:<span style="color:#099">10</span>]
+</pre><pre><code>10454    0.56
+14108    0.60
+20624   -0.14
+8316     0.20
+14250    0.02
+18909   -1.47
+8949     1.36
+1658     0.39
+23340    0.10
+26884    0.48
+Name: ZFYA, dtype: float64
+</code></pre>
+<p>We fit the model:</p>
+<pre style="background-color:#fff">linreg_unfair <span style="color:#000;font-weight:bold">=</span> linreg_unfair<span style="color:#000;font-weight:bold">.</span>fit(X, y)
+</pre><p>And perform some predictions on the test subset.</p>
+<pre style="background-color:#fff">X_test <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>hstack(
+    (
+        df_test[A],
+        np<span style="color:#000;font-weight:bold">.</span>array(df_test[<span style="color:#d14">&#34;UGPA&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+        np<span style="color:#000;font-weight:bold">.</span>array(df_test[<span style="color:#d14">&#34;LSAT&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+    )
+)
+X_test
+</pre><pre><code>array([[ 0. ,  0. ,  0. , ...,  0. ,  3.4, 32. ],
+       [ 0. ,  0. ,  0. , ...,  1. ,  3.5, 41. ],
+       [ 0. ,  0. ,  0. , ...,  1. ,  3.9, 42. ],
+       ...,
+       [ 0. ,  0. ,  0. , ...,  0. ,  2.3, 28. ],
+       [ 0. ,  0. ,  0. , ...,  0. ,  3.3, 36. ],
+       [ 0. ,  0. ,  0. , ...,  0. ,  2.9, 37. ]])
+</code></pre>
+<pre style="background-color:#fff">predictions_unfair <span style="color:#000;font-weight:bold">=</span> linreg_unfair<span style="color:#000;font-weight:bold">.</span>predict(X_test)
+predictions_unfair
+</pre><pre><code>array([ 0.08676147,  0.34942627,  0.4609375 , ..., -0.25949097,
+        0.19308472,  0.14471436])
+</code></pre>
+<p>We will also calculate the <em>unfair model</em> score for future use.</p>
+<pre style="background-color:#fff">score_unfair <span style="color:#000;font-weight:bold">=</span> linreg_unfair<span style="color:#000;font-weight:bold">.</span>score(X_test, df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>])
+<span style="color:#000;font-weight:bold">print</span>(score_unfair)
+</pre><pre><code>0.12701634112845117
+</code></pre>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">sklearn.metrics</span> <span style="color:#000;font-weight:bold">import</span> mean_squared_error
+
+RMSE_unfair <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>sqrt(mean_squared_error(df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>], predictions_unfair))
+<span style="color:#000;font-weight:bold">print</span>(RMSE_unfair)
+</pre><pre><code>0.8666709890234552
+</code></pre>
+<h3 id="fairness-through-unawareness-ftu">Fairness through unawareness (FTU)</h3>
+<p>As also mentioned in <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, the second baseline we will use is an <strong>Unaware</strong> model (FTU), which will be trained will all the variables, except the protected attributes <span class="math inline">\(A\)</span>.</p>
+<pre style="background-color:#fff">linreg_ftu <span style="color:#000;font-weight:bold">=</span> LinearRegression()
+</pre><p>We will create the inputs as previously, but without using the protected attributes, <span class="math inline">\(A\)</span>.</p>
+<pre style="background-color:#fff">X_ftu <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>hstack(
+    (
+        np<span style="color:#000;font-weight:bold">.</span>array(df_train[<span style="color:#d14">&#34;UGPA&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+        np<span style="color:#000;font-weight:bold">.</span>array(df_train[<span style="color:#d14">&#34;LSAT&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+    )
+)
+X_ftu
+</pre><pre><code>array([[ 3.1, 39. ],
+       [ 3.5, 36. ],
+       [ 3.9, 46. ],
+       ...,
+       [ 2.9, 33. ],
+       [ 2.9, 31. ],
+       [ 3.6, 39. ]])
+</code></pre>
+<p>And we fit the model:</p>
+<pre style="background-color:#fff">linreg_ftu <span style="color:#000;font-weight:bold">=</span> linreg_ftu<span style="color:#000;font-weight:bold">.</span>fit(X_ftu, y)
+</pre><p>Again, let's perform some predictions on the test subset.</p>
+<pre style="background-color:#fff">X_ftu_test <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>hstack(
+    (np<span style="color:#000;font-weight:bold">.</span>array(df_test[<span style="color:#d14">&#34;UGPA&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>), np<span style="color:#000;font-weight:bold">.</span>array(df_test[<span style="color:#d14">&#34;LSAT&#34;</span>])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>))
+)
+X_ftu_test
+</pre><pre><code>array([[ 3.4, 32. ],
+       [ 3.5, 41. ],
+       [ 3.9, 42. ],
+       ...,
+       [ 2.3, 28. ],
+       [ 3.3, 36. ],
+       [ 2.9, 37. ]])
+</code></pre>
+<pre style="background-color:#fff">predictions_ftu <span style="color:#000;font-weight:bold">=</span> linreg_ftu<span style="color:#000;font-weight:bold">.</span>predict(X_ftu_test)
+predictions_ftu
+</pre><pre><code>array([-0.06909331,  0.35516229,  0.50304555, ..., -0.53109868,
+        0.08204563,  0.0226846 ])
+</code></pre>
+<p>As previously, let's calculate this model's score.</p>
+<pre style="background-color:#fff">ftu_score <span style="color:#000;font-weight:bold">=</span> linreg_ftu<span style="color:#000;font-weight:bold">.</span>score(X_ftu_test, df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>])
+<span style="color:#000;font-weight:bold">print</span>(ftu_score)
+</pre><pre><code>0.0917442226187073
+</code></pre>
+<pre style="background-color:#fff">RMSE_ftu <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>sqrt(mean_squared_error(df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>], predictions_ftu))
+<span style="color:#000;font-weight:bold">print</span>(RMSE_ftu)
+</pre><pre><code>0.8840061503773576
+</code></pre>
+<h3 id="latent-variable-model">Latent variable model</h3>
+<p>Still according to <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, a <strong>Level 2</strong> approach will model latent ‘fair’ variables which are parents of observed variables.</p>
+<p>If we consider a predictor parameterised by <span class="math inline">\(\theta\)</span>, such as:</p>
+<p><span class="math display">\[\hat{Y} \equiv g_\theta (U, X_{\nsucc A})
+\]</span></p>
+<p>with <span class="math inline">\(X_{\nsucc A} \subseteq X\)</span> are non-descendants of <span class="math inline">\(A\)</span>.<br />
+Assuming a loss function <span class="math inline">\(l(\cdot,\cdot)\)</span> and training data <span class="math inline">\(\mathcal{D}\equiv\{(A^{(i), X^{(i)}, Y^{(i)}})\}\)</span>, for <span class="math inline">\(i=1,2\dots,n\)</span>, the empirical loss is defined as</p>
+<p><span class="math display">\[L(\theta)\equiv \sum_{i=1}^n \mathbb{E}[l(y^{(i)},g_\theta(U^{(i)}, x^{(i)}_{\nsucc A}))]/n
+\]</span></p>
+<p>which has to be minimised in order to <span class="math inline">\(\theta\)</span>. Each <span class="math inline">\(n\)</span> expectation is with respect to random variable <span class="math inline">\(U^{(i)}\)</span> such that</p>
+<p><span class="math display">\[U^{(i)}\sim P_{\mathcal{M}}(U|x^{(i)}, a^{(i)})
+\]</span></p>
+<p>where <span class="math inline">\(P_{\mathcal{M}}(U|x,a)\)</span> is the conditional distribution of the background variables as given by a causal model M that is available by assumption.</p>
+<p>If this expectation cannot be calculated analytically, Markov chain Monte Carlo (MCMC) can be used to approximate it as in the following algorithm.</p>
+<p>We will follow the model specified in the original paper, where the latent variable considered is <span class="math inline">\(K\)</span>, which represents a student's <strong>knowledge</strong>.<br />
+<span class="math inline">\(K\)</span> will affect <code>GPA</code>, <code>LSAT</code> and the outcome, <code>FYA</code>.<br />
+The model can be defined by:</p>
+<p><span class="math display">\[\begin{aligned}
+GPA &\sim \mathcal{N}(GPA_0 + w_{GPA}^KK + w_{GPA}^RR + w_{GPA}^SS, \sigma_{GPA}) \\
+LSAT &\sim \text{Po}(\exp(LSAT_0 + w_{LSAT}^KK + w_{LSAT}^RR + w_L^SS)) \\
+FYA &\sim \mathcal{N}(w_{FYA}^KK + w_{FYA}^RR + w_{FYA}^SS, 1) \\
+K &\sim \mathcal{N}(0,1)
+\end{aligned}
+\]</span></p>
+<p>The priors used will be:</p>
+<p><span class="math display">\[\begin{aligned}
+GPA_0 &\sim \mathcal{N}(0, 1) \\
+LSAT_0 &\sim \mathcal{N}(0, 1) \\
+GPA_0 &\sim \mathcal{N}(0, 1)
+\end{aligned}
+\]</span></p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">pymc3</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">pm</span>
+
+K <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">len</span>(A)
+
+
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">MCMC</span>(data, samples<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1000</span>):
+
+    N <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">len</span>(data)
+    a <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>array(data[A])
+
+    model <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Model()
+
+    <span style="color:#000;font-weight:bold">with</span> model:
+        <span style="color:#998;font-style:italic"># Priors</span>
+        k <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;k&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>, sigma<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>, shape<span style="color:#000;font-weight:bold">=</span>(<span style="color:#099">1</span>, N))
+        gpa0 <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;gpa0&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>, sigma<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>)
+        lsat0 <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;lsat0&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>, sigma<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>)
+        w_k_gpa <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;w_k_gpa&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>, sigma<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>)
+        w_k_lsat <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;w_k_lsat&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>, sigma<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>)
+        w_k_zfya <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;w_k_zfya&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>, sigma<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>)
+
+        w_a_gpa <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;w_a_gpa&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>zeros(K), sigma<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>ones(K), shape<span style="color:#000;font-weight:bold">=</span>K)
+        w_a_lsat <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;w_a_lsat&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>zeros(K), sigma<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>ones(K), shape<span style="color:#000;font-weight:bold">=</span>K)
+        w_a_zfya <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(<span style="color:#d14">&#34;w_a_zfya&#34;</span>, mu<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>zeros(K), sigma<span style="color:#000;font-weight:bold">=</span>np<span style="color:#000;font-weight:bold">.</span>ones(K), shape<span style="color:#000;font-weight:bold">=</span>K)
+
+        sigma_gpa_2 <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>InverseGamma(<span style="color:#d14">&#34;sigma_gpa_2&#34;</span>, alpha<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>, beta<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>)
+
+        mu <span style="color:#000;font-weight:bold">=</span> gpa0 <span style="color:#000;font-weight:bold">+</span> (w_k_gpa <span style="color:#000;font-weight:bold">*</span> k) <span style="color:#000;font-weight:bold">+</span> pm<span style="color:#000;font-weight:bold">.</span>math<span style="color:#000;font-weight:bold">.</span>dot(a, w_a_gpa)
+
+        <span style="color:#998;font-style:italic"># Observed data</span>
+        gpa <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(
+            <span style="color:#d14">&#34;gpa&#34;</span>,
+            mu<span style="color:#000;font-weight:bold">=</span>mu,
+            sigma<span style="color:#000;font-weight:bold">=</span>pm<span style="color:#000;font-weight:bold">.</span>math<span style="color:#000;font-weight:bold">.</span>sqrt(sigma_gpa_2),
+            observed<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">list</span>(data[<span style="color:#d14">&#34;UGPA&#34;</span>]),
+            shape<span style="color:#000;font-weight:bold">=</span>(<span style="color:#099">1</span>, N),
+        )
+        lsat <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Poisson(
+            <span style="color:#d14">&#34;lsat&#34;</span>,
+            pm<span style="color:#000;font-weight:bold">.</span>math<span style="color:#000;font-weight:bold">.</span>exp(lsat0 <span style="color:#000;font-weight:bold">+</span> w_k_lsat <span style="color:#000;font-weight:bold">*</span> k <span style="color:#000;font-weight:bold">+</span> pm<span style="color:#000;font-weight:bold">.</span>math<span style="color:#000;font-weight:bold">.</span>dot(a, w_a_lsat)),
+            observed<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">list</span>(data[<span style="color:#d14">&#34;LSAT&#34;</span>]),
+            shape<span style="color:#000;font-weight:bold">=</span>(<span style="color:#099">1</span>, N),
+        )
+        zfya <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Normal(
+            <span style="color:#d14">&#34;zfya&#34;</span>,
+            mu<span style="color:#000;font-weight:bold">=</span>w_k_zfya <span style="color:#000;font-weight:bold">*</span> k <span style="color:#000;font-weight:bold">+</span> pm<span style="color:#000;font-weight:bold">.</span>math<span style="color:#000;font-weight:bold">.</span>dot(a, w_a_zfya),
+            sigma<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>,
+            observed<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">list</span>(data[<span style="color:#d14">&#34;ZFYA&#34;</span>]),
+            shape<span style="color:#000;font-weight:bold">=</span>(<span style="color:#099">1</span>, N),
+        )
+
+        step <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>Metropolis()
+        trace <span style="color:#000;font-weight:bold">=</span> pm<span style="color:#000;font-weight:bold">.</span>sample(samples, step)
+
+    <span style="color:#000;font-weight:bold">return</span> trace
+</pre><pre style="background-color:#fff">train_estimates <span style="color:#000;font-weight:bold">=</span> MCMC(df_train)
+</pre><pre><code>Multiprocess sampling (4 chains in 4 jobs)
+CompoundStep
+&gt;Metropolis: [sigma_gpa_2]
+&gt;Metropolis: [w_a_zfya]
+&gt;Metropolis: [w_a_lsat]
+&gt;Metropolis: [w_a_gpa]
+&gt;Metropolis: [w_k_zfya]
+&gt;Metropolis: [w_k_lsat]
+&gt;Metropolis: [w_k_gpa]
+&gt;Metropolis: [lsat0]
+&gt;Metropolis: [gpa0]
+&gt;Metropolis: [k]
+</code></pre>
+<div>
+    <style>
+        /* Turns off some styling */
+        progress {
+            /* gets rid of default border in Firefox and Opera. */
+            border: none;
+            /* Needs to be in here for Safari polyfill so background images work as expected. */
+            background-size: auto;
+        }
+        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+            background: #F44336;
+        }
+    </style>
+  <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [8000/8000 01:16<00:00 Sampling 4 chains, 0 divergences]
+</div>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 87 seconds.
+The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.
+The estimated number of effective samples is smaller than 200 for some parameters.
+</code></pre>
+<p>Let's plot a single trace for <span class="math inline">\(k^{(i)}\)</span>.</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">plt</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">seaborn</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">sns</span>
+<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">plotutils</span> <span style="color:#000;font-weight:bold">import</span> <span style="color:#000;font-weight:bold">*</span>
+
+<span style="color:#998;font-style:italic"># Thin the samples before plotting</span>
+k_trace <span style="color:#000;font-weight:bold">=</span> train_estimates[<span style="color:#d14">&#34;k&#34;</span>][:, <span style="color:#099">0</span>]<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>)[<span style="color:#099">0</span>::<span style="color:#099">100</span>]
+plt<span style="color:#000;font-weight:bold">.</span>subplot(<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">1</span>)
+plt<span style="color:#000;font-weight:bold">.</span>hist(k_trace, color<span style="color:#000;font-weight:bold">=</span>colours[<span style="color:#099">0</span>], bins<span style="color:#000;font-weight:bold">=</span><span style="color:#099">100</span>)
+plt<span style="color:#000;font-weight:bold">.</span>subplot(<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">2</span>)
+plt<span style="color:#000;font-weight:bold">.</span>scatter(<span style="color:#0086b3">range</span>(<span style="color:#0086b3">len</span>(k_trace)), k_trace, s<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>, c<span style="color:#000;font-weight:bold">=</span>colours[<span style="color:#099">0</span>])
+plt<span style="color:#000;font-weight:bold">.</span>show()
+</pre><p><img src="./figures/Counterfactual%20Fairness_54_0.png" alt="png" /></p>
+<pre style="background-color:#fff">train_k <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>mean(train_estimates[<span style="color:#d14">&#34;k&#34;</span>], axis<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>)<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>)
+train_k
+</pre><pre><code>array([[ 0.01917085],
+       [-0.00632169],
+       [-0.16469706],
+       ...,
+       [ 0.08588421],
+       [ 0.0144014 ],
+       [ 0.03338959]])
+</code></pre>
+<p>We can now estimate <span class="math inline">\(k\)</span> using the test data:</p>
+<pre style="background-color:#fff">test_map_estimates <span style="color:#000;font-weight:bold">=</span> MCMC(df_test)
+</pre><pre><code>Multiprocess sampling (4 chains in 4 jobs)
+CompoundStep
+&gt;Metropolis: [sigma_gpa_2]
+&gt;Metropolis: [w_a_zfya]
+&gt;Metropolis: [w_a_lsat]
+&gt;Metropolis: [w_a_gpa]
+&gt;Metropolis: [w_k_zfya]
+&gt;Metropolis: [w_k_lsat]
+&gt;Metropolis: [w_k_gpa]
+&gt;Metropolis: [lsat0]
+&gt;Metropolis: [gpa0]
+&gt;Metropolis: [k]
+</code></pre>
+<div>
+    <style>
+        /* Turns off some styling */
+        progress {
+            /* gets rid of default border in Firefox and Opera. */
+            border: none;
+            /* Needs to be in here for Safari polyfill so background images work as expected. */
+            background-size: auto;
+        }
+        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+            background: #F44336;
+        }
+    </style>
+  <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [8000/8000 00:23<00:00 Sampling 4 chains, 0 divergences]
+</div>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 35 seconds.
+The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.
+The estimated number of effective samples is smaller than 200 for some parameters.
+</code></pre>
+<pre style="background-color:#fff">test_k <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>mean(test_map_estimates[<span style="color:#d14">&#34;k&#34;</span>], axis<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>)<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>)
+test_k
+</pre><pre><code>array([[ 0.04363701],
+       [-0.09365109],
+       [-0.45671879],
+       ...,
+       [-0.03137148],
+       [ 0.28931439],
+       [ 0.07281012]])
+</code></pre>
+<p>We now build the Level 2 predictor, using <span class="math inline">\(k\)</span> as the input.</p>
+<pre style="background-color:#fff">linreg_latent <span style="color:#000;font-weight:bold">=</span> LinearRegression()
+</pre><pre style="background-color:#fff">linreg_latent <span style="color:#000;font-weight:bold">=</span> linreg_latent<span style="color:#000;font-weight:bold">.</span>fit(train_k, df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>])
+</pre><pre style="background-color:#fff">predictions_latent <span style="color:#000;font-weight:bold">=</span> linreg_latent<span style="color:#000;font-weight:bold">.</span>predict(test_k)
+predictions_latent
+</pre><pre><code>array([ 0.0711182 ,  0.14217813,  0.33010093, ...,  0.10994238,
+       -0.05604371,  0.05601828])
+</code></pre>
+<pre style="background-color:#fff">latent_score <span style="color:#000;font-weight:bold">=</span> linreg_latent<span style="color:#000;font-weight:bold">.</span>score(test_k, df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>])
+<span style="color:#000;font-weight:bold">print</span>(latent_score)
+</pre><pre><code>0.008509520014148064
+</code></pre>
+<pre style="background-color:#fff">RMSE_latent <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>sqrt(mean_squared_error(df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>], predictions_latent))
+<span style="color:#000;font-weight:bold">print</span>(RMSE_latent)
+</pre><pre><code>0.9236245677858551
+</code></pre>
+<h3 id="additive-error-model">Additive error model</h3>
+<p>Finally, in <strong>Level 3</strong>, we model <code>GPA</code>, <code>LSAT</code>, and <code>FYA</code> as continuous variables with additive error terms<br />
+independent of race and sex<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p>This corresponds to</p>
+<p><span class="math display">\[\begin{aligned}
+GPA &= b_G + w^R_{GPA}R + w^S_{GPA}S + \epsilon_{GPA}, \epsilon_{GPA} \sim p(\epsilon_{GPA}) \\
+LSAT &= b_L + w^R_{LSAT}R + w^S_{LSAT}S + \epsilon_{LSAT}, \epsilon_{LSAT} \sim p(\epsilon_{LSAT}) \\
+FYA &= b_{FYA} + w^R_{FYA}R + w^S_{FYA}S + \epsilon_{FYA} , \epsilon_{FYA} \sim p(\epsilon_{FYA})
+\end{aligned}
+\]</span></p>
+<p>We estimate the error terms <span class="math inline">\(\epsilon_{GPA}, \epsilon_{LSAT}\)</span> by first fitting two models that each use race and sex to individually<br />
+predict <code>GPA</code> and <code>LSAT</code>. We then compute the residuals of each model (<em>e.g.</em>, <span class="math inline">\(\epsilon_{GPA} =GPA−\hat{Y}_{GPA}(R, S)\)</span>).<br />
+We use these residual estimates of <span class="math inline">\(\epsilon_{GPA}, \epsilon_{LSAT}\)</span> to predict <span class="math inline">\(FYA\)</span>. In <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> this is called <em>Fair Add</em>.</p>
+<p>Since the process is similar for the individual predictions for <code>GPA</code> and <code>LSAT</code>, we will write a method to avoid repetion.</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">calculate_epsilon</span>(data, var_name, protected_attr):
+    X <span style="color:#000;font-weight:bold">=</span> data[protected_attr]
+    y <span style="color:#000;font-weight:bold">=</span> data[var_name]
+
+    linreg <span style="color:#000;font-weight:bold">=</span> LinearRegression()
+    linreg <span style="color:#000;font-weight:bold">=</span> linreg<span style="color:#000;font-weight:bold">.</span>fit(X, y)
+
+    predictions <span style="color:#000;font-weight:bold">=</span> linreg<span style="color:#000;font-weight:bold">.</span>predict(X)
+
+    <span style="color:#000;font-weight:bold">return</span> data[var_name] <span style="color:#000;font-weight:bold">-</span> predictions
+</pre><p>Let's apply it to each variable, individually.<br />
+First we calculate <span class="math inline">\(\epsilon_{GPA}\)</span>:</p>
+<pre style="background-color:#fff">epsilons_gpa <span style="color:#000;font-weight:bold">=</span> calculate_epsilon(df, <span style="color:#d14">&#34;UGPA&#34;</span>, A)
+epsilons_gpa
+</pre><pre><code>0       -0.242
+1       -0.342
+2       -0.100
+5       -0.873
+6        0.058
+         ...  
+27472    0.800
+27473    0.358
+27474    0.658
+27475   -0.300
+27476   -0.100
+Name: UGPA, Length: 21791, dtype: float64
+</code></pre>
+<p>Next, we calculate <span class="math inline">\(\epsilon_{LSAT}\)</span>:</p>
+<pre style="background-color:#fff">epsilons_LSAT <span style="color:#000;font-weight:bold">=</span> calculate_epsilon(df, <span style="color:#d14">&#34;LSAT&#34;</span>, A)
+epsilons_LSAT
+</pre><pre><code>0        1.789
+1       -1.211
+2       -7.689
+5        5.055
+6       -0.211
+         ...  
+27472   -4.689
+27473    0.789
+27474   -1.211
+27475   -6.689
+27476   -9.689
+Name: LSAT, Length: 21791, dtype: float64
+</code></pre>
+<p>Let's visualise the <span class="math inline">\(\epsilon\)</span> distribution quickly:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">plt</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">seaborn</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">sns</span>
+
+plt<span style="color:#000;font-weight:bold">.</span>subplot(<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">1</span>)
+plt<span style="color:#000;font-weight:bold">.</span>hist(epsilons_gpa, color<span style="color:#000;font-weight:bold">=</span>colours[<span style="color:#099">0</span>], bins<span style="color:#000;font-weight:bold">=</span><span style="color:#099">100</span>)
+plt<span style="color:#000;font-weight:bold">.</span>title(<span style="color:#d14">&#34;$\epsilon_{GPA}$&#34;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#34;$\epsilon_{GPA}$&#34;</span>)
+
+plt<span style="color:#000;font-weight:bold">.</span>subplot(<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">2</span>)
+plt<span style="color:#000;font-weight:bold">.</span>hist(epsilons_LSAT, color<span style="color:#000;font-weight:bold">=</span>colours[<span style="color:#099">1</span>], bins<span style="color:#000;font-weight:bold">=</span><span style="color:#099">100</span>)
+plt<span style="color:#000;font-weight:bold">.</span>title(<span style="color:#d14">&#34;$\epsilon_{LSAT}$&#34;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#34;$\epsilon_{LSAT}$&#34;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>show()
+</pre><p><img src="./figures/Counterfactual%20Fairness_75_0.png" alt="png" /></p>
+<p>We finally use the calculated <span class="math inline">\(\epsilon\)</span> to train a model in order to predict <code>FYA</code>.<br />
+We start by getting the subset of the <span class="math inline">\(\epsilon\)</span> which match the training indices.</p>
+<pre style="background-color:#fff">X <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>hstack(
+    (
+        np<span style="color:#000;font-weight:bold">.</span>array(epsilons_gpa[df_train<span style="color:#000;font-weight:bold">.</span>index])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+        np<span style="color:#000;font-weight:bold">.</span>array(epsilons_LSAT[df_train<span style="color:#000;font-weight:bold">.</span>index])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+    )
+)
+X
+</pre><pre><code>array([[-0.24179687,  1.7890625 ],
+       [ 0.15820312, -1.2109375 ],
+       [ 0.55820312,  8.7890625 ],
+       ...,
+       [-0.44179688, -4.2109375 ],
+       [-0.25087891, -4.7265625 ],
+       [ 0.39980469,  1.31054688]])
+</code></pre>
+<pre style="background-color:#fff">linreg_fair_add <span style="color:#000;font-weight:bold">=</span> LinearRegression()
+
+linreg_fair_add <span style="color:#000;font-weight:bold">=</span> linreg_fair_add<span style="color:#000;font-weight:bold">.</span>fit(
+    X,
+    df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>],
+)
+</pre><p>We now use this model to calculate the predictions</p>
+<pre style="background-color:#fff">X_test <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>hstack(
+    (
+        np<span style="color:#000;font-weight:bold">.</span>array(epsilons_gpa[df_test<span style="color:#000;font-weight:bold">.</span>index])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+        np<span style="color:#000;font-weight:bold">.</span>array(epsilons_LSAT[df_test<span style="color:#000;font-weight:bold">.</span>index])<span style="color:#000;font-weight:bold">.</span>reshape(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>, <span style="color:#099">1</span>),
+    )
+)
+
+predictions_fair_add <span style="color:#000;font-weight:bold">=</span> linreg_fair_add<span style="color:#000;font-weight:bold">.</span>predict(X_test)
+predictions_fair_add
+</pre><pre><code>array([-0.04394693,  0.24454891,  0.35558793, ..., -0.38844376,
+        0.06136776,  0.01295201])
+</code></pre>
+<p>And as previously, we calculate the model's score:</p>
+<pre style="background-color:#fff">fair_add_score <span style="color:#000;font-weight:bold">=</span> linreg_fair_add<span style="color:#000;font-weight:bold">.</span>score(X_test, df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>])
+<span style="color:#000;font-weight:bold">print</span>(fair_add_score)
+</pre><pre><code>0.04475841449183948
+</code></pre>
+<pre style="background-color:#fff">RMSE_fair_add <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>sqrt(mean_squared_error(df_test[<span style="color:#d14">&#34;ZFYA&#34;</span>], predictions_fair_add))
+<span style="color:#000;font-weight:bold">print</span>(RMSE_fair_add)
+</pre><pre><code>0.9065835039365202
+</code></pre>
+<h3 id="comparison">Comparison</h3>
+<p>The scores, so far, are:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;Unfair score:</span><span style="color:#d14">\t</span><span style="color:#d14">{score_unfair}&#34;</span>)
+<span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;FTU score:</span><span style="color:#d14">\t</span><span style="color:#d14">{ftu_score}&#34;</span>)
+<span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;L2 score:</span><span style="color:#d14">\t</span><span style="color:#d14">{latent_score}&#34;</span>)
+<span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;Fair add score:</span><span style="color:#d14">\t</span><span style="color:#d14">{fair_add_score}&#34;</span>)
+</pre><pre><code>Unfair score:	0.12701634112845117
+FTU score:	0.0917442226187073
+L2 score:	0.008509520014148064
+Fair add score:	0.04475841449183948
+</code></pre>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;Unfair RMSE:</span><span style="color:#d14">\t</span><span style="color:#d14">{RMSE_unfair}&#34;</span>)
+<span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;FTU RMSE:</span><span style="color:#d14">\t</span><span style="color:#d14">{RMSE_ftu}&#34;</span>)
+<span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;L2 RMSE:</span><span style="color:#d14">\t</span><span style="color:#d14">{RMSE_latent}&#34;</span>)
+<span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;Fair add RMSE:</span><span style="color:#d14">\t</span><span style="color:#d14">{RMSE_fair_add}&#34;</span>)
+</pre><pre><code>Unfair RMSE:	0.8666709890234552
+FTU RMSE:	0.8840061503773576
+L2 RMSE:	0.9236245677858551
+Fair add RMSE:	0.9065835039365202
+</code></pre>
+<h2 id="measuring-counterfactual-fairness">Measuring counterfactual fairness</h2>
+<p>First, we will measure two quantities, the <strong>Statistical Parity Difference</strong> (SPD)<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> and <strong>Disparate impact</strong> (DI)<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.</p>
+<h3 id="statistical-parity-difference--disparate-impact">Statistical Parity Difference / Disparate Impact</h3>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">fairlearn.metrics</span> <span style="color:#000;font-weight:bold">import</span> demographic_parity_difference, demographic_parity_ratio
+
+parities <span style="color:#000;font-weight:bold">=</span> []
+impacts <span style="color:#000;font-weight:bold">=</span> []
+
+<span style="color:#000;font-weight:bold">for</span> a <span style="color:#000;font-weight:bold">in</span> A:
+    parity <span style="color:#000;font-weight:bold">=</span> demographic_parity_difference(df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], 
+                                                sensitive_features <span style="color:#000;font-weight:bold">=</span> df_train[a])
+    di <span style="color:#000;font-weight:bold">=</span> demographic_parity_ratio(df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], 
+                                                sensitive_features <span style="color:#000;font-weight:bold">=</span> df_train[a])
+    parities<span style="color:#000;font-weight:bold">.</span>append(parity)
+    impacts<span style="color:#000;font-weight:bold">.</span>append(di)
+</pre><pre style="background-color:#fff">df_parities <span style="color:#000;font-weight:bold">=</span> pd<span style="color:#000;font-weight:bold">.</span>DataFrame({<span style="color:#d14">&#39;protected&#39;</span>:A,<span style="color:#d14">&#39;parity&#39;</span>:parities,<span style="color:#d14">&#39;impact&#39;</span>:impacts})
+</pre><pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">plt</span>
+<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">plotutils</span> <span style="color:#000;font-weight:bold">import</span> <span style="color:#000;font-weight:bold">*</span>
+
+fig <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;font-weight:bold">.</span>figure()
+
+ax <span style="color:#000;font-weight:bold">=</span> fig<span style="color:#000;font-weight:bold">.</span>add_subplot(<span style="color:#099">111</span>)
+ax2 <span style="color:#000;font-weight:bold">=</span> ax<span style="color:#000;font-weight:bold">.</span>twinx()
+
+fig<span style="color:#000;font-weight:bold">.</span>suptitle(<span style="color:#d14">&#39;Statistical Parity Difference and Disparate Impact&#39;</span>)
+
+width <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.4</span>
+df_parities<span style="color:#000;font-weight:bold">.</span>plot(x <span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;protected&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;parity&#39;</span>, kind <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;bar&#39;</span>, ax <span style="color:#000;font-weight:bold">=</span> ax, width <span style="color:#000;font-weight:bold">=</span> width, 
+       position<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>, color<span style="color:#000;font-weight:bold">=</span>colours[<span style="color:#099">0</span>], legend<span style="color:#000;font-weight:bold">=</span><span style="color:#999">False</span>)
+
+df_parities<span style="color:#000;font-weight:bold">.</span>plot(x <span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;protected&#39;</span>, y <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;impact&#39;</span>, kind <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;bar&#39;</span>, ax <span style="color:#000;font-weight:bold">=</span> ax2, width <span style="color:#000;font-weight:bold">=</span> width, 
+       position <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>, color <span style="color:#000;font-weight:bold">=</span> colours[<span style="color:#099">1</span>], legend <span style="color:#000;font-weight:bold">=</span> <span style="color:#999">False</span>)
+
+ax<span style="color:#000;font-weight:bold">.</span>axhline(y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.1</span>, linestyle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;dashed&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.7</span>, color <span style="color:#000;font-weight:bold">=</span> colours[<span style="color:#099">0</span>])
+ax2<span style="color:#000;font-weight:bold">.</span>axhline(y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.55</span>, linestyle <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;dashed&#39;</span>, alpha <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0.7</span>, color <span style="color:#000;font-weight:bold">=</span> colours[<span style="color:#099">1</span>])
+
+
+patches, labels <span style="color:#000;font-weight:bold">=</span> ax<span style="color:#000;font-weight:bold">.</span>get_legend_handles_labels()
+ax<span style="color:#000;font-weight:bold">.</span>legend(patches, [<span style="color:#d14">&#39;Stat Parity Diff&#39;</span>], loc <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;upper left&#39;</span>)
+
+patches, labels <span style="color:#000;font-weight:bold">=</span> ax2<span style="color:#000;font-weight:bold">.</span>get_legend_handles_labels()
+ax2<span style="color:#000;font-weight:bold">.</span>legend(patches, [<span style="color:#d14">&#39;Disparate Impact&#39;</span>], loc <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;upper right&#39;</span>)
+
+
+
+labels <span style="color:#000;font-weight:bold">=</span> [item<span style="color:#000;font-weight:bold">.</span>get_text() <span style="color:#000;font-weight:bold">for</span> item <span style="color:#000;font-weight:bold">in</span> ax<span style="color:#000;font-weight:bold">.</span>get_xticklabels()]
+
+<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(<span style="color:#0086b3">len</span>(A)):
+    labels[i] <span style="color:#000;font-weight:bold">=</span> A[i]
+
+ax<span style="color:#000;font-weight:bold">.</span>set_xticklabels(labels)
+ax<span style="color:#000;font-weight:bold">.</span>set_xlabel(<span style="color:#d14">&#39;Protected Features&#39;</span>)
+
+ax<span style="color:#000;font-weight:bold">.</span>set_ylabel(<span style="color:#d14">&#39;Statistical Parity Difference&#39;</span>)
+ax2<span style="color:#000;font-weight:bold">.</span>set_ylabel(<span style="color:#d14">&#39;Disparate Impact&#39;</span>)
+
+plt<span style="color:#000;font-weight:bold">.</span>show()
+</pre><p><img src="./figures/Counterfactual%20Fairness_93_0.png" alt="png" /></p>
+<h3 id="finding-sensitive-features">Finding sensitive features</h3>
+<p>Typically a <span class="math inline">\(SPD > 0.1\)</span> and a <span class="math inline">\(DI < 0.9\)</span> might indicate discrimination on those features.<br />
+All <em>protected attributes</em> fail the SPD test and, in our dataset, we have two features (<code>Hispanic</code> and <code>Mexican</code>) which clearly fail the DI test.</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">for</span> a <span style="color:#000;font-weight:bold">in</span> [<span style="color:#d14">&#34;Mexican&#34;</span>, <span style="color:#d14">&#34;Hispanic&#34;</span>]:
+    spd <span style="color:#000;font-weight:bold">=</span> demographic_parity_difference(y_true<span style="color:#000;font-weight:bold">=</span>df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], 
+                                        y_pred<span style="color:#000;font-weight:bold">=</span>df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], 
+                                        sensitive_features <span style="color:#000;font-weight:bold">=</span> df_train[a])
+    <span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;SPD({a}) = {spd}&#34;</span>)
+    di <span style="color:#000;font-weight:bold">=</span> demographic_parity_ratio(y_true<span style="color:#000;font-weight:bold">=</span>df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], 
+                                  y_pred<span style="color:#000;font-weight:bold">=</span>df_train[<span style="color:#d14">&#34;ZFYA&#34;</span>], 
+                                  sensitive_features <span style="color:#000;font-weight:bold">=</span> df_train[a])
+    <span style="color:#000;font-weight:bold">print</span>(f<span style="color:#d14">&#34;DI({a}) = {di}&#34;</span>)
+</pre><pre><code>SPD(Mexican) = 0.0014017257538768636
+DI(Mexican) = 0.5556529360210342
+SPD(Hispanic) = 0.003272247102713093
+DI(Hispanic) = 0.34227833235466826
+</code></pre>
+<pre style="background-color:#fff">
+</pre><div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>McIntyre, Frank, and Michael Simkovic. &quot;Are law degrees as valuable to minorities?.&quot; International Review of Law and Economics 53 (2018): 23-37. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>Kusner, Matt J., Joshua Loftus, Chris Russell, and Ricardo Silva. &quot;Counterfactual fairness.&quot; In Advances in neural information processing systems, pp. 4066-4076. 2017. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>That may in turn be correlated with one-another. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p>See {ref}<code>fairness:demographic-parity-difference</code>. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p>See {ref}<code>fairness:disparate-impact</code>. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
+</body>
+</html>
