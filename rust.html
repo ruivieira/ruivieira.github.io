@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -43,6 +44,34 @@
 </head>
 <body>
 
+<div id="content">
+    <h1 id="rust">Rust</h1>
+<h2 id="install">Install</h2>
+<pre style="background-color:#fff">curl --proto <span style="color:#d14">&#39;=https&#39;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh
+<span style="color:#0086b3">source</span> <span style="color:#008080">$HOME</span>/.cargo/env
+</pre><p>Create a new project using</p>
+<pre style="background-color:#fff">$ cargo new hello_world --bin <span style="color:#998;font-style:italic"># for a binary</span>
+$ cargo new hello_world       <span style="color:#998;font-style:italic"># for a library</span>
+</pre><h2 id="reference">Reference</h2>
+<h3 id="list-folders-recursively">List folders recursively</h3>
+<p>Using the <code>glob</code> crate:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">use</span><span style="color:#bbb"> </span>glob::glob;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">main</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">for</span><span style="color:#bbb"> </span>entry<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span>glob(<span style="color:#d14">&#34;./**/*.md&#34;</span>).expect(<span style="color:#d14">&#34;Failed to read glob pattern&#34;</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">		</span><span style="color:#000;font-weight:bold">match</span><span style="color:#bbb"> </span>entry<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">			</span><span style="color:#0086b3">Ok</span>(path)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=&gt;</span><span style="color:#bbb"> </span>println<span style="color:#000;font-weight:bold">!</span>(<span style="color:#d14">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>path.display()),<span style="color:#bbb">
+</span><span style="color:#bbb">			</span><span style="color:#0086b3">Err</span>(e)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=&gt;</span><span style="color:#bbb"> </span>println<span style="color:#000;font-weight:bold">!</span>(<span style="color:#d14">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>e),<span style="color:#bbb">
+</span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></pre>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
 <div id="sidebar">
     <a href="/">home</a>
     
@@ -74,33 +103,4 @@
 
 </div>
 
-<div id="content">
-    <h1 id="rust">Rust</h1>
-<h2 id="install">Install</h2>
-<pre style="background-color:#fff">curl --proto <span style="color:#d14">&#39;=https&#39;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh
-<span style="color:#0086b3">source</span> <span style="color:#008080">$HOME</span>/.cargo/env
-</pre><p>Create a new project using</p>
-<pre style="background-color:#fff">$ cargo new hello_world --bin <span style="color:#998;font-style:italic"># for a binary</span>
-$ cargo new hello_world       <span style="color:#998;font-style:italic"># for a library</span>
-</pre><h2 id="reference">Reference</h2>
-<h3 id="list-folders-recursively">List folders recursively</h3>
-<p>Using the <code>glob</code> crate:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">use</span><span style="color:#bbb"> </span>glob::glob;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">main</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">for</span><span style="color:#bbb"> </span>entry<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">in</span><span style="color:#bbb"> </span>glob(<span style="color:#d14">&#34;./**/*.md&#34;</span>).expect(<span style="color:#d14">&#34;Failed to read glob pattern&#34;</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">		</span><span style="color:#000;font-weight:bold">match</span><span style="color:#bbb"> </span>entry<span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">			</span><span style="color:#0086b3">Ok</span>(path)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=&gt;</span><span style="color:#bbb"> </span>println<span style="color:#000;font-weight:bold">!</span>(<span style="color:#d14">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>path.display()),<span style="color:#bbb">
-</span><span style="color:#bbb">			</span><span style="color:#0086b3">Err</span>(e)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=&gt;</span><span style="color:#bbb"> </span>println<span style="color:#000;font-weight:bold">!</span>(<span style="color:#d14">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>e),<span style="color:#bbb">
-</span><span style="color:#bbb">		</span>}<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>}<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span></pre>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
-
 </body>
-</html>

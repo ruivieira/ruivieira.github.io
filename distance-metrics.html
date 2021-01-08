@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -43,6 +44,25 @@
 </head>
 <body>
 
+<div id="content">
+    <h1 id="distance-metrics">Distance metrics</h1>
+<h2 id="l-p-metrics">L-p metrics</h2>
+<h3 id="manhattan-distance-l1">Manhattan distance (L1)</h3>
+<p>Given two vectors <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, such that</p>
+<p><span class="math display">\[\begin{aligned}
+p &= \left(p_1, p_2, \dots,p_n\right) \\
+q &= \left(q_1, q_2, \dots,q_n\right)
+\end{aligned}
+\]</span></p>
+<p>we define the Manhattan distance as:</p>
+<p><span class="math display">\[d_1(p, q) = \|p - q\|_1 = \sum_{i=1}^n |p_i-q_i|
+\]</span></p>
+
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
 <div id="sidebar">
     <a href="/">home</a>
     
@@ -64,8 +84,6 @@
             
                 <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
             
-                <li><a href="counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
-            
             <li><a href="/content.html">content</a><sup>&#5833</sup></li>
 
         </ul>
@@ -76,24 +94,4 @@
 
 </div>
 
-<div id="content">
-    <h1 id="distance-metrics">Distance metrics</h1>
-<h2 id="l-p-metrics">L-p metrics</h2>
-<h3 id="manhattan-distance-l1">Manhattan distance (L1)</h3>
-<p>Given two vectors <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, such that</p>
-<p><span class="math display">\[\begin{aligned}
-p &= \left(p_1, p_2, \dots,p_n\right) \\
-q &= \left(q_1, q_2, \dots,q_n\right)
-\end{aligned}
-\]</span></p>
-<p>we define the Manhattan distance as:</p>
-<p><span class="math display">\[d_1(p, q) = \|p - q\|_1 = \sum_{i=1}^n |p_i-q_i|
-\]</span></p>
-
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
-
 </body>
-</html>

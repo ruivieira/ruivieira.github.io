@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -43,6 +44,17 @@
 </head>
 <body>
 
+<div id="content">
+    <h1 id="python-environments">Python environments</h1>
+<h2 id="poetry-as-jupyter-kernel">Poetry as Jupyter kernel</h2>
+<p>To register a <code>poetry</code> environment (named <code>foo</code>) as a Jupyter kernel, run:</p>
+<pre style="background-color:#fff">poetry run python -m ipykernel install --user --name foo
+</pre>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
 <div id="sidebar">
     <a href="/">home</a>
     
@@ -70,16 +82,4 @@
 
 </div>
 
-<div id="content">
-    <h1 id="python-environments">Python environments</h1>
-<h2 id="poetry-as-jupyter-kernel">Poetry as Jupyter kernel</h2>
-<p>To register a <code>poetry</code> environment (named <code>foo</code>) as a Jupyter kernel, run:</p>
-<pre style="background-color:#fff">poetry run python -m ipykernel install --user --name foo
-</pre>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
-
 </body>
-</html>

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -43,6 +44,37 @@
 </head>
 <body>
 
+<div id="content">
+    <h1 id="java">Java</h1>
+<p>Notes on Java.</p>
+<ul>
+<li><a href="java-completable-futures.html">Java Completable Futures</a></li>
+</ul>
+<h2 id="reference">Reference</h2>
+<h3 id="get-user-home-directory">Get user home directory</h3>
+<pre style="background-color:#fff">System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getProperty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;user.home&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</pre><h3 id="list-files-recursively">List files recursively</h3>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">(</span>Stream<span style="color:#000;font-weight:bold">&lt;</span>Path<span style="color:#000;font-weight:bold">&gt;</span> walk <span style="color:#000;font-weight:bold">=</span> Files<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">walk</span><span style="color:#000;font-weight:bold">(</span>Paths<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span>input<span style="color:#000;font-weight:bold">)))</span> <span style="color:#000;font-weight:bold">{</span>  
+    List<span style="color:#000;font-weight:bold">&lt;</span>String<span style="color:#000;font-weight:bold">&gt;</span> result <span style="color:#000;font-weight:bold">=</span> 
+		walk<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>Files<span style="color:#000;font-weight:bold">::</span>isRegularFile<span style="color:#000;font-weight:bold">)</span>  
+		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">map</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span>x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">())</span>
+		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">collect</span><span style="color:#000;font-weight:bold">(</span>Collectors<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toList</span><span style="color:#000;font-weight:bold">());</span>  
+	result<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">forEach</span><span style="color:#000;font-weight:bold">(</span>System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">::</span>println<span style="color:#000;font-weight:bold">);</span>  
+  
+<span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span>IOException e<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>  
+    e<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">printStackTrace</span><span style="color:#000;font-weight:bold">();</span>  
+<span style="color:#000;font-weight:bold">}</span>
+</pre><p>In case we want the file subset with a specific extension, <code>txt</code> we can filter the stream with</p>
+<pre style="background-color:#fff">    List<span style="color:#000;font-weight:bold">&lt;</span>String<span style="color:#000;font-weight:bold">&gt;</span> result <span style="color:#000;font-weight:bold">=</span> walk<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>Files<span style="color:#000;font-weight:bold">::</span>isRegularFile<span style="color:#000;font-weight:bold">)</span>
+		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span> x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">endsWith</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;.txt&#34;</span><span style="color:#000;font-weight:bold">))</span>
+		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">map</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span> x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">())</span>
+		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">collect</span><span style="color:#000;font-weight:bold">(</span>Collectors<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toList</span><span style="color:#000;font-weight:bold">());</span>  
+</pre>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
 <div id="sidebar">
     <a href="/">home</a>
     
@@ -71,38 +103,9 @@
         </ul>
     
     <div class="footer">
-        modified 1609759621
+        modified 1610037112
     </div>
 
-</div>
-
-<div id="content">
-    <h1 id="java">Java</h1>
-<p>Notes on Java.</p>
-<h2 id="reference">Reference</h2>
-<h3 id="get-user-home-directory">Get user home directory</h3>
-<pre style="background-color:#fff">System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getProperty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;user.home&#34;</span><span style="color:#000;font-weight:bold">);</span>
-</pre><h3 id="list-files-recursively">List files recursively</h3>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">(</span>Stream<span style="color:#000;font-weight:bold">&lt;</span>Path<span style="color:#000;font-weight:bold">&gt;</span> walk <span style="color:#000;font-weight:bold">=</span> Files<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">walk</span><span style="color:#000;font-weight:bold">(</span>Paths<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span>input<span style="color:#000;font-weight:bold">)))</span> <span style="color:#000;font-weight:bold">{</span>  
-    List<span style="color:#000;font-weight:bold">&lt;</span>String<span style="color:#000;font-weight:bold">&gt;</span> result <span style="color:#000;font-weight:bold">=</span> 
-		walk<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>Files<span style="color:#000;font-weight:bold">::</span>isRegularFile<span style="color:#000;font-weight:bold">)</span>  
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">map</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span>x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">())</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">collect</span><span style="color:#000;font-weight:bold">(</span>Collectors<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toList</span><span style="color:#000;font-weight:bold">());</span>  
-	result<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">forEach</span><span style="color:#000;font-weight:bold">(</span>System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">::</span>println<span style="color:#000;font-weight:bold">);</span>  
-  
-<span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span>IOException e<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>  
-    e<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">printStackTrace</span><span style="color:#000;font-weight:bold">();</span>  
-<span style="color:#000;font-weight:bold">}</span>
-</pre><p>In case we want the file subset with a specific extension, <code>txt</code> we can filter the stream with</p>
-<pre style="background-color:#fff">    List<span style="color:#000;font-weight:bold">&lt;</span>String<span style="color:#000;font-weight:bold">&gt;</span> result <span style="color:#000;font-weight:bold">=</span> walk<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>Files<span style="color:#000;font-weight:bold">::</span>isRegularFile<span style="color:#000;font-weight:bold">)</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span> x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">endsWith</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;.txt&#34;</span><span style="color:#000;font-weight:bold">))</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">map</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span> x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">())</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">collect</span><span style="color:#000;font-weight:bold">(</span>Collectors<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toList</span><span style="color:#000;font-weight:bold">());</span>  
-</pre>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
 </div>
 
 </body>
-</html>

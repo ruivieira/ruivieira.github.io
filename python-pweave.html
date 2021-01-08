@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -43,6 +44,30 @@
 </head>
 <body>
 
+<div id="content">
+    <h1 id="python-pweave">Python Pweave</h1>
+<h2 id="installing">Installing</h2>
+<p>Installing <code>pweave</code> is a matter of simply running<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>:</p>
+<pre style="background-color:#fff">pip3 install pweave
+</pre><h2 id="editor-support">Editor support</h2>
+<p>At the moment of writing, the editor which, IMO, has the best support for <code>pweave</code> is Atom (using Hydrogen). To install the necessary packages run:</p>
+<pre style="background-color:#fff">apm install language-weave Hydrogen
+apm install language-markdown atom-html-preview pdf-view
+</pre><h2 id="chunk-options">Chunk options</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>I recommend using a separate <code>pyenv</code> for this. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
 <div id="sidebar">
     <a href="/">home</a>
     
@@ -74,29 +99,4 @@
 
 </div>
 
-<div id="content">
-    <h1 id="python-pweave">Python Pweave</h1>
-<h2 id="installing">Installing</h2>
-<p>Installing <code>pweave</code> is a matter of simply running<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>:</p>
-<pre style="background-color:#fff">pip3 install pweave
-</pre><h2 id="editor-support">Editor support</h2>
-<p>At the moment of writing, the editor which, IMO, has the best support for <code>pweave</code> is Atom (using Hydrogen). To install the necessary packages run:</p>
-<pre style="background-color:#fff">apm install language-weave Hydrogen
-apm install language-markdown atom-html-preview pdf-view
-</pre><h2 id="chunk-options">Chunk options</h2>
-<div class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p>I recommend using a separate <code>pyenv</code> for this. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</div>
-
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
-
 </body>
-</html>

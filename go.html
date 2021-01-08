@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -42,57 +43,6 @@
     </script>
 </head>
 <body>
-
-<div id="sidebar">
-    <a href="/">home</a>
-    
-        <h2>Contents</h2>
-        <ul>
-            
-                <li class="heading-2"><a href="#language-design">Language design</a></li>
-            
-                <li class="heading-3"><a href="#go-doesnt-have-sets">Go doesn&#39;t have sets</a></li>
-            
-                <li class="heading-2"><a href="#ci">CI</a></li>
-            
-                <li class="heading-3"><a href="#github">GitHub</a></li>
-            
-                <li class="heading-2"><a href="#containers">Containers</a></li>
-            
-                <li class="heading-3"><a href="#minimal-example">Minimal example</a></li>
-            
-                <li class="heading-2"><a href="#reference">Reference</a></li>
-            
-                <li class="heading-3"><a href="#conversions">Conversions</a></li>
-            
-                <li class="heading-3"><a href="#maps">Maps</a></li>
-            
-                <li class="heading-3"><a href="#templates">Templates</a></li>
-            
-                <li class="heading-3"><a href="#processes">Processes</a></li>
-            
-                <li class="heading-3"><a href="#testing-in-go">Testing in Go</a></li>
-            
-        </ul>
-    
-    
-        <h2>Backlinks</h2>
-
-        <ul>
-            
-                <li><a href="site-details.html">Site details</a><sup>&#5833</sup></li>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
-        </ul>
-    
-    <div class="footer">
-        modified 1609759621
-    </div>
-
-</div>
 
 <div id="content">
     <h1 id="the-go-language">The Go language</h1>
@@ -189,7 +139,7 @@ An example workflow file, <code>.github/workflows/test.yml</code>, which runs <c
 <h3 id="conversions">Conversions</h3>
 <h4 id="how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</h4>
 <pre style="background-color:#fff">b <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;This is a string&#34;</span>)
-</pre><h3 id="maps">Maps</h3>
+</pre><h3 id="collections">Collections</h3>
 <h4 id="sort-map-keys-alphabetically">Sort map keys alphabetically</h4>
 <p>If a <code>map</code> contains <code>string</code> keys, i.e. <code>var myMap map[string]T</code>, we must sort the map keys independently. For instance:</p>
 <pre style="background-color:#fff">keys <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">string</span>, <span style="color:#099">0</span>)
@@ -199,6 +149,16 @@ An example workflow file, <code>.github/workflows/test.yml</code>, which runs <c
 sort.<span style="color:#900;font-weight:bold">Strings</span>(keys)
 <span style="color:#000;font-weight:bold">for</span> _, k <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> keys {
     fmt.<span style="color:#900;font-weight:bold">Println</span>(k, myMap[k])
+}
+</pre><h4 id="check-for-element">Check for element</h4>
+<p>If we consider a collection, say, <code>[]string collection</code>, the way to check for an element already present is, for instance:</p>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">existsIn</span>(needle <span style="color:#458;font-weight:bold">string</span>, haystack []<span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">bool</span> {
+    <span style="color:#000;font-weight:bold">for</span> _, element <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> haystack {
+        <span style="color:#000;font-weight:bold">if</span> element <span style="color:#000;font-weight:bold">==</span> needle {
+            <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>
+        }
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>
 }
 </pre><h3 id="templates">Templates</h3>
 <h4 id="check-if-variable-empty">Check if variable empty</h4>
@@ -248,5 +208,55 @@ Call the tests with <code>go test</code>.</p>
     </div>
 </div>
 
+<div id="sidebar">
+    <a href="/">home</a>
+    
+        <h2>Contents</h2>
+        <ul>
+            
+                <li class="heading-2"><a href="#language-design">Language design</a></li>
+            
+                <li class="heading-3"><a href="#go-doesnt-have-sets">Go doesn&#39;t have sets</a></li>
+            
+                <li class="heading-2"><a href="#ci">CI</a></li>
+            
+                <li class="heading-3"><a href="#github">GitHub</a></li>
+            
+                <li class="heading-2"><a href="#containers">Containers</a></li>
+            
+                <li class="heading-3"><a href="#minimal-example">Minimal example</a></li>
+            
+                <li class="heading-2"><a href="#reference">Reference</a></li>
+            
+                <li class="heading-3"><a href="#conversions">Conversions</a></li>
+            
+                <li class="heading-3"><a href="#collections">Collections</a></li>
+            
+                <li class="heading-3"><a href="#templates">Templates</a></li>
+            
+                <li class="heading-3"><a href="#processes">Processes</a></li>
+            
+                <li class="heading-3"><a href="#testing-in-go">Testing in Go</a></li>
+            
+        </ul>
+    
+    
+        <h2>Backlinks</h2>
+
+        <ul>
+            
+                <li><a href="site-details.html">Site details</a><sup>&#5833</sup></li>
+            
+                <li><a href="index.html">index</a><sup>&#5833</sup></li>
+            
+            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
+
+        </ul>
+    
+    <div class="footer">
+        modified 1610014072
+    </div>
+
+</div>
+
 </body>
-</html>

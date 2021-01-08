@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -43,6 +44,28 @@
 </head>
 <body>
 
+<div id="content">
+    <h1 id="clojure">Clojure</h1>
+<p>Notes on Clojure.</p>
+<h2 id="reference">Reference</h2>
+<h3 id="concatenating-strings">Concatenating strings</h3>
+<pre style="background-color:#fff">(<span style="color:#900;font-weight:bold">require</span> <span style="color:#000;font-weight:bold">&#39;</span><span style="color:#d14">\[</span><span style="color:#008080">clojure.string</span> <span style="color:#990073">:as</span> <span style="color:#008080">string</span><span style="color:#d14">\]</span>)
+
+(<span style="color:#900;font-weight:bold">string/join</span> [<span style="color:#d14">&#34;foo&#34;</span> <span style="color:#d14">&#34;bar&#34;</span>])
+</pre><h3 id="list-files-recursively">List files recursively</h3>
+<pre style="background-color:#fff">(<span style="color:#0086b3">file-seq </span><span style="color:#d14">&#34;/etc&#34;</span>)
+</pre><p>(Compare with the <a href="java.html#list-files-recursively">Java</a> version.)</p>
+<p>Filter by extension:</p>
+<pre style="background-color:#fff">(<span style="color:#0086b3">filter </span><span style="color:#000;font-weight:bold">#</span>(<span style="color:#900;font-weight:bold">.endsWith</span> (<span style="color:#900;font-weight:bold">.toString</span> <span style="color:#008080">%</span>) <span style="color:#d14">&#34;.conf&#34;</span>) 
+	(<span style="color:#0086b3">file-seq </span><span style="color:#d14">&#34;/etc&#34;</span>)))
+</pre><h3 id="get-home-directory">Get home directory</h3>
+<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def </span><span style="color:#008080">home</span> (<span style="color:#900;font-weight:bold">System/getProperty</span> <span style="color:#d14">&#34;user.home&#34;</span>))
+</pre>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
 <div id="sidebar">
     <a href="/">home</a>
     
@@ -76,27 +99,4 @@
 
 </div>
 
-<div id="content">
-    <h1 id="clojure">Clojure</h1>
-<p>Notes on Clojure.</p>
-<h2 id="reference">Reference</h2>
-<h3 id="concatenating-strings">Concatenating strings</h3>
-<pre style="background-color:#fff">(<span style="color:#900;font-weight:bold">require</span> <span style="color:#000;font-weight:bold">&#39;</span><span style="color:#d14">\[</span><span style="color:#008080">clojure.string</span> <span style="color:#990073">:as</span> <span style="color:#008080">string</span><span style="color:#d14">\]</span>)
-
-(<span style="color:#900;font-weight:bold">string/join</span> [<span style="color:#d14">&#34;foo&#34;</span> <span style="color:#d14">&#34;bar&#34;</span>])
-</pre><h3 id="list-files-recursively">List files recursively</h3>
-<pre style="background-color:#fff">(<span style="color:#0086b3">file-seq </span><span style="color:#d14">&#34;/etc&#34;</span>)
-</pre><p>(Compare with the <a href="java.html#list-files-recursively">Java</a> version.)</p>
-<p>Filter by extension:</p>
-<pre style="background-color:#fff">(<span style="color:#0086b3">filter </span><span style="color:#000;font-weight:bold">#</span>(<span style="color:#900;font-weight:bold">.endsWith</span> (<span style="color:#900;font-weight:bold">.toString</span> <span style="color:#008080">%</span>) <span style="color:#d14">&#34;.conf&#34;</span>) 
-	(<span style="color:#0086b3">file-seq </span><span style="color:#d14">&#34;/etc&#34;</span>)))
-</pre><h3 id="get-home-directory">Get home directory</h3>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def </span><span style="color:#008080">home</span> (<span style="color:#900;font-weight:bold">System/getProperty</span> <span style="color:#d14">&#34;user.home&#34;</span>))
-</pre>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
-
 </body>
-</html>

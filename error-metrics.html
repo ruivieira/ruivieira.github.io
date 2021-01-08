@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -43,6 +44,25 @@
 </head>
 <body>
 
+<div id="content">
+    <h1 id="error-metrics">Error metrics</h1>
+<h2 id="root-mean-squared-error">Root Mean Squared error</h2>
+<p>A typical way of measuring the difference between observations and results from a predictor.</p>
+<p>The formal definition is:</p>
+<p><span class="math display">\[\begin{aligned}
+RMSE(\hat{\theta}) &= \sqrt{\operatorname{MSE}(\hat{\theta})} \\
+&= \sqrt{\operatorname{E}((\hat{\theta}-\theta)^2)}.
+\end{aligned}
+\]</span></p>
+<p>For <span class="math inline">\(N\)</span> observations <span class="math inline">\(Y=\{y_1,\dots,y_N\}\)</span> we can express it as:</p>
+<p><span class="math display">\[RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
+\]</span></p>
+
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
 <div id="sidebar">
     <a href="/">home</a>
     
@@ -72,24 +92,4 @@
 
 </div>
 
-<div id="content">
-    <h1 id="error-metrics">Error metrics</h1>
-<h2 id="root-mean-squared-error">Root Mean Squared error</h2>
-<p>A typical way of measuring the difference between observations and results from a predictor.</p>
-<p>The formal definition is:</p>
-<p><span class="math display">\[\begin{aligned}
-RMSE(\hat{\theta}) &= \sqrt{\operatorname{MSE}(\hat{\theta})} \\
-&= \sqrt{\operatorname{E}((\hat{\theta}-\theta)^2)}.
-\end{aligned}
-\]</span></p>
-<p>For <span class="math inline">\(N\)</span> observations <span class="math inline">\(Y=\{y_1,\dots,y_N\}\)</span> we can express it as:</p>
-<p><span class="math display">\[RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
-\]</span></p>
-
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
-
 </body>
-</html>
