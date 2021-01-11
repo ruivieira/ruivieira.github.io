@@ -9,19 +9,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
-    <title>ruivieira.dev - Langton&#39;s Ant</title>
+    <link href="/assets/code.css" rel="stylesheet"/>
+    <title>ruivieira.dev - Langton's Ant</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -45,35 +44,42 @@
 <body>
 
 <div id="content">
-    <h1 id="langtons-ant">Langton's Ant</h1>
+    <h1>Langton's Ant</h1>
 <script src='/assets/ants.js' type="text/javascript"></script>
+
 <p>Last week, at the <a href="https://twitter.com/FP_North_East">North East Functional Programming</a> meet up, we were given a code Kata consisting of the <a href="https://en.wikipedia.org/wiki/Langton%27s_ant">Langton's ant</a> algorithm.</p>
 <p>I've had a go at Scala but decided later on to put a live version in this blog.</p>
 <p>I considered several implementation options, such as scala.js and Elm, but in the end decided to implement it in plain Javascript.</p>
 <div style="margin-left: 10%;margin-right: 10%;">
-<p><canvas id="ants" width="640" height="480"></canvas></p>
-</div>
-<p><button type="button" class="btn btn-secondary btn-sm" id="addAntButton">Add ant</button></p>
 
+<canvas id="ants" width="640" height="480"></canvas>
+</div>
+
+<p><button type="button" class="btn btn-secondary btn-sm" id="addAntButton">Add ant</button></p>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
-    
-    
-        <h2>Backlinks</h2>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
 
+    <h3>Contents</h3>
+    <div class="toc">
+<ul></ul>
+</div>
+
+    
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
         </ul>
     
+
     <div class="footer">
         modified 1609759621
     </div>

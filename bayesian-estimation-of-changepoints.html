@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - Bayesian estimation of changepoints</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,140 +44,172 @@
 <body>
 
 <div id="content">
-    <h1 id="bayesian-estimation-of-changepoints">Bayesian estimation of changepoints</h1>
+    <h1>Bayesian estimation of changepoints</h1>
 <p>A common introductory problem in Bayesian changepoint detection is the record of UK coal mining disasters from 1851 to 1962. More information can be found in <a href="http://www.jstor.org/stable/2347570">Carlin, Gelfand and Smith</a> (1992).</p>
 <p>As we can see from the plot below, the number of yearly disasters ranges from 0 to 6 and we will assume that at some point within this time range a change in the accident rate has occured.</p>
-<p><img src="./images/coal_disasters_data.png" alt="Data" /></p>
-<p>The number of yearly disasters can be modelled as a Poisson with a unknown rate depending on the changepoint <span class="math inline">\(k\)</span>:</p>
-<p><span class="math display">\[y_t \sim \text{Po}\left(\rho\right),\qquad \rho = \begin{cases}
-\mu, & \text{if}\ t=1,2,\dots,k \\\\
-\lambda, & \text{if}\ t = k +1, k + 2, \dots,m
+<p><img alt="Data" src="./images/coal_disasters_data.png" /></p>
+<p>The number of yearly disasters can be modelled as a Poisson with a unknown rate depending on the changepoint \(k\):</p>
+\[
+y_t \sim \text{Po}\left(\rho\right),\qquad \rho = \begin{cases}
+\mu, &amp; \text{if}\ t=1,2,\dots,k \\\\
+\lambda, &amp; \text{if}\ t = k +1, k + 2, \dots,m
 \end{cases}
-\]</span></p>
-<p>Our objective is to estimate in which year the change occurs (the changepoint <span class="math inline">\(k\)</span>) and the accident rate before (<span class="math inline">\(\mu\)</span>) and after (<span class="math inline">\(\lambda\)</span>) the changepoint amounting to the parameter set <span class="math inline">\(\Phi = \left\lbrace\mu,\lambda,k\right\rbrace\)</span>.</p>
+\]
+
+<p>Our objective is to estimate in which year the change occurs (the changepoint \(k\)) and the accident rate before (\(\mu\)) and after (\(\lambda\)) the changepoint amounting to the parameter set \(\Phi = \left\lbrace\mu,\lambda,k\right\rbrace\).</p>
 <p>We will use <a href="https://crystal-lang.org/">Crystal</a> (with <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a>) to perform the estimation.</p>
 <p>We start by placing independent priors on the parameters:</p>
 <ul>
-<li><span class="math inline">\(k \sim \mathcal{U}\left(0, m\right)\)</span></li>
-<li><span class="math inline">\(\mu \sim \mathcal{G}\left(a_1, b_1\right)\)</span></li>
-<li><span class="math inline">\(\lambda \sim \mathcal{G}\left(a_2, b_2\right)\)</span></li>
+<li>\(k \sim \mathcal{U}\left(0, m\right)\)</li>
+<li>\(\mu \sim \mathcal{G}\left(a_1, b_1\right)\)</li>
+<li>\(\lambda \sim \mathcal{G}\left(a_2, b_2\right)\)</li>
 </ul>
-<p>For the remainder we'll set <span class="math inline">\(a_1=a_2=0.5\)</span>, <span class="math inline">\(c_1=c_2=0\)</span> and <span class="math inline">\(d_1=d_2=1\)</span>.</p>
-<p>The joint posterior of <span class="math inline">\(\Phi\)</span> is then:</p>
-<p><span class="math display">\[\pi\left(\Phi|Y\right) \propto p\left(Y|\Phi\right) \pi\left(k\right) \pi\left(\mu\right) \pi\left(\lambda\right),
-\]</span></p>
+<p>For the remainder we'll set \(a_1=a_2=0.5\), \(c_1=c_2=0\) and \(d_1=d_2=1\).</p>
+<p>The joint posterior of \(\Phi\) is then:</p>
+\[
+\pi\left(\Phi|Y\right) \propto p\left(Y|\Phi\right) \pi\left(k\right) \pi\left(\mu\right) \pi\left(\lambda\right),
+\]
+
 <p>where the likelihood is</p>
-<p><span class="math display">\[\begin{aligned}
-p\left(Y|\Phi\right) &= \prod_{i=1}^{k} p\left(y_i|\mu,k\right) \prod_{i=k+1}^{m} p\left(y_i|\lambda,k\right) \\\\
-&= \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!}.
+\[
+\begin{aligned}
+p\left(Y|\Phi\right) &amp;= \prod_{i=1}^{k} p\left(y_i|\mu,k\right) \prod_{i=k+1}^{m} p\left(y_i|\lambda,k\right) \\\\
+&amp;= \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!}.
 \end{aligned}
-\]</span></p>
+\]
+
 <p>As such, the full joint posterior can be written as:</p>
-<p><span class="math display">\[\begin{aligned}
-\pi\left(\Phi|Y\right) &\propto \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!} \left(\mu^{a_1-1} e^{-\mu b_1}\right) \left(\lambda^{a_2-1} e^{-\lambda b_2}\right) \frac{1}{m} \\\\
-&= \mu^{a_1 + \sum_{1}^{k}y_i - 1}e^{-\mu\left(k+b\_1\right)} \lambda^{a_2 + \sum_{k+1}^{m}y_i - 1}e^{-\lambda\left(m-k+b_2\right)}
+\[
+\begin{aligned}
+\pi\left(\Phi|Y\right) &amp;\propto \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!} \left(\mu^{a_1-1} e^{-\mu b_1}\right) \left(\lambda^{a_2-1} e^{-\lambda b_2}\right) \frac{1}{m} \\\\
+&amp;= \mu^{a_1 + \sum_{1}^{k}y_i - 1}e^{-\mu\left(k+b\_1\right)} \lambda^{a_2 + \sum_{k+1}^{m}y_i - 1}e^{-\lambda\left(m-k+b_2\right)}
 \end{aligned}.
-\]</span></p>
-<p>It follows that the full conditionals are, for <span class="math inline">\(\mu\)</span>:</p>
-<p><span class="math display">\[\begin{aligned}
-\pi\left(\mu|\lambda,k,Y\right) &\propto \mu^{a_1 + \sum_{i=1}^{k}y_i-1}e^{-\mu\left(k+b_1\right)} \\\\
-&= \mathcal{G}\left(a_1+\sum_{i=1}^{k}y_i, k + b_1\right)
-\end{aligned}
-\]</span></p>
-<p>We can define the <span class="math inline">\(\mu\)</span> update as:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">mu_update</span>(data : <span style="color:#0086b3">Array</span>(<span style="color:#0086b3">Int</span>), k : <span style="color:#0086b3">Int</span>, b1 : <span style="color:#0086b3">Float64</span>) : <span style="color:#0086b3">Float64</span>
+\]
 
-	Gamma<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">0.5</span> <span style="color:#000;font-weight:bold">+</span> data<span style="color:#000;font-weight:bold">[</span><span style="color:#099">0</span><span style="color:#000;font-weight:bold">..</span>k<span style="color:#000;font-weight:bold">].</span>sum, k <span style="color:#000;font-weight:bold">+</span> b1)
-
-<span style="color:#000;font-weight:bold">end</span>
-</pre><p>The full conditional for <span class="math inline">\(\lambda\)</span> is:</p>
-<p><span class="math display">\[\begin{aligned}
-\pi\left(\lambda|\mu,k,Y\right) &\propto \lambda^{a_2 + \sum_{i=k+1}^{m}y_i-1}e^{-\lambda\left(m-k+b_2\right)} \\\\
-&= \mathcal{G}\left(a_2+\sum_{i=k+1}^{m}y_i, m - k + b_2\right),
+<p>It follows that the full conditionals are, for \(\mu\):</p>
+\[
+\begin{aligned}
+\pi\left(\mu|\lambda,k,Y\right) &amp;\propto \mu^{a_1 + \sum_{i=1}^{k}y_i-1}e^{-\mu\left(k+b_1\right)} \\\\
+&amp;= \mathcal{G}\left(a_1+\sum_{i=1}^{k}y_i, k + b_1\right)
 \end{aligned}
-\]</span></p>
+\]
+
+<p>We can define the \(\mu\) update as:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">mu_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b1</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>
+
+<span class="k">end</span>
+</code></pre></div>
+
+<p>The full conditional for \(\lambda\) is:</p>
+\[
+\begin{aligned}
+\pi\left(\lambda|\mu,k,Y\right) &amp;\propto \lambda^{a_2 + \sum_{i=k+1}^{m}y_i-1}e^{-\lambda\left(m-k+b_2\right)} \\\\
+&amp;= \mathcal{G}\left(a_2+\sum_{i=k+1}^{m}y_i, m - k + b_2\right),
+\end{aligned}
+\]
+
 <p>which we implement as:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">lambda_update</span>(data : <span style="color:#0086b3">Array</span>(<span style="color:#0086b3">Int</span>), k : <span style="color:#0086b3">Int</span>, b2 : <span style="color:#0086b3">Float64</span>) : <span style="color:#0086b3">Float64</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">lambda_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b2</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
 
-	Gamma<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">0.5</span> <span style="color:#000;font-weight:bold">+</span> data<span style="color:#000;font-weight:bold">[</span>(k<span style="color:#000;font-weight:bold">+</span><span style="color:#099">1</span>)<span style="color:#000;font-weight:bold">..</span>M<span style="color:#000;font-weight:bold">].</span>sum, M <span style="color:#000;font-weight:bold">-</span> k <span style="color:#000;font-weight:bold">+</span> b2)
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">..</span><span class="n">M</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">M</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
 
-<span style="color:#000;font-weight:bold">end</span>
-</pre><p>The next step is to take</p>
-<p><span class="math display">\[\begin{aligned}
-b_1 &\sim \mathcal{G}\left(a_1 + c_1,\mu + d_1\right) \\\\
-b_2 &\sim \mathcal{G}\left(a_2 + c_2,\lambda + d_2\right),
+<span class="k">end</span>
+</code></pre></div>
+
+<p>The next step is to take</p>
+\[
+\begin{aligned}
+b_1 &amp;\sim \mathcal{G}\left(a_1 + c_1,\mu + d_1\right) \\\\
+b_2 &amp;\sim \mathcal{G}\left(a_2 + c_2,\lambda + d_2\right),
 \end{aligned}
-\]</span></p>
+\]
+
 <p>which we will implement as:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">b1_update</span>(mu : <span style="color:#0086b3">Float64</span>) : <span style="color:#0086b3">Float64</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">b1_update</span><span class="p">(</span><span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
 
-	Gamma<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">0.5</span>, mu <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1.0</span>)
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
-<span style="color:#000;font-weight:bold">end</span>
+<span class="k">end</span>
 
-<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">b2_update</span>(lambda : <span style="color:#0086b3">Float64</span>) : <span style="color:#0086b3">Float64</span>
+<span class="k">def</span> <span class="nf">b2_update</span><span class="p">(</span><span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
 
-	Gamma<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">0.5</span>, lambda <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1.0</span>)
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lambda</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
-<span style="color:#000;font-weight:bold">end</span>
-</pre><p>And finally we choose the next year, <span class="math inline">\(k\)</span>, according to</p>
-<p><span class="math display">\[p\left(k|Y,\Phi\right)=\frac{L\left(Y|\Phi\right)}{\sum_{k^{\prime}} L\left(Y|\Phi^{\prime}\right)}
-\]</span></p>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>And finally we choose the next year, \(k\), according to</p>
+\[
+p\left(k|Y,\Phi\right)=\frac{L\left(Y|\Phi\right)}{\sum_{k^{\prime}} L\left(Y|\Phi^{\prime}\right)}
+\]
+
 <p>where</p>
-<p><span class="math display">\[L\left(Y|\Phi\right) = e^{\left(\lambda-\mu\right)k}\left(\frac{\mu}{\lambda}\right)^{\sum_i^k y_i}
-\]</span></p>
+\[
+L\left(Y|\Phi\right) = e^{\left(\lambda-\mu\right)k}\left(\frac{\mu}{\lambda}\right)^{\sum_i^k y_i}
+\]
+
 <p>implemented as</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">l</span>(data : <span style="color:#0086b3">Array</span>(<span style="color:#0086b3">Int</span>), k : <span style="color:#0086b3">Int</span>, lambda : <span style="color:#0086b3">Float64</span>, mu : <span style="color:#0086b3">Float64</span>) : <span style="color:#0086b3">Float64</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">,</span> <span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
 
-	Math<span style="color:#000;font-weight:bold">::</span>E<span style="color:#000;font-weight:bold">**</span>((lambda <span style="color:#000;font-weight:bold">-</span> mu)<span style="color:#000;font-weight:bold">*</span>k) <span style="color:#000;font-weight:bold">*</span> (mu <span style="color:#000;font-weight:bold">/</span> lambda)<span style="color:#000;font-weight:bold">**</span>(data<span style="color:#000;font-weight:bold">[</span><span style="color:#099">0</span><span style="color:#000;font-weight:bold">..</span>k<span style="color:#000;font-weight:bold">].</span>sum)
+    <span class="n">Math</span><span class="o">::</span><span class="n">E</span><span class="o">**</span><span class="p">((</span><span class="n">lambda</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="n">lambda</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">)</span>
 
-<span style="color:#000;font-weight:bold">end</span>
-</pre><p>So, let's start by writing our initials conditions:</p>
-<pre style="background-color:#fff">iterations <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">100000</span>
+<span class="k">end</span>
+</code></pre></div>
 
-b1 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1.0</span>
-b2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1.0</span>
+<p>So, let's start by writing our initials conditions:</p>
+<div class="highlight"><pre><span></span><code><span class="n">iterations</span> <span class="o">=</span> <span class="mi">100000</span>
 
-M <span style="color:#000;font-weight:bold">=</span> data<span style="color:#000;font-weight:bold">.</span>size <span style="color:#998;font-style:italic"># number of data points</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-<span style="color:#998;font-style:italic"># parameter storage</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="c1"># number of data points</span>
 
-mus <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">Array</span>(<span style="color:#0086b3">Float64</span>)<span style="color:#000;font-weight:bold">.</span>new(iterations, <span style="color:#099">0.0</span>)
+<span class="c1"># parameter storage</span>
 
-lambdas <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">Array</span>(<span style="color:#0086b3">Float64</span>)<span style="color:#000;font-weight:bold">.</span>new(iterations, <span style="color:#099">0.0</span>)
+<span class="n">mus</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-ks <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">Array</span>(<span style="color:#0086b3">Int32</span>)<span style="color:#000;font-weight:bold">.</span>new(iterations, <span style="color:#099">0</span>)
-</pre><p>We can then cast the priors:</p>
-<pre style="background-color:#fff">mus<span style="color:#000;font-weight:bold">[</span><span style="color:#099">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> Gamma<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">0.5</span>, b1)
+<span class="n">lambdas</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-lambdas<span style="color:#000;font-weight:bold">[</span><span style="color:#099">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> Gamma<span style="color:#000;font-weight:bold">.</span>sample(<span style="color:#099">0.5</span>, b2)
+<span class="n">ks</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
 
-ks<span style="color:#000;font-weight:bold">[</span><span style="color:#099">0</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> Random<span style="color:#000;font-weight:bold">.</span>new<span style="color:#000;font-weight:bold">.</span>rand(M)
-</pre><p>And define the main body of our Gibbs sampler:</p>
-<pre style="background-color:#fff">(<span style="color:#099">1</span><span style="color:#000;font-weight:bold">...</span>iterations)<span style="color:#000;font-weight:bold">.</span>map { <span style="color:#000;font-weight:bold">|</span>i<span style="color:#000;font-weight:bold">|</span>
+<p>We can then cast the priors:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mus</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
 
-	k <span style="color:#000;font-weight:bold">=</span> ks<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span><span style="color:#000;font-weight:bold">]</span>
+<span class="n">lambdas</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 
-	mus<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> mu_update(data, k, b1)
+<span class="n">ks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Random</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+</code></pre></div>
 
-	lambdas<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> lambda_update(data, k, b2)
+<p>And define the main body of our Gibbs sampler:</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="n">iterations</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
 
-	b1 <span style="color:#000;font-weight:bold">=</span> b1_update(mus<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span>)
+    <span class="n">k</span> <span class="o">=</span> <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
 
-	b2 <span style="color:#000;font-weight:bold">=</span> b2_update(lambdas<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span>)
+    <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">mu_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
 
-	ks<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> Multinomial<span style="color:#000;font-weight:bold">.</span>sample((<span style="color:#099">0</span><span style="color:#000;font-weight:bold">...</span>M)<span style="color:#000;font-weight:bold">.</span>map { <span style="color:#000;font-weight:bold">|</span>kk<span style="color:#000;font-weight:bold">|</span>
+    <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">lambda_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 
-		l(data, kk, lambdas<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span>, mus<span style="color:#000;font-weight:bold">[</span>i<span style="color:#000;font-weight:bold">]</span>)
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">b1_update</span><span class="p">(</span><span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
 
-	})
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">b2_update</span><span class="p">(</span><span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
 
-}
-</pre><p>Looking at the results, we see that the mean value of <span class="math inline">\(k\)</span> is 38.761, which seems</p>
-<p>to indicate that the change in accident rates occurred somewhere near <span class="math inline">\(1850+38.761\approx 1889\)</span>.</p>
-<p>We can visually check this by looking at the graph below. Also plotted are the density for the accident rates before (<span class="math inline">\(\mu\)</span>) and after (<span class="math inline">\(\lambda\)</span>) the change.</p>
-<p><img src="./images/coal_disasters_years_gibbs.png" alt="Coal disasters years" /></p>
-<p><img src="./images/coal_disasters_mu_lambda_gibbs.png" alt="Mu, Lambda Gibbs" /></p>
+    <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Multinomial</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="mi">0</span><span class="o">...</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">kk</span><span class="o">|</span>
+
+        <span class="n">l</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kk</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
+
+    <span class="p">})</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Looking at the results, we see that the mean value of \(k\) is 38.761, which seems</p>
+<p>to indicate that the change in accident rates occurred somewhere near \(1850+38.761\approx 1889\).</p>
+<p>We can visually check this by looking at the graph below. Also plotted are the density for the accident rates before (\(\mu\)) and after (\(\lambda\)) the change.</p>
+<p><img alt="Coal disasters years" src="./images/coal_disasters_years_gibbs.png" /></p>
+<p><img alt="Mu, Lambda Gibbs" src="./images/coal_disasters_mu_lambda_gibbs.png" /></p>
 <p>Of course, one the main advantages of implementing the solution in Crystal is not only the boilerplate-free code, but the execution speed.</p>
 <p>Compared to an equivalent implementation in <code>R</code> the Crystal code executed roughly 17 times faster.</p>
 <table>
@@ -199,26 +230,30 @@ ks<span style="color:#000;font-weight:bold">[</span><span style="color:#099">0</
 </tr>
 </tbody>
 </table>
-
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
-    
-    
-        <h2>Backlinks</h2>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
 
+    <h3>Contents</h3>
+    <div class="toc">
+<ul></ul>
+</div>
+
+    
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
         </ul>
     
+
     <div class="footer">
         modified 1609759622
     </div>

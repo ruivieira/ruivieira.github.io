@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - Go</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,214 +44,259 @@
 <body>
 
 <div id="content">
-    <h1 id="the-go-language">The Go language</h1>
-<p>Some notes regarding the <a href="https://golang.org/">Go</a> language.<br />
+    <h1>The Go language</h1>
+<p>Some notes regarding the <a href="https://golang.org/">Go</a> language.
 Some topics have graduated to their own page:</p>
 <ul>
-<li><a href="go-resource-bundling.html">Go resource bundling</a></li>
-<li><a href="go-filesystem-operations.html">Go filesystem operations</a></li>
+<li><a href="/go-resource-bundling.html">Go resource bundling</a></li>
+<li><a href="/go-filesystem-operations.html">Go filesystem operations</a> </li>
 </ul>
 <h2 id="language-design">Language design</h2>
 <h3 id="go-doesnt-have-sets">Go doesn't have sets</h3>
-<p>The Go language, notoriously, does not have<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> some common data structures like sets. There are two main reasons for that:</p>
+<p>The Go language, notoriously, does not have<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> some common data structures like sets. There are two main reasons for that:</p>
 <ol>
-<li>Go does not have generics<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>Go does not have generics<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup></li>
 <li>Go relies on you writing your own data structures, generally</li>
 </ol>
-<p>Go lacks generics, which prevent writing a ... well, generic and efficient set implementation.<br />
-Also, writing your own (non-generic) set with <code>map</code>s is quite straight-forward.<br />
+<p>Go lacks generics, which prevent writing a ... well, generic and efficient set implementation.
+Also, writing your own (non-generic) set with <code>map</code>s is quite straight-forward.
 The usual structure for a type <code>T</code> is <code>map[T]bool</code>, where the key is the element and the value is just a placeholder. For instance, for a <code>int</code> set:</p>
-<pre style="background-color:#fff">s <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>: <span style="color:#000;font-weight:bold">true</span>, <span style="color:#099">3</span>: <span style="color:#000;font-weight:bold">true</span>}
-</pre><p>where we can add elements:</p>
-<pre style="background-color:#fff">s[<span style="color:#099">1</span>] = <span style="color:#000;font-weight:bold">true</span> <span style="color:#998;font-style:italic">// already present
-</span><span style="color:#998;font-style:italic"></span>s[<span style="color:#099">2</span>] = <span style="color:#000;font-weight:bold">true</span> <span style="color:#998;font-style:italic">// adds new element
-</span></pre><p>Some other techniques for maps replacing sets:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">s</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">bool</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+</code></pre></div>
+
+<p>where we can add elements:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span> <span class="c1">// already present</span>
+<span class="nx">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span> <span class="c1">// adds new element</span>
+</code></pre></div>
+
+<p>Some other techniques for maps replacing sets:</p>
 <h4 id="set-union">Set union</h4>
-<pre style="background-color:#fff">set_union <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{}
+<div class="highlight"><pre><span></span><code><span class="nx">set_union</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">bool</span><span class="p">{}</span>
 
-<span style="color:#000;font-weight:bold">for</span> k, _ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_1{
-    set_union[k] = <span style="color:#000;font-weight:bold">true</span>
-}
-<span style="color:#000;font-weight:bold">for</span> k, _ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_2{
-    set_union[k] = <span style="color:#000;font-weight:bold">true</span>
-}
-</pre><h4 id="set-intersection">Set intersection</h4>
-<pre style="background-color:#fff">set_intersection <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{}
-<span style="color:#000;font-weight:bold">for</span> k,_ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_1 { 
-  <span style="color:#000;font-weight:bold">if</span> set_2[k] {
-    set_intersection[k] = <span style="color:#000;font-weight:bold">true</span>
-  }
-} 
-</pre><h4 id="set-to-array">Set to array</h4>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_1</span><span class="p">{</span>
+    <span class="nx">set_union</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_2</span><span class="p">{</span>
+    <span class="nx">set_union</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="set-intersection">Set intersection</h4>
+<div class="highlight"><pre><span></span><code><span class="nx">set_intersection</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">bool</span><span class="p">{}</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span><span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_1</span> <span class="p">{</span> 
+  <span class="k">if</span> <span class="nx">set_2</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">{</span>
+    <span class="nx">set_intersection</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+</code></pre></div>
+
+<h4 id="set-to-array">Set to array</h4>
 <p>To convert a (map) set to an array:</p>
-<pre style="background-color:#fff">array <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">int</span>, <span style="color:#099">0</span>)
+<div class="highlight"><pre><span></span><code><span class="nx">array</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span style="color:#000;font-weight:bold">for</span> k <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> set_1 {  
-   array = <span style="color:#0086b3">append</span>(array, k)  
-}
-</pre><h2 id="ci">CI</h2>
+<span class="k">for</span> <span class="nx">k</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_1</span> <span class="p">{</span>  
+   <span class="nx">array</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">array</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span>  
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="ci">CI</h2>
 <h3 id="github">GitHub</h3>
-<p>A potential workflow for GitHub is to use <a href="https://github.com/mvdan/github-actions-golang">GitHub Actions for Go</a>.<br />
-An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href="go.html#testing-in-go">Go</a>) and <code>go vet</code> is:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">on</span>:<span style="color:#bbb"> </span>[push,<span style="color:#bbb"> </span>pull_request\]<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Test<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">jobs</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000;font-weight:bold">test</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">strategy</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">matrix</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">go-version</span>:<span style="color:#bbb"> </span>[<span style="color:#099">1.14</span>.x,<span style="color:#bbb"> </span><span style="color:#099">1.15</span>.x]<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">os</span>:<span style="color:#bbb"> </span>[ubuntu-latest]<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">runs-on</span>:<span style="color:#bbb"> </span>${{<span style="color:#bbb"> </span>matrix.os<span style="color:#bbb"> </span>}}<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">steps</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Install<span style="color:#bbb"> </span>Go<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">uses</span>:<span style="color:#bbb"> </span>actions/setup-go@v2<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">with</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000;font-weight:bold">go-version</span>:<span style="color:#bbb"> </span>${{<span style="color:#bbb"> </span>matrix.go-version<span style="color:#bbb"> </span>}}<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Checkout<span style="color:#bbb"> </span>code<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">uses</span>:<span style="color:#bbb"> </span>actions/checkout@v2<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Test<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000;font-weight:bold">run</span>:<span style="color:#bbb"> </span>go<span style="color:#bbb"> </span>test<span style="color:#bbb"> </span>./...<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>- <span style="color:#000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Vet<span style="color:#bbb">
-</span><span style="color:#bbb">	  </span><span style="color:#000;font-weight:bold">run</span>:<span style="color:#bbb"> </span>go<span style="color:#bbb"> </span>vet<span style="color:#bbb"> </span>./...<span style="color:#bbb">
-</span></pre><h2 id="containers">Containers</h2>
+<p>A potential workflow for GitHub is to use <a href="https://github.com/mvdan/github-actions-golang">GitHub Actions for Go</a>.
+An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href="/go.html#Testing in Go">Go</a>) and <code>go vet</code> is:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">on</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">,</span> <span class="nv">pull_request\</span><span class="p p-Indicator">]</span>
+<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Test</span>
+<span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">test</span><span class="p">:</span>
+    <span class="nt">strategy</span><span class="p">:</span>
+      <span class="nt">matrix</span><span class="p">:</span>
+        <span class="nt">go-version</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">1.14.x</span><span class="p p-Indicator">,</span> <span class="nv">1.15.x</span><span class="p p-Indicator">]</span>
+        <span class="nt">os</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">]</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span>
+    <span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Go</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-go@v2</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">go-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.go-version }}</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Checkout code</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Test</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">go test ./...</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Vet</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">go vet ./...</span>
+</code></pre></div>
+
+<h2 id="containers">Containers</h2>
 <h3 id="minimal-example">Minimal example</h3>
-<p>A minimal example of a Go <a href="containers.html">container</a> configuration for a web server running on port <code>8080</code>:</p>
-<pre style="background-color:#fff"><span style="color:#998;font-style:italic"># Start from the latest golang base image  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#d14"> golang:latest  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Add Maintainer Info  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">LABEL</span> <span style="color:#008080">maintainer</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;Rui Vieira&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Set the Current Working Directory inside the container  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">WORKDIR</span><span style="color:#d14"> /app  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Copy go mod and sum files  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">COPY</span> go.mod go.sum ./  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">RUN</span> go mod download  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Copy the source from the current directory to the Working Directory inside the container  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">COPY</span> . .  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Build the Go app  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">RUN</span> go build -o main .  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Expose port 8080 to the outside world  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">EXPOSE</span><span style="color:#d14"> 8080  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Command to run the executable  </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">CMD</span> [<span style="color:#d14">&#34;./main&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
-</span></pre><h2 id="reference">Reference</h2>
+<p>A minimal example of a Go <a href="/containers.html">container</a> configuration for a web server running on port <code>8080</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Start from the latest golang base image  </span>
+<span class="k">FROM</span> <span class="s">golang:latest</span>  
+<span class="c"># Add Maintainer Info  </span>
+<span class="k">LABEL</span> <span class="nv">maintainer</span><span class="o">=</span><span class="s2">&quot;Rui Vieira&quot;</span>  
+<span class="c"># Set the Current Working Directory inside the container  </span>
+<span class="k">WORKDIR</span><span class="s"> /app  </span>
+<span class="c"># Copy go mod and sum files  </span>
+<span class="k">COPY</span> go.mod go.sum ./  
+<span class="c"># Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed  </span>
+<span class="k">RUN</span> go mod download  
+<span class="c"># Copy the source from the current directory to the Working Directory inside the container  </span>
+<span class="k">COPY</span> . .  
+<span class="c"># Build the Go app  </span>
+<span class="k">RUN</span> go build -o main .  
+<span class="c"># Expose port 8080 to the outside world  </span>
+<span class="k">EXPOSE</span><span class="s"> 8080  </span>
+<span class="c"># Command to run the executable  </span>
+<span class="k">CMD</span> <span class="p">[</span><span class="s2">&quot;./main&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+<h2 id="reference">Reference</h2>
 <h3 id="conversions">Conversions</h3>
 <h4 id="how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</h4>
-<pre style="background-color:#fff">b <span style="color:#000;font-weight:bold">:=</span> []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;This is a string&#34;</span>)
-</pre><h3 id="collections">Collections</h3>
+<div class="highlight"><pre><span></span><code><span class="nx">b</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;This is a string&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="collections">Collections</h3>
 <h4 id="sort-map-keys-alphabetically">Sort map keys alphabetically</h4>
 <p>If a <code>map</code> contains <code>string</code> keys, i.e. <code>var myMap map[string]T</code>, we must sort the map keys independently. For instance:</p>
-<pre style="background-color:#fff">keys <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">string</span>, <span style="color:#099">0</span>)
-<span style="color:#000;font-weight:bold">for</span> k, _ <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> myMap {
-    keys = <span style="color:#0086b3">append</span>(keys, k)
-}
-sort.<span style="color:#900;font-weight:bold">Strings</span>(keys)
-<span style="color:#000;font-weight:bold">for</span> _, k <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> keys {
-    fmt.<span style="color:#900;font-weight:bold">Println</span>(k, myMap[k])
-}
-</pre><h4 id="check-for-element">Check for element</h4>
+<div class="highlight"><pre><span></span><code><span class="nx">keys</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">myMap</span> <span class="p">{</span>
+    <span class="nx">keys</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">sort</span><span class="p">.</span><span class="nx">Strings</span><span class="p">(</span><span class="nx">keys</span><span class="p">)</span>
+<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">k</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">keys</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span> <span class="nx">myMap</span><span class="p">[</span><span class="nx">k</span><span class="p">])</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="check-for-element">Check for element</h4>
 <p>If we consider a collection, say, <code>[]string collection</code>, the way to check for an element already present is, for instance:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">existsIn</span>(needle <span style="color:#458;font-weight:bold">string</span>, haystack []<span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">bool</span> {
-    <span style="color:#000;font-weight:bold">for</span> _, element <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> haystack {
-        <span style="color:#000;font-weight:bold">if</span> element <span style="color:#000;font-weight:bold">==</span> needle {
-            <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>
-        }
-    }
-    <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>
-}
-</pre><h3 id="templates">Templates</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span> <span class="nx">existsIn</span><span class="p">(</span><span class="nx">needle</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">haystack</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">element</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">haystack</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">element</span> <span class="o">==</span> <span class="nx">needle</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="templates">Templates</h3>
 <h4 id="check-if-variable-empty">Check if variable empty</h4>
-<p>In a <a href="go.html">Go</a> template you check if a variable is empty by doing:</p>
-<pre style="background-color:#fff">{{<span style="color:#000;font-weight:bold">if</span> .Items}}
-	&lt;ul&gt;
-		{{<span style="color:#000;font-weight:bold">range</span> .Items}}
-			&lt;li&gt;{{.Name}}&lt;<span style="color:#000;font-weight:bold">/</span>li&gt;
-		{{end}}
-	&lt;<span style="color:#000;font-weight:bold">/</span>ul&gt;
-{{end}}
-</pre><h4 id="looping-over-a-map">Looping over a map</h4>
+<p>In a <a href="/go.html">Go</a> template you check if a variable is empty by doing:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{{</span><span class="k">if</span> <span class="p">.</span><span class="nx">Items</span><span class="p">}}</span>
+    <span class="p">&lt;</span><span class="nx">ul</span><span class="p">&gt;</span>
+        <span class="p">{{</span><span class="k">range</span> <span class="p">.</span><span class="nx">Items</span><span class="p">}}</span>
+            <span class="p">&lt;</span><span class="nx">li</span><span class="p">&gt;{{.</span><span class="nx">Name</span><span class="p">}}&lt;</span><span class="o">/</span><span class="nx">li</span><span class="p">&gt;</span>
+        <span class="p">{{</span><span class="nx">end</span><span class="p">}}</span>
+    <span class="p">&lt;</span><span class="o">/</span><span class="nx">ul</span><span class="p">&gt;</span>
+<span class="p">{{</span><span class="nx">end</span><span class="p">}}</span>
+</code></pre></div>
+
+<h4 id="looping-over-a-map">Looping over a map</h4>
 <p>Looping over the map <code>var data map[string]bool</code> in a Go template:</p>
-<pre style="background-color:#fff">{{<span style="color:#000;font-weight:bold">range</span> <span style="color:#a61717;background-color:#e3d2d2">$</span>index, <span style="color:#a61717;background-color:#e3d2d2">$</span>element <span style="color:#000;font-weight:bold">:=</span> .}}
-	{{<span style="color:#a61717;background-color:#e3d2d2">$</span>index}}: {{<span style="color:#a61717;background-color:#e3d2d2">$</span>element}}
-{{end}}
-</pre><h3 id="processes">Processes</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{{</span><span class="k">range</span> <span class="err">$</span><span class="nx">index</span><span class="p">,</span> <span class="err">$</span><span class="nx">element</span> <span class="o">:=</span> <span class="p">.}}</span>
+    <span class="p">{{</span><span class="err">$</span><span class="nx">index</span><span class="p">}}:</span> <span class="p">{{</span><span class="err">$</span><span class="nx">element</span><span class="p">}}</span>
+<span class="p">{{</span><span class="nx">end</span><span class="p">}}</span>
+</code></pre></div>
+
+<h3 id="processes">Processes</h3>
 <h4 id="executing-external-processes">Executing external processes</h4>
 <p>Executing an external process and directing input and output to <code>Stdout</code> and <code>Stderr</code>.</p>
-<pre style="background-color:#fff">cmd <span style="color:#000;font-weight:bold">:=</span> exec.<span style="color:#900;font-weight:bold">Command</span>(<span style="color:#d14">&#34;ls&#34;</span>, <span style="color:#d14">&#34;-1ao&#34;</span>)
-cmd.Stdout = os.Stdout
-cmd.Stderr = os.Stderr
-err <span style="color:#000;font-weight:bold">:=</span> cmd.<span style="color:#900;font-weight:bold">Run</span>()
-<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-	log.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#d14">&#34;cmd.Run() failed with %s\\n&#34;</span>, err)
-}
-</pre><h3 id="testing-in-go">Testing in Go</h3>
-<p>Place the tests in your place of choosing, but keep the package declaration. Test functions should be parameterised as <code>(t *testing.T</code> and start with the prefix <code>Test</code>, for instance:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">package</span> main
+<div class="highlight"><pre><span></span><code><span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;ls&quot;</span><span class="p">,</span> <span class="s">&quot;-1ao&quot;</span><span class="p">)</span>
+<span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span>
+<span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span>
+<span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nx">Run</span><span class="p">()</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;cmd.Run() failed with %s\\n&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 
-<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">TestFoo</span>(t <span style="color:#000;font-weight:bold">*</span>testing.T) { 
-	value <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">Foo</span>(<span style="color:#099">5</span>, <span style="color:#099">5</span>) 
-	<span style="color:#998;font-style:italic">// ... assertions
-</span></pre><p>The test files themselves must have the suffix <code>*_test.go</code>.<br />
-Call the tests with <code>go test</code>.</p>
-<div class="footnotes" role="doc-endnotes">
+<h3 id="testing-in-go">Testing in Go</h3>
+<p>Place the tests in your place of choosing, but keep the package declaration. Test functions should be parameterised as <code>(t *testing.T</code> and start with the prefix <code>Test</code>, for instance:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nx">TestFoo</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">value</span> <span class="o">:=</span> <span class="nx">Foo</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> 
+    <span class="c1">// ... assertions</span>
+</code></pre></div>
+
+<p>The test files themselves must have the suffix <code>*_test.go</code>.
+Call the tests with <code>go test</code>. </p>
+<div class="footnote">
 <hr />
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>As of the time of writing, that is Go 1.15. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1">
+<p>As of the time of writing, that is Go 1.15.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
-
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#language-design">Language design</a><ul>
+<li><a href="#go-doesnt-have-sets">Go doesn't have sets</a><ul>
+<li><a href="#set-union">Set union</a></li>
+<li><a href="#set-intersection">Set intersection</a></li>
+<li><a href="#set-to-array">Set to array</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#ci">CI</a><ul>
+<li><a href="#github">GitHub</a></li>
+</ul>
+</li>
+<li><a href="#containers">Containers</a><ul>
+<li><a href="#minimal-example">Minimal example</a></li>
+</ul>
+</li>
+<li><a href="#reference">Reference</a><ul>
+<li><a href="#conversions">Conversions</a><ul>
+<li><a href="#how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</a></li>
+</ul>
+</li>
+<li><a href="#collections">Collections</a><ul>
+<li><a href="#sort-map-keys-alphabetically">Sort map keys alphabetically</a></li>
+<li><a href="#check-for-element">Check for element</a></li>
+</ul>
+</li>
+<li><a href="#templates">Templates</a><ul>
+<li><a href="#check-if-variable-empty">Check if variable empty</a></li>
+<li><a href="#looping-over-a-map">Looping over a map</a></li>
+</ul>
+</li>
+<li><a href="#processes">Processes</a><ul>
+<li><a href="#executing-external-processes">Executing external processes</a></li>
+</ul>
+</li>
+<li><a href="#testing-in-go">Testing in Go</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
     
-        <h2>Contents</h2>
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li class="heading-2"><a href="#language-design">Language design</a></li>
-            
-                <li class="heading-3"><a href="#go-doesnt-have-sets">Go doesn&#39;t have sets</a></li>
-            
-                <li class="heading-2"><a href="#ci">CI</a></li>
-            
-                <li class="heading-3"><a href="#github">GitHub</a></li>
-            
-                <li class="heading-2"><a href="#containers">Containers</a></li>
-            
-                <li class="heading-3"><a href="#minimal-example">Minimal example</a></li>
-            
-                <li class="heading-2"><a href="#reference">Reference</a></li>
-            
-                <li class="heading-3"><a href="#conversions">Conversions</a></li>
-            
-                <li class="heading-3"><a href="#collections">Collections</a></li>
-            
-                <li class="heading-3"><a href="#templates">Templates</a></li>
-            
-                <li class="heading-3"><a href="#processes">Processes</a></li>
-            
-                <li class="heading-3"><a href="#testing-in-go">Testing in Go</a></li>
-            
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
+            <li><a href="/site-details.html">Site details</a><sup>&#5833</sup></li>
+        
+            <li><a href="/go.html">Go</a><sup>&#5833</sup></li>
+        
         </ul>
     
-    
-        <h2>Backlinks</h2>
 
-        <ul>
-            
-                <li><a href="site-details.html">Site details</a><sup>&#5833</sup></li>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
-        </ul>
-    
     <div class="footer">
         modified 1610014072
     </div>

@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - A simple Python benchmark exercise</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,7 +44,7 @@
 <body>
 
 <div id="content">
-    <h1 id="a-simple-python-benchmark-exercise">A simple Python benchmark exercise</h1>
+    <h1>A simple Python benchmark exercise</h1>
 <p>Recently when discussing the Crystal language and specifically the <a href="a-gibbs-sampler-in-crystal.html">Gibbs sample blog post</a> with a colleague, he mentioned that the Python benchmark numbers looked a bit off and not consistent with his experience of numerical programming in Python.</p>
 <p>To recall, the numbers were:</p>
 <table>
@@ -80,24 +79,26 @@
 </table>
 <p>To have a better understanding of what is happening, I've decided to profile and benchmark that code (running on Python 3.6).</p>
 <p>The code is the following:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">random</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">math</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">math</span>
 
-<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">gibbs</span>(N<span style="color:#000;font-weight:bold">=</span><span style="color:#099">50000</span>, thin<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1000</span>):
+<span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
 
-	x <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>
-	y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>
-	<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;Iter x y&#34;</span>)
-	<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(N):
-		<span style="color:#000;font-weight:bold">for</span> j <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(thin):
-			x <span style="color:#000;font-weight:bold">=</span> random<span style="color:#000;font-weight:bold">.</span>gammavariate(<span style="color:#099">3</span>, <span style="color:#099">1.0</span> <span style="color:#000;font-weight:bold">/</span> (y y <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">4</span>))
-			y <span style="color:#000;font-weight:bold">=</span> random<span style="color:#000;font-weight:bold">.</span>gauss(<span style="color:#099">1.0</span> <span style="color:#000;font-weight:bold">/</span> (x <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>), <span style="color:#099">1.0</span> <span style="color:#000;font-weight:bold">/</span> math<span style="color:#000;font-weight:bold">.</span>sqrt(<span style="color:#099">2</span> x <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">2</span>))
-			<span style="color:#000;font-weight:bold">print</span>(i,x,y)
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iter x y&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">thin</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gammavariate</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">y</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 
-  
 
-<span style="color:#000;font-weight:bold">if</span> __name__ <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#34;main&#34;</span>:
-	gibbs()
-</pre><p>Profiling this code with <code>cProfile</code> gives the following results:</p>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span><span class="p">:</span>
+    <span class="n">gibbs</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Profiling this code with <code>cProfile</code> gives the following results:</p>
 <table>
 <thead>
 <tr>
@@ -121,43 +122,43 @@
 <td>24.2%</td>
 </tr>
 <tr>
-<td>&lt;built-in method math.log&gt;</td>
+<td><code>&lt;built-in method math.log&gt;</code></td>
 <td>116628436</td>
 <td>18825</td>
 <td>6.9%</td>
 </tr>
 <tr>
-<td>&lt;method 'random' of '_random.Random' objects&gt;</td>
+<td><code>&lt;method 'random' of '_random.Random' objects&gt;</code></td>
 <td>170239973</td>
 <td>17155</td>
 <td>6.3%</td>
 </tr>
 <tr>
-<td>&lt;built-in method math.sqrt&gt;</td>
+<td><code>&lt;built-in method math.sqrt&gt;</code></td>
 <td>125000000</td>
 <td>12352</td>
 <td>4.6%</td>
 </tr>
 <tr>
-<td>&lt;built-in method math.exp&gt;</td>
+<td><code>&lt;built-in method math.exp&gt;</code></td>
 <td>60119980</td>
 <td>7276</td>
 <td>2.7%</td>
 </tr>
 <tr>
-<td>&lt;built-in method math.cos&gt;</td>
+<td><code>&lt;built-in method math.cos&gt;</code></td>
 <td>25000000</td>
 <td>3338</td>
 <td>1.2%</td>
 </tr>
 <tr>
-<td>&lt;built-in method math.sin&gt;</td>
+<td><code>&lt;built-in method math.sin&gt;</code></td>
 <td>25000000</td>
 <td>3336</td>
 <td>1.2%</td>
 </tr>
 <tr>
-<td>&lt;built-in method builtins.print&gt;</td>
+<td><code>&lt;built-in method builtins.print&gt;</code></td>
 <td>50001</td>
 <td>1030</td>
 <td>0.4%</td>
@@ -175,23 +176,25 @@
 <p>On the other hand, as expected, the bulk of the execution time is spent on the <code>gammavariate</code> and <code>gauss</code> methods.</p>
 <p>These methods, however, are provided by the Python's standard library <code>random</code>, which underneath makes heavy usage of <code>C</code> code (mainly by <a href="https://github.com/python/cpython/blob/master/Lib/random.py#L35">usage</a> of the <code>random()</code> function).</p>
 <p>For the second run of the code, I've decided to use <code>numpy</code> to sample from the Gamma and Normal distributions. The new code, <code>gibbs_np.py</code>, is provided below.</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>
-<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">math</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
-<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">gibbs</span>(N<span style="color:#000;font-weight:bold">=</span><span style="color:#099">50000</span>, thin<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1000</span>):
-	x <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>
-	y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>
-	<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;Iter x y&#34;</span>)
-	<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(N):
-		<span style="color:#000;font-weight:bold">for</span> j <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(thin):
-			x <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>random<span style="color:#000;font-weight:bold">.</span>gamma(<span style="color:#099">3</span>, <span style="color:#099">1.0</span> <span style="color:#000;font-weight:bold">/</span> (y y <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">4</span>))
-			y <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>random<span style="color:#000;font-weight:bold">.</span>normal(<span style="color:#099">1.0</span> <span style="color:#000;font-weight:bold">/</span> (x <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>), <span style="color:#099">1.0</span> <span style="color:#000;font-weight:bold">/</span> math<span style="color:#000;font-weight:bold">.</span>sqrt(<span style="color:#099">2</span> x <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">2</span>))
-			<span style="color:#000;font-weight:bold">print</span>(i,x,y)
+<span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iter x y&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">thin</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">y</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 
-<span style="color:#000;font-weight:bold">if</span> __name__ <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#34;main&#34;</span>:
-	gibbs()
-</pre><p>We can see from the plots below that the results from both modules are identical.</p>
-<p><img src="./images/gibbs_modules.png" alt="Gibbs modules" /></p>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span><span class="p">:</span>
+    <span class="n">gibbs</span><span class="p">()</span>
+</code></pre></div>
+
+<p>We can see from the plots below that the results from both modules are identical.</p>
+<p><img alt="Gibbs modules" src="./images/gibbs_modules.png" /></p>
 <p>The profiling results for the <code>numpy</code> version were:</p>
 <table>
 <thead>
@@ -204,25 +207,25 @@
 </thead>
 <tbody>
 <tr>
-<td>&lt;method 'gamma' of 'mtrand.RandomState' objects&gt;</td>
+<td>\&lt;method 'gamma' of 'mtrand.RandomState' objects></td>
 <td>50000000</td>
 <td>121211</td>
 <td>45.8%</td>
 </tr>
 <tr>
-<td>&lt;method 'normal' of 'mtrand.RandomState' objects&gt;</td>
+<td>\&lt;method 'normal' of 'mtrand.RandomState' objects></td>
 <td>50000000</td>
 <td>83092</td>
 <td>31.4%</td>
 </tr>
 <tr>
-<td>&lt;built-in method math.sqrt&gt;</td>
+<td>\&lt;built-in method math.sqrt></td>
 <td>50000000</td>
 <td>6127</td>
 <td>2.3%</td>
 </tr>
 <tr>
-<td>&lt;built-in method builtins.print&gt;</td>
+<td>\&lt;built-in method builtins.print></td>
 <td>50001</td>
 <td>920</td>
 <td>0.3%</td>
@@ -246,28 +249,32 @@
 <li>Use FFI to call a highly optimised native library which provides Gamma and Normal distributions (such as <a href="https://www.gnu.org/software/gsl/">GSL</a>)</li>
 </ul>
 <p>Nevertheless, personally I still find Python a great language for quick prototyping of algorithms and with an excellent scientific computing libraries ecosystem. Keep on <em>Pythoning</em>.</p>
-
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
-    
-    
-        <h2>Backlinks</h2>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
 
+    <h3>Contents</h3>
+    <div class="toc">
+<ul></ul>
+</div>
+
+    
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
         </ul>
     
+
     <div class="footer">
-        modified 1609759621
+        modified 1610216137
     </div>
 
 </div>

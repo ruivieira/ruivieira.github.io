@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - Go resource bundling</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,75 +44,83 @@
 <body>
 
 <div id="content">
-    <h1 id="go-resource-bundling">Go resource bundling</h1>
+    <h1>Go resource bundling</h1>
 <p>Notes on the installation and usage of <a href="https://github.com/markbates/pkger">pkger</a>.</p>
 <p>Installation done with</p>
-<pre style="background-color:#fff">go get github.com/markbates/pkger/cmd/pkger
-</pre><p><code>pkger</code> works by bundling the resources with a code-generated <code>pkg.go</code>. The configuration of assets to be bundled is done by reflection at compile time and not direct configuration.<br />
-This is done by replacing standard Go file operations with <code>pkger</code> proxy ones, such as:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">type</span> Pkger <span style="color:#000;font-weight:bold">interface</span> {
-  <span style="color:#900;font-weight:bold">Parse</span>(p <span style="color:#458;font-weight:bold">string</span>) (Path, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Current</span>() (here.Info, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Info</span>(p <span style="color:#458;font-weight:bold">string</span>) (here.Info, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Create</span>(name <span style="color:#458;font-weight:bold">string</span>) (File, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">MkdirAll</span>(p <span style="color:#458;font-weight:bold">string</span>, perm os.FileMode) <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">Open</span>(name <span style="color:#458;font-weight:bold">string</span>) (File, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Stat</span>(name <span style="color:#458;font-weight:bold">string</span>) (os.FileInfo, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Walk</span>(p <span style="color:#458;font-weight:bold">string</span>, wf filepath.WalkFunc) <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">Remove</span>(name <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">RemoveAll</span>(path <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">error</span>
-}
-<span style="color:#000;font-weight:bold">type</span> File <span style="color:#000;font-weight:bold">interface</span> {
-  <span style="color:#900;font-weight:bold">Close</span>() <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">Info</span>() here.Info
-  <span style="color:#900;font-weight:bold">Name</span>() <span style="color:#458;font-weight:bold">string</span>
-  <span style="color:#900;font-weight:bold">Open</span>(name <span style="color:#458;font-weight:bold">string</span>) (http.File, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Path</span>() Path
-  <span style="color:#900;font-weight:bold">Read</span>(p <span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Readdir</span>(count <span style="color:#458;font-weight:bold">int</span>) (<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#a61717;background-color:#e3d2d2">\</span>]os.FileInfo, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Seek</span>(offset <span style="color:#458;font-weight:bold">int64</span>, whence <span style="color:#458;font-weight:bold">int</span>) (<span style="color:#458;font-weight:bold">int64</span>, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Stat</span>() (os.FileInfo, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Write</span>(b <span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>)
-}
-</pre><h2 id="example">Example</h2>
-<p>Bundling a Go template file.</p>
-<pre style="background-color:#fff">tmplFile, _ <span style="color:#000;font-weight:bold">:=</span> pkger.<span style="color:#900;font-weight:bold">Open</span>(<span style="color:#d14">&#34;/templates/page.tmpl&#34;</span>)
-tmplBytes, _ <span style="color:#000;font-weight:bold">:=</span> ioutil.<span style="color:#900;font-weight:bold">ReadAll</span>(tmplFile)
-tmplString <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">string</span>(tmplBytes)
+<div class="highlight"><pre><span></span><code>go get github.com/markbates/pkger/cmd/pkger
+</code></pre></div>
 
-tpl, err <span style="color:#000;font-weight:bold">:=</span> template.<span style="color:#900;font-weight:bold">New</span>(<span style="color:#d14">&#34;page&#34;</span>).<span style="color:#900;font-weight:bold">Parse</span>(tmplString)
- _ = tpl.<span style="color:#900;font-weight:bold">Execute</span>(f, <span style="color:#000;font-weight:bold">...</span>)
-</pre><p>The bundling is simply done by running</p>
-<pre style="background-color:#fff">pkger
-</pre><p>and building as usual</p>
-<pre style="background-color:#fff">go build
-</pre>
+<p><code>pkger</code> works by bundling the resources with a code-generated <code>pkg.go</code>. The configuration of assets to be bundled is done by reflection at compile time and not direct configuration.
+This is done by replacing standard Go file operations with <code>pkger</code> proxy ones, such as:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">type</span> <span class="nx">Pkger</span> <span class="kd">interface</span> <span class="p">{</span>
+  <span class="nx">Parse</span><span class="p">(</span><span class="nx">p</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">Path</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Current</span><span class="p">()</span> <span class="p">(</span><span class="nx">here</span><span class="p">.</span><span class="nx">Info</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Info</span><span class="p">(</span><span class="nx">p</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">here</span><span class="p">.</span><span class="nx">Info</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Create</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">File</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">MkdirAll</span><span class="p">(</span><span class="nx">p</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">perm</span> <span class="nx">os</span><span class="p">.</span><span class="nx">FileMode</span><span class="p">)</span> <span class="kt">error</span>
+  <span class="nx">Open</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">File</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Stat</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">FileInfo</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Walk</span><span class="p">(</span><span class="nx">p</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">wf</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">WalkFunc</span><span class="p">)</span> <span class="kt">error</span>
+  <span class="nx">Remove</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span>
+  <span class="nx">RemoveAll</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span>
+<span class="p">}</span>
+<span class="kd">type</span> <span class="nx">File</span> <span class="kd">interface</span> <span class="p">{</span>
+  <span class="nx">Close</span><span class="p">()</span> <span class="kt">error</span>
+  <span class="nx">Info</span><span class="p">()</span> <span class="nx">here</span><span class="p">.</span><span class="nx">Info</span>
+  <span class="nx">Name</span><span class="p">()</span> <span class="kt">string</span>
+  <span class="nx">Open</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">File</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Path</span><span class="p">()</span> <span class="nx">Path</span>
+  <span class="nx">Read</span><span class="p">(</span><span class="nx">p</span> <span class="err">\</span><span class="p">[</span><span class="err">\</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Readdir</span><span class="p">(</span><span class="nx">count</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="err">\</span><span class="p">[</span><span class="err">\</span><span class="p">]</span><span class="nx">os</span><span class="p">.</span><span class="nx">FileInfo</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Seek</span><span class="p">(</span><span class="nx">offset</span> <span class="kt">int64</span><span class="p">,</span> <span class="nx">whence</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="kt">int64</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Stat</span><span class="p">()</span> <span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">FileInfo</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+  <span class="nx">Write</span><span class="p">(</span><span class="nx">b</span> <span class="err">\</span><span class="p">[</span><span class="err">\</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="example">Example</h2>
+<p>Bundling a Go template file.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">tmplFile</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">pkger</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;/templates/page.tmpl&quot;</span><span class="p">)</span>
+<span class="nx">tmplBytes</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nx">ReadAll</span><span class="p">(</span><span class="nx">tmplFile</span><span class="p">)</span>
+<span class="nx">tmplString</span> <span class="o">:=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">tmplBytes</span><span class="p">)</span>
+
+<span class="nx">tpl</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">template</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">).</span><span class="nx">Parse</span><span class="p">(</span><span class="nx">tmplString</span><span class="p">)</span>
+ <span class="nx">_</span> <span class="p">=</span> <span class="nx">tpl</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The bundling is simply done by running</p>
+<div class="highlight"><pre><span></span><code>pkger
+</code></pre></div>
+
+<p>and building as usual</p>
+<div class="highlight"><pre><span></span><code>go build
+</code></pre></div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#example">Example</a></li>
+</ul>
+</div>
+
     
-        <h2>Contents</h2>
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li class="heading-2"><a href="#example">Example</a></li>
-            
+        
+            <li><a href="/go.html">Go</a><sup>&#5833</sup></li>
+        
         </ul>
     
-    
-        <h2>Backlinks</h2>
 
-        <ul>
-            
-                <li><a href="go.html">Go</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
-        </ul>
-    
     <div class="footer">
         modified 1609759621
     </div>

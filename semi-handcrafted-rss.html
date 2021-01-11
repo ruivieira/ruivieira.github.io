@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - (Semi) handcrafted RSS</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,42 +44,46 @@
 <body>
 
 <div id="content">
-    <h1 id="semi-handcrafted-rss">(Semi) handcrafted RSS</h1>
+    <h1>(Semi) handcrafted RSS</h1>
 <p>I've been using a minimalist blog setup for some time now.</p>
-<p>I was having something of a framework fatigue after switching between a few static site generators.<br />
-Each new generator I decided to try implied usually either learning a new programming language (<a href="https://docs.getpelican.com/en/stable/">Python</a>, <a href="https://jekyllrb.com/">Ruby</a>, <a href="https://gohugo.io/">Go</a>) to perform basic setup <em>and</em> a new template engine syntax. Typically I wasn't using the vast majority of the features available<br />
-for each generator. And finally, most of the generators I tried over the years rely on heavy configuration if I want to maintain the<br />
-site organisation and look.<br />
+<p>I was having something of a framework fatigue after switching between a few static site generators.
+Each new generator I decided to try implied usually either learning a new programming language (<a href="https://docs.getpelican.com/en/stable/">Python</a>, <a href="https://jekyllrb.com/">Ruby</a>, <a href="https://gohugo.io/">Go</a>) to perform basic setup <em>and</em> a new template engine syntax. Typically I wasn't using the vast majority of the features available
+for each generator. And finally, most of the generators I tried over the years rely on heavy configuration if I want to maintain the
+site organisation and look.
 I've discussed with some friends and colleagues why it's my opinion that a plain HTML blog is still superior to other solutions (such as Markdown coupled with some generator framework). I'll leave my arguments to a future post.</p>
 <p>However, I am still using <em>some form</em> of a generator. The blog writing process at the moment is the following:</p>
 <ul>
 <li>I write the content of the post to an HTML fragment (no <code>HEAD</code>, for instance). All files are HTML and in the same folder.</li>
 <li>I have a shell script to walk through the files in the input folder and add a common header, footer and process all code blocks with syntax highlighting.</li>
-<li>Save the &quot;processed&quot; files to an output folder</li>
+<li>Save the "processed" files to an output folder</li>
 <li>Upload (currently to <a href="https://github.com/ruivieira/ruivieira.github.io">Github</a> to be served via Github pages).</li>
 </ul>
 <p>The HTML fragments are minimal, for instance:</p>
-<pre style="background-color:#fff">&lt;<span style="color:#000080">h1</span>&gt;A post-modern title&lt;/<span style="color:#000080">h1</span>&gt;
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>A post-modern title<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
 
-&lt;<span style="color:#000080">p</span>&gt;Yes, this could be an entire blog post.&lt;/<span style="color:#000080">p</span>&gt;
-</pre><p>The point is, where do we draw the line on <em>what</em> a static generator is? For this post, I won't consider a loose collection<br />
-of specialised scripts to be a static generator. There is no configuration, no convention, no theming ability <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. You can argue that this is what many generators do, but I think that's beyond the scope of this short post.</p>
-<p>Since my static blog is straightforward, with minimal markup, why not create something equally simple for RSS generation?<br />
-To do so, I've decided to go the way of &quot;handcrafted&quot; HTML.</p>
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Yes, this could be an entire blog post.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>The point is, where do we draw the line on <em>what</em> a static generator is? For this post, I won't consider a loose collection
+of specialised scripts to be a static generator. There is no configuration, no convention, no theming ability <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. You can argue that this is what many generators do, but I think that's beyond the scope of this short post.</p>
+<p>Since my static blog is straightforward, with minimal markup, why not create something equally simple for RSS generation?
+To do so, I've decided to go the way of "handcrafted" HTML.</p>
 <p>However, I was accustomed to a static site generator to generate some goodies, such as syndication feeds automatically.</p>
 <p>I've decided to add an RSS feed to the site, using minimal dependencies (only shell scripting and a couple of universal user-land tools such as <code>grep</code> and <code>cat</code>). This approach has the added benefit that it is applicable to expose other types of data as an RSS feed, such as server and periodic job logs.</p>
 <p>We start by adding the feed header to the <code>index.xml</code>:</p>
-<pre style="background-color:#fff">&lt;?xml <span style="color:#008080">version</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;1.0&#34;</span> <span style="color:#008080">encoding</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;utf-8&#34;</span>?&gt;
-&lt;rss <span style="color:#008080">version</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;2.0&#34;</span>&gt;
+<div class="highlight"><pre><span></span><code>&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>?&gt;
+&lt;rss <span class="nv">version</span><span class="o">=</span><span class="s2">&quot;2.0&quot;</span>&gt;
         &lt;channel&gt;
 
-                &lt;title&gt;Rui Vieira<span style="color:#d14">&#39;s blog&lt;/title&gt;
-</span><span style="color:#d14">                &lt;description&gt;Rui Vieira&#39;</span>s personal blog&lt;/description&gt;
+                &lt;title&gt;Rui Vieira<span class="s1">&#39;s blog&lt;/title&gt;</span>
+<span class="s1">                &lt;description&gt;Rui Vieira&#39;</span>s personal blog&lt;/description&gt;
                 &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
-                &lt;lastBuildDate&gt;<span style="color:#000;font-weight:bold">$(</span>date<span style="color:#000;font-weight:bold">)</span>&lt;/lastBuildDate&gt;
+                &lt;lastBuildDate&gt;<span class="k">$(</span>date<span class="k">)</span>&lt;/lastBuildDate&gt;
 EOF
-</pre><p>The <a href="https://validator.w3.org/feed/docs/rss2.html">RSS 2.0 specification</a> is quite simple in terms of the minimum requirements for a valid feed.<br />
-The mandatory &quot;header&quot; fields are:</p>
+</code></pre></div>
+
+<p>The <a href="https://validator.w3.org/feed/docs/rss2.html">RSS 2.0 specification</a> is quite simple in terms of the minimum requirements for a valid feed.
+The mandatory "header" fields are:</p>
 <ul>
 <li><code>title</code>, the name of the channel.</li>
 <li><code>link</code>, the URL to the HTML website corresponding to the channel.</li>
@@ -95,151 +98,169 @@ The mandatory &quot;header&quot; fields are:</p>
 </ul>
 <p><code>pubDate</code> needs to conform with <a href="https://tools.ietf.org/html/rfc822">RFC 822</a>.</p>
 <blockquote>
-<p>Just as interesting tidbit, RFC 822 (which defines Internet Text Message formats) is one of the core email RFCs.<br />
-It predates <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> by six years (1982) and it's itself based on 1977's<br />
+<p>Just as interesting tidbit, RFC 822 (which defines Internet Text Message formats) is one of the core email RFCs.
+It predates <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> by six years (1982) and it's itself based on 1977's
 <a href="https://tools.ietf.org/html/rfc733">RFC 733</a>.</p>
 </blockquote>
 <p>We then loop over all the input files to build the RSS entries.</p>
-<pre style="background-color:#fff"><span style="color:#008080">FILES</span><span style="color:#000;font-weight:bold">=</span>input/*.html
-<span style="color:#000;font-weight:bold">for</span> FILE in <span style="color:#008080">$FILES</span>
-<span style="color:#000;font-weight:bold">do</span>
-    <span style="color:#008080">FILENAME</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;</span><span style="color:#d14">${</span><span style="color:#008080">FILE</span>##*/<span style="color:#d14">}</span><span style="color:#d14">&#34;</span>
-    <span style="color:#008080">FILENAME</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;</span><span style="color:#d14">${</span><span style="color:#008080">FILENAME</span>%.*<span style="color:#d14">}</span><span style="color:#d14">&#34;</span>
-    <span style="color:#998;font-style:italic"># extract title ...</span>
-    <span style="color:#998;font-style:italic"># write entry to index.xml</span>
-<span style="color:#000;font-weight:bold">done</span>
-</pre><h2 id="using-bash">Using Bash</h2>
+<div class="highlight"><pre><span></span><code><span class="nv">FILES</span><span class="o">=</span>input/*.html
+<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">do</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="c1"># extract title ...</span>
+    <span class="c1"># write entry to index.xml</span>
+<span class="k">done</span>
+</code></pre></div>
+
+<h2 id="using-bash">Using Bash</h2>
 <p>First, extract the title. The actual title is not inside the <code>&lt;title&gt;</code> tag, but on the first header <code>&lt;h1&gt;</code>.</p>
-<pre style="background-color:#fff">cat output/nb-estimation.html |  grep -E <span style="color:#d14">&#34;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&#34;</span> | sed <span style="color:#d14">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span>
-</pre><p>The first produces:</p>
-<pre style="background-color:#fff">&lt;<span style="color:#000080">div</span> <span style="color:#008080">id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;main&#34;</span>&gt;&lt;<span style="color:#000080">h1</span> <span style="color:#008080">id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;negative-binomial-estimation&#34;</span>&gt;Negative Binomial estimation&lt;/<span style="color:#000080">h1</span>&gt;
-</pre><p>While the second produces:</p>
-<pre style="background-color:#fff">Negative Binomial estimations
-</pre><p>Now, what happens if we have more than one <code>&lt;h1&gt;</code> header? UNIX pipelines to the rescue.<br />
+<div class="highlight"><pre><span></span><code>cat output/nb-estimation.html <span class="p">|</span>  grep -E <span class="s2">&quot;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span>
+</code></pre></div>
+
+<p>The first produces:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;main&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;negative-binomial-estimation&quot;</span><span class="p">&gt;</span>Negative Binomial estimation<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>While the second produces:</p>
+<div class="highlight"><pre><span></span><code>Negative Binomial estimations
+</code></pre></div>
+
+<p>Now, what happens if we have more than one <code>&lt;h1&gt;</code> header? UNIX pipelines to the rescue.
 We simple retrieve the <em>first</em> line of the matching grep, by inserting a <code>head -1</code>.</p>
 <p>To get the modified date of <code>$FILE</code> we can use:</p>
-<pre style="background-color:#fff">date -r <span style="color:#008080">$FILE</span>.html
-</pre><p>The final RSS feed build is:</p>
-<pre style="background-color:#fff">cat &gt;output/index.xml <span style="color:#d14">&lt;&lt;EOF
-</span><span style="color:#d14">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
-</span><span style="color:#d14">&lt;rss version=&#34;2.0&#34;&gt;
-</span><span style="color:#d14">        &lt;channel&gt;
-</span><span style="color:#d14">
-</span><span style="color:#d14">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;
-</span><span style="color:#d14">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;
-</span><span style="color:#d14">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
-</span><span style="color:#d14">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;
-</span><span style="color:#d14">EOF</span>
+<div class="highlight"><pre><span></span><code>date -r <span class="nv">$FILE</span>.html
+</code></pre></div>
 
-<span style="color:#008080">FILES</span><span style="color:#000;font-weight:bold">=</span>input/*.html
-<span style="color:#000;font-weight:bold">for</span> FILE in <span style="color:#008080">$FILES</span>
-<span style="color:#000;font-weight:bold">do</span>
-    <span style="color:#008080">FILENAME</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;</span><span style="color:#d14">${</span><span style="color:#008080">FILE</span>##*/<span style="color:#d14">}</span><span style="color:#d14">&#34;</span>
-    <span style="color:#008080">FILENAME</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;</span><span style="color:#d14">${</span><span style="color:#008080">FILENAME</span>%.*<span style="color:#d14">}</span><span style="color:#d14">&#34;</span>
-    <span style="color:#008080">TITLE</span><span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">$(</span>cat output/<span style="color:#008080">$FILENAME</span>.html | grep -E <span style="color:#d14">&#34;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&#34;</span> | head -1 | sed <span style="color:#d14">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span><span style="color:#000;font-weight:bold">)</span>
-    cat &gt;&gt;output/index.xml <span style="color:#d14">&lt;&lt;EOF
-</span><span style="color:#d14">                &lt;item&gt;
-</span><span style="color:#d14">                        &lt;title&gt;$TITLE&lt;/title&gt;
-</span><span style="color:#d14">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;
-</span><span style="color:#d14">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;
-</span><span style="color:#d14">                &lt;/item&gt;
-</span><span style="color:#d14">EOF</span>
-<span style="color:#000;font-weight:bold">done</span>
+<p>The final RSS feed build is:</p>
+<div class="highlight"><pre><span></span><code>cat &gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
+<span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="s">&lt;rss version=&quot;2.0&quot;&gt;</span>
+<span class="s">        &lt;channel&gt;</span>
 
-cat &gt;&gt;output/index.xml <span style="color:#d14">&lt;&lt;EOF
-</span><span style="color:#d14">        &lt;/channel&gt;
-</span><span style="color:#d14">&lt;/rss&gt;
-</span><span style="color:#d14">EOF</span>
-</pre><h2 id="using-python">Using Python</h2>
-<p>Another possibility is to use a specialised tool to extract an RSS item from an HTML file.<br />
-To do so, we need to parse the necessary data and replace the extraction part of the loop.<br />
-This is, after all, along the lines of the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>:<br />
+<span class="s">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;</span>
+<span class="s">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;</span>
+<span class="s">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;</span>
+<span class="s">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;</span>
+<span class="s">EOF</span>
+
+<span class="nv">FILES</span><span class="o">=</span>input/*.html
+<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">do</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nv">TITLE</span><span class="o">=</span><span class="k">$(</span>cat output/<span class="nv">$FILENAME</span>.html <span class="p">|</span> grep -E <span class="s2">&quot;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&quot;</span> <span class="p">|</span> head -1 <span class="p">|</span> sed <span class="s1">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span><span class="k">)</span>
+    cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
+<span class="s">                &lt;item&gt;</span>
+<span class="s">                        &lt;title&gt;$TITLE&lt;/title&gt;</span>
+<span class="s">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;</span>
+<span class="s">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;</span>
+<span class="s">                &lt;/item&gt;</span>
+<span class="s">EOF</span>
+<span class="k">done</span>
+
+cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
+<span class="s">        &lt;/channel&gt;</span>
+<span class="s">&lt;/rss&gt;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+
+<h2 id="using-python">Using Python</h2>
+<p>Another possibility is to use a specialised tool to extract an RSS item from an HTML file.
+To do so, we need to parse the necessary data and replace the extraction part of the loop.
+This is, after all, along the lines of the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>:
 create specialised tools with a focus on modularity and reusability.</p>
-<p>To do, we create a simple script called <code>post_title.py</code>. It uses the <em>Beautiful Soup</em> library, which you can install<br />
+<p>To do, we create a simple script called <code>post_title.py</code>. It uses the <em>Beautiful Soup</em> library, which you can install
 using:</p>
-<pre style="background-color:#fff">$ pip install beautifulsoup4
-</pre><p>The script reads an HTML file, extract the title and return:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">bs4</span> <span style="color:#000;font-weight:bold">import</span> BeautifulSoup
-<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">sys</span>
+<div class="highlight"><pre><span></span><code>$ pip install beautifulsoup4
+</code></pre></div>
 
-<span style="color:#000;font-weight:bold">with</span> <span style="color:#0086b3">open</span>(sys<span style="color:#000;font-weight:bold">.</span>argv[<span style="color:#099">1</span>], <span style="color:#d14">&#39;r&#39;</span>) <span style="color:#000;font-weight:bold">as</span> <span style="color:#0086b3">file</span>:
-    data <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">file</span><span style="color:#000;font-weight:bold">.</span>read()
+<p>The script reads an HTML file, extract the title and return:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
-soup <span style="color:#000;font-weight:bold">=</span> BeautifulSoup(data, features<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;html.parser&#34;</span>)
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-<span style="color:#000;font-weight:bold">print</span>(soup<span style="color:#000;font-weight:bold">.</span>h1<span style="color:#000;font-weight:bold">.</span>string)
-</pre><p>This script can now be used to replace the title extraction:</p>
-<pre style="background-color:#fff">cat &gt;output/index.xml <span style="color:#d14">&lt;&lt;EOF
-</span><span style="color:#d14">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
-</span><span style="color:#d14">&lt;rss version=&#34;2.0&#34;&gt;
-</span><span style="color:#d14">        &lt;channel&gt;
-</span><span style="color:#d14">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;
-</span><span style="color:#d14">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;
-</span><span style="color:#d14">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
-</span><span style="color:#d14">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;
-</span><span style="color:#d14">EOF</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
 
-<span style="color:#008080">FILES</span><span style="color:#000;font-weight:bold">=</span>input/*.html
-<span style="color:#000;font-weight:bold">for</span> FILE in <span style="color:#008080">$FILES</span>
-<span style="color:#000;font-weight:bold">do</span>
-    <span style="color:#008080">FILENAME</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;</span><span style="color:#d14">${</span><span style="color:#008080">FILE</span>##*/<span style="color:#d14">}</span><span style="color:#d14">&#34;</span>
-    <span style="color:#008080">FILENAME</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;</span><span style="color:#d14">${</span><span style="color:#008080">FILENAME</span>%.*<span style="color:#d14">}</span><span style="color:#d14">&#34;</span>
-    cat &gt;&gt;output/index.xml <span style="color:#d14">&lt;&lt;EOF
-</span><span style="color:#d14">                &lt;item&gt;
-</span><span style="display:block;width:100%;background-color:#e5e5e5"><span style="color:#d14">                        &lt;title&gt;$(post_title.py $FILENAME.html)&lt;/title&gt;
-</span></span><span style="color:#d14">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;
-</span><span style="color:#d14">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;
-</span><span style="color:#d14">                &lt;/item&gt;
-</span><span style="color:#d14">EOF</span>
-<span style="color:#000;font-weight:bold">done</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">h1</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+</code></pre></div>
 
-cat &gt;&gt;output/index.xml <span style="color:#d14">&lt;&lt;EOF
-</span><span style="color:#d14">        &lt;/channel&gt;
-</span><span style="color:#d14">&lt;/rss&gt;
-</span><span style="color:#d14">EOF</span>
-</pre><p>The reason why the whole RSS feed is not generated in Python is to have the title extraction as a &quot;function&quot; which can map to<br />
+<p>This script can now be used to replace the title extraction:</p>
+<div class="highlight"><pre><span></span><code>cat &gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
+<span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="s">&lt;rss version=&quot;2.0&quot;&gt;</span>
+<span class="s">        &lt;channel&gt;</span>
+<span class="s">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;</span>
+<span class="s">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;</span>
+<span class="s">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;</span>
+<span class="s">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;</span>
+<span class="s">EOF</span>
+
+<span class="nv">FILES</span><span class="o">=</span>input/*.html
+<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">do</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
+    cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
+<span class="s">                &lt;item&gt;</span>
+<span class="hll"><span class="s">                        &lt;title&gt;$(post_title.py $FILENAME.html)&lt;/title&gt;</span>
+</span><span class="s">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;</span>
+<span class="s">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;</span>
+<span class="s">                &lt;/item&gt;</span>
+<span class="s">EOF</span>
+<span class="k">done</span>
+
+cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
+<span class="s">        &lt;/channel&gt;</span>
+<span class="s">&lt;/rss&gt;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+
+<p>The reason why the whole RSS feed is not generated in Python is to have the title extraction as a "function" which can map to
 whichever logic the shell script is using.</p>
-<p>Hope this could be useful to you.<br />
+<p>Hope this could be useful to you.
 Happy coding!</p>
-<div class="footnotes" role="doc-endnotes">
+<div class="footnote">
 <hr />
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>Apart from plain CSS theming, that is. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1">
+<p>Apart from plain CSS theming, that is.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
-
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#using-bash">Using Bash</a></li>
+<li><a href="#using-python">Using Python</a></li>
+</ul>
+</div>
+
     
-        <h2>Contents</h2>
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li class="heading-2"><a href="#using-bash">Using Bash</a></li>
-            
-                <li class="heading-2"><a href="#using-python">Using Python</a></li>
-            
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
         </ul>
     
-    
-        <h2>Backlinks</h2>
 
-        <ul>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
-        </ul>
-    
     <div class="footer">
-        modified 1609759622
+        modified 1610216358
     </div>
 
 </div>

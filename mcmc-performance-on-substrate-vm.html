@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - MCMC performance on Substrate VM</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,42 +44,58 @@
 <body>
 
 <div id="content">
-    <h1 id="mcmc-performance-on-substrate-vm">MCMC performance on Substrate VM</h1>
+    <h1>MCMC performance on Substrate VM</h1>
 <p>Recently I've been following (but not very closely, I admit) the development of the <a href="https://www.graalvm.org/">GraalVM</a> project. The project has many interesting goals (such as <a href="http://openjdk.java.net/projects/metropolis/">Project Metropolis</a>, increased JIT performance and others).</p>
 <p>However, having dabbled with projects such as <a href="https://github.com/scala-native/scala-native">Scala native</a> and <a href="https://kotlinlang.org/docs/reference/native-overview.html">Kotlin native</a>, one of the aspects of GraalVM that caught my attention was the <a href="https://github.com/oracle/graal/tree/master/substratevm">SubstrateVM</a>, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</p>
-<p>I specifically wanted to compare the performance and memory consumption of simple scientific computing tasks when using the JVM and native executables.<br />
+<p>I specifically wanted to compare the performance and memory consumption of simple scientific computing tasks when using the JVM and native executables.
 To do this, I picked two simple numerical simulations in the form of toy Gibbs samplers, in order to keep the cores busy for a while.</p>
 <h2 id="binomial-beta-case">Binomial-Beta case</h2>
 <p>The first problem chosen was the one of sampling from a Beta-Binomial distribution where we have</p>
-<p><span class="math display">\[X \sim \text{Binom}\left(n,\theta\right) \\\\
+\[
+X \sim \text{Binom}\left(n,\theta\right) \\\\
 \theta \sim \text{B}\left(a,b\right).
-\]</span></p>
+\]
+
 <p>Since we know that</p>
-<p><span class="math display">\[\pi\left(\theta|x\right) \propto \theta^x \left(1-\theta\right)^{n-x}\theta^{a-1}\left(1-\theta\right)^{b-1},
-\]</span></p>
+\[
+\pi\left(\theta|x\right) \propto \theta^x \left(1-\theta\right)^{n-x}\theta^{a-1}\left(1-\theta\right)^{b-1},
+\]
+
 <p>We calculate the joint density</p>
-<p><span class="math display">\[p(x,\theta) = \begin{pmatrix} n \\\\ x \end{pmatrix} \theta^x \left(1-\theta\right)^{n-x}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\theta^{a-1}\left(1-\theta\right)^{b-1}
-\]</span></p>
+\[
+p(x,\theta) = \begin{pmatrix} n \\\\ x \end{pmatrix} \theta^x \left(1-\theta\right)^{n-x}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\theta^{a-1}\left(1-\theta\right)^{b-1}
+\]
+
 <p>The marginal distribution is a Binomial-Beta:</p>
-<p><span class="math display">\[p\left(x\right)=\begin{pmatrix} n \\\\ x \end{pmatrix}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\frac{\Gamma\left(a+b\right)\Gamma\left(b+n-x\right)}{\Gamma\left(a+b+n\right)},\qquad x=0,1,\cdots,n.
-\]</span></p>
+\[
+p\left(x\right)=\begin{pmatrix} n \\\\ x \end{pmatrix}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\frac{\Gamma\left(a+b\right)\Gamma\left(b+n-x\right)}{\Gamma\left(a+b+n\right)},\qquad x=0,1,\cdots,n.
+\]
+
 <p>The code for this simulation is available <a href="https://github.com/ruivieira/benchmark-gibbs">here</a>.</p>
 <p>The project is setup so that Maven produces an assembly Jar file, since I've found that to be the easier artifact we can offer to the GraalVM's native compiler. To enable assembly Jars we add the <code>maven-assembly-plugin</code> to <code>pom.xml</code> and specify a main class. The assembly can then be produced simply by executing</p>
-<pre style="background-color:#fff">mvn package
-</pre><p>An assembly Jar should be available in the <code>target</code> folder and named <code>benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</code>.<br />
-Both the Jar and the native executable allow to specify how many iterations the Gibbs sampler should run for (as well as the thinning factor). If nothing is specified, the default will be used, which is <span class="math inline">\(50000\)</span> iterations thinned by <span class="math inline">\(100\)</span>.</p>
-<p>This particular Gibbs sampler was implemented in two variants. One variant stores the samples draws of <span class="math inline">\(x\)</span> and <span class="math inline">\(\theta\)</span> in arrays <code>double[]</code> while the other one simply calculates the Gibbs steps by using the previous value, that is <span class="math inline">\(x_i=f(x_{i-1},\theta_{i-1})\)</span> and then discarding the previous values. The latter has a constant memory cost in <span class="math inline">\(\mathcal{O}(1)\)</span> in terms of number of iterations, while the former clearly doesn't.</p>
+<div class="highlight"><pre><span></span><code>mvn package
+</code></pre></div>
+
+<p>An assembly Jar should be available in the <code>target</code> folder and named <code>benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</code>. 
+Both the Jar and the native executable allow to specify how many iterations the Gibbs sampler should run for (as well as the thinning factor). If nothing is specified, the default will be used, which is \(50000\) iterations thinned by \(100\).</p>
+<p>This particular Gibbs sampler was implemented in two variants. One variant stores the samples draws of \(x\) and \(\theta\) in arrays <code>double[]</code> while the other one simply calculates the Gibbs steps by using the previous value, that is \(x_i=f(x_{i-1},\theta_{i-1})\) and then discarding the previous values. The latter has a constant memory cost in \(\mathcal{O}(1)\) in terms of number of iterations, while the former clearly doesn't.</p>
 <p>We can them proceed with the first test, first benchmarking it under the JVM by running (for both sample history variants):</p>
-<pre style="background-color:#fff">$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store <span style="color:#099">50000</span> <span style="color:#099">100</span>
-$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore <span style="color:#099">50000</span> <span style="color:#099">100</span>
-</pre><p>(It is important to note that the <code>time</code> command is the executable under <code>/usr/bin</code> and not your shell's builtin.)<br />
+<div class="highlight"><pre><span></span><code>$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store <span class="m">50000</span> <span class="m">100</span>
+$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore <span class="m">50000</span> <span class="m">100</span>
+</code></pre></div>
+
+<p>(It is important to note that the <code>time</code> command is the executable under <code>/usr/bin</code> and not your shell's builtin.)
 The next step is to build the native image using GraalVM's compiler. This is also quite straight-forward and simply a matter of calling:</p>
-<pre style="background-color:#fff"><span style="color:#008080">$GRAALVM_BIN</span>/native-image target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar
-</pre><p>where <code>$GRAALVM_BIN</code> is simply the location where you installed the GraalVM binaries. If the compilation is successful, you should see some information about the compilation steps, such as parsing, inlining, compiling and writing the image. Finally, if using the default, you should have a native executable available in your current directory. Again, the benchmark command is similar to the JVM step, that is:</p>
-<pre style="background-color:#fff">$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies store <span style="color:#099">50000</span> <span style="color:#099">100</span>
-$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore <span style="color:#099">50000</span> <span style="color:#099">100</span>
-</pre><p>The results from the runs which saved the sampling history on both platforms (JVM and native) were consistent as we can see from the plots below:</p>
-<p><img src="./images/gibbs_jvm_native.png" alt="" /></p>
+<div class="highlight"><pre><span></span><code><span class="nv">$GRAALVM_BIN</span>/native-image target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar
+</code></pre></div>
+
+<p>where <code>$GRAALVM_BIN</code> is simply the location where you installed the GraalVM binaries. If the compilation is successful, you should see some information about the compilation steps, such as parsing, inlining, compiling and writing the image. Finally, if using the default, you should have a native executable available in your current directory. Again, the benchmark command is similar to the JVM step, that is:</p>
+<div class="highlight"><pre><span></span><code>$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies store <span class="m">50000</span> <span class="m">100</span>
+$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore <span class="m">50000</span> <span class="m">100</span>
+</code></pre></div>
+
+<p>The results from the runs which saved the sampling history on both platforms (JVM and native) were consistent as we can see from the plots below:</p>
+<p><img alt="" src="./images/gibbs_jvm_native.png" /></p>
 <p>The (peak) memory consumption and execution time for each version is presented in the table below:</p>
 <table>
 <thead>
@@ -114,7 +129,7 @@ $ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore 
 </tbody>
 </table>
 <h2 id="another-bivariate-case">Another bivariate case</h2>
-<p>The second problem chosen is another bivariate model, <a href="a-gibbs-sampler-in-crystal.html">previously detailed</a> in this blog.<br />
+<p>The second problem chosen is another bivariate model, <a href="a-gibbs-sampler-in-crystal.html">previously detailed</a> in this blog.
 The code is included in the same repositoty as the Beta-Binomial case and the setup for the benchmarks is similar. The only step needed to run this example is to change the main class in the assemply plugin section of the <code>pom.xml</code> from <code>BinomialBet</code>a to <code>Bivariate</code>. The benchmark results are in the table below:</p>
 <table>
 <thead>
@@ -139,35 +154,33 @@ The code is included in the same repositoty as the Beta-Binomial case and the se
 </table>
 <p>Now, in this case, the results are much more interesting. The JVM version outperforms the native version in <em>both</em> execution time and memory consumption. I don't have an explanation for this, but if you think you have (or have any other questions) please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
 <p>Thanks for reading!</p>
-
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#binomial-beta-case">Binomial-Beta case</a></li>
+<li><a href="#another-bivariate-case">Another bivariate case</a></li>
+</ul>
+</div>
+
     
-        <h2>Contents</h2>
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li class="heading-2"><a href="#binomial-beta-case">Binomial-Beta case</a></li>
-            
-                <li class="heading-2"><a href="#another-bivariate-case">Another bivariate case</a></li>
-            
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
         </ul>
     
-    
-        <h2>Backlinks</h2>
 
-        <ul>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
-        </ul>
-    
     <div class="footer">
         modified 1609759622
     </div>

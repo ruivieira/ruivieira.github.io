@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - t as mixture of Normals</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,49 +44,64 @@
 <body>
 
 <div id="content">
-    <h1 id="t-as-mixture-of-normals">t as mixture of Normals</h1>
+    <ul>
+<li>"/assets/katex.min.css"
+Js:</li>
+<li>/assets/katex.min.js</li>
+<li>/assets/auto-render.min.js</li>
+</ul>
+<hr />
+<h1>t as mixture of Normals</h1>
 <p>(Based on Rasmus Bååth's <a href="http://www.sumsar.net/blog/2013/12/t-as-a-mixture-of-normals/">post</a>)</p>
-<p>A scaled <span class="math inline">\(t\)</span> distribution, with <span class="math inline">\(\mu\)</span> mean, <span class="math inline">\(s\)</span> scale and <span class="math inline">\(\nu\)</span> degrees of freedom, can be simulated</p>
-<p>from a mixture of Normals with <span class="math inline">\(\\mu\)</span> mean and precisions following a Gamma distribution:</p>
-<p><span class="math display">\[\begin{aligned}
-y &\sim \mathcal{N}\left(\mu,\sigma\right) \\\\
+<p>A scaled \(t\) distribution, with \(\mu\) mean, \(s\) scale and \(\nu\) degrees of freedom, can be simulated</p>
+<p>from a mixture of Normals with \(\\mu\) mean and precisions following a Gamma distribution:</p>
+\[
+\begin{aligned}
+y &amp;\sim \mathcal{N}\left(\mu,\sigma\right) \\\\
 
-\sigma^2 &\sim \mathcal{IG}\left(\frac{\nu}{2},s^2\frac{\nu}{2}\right)
+\sigma^2 &amp;\sim \mathcal{IG}\left(\frac{\nu}{2},s^2\frac{\nu}{2}\right)
 
 \end{aligned}
-\]</span></p>
+\]
+
 <p>Since I've recently pickep up again the <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a> in my spare time, I've decided to replicate the previously mentioned post using a Crystal one-liner.</p>
-<p>To simulate 10,000 samples from <span class="math inline">\(t_2\left(0,3\right)\)</span> using the mixture, we can then write:</p>
-<pre style="background-color:#fff">samples <span style="color:#000;font-weight:bold">=</span> (<span style="color:#099">0</span><span style="color:#000;font-weight:bold">..</span><span style="color:#099">10000</span>)<span style="color:#000;font-weight:bold">.</span>map { <span style="color:#000;font-weight:bold">|</span>x<span style="color:#000;font-weight:bold">|</span>
+<p>To simulate 10,000 samples from \(t_2\left(0,3\right)\) using the mixture, we can then write:</p>
+<div class="highlight"><pre><span></span><code><span class="n">samples</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10000</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
 
-	Normal<span style="color:#000;font-weight:bold">.</span>sample <span style="color:#099">0.0</span>, 
-		<span style="color:#099">1.0</span><span style="color:#000;font-weight:bold">/</span>Math<span style="color:#000;font-weight:bold">.</span>sqrt(
-			Gamma<span style="color:#000;font-weight:bold">.</span>sample <span style="color:#099">1.0</span>, <span style="color:#099">9.0</span>
-		)
+    <span class="n">Normal</span><span class="o">.</span><span class="n">sample</span> <span class="mf">0.0</span><span class="p">,</span> 
+        <span class="mf">1.0</span><span class="o">/</span><span class="n">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">9.0</span>
+        <span class="p">)</span>
 
-}
-</pre><p>We can see the mixture distribution (histogram) converging nicely to the <span class="math inline">\((t_2(0,3)\)</span> (red):</p>
-<p><video controls loop autoplay width="100%"><source src='./images/t_mixture.mp4' type='video/mp4'></video></p>
+<span class="p">}</span>
+</code></pre></div>
 
+<p>We can see the mixture distribution (histogram) converging nicely to the \((t_2(0,3)\) (red):</p>
+<video controls loop autoplay width="100%"><source src='./images/t_mixture.mp4' type='video/mp4'></video>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
-    
-    
-        <h2>Backlinks</h2>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
 
+    <h3>Contents</h3>
+    <div class="toc">
+<ul></ul>
+</div>
+
+    
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
         </ul>
     
+
     <div class="footer">
         modified 1609759622
     </div>

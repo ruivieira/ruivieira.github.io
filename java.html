@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - Java</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,63 +44,67 @@
 <body>
 
 <div id="content">
-    <h1 id="java">Java</h1>
+    <h1>Java</h1>
 <p>Notes on Java.</p>
 <ul>
-<li><a href="java-completable-futures.html">Java Completable Futures</a></li>
+<li><a href="/java-completable-futures.html">Java Completable Futures</a></li>
 </ul>
 <h2 id="reference">Reference</h2>
 <h3 id="get-user-home-directory">Get user home directory</h3>
-<pre style="background-color:#fff">System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getProperty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;user.home&#34;</span><span style="color:#000;font-weight:bold">);</span>
-</pre><h3 id="list-files-recursively">List files recursively</h3>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">(</span>Stream<span style="color:#000;font-weight:bold">&lt;</span>Path<span style="color:#000;font-weight:bold">&gt;</span> walk <span style="color:#000;font-weight:bold">=</span> Files<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">walk</span><span style="color:#000;font-weight:bold">(</span>Paths<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span>input<span style="color:#000;font-weight:bold">)))</span> <span style="color:#000;font-weight:bold">{</span>  
-    List<span style="color:#000;font-weight:bold">&lt;</span>String<span style="color:#000;font-weight:bold">&gt;</span> result <span style="color:#000;font-weight:bold">=</span> 
-		walk<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>Files<span style="color:#000;font-weight:bold">::</span>isRegularFile<span style="color:#000;font-weight:bold">)</span>  
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">map</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span>x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">())</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">collect</span><span style="color:#000;font-weight:bold">(</span>Collectors<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toList</span><span style="color:#000;font-weight:bold">());</span>  
-	result<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">forEach</span><span style="color:#000;font-weight:bold">(</span>System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">::</span>println<span style="color:#000;font-weight:bold">);</span>  
-  
-<span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span>IOException e<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>  
-    e<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">printStackTrace</span><span style="color:#000;font-weight:bold">();</span>  
-<span style="color:#000;font-weight:bold">}</span>
-</pre><p>In case we want the file subset with a specific extension, <code>txt</code> we can filter the stream with</p>
-<pre style="background-color:#fff">    List<span style="color:#000;font-weight:bold">&lt;</span>String<span style="color:#000;font-weight:bold">&gt;</span> result <span style="color:#000;font-weight:bold">=</span> walk<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>Files<span style="color:#000;font-weight:bold">::</span>isRegularFile<span style="color:#000;font-weight:bold">)</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">filter</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span> x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">endsWith</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;.txt&#34;</span><span style="color:#000;font-weight:bold">))</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">map</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">-&gt;</span> x<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">())</span>
-		<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">collect</span><span style="color:#000;font-weight:bold">(</span>Collectors<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toList</span><span style="color:#000;font-weight:bold">());</span>  
-</pre>
+<div class="highlight"><pre><span></span><code><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;user.home&quot;</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="list-files-recursively">List files recursively</h3>
+<div class="highlight"><pre><span></span><code><span class="k">try</span> <span class="p">(</span><span class="n">Stream</span><span class="o">&lt;</span><span class="n">Path</span><span class="o">&gt;</span> <span class="n">walk</span> <span class="o">=</span> <span class="n">Files</span><span class="p">.</span><span class="na">walk</span><span class="p">(</span><span class="n">Paths</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">input</span><span class="p">)))</span> <span class="p">{</span>  
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> 
+        <span class="n">walk</span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">Files</span><span class="p">::</span><span class="n">isRegularFile</span><span class="p">)</span>  
+        <span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span><span class="n">x</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span>
+        <span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>  
+    <span class="n">result</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span>  
+
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>  
+<span class="p">}</span>
+</code></pre></div>
+
+<p>In case we want the file subset with a specific extension, <code>txt</code> we can filter the stream with</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">walk</span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">Files</span><span class="p">::</span><span class="n">isRegularFile</span><span class="p">)</span>
+        <span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="p">.</span><span class="na">toString</span><span class="p">().</span><span class="na">endsWith</span><span class="p">(</span><span class="s">&quot;.txt&quot;</span><span class="p">))</span>
+        <span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span>
+        <span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>  
+</code></pre></div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#reference">Reference</a><ul>
+<li><a href="#get-user-home-directory">Get user home directory</a></li>
+<li><a href="#list-files-recursively">List files recursively</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
     
-        <h2>Contents</h2>
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li class="heading-2"><a href="#reference">Reference</a></li>
-            
-                <li class="heading-3"><a href="#get-user-home-directory">Get user home directory</a></li>
-            
-                <li class="heading-3"><a href="#list-files-recursively">List files recursively</a></li>
-            
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
+            <li><a href="/clojure.html">Clojure</a><sup>&#5833</sup></li>
+        
         </ul>
     
-    
-        <h2>Backlinks</h2>
 
-        <ul>
-            
-                <li><a href="clojure.html">Clojure</a><sup>&#5833</sup></li>
-            
-                <li><a href="index.html">index</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
-        </ul>
-    
     <div class="footer">
         modified 1610037112
     </div>

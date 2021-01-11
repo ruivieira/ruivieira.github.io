@@ -20,6 +20,7 @@ body {
   margin-left: 3rem;
   margin-top: 3rem;
   width: 20rem;
+  font-size: 0.95rem;
 }
 h1,
 h2,
@@ -143,6 +144,9 @@ a[href^="http://"]:after
   color: #fff;
   text-align: center;
 }
+.footnote {
+  font-size: 0.95rem;
+}
 
 @media screen and (max-width: 360px) {
   body {
@@ -190,6 +194,7 @@ a[href^="http://"]:after
     margin-left: 1rem;
     margin-top: 1rem;
     width: 10rem;
+    font-size: 0.95rem;
   }
   #content {
     max-width: 40rem;

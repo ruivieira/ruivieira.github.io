@@ -9,18 +9,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - Go filesystem operations</title>
     <script type="application/javascript">
         var doNotTrack = false;
@@ -45,82 +44,86 @@
 <body>
 
 <div id="content">
-    <h1 id="go-filesystem-operations">Go filesystem operations</h1>
+    <h1>Go filesystem operations</h1>
 <p>Notes on Go filesystem operations.</p>
 <h2 id="copying-files">Copying files</h2>
 <p>Go does not have an utility method to copy files. We have to rely on writing our own implementation using the reading and writing functionality in other packages. As an example:</p>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">package</span> main 
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nx">main</span> 
 
-<span style="color:#000;font-weight:bold">import</span> (
-	<span style="color:#d14">&#34;io&#34;</span>
-	<span style="color:#d14">&#34;log&#34;</span>
-	<span style="color:#d14">&#34;os&#34;</span>
-) 
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&quot;io&quot;</span>
+    <span class="s">&quot;log&quot;</span>
+    <span class="s">&quot;os&quot;</span>
+<span class="p">)</span> 
 
-<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() { 
-	from, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">Open</span>(<span style="color:#d14">&#34;./foo.txt&#34;</span>)
-	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> { 
-		log.<span style="color:#900;font-weight:bold">Fatal</span>(err) 
-	} 
-	<span style="color:#000;font-weight:bold">defer</span> from.<span style="color:#900;font-weight:bold">Close</span>() 
-	
-	to, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">OpenFile</span>(<span style="color:#d14">&#34;./bar.txt&#34;</span>, os.O_RDWR|os.O_CREATE, <span style="color:#099">0666</span>) 
-	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> { 
-		log.<span style="color:#900;font-weight:bold">Fatal</span>(err) 
-	} 
-	<span style="color:#000;font-weight:bold">defer</span> to.<span style="color:#900;font-weight:bold">Close</span>() 
-	
-	_, err = io.<span style="color:#900;font-weight:bold">Copy</span>(to, from) 
-	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> { 
-		log.<span style="color:#900;font-weight:bold">Fatal</span>(err) 
-	}
-}
-</pre><h2 id="path-operations">Path operations</h2>
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span> 
+    <span class="nx">from</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;./foo.txt&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> 
+        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
+    <span class="p">}</span> 
+    <span class="k">defer</span> <span class="nx">from</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span> 
+
+    <span class="nx">to</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">OpenFile</span><span class="p">(</span><span class="s">&quot;./bar.txt&quot;</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">O_RDWR</span><span class="p">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="p">,</span> <span class="mo">0666</span><span class="p">)</span> 
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> 
+        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
+    <span class="p">}</span> 
+    <span class="k">defer</span> <span class="nx">to</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span> 
+
+    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">from</span><span class="p">)</span> 
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> 
+        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="path-operations">Path operations</h2>
 <h3 id="basepath">Basepath</h3>
 <p>To get the basepath of a path string we use the <a href="https://golang.org/pkg/path/#Dir">Dir</a> method:</p>
-<pre style="background-color:#fff">filepath.<span style="color:#900;font-weight:bold">Dir</span>(<span style="color:#d14">&#34;/etc/foo/file.txt&#34;</span>) <span style="color:#998;font-style:italic">// &#34;/etc/foo&#34;
-</span></pre><h3 id="check-if-directory-exists">Check if directory exists</h3>
-<pre style="background-color:#fff"><span style="color:#000;font-weight:bold">if</span> _, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">Stat</span>(<span style="color:#d14">&#34;/etc/foo/&#34;</span>); os.<span style="color:#900;font-weight:bold">IsNotExist</span>(err) {
-	<span style="color:#998;font-style:italic">// do something because it does not exist
-</span><span style="color:#998;font-style:italic"></span>}
-</pre><h3 id="create-nested-directories">Create nested directories</h3>
+<div class="highlight"><pre><span></span><code><span class="nx">filepath</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="s">&quot;/etc/foo/file.txt&quot;</span><span class="p">)</span> <span class="c1">// &quot;/etc/foo&quot;</span>
+</code></pre></div>
+
+<h3 id="check-if-directory-exists">Check if directory exists</h3>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="s">&quot;/etc/foo/&quot;</span><span class="p">);</span> <span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something because it does not exist</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="create-nested-directories">Create nested directories</h3>
 <p>Use <a href="https://golang.org/pkg/os/#MkdirAll">MkdirAll</a>:</p>
-<pre style="background-color:#fff">os.<span style="color:#900;font-weight:bold">MkdirAll</span>(<span style="color:#d14">&#34;/etc/long/nested/path/to/create&#34;</span>, os.ModePerm)
-</pre>
+<div class="highlight"><pre><span></span><code><span class="nx">os</span><span class="p">.</span><span class="nx">MkdirAll</span><span class="p">(</span><span class="s">&quot;/etc/long/nested/path/to/create&quot;</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">ModePerm</span><span class="p">)</span>
+</code></pre></div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
 </div>
 
 <div id="sidebar">
-    <a href="/">home</a>
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#copying-files">Copying files</a></li>
+<li><a href="#path-operations">Path operations</a><ul>
+<li><a href="#basepath">Basepath</a></li>
+<li><a href="#check-if-directory-exists">Check if directory exists</a></li>
+<li><a href="#create-nested-directories">Create nested directories</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
     
-        <h2>Contents</h2>
+    <h3>Backlinks</h3>
         <ul>
-            
-                <li class="heading-2"><a href="#copying-files">Copying files</a></li>
-            
-                <li class="heading-2"><a href="#path-operations">Path operations</a></li>
-            
-                <li class="heading-3"><a href="#basepath">Basepath</a></li>
-            
-                <li class="heading-3"><a href="#check-if-directory-exists">Check if directory exists</a></li>
-            
-                <li class="heading-3"><a href="#create-nested-directories">Create nested directories</a></li>
-            
+        
+            <li><a href="/go.html">Go</a><sup>&#5833</sup></li>
+        
         </ul>
     
-    
-        <h2>Backlinks</h2>
 
-        <ul>
-            
-                <li><a href="go.html">Go</a><sup>&#5833</sup></li>
-            
-            <li><a href="/content.html">content</a><sup>&#5833</sup></li>
-
-        </ul>
-    
     <div class="footer">
         modified 1609759621
     </div>
