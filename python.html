@@ -50,7 +50,7 @@ Other pages cover specific topics, such as:</p>
 <ul>
 <li><a href="/python-environments.html">Python environments</a></li>
 <li><a href="/python-pweave.html">How to setup Pweave</a></li>
-<li><a href="/python-pandas.html">Pandas</a></li>
+<li><a href="/pandas.html">Pandas</a></li>
 </ul>
 <h2 id="boolean-unravelling">Boolean unravelling</h2>
 <h3 id="and">and</h3>
@@ -137,7 +137,7 @@ function <code>u_and</code>:</p>
 
 <h2 id="filesystem-operations">Filesystem operations</h2>
 <h3 id="get-home-directory">Get home directory</h3>
-<p>For Python +3.5</p>
+<p>For Python +3.5:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">home</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">())</span>
@@ -148,6 +148,7 @@ function <code>u_and</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">glob</span>
 
 <span class="c1"># root_dir with trailing slash (i.e. /root/dir/)</span>
+<span class="n">root_dir</span> <span class="o">=</span> <span class="s2">&quot;./tmp&quot;</span>
 <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">iglob</span><span class="p">(</span><span class="n">root_dir</span> <span class="o">+</span> <span class="s1">&#39;**/*.md&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
      <span class="nb">print</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </code></pre></div>
@@ -155,18 +156,47 @@ function <code>u_and</code>:</p>
 <h2 id="collections">Collections</h2>
 <h3 id="sort-an-object-list-by-attribute">Sort an object list by attribute</h3>
 <p>Assuming a list <code>a</code> with instances of <code>Foo</code>, such that</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">Foo</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
     <span class="n">bar</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">baz</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="n">Foo</span><span class="p">(</span><span class="n">bar</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;foo-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">baz</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)]</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 </code></pre></div>
 
-<p>To sort in place using attribute <code>bar</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">bar</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="err">[Foo(bar=&#39;foo-1&#39;, baz=3),</span>
+<span class="err"> Foo(bar=&#39;foo-2&#39;, baz=30),</span>
+<span class="err"> Foo(bar=&#39;foo-3&#39;, baz=56),</span>
+<span class="err"> Foo(bar=&#39;foo-4&#39;, baz=34)]</span>
 </code></pre></div>
 
 <p>To return a new collection:</p>
-<div class="highlight"><pre><span></span><code><span class="n">a_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">bar</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">a_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">baz</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">a_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">[Foo(bar=&#39;foo-1&#39;, baz=3),</span>
+<span class="err"> Foo(bar=&#39;foo-28&#39;, baz=3),</span>
+<span class="err"> Foo(bar=&#39;foo-41&#39;, baz=5),</span>
+<span class="err"> Foo(bar=&#39;foo-15&#39;, baz=6)]</span>
+</code></pre></div>
+
+<p>To sort in place using attribute <code>bar</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">baz</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">[Foo(bar=&#39;foo-40&#39;, baz=91),</span>
+<span class="err"> Foo(bar=&#39;foo-18&#39;, baz=87),</span>
+<span class="err"> Foo(bar=&#39;foo-37&#39;, baz=86),</span>
+<span class="err"> Foo(bar=&#39;foo-43&#39;, baz=86)]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
 </code></pre></div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
@@ -209,13 +239,15 @@ function <code>u_and</code>:</p>
         
             <li><a href="/python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a><sup>&#5833</sup></li>
         
+            <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+        
             <li><a href="/index.html">index</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1610316733
+        modified 1610799291
     </div>
 
 </div>

@@ -45,9 +45,19 @@
 
 <div id="content">
     <h1>Python environments</h1>
-<h2 id="poetry-as-jupyter-kernel">Poetry as Jupyter kernel</h2>
+<h2 id="poetry">Poetry</h2>
+<h3 id="poetry-as-jupyter-kernel">Poetry as Jupyter kernel</h3>
 <p>To register a <code>poetry</code> environment (named <code>foo</code>) as a Jupyter kernel, run:</p>
 <div class="highlight"><pre><span></span><code>poetry run python -m ipykernel install --user --name foo
+</code></pre></div>
+
+<h2 id="venv">venv</h2>
+<p>Create a new <code>venv</code> with the command:</p>
+<div class="highlight"><pre><span></span><code>$ virtualenv venv
+</code></pre></div>
+
+<p>and activate it using (under Bash or zsh) with:</p>
+<div class="highlight"><pre><span></span><code>$ <span class="nb">source</span> venv/bin/activate
 </code></pre></div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
@@ -62,7 +72,11 @@
     <h3>Contents</h3>
     <div class="toc">
 <ul>
+<li><a href="#poetry">Poetry</a><ul>
 <li><a href="#poetry-as-jupyter-kernel">Poetry as Jupyter kernel</a></li>
+</ul>
+</li>
+<li><a href="#venv">venv</a></li>
 </ul>
 </div>
 
@@ -70,13 +84,15 @@
     <h3>Backlinks</h3>
         <ul>
         
+            <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+        
             <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1609760775
+        modified 1610402361
     </div>
 
 </div>

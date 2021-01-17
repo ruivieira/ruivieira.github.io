@@ -66,7 +66,7 @@
 			http://ruivieira.dev/python.html
 		</loc>
 		<lastmod>
-			2021-01-10T22:12:13Z
+			2021-01-16T12:14:51Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -81,7 +81,7 @@
 			http://ruivieira.dev/cookiecutter-data-science.html
 		</loc>
 		<lastmod>
-			2021-01-07T23:25:53Z
+			2021-01-12T09:58:58Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -456,7 +456,7 @@
 			http://ruivieira.dev/synthetic-data-generation.html
 		</loc>
 		<lastmod>
-			2021-01-06T23:15:17Z
+			2021-01-12T22:22:03Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -486,7 +486,22 @@
 			http://ruivieira.dev/python-environments.html
 		</loc>
 		<lastmod>
-			2021-01-04T11:46:15Z
+			2021-01-11T21:59:21Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/pandas.html
+		</loc>
+		<lastmod>
+			2021-01-16T12:15:18Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -592,6 +607,21 @@
 		</loc>
 		<lastmod>
 			2021-01-04T11:27:01Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/pandas-basics.html
+		</loc>
+		<lastmod>
+			2021-01-17T21:26:44Z
 		</lastmod>
 		<changefreq>
 			weekly
