@@ -52,13 +52,30 @@
 </code></pre></div>
 
 <h2 id="venv">venv</h2>
-<p>Create a new <code>venv</code> with the command:</p>
+<p>If using Python +3.9 Create a new <code>venv</code> with the command:</p>
 <div class="highlight"><pre><span></span><code>$ virtualenv venv
+</code></pre></div>
+
+<p>otherwise<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, if using another &gt;3.9 you might get the error</p>
+<div class="highlight"><pre><span></span><code>virtualenv: command not found
+</code></pre></div>
+
+<p>In this case, you can create the <code>virutalenv</code> using</p>
+<div class="highlight"><pre><span></span><code>$ python -m venv venv
 </code></pre></div>
 
 <p>and activate it using (under Bash or zsh) with:</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">source</span> venv/bin/activate
 </code></pre></div>
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Python 3.9 and above bundle <code>virtualenv</code>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
@@ -84,15 +101,17 @@
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
+            <li><a href="/tensorflow.html">Tensorflow</a><sup>&#5833</sup></li>
         
             <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+        
+            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1610402361
+        modified 1611357637
     </div>
 
 </div>

@@ -96,7 +96,7 @@
 			http://ruivieira.dev/java-completable-futures.html
 		</loc>
 		<lastmod>
-			2021-01-07T16:33:46Z
+			2021-01-22T09:25:48Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -423,6 +423,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/projects.html
+		</loc>
+		<lastmod>
+			2021-01-22T21:17:26Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/vim-keys.html
 		</loc>
 		<lastmod>
@@ -501,7 +516,7 @@
 			http://ruivieira.dev/python-environments.html
 		</loc>
 		<lastmod>
-			2021-01-11T21:59:21Z
+			2021-01-22T23:20:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -561,7 +576,7 @@
 			http://ruivieira.dev/index.html
 		</loc>
 		<lastmod>
-			2021-01-21T22:13:11Z
+			2021-01-22T12:05:35Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -708,6 +723,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/tensorflow.html
+		</loc>
+		<lastmod>
+			2021-01-22T23:23:03Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/digital-garden.html
 		</loc>
 		<lastmod>
@@ -786,7 +816,7 @@
 			http://ruivieira.dev/machine-learning.html
 		</loc>
 		<lastmod>
-			2021-01-21T22:12:53Z
+			2021-01-22T23:21:05Z
 		</lastmod>
 		<changefreq>
 			weekly
