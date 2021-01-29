@@ -62,28 +62,8 @@
 <div class="highlight"><pre><span></span><code><span class="err">HelloBeautifulWorld</span>
 </code></pre></div>
 
-<h2 id="custom-executor">Custom executor</h2>
-<p>In the previous examples, such as <code>supplyAsync</code><sup id="fnref:supplyAsync"><a class="footnote-ref" href="#fn:supplyAsync">2</a></sup>, we simply return a <code>CompletableFuture</code> which runs by default on the common executor service, <code>ForkJoinPool.commonPool()</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. For instance, the two following statements, execute on the same service:</p>
-<div class="highlight"><pre><span></span><code><span class="n">future1</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="s">&quot;Hello&quot;</span><span class="p">);</span>
-<span class="n">future2</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="s">&quot;World&quot;</span><span class="p">,</span> <span class="n">ForkJoinPool</span><span class="p">.</span><span class="na">commonPool</span><span class="p">());</span>
-
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">future1</span><span class="p">.</span><span class="na">get</span><span class="p">()</span><span class="o">+</span> <span class="n">future2</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<div class="highlight"><pre><span></span><code>
 </code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="err">HelloWorld</span>
-</code></pre></div>
-
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html#commonPool--">https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html#commonPool--</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-<li id="fn:supplyAsync">
-<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#supplyAsync-java.util.function.Supplier-">https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#supplyAsync-java.util.function.Supplier-</a>&#160;<a class="footnote-backref" href="#fnref:supplyAsync" title="Jump back to footnote 2 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
@@ -98,7 +78,6 @@
     <div class="toc">
 <ul>
 <li><a href="#running-in-parallel">Running in parallel</a></li>
-<li><a href="#custom-executor">Custom executor</a></li>
 </ul>
 </div>
 
@@ -112,7 +91,7 @@
     
 
     <div class="footer">
-        modified 1611307548
+        modified 1611740059
     </div>
 
 </div>

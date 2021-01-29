@@ -45,6 +45,55 @@
 
 <div id="content">
     <h1>Python environments</h1>
+<h2 id="pyenv">pyenv</h2>
+<h3 id="compiling-on-macos">Compiling on macOS</h3>
+<p><code>pyenv</code> can be notoriously problematic on macOS. For instance, running <code>pyenv doctor</code> on my laptop<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> will result in:</p>
+<div class="highlight"><pre><span></span><code>Cloning ~/.pyenv/plugins/pyenv-doctor/bin/.....
+Installing python-pyenv-doctor...
+python-build: use readline from homebrew
+python-build: use zlib from xcode sdk
+
+BUILD FAILED (OS X 10.15.7 using python-build 20180424)
+
+Inspect or clean up the working tree at /var/folders/c2/9d2fsqt57t10zn1f2ylp1jxw0000gn/T/python-build.20210128094523.17091
+Results logged to /var/folders/c2/9d2fsqt57t10zn1f2ylp1jxw0000gn/T/python-build.20210128094523.17091.log
+
+Last 10 log lines:
+checking readline/readline.h, presence... no
+checking for readline/readline.h,... no
+checking readline/rlconf.h usability... yes
+checking readline/rlconf.h presence... yes
+checking for readline/rlconf.h... yes
+checking for SSL_library_init in -lssl... no
+configure: WARNING: OpenSSL &lt;1.1 not installed. Checking v1.1 or beyond...
+checking for OPENSSL_init_ssl in -lssl... no
+configure: error: OpenSSL is not installed.
+make: *** No targets specified and no makefile found.  Stop.
+Problem(s) detected while checking system.
+
+See https://github.com/pyenv/pyenv/wiki/Common-build-problems for known solutions.
+</code></pre></div>
+
+<p>The problem in this case is that <code>pyenv</code> can't find the relevant C headers for compilation of new versions. This can be fixed by using:</p>
+<div class="highlight"><pre><span></span><code>$ <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-I</span><span class="k">$(</span>brew --prefix openssl<span class="k">)</span><span class="s2">/include \</span>
+<span class="s2">  -I</span><span class="k">$(</span>brew --prefix readline<span class="k">)</span><span class="s2">/include \</span>
+<span class="s2">  -I</span><span class="k">$(</span>xcrun --show-sdk-path<span class="k">)</span><span class="s2">/usr/include&quot;</span> <span class="se">\</span>
+  <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L</span><span class="k">$(</span>brew --prefix openssl<span class="k">)</span><span class="s2">/lib \</span>
+<span class="s2">  -L</span><span class="k">$(</span>brew --prefix readline<span class="k">)</span><span class="s2">/lib \</span>
+<span class="s2">  -L</span><span class="k">$(</span>xcrun --show-sdk-path<span class="k">)</span><span class="s2">/usr/lib&quot;</span> <span class="se">\</span>
+  pyenv doctor
+</code></pre></div>
+
+<p>and the output will be:</p>
+<div class="highlight"><pre><span></span><code>Cloning ~/.pyenv/plugins/pyenv-doctor/bin/.....
+Installing python-pyenv-doctor...
+python-build: use readline from homebrew
+python-build: use zlib from xcode sdk
+Installed python-pyenv-doctor to /var/folders/c2/9d2fsqt57t10zn1f2ylp1jxw0000gn/T/pyenv-doctor.20210128095003.18889/prefix
+
+Congratulations! You are ready to build pythons!
+</code></pre></div>
+
 <h2 id="poetry">Poetry</h2>
 <h3 id="poetry-as-jupyter-kernel">Poetry as Jupyter kernel</h3>
 <p>To register a <code>poetry</code> environment (named <code>foo</code>) as a Jupyter kernel, run:</p>
@@ -52,16 +101,8 @@
 </code></pre></div>
 
 <h2 id="venv">venv</h2>
-<p>If using Python +3.9 Create a new <code>venv</code> with the command:</p>
+<p>Create a new <code>venv</code> with the command:</p>
 <div class="highlight"><pre><span></span><code>$ virtualenv venv
-</code></pre></div>
-
-<p>otherwise<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, if using another &gt;3.9 you might get the error</p>
-<div class="highlight"><pre><span></span><code>virtualenv: command not found
-</code></pre></div>
-
-<p>In this case, you can create the <code>virutalenv</code> using</p>
-<div class="highlight"><pre><span></span><code>$ python -m venv venv
 </code></pre></div>
 
 <p>and activate it using (under Bash or zsh) with:</p>
@@ -72,7 +113,7 @@
 <hr />
 <ol>
 <li id="fn:1">
-<p>Python 3.9 and above bundle <code>virtualenv</code>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>I'm running Big Sur at the moment of writing&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -89,6 +130,10 @@
     <h3>Contents</h3>
     <div class="toc">
 <ul>
+<li><a href="#pyenv">pyenv</a><ul>
+<li><a href="#compiling-on-macos">Compiling on macOS</a></li>
+</ul>
+</li>
 <li><a href="#poetry">Poetry</a><ul>
 <li><a href="#poetry-as-jupyter-kernel">Poetry as Jupyter kernel</a></li>
 </ul>
@@ -101,17 +146,15 @@
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/tensorflow.html">Tensorflow</a><sup>&#5833</sup></li>
+            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
         
             <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
-        
-            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1611357637
+        modified 1611828418
     </div>
 
 </div>

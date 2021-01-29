@@ -51,7 +51,24 @@ Other pages cover specific topics, such as:</p>
 <li><a href="/python-environments.html">Python environments</a></li>
 <li><a href="/python-pweave.html">How to setup Pweave</a></li>
 <li><a href="/pandas.html">Pandas</a></li>
+<li>Notes on <a href="/python-grammar-of-graphics.html">Python's grammar of graphics</a></li>
 </ul>
+<h2 id="modules">Modules</h2>
+<h3 id="relative-import-in-python-3">Relative import in Python 3</h3>
+<p>If a relative import is present inside a Python 3 file (<em>e.g.</em> <code>file1</code>) inside a module (<em>e.g.</em> <code>mymod</code>), say</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">.foo</span> <span class="kn">import</span> <span class="n">bar</span>
+</code></pre></div>
+
+<p>We will encounter the error</p>
+<div class="highlight"><pre><span></span><code>ImportError: attempted relative import with no known parent package
+</code></pre></div>
+
+<p>A possible solution is to include the following in your module's <code>__init__.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
+</code></pre></div>
+
 <h2 id="boolean-unravelling">Boolean unravelling</h2>
 <h3 id="and">and</h3>
 <p>unravelling the <code>and</code> boolean operator. The operation can be rewritten as the
@@ -211,6 +228,10 @@ function <code>u_and</code>:</p>
     <h3>Contents</h3>
     <div class="toc">
 <ul>
+<li><a href="#modules">Modules</a><ul>
+<li><a href="#relative-import-in-python-3">Relative import in Python 3</a></li>
+</ul>
+</li>
 <li><a href="#boolean-unravelling">Boolean unravelling</a><ul>
 <li><a href="#and">and</a></li>
 <li><a href="#or">or</a></li>
@@ -237,19 +258,17 @@ function <code>u_and</code>:</p>
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/tensorflow.html">Tensorflow</a><sup>&#5833</sup></li>
-        
-            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-        
             <li><a href="/python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a><sup>&#5833</sup></li>
         
             <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1610799291
+        modified 1611958994
     </div>
 
 </div>
