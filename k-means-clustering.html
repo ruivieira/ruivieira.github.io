@@ -46,7 +46,10 @@
 <div id="content">
     <h1>K-means clustering</h1>
 <h2 id="introduction">Introduction</h2>
-<p>We will define the two main steps of a generic K-means clustering algorithm, namely the data assignement and the centroid update step.</p>
+<p><em>K</em>-means is still one of the fundamental clustering algorithms. It is used in such diverse fields as Natural Language Processing (NLP), social sciences and medical sciences.</p>
+<p>The core idea behind <em>K</em>-means is that we want to group data in <em>clusters</em>. Data points will be assigned to a specific cluster depending on it's distance to a cluster's center, usually called the <em>centroid</em>. </p>
+<p>It is important to note that typically, the mean distance to a centroid is used to partition the clusters, however, difference distances can be used and different pivot points. An example is the <em>K</em>-medoids clustering algorithm.</p>
+<p>We will define the two main steps of a generic <em>K</em>-means clustering algorithm, namely the data assignement and the centroid update step.</p>
 <h3 id="data-assignement">Data assignement</h3>
 <p>The criteria to determine whether a point is closer to one centroid is typically an <a href="/distance-metrics.html#Euclidean distance L2">Euclidean distance</a> (\(L^2\)) .
 If we consider a set of \(n\) centroids \(C\), such that</p>
@@ -67,6 +70,15 @@ We define the subset of points assigned to a centroid \(i\) as \(S_i\).</p>
 c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
 \]
 
+<h1>Partitioning</h1>
+<p>Different algorithms can be used for cluster partitioning, for instance:</p>
+<ul>
+<li>PAM</li>
+<li>CLARA</li>
+<li>CLARANS</li>
+</ul>
+<h2 id="pam">PAM</h2>
+<p>To illustrate the PAM partitioning method, we will use a synthetic dataset created along the guidelines in <a href="/synthetic-data-generation.html#Separability">synthetic data generation</a>.</p>
 <h1>Elbow method</h1>
 <p>In order to use the "Elbow method" we calculate the <a href="/distance-metrics.html#Within-cluster sum of squares (WCSS)">Within-Cluster Sum of Squares (WCSS)</a> for a varying number of clusters, \(K\). </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -98,7 +110,7 @@ c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="K-means%20clustering_files/K-means%20clustering_12_0.png" /></p>
+<p><img alt="png" src="K-means%20clustering_files/K-means%20clustering_16_0.png" /></p>
 <div class="highlight"><pre><span></span><code><span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">init</span> <span class="o">=</span> <span class="s2">&quot;k-means++&quot;</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
 <span class="n">y_kmeans</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
@@ -117,7 +129,7 @@ c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="K-means%20clustering_files/K-means%20clustering_14_0.png" /></p>
+<p><img alt="png" src="K-means%20clustering_files/K-means%20clustering_18_0.png" /></p>
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
     <div class="footer">
@@ -138,6 +150,7 @@ c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
 <li><a href="#centroid-update-step">Centroid update step</a></li>
 </ul>
 </li>
+<li><a href="#pam">PAM</a></li>
 </ul>
 </div>
 
@@ -151,7 +164,7 @@ c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
     
 
     <div class="footer">
-        modified 1611740059
+        modified 1612023022
     </div>
 
 </div>

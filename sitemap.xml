@@ -156,7 +156,7 @@
 			http://ruivieira.dev/k-means-clustering.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-01-30T16:10:22Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -423,6 +423,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/java-consumer.html
+		</loc>
+		<lastmod>
+			2021-02-02T15:51:55Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/vim-keys.html
 		</loc>
 		<lastmod>
@@ -471,7 +486,7 @@
 			http://ruivieira.dev/synthetic-data-generation.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-01-30T15:13:27Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -561,7 +576,7 @@
 			http://ruivieira.dev/index.html
 		</loc>
 		<lastmod>
-			2021-01-29T22:34:42Z
+			2021-02-02T15:56:42Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -576,7 +591,7 @@
 			http://ruivieira.dev/java.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-02-02T15:56:11Z
 		</lastmod>
 		<changefreq>
 			weekly

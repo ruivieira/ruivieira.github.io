@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<head>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+          integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+    <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
+    <title>ruivieira.dev - Java consumer</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-10507665-2', 'auto');
+
+            ga('send', 'pageview');
+        }
+    </script>
+</head>
+<body>
+
+<div id="content">
+    <h1>Java consumer</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Introduced in Java 8, the <code>Consumer</code> interface aims at providing additional functional programming capabilities for Java.</p>
+<p><code>Consumer</code> defined functions do not return any value. Let's look at an example:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="p">;</span> 
+<span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="p">;</span> 
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span> 
+<span class="kn">import</span> <span class="nn">java.util.function.Consumer</span><span class="p">;</span> 
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">say</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="s">&quot;!&quot;</span><span class="p">);</span> 
+
+<span class="n">say</span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="s">&quot;World&quot;</span><span class="p">);</span> 
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">Hello, World!</span>
+</code></pre></div>
+
+<p><code>Consumer</code> functions can also modify reference objects. For instance:</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span><span class="p">();</span> 
+<span class="n">numbers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mf">1d</span><span class="p">);</span> 
+<span class="n">numbers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mf">2d</span><span class="p">);</span> 
+<span class="n">numbers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mf">3d</span><span class="p">);</span> 
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;&gt;</span> <span class="n">square</span> <span class="o">=</span> <span class="n">list</span> <span class="o">-&gt;</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list</span><span class="p">.</span><span class="na">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">list</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="n">list</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">);</span> 
+    <span class="p">};</span>
+<span class="p">};</span>
+
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">numbers</span><span class="p">);</span>
+
+<span class="n">square</span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="n">numbers</span><span class="p">);</span>
+
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">numbers</span><span class="p">);</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[1.0, 2.0, 3.0]</span>
+<span class="k">[1.0, 4.0, 9.0]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
+<div id="sidebar">
+    <p><a href="/">Home</a></p>
+    <p><a href="/search.html">Search</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+</ul>
+</div>
+
+    
+    <h3>Backlinks</h3>
+        <ul>
+        
+            <li><a href="/java.html">Java</a><sup>&#5833</sup></li>
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
+        </ul>
+    
+
+    <div class="footer">
+        modified 1612281115
+    </div>
+
+</div>
+
+</body>
