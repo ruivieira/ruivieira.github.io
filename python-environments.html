@@ -41,13 +41,77 @@
         }
     </script>
 </head>
+<style>
+        #search_terms {
+            font-size: 1rem;
+            font-family: Nunito;
+            width: 60%;
+        }
+        #search_terms::placeholder {
+            color: #bbb;
+        }
+        #search_button {
+            background-color: #eee;
+            border: none;
+            color: black;
+            padding: 0.25rem 0.5rem;
+            font-size: 1rem;
+            font-family: Nunito;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 3rem;
+        }
+</style>
 <body>
 
 <div id="content">
     <h1>Python environments</h1>
+<h2 id="interpreters">Interpreters</h2>
+<p>To install different <a href="/python.html">Python</a> interpreters I strongly recommend <code>asdf</code><sup id="fnref:asdf"><a class="footnote-ref" href="#fn:asdf">1</a></sup>.</p>
+<p>Let's look at to install Python in two different OSes, macOS and Fedora.</p>
+<h3 id="macos">macOS</h3>
+<p>To install <code>asdf</code> on a macOS, first install the general dependencies with </p>
+<div class="highlight"><pre><span></span><code>$ brew install coreutils curl git
+</code></pre></div>
+
+<p>then install <code>asdf</code> itself with </p>
+<div class="highlight"><pre><span></span><code>$ brew install asdf
+</code></pre></div>
+
+<p>Add to the shell, in our case <a href="/zsh.html">zsh</a> with: </p>
+<div class="highlight"><pre><span></span><code>$ <span class="nb">echo</span> -e <span class="s2">&quot;\n. </span><span class="k">$(</span>brew --prefix asdf<span class="k">)</span><span class="s2">/asdf.sh&quot;</span> &gt;&gt; ~/.zshrc
+</code></pre></div>
+
+<p>Add a plugin, in our case <a href="/python.html">Python</a>, with </p>
+<div class="highlight"><pre><span></span><code>$ asdf plugin add Python
+</code></pre></div>
+
+<p>You can list all available versions with</p>
+<div class="highlight"><pre><span></span><code>$ asdf list all Python
+</code></pre></div>
+
+<p>Install a specific version, say,</p>
+<div class="highlight"><pre><span></span><code>$ asdf install Python <span class="m">3</span>.9.0
+</code></pre></div>
+
+<h3 id="fedora">Fedora</h3>
+<p>To install <code>asdf</code> on a Fedora, first install the general dependencies </p>
+<div class="highlight"><pre><span></span><code>$ sudo dnf install curl git
+</code></pre></div>
+
+<p>Clone the repository </p>
+<div class="highlight"><pre><span></span><code>$ git clone https://github.com/asdf-vm/asdf.git <span class="se">\</span>
+  ~/.asdf --branch v0.8.0
+</code></pre></div>
+
+<p>Add to <code>zsh</code> with</p>
+<div class="highlight"><pre><span></span><code>$ . <span class="nv">$HOME</span>/.asdf/asdf.sh<span class="sb">`</span>
+</code></pre></div>
+
 <h2 id="pyenv">pyenv</h2>
 <h3 id="compiling-on-macos">Compiling on macOS</h3>
-<p><code>pyenv</code> can be notoriously problematic on macOS. For instance, running <code>pyenv doctor</code> on my laptop<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> will result in:</p>
+<p><code>pyenv</code> can be notoriously problematic on macOS. For instance, running <code>pyenv doctor</code> on my laptop<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">2</a></sup> will result in:</p>
 <div class="highlight"><pre><span></span><code>Cloning ~/.pyenv/plugins/pyenv-doctor/bin/.....
 Installing python-pyenv-doctor...
 python-build: use readline from homebrew
@@ -112,8 +176,11 @@ Congratulations! You are ready to build pythons!
 <div class="footnote">
 <hr />
 <ol>
+<li id="fn:asdf">
+<p>https://asdf-vm.com/&#160;<a class="footnote-backref" href="#fnref:asdf" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
 <li id="fn:1">
-<p>I'm running Big Sur at the moment of writing&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>I'm running Big Sur at the moment of writing&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -123,13 +190,21 @@ Congratulations! You are ready to build pythons!
 </div>
 
 <div id="sidebar">
+    <p>
+        <input id="search_terms" type="search" placeholder="Search terms"/>
+        <button id="search_button" onclick="search()">?</button>
+    </p>
     <p><a href="/">Home</a></p>
-    <p><a href="/search.html">Search</a></p>
     <p><a href="/content.html">All pages</a></p>
 
     <h3>Contents</h3>
     <div class="toc">
 <ul>
+<li><a href="#interpreters">Interpreters</a><ul>
+<li><a href="#macos">macOS</a></li>
+<li><a href="#fedora">Fedora</a></li>
+</ul>
+</li>
 <li><a href="#pyenv">pyenv</a><ul>
 <li><a href="#compiling-on-macos">Compiling on macOS</a></li>
 </ul>
@@ -146,17 +221,37 @@ Congratulations! You are ready to build pythons!
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
-        
             <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+        
+            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1611828418
+        modified 1612906108
     </div>
 
 </div>
+
+<script>
+const input = document.getElementById('search_terms');
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
+            }
+        });
+
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>

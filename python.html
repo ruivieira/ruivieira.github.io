@@ -41,6 +41,28 @@
         }
     </script>
 </head>
+<style>
+        #search_terms {
+            font-size: 1rem;
+            font-family: Nunito;
+            width: 60%;
+        }
+        #search_terms::placeholder {
+            color: #bbb;
+        }
+        #search_button {
+            background-color: #eee;
+            border: none;
+            color: black;
+            padding: 0.25rem 0.5rem;
+            font-size: 1rem;
+            font-family: Nunito;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 3rem;
+        }
+</style>
 <body>
 
 <div id="content">
@@ -221,8 +243,11 @@ function <code>u_and</code>:</p>
 </div>
 
 <div id="sidebar">
+    <p>
+        <input id="search_terms" type="search" placeholder="Search terms"/>
+        <button id="search_button" onclick="search()">?</button>
+    </p>
     <p><a href="/">Home</a></p>
-    <p><a href="/search.html">Search</a></p>
     <p><a href="/content.html">All pages</a></p>
 
     <h3>Contents</h3>
@@ -258,11 +283,13 @@ function <code>u_and</code>:</p>
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a><sup>&#5833</sup></li>
+            <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
         
             <li><a href="/index.html">index</a><sup>&#5833</sup></li>
         
-            <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+            <li><a href="/python-environments.html">Python environments</a><sup>&#5833</sup></li>
+        
+            <li><a href="/python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a><sup>&#5833</sup></li>
         
         </ul>
     
@@ -272,5 +299,25 @@ function <code>u_and</code>:</p>
     </div>
 
 </div>
+
+<script>
+const input = document.getElementById('search_terms');
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
+            }
+        });
+
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
