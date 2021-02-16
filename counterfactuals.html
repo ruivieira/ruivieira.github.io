@@ -17,6 +17,8 @@
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
+    <script src="/assets/mark.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
     <link href="/assets/code.css" rel="stylesheet"/>
@@ -171,15 +173,15 @@ g(x^{\prime}-x)
     <h3>Backlinks</h3>
         <ul>
         
+            <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
+        
             <li><a href="/explainability.html">Explainability</a><sup>&#5833</sup></li>
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
         
             <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
         
             <li><a href="/synthetic-data-generation.html">Synthetic Data Generation</a><sup>&#5833</sup></li>
-        
-            <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
-        
-            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
         
         </ul>
     
@@ -192,6 +194,12 @@ g(x^{\prime}-x)
 
 <script>
 const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
+
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
 
 input.addEventListener("keyup", function(event) {
             // Number 13 is the "Enter" key on the keyboard

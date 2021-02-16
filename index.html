@@ -17,6 +17,8 @@
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
+    <script src="/assets/mark.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
     <link href="/assets/code.css" rel="stylesheet"/>
@@ -120,6 +122,7 @@ R@&gt;+ tv+&gt; b++&gt;+++ DI&gt;+ D++&gt;+++ G++&gt;+++ e++++ h---- r+++ z
 </ul>
 <h2 id="recent-changes">Recent changes</h2>
 <ul>
+<li><a href="/gpg.html">GPG</a></li>
 <li><a href="/python-grammar-of-graphics.html">Python grammar of graphics</a></li>
 <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a></li>
 <li><a href="/counterfactual-fairness.html">Counterfactual Fairness</a></li>
@@ -151,13 +154,19 @@ R@&gt;+ tv+&gt; b++&gt;+++ DI&gt;+ D++&gt;+++ G++&gt;+++ e++++ h---- r+++ z
     
 
     <div class="footer">
-        modified 1612281402
+        modified 1613510208
     </div>
 
 </div>
 
 <script>
 const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
+
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
 
 input.addEventListener("keyup", function(event) {
             // Number 13 is the "Enter" key on the keyboard

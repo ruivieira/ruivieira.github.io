@@ -17,6 +17,8 @@
             integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
 
+    <script src="/assets/mark.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
     <link href="/assets/code.css" rel="stylesheet"/>
@@ -120,6 +122,12 @@ RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
 
 <script>
 const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
+
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
 
 input.addEventListener("keyup", function(event) {
             // Number 13 is the "Enter" key on the keyboard
