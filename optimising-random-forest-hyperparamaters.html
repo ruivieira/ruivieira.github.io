@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<head>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+          integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+
+    <script src="/assets/mark.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+    <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
+    <title>ruivieira.dev - Optimising random forest hyperparamaters</title>
+    <script type="application/javascript">
+        var doNotTrack = false;
+        if (!doNotTrack) {
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-10507665-2', 'auto');
+
+            ga('send', 'pageview');
+        }
+    </script>
+</head>
+<style>
+        #search_terms {
+            font-size: 1rem;
+            font-family: Nunito;
+            width: 60%;
+        }
+        #search_terms::placeholder {
+            color: #bbb;
+        }
+        #search_button {
+            background-color: #eee;
+            border: none;
+            color: black;
+            padding: 0.25rem 0.5rem;
+            font-size: 1rem;
+            font-family: Nunito;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 3rem;
+        }
+</style>
+<body>
+
+<div id="content">
+    <h1>Optimising random forest hyperparameters</h1>
+<p>To understand how we can optimise the hyperparameters in a random forest model, we will use <a href="/scikit-learn.html">scikit-learn's</a> <code>RandomForestClassifier</code> and a subset of <em>Titanic</em><sup id="fnref:titanic"><a class="footnote-ref" href="#fn:titanic">1</a></sup> dataset.</p>
+<h2 id="data">Data</h2>
+<p>First, we will import the features and labels using <a href="/pandas.html">Pandas</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">train_features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/svm-hyperparameters-train-features.csv&quot;</span><span class="p">)</span>
+<span class="n">train_label</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/svm-hyperparameters-train-label.csv&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Let's look at random sample of entries from this dataset, both for features and labels.</p>
+<div class="highlight"><pre><span></span><code><span class="n">train_features</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>876</th>
+      <td>3</td>
+      <td>1</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9.8458</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>3</td>
+      <td>1</td>
+      <td>23.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9.2250</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>1</td>
+      <td>1</td>
+      <td>45.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>26.5500</td>
+    </tr>
+    <tr>
+      <th>281</th>
+      <td>3</td>
+      <td>1</td>
+      <td>28.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.8542</td>
+    </tr>
+    <tr>
+      <th>330</th>
+      <td>3</td>
+      <td>0</td>
+      <td>30.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>23.2500</td>
+    </tr>
+    <tr>
+      <th>849</th>
+      <td>1</td>
+      <td>0</td>
+      <td>30.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>89.1042</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>3</td>
+      <td>0</td>
+      <td>30.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>15.5000</td>
+    </tr>
+    <tr>
+      <th>554</th>
+      <td>3</td>
+      <td>0</td>
+      <td>22.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.7750</td>
+    </tr>
+    <tr>
+      <th>783</th>
+      <td>3</td>
+      <td>1</td>
+      <td>30.0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>23.4500</td>
+    </tr>
+    <tr>
+      <th>551</th>
+      <td>2</td>
+      <td>1</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>26.0000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Some of the available features are:</p>
+<ul>
+<li><code>Pclass</code>, ticket class</li>
+<li><code>Sex</code></li>
+<li><code>Age</code>, age in years</li>
+<li><code>Sibsp</code>, number of siblings/spouses aboard</li>
+<li><code>Parch</code>, number of parents/children aboard</li>
+<li><code>Fare</code>, passenger fare</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">train_label</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>524</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>446</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>848</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>711</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>441</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>770</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>773</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>181</th>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>The outcome label indicates whether a passenger survived the disaster.</p>
+<p>As part of the typical initial steps for model training, we will prepare the data by splitting into a training and testing subset.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_label</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="naive-model">Naive model</h2>
+<p>First we will train a "naive" model, that is a model using the defaults provided by <code>RandomForestClassifier</code><sup id="fnref:rf"><a class="footnote-ref" href="#fn:rf">2</a></sup>. These defaults are:</p>
+<ul>
+<li><code>n_estimators = 10</code></li>
+<li><code>criterion=’gini’</code></li>
+<li><code>max_depth=None</code></li>
+<li><code>min_samples_split=2</code></li>
+<li><code>min_samples_leaf=1</code></li>
+<li><code>min_weight_fraction_leaf=0.0</code></li>
+<li><code>max_features=’auto’</code></li>
+<li><code>max_leaf_nodes=None</code></li>
+<li><code>min_impurity_decrease=0.0</code></li>
+<li><code>min_impurity_split=None</code></li>
+<li><code>bootstrap=True</code></li>
+<li><code>oob_score=False</code></li>
+<li><code>n_jobs=1</code></li>
+<li><code>random_state=None</code></li>
+<li><code>verbose=0</code></li>
+<li><code>warm_start=False</code></li>
+<li><code>class_weight=None</code></li>
+</ul>
+<p>We will instantiate a random forest classifier:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+</code></pre></div>
+
+<p>And training it using the <code>X_train</code> and <code>y_train</code> subsets using the appropriate <code>fit</code> method<sup id="fnref:fit"><a class="footnote-ref" href="#fn:fit">3</a></sup>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">true_labels</span> <span class="o">=</span> <span class="n">train_label</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">RandomForestClassifier()</span>
+</code></pre></div>
+
+<p>We can now evaluate trained naive model's score.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">0.7592592592592593</span>
+</code></pre></div>
+
+<h2 id="hyperparameter-search">Hyperparameter search</h2>
+<div class="highlight"><pre><span></span><code><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;n_estimators&quot;</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">250</span><span class="p">],</span>
+    <span class="s2">&quot;max_depth&quot;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,</span><span class="n">parameters</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">GridSearchCV(cv=5, estimator=RandomForestClassifier(),</span>
+<span class="err">             param_grid={&#39;max_depth&#39;: [2, 4, 8, 16, 32, None],</span>
+<span class="err">                         &#39;n_estimators&#39;: [5, 10, 50, 100, 250]})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best parameters are: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">best_params_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">mean_score</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]</span>
+    <span class="n">std_score</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">mean</span><span class="p">,</span><span class="n">std</span><span class="p">,</span><span class="n">params</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mean_score</span><span class="p">,</span><span class="n">std_score</span><span class="p">,</span><span class="n">params</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> + or -</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">std</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> for the </span><span class="si">{</span><span class="n">params</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">Best</span> <span class="k">parameters</span> <span class="k">are</span><span class="p">:</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+
+
+<span class="mi">0</span><span class="p">.</span><span class="mi">768</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">038</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">784</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">028</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">787</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">029</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">782</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">027</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">78</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">023</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">794</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">024</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">815</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">023</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">018</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">814</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">814</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">026</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">81</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">032</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">795</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">018</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">815</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">011</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">832</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">025</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">819</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">017</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">79</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">014</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">799</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">036</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">021</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">817</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">026</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">809</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">025</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">782</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">033</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">805</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">022</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">022</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">809</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">022</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">779</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">024</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">805</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">024</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">802</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">028</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">8</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">031</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">034</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:titanic">
+<p>Titanic Dataset - <a href="https://www.kaggle.com/c/titanic-dataset/data">https://www.kaggle.com/c/titanic-dataset/data</a>&#160;<a class="footnote-backref" href="#fnref:titanic" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:rf">
+<p><a href="https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html">https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html</a>&#160;<a class="footnote-backref" href="#fnref:rf" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:fit">
+<p><a href="https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier.fit">https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier.fit</a>&#160;<a class="footnote-backref" href="#fnref:fit" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+    <div class="footer">
+        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+    </div>
+</div>
+
+<div id="sidebar">
+    <p>
+        <input id="search_terms" type="search" placeholder="Search terms"/>
+        <button id="search_button" onclick="search()">?</button>
+    </p>
+    <p><a href="/">Home</a></p>
+    <p><a href="/content.html">All pages</a></p>
+
+    <h3>Contents</h3>
+    <div class="toc">
+<ul>
+<li><a href="#data">Data</a></li>
+<li><a href="#naive-model">Naive model</a></li>
+<li><a href="#hyperparameter-search">Hyperparameter search</a></li>
+</ul>
+</div>
+
+    
+    <h3>Backlinks</h3>
+        <ul>
+        
+            <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
+        
+        </ul>
+    
+
+    <div class="footer">
+        modified 1613583626
+    </div>
+
+</div>
+
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
+
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
+            }
+        });
+
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
+
+</body>

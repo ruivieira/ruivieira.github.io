@@ -70,8 +70,14 @@
 <div id="content">
     <h1>Java consumer</h1>
 <h2 id="introduction">Introduction</h2>
+<h3 id="applying">Applying</h3>
 <p>Introduced in Java 8, the <code>Consumer</code> interface aims at providing additional functional programming capabilities for Java.</p>
-<p><code>Consumer</code> defined functions do not return any value. Let's look at an example:</p>
+<p><code>Consumer</code> defined functions do not return any value and they consist mainly of two methods:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">accept</span><span class="p">(</span><span class="n">T</span> <span class="n">t</span><span class="p">);</span>
+<span class="k">default</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">andThen</span><span class="p">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">after</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Let's look at an example:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="p">;</span> 
 <span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="p">;</span> 
 <span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span> 
@@ -83,6 +89,22 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="err">Hello, World!</span>
+</code></pre></div>
+
+<p>A <code>Consumer</code> can be applied in a functional way, since applying a consumer is equivalent to applying the <code>accept</code> method.
+For instance:</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">musketeers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;D&#39;Artagnan&quot;</span><span class="p">);</span>
+<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;Athos&quot;</span><span class="p">);</span>
+<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;Aramis&quot;</span><span class="p">);</span>
+<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;Porthos&quot;</span><span class="p">);</span>
+<span class="n">musketeers</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">say</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">Hello, D&#39;Artagnan!</span>
+<span class="err">Hello, Athos!</span>
+<span class="err">Hello, Aramis!</span>
+<span class="err">Hello, Porthos!</span>
 </code></pre></div>
 
 <p><code>Consumer</code> functions can also modify reference objects. For instance:</p>
@@ -109,6 +131,28 @@
 <span class="k">[1.0, 4.0, 9.0]</span>
 </code></pre></div>
 
+<h3 id="composing">Composing</h3>
+<p>Let's now look at how to create a chain of <code>Consumer</code>s by composing them with the <code>andThen</code> method. Let's first create a consumer which converts a string to uppercase in-place:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">upperCaseConsumer</span> <span class="o">=</span> <span class="n">list</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">list</span><span class="p">.</span><span class="na">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="na">toUpperCase</span><span class="p">();</span>
+            <span class="n">list</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+
+<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">sayAll</span> <span class="o">=</span> <span class="n">list</span> <span class="o">-&gt;</span> <span class="n">list</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">say</span><span class="p">);</span>
+</code></pre></div>
+
+<p>We will now create a chain by first applying <code>upperCaseConsumer</code> and the <code>say</code> to our list.</p>
+<div class="highlight"><pre><span></span><code><span class="n">upperCaseConsumer</span><span class="p">.</span><span class="na">andThen</span><span class="p">(</span><span class="n">sayAll</span><span class="p">).</span><span class="na">accept</span><span class="p">(</span><span class="n">musketeers</span><span class="p">);</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">Hello, D&#39;ARTAGNAN!</span>
+<span class="err">Hello, ATHOS!</span>
+<span class="err">Hello, ARAMIS!</span>
+<span class="err">Hello, PORTHOS!</span>
+</code></pre></div>
+
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
     <div class="footer">
@@ -127,7 +171,11 @@
     <h3>Contents</h3>
     <div class="toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#applying">Applying</a></li>
+<li><a href="#composing">Composing</a></li>
+</ul>
+</li>
 </ul>
 </div>
 
@@ -143,7 +191,7 @@
     
 
     <div class="footer">
-        modified 1612281115
+        modified 1613685566
     </div>
 
 </div>

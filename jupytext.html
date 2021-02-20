@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet"/>
     <link href="/assets/code.css" rel="stylesheet"/>
-    <title>ruivieira.dev - Java Completable Futures</title>
+    <title>ruivieira.dev - jupytext</title>
     <script type="application/javascript">
         var doNotTrack = false;
         if (!doNotTrack) {
@@ -68,25 +68,9 @@
 <body>
 
 <div id="content">
-    <h1>Java Completable Futures</h1>
-<h2 id="running-in-parallel">Running in parallel</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.util.concurrent.CompletableFuture</span><span class="p">;</span>
-
-<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">future1</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="s">&quot;Hello&quot;</span><span class="p">);</span>
-<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">future2</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="s">&quot;Beautiful&quot;</span><span class="p">);</span>
-<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">future3</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="s">&quot;World&quot;</span><span class="p">);</span>
-
-<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="n">combinedFuture</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">allOf</span><span class="p">(</span><span class="n">future1</span><span class="p">,</span> <span class="n">future2</span><span class="p">,</span> <span class="n">future3</span><span class="p">);</span>
-
-<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">combinedFuture</span><span class="p">.</span><span class="na">thenApply</span><span class="p">(</span><span class="n">v</span> <span class="o">-&gt;</span> <span class="n">future1</span><span class="p">.</span><span class="na">join</span><span class="p">()</span> <span class="o">+</span> <span class="n">future2</span><span class="p">.</span><span class="na">join</span><span class="p">()</span> <span class="o">+</span> <span class="n">future3</span><span class="p">.</span><span class="na">join</span><span class="p">());</span>
-
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="err">HelloBeautifulWorld</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>
+    <p>This is an example of a <em>notebook</em> in <strong>jupytext</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">stack</span> <span class="o">=</span> <span class="s2">&quot;jupytext&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;hello, </span><span class="si">{</span><span class="n">stack</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
 </code></pre></div>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
@@ -103,22 +87,13 @@
 
     <h3>Contents</h3>
     <div class="toc">
-<ul>
-<li><a href="#running-in-parallel">Running in parallel</a></li>
-</ul>
+<ul></ul>
 </div>
 
     
-    <h3>Backlinks</h3>
-        <ul>
-        
-            <li><a href="/java.html">Java</a><sup>&#5833</sup></li>
-        
-        </ul>
-    
 
     <div class="footer">
-        modified 1612280598
+        modified 1613571245
     </div>
 
 </div>

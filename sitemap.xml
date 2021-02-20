@@ -6,7 +6,7 @@
 			http://ruivieira.dev/counterfactual-fairness.html
 		</loc>
 		<lastmod>
-			2021-01-29T22:36:04Z
+			2021-01-29T22:35:47Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -66,7 +66,7 @@
 			http://ruivieira.dev/python.html
 		</loc>
 		<lastmod>
-			2021-02-15T12:20:41Z
+			2021-02-17T14:04:53Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -111,7 +111,7 @@
 			http://ruivieira.dev/java-completable-futures.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-02-02T15:43:18Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -171,7 +171,7 @@
 			http://ruivieira.dev/k-means-clustering.html
 		</loc>
 		<lastmod>
-			2021-01-30T16:10:22Z
+			2021-01-30T16:10:06Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -441,7 +441,7 @@
 			http://ruivieira.dev/java-consumer.html
 		</loc>
 		<lastmod>
-			2021-02-02T15:51:55Z
+			2021-02-18T21:59:26Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -483,6 +483,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/jupytext.html
+		</loc>
+		<lastmod>
+			2021-02-17T14:14:05Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/python-pweave.html
 		</loc>
 		<lastmod>
@@ -501,7 +516,7 @@
 			http://ruivieira.dev/synthetic-data-generation.html
 		</loc>
 		<lastmod>
-			2021-01-30T15:13:27Z
+			2021-02-12T12:45:21Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -621,7 +636,22 @@
 			http://ruivieira.dev/python-grammar-of-graphics.html
 		</loc>
 		<lastmod>
-			2021-01-29T22:12:05Z
+			2021-02-17T20:47:55Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/optimising-random-forest-hyperparamaters.html
+		</loc>
+		<lastmod>
+			2021-02-17T17:40:26Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -831,7 +861,22 @@
 			http://ruivieira.dev/machine-learning.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-02-17T00:03:52Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/scikit-learn.html
+		</loc>
+		<lastmod>
+			2021-02-17T08:30:12Z
 		</lastmod>
 		<changefreq>
 			weekly

@@ -1084,7 +1084,7 @@ GPA_0 &amp;\sim \mathcal{N}(0, 1)
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="Counterfactual%20Fairness_files/Counterfactual%20Fairness_54_0.png" /></p>
+<p><img alt="png" src="images/counterfactual-fairness-output_54_0.png" /></p>
 <div class="highlight"><pre><span></span><code><span class="n">train_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_estimates</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">train_k</span>
 </code></pre></div>
@@ -1263,7 +1263,7 @@ First we calculate \(\epsilon_{GPA}\):</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="Counterfactual%20Fairness_files/Counterfactual%20Fairness_75_0.png" /></p>
+<p><img alt="png" src="images/counterfactual-fairness-output_75_0.png" /></p>
 <p>We finally use the calculated \(\epsilon\) to train a model in order to predict <code>FYA</code>.
 We start by getting the subset of the \(\epsilon\) which match the training indices.</p>
 <div class="highlight"><pre><span></span><code><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
@@ -1412,7 +1412,7 @@ We start by getting the subset of the \(\epsilon\) which match the training indi
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="Counterfactual%20Fairness_files/Counterfactual%20Fairness_93_0.png" /></p>
+<p><img alt="png" src="images/counterfactual-fairness-output_93_0.png" /></p>
 <h3 id="finding-sensitive-features">Finding sensitive features</h3>
 <p>Typically a \(SPD &gt; 0.1\) and a \(DI &lt; 0.9\) might indicate discrimination on those features.
 All <em>protected attributes</em> fail the SPD test and, in our dataset, we have two features (<code>Hispanic</code> and <code>Mexican</code>) which clearly fail the DI test.</p>
@@ -1508,7 +1508,7 @@ All <em>protected attributes</em> fail the SPD test and, in our dataset, we have
     
 
     <div class="footer">
-        modified 1611959764
+        modified 1611959747
     </div>
 
 </div>
