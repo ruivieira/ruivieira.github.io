@@ -69,8 +69,19 @@
 
 <div id="content">
     <h1>Optimising random forest hyperparameters</h1>
-<p>To understand how we can optimise the hyperparameters in a random forest model, we will use <a href="/scikit-learn.html">scikit-learn's</a> <code>RandomForestClassifier</code> and a subset of <em>Titanic</em><sup id="fnref:titanic"><a class="footnote-ref" href="#fn:titanic">1</a></sup> dataset.</p>
+<p>Typically the hyper-parameters which will have the biggest impact on the behaviour of a random forest are the following:</p>
+<ul>
+<li><a href="/optimising-random-forest-hyperparamaters.html#Number of decision trees">The number of decision trees</a> in a random forest</li>
+<li>The split criteria</li>
+<li>Maximum depth of individual trees</li>
+<li>Minimum samples per internal node</li>
+<li>Maximum number of leaf nodes</li>
+<li>Number of random features used for splitting</li>
+<li>Number of samples in bootstrap dataset</li>
+</ul>
+<p>We will look at each of these hyper-parameters individually with examples on how select them.</p>
 <h2 id="data">Data</h2>
+<p>To understand how we can optimise the hyperparameters in a random forest model, we will use <a href="/scikit-learn.html">scikit-learn's</a> <code>RandomForestClassifier</code> and a subset of <em>Titanic</em><sup id="fnref:titanic"><a class="footnote-ref" href="#fn:titanic">1</a></sup> dataset.</p>
 <p>First, we will import the features and labels using <a href="/pandas.html">Pandas</a>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -110,94 +121,94 @@
   </thead>
   <tbody>
     <tr>
-      <th>876</th>
+      <th>48</th>
+      <td>3</td>
+      <td>1</td>
+      <td>30.0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>21.6792</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>3</td>
+      <td>0</td>
+      <td>30.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.2250</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>3</td>
+      <td>1</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>11.1333</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>3</td>
+      <td>1</td>
+      <td>16.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9.2167</td>
+    </tr>
+    <tr>
+      <th>12</th>
       <td>3</td>
       <td>1</td>
       <td>20.0</td>
       <td>0</td>
       <td>0</td>
-      <td>9.8458</td>
+      <td>8.0500</td>
     </tr>
     <tr>
-      <th>350</th>
+      <th>63</th>
       <td>3</td>
       <td>1</td>
-      <td>23.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>9.2250</td>
+      <td>4.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>27.9000</td>
     </tr>
     <tr>
-      <th>187</th>
-      <td>1</td>
-      <td>1</td>
-      <td>45.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>26.5500</td>
-    </tr>
-    <tr>
-      <th>281</th>
+      <th>605</th>
       <td>3</td>
       <td>1</td>
-      <td>28.0</td>
+      <td>36.0</td>
+      <td>1</td>
       <td>0</td>
-      <td>0</td>
-      <td>7.8542</td>
+      <td>15.5500</td>
     </tr>
     <tr>
-      <th>330</th>
-      <td>3</td>
-      <td>0</td>
-      <td>30.0</td>
+      <th>237</th>
       <td>2</td>
       <td>0</td>
-      <td>23.2500</td>
-    </tr>
-    <tr>
-      <th>849</th>
-      <td>1</td>
+      <td>8.0</td>
       <td>0</td>
-      <td>30.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>89.1042</td>
-    </tr>
-    <tr>
-      <th>186</th>
-      <td>3</td>
-      <td>0</td>
-      <td>30.0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>15.5000</td>
-    </tr>
-    <tr>
-      <th>554</th>
-      <td>3</td>
-      <td>0</td>
-      <td>22.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>7.7750</td>
-    </tr>
-    <tr>
-      <th>783</th>
-      <td>3</td>
-      <td>1</td>
-      <td>30.0</td>
-      <td>1</td>
       <td>2</td>
-      <td>23.4500</td>
+      <td>26.2500</td>
     </tr>
     <tr>
-      <th>551</th>
-      <td>2</td>
+      <th>809</th>
       <td>1</td>
-      <td>27.0</td>
+      <td>0</td>
+      <td>33.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>53.1000</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>1</td>
+      <td>0</td>
+      <td>58.0</td>
       <td>0</td>
       <td>0</td>
-      <td>26.0000</td>
+      <td>146.5208</td>
     </tr>
   </tbody>
 </table>
@@ -238,43 +249,43 @@
   </thead>
   <tbody>
     <tr>
-      <th>524</th>
+      <th>775</th>
       <td>0</td>
     </tr>
     <tr>
-      <th>446</th>
+      <th>586</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>106</th>
       <td>1</td>
     </tr>
     <tr>
-      <th>231</th>
+      <th>798</th>
       <td>0</td>
     </tr>
     <tr>
-      <th>848</th>
+      <th>186</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>415</th>
       <td>0</td>
     </tr>
     <tr>
-      <th>711</th>
-      <td>0</td>
+      <th>123</th>
+      <td>1</td>
     </tr>
     <tr>
-      <th>441</th>
-      <td>0</td>
+      <th>874</th>
+      <td>1</td>
     </tr>
     <tr>
-      <th>62</th>
-      <td>0</td>
+      <th>347</th>
+      <td>1</td>
     </tr>
     <tr>
-      <th>770</th>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>773</th>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>181</th>
+      <th>287</th>
       <td>0</td>
     </tr>
   </tbody>
@@ -333,7 +344,7 @@
 <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.7592592592592593</span>
+<div class="highlight"><pre><span></span><code><span class="err">0.7570093457943925</span>
 </code></pre></div>
 
 <h2 id="hyperparameter-search">Hyperparameter search</h2>
@@ -372,39 +383,152 @@
 <div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">Best</span> <span class="k">parameters</span> <span class="k">are</span><span class="p">:</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<div class="highlight"><pre><span></span><code><span class="n">Best</span> <span class="k">parameters</span> <span class="k">are</span><span class="p">:</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
 
 
-<span class="mi">0</span><span class="p">.</span><span class="mi">768</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">038</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">784</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">028</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">787</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">029</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">782</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">027</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">78</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">023</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">794</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">024</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">815</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">023</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">018</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">814</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">814</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">026</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">81</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">032</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">795</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">018</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">815</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">011</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">832</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">025</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">819</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">017</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">79</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">014</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">799</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">036</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">021</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">817</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">026</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">809</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">025</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">782</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">033</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">805</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">022</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">022</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">809</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">022</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">779</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">024</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">805</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">024</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">802</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">028</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">8</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">031</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
-<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">034</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">758</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">022</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">792</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">037</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">775</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">034</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">773</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">019</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">779</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">031</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">799</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">035</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">815</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">009</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">805</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">012</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">018</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">029</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">802</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">014</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">817</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">016</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">817</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">012</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">822</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">017</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">799</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">018</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">804</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">023</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">807</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">029</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">809</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">025</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">021</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">795</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">03</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">784</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">027</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">81</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">032</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">019</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">807</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">79</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">026</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">8</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">032</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">805</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">032</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="err">}</span>
+<span class="mi">0</span><span class="p">.</span><span class="mi">812</span> <span class="o">+</span> <span class="k">or</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">026</span> <span class="k">for</span> <span class="n">the</span> <span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="k">None</span><span class="p">,</span> <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="err">}</span>
+</code></pre></div>
+
+<h2 id="parameters">Parameters</h2>
+<h3 id="number-of-decision-trees">Number of decision trees</h3>
+<p>This is specified using the <code>n_estimators</code> hyper-parameter on the random forest initialisation.</p>
+<p>Typically, a higher number of trees will lead to greater accuracy at the expense of model size and training time.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">GridSearchCV(cv=5, estimator=RandomForestClassifier(),</span>
+<span class="err">             param_grid={&#39;n_estimators&#39;: [2, 4, 8, 16, 32, 64, 128, 256, 512]})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_estimators</th>
+      <th>mean_score</th>
+      <th>std_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0.758431</td>
+      <td>0.020975</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>0.791891</td>
+      <td>0.021963</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>0.803669</td>
+      <td>0.030471</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>16</td>
+      <td>0.800322</td>
+      <td>0.020970</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+      <td>0.800350</td>
+      <td>0.022653</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>64</td>
+      <td>0.798697</td>
+      <td>0.025123</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>128</td>
+      <td>0.812087</td>
+      <td>0.025764</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>256</td>
+      <td>0.813782</td>
+      <td>0.024388</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>512</td>
+      <td>0.815462</td>
+      <td>0.021002</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(n_estimators)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(n_estimators)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Number of trees&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_26_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="err">&lt;ggplot: (359150728)&gt;</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>
@@ -443,6 +567,10 @@
 <li><a href="#data">Data</a></li>
 <li><a href="#naive-model">Naive model</a></li>
 <li><a href="#hyperparameter-search">Hyperparameter search</a></li>
+<li><a href="#parameters">Parameters</a><ul>
+<li><a href="#number-of-decision-trees">Number of decision trees</a></li>
+</ul>
+</li>
 </ul>
 </div>
 
@@ -452,11 +580,17 @@
         
             <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
         
+            <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
+        
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
         </ul>
     
 
+
+
     <div class="footer">
-        modified 1613583626
+        modified 1613992309
     </div>
 
 </div>

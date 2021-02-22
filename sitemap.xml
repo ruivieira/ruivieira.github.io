@@ -333,6 +333,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/ssh.html
+		</loc>
+		<lastmod>
+			2021-02-21T21:40:30Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/workflow.html
 		</loc>
 		<lastmod>
@@ -606,7 +621,7 @@
 			http://ruivieira.dev/index.html
 		</loc>
 		<lastmod>
-			2021-02-16T21:16:48Z
+			2021-02-22T11:23:52Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -651,7 +666,7 @@
 			http://ruivieira.dev/optimising-random-forest-hyperparamaters.html
 		</loc>
 		<lastmod>
-			2021-02-17T17:40:26Z
+			2021-02-22T11:11:49Z
 		</lastmod>
 		<changefreq>
 			weekly
