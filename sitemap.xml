@@ -261,7 +261,22 @@
 			http://ruivieira.dev/rust.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-02-26T20:47:55Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/rust-exercises.html
+		</loc>
+		<lastmod>
+			2021-02-26T21:21:08Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -666,7 +681,7 @@
 			http://ruivieira.dev/optimising-random-forest-hyperparamaters.html
 		</loc>
 		<lastmod>
-			2021-02-26T08:41:11Z
+			2021-02-26T13:54:54Z
 		</lastmod>
 		<changefreq>
 			weekly

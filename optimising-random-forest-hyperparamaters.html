@@ -47,7 +47,7 @@
         #search_terms {
             font-size: 1rem;
             font-family: Nunito;
-            width: 60%;
+            width: 83%;
         }
         #search_terms::placeholder {
             color: #bbb;
@@ -62,7 +62,7 @@
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
-            width: 3rem;
+            width: 15%;
         }
 </style>
 <body>
@@ -76,7 +76,7 @@
 <li>Maximum depth of individual trees</li>
 <li>Minimum samples per internal node</li>
 <li>Maximum number of leaf nodes</li>
-<li>Number of random features used for splitting</li>
+<li>Random features per split</li>
 <li>Number of samples in bootstrap dataset</li>
 </ul>
 <p>We will look at each of these hyper-parameters individually with examples on how select them.</p>
@@ -692,6 +692,366 @@ Let's try a few option for maximum depth:</p>
 <div class="highlight"><pre><span></span><code><span class="err">&lt;ggplot: (358468337)&gt;</span>
 </code></pre></div>
 
+<h3 id="maximum-number-of-leaf-nodes">Maximum number of leaf nodes</h3>
+<p>This hyperparameter can be of importance to other topics, such as <a href="/explainability.html">Explainability</a>.</p>
+<p>It is specified in <code>scikit-learn</code> using the <code>max_leaf_nodes</code> parameter. Let's try a few different values:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                           <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">,</span>
+                            <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s1">&#39;max_leaf_nodes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">GridSearchCV(cv=5,</span>
+<span class="err">             estimator=RandomForestClassifier(criterion=&#39;entropy&#39;, max_depth=8,</span>
+<span class="err">                                              n_estimators=256),</span>
+<span class="err">             param_grid={&#39;max_leaf_nodes&#39;: [2, 4, 8, 16, 32, 64, 128]})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;max_leaf_nodes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_leaf_nodes&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">results</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>max_leaf_nodes</th>
+      <th>mean_score</th>
+      <th>std_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0.755014</td>
+      <td>0.024759</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>0.773487</td>
+      <td>0.024367</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>0.817185</td>
+      <td>0.026706</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>16</td>
+      <td>0.812115</td>
+      <td>0.014137</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+      <td>0.813782</td>
+      <td>0.019204</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>64</td>
+      <td>0.812073</td>
+      <td>0.008712</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>128</td>
+      <td>0.813754</td>
+      <td>0.013498</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_leaf_nodes)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_leaf_nodes)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Maximum leaf nodes&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_40_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="err">&lt;ggplot: (358911004)&gt;</span>
+</code></pre></div>
+
+<h3 id="random-features-per-split">Random features per split</h3>
+<p>This is an important hyperparameter which will depends on how noisy the original data is.
+Typically, if the data is not very noisy the number of used random features can be kept low, otherwise it needs to be kept high.</p>
+<p>An important consideration is also the following trade-off:</p>
+<ul>
+<li>Low number of random features decrease the forest's overall variance</li>
+<li>Low number of random features increases the bias</li>
+<li>High number of random feature increases computational time</li>
+</ul>
+<p>In <code>scikit-learn</code> this is specified with the <code>max_features</code> parameter. Assuming \(N_f\) is the total number of features,
+some possible values for this parameter are:</p>
+<ul>
+<li><code>sqrt</code>, this will take the <code>max_features</code> as the rounded \(\sqrt{N_f}\)</li>
+<li><code>log2</code>, as above, takes the \(\log_2(N_f)\)</li>
+<li>The actual maximum number of features can be directly specified</li>
+</ul>
+<p>Let's try a simple benchmark, even though our data does not have many features to begin with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                             <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">,</span>
+                             <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;sqrt&quot;</span><span class="p">,</span> <span class="s2">&quot;log2&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">GridSearchCV(cv=5,</span>
+<span class="err">             estimator=RandomForestClassifier(criterion=&#39;entropy&#39;, max_depth=8,</span>
+<span class="err">                                              n_estimators=256),</span>
+<span class="err">             param_grid={&#39;max_features&#39;: [&#39;sqrt&#39;, &#39;log2&#39;, 1, 2, 3, 4, 5, 6]})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;max_features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_features&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>max_features</th>
+      <th>mean_score</th>
+      <th>std_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>sqrt</td>
+      <td>0.820476</td>
+      <td>0.018793</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>log2</td>
+      <td>0.810420</td>
+      <td>0.015345</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0.820504</td>
+      <td>0.017704</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>0.820490</td>
+      <td>0.017064</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>0.815420</td>
+      <td>0.009488</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4</td>
+      <td>0.823838</td>
+      <td>0.011681</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>5</td>
+      <td>0.828880</td>
+      <td>0.016225</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>6</td>
+      <td>0.828880</td>
+      <td>0.013361</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_features)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_features)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Maximum number of features&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_45_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="err">&lt;ggplot: (358798611)&gt;</span>
+</code></pre></div>
+
+<h3 id="bootstrap-dataset-size">Bootstrap dataset size</h3>
+<p>This hyperparameter relates to the proportion of the training data to be used by decision trees.</p>
+<p>It is specified in <code>scikit-learn</code> by <code>max_samples</code> and can take the value of either:</p>
+<ul>
+<li><code>None</code>, take the entirety of the samples</li>
+<li>An integer, representing the actual number of samples</li>
+<li>A float, representing a proportion, between <code>0</code> and <code>1</code> or the samples to take.</li>
+</ul>
+<p>Let's try a hyperparameter search with some values:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                             <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">,</span>
+                             <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                             <span class="n">max_features</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s1">&#39;max_samples&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="mf">10.0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">GridSearchCV(cv=5,</span>
+<span class="err">             estimator=RandomForestClassifier(criterion=&#39;entropy&#39;, max_depth=8,</span>
+<span class="err">                                              max_features=6,</span>
+<span class="err">                                              n_estimators=256),</span>
+<span class="err">             param_grid={&#39;max_samples&#39;: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8,</span>
+<span class="err">                                         0.9]})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;max_samples&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_samples&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>max_samples</th>
+      <th>mean_score</th>
+      <th>std_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.1</td>
+      <td>0.805434</td>
+      <td>0.021459</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.2</td>
+      <td>0.817171</td>
+      <td>0.019534</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.3</td>
+      <td>0.815448</td>
+      <td>0.010392</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.4</td>
+      <td>0.818796</td>
+      <td>0.016416</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.5</td>
+      <td>0.832227</td>
+      <td>0.019042</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.6</td>
+      <td>0.827199</td>
+      <td>0.015364</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.7</td>
+      <td>0.825518</td>
+      <td>0.016115</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.8</td>
+      <td>0.820490</td>
+      <td>0.011031</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.9</td>
+      <td>0.827199</td>
+      <td>0.014415</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_samples)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_samples)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Proportion bootstrap samples&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_50_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="err">&lt;ggplot: (358907088)&gt;</span>
+</code></pre></div>
+
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
 
@@ -732,6 +1092,9 @@ Let's try a few option for maximum depth:</p>
 <li><a href="#number-of-decision-trees">Number of decision trees</a></li>
 <li><a href="#the-split-criteria">The split criteria</a></li>
 <li><a href="#maximum-depth-of-individual-trees">Maximum depth of individual trees</a></li>
+<li><a href="#maximum-number-of-leaf-nodes">Maximum number of leaf nodes</a></li>
+<li><a href="#random-features-per-split">Random features per split</a></li>
+<li><a href="#bootstrap-dataset-size">Bootstrap dataset size</a></li>
 </ul>
 </li>
 </ul>
@@ -741,17 +1104,17 @@ Let's try a few option for maximum depth:</p>
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
-        
             <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
         
             <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
+            <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1614328871
+        modified 1614347694
     </div>
 
 </div>
