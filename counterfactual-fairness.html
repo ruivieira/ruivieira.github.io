@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Counterfactual fairness</h1>
+    <h1 id="counterfactual-fairness">Counterfactual fairness</h1>
 <h2 id="building-counterfactually-fair-models">Building counterfactually fair models</h2>
 <h3 id="data">Data</h3>
 <p>To evaluate <em>counterfactual fairness</em> we will be using the "law school" dataset<sup id="fnref:mcintyre2018law"><a class="footnote-ref" href="#fn:mcintyre2018law">1</a></sup>.</p>
@@ -786,17 +786,17 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <span class="n">y</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">10454    0.56</span>
-<span class="err">14108    0.60</span>
-<span class="err">20624   -0.14</span>
-<span class="err">8316     0.20</span>
-<span class="err">14250    0.02</span>
-<span class="err">18909   -1.47</span>
-<span class="err">8949     1.36</span>
-<span class="err">1658     0.39</span>
-<span class="err">23340    0.10</span>
-<span class="err">26884    0.48</span>
-<span class="c">Name: ZFYA, dtype: float64</span>
+<div class="highlight"><pre><span></span><code><span class="mf">10454</span>    <span class="mf">0.56</span>
+<span class="mf">14108</span>    <span class="mf">0.60</span>
+<span class="mf">20624</span>   <span class="o">-</span><span class="mf">0.14</span>
+<span class="mf">8316</span>     <span class="mf">0.20</span>
+<span class="mf">14250</span>    <span class="mf">0.02</span>
+<span class="mf">18909</span>   <span class="o">-</span><span class="mf">1.47</span>
+<span class="mf">8949</span>     <span class="mf">1.36</span>
+<span class="mf">1658</span>     <span class="mf">0.39</span>
+<span class="mf">23340</span>    <span class="mf">0.10</span>
+<span class="mf">26884</span>    <span class="mf">0.48</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">ZFYA</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
 </code></pre></div>
 
 <p>We fit the model:</p>
@@ -814,21 +814,21 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <span class="n">X_test</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([[ 0. ,  0. ,  0. , ...,  0. ,  3.4, 32. ],</span>
-<span class="err">       [ 0. ,  0. ,  0. , ...,  1. ,  3.5, 41. ],</span>
-<span class="err">       [ 0. ,  0. ,  0. , ...,  1. ,  3.9, 42. ],</span>
-<span class="err">       ...,</span>
-<span class="err">       [ 0. ,  0. ,  0. , ...,  0. ,  2.3, 28. ],</span>
-<span class="err">       [ 0. ,  0. ,  0. , ...,  0. ,  3.3, 36. ],</span>
-<span class="err">       [ 0. ,  0. ,  0. , ...,  0. ,  2.9, 37. ]])</span>
+<div class="highlight"><pre><span></span><code>array([[ 0. ,  0. ,  0. , ...,  0. ,  3.4, 32. ],
+       [ 0. ,  0. ,  0. , ...,  1. ,  3.5, 41. ],
+       [ 0. ,  0. ,  0. , ...,  1. ,  3.9, 42. ],
+       ...,
+       [ 0. ,  0. ,  0. , ...,  0. ,  2.3, 28. ],
+       [ 0. ,  0. ,  0. , ...,  0. ,  3.3, 36. ],
+       [ 0. ,  0. ,  0. , ...,  0. ,  2.9, 37. ]])
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">predictions_unfair</span> <span class="o">=</span> <span class="n">linreg_unfair</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">predictions_unfair</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([ 0.08676147,  0.34942627,  0.4609375 , ..., -0.25949097,</span>
-<span class="err">        0.19308472,  0.14471436])</span>
+<div class="highlight"><pre><span></span><code>array([ 0.08676147,  0.34942627,  0.4609375 , ..., -0.25949097,
+        0.19308472,  0.14471436])
 </code></pre></div>
 
 <p>We will also calculate the <em>unfair model</em> score for future use.</p>
@@ -836,7 +836,7 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <span class="nb">print</span><span class="p">(</span><span class="n">score_unfair</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.12701634112845117</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.12701634112845117</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
@@ -845,7 +845,7 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <span class="nb">print</span><span class="p">(</span><span class="n">RMSE_unfair</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.8666709890234552</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.8666709890234552</span>
 </code></pre></div>
 
 <h3 id="fairness-through-unawareness-ftu">Fairness through unawareness (FTU)</h3>
@@ -863,13 +863,13 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <span class="n">X_ftu</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([[ 3.1, 39. ],</span>
-<span class="err">       [ 3.5, 36. ],</span>
-<span class="err">       [ 3.9, 46. ],</span>
-<span class="err">       ...,</span>
-<span class="err">       [ 2.9, 33. ],</span>
-<span class="err">       [ 2.9, 31. ],</span>
-<span class="err">       [ 3.6, 39. ]])</span>
+<div class="highlight"><pre><span></span><code>array([[ 3.1, 39. ],
+       [ 3.5, 36. ],
+       [ 3.9, 46. ],
+       ...,
+       [ 2.9, 33. ],
+       [ 2.9, 31. ],
+       [ 3.6, 39. ]])
 </code></pre></div>
 
 <p>And we fit the model:</p>
@@ -883,21 +883,21 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <span class="n">X_ftu_test</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([[ 3.4, 32. ],</span>
-<span class="err">       [ 3.5, 41. ],</span>
-<span class="err">       [ 3.9, 42. ],</span>
-<span class="err">       ...,</span>
-<span class="err">       [ 2.3, 28. ],</span>
-<span class="err">       [ 3.3, 36. ],</span>
-<span class="err">       [ 2.9, 37. ]])</span>
+<div class="highlight"><pre><span></span><code>array([[ 3.4, 32. ],
+       [ 3.5, 41. ],
+       [ 3.9, 42. ],
+       ...,
+       [ 2.3, 28. ],
+       [ 3.3, 36. ],
+       [ 2.9, 37. ]])
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">predictions_ftu</span> <span class="o">=</span> <span class="n">linreg_ftu</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_ftu_test</span><span class="p">)</span>
 <span class="n">predictions_ftu</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([-0.06909331,  0.35516229,  0.50304555, ..., -0.53109868,</span>
-<span class="err">        0.08204563,  0.0226846 ])</span>
+<div class="highlight"><pre><span></span><code>array([-0.06909331,  0.35516229,  0.50304555, ..., -0.53109868,
+        0.08204563,  0.0226846 ])
 </code></pre></div>
 
 <p>As previously, let's calculate this model's score.</p>
@@ -905,14 +905,14 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <span class="nb">print</span><span class="p">(</span><span class="n">ftu_score</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.0917442226187073</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.0917442226187073</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">RMSE_ftu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">predictions_ftu</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">RMSE_ftu</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.8840061503773576</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.8840061503773576</span>
 </code></pre></div>
 
 <h3 id="latent-variable-model">Latent variable model</h3>
@@ -1047,9 +1047,9 @@ GPA_0 &amp;\sim \mathcal{N}(0, 1)
   100.00% [8000/8000 01:16<00:00 Sampling 4 chains, 0 divergences]
 </div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 87 seconds.</span>
-<span class="err">The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.</span>
-<span class="err">The estimated number of effective samples is smaller than 200 for some parameters.</span>
+<div class="highlight"><pre><span></span><code><span class="nv">Sampling</span> <span class="mi">4</span> <span class="nv">chains</span> <span class="k">for</span> <span class="mi">1</span><span class="nv">_000</span> <span class="nv">tune</span> <span class="nv">and</span> <span class="mi">1</span><span class="nv">_000</span> <span class="nv">draw</span> <span class="nv">iterations</span> <span class="ss">(</span><span class="mi">4</span><span class="nv">_000</span> <span class="o">+</span> <span class="mi">4</span><span class="nv">_000</span> <span class="nv">draws</span> <span class="nv">total</span><span class="ss">)</span> <span class="nv">took</span> <span class="mi">87</span> <span class="nv">seconds</span>.
+<span class="nv">The</span> <span class="nv">rhat</span> <span class="nv">statistic</span> <span class="nv">is</span> <span class="nv">larger</span> <span class="nv">than</span> <span class="mi">1</span>.<span class="mi">4</span> <span class="k">for</span> <span class="nv">some</span> <span class="nv">parameters</span>. <span class="nv">The</span> <span class="nv">sampler</span> <span class="nv">did</span> <span class="nv">not</span> <span class="nv">converge</span>.
+<span class="nv">The</span> <span class="nv">estimated</span> <span class="nv">number</span> <span class="nv">of</span> <span class="nv">effective</span> <span class="nv">samples</span> <span class="nv">is</span> <span class="nv">smaller</span> <span class="nv">than</span> <span class="mi">200</span> <span class="k">for</span> <span class="nv">some</span> <span class="nv">parameters</span>.
 </code></pre></div>
 
 <p>Let's plot a single trace for \(k^{(i)}\).</p>
@@ -1071,13 +1071,13 @@ GPA_0 &amp;\sim \mathcal{N}(0, 1)
 <span class="n">train_k</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([[ 0.01917085],</span>
-<span class="err">       [-0.00632169],</span>
-<span class="err">       [-0.16469706],</span>
-<span class="err">       ...,</span>
-<span class="err">       [ 0.08588421],</span>
-<span class="err">       [ 0.0144014 ],</span>
-<span class="err">       [ 0.03338959]])</span>
+<div class="highlight"><pre><span></span><code>array([[ 0.01917085],
+       [-0.00632169],
+       [-0.16469706],
+       ...,
+       [ 0.08588421],
+       [ 0.0144014 ],
+       [ 0.03338959]])
 </code></pre></div>
 
 <p>We can now estimate \(k\) using the test data:</p>
@@ -1115,22 +1115,22 @@ GPA_0 &amp;\sim \mathcal{N}(0, 1)
   100.00% [8000/8000 00:23<00:00 Sampling 4 chains, 0 divergences]
 </div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 35 seconds.</span>
-<span class="err">The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.</span>
-<span class="err">The estimated number of effective samples is smaller than 200 for some parameters.</span>
+<div class="highlight"><pre><span></span><code><span class="nv">Sampling</span> <span class="mi">4</span> <span class="nv">chains</span> <span class="k">for</span> <span class="mi">1</span><span class="nv">_000</span> <span class="nv">tune</span> <span class="nv">and</span> <span class="mi">1</span><span class="nv">_000</span> <span class="nv">draw</span> <span class="nv">iterations</span> <span class="ss">(</span><span class="mi">4</span><span class="nv">_000</span> <span class="o">+</span> <span class="mi">4</span><span class="nv">_000</span> <span class="nv">draws</span> <span class="nv">total</span><span class="ss">)</span> <span class="nv">took</span> <span class="mi">35</span> <span class="nv">seconds</span>.
+<span class="nv">The</span> <span class="nv">rhat</span> <span class="nv">statistic</span> <span class="nv">is</span> <span class="nv">larger</span> <span class="nv">than</span> <span class="mi">1</span>.<span class="mi">4</span> <span class="k">for</span> <span class="nv">some</span> <span class="nv">parameters</span>. <span class="nv">The</span> <span class="nv">sampler</span> <span class="nv">did</span> <span class="nv">not</span> <span class="nv">converge</span>.
+<span class="nv">The</span> <span class="nv">estimated</span> <span class="nv">number</span> <span class="nv">of</span> <span class="nv">effective</span> <span class="nv">samples</span> <span class="nv">is</span> <span class="nv">smaller</span> <span class="nv">than</span> <span class="mi">200</span> <span class="k">for</span> <span class="nv">some</span> <span class="nv">parameters</span>.
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">test_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_map_estimates</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">test_k</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([[ 0.04363701],</span>
-<span class="err">       [-0.09365109],</span>
-<span class="err">       [-0.45671879],</span>
-<span class="err">       ...,</span>
-<span class="err">       [-0.03137148],</span>
-<span class="err">       [ 0.28931439],</span>
-<span class="err">       [ 0.07281012]])</span>
+<div class="highlight"><pre><span></span><code>array([[ 0.04363701],
+       [-0.09365109],
+       [-0.45671879],
+       ...,
+       [-0.03137148],
+       [ 0.28931439],
+       [ 0.07281012]])
 </code></pre></div>
 
 <p>We now build the Level 2 predictor, using \(k\) as the input.</p>
@@ -1144,22 +1144,22 @@ GPA_0 &amp;\sim \mathcal{N}(0, 1)
 <span class="n">predictions_latent</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([ 0.0711182 ,  0.14217813,  0.33010093, ...,  0.10994238,</span>
-<span class="err">       -0.05604371,  0.05601828])</span>
+<div class="highlight"><pre><span></span><code>array([ 0.0711182 ,  0.14217813,  0.33010093, ...,  0.10994238,
+       -0.05604371,  0.05601828])
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">latent_score</span> <span class="o">=</span> <span class="n">linreg_latent</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_k</span><span class="p">,</span> <span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">latent_score</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.008509520014148064</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.008509520014148064</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">RMSE_latent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">predictions_latent</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">RMSE_latent</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.9236245677858551</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.9236245677858551</span>
 </code></pre></div>
 
 <h3 id="additive-error-model">Additive error model</h3>
@@ -1196,18 +1196,18 @@ First we calculate \(\epsilon_{GPA}\):</p>
 <span class="n">epsilons_gpa</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0       -0.242</span>
-<span class="err">1       -0.342</span>
-<span class="err">2       -0.100</span>
-<span class="err">5       -0.873</span>
-<span class="err">6        0.058</span>
-<span class="err">         ...  </span>
-<span class="err">27472    0.800</span>
-<span class="err">27473    0.358</span>
-<span class="err">27474    0.658</span>
-<span class="err">27475   -0.300</span>
-<span class="err">27476   -0.100</span>
-<span class="c">Name: UGPA, Length: 21791, dtype: float64</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0</span>       <span class="o">-</span><span class="mf">0.242</span>
+<span class="mf">1</span>       <span class="o">-</span><span class="mf">0.342</span>
+<span class="mf">2</span>       <span class="o">-</span><span class="mf">0.100</span>
+<span class="mf">5</span>       <span class="o">-</span><span class="mf">0.873</span>
+<span class="mf">6</span>        <span class="mf">0.058</span>
+         <span class="mf">...</span>  
+<span class="mf">27472</span>    <span class="mf">0.800</span>
+<span class="mf">27473</span>    <span class="mf">0.358</span>
+<span class="mf">27474</span>    <span class="mf">0.658</span>
+<span class="mf">27475</span>   <span class="o">-</span><span class="mf">0.300</span>
+<span class="mf">27476</span>   <span class="o">-</span><span class="mf">0.100</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">UGPA</span><span class="p">,</span> <span class="nb">Len</span><span class="n">gth</span><span class="p">:</span> <span class="mf">21791</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
 </code></pre></div>
 
 <p>Next, we calculate \(\epsilon_{LSAT}\):</p>
@@ -1215,18 +1215,18 @@ First we calculate \(\epsilon_{GPA}\):</p>
 <span class="n">epsilons_LSAT</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0        1.789</span>
-<span class="err">1       -1.211</span>
-<span class="err">2       -7.689</span>
-<span class="err">5        5.055</span>
-<span class="err">6       -0.211</span>
-<span class="err">         ...  </span>
-<span class="err">27472   -4.689</span>
-<span class="err">27473    0.789</span>
-<span class="err">27474   -1.211</span>
-<span class="err">27475   -6.689</span>
-<span class="err">27476   -9.689</span>
-<span class="c">Name: LSAT, Length: 21791, dtype: float64</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0</span>        <span class="mf">1.789</span>
+<span class="mf">1</span>       <span class="o">-</span><span class="mf">1.211</span>
+<span class="mf">2</span>       <span class="o">-</span><span class="mf">7.689</span>
+<span class="mf">5</span>        <span class="mf">5.055</span>
+<span class="mf">6</span>       <span class="o">-</span><span class="mf">0.211</span>
+         <span class="mf">...</span>  
+<span class="mf">27472</span>   <span class="o">-</span><span class="mf">4.689</span>
+<span class="mf">27473</span>    <span class="mf">0.789</span>
+<span class="mf">27474</span>   <span class="o">-</span><span class="mf">1.211</span>
+<span class="mf">27475</span>   <span class="o">-</span><span class="mf">6.689</span>
+<span class="mf">27476</span>   <span class="o">-</span><span class="mf">9.689</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">LSAT</span><span class="p">,</span> <span class="nb">Len</span><span class="n">gth</span><span class="p">:</span> <span class="mf">21791</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
 </code></pre></div>
 
 <p>Let's visualise the \(\epsilon\) distribution quickly:</p>
@@ -1257,13 +1257,13 @@ We start by getting the subset of the \(\epsilon\) which match the training indi
 <span class="n">X</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([[-0.24179687,  1.7890625 ],</span>
-<span class="err">       [ 0.15820312, -1.2109375 ],</span>
-<span class="err">       [ 0.55820312,  8.7890625 ],</span>
-<span class="err">       ...,</span>
-<span class="err">       [-0.44179688, -4.2109375 ],</span>
-<span class="err">       [-0.25087891, -4.7265625 ],</span>
-<span class="err">       [ 0.39980469,  1.31054688]])</span>
+<div class="highlight"><pre><span></span><code>array([[-0.24179687,  1.7890625 ],
+       [ 0.15820312, -1.2109375 ],
+       [ 0.55820312,  8.7890625 ],
+       ...,
+       [-0.44179688, -4.2109375 ],
+       [-0.25087891, -4.7265625 ],
+       [ 0.39980469,  1.31054688]])
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">linreg_fair_add</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
@@ -1286,8 +1286,8 @@ We start by getting the subset of the \(\epsilon\) which match the training indi
 <span class="n">predictions_fair_add</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">array([-0.04394693,  0.24454891,  0.35558793, ..., -0.38844376,</span>
-<span class="err">        0.06136776,  0.01295201])</span>
+<div class="highlight"><pre><span></span><code>array([-0.04394693,  0.24454891,  0.35558793, ..., -0.38844376,
+        0.06136776,  0.01295201])
 </code></pre></div>
 
 <p>And as previously, we calculate the model's score:</p>
@@ -1295,14 +1295,14 @@ We start by getting the subset of the \(\epsilon\) which match the training indi
 <span class="nb">print</span><span class="p">(</span><span class="n">fair_add_score</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.04475841449183948</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.04475841449183948</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">RMSE_fair_add</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;ZFYA&quot;</span><span class="p">],</span> <span class="n">predictions_fair_add</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">RMSE_fair_add</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.9065835039365202</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.9065835039365202</span>
 </code></pre></div>
 
 <h3 id="comparison">Comparison</h3>
@@ -1313,10 +1313,10 @@ We start by getting the subset of the \(\epsilon\) which match the training indi
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fair add score:</span><span class="se">\t</span><span class="si">{</span><span class="n">fair_add_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Unfair score:   0.12701634112845117</span>
-<span class="err">FTU score:  0.0917442226187073</span>
-<span class="err">L2 score:   0.008509520014148064</span>
-<span class="err">Fair add score: 0.04475841449183948</span>
+<div class="highlight"><pre><span></span><code>Unfair score:   0.12701634112845117
+FTU score:  0.0917442226187073
+L2 score:   0.008509520014148064
+Fair add score: 0.04475841449183948
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unfair RMSE:</span><span class="se">\t</span><span class="si">{</span><span class="n">RMSE_unfair</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1325,10 +1325,10 @@ We start by getting the subset of the \(\epsilon\) which match the training indi
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fair add RMSE:</span><span class="se">\t</span><span class="si">{</span><span class="n">RMSE_fair_add</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Unfair RMSE:    0.8666709890234552</span>
-<span class="err">FTU RMSE:   0.8840061503773576</span>
-<span class="err">L2 RMSE:    0.9236245677858551</span>
-<span class="err">Fair add RMSE:  0.9065835039365202</span>
+<div class="highlight"><pre><span></span><code>Unfair RMSE:    0.8666709890234552
+FTU RMSE:   0.8840061503773576
+L2 RMSE:    0.9236245677858551
+Fair add RMSE:  0.9065835039365202
 </code></pre></div>
 
 <h2 id="measuring-counterfactual-fairness">Measuring counterfactual fairness</h2>
@@ -1409,10 +1409,10 @@ All <em>protected attributes</em> fail the SPD test and, in our dataset, we have
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DI(</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">di</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">SPD(Mexican) = 0.0014017257538768636</span>
-<span class="err">DI(Mexican) = 0.5556529360210342</span>
-<span class="err">SPD(Hispanic) = 0.003272247102713093</span>
-<span class="err">DI(Hispanic) = 0.34227833235466826</span>
+<div class="highlight"><pre><span></span><code>SPD(Mexican) = 0.0014017257538768636
+DI(Mexican) = 0.5556529360210342
+SPD(Hispanic) = 0.003272247102713093
+DI(Hispanic) = 0.34227833235466826
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>

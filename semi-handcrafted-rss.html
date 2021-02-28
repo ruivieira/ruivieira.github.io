@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>(Semi) handcrafted RSS</h1>
+    <h1 id="semi-handcrafted-rss">(Semi) handcrafted RSS</h1>
 <p>I've been using a minimalist blog setup for some time now.</p>
 <p>I was having something of a framework fatigue after switching between a few static site generators.
 Each new generator I decided to try implied usually either learning a new programming language (<a href="https://docs.getpelican.com/en/stable/">Python</a>, <a href="https://jekyllrb.com/">Ruby</a>, <a href="https://gohugo.io/">Go</a>) to perform basic setup <em>and</em> a new template engine syntax. Typically I wasn't using the vast majority of the features available
@@ -110,7 +110,7 @@ It predates <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> by six
 </blockquote>
 <p>We then loop over all the input files to build the RSS entries.</p>
 <div class="highlight"><pre><span></span><code><span class="nv">FILES</span><span class="o">=</span>input/*.html
-<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">for</span> FILE <span class="k">in</span> <span class="nv">$FILES</span>
 <span class="k">do</span>
     <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -153,7 +153,7 @@ We simple retrieve the <em>first</em> line of the matching grep, by inserting a 
 <span class="s">EOF</span>
 
 <span class="nv">FILES</span><span class="o">=</span>input/*.html
-<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">for</span> FILE <span class="k">in</span> <span class="nv">$FILES</span>
 <span class="k">do</span>
     <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -207,7 +207,7 @@ using:</p>
 <span class="s">EOF</span>
 
 <span class="nv">FILES</span><span class="o">=</span>input/*.html
-<span class="k">for</span> FILE in <span class="nv">$FILES</span>
+<span class="k">for</span> FILE <span class="k">in</span> <span class="nv">$FILES</span>
 <span class="k">do</span>
     <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>

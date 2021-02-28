@@ -50,10 +50,10 @@
 <body>
 
 <div id="content">
-    <h1>Monotonic Cubic Spline interpolation (with some Rust)</h1>
+    <h1 id="monotonic-cubic-spline-interpolation-with-some-rust">Monotonic Cubic Spline interpolation (with some Rust)</h1>
 <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
 In this post I'll show how to implement the method developed by F. N. Fritsch and R. E. Carlson <sup id="fnref:Fritsch2005"><a class="footnote-ref" href="#fn:Fritsch2005">1</a></sup> in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
-<h1>Rust</h1>
+<h1 id="rust">Rust</h1>
 <p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  practically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and its concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
 <p>Idiomatic Rust Object-Oriented Programming (OOP) has several characteristics which differ significantly from "traditional" OOP languages.
 Rust achieves data and behaviour encapsulation by means of defining data structure blueprints (called <code>struct</code>) and then defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple "class" <code>Foo</code> would consist of:</p>

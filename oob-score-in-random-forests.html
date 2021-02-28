@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>OOB score in random forests</h1>
+    <h1 id="oob-score-in-random-forests">OOB score in random forests</h1>
 <p>In the Random Forest algorithm, we build a decision tree (DT) based on a certain training dataset. This tree will be split in order to minimise some criteria function.</p>
 <p>However, it is not desirable that individual DTs get too large with too many splits, so a common approach is to train each tree with a <em>subset of the training data</em> (sampled with replacement). This will ensure that individual tree maintain a manageable size, while the variance of the tree ensemble is reduced and the overall bias is not altered.</p>
 <p>This <em>training subset</em> is usually called the <strong>bootstrap samples</strong>. In the image below, we can see an illustration of the sampling with replacement.</p>

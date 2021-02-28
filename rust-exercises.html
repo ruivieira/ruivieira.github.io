@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Rust exercises</h1>
+    <h1 id="rust-exercises">Rust exercises</h1>
 <h2 id="variables">Variables</h2>
 <h3 id="problem-1">Problem 1</h3>
 <div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -82,13 +82,13 @@
 <span class="n">main</span><span class="p">()</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">x</span> <span class="n">has</span> <span class="n">the</span> <span class="n">value</span> <span class="mi">5</span>
+<div class="highlight"><pre><span></span><code>x has the value 5
 
 
 
 
 
-<span class="p">()</span>
+()
 </code></pre></div>
 
 <h3 id="problem-2">Problem 2</h3>
@@ -121,13 +121,13 @@
 <span class="n">main</span><span class="p">()</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">Ten</span><span class="o">!</span>
+<div class="highlight"><pre><span></span><code>Ten!
 
 
 
 
 
-<span class="p">()</span>
+()
 </code></pre></div>
 
 <h3 id="problem-3">Problem 3</h3>
@@ -164,14 +164,14 @@
 <span class="n">main</span><span class="p">()</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nb">Number</span> <span class="mi">3</span>
-<span class="nb">Number</span> <span class="mi">5</span>
+<div class="highlight"><pre><span></span><code>Number 3
+Number 5
 
 
 
 
 
-<span class="p">()</span>
+()
 </code></pre></div>
 
 <h3 id="problem-4">Problem 4</h3>
@@ -196,13 +196,13 @@
 <span class="n">main</span><span class="p">()</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nb">Number</span> <span class="mi">1</span>
+<div class="highlight"><pre><span></span><code>Number 1
 
 
 
 
 
-<span class="p">()</span>
+()
 </code></pre></div>
 
 <h3 id="problem-5">Problem 5</h3>
@@ -214,27 +214,27 @@
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>    <span class="nb">number</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code>    number = 3;
 
-             <span class="o">^</span> <span class="n">expected</span> <span class="o">`&amp;</span><span class="n">str</span><span class="o">`</span><span class="p">,</span> <span class="k">found</span> <span class="nb">integer</span>
+             ^ expected `&amp;str`, found integer
 
-<span class="n">mismatched</span> <span class="n">types</span>
+mismatched types
 
 
 
-    <span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="ss">&quot;Number plus two is : {}&quot;</span><span class="p">,</span> <span class="nb">number</span> <span class="o">+</span> <span class="mi">2</span><span class="p">);</span>
+    println!(&quot;Number plus two is : {}&quot;, number + 2);
 
-                                        <span class="o">^^^^^^</span> <span class="o">&amp;</span><span class="n">str</span>
+                                        ^^^^^^ &amp;str
 
-    <span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="ss">&quot;Number plus two is : {}&quot;</span><span class="p">,</span> <span class="nb">number</span> <span class="o">+</span> <span class="mi">2</span><span class="p">);</span>
+    println!(&quot;Number plus two is : {}&quot;, number + 2);
 
-                                                 <span class="o">^</span> <span class="err">{</span><span class="nb">integer</span><span class="err">}</span>
+                                                 ^ {integer}
 
-    <span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="ss">&quot;Number plus two is : {}&quot;</span><span class="p">,</span> <span class="nb">number</span> <span class="o">+</span> <span class="mi">2</span><span class="p">);</span>
+    println!(&quot;Number plus two is : {}&quot;, number + 2);
 
-                                               <span class="o">^</span>
+                                               ^
 
-<span class="n">cannot</span> <span class="k">add</span> <span class="o">`</span><span class="err">{</span><span class="nb">integer</span><span class="err">}</span><span class="o">`</span> <span class="k">to</span> <span class="o">`&amp;</span><span class="n">str</span><span class="o">`</span>
+cannot add `{integer}` to `&amp;str`
 </code></pre></div>
 
 <h3 id="solution-5">Solution 5</h3>
@@ -247,14 +247,14 @@
 <span class="n">main</span><span class="p">()</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">Spell</span> <span class="n">a</span> <span class="nb">Number</span> <span class="p">:</span> <span class="mi">9</span>
-<span class="nb">Number</span> <span class="n">plus</span> <span class="n">two</span> <span class="k">is</span> <span class="p">:</span> <span class="mi">5</span>
+<div class="highlight"><pre><span></span><code>Spell a Number : 9
+Number plus two is : 5
 
 
 
 
 
-<span class="p">()</span>
+()
 </code></pre></div>
 
 <h3 id="problem-6">Problem 6</h3>
@@ -283,13 +283,13 @@
 <span class="n">main</span><span class="p">()</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nb">Number</span> <span class="mi">3</span>
+<div class="highlight"><pre><span></span><code>Number 3
 
 
 
 
 
-<span class="p">()</span>
+()
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>

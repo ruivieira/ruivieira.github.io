@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Python</h1>
+    <h1 id="python">Python</h1>
 <p>Main page for all things Python.
 Other pages cover specific topics, such as:</p>
 <ul>
@@ -72,7 +72,7 @@ The proposal consists of <a href="https://www.python.org/dev/peps/pep-0634/">PEP
 </code></pre></div>
 
 <p>We will encounter the error</p>
-<div class="highlight"><pre><span></span><code><span class="ne">ImportError</span><span class="p">:</span> <span class="n">attempted</span> <span class="n">relative</span> <span class="kn">import</span> <span class="nn">with</span> <span class="nn">no</span> <span class="nn">known</span> <span class="nn">parent</span> <span class="nn">package</span>
+<div class="highlight"><pre><span></span><code><span class="ne">ImportError</span><span class="p">:</span> <span class="n">attempted</span> <span class="n">relative</span> <span class="kn">import</span> <span class="nn">with</span> <span class="n">no</span> <span class="n">known</span> <span class="n">parent</span> <span class="n">package</span>
 </code></pre></div>
 
 <p>A possible solution is to include the following in your module's <code>__init__.py</code>:</p>
@@ -89,7 +89,7 @@ Python does not have a ternary operator <a href="https://en.wikipedia.org/wiki/%
 <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">1</span>
+<div class="highlight"><pre><span></span><code><span class="mf">1</span>
 </code></pre></div>
 
 <h2 id="for-else">for ... else</h2>
@@ -104,7 +104,7 @@ Python does not have a ternary operator <a href="https://en.wikipedia.org/wiki/%
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X marks the spot, but not found&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">X marks the spot, but not found</span>
+<div class="highlight"><pre><span></span><code>X marks the spot, but not found
 </code></pre></div>
 
 <p>We can simplify the above logic using a <code>for-else</code> loop:</p>
@@ -115,7 +115,7 @@ Python does not have a ternary operator <a href="https://en.wikipedia.org/wiki/%
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X marks the spot, but not found&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">X marks the spot, but not found</span>
+<div class="highlight"><pre><span></span><code>X marks the spot, but not found
 </code></pre></div>
 
 <h2 id="boolean-unravelling">Boolean unravelling</h2>
@@ -138,14 +138,14 @@ function <code>u_and</code>:</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">and</span> <span class="n">b</span><span class="p">,</span> <span class="n">u_and</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="k">None</span> <span class="k">None</span>
-<span class="k">True</span> <span class="k">True</span>
-<span class="k">False</span> <span class="k">False</span>
+<div class="highlight"><pre><span></span><code>None None
+True True
+False False
 
 
-<span class="k">None</span> <span class="k">None</span>
-<span class="k">True</span> <span class="k">True</span>
-<span class="k">False</span> <span class="k">False</span>
+None None
+True True
+False False
 </code></pre></div>
 
 <h3 id="or">or</h3>
@@ -166,14 +166,14 @@ function <code>u_and</code>:</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">or</span> <span class="n">b</span><span class="p">,</span> <span class="n">u_or</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="k">True</span> <span class="k">True</span>
-<span class="k">True</span> <span class="k">True</span>
-<span class="k">True</span> <span class="k">True</span>
+<div class="highlight"><pre><span></span><code>True True
+True True
+True True
 
 
-<span class="k">True</span> <span class="k">True</span>
-<span class="k">True</span> <span class="k">True</span>
-<span class="k">True</span> <span class="k">True</span>
+True True
+True True
+True True
 </code></pre></div>
 
 <h2 id="the-many-faces-of-print">The many faces of <code>print</code></h2>
@@ -183,10 +183,10 @@ function <code>u_and</code>:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I am &quot;</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="s2">&quot; not &quot;</span><span class="p">,</span> <span class="n">var2</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">I</span> <span class="n">am</span>  <span class="n">Foo</span>  <span class="k">not</span>  <span class="n">Bar</span>
+<div class="highlight"><pre><span></span><code>I am  Foo  not  Bar
 
 
-<span class="n">I</span> <span class="n">am</span>  <span class="n">Foo</span>  <span class="k">not</span>  <span class="n">Bar</span>
+I am  Foo  not  Bar
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">var1</span> <span class="o">=</span> <span class="s2">&quot;Foo&quot;</span>
@@ -194,10 +194,10 @@ function <code>u_and</code>:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I am &quot;</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="s2">&quot; not &quot;</span><span class="p">,</span> <span class="n">var2</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">I</span> <span class="n">am</span>  <span class="n">Foo</span>  <span class="k">not</span>  <span class="n">Bar</span>
+<div class="highlight"><pre><span></span><code>I am  Foo  not  Bar
 
 
-<span class="n">I</span> <span class="n">am</span>  <span class="n">Foo</span>  <span class="k">not</span>  <span class="n">Bar</span>
+I am  Foo  not  Bar
 </code></pre></div>
 
 <p>It is also possible to use separators by using the <code>sep</code> argument:</p>
@@ -206,10 +206,10 @@ function <code>u_and</code>:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I am&quot;</span><span class="p">,</span> <span class="n">var1</span><span class="p">,</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;!&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">I</span> <span class="n">am</span><span class="o">!</span><span class="n">Foo</span><span class="o">!</span><span class="k">not</span><span class="o">!</span><span class="n">Bar</span>
+<div class="highlight"><pre><span></span><code>I am!Foo!not!Bar
 
 
-<span class="n">I</span> <span class="n">am</span><span class="o">!</span><span class="n">Foo</span><span class="o">!</span><span class="k">not</span><span class="o">!</span><span class="n">Bar</span>
+I am!Foo!not!Bar
 </code></pre></div>
 
 <h3 id="string-termination">String termination</h3>
@@ -217,9 +217,9 @@ function <code>u_and</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is on radio&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; (over)&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">This</span> <span class="k">is</span> <span class="k">on</span> <span class="n">radio</span> <span class="p">(</span><span class="n">over</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code>This is on radio (over)
 
-<span class="n">This</span> <span class="k">is</span> <span class="k">on</span> <span class="n">radio</span> <span class="p">(</span><span class="n">over</span><span class="p">)</span>
+This is on radio (over)
 </code></pre></div>
 
 <h2 id="filesystem-operations">Filesystem operations</h2>
@@ -286,13 +286,13 @@ function <code>u_and</code>:</p>
         
             <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
         
-            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-        
             <li><a href="/python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a><sup>&#5833</sup></li>
         
-            <li><a href="/python-environments.html">Python environments</a><sup>&#5833</sup></li>
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
         
             <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
+        
+            <li><a href="/python-environments.html">Python environments</a><sup>&#5833</sup></li>
         
         </ul>
     

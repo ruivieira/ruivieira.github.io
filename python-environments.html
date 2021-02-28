@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Python environments</h1>
+    <h1 id="python-environments">Python environments</h1>
 <h2 id="interpreters">Interpreters</h2>
 <p>To install different <a href="/python.html">Python</a> interpreters I strongly recommend <code>asdf</code><sup id="fnref:asdf"><a class="footnote-ref" href="#fn:asdf">1</a></sup>.</p>
 <p>Let's look at to install Python in two different OSes, macOS and Fedora.</p>
@@ -157,6 +157,17 @@ Congratulations! You are ready to build pythons!
 <div class="highlight"><pre><span></span><code>$ <span class="nb">source</span> venv/bin/activate
 </code></pre></div>
 
+<h2 id="anaconda">Anaconda</h2>
+<p>First download <a href="https://www.anaconda.com/products/individual">Anaconda</a> (or <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a>). Once installed you can proceed to create environments<sup id="fnref:anaconda"><a class="footnote-ref" href="#fn:anaconda">3</a></sup>.</p>
+<h3 id="creating-environments">Creating environments</h3>
+<p>An environment <code>foo</code> can be created using</p>
+<div class="highlight"><pre><span></span><code>conda create --name foo
+</code></pre></div>
+
+<p>One it is created, it can be activated using</p>
+<div class="highlight"><pre><span></span><code>conda activate foo
+</code></pre></div>
+
 <div class="footnote">
 <hr />
 <ol>
@@ -165,6 +176,9 @@ Congratulations! You are ready to build pythons!
 </li>
 <li id="fn:1">
 <p>I'm running Big Sur at the moment of writing&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:anaconda">
+<p>The remainder will assume that you have installed <code>Anaconda</code>, rather than <code>Miniconda</code>.&#160;<a class="footnote-backref" href="#fnref:anaconda" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -198,6 +212,10 @@ Congratulations! You are ready to build pythons!
 </ul>
 </li>
 <li><a href="#venv">venv</a></li>
+<li><a href="#anaconda">Anaconda</a><ul>
+<li><a href="#creating-environments">Creating environments</a></li>
+</ul>
+</li>
 </ul>
 </div>
 
@@ -205,15 +223,15 @@ Congratulations! You are ready to build pythons!
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
-        
             <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+        
+            <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1612906108
+        modified 1614529696
     </div>
 
 </div>

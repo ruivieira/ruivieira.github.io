@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>A Gibbs Sampler in Crystal</h1>
+    <h1 id="a-gibbs-sampler-in-crystal">A Gibbs Sampler in Crystal</h1>
 <p>Recently, I've been following with interest the development of the <a href="http://crystal-lang.org/">Crystal</a> language.</p>
 <p>Crystal is a statically type language with a syntax resembling Ruby's. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to native code along with a dead simple way of creating bindings to existing C code.</p>
 <p>These features make it quite attractive, in my opinion, for scientific computing. To test it against more popular languages, I've decided to run the Gibbs sampling examples created in <a href="https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/">Darren Wilkinson's blog</a>.</p>
@@ -76,7 +76,7 @@ y|x &amp;\sim N\left(\frac{1}{1+x},\frac{1}{2\left(1+x\right)}\right)
 
 <span class="k">require</span> <span class="s2">&quot;math&quot;</span>
 
-<span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="nb">Int</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span> <span class="p">:</span> <span class="nb">Int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>

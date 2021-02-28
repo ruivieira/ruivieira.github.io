@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>K-means clustering</h1>
+    <h1 id="k-means-clustering">K-means clustering</h1>
 <h2 id="introduction">Introduction</h2>
 <p><em>K</em>-means is still one of the fundamental clustering algorithms. It is used in such diverse fields as Natural Language Processing (NLP), social sciences and medical sciences.</p>
 <p>The core idea behind <em>K</em>-means is that we want to group data in <em>clusters</em>. Data points will be assigned to a specific cluster depending on it's distance to a cluster's center, usually called the <em>centroid</em>. </p>
@@ -76,7 +76,7 @@ We define the subset of points assigned to a centroid \(i\) as \(S_i\).</p>
 c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
 \]
 
-<h1>Partitioning</h1>
+<h1 id="partitioning">Partitioning</h1>
 <p>Different algorithms can be used for cluster partitioning, for instance:</p>
 <ul>
 <li>PAM</li>
@@ -85,7 +85,7 @@ c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
 </ul>
 <h2 id="pam">PAM</h2>
 <p>To illustrate the PAM partitioning method, we will use a synthetic dataset created along the guidelines in <a href="/synthetic-data-generation.html#Separability">synthetic data generation</a>.</p>
-<h1>Elbow method</h1>
+<h1 id="elbow-method">Elbow method</h1>
 <p>In order to use the "Elbow method" we calculate the <a href="/distance-metrics.html#Within-cluster sum of squares (WCSS)">Within-Cluster Sum of Squares (WCSS)</a> for a varying number of clusters, \(K\). </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>

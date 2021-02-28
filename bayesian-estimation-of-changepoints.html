@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Bayesian estimation of changepoints</h1>
+    <h1 id="bayesian-estimation-of-changepoints">Bayesian estimation of changepoints</h1>
 <p>A common introductory problem in Bayesian changepoint detection is the record of UK coal mining disasters from 1851 to 1962. More information can be found in <a href="http://www.jstor.org/stable/2347570">Carlin, Gelfand and Smith</a> (1992).</p>
 <p>As we can see from the plot below, the number of yearly disasters ranges from 0 to 6 and we will assume that at some point within this time range a change in the accident rate has occured.</p>
 <p><img alt="Data" src="./images/coal_disasters_data.png" /></p>
@@ -101,7 +101,7 @@ p\left(Y|\Phi\right) &amp;= \prod_{i=1}^{k} p\left(y_i|\mu,k\right) \prod_{i=k+1
 \]
 
 <p>We can define the \(\mu\) update as:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">mu_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b1</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">mu_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">b1</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>
 
@@ -117,7 +117,7 @@ p\left(Y|\Phi\right) &amp;= \prod_{i=1}^{k} p\left(y_i|\mu,k\right) \prod_{i=k+1
 \]
 
 <p>which we implement as:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">lambda_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">b2</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">lambda_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">b2</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">..</span><span class="n">M</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">M</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
 
@@ -133,13 +133,13 @@ b_2 &amp;\sim \mathcal{G}\left(a_2 + c_2,\lambda + d_2\right),
 \]
 
 <p>which we will implement as:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">b1_update</span><span class="p">(</span><span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">b1_update</span><span class="p">(</span><span class="n">mu</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
 <span class="k">end</span>
 
-<span class="k">def</span> <span class="nf">b2_update</span><span class="p">(</span><span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<span class="k">def</span> <span class="nf">b2_update</span><span class="p">(</span><span class="n">lambda</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
     <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lambda</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
@@ -157,7 +157,7 @@ L\left(Y|\Phi\right) = e^{\left(\lambda-\mu\right)k}\left(\frac{\mu}{\lambda}\ri
 \]
 
 <p>implemented as</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">lambda</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">,</span> <span class="n">mu</span> <span class="p">:</span> <span class="nb">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="nb">Float64</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">lambda</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">,</span> <span class="n">mu</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
     <span class="n">Math</span><span class="o">::</span><span class="n">E</span><span class="o">**</span><span class="p">((</span><span class="n">lambda</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="n">lambda</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">)</span>
 
@@ -174,11 +174,11 @@ L\left(Y|\Phi\right) = e^{\left(\lambda-\mu\right)k}\left(\frac{\mu}{\lambda}\ri
 
 <span class="c1"># parameter storage</span>
 
-<span class="n">mus</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">mus</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-<span class="n">lambdas</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-<span class="n">ks</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">ks</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
 
 <p>We can then cast the priors:</p>

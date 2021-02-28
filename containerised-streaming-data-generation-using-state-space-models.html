@@ -50,11 +50,11 @@
 <body>
 
 <div id="content">
-    <h1>Containerised Streaming Data Generation using State-Space Models</h1>
+    <h1 id="containerised-streaming-data-generation-using-state-space-models">Containerised Streaming Data Generation using State-Space Models</h1>
 <p>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as <a href="https://kafka.apache.org/">Apache Kafka</a> and <a href="https://spark.apache.org/">Apache Spark</a> and deployment in a cloud environment like <a href="https://www.openshift.com/">OpenShift</a> with tools such as <a href="https://radanalytics.io/">oshinko</a>.</p>
 <p>Simulating data is not trivial, since we might want to capture complex characteristic to evaluate our algorithms in conditions similar to the real world.
 In this post I'll introduce a tool, <a href="https://github.com/ruivieira/timeseries-mock">timeseries-mock</a>, which allows for a simple, containerised deployment of a data simulator along with some of the theory behind the data generation.</p>
-<h1>State-space models</h1>
+<h1 id="state-space-models">State-space models</h1>
 <p>A common way of modelling these patterns is to use state-space models (SSM). SSMs can be divided into a model and a observation structure.</p>
 \[
 Y_t|\theta_t,\Phi \sim f\left(y_t|\theta_t,\Phi_t\right) \\

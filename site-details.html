@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Site details</h1>
+    <h1 id="site-details">Site details</h1>
 <h2 id="assets">Assets</h2>
 <p>This site's CSS takes 2796 bytes.
 This, however, does not include the following dependencies:</p>
@@ -64,10 +64,21 @@ This, however, does not include the following dependencies:</p>
 <h2 id="search">Search</h2>
 <p>The site is searchable from <a href="/search.html">here</a>.
 The search page also allows for query string searches using the <code>q</code> keyword, for instance:</p>
-<div class="highlight"><pre><span></span><code><span class="err">/search.html?q=statistics</span>
+<div class="highlight"><pre><span></span><code>/search.html?q=statistics
 </code></pre></div>
 
 <p>This allows you to add a custom search engine to most modern browsers, such as Firefox or Chrome.</p>
+<p>Search is done 100% client-side, so there's absolutely no information collected regarding your search queries.</p>
+<p>Highlighting of terms is also possible just adding the query parameter <code>?h=...</code> to <em>any page</em>. For instance, to highlight the term <code>privacy</code> on this page simply go to</p>
+<div class="highlight"><pre><span></span><code>/site-details.html?h=privacy
+</code></pre></div>
+
+<p>or click <a href="/site-details.html?h=privacy">here</a>.</p>
+<h2 id="privacy">Privacy</h2>
+<p>No cookies are used in this site.</p>
+<p>All site traffic statistics are captured using <a href="https://pirsch.io">Pirsch.io</a>. Pirsch is a privacy-friendly analytics site, which<strong> doesn't use cookies</strong> and collects minimal information, just enough to produce a few useful summaries. In line with the desire for total transparency for all visitors, I've made the realtime stats dashboard for this site <strong>public</strong> and available at <a href="https://ruivieira-dev.pirsch.io/?interval=6">https://ruivieira-dev.pirsch.io</a>, so you can see for yourself which data is collected.</p>
+<p>Please let me know if you have any concerns about the privacy policy of this site by dropping me a message at <a href="https://mastodon.technology/@ruivieira">@ruivieira@mastodon.technology</a>.</p>
+<p>As mentioned previously in <a href="/.html#Search"></a>, search is done 100% client-side, so no information is collected about your search queries.</p>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
@@ -86,6 +97,7 @@ The search page also allows for query string searches using the <code>q</code> k
 <ul>
 <li><a href="#assets">Assets</a></li>
 <li><a href="#search">Search</a></li>
+<li><a href="#privacy">Privacy</a></li>
 </ul>
 </div>
 
@@ -99,7 +111,7 @@ The search page also allows for query string searches using the <code>q</code> k
     
 
     <div class="footer">
-        modified 1611740059
+        modified 1614548774
     </div>
 
 </div>

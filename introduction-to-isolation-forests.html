@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Introduction to Isolation Forests</h1>
+    <h1 id="introduction-to-isolation-forests">Introduction to Isolation Forests</h1>
 <p><em>Isolation Forests</em> (IFs), presented in Liu<sup id="fnref:Liu"><a class="footnote-ref" href="#fn:Liu">1</a></sup> et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of
 <em>Isolation Trees</em> (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.</p>
 <p>ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the <a href="https://en.wikipedia.org/wiki/Binary_search_tree">Binary Search Tree</a> (BSTs). In a very simplified way, BSTs are a special instance of tree structures where keys are kept in such an order that a node search is performed by iteratively (or recursively) choosing a left or right branch based on a quantitative comparison (<em>e.g.</em> lesser or greater). Node insertion is performed by doing a tree search, using the method described previously, until reaching an <em>external node</em>, where the new node will be inserted. This allows for efficient node searches since, on average, half the tree will not be visited. To illustrate this assume the values \(x=[1, 10, 2, 4, 3, 5, 26, 9, 7, 54]\) and the respective insertion on a BST. The intermediate steps would then be as shown below.</p>

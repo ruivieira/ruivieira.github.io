@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>A streaming ALS implementation</h1>
+    <h1 id="a-streaming-als-implementation">A streaming ALS implementation</h1>
 <p>In this blog post I would like to talk a little bit about recommendation engines in general and how to build a streaming recommendation engine on top of <a href="https://spark.apache.org/">Apache Spark</a>.</p>
 <p>I will start by introducing the concept of <a href="#collab">collaborative filtering</a>, and focus in two variants: <a href="#batch_als">batch</a> and <a href="#streaming_als">streaming</a> Alternating Least Squares (ALS). I will look at the principles of a streaming distributed recommendation engine on Spark and finally, I'll talk about practical issues when using these methods.</p>
 <h2 id="recommendation-engines">Recommendation engines</h2>

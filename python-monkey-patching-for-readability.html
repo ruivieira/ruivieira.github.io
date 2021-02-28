@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Python monkey patching (for readability)</h1>
+    <h1 id="python-monkey-patching-for-readability">Python monkey patching (for readability)</h1>
 <p>When preparing a <a href="https://jupyter.org/">Jupyter</a> notebook for a workshop on recommendation engines which I've presented with a colleague, I was faced with the following problem:</p>
 <blockquote>
 <p>"How to break a large class definition into several cells so it can be presented step-by-step."</p>
@@ -248,7 +248,7 @@ Ideally, we should get the builtin's namespace so we can freely set attributes a
 <div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">square</span><span class="p">()</span> <span class="c1"># 49</span>
 </code></pre></div>
 
-<h1>Conclusion</h1>
+<h1 id="conclusion">Conclusion</h1>
 <p>"Monkey patching" is usually, and rightly so, considered a code smell, due to the increased indirection and potential source of unwanted surprises.
 However, having the ability to "monkey patch" classes in Python allows us to write Jupyter notebooks in a more literate, fluid way rather than presenting the user with a "wall of code".
 Thank you for reading. If you have any comments or suggestions please drop me a message on <a href="https://mastodon.technology/@ruivieira">Mastodon</a>.</p>

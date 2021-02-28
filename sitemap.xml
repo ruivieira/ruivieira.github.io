@@ -546,7 +546,7 @@
 			http://ruivieira.dev/synthetic-data-generation.html
 		</loc>
 		<lastmod>
-			2021-02-12T12:45:21Z
+			2021-02-28T19:08:22Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -576,7 +576,7 @@
 			http://ruivieira.dev/python-environments.html
 		</loc>
 		<lastmod>
-			2021-02-09T21:28:28Z
+			2021-02-28T16:28:16Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -666,7 +666,7 @@
 			http://ruivieira.dev/python-grammar-of-graphics.html
 		</loc>
 		<lastmod>
-			2021-02-17T20:47:55Z
+			2021-02-28T21:37:13Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -681,7 +681,7 @@
 			http://ruivieira.dev/optimising-random-forest-hyperparamaters.html
 		</loc>
 		<lastmod>
-			2021-02-27T18:33:20Z
+			2021-02-28T17:21:17Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -786,7 +786,7 @@
 			http://ruivieira.dev/site-details.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-02-28T21:46:14Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -877,6 +877,21 @@
 		</loc>
 		<lastmod>
 			2021-01-27T09:34:19Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/synthetic-data-with-sdv.html
+		</loc>
+		<lastmod>
+			2021-02-28T21:44:46Z
 		</lastmod>
 		<changefreq>
 			weekly

@@ -50,7 +50,7 @@
 <body>
 
 <div id="content">
-    <h1>Java consumer</h1>
+    <h1 id="java-consumer">Java consumer</h1>
 <h2 id="introduction">Introduction</h2>
 <h3 id="applying">Applying</h3>
 <p>Introduced in Java 8, the <code>Consumer</code> interface aims at providing additional functional programming capabilities for Java.</p>
@@ -70,7 +70,7 @@
 <span class="n">say</span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="s">&quot;World&quot;</span><span class="p">);</span> 
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Hello, World!</span>
+<div class="highlight"><pre><span></span><code>Hello, World!
 </code></pre></div>
 
 <p>A <code>Consumer</code> can be applied in a functional way, since applying a consumer is equivalent to applying the <code>accept</code> method.
@@ -83,10 +83,10 @@ For instance:</p>
 <span class="n">musketeers</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">say</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Hello, D&#39;Artagnan!</span>
-<span class="err">Hello, Athos!</span>
-<span class="err">Hello, Aramis!</span>
-<span class="err">Hello, Porthos!</span>
+<div class="highlight"><pre><span></span><code>Hello, D&#39;Artagnan!
+Hello, Athos!
+Hello, Aramis!
+Hello, Porthos!
 </code></pre></div>
 
 <p><code>Consumer</code> functions can also modify reference objects. For instance:</p>
@@ -129,10 +129,10 @@ For instance:</p>
 <div class="highlight"><pre><span></span><code><span class="n">upperCaseConsumer</span><span class="p">.</span><span class="na">andThen</span><span class="p">(</span><span class="n">sayAll</span><span class="p">).</span><span class="na">accept</span><span class="p">(</span><span class="n">musketeers</span><span class="p">);</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Hello, D&#39;ARTAGNAN!</span>
-<span class="err">Hello, ATHOS!</span>
-<span class="err">Hello, ARAMIS!</span>
-<span class="err">Hello, PORTHOS!</span>
+<div class="highlight"><pre><span></span><code>Hello, D&#39;ARTAGNAN!
+Hello, ATHOS!
+Hello, ARAMIS!
+Hello, PORTHOS!
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>
@@ -165,9 +165,9 @@ For instance:</p>
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/java.html">Java</a><sup>&#5833</sup></li>
-        
             <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
+            <li><a href="/java.html">Java</a><sup>&#5833</sup></li>
         
         </ul>
     
