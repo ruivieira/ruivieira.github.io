@@ -23,25 +23,7 @@
     <link href="/assets/style.css" rel="stylesheet"/>
     <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - Optimising random forest hyperparamaters</title>
-    <script type="application/javascript">
-        var doNotTrack = false;
-        if (!doNotTrack) {
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r;
-                i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-                a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
-                a.async = 1;
-                a.src = g;
-                m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-            ga('create', 'UA-10507665-2', 'auto');
-
-            ga('send', 'pageview');
-        }
-    </script>
+    <script type="text/javascript" src="https://api.pirsch.io/pirsch.js" id="pirschjs" data-code="zPHVvgQ0Rx57MpEdRmpIjcuwwjR4pvbt"></script>
 </head>
 <style>
         #search_terms {
@@ -348,6 +330,7 @@
 </code></pre></div>
 
 <h2 id="hyperparameter-search">Hyperparameter search</h2>
+<p>A simple example of a generic hyperparameter search using the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html"><code>GridSearchCV</code></a> method in <code>scikit-learn</code>. The score used to measure the "best" model is the <code>mean_test_score</code>, but other metrics could be used, such as the <a href="/oob-score-in-random-forests.html">Out-of-bag (OOB)</a> error.</p>
 <div class="highlight"><pre><span></span><code><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;n_estimators&quot;</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">250</span><span class="p">],</span>
     <span class="s2">&quot;max_depth&quot;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span>
@@ -1104,17 +1087,17 @@ some possible values for this parameter are:</p>
     <h3>Backlinks</h3>
         <ul>
         
-            <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
+            <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
         
             <li><a href="/index.html">index</a><sup>&#5833</sup></li>
         
-            <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
+            <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1614347694
+        modified 1614450800
     </div>
 
 </div>
