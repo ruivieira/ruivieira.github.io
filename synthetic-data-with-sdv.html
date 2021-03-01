@@ -57,7 +57,7 @@
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/svm-hyperparameters-train-features.csv&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">data</span>
+<div class="highlight"><pre><span></span><code><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </code></pre></div>
 
 <div>
@@ -132,63 +132,8 @@
       <td>0</td>
       <td>8.0500</td>
     </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>886</th>
-      <td>2</td>
-      <td>1</td>
-      <td>27.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>13.0000</td>
-    </tr>
-    <tr>
-      <th>887</th>
-      <td>1</td>
-      <td>0</td>
-      <td>19.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>30.0000</td>
-    </tr>
-    <tr>
-      <th>888</th>
-      <td>3</td>
-      <td>0</td>
-      <td>30.0</td>
-      <td>1</td>
-      <td>2</td>
-      <td>23.4500</td>
-    </tr>
-    <tr>
-      <th>889</th>
-      <td>1</td>
-      <td>1</td>
-      <td>26.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>30.0000</td>
-    </tr>
-    <tr>
-      <th>890</th>
-      <td>3</td>
-      <td>1</td>
-      <td>32.0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>7.7500</td>
-    </tr>
   </tbody>
 </table>
-<p>891 rows × 6 columns</p>
 </div>
 
 <div class="highlight"><pre><span></span><code><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
@@ -306,184 +251,10 @@
 <div class="highlight"><pre><span></span><code><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">new_df</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">N_SAMPLES</span> <span class="o">=</span> <span class="mi">1000</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">new_df</span>
-</code></pre></div>
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Pclass</th>
-      <th>Sex</th>
-      <th>Age</th>
-      <th>SibSp</th>
-      <th>Parch</th>
-      <th>Fare</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>2</td>
-      <td>23.605607</td>
-      <td>1</td>
-      <td>1</td>
-      <td>44.013235</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>4</td>
-      <td>1</td>
-      <td>3.384129</td>
-      <td>1</td>
-      <td>1</td>
-      <td>-43.450105</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>0</td>
-      <td>27.296853</td>
-      <td>0</td>
-      <td>1</td>
-      <td>90.349752</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2</td>
-      <td>0</td>
-      <td>36.373030</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>53.910433</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>3</td>
-      <td>2</td>
-      <td>64.422475</td>
-      <td>1</td>
-      <td>1</td>
-      <td>31.096996</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>195</th>
-      <td>3</td>
-      <td>0</td>
-      <td>27.518874</td>
-      <td>0</td>
-      <td>0</td>
-      <td>-16.231774</td>
-    </tr>
-    <tr>
-      <th>196</th>
-      <td>2</td>
-      <td>0</td>
-      <td>46.955766</td>
-      <td>-1</td>
-      <td>-1</td>
-      <td>9.692534</td>
-    </tr>
-    <tr>
-      <th>197</th>
-      <td>3</td>
-      <td>0</td>
-      <td>7.531046</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0.424776</td>
-    </tr>
-    <tr>
-      <th>198</th>
-      <td>2</td>
-      <td>0</td>
-      <td>13.156458</td>
-      <td>1</td>
-      <td>1</td>
-      <td>36.901558</td>
-    </tr>
-    <tr>
-      <th>199</th>
-      <td>2</td>
-      <td>0</td>
-      <td>37.109554</td>
-      <td>1</td>
-      <td>1</td>
-      <td>38.468320</td>
-    </tr>
-  </tbody>
-</table>
-<p>200 rows × 6 columns</p>
-</div>
-
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">plotnine.data</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> \
-<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> \
-<span class="n">theme_classic</span><span class="p">()</span>
-</code></pre></div>
-
-<p><img alt="png" src="images/synthetic-data-with-sdv-output_10_0.png" /></p>
-<div class="highlight"><pre><span></span><code>&lt;ggplot: (8783968791845)&gt;
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> \
-<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> \
-<span class="n">theme_classic</span><span class="p">()</span>
-</code></pre></div>
-
-<p><img alt="png" src="images/synthetic-data-with-sdv-output_11_0.png" /></p>
-<div class="highlight"><pre><span></span><code>&lt;ggplot: (8783968680150)&gt;
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">GaussianCopula</span><span class="p">(</span>
-    <span class="n">field_transformers</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;Pclass&#39;</span><span class="p">:</span> <span class="s1">&#39;categorical&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;Sex&#39;</span><span class="p">:</span> <span class="s1">&#39;categorical&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;SibSp&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;Parch&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;Fare&#39;</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span>
-    <span class="p">}</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">new_df</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">new_df</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N_SAMPLES</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">new_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -518,69 +289,417 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>3</td>
-      <td>0</td>
-      <td>26.913</td>
+      <td>1</td>
+      <td>1</td>
+      <td>35.675009</td>
       <td>1</td>
       <td>0</td>
-      <td>68.530</td>
+      <td>96.720466</td>
     </tr>
     <tr>
       <th>1</th>
+      <td>3</td>
       <td>1</td>
-      <td>1</td>
-      <td>43.067</td>
+      <td>17.487054</td>
+      <td>2</td>
       <td>0</td>
-      <td>0</td>
-      <td>-24.043</td>
+      <td>-1.952414</td>
     </tr>
     <tr>
       <th>2</th>
       <td>3</td>
       <td>1</td>
-      <td>39.378</td>
-      <td>1</td>
+      <td>30.713002</td>
+      <td>0</td>
       <td>-1</td>
-      <td>72.260</td>
+      <td>-12.755545</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>3</td>
       <td>1</td>
-      <td>39.025</td>
       <td>1</td>
+      <td>17.839183</td>
       <td>0</td>
-      <td>25.388</td>
+      <td>0</td>
+      <td>33.991250</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>3</td>
+      <td>2</td>
       <td>1</td>
-      <td>26.032</td>
+      <td>27.495970</td>
+      <td>0</td>
       <td>1</td>
-      <td>1</td>
-      <td>67.491</td>
+      <td>18.383220</td>
     </tr>
   </tbody>
 </table>
 </div>
 
-<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> \
-<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> \
+<div class="highlight"><pre><span></span><code><span class="n">new_df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1000.000000</td>
+      <td>1000.000000</td>
+      <td>1000.000000</td>
+      <td>1000.000000</td>
+      <td>1000.00000</td>
+      <td>1000.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.305000</td>
+      <td>0.684000</td>
+      <td>29.767560</td>
+      <td>0.540000</td>
+      <td>0.39300</td>
+      <td>32.009626</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.900436</td>
+      <td>0.546299</td>
+      <td>13.046890</td>
+      <td>1.146174</td>
+      <td>0.85632</td>
+      <td>51.155336</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>-1.000000</td>
+      <td>-6.750841</td>
+      <td>-3.000000</td>
+      <td>-3.00000</td>
+      <td>-121.529091</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>21.187223</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>-1.856691</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>29.417820</td>
+      <td>1.000000</td>
+      <td>0.00000</td>
+      <td>34.272920</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>3.000000</td>
+      <td>1.000000</td>
+      <td>38.370910</td>
+      <td>1.000000</td>
+      <td>1.00000</td>
+      <td>65.550551</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>5.000000</td>
+      <td>2.000000</td>
+      <td>75.153474</td>
+      <td>4.000000</td>
+      <td>2.00000</td>
+      <td>173.463617</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">plotnine.data</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
 <span class="n">theme_classic</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="images/synthetic-data-with-sdv-output_16_0.png" /></p>
-<div class="highlight"><pre><span></span><code>&lt;ggplot: (8783969227364)&gt;
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_11_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346165495)&gt;
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> \
-<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> \
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
 <span class="n">theme_classic</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="images/synthetic-data-with-sdv-output_17_0.png" /></p>
-<div class="highlight"><pre><span></span><code>&lt;ggplot: (8783969309582)&gt;
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_12_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346191514)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">Age</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">new_df</span><span class="o">.</span><span class="n">Age</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_13_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346188674)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Fare&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">new_df</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_14_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (345979898)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">GaussianCopula</span><span class="p">(</span>
+    <span class="n">field_transformers</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;Pclass&#39;</span><span class="p">:</span> <span class="s1">&#39;categorical&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Sex&#39;</span><span class="p">:</span> <span class="s1">&#39;categorical&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SibSp&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Parch&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Fare&#39;</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">new_df</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N_SAMPLES</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">new_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0</td>
+      <td>33.619</td>
+      <td>1</td>
+      <td>0</td>
+      <td>14.222</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>26.475</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>76.520</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>55.414</td>
+      <td>1</td>
+      <td>2</td>
+      <td>-16.914</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>0</td>
+      <td>11.142</td>
+      <td>1</td>
+      <td>2</td>
+      <td>139.183</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>1</td>
+      <td>33.211</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-34.416</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Pclass&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_19_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346305476)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span> <span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_histogram</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_20_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346191559)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">Age</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">new_df</span><span class="o">.</span><span class="n">Age</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_21_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346354505)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Fare&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">new_df</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_22_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346167902)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">data</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>count   891.000
+mean     32.204
+std      49.693
+min       0.000
+25%       7.910
+50%      14.454
+75%      31.000
+max     512.329
+Name: Fare, dtype: float64
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">distributions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_distributions</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">distributions</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;Pclass&#39;</span><span class="p">:</span> <span class="s1">&#39;copulas.univariate.gaussian.GaussianUnivariate&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Sex&#39;</span><span class="p">:</span> <span class="s1">&#39;copulas.univariate.gaussian.GaussianUnivariate&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;copulas.univariate.gamma.GammaUnivariate&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SibSp&#39;</span><span class="p">:</span> <span class="s1">&#39;copulas.univariate.gaussian.GaussianUnivariate&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Parch&#39;</span><span class="p">:</span> <span class="s1">&#39;copulas.univariate.gaussian.GaussianUnivariate&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Fare&#39;</span><span class="p">:</span> <span class="s1">&#39;copulas.univariate.gaussian.GaussianUnivariate&#39;</span><span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">GaussianCopula</span><span class="p">(</span>
+    <span class="n">field_transformers</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;Pclass&#39;</span><span class="p">:</span> <span class="s1">&#39;categorical&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Sex&#39;</span><span class="p">:</span> <span class="s1">&#39;categorical&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SibSp&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Parch&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Fare&#39;</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span>
+    <span class="p">},</span>
+    <span class="n">field_distributions</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;Fare&#39;</span><span class="p">:</span> <span class="s1">&#39;truncated_gaussian&#39;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">new_df</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N_SAMPLES</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">new_df</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>count   1000.000
+mean      49.274
+std       36.952
+min        0.078
+25%       19.705
+50%       43.151
+75%       71.858
+max      287.938
+Name: Fare, dtype: float64
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Fare&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">new_df</span><span class="o">.</span><span class="n">Fare</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">linetype</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+<span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/synthetic-data-with-sdv-output_30_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (346457034)&gt;
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>
@@ -597,6 +716,7 @@
     </p>
     <p><a href="/">Home</a></p>
     <p><a href="/content.html">All pages</a></p>
+    <p><a href="/graph.html">Link network</a></p>
 
     <h3>Contents</h3>
     <div class="toc">
@@ -609,13 +729,17 @@
     <h3>Backlinks</h3>
         <ul>
         
+            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+        
+            <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
+        
             <li><a href="/synthetic-data-generation.html">Synthetic Data Generation</a><sup>&#5833</sup></li>
         
         </ul>
     
 
     <div class="footer">
-        modified 1614548686
+        modified 1614601310
     </div>
 
 </div>
