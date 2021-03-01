@@ -32,12 +32,7 @@
   <link href="/assets/style.css" rel="stylesheet" />
   <link href="/assets/code.css" rel="stylesheet" />
   <title>ruivieira.dev - Search</title>
-  <script
-    type="text/javascript"
-    src="https://api.pirsch.io/pirsch.js"
-    id="pirschjs"
-    data-code="zPHVvgQ0Rx57MpEdRmpIjcuwwjR4pvbt"
-  ></script>
+  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
     #search_terms {
       width: 75%;
@@ -146,7 +141,7 @@
         for (link of links) {
           text.push(`<a href="${link.url}">${link.label}</a>`);
         }
-        nodeLink.innerHTML = text.join(", ");
+        nodeLink.innerHTML = "This page links to " + text.join(", ") + ".";
         console.log(
           "click event, getNodeAt returns: " +
             this.getNodeAt(params.pointer.DOM)
