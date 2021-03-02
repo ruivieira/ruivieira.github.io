@@ -56,11 +56,11 @@
 This, however, does not include the following dependencies:</p>
 <ul>
 <li>LaTeX processor (<a href="https://katex.org/">KaTeX</a>)</li>
-<li>custom monospace font (<a href="https://juliamono.netlify.app/">Julia Mono</a>).</li>
+<li>custom monospaced font (<a href="https://juliamono.netlify.app/">Julia Mono</a>).</li>
 </ul>
 <p>The minimal CSS is heavily inspired by <a href="https://jrl.ninja/etc/1/">58 bytes of css to look great nearly everywhere</a>.</p>
-<p>The site is generated from a set of Markdown files using a <a href="/go.html">Go</a> pre-processor, which mainly converts the Mardown to HTML and gathers some metadata (such as gathering the backlinks for each page).</p>
-<p>The generator also automatically detects whether a page includes mathematical notation, and if so, the proper dependencies are added.</p>
+<p>The site is generated from a set of Markdown files using a <a href="/go.html">Go</a> pre-processor, which mainly converts the Markdown to HTML and gathers some metadata (such as picking the backlinks for each page).</p>
+<p>The generator also automatically detects whether a page includes mathematical notation and if so, the proper dependencies are added.</p>
 <h2 id="search">Search</h2>
 <p>The site is searchable from <a href="/search.html">here</a>.
 The search page also allows for query string searches using the <code>q</code> keyword, for instance:</p>
@@ -69,16 +69,27 @@ The search page also allows for query string searches using the <code>q</code> k
 
 <p>This allows you to add a custom search engine to most modern browsers, such as Firefox or Chrome.</p>
 <p>Search is done 100% client-side, so there's absolutely no information collected regarding your search queries.</p>
-<p>Highlighting of terms is also possible just adding the query parameter <code>?h=...</code> to <em>any page</em>. For instance, to highlight the term <code>privacy</code> on this page simply go to</p>
+<p>Highlighting of terms is also possible just adding the query parameter <code>?h=...</code> to <em>any page</em>. For instance, to highlight the term <code>privacy</code> on this page, simply go to</p>
 <div class="highlight"><pre><span></span><code>/site-details.html?h=privacy
 </code></pre></div>
 
 <p>or click <a href="/site-details.html?h=privacy">here</a>.</p>
 <h2 id="privacy">Privacy</h2>
-<p>No cookies are used in this site.</p>
-<p>All site traffic statistics are captured using <a href="https://www.goatcounter.com/">GoatCounter</a>. Goatcounter is an open-source, privacy-friendly analytics site, which<strong> doesn't use cookies</strong> and collects minimal information, just enough to produce a few useful summaries. In line with the desire for total transparency for all visitors, I've made the realtime stats dashboard for this site <strong>public</strong> and available at <a href="https://ruivieira-dev.goatcounter.com/?hl-period=year">https://ruivieira-dev.goatcounter.com/</a>, so you can see for yourself which data is collected.</p>
-<p>Please let me know if you have any concerns about the privacy policy of this site by dropping me a message at <a href="https://mastodon.technology/@ruivieira">@ruivieira@mastodon.technology</a>.</p>
-<p>As mentioned previously in <a href="/.html#Search"></a>, search is done 100% client-side, so no information is collected about your search queries.</p>
+<p>No cookies are used on this site.</p>
+<p>All site traffic statistics are captured using <a href="https://www.goatcounter.com/">GoatCounter</a>. Goatcounter is an open-source, privacy-friendly analytics site, which<strong> doesn't use cookies</strong> and collects minimal information, just enough to produce a few useful summaries. In line with the desire for total transparency for all visitors, I've made the realtime stats dashboard for this site <strong>public</strong> and available at <a href="https://ruivieira-dev.goatcounter.com/?hl-period=year">https://ruivieira-dev.goatcounter.com/</a>. You can see for yourself which data is collected.</p>
+<p>Please let me know if you have any concerns about this site's privacy policy by dropping me a message at <a href="https://mastodon.technology/@ruivieira">@ruivieira@mastodon.technology</a>.</p>
+<p>As mentioned previously, search is done 100% client-side, so no information is collected about your search queries.</p>
+<h2 id="javascript">Javascript</h2>
+<p>All pages <em>will work</em> the same with or without Javascript, except the following:</p>
+<ul>
+<li>The <a href="/graph.html">link graph page</a></li>
+<li>The <a href="/search.html">search page</a></li>
+</ul>
+<p>So if you want to disable Javascript for this site, please do! It won't affect any of the content.</p>
+<h2 id="text-mode">Text mode</h2>
+<p>Apart from the obvious lack of images, the vast majority of this site will also work with a text-based browser (such as <a href="https://invisible-island.net/lynx/">lynx</a>). </p>
+<p>Even the code examples are quite readable (for instance, <code>pandas</code> dataframes are properly rendered as text tables).</p>
+<p>Give it a go by installing lynx and running <code>lynx https://ruivieira.dev</code>.</p>
     <div class="footer">
         <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
     </div>
@@ -99,6 +110,8 @@ The search page also allows for query string searches using the <code>q</code> k
 <li><a href="#assets">Assets</a></li>
 <li><a href="#search">Search</a></li>
 <li><a href="#privacy">Privacy</a></li>
+<li><a href="#javascript">Javascript</a></li>
+<li><a href="#text-mode">Text mode</a></li>
 </ul>
 </div>
 
@@ -112,7 +125,7 @@ The search page also allows for query string searches using the <code>q</code> k
     
 
     <div class="footer">
-        modified 1614631992
+        modified 1614686893
     </div>
 
 </div>

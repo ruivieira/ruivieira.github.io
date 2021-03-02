@@ -51,7 +51,7 @@
 
 <div id="content">
     <h1 id="optimising-random-forest-hyperparameters">Optimising random forest hyperparameters</h1>
-<p>Typically the hyper-parameters which will have the biggest impact on the behaviour of a random forest are the following:</p>
+<p>Typically the hyper-parameters which will have the most significant impact on the behaviour of a random forest are the following:</p>
 <ul>
 <li><a href="/optimising-random-forest-hyperparamaters.html#Number of decision trees">The number of decision trees</a> in a random forest</li>
 <li>The split criteria</li>
@@ -61,7 +61,7 @@
 <li>Random features per split</li>
 <li>Number of samples in bootstrap dataset</li>
 </ul>
-<p>We will look at each of these hyper-parameters individually with examples on how select them.</p>
+<p>We will look at each of these hyper-parameters individually with examples of how to select them.</p>
 <h2 id="data">Data</h2>
 <p>To understand how we can optimise the hyperparameters in a random forest model, we will use <a href="/scikit-learn.html">scikit-learn's</a> <code>RandomForestClassifier</code> and a subset of <em>Titanic</em><sup id="fnref:titanic"><a class="footnote-ref" href="#fn:titanic">1</a></sup> dataset.</p>
 <p>First, we will import the features and labels using <a href="/pandas.html">Pandas</a>.</p>
@@ -71,7 +71,7 @@
 <span class="n">train_label</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/svm-hyperparameters-train-label.csv&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Let's look at random sample of entries from this dataset, both for features and labels.</p>
+<p>Let's look at a random sample of entries from this dataset, both for features and labels.</p>
 <div class="highlight"><pre><span></span><code><span class="n">train_features</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </code></pre></div>
 
@@ -275,7 +275,7 @@
 </div>
 
 <p>The outcome label indicates whether a passenger survived the disaster.</p>
-<p>As part of the typical initial steps for model training, we will prepare the data by splitting into a training and testing subset.</p>
+<p>As part of the typical initial steps for model training, we will prepare the data by splitting it into a training and testing subset.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_label</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
@@ -515,7 +515,7 @@
 </code></pre></div>
 
 <h3 id="the-split-criteria">The split criteria</h3>
-<p>At each node, a random forest decides, according to a specific algorith, which feature and value split the tree.
+<p>At each node, a random forest decides, according to a specific algorithm, which feature and value split the tree.
 Therefore, the choice of splitting algorithm is crucial for the random forest's performance.</p>
 <p>Since, in this example, we are dealing with a classification problem, the choices of split algorithm are, for instance:</p>
 <ul>
@@ -581,9 +581,9 @@ We will now compare both split algorithms as specified above, in training a rand
 </div>
 
 <h3 id="maximum-depth-of-individual-trees">Maximum depth of individual trees</h3>
-<p>In theory, the "longer" the tree, the more splits it can have and as such better accomodate the data. However, at the tree level can this can lead to overfitting.
+<p>In theory, the "longer" the tree, the more splits it can have and better accommodate the data. However, at the tree level can this can lead to overfitting.
 Although this is a problem for decision trees, it is not necessarily a problem for the ensemble, the random forest.
-Alhough the key is to strike a balance between trees which aren't too large or too short, there's is no universal heuristic to determine the size.
+Although the key is to strike a balance between trees that aren't too large or too short, there's no universal heuristic to determine the size.
 Let's try a few option for maximum depth:</p>
 <div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
                            <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">)</span>
@@ -783,13 +783,13 @@ Let's try a few option for maximum depth:</p>
 </code></pre></div>
 
 <h3 id="random-features-per-split">Random features per split</h3>
-<p>This is an important hyperparameter which will depends on how noisy the original data is.
-Typically, if the data is not very noisy the number of used random features can be kept low, otherwise it needs to be kept high.</p>
+<p>This is an important hyperparameter that will depend on how noisy the original data is.
+Typically, if the data is not very noisy, the number of used random features can be kept low. Otherwise, it needs to be kept high.</p>
 <p>An important consideration is also the following trade-off:</p>
 <ul>
-<li>Low number of random features decrease the forest's overall variance</li>
-<li>Low number of random features increases the bias</li>
-<li>High number of random feature increases computational time</li>
+<li>A low number of random features decrease the forest's overall variance</li>
+<li>A low number of random features increases the bias</li>
+<li>A high number of random features increases computational time</li>
 </ul>
 <p>In <code>scikit-learn</code> this is specified with the <code>max_features</code> parameter. Assuming \(N_f\) is the total number of features,
 some possible values for this parameter are:</p>
@@ -914,7 +914,7 @@ some possible values for this parameter are:</p>
 <ul>
 <li><code>None</code>, take the entirety of the samples</li>
 <li>An integer, representing the actual number of samples</li>
-<li>A float, representing a proportion, between <code>0</code> and <code>1</code> or the samples to take.</li>
+<li>A float, representing a proportion between <code>0</code> and <code>1</code> or the samples to take.</li>
 </ul>
 <p>Let's try a hyperparameter search with some values:</p>
 <div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
@@ -1098,7 +1098,7 @@ some possible values for this parameter are:</p>
     
 
     <div class="footer">
-        modified 1614532877
+        modified 1614674840
     </div>
 
 </div>
