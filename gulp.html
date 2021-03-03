@@ -29,7 +29,7 @@
         #search_terms {
             font-size: 1rem;
             font-family: Nunito;
-            width: 83%;
+            width: 40%;
         }
         #search_terms::placeholder {
             color: #bbb;
@@ -38,19 +38,20 @@
             background-color: #eee;
             border: none;
             color: black;
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.25rem;
             font-size: 1rem;
             font-family: Nunito;
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
-            width: 15%;
+            width: 3rem;
         }
 </style>
 <body>
+    <div id="grid">
 
-<div id="content">
-    <h1 id="gulp">gulp</h1>
+        <div id="content">
+            <h1 id="gulp">gulp</h1>
 <p>I have been working in a new library called <em>gulp</em> which you can find on <a href="https://github.com/ruivieira/gulp">https://github.com/ruivieira/gulp</a>.</p>
 <p>On the project's page there are some usage examples but I will try to summarise the main points here.</p>
 <p>The purpose of this library is to facilitate the parallel development of R and Java code, using <a href="http://cran.r-project.org/web/packages/rJava/index.html">rJava</a> as the bridge. Creating bindings in <code>rJava</code> is quite simple, the tricky part of the process (in my opinion) being the maintenance of the bindings (usually done by hand) when refactoring your code.</p>
@@ -65,39 +66,44 @@
 </code></pre></div>
 
 <p>That you wish to call from R.</p>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
+        </div>
 
-<div id="sidebar">
-    <p>
-        <input id="search_terms" type="search" placeholder="Search terms"/>
-        <button id="search_button" onclick="search()">?</button>
-    </p>
-    <p><a href="/">Home</a></p>
-    <p><a href="/content.html">All pages</a></p>
-    <p><a href="/graph.html">Link network</a></p>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-    <h3>Contents</h3>
-    <div class="toc">
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul></ul>
 </div>
-
     
-    <h3>Backlinks</h3>
-        <ul>
-        
-            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-        
-        </ul>
-    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-    <div class="footer">
-        modified 1611740059
-    </div>
 
-</div>
+
+            <div class="footer">
+                modified 1611740059
+            </div>
+
+        </div>
+    <div>
 
 <script>
 const input = document.getElementById('search_terms');

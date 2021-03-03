@@ -29,7 +29,7 @@
         #search_terms {
             font-size: 1rem;
             font-family: Nunito;
-            width: 83%;
+            width: 40%;
         }
         #search_terms::placeholder {
             color: #bbb;
@@ -38,19 +38,20 @@
             background-color: #eee;
             border: none;
             color: black;
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.25rem;
             font-size: 1rem;
             font-family: Nunito;
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
-            width: 15%;
+            width: 3rem;
         }
 </style>
 <body>
+    <div id="grid">
 
-<div id="content">
-    <h1 id="topics">Topics</h1>
+        <div id="content">
+            <h1 id="topics">Topics</h1>
 <ul>
 <li><a href="/counterfactuals.html">Counterfactuals</a><ul>
 <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a></li>
@@ -65,45 +66,50 @@
 <ul>
 <li>A nice presentation on AI/ML explainability: <a href="https://explainml-tutorial.github.io/neurips20">https://explainml-tutorial.github.io/neurips20</a></li>
 </ul>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
+        </div>
 
-<div id="sidebar">
-    <p>
-        <input id="search_terms" type="search" placeholder="Search terms"/>
-        <button id="search_button" onclick="search()">?</button>
-    </p>
-    <p><a href="/">Home</a></p>
-    <p><a href="/content.html">All pages</a></p>
-    <p><a href="/graph.html">Link network</a></p>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-    <h3>Contents</h3>
-    <div class="toc">
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul></ul>
 </div>
-
     
-    <h3>Backlinks</h3>
-        <ul>
-        
-            <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
-        
-            <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
-        
-            <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
-        
-            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-        
-        </ul>
-    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-    <div class="footer">
-        modified 1611740059
-    </div>
 
-</div>
+
+            <div class="footer">
+                modified 1611740059
+            </div>
+
+        </div>
+    <div>
 
 <script>
 const input = document.getElementById('search_terms');

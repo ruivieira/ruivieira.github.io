@@ -78,20 +78,23 @@
   </style>
 </head>
 <body>
-  <div id="content">
-    <div id="links">
-      <p id="node-title"></p>
-      <p id="node-links"></p>
+<div id="grid">
+    <div id="content">
+      <div id="links">
+        <p id="node-title"></p>
+        <p id="node-links"></p>
+      </div>
     </div>
+
+    <div id="sidebar">
+      <p><a href="/">Home</a></p>
+      <p><a href="/content.html">All pages</a></p>
+
+      <div class="footer">modified .</div>
+    </div>
+
     <div id="graph"></div>
-  </div>
-
-  <div id="sidebar">
-    <p><a href="/">Home</a></p>
-    <p><a href="/content.html">All pages</a></p>
-
-    <div class="footer">modified .</div>
-  </div>
+</div>
   <script>
     // create a network
     const container = document.getElementById("graph");

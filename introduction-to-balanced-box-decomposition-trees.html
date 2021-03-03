@@ -29,7 +29,7 @@
         #search_terms {
             font-size: 1rem;
             font-family: Nunito;
-            width: 83%;
+            width: 40%;
         }
         #search_terms::placeholder {
             color: #bbb;
@@ -38,19 +38,20 @@
             background-color: #eee;
             border: none;
             color: black;
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.25rem;
             font-size: 1rem;
             font-family: Nunito;
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
-            width: 15%;
+            width: 3rem;
         }
 </style>
 <body>
+    <div id="grid">
 
-<div id="content">
-    <h1 id="introduction-to-balanced-box-decomposition-trees">Introduction to Balanced Box-Decomposition Trees</h1>
+        <div id="content">
+            <h1 id="introduction-to-balanced-box-decomposition-trees">Introduction to Balanced Box-Decomposition Trees</h1>
 <p>Stardate 96893.29. </p>
 <p>You are the USS Euler's Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that <em>both</em> Emacs and Vim should be installed in all computers. You open your favourite editor and, fortunately, know exactly how to formulate the solution to your problem: <strong>a \(d\)-dimensional nearest neighbour algorithm</strong>.</p>
 <p>Given a dataset \(\mathcal{D}\) of \(n\) points in a space \(X\)  we want to be able to tell which are the <em>closest</em> point to a query point \(q \in X\), preferably in a way which is computationally cheaper than <em>brute force</em> methods (<em>e.g.</em> iterating through all of the points) which typically solve this problem in \(\mathcal{O}(dn)\) <sup id="fnref:Arya1998"><a class="footnote-ref" href="#fn:Arya1998">3</a></sup>. </p>
@@ -180,43 +181,48 @@ To better visualise the construction process it would be helpful to have a large
 </li>
 </ol>
 </div>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
+        </div>
 
-<div id="sidebar">
-    <p>
-        <input id="search_terms" type="search" placeholder="Search terms"/>
-        <button id="search_button" onclick="search()">?</button>
-    </p>
-    <p><a href="/">Home</a></p>
-    <p><a href="/content.html">All pages</a></p>
-    <p><a href="/graph.html">Link network</a></p>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-    <h3>Contents</h3>
-    <div class="toc">
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul>
 <li><a href="#space-decomposition">Space decomposition</a></li>
 <li><a href="#tree-querying">Tree querying</a></li>
 <li><a href="#filtering-and-k-nn">Filtering and k-NN</a></li>
 </ul>
 </div>
-
     
-    <h3>Backlinks</h3>
-        <ul>
-        
-            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-        
-        </ul>
-    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-    <div class="footer">
-        modified 1611740059
-    </div>
 
-</div>
+
+            <div class="footer">
+                modified 1611740059
+            </div>
+
+        </div>
+    <div>
 
 <script>
 const input = document.getElementById('search_terms');

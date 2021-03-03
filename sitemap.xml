@@ -3,6 +3,21 @@
 	
     <url>
 		<loc>
+			http://ruivieira.dev/optaplanner.html
+		</loc>
+		<lastmod>
+			2021-03-03T17:15:45Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/counterfactual-fairness.html
 		</loc>
 		<lastmod>
@@ -651,7 +666,7 @@
 			http://ruivieira.dev/index.html
 		</loc>
 		<lastmod>
-			2021-03-02T10:20:34Z
+			2021-03-03T15:45:05Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -696,7 +711,7 @@
 			http://ruivieira.dev/python-grammar-of-graphics.html
 		</loc>
 		<lastmod>
-			2021-02-28T21:37:13Z
+			2021-03-03T09:39:54Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -816,7 +831,7 @@
 			http://ruivieira.dev/distance-metrics.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-03-03T09:54:19Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -892,6 +907,21 @@
 		</loc>
 		<lastmod>
 			2021-01-27T09:34:19Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/dunn-index.html
+		</loc>
+		<lastmod>
+			2021-03-03T09:53:07Z
 		</lastmod>
 		<changefreq>
 			weekly

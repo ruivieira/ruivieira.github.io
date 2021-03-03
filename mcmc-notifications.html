@@ -29,7 +29,7 @@
         #search_terms {
             font-size: 1rem;
             font-family: Nunito;
-            width: 83%;
+            width: 40%;
         }
         #search_terms::placeholder {
             color: #bbb;
@@ -38,19 +38,20 @@
             background-color: #eee;
             border: none;
             color: black;
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.25rem;
             font-size: 1rem;
             font-family: Nunito;
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
-            width: 15%;
+            width: 3rem;
         }
 </style>
 <body>
+    <div id="grid">
 
-<div id="content">
-    <h1 id="mcmc-notifications">MCMC notifications</h1>
+        <div id="content">
+            <h1 id="mcmc-notifications">MCMC notifications</h1>
 <p>It is said that patience is a virtue but the truth is that no one likes waiting (especially <em>waiting around</em>: <a href="http://www.nytimes.com/2012/08/19/opinion/sunday/why-waiting-in-line-is-torture.html?_r=0">this interesting article</a> explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same amount of time entirely in the claim area).</p>
 <p>Anyone performing computationally heavy work, such as Monte Carlo methods, will know that these are usually computationally expensive algorithms which, even in modern hardware, can result in waiting times in the magnitude of hours, days and even weeks.</p>
 <p>These long running times coupled with the fact that in certain cases it is not easy to accurately predict how long a certain number of iterations will take, usually leads to a tiresome behaviour of constantly checking for good (or bad) news.</p>
@@ -124,39 +125,44 @@ mvn clean install
 <p>My current setup generates an R script from a template which is run by <code>Rscript</code> in order to produce a PDF report. However, be careful, since file quotas in Pushbullet are limited, so text notifications should be used without worry of going over the free usage tier.&gt;</p>
 <p>Keep in mind, that there are other alternatives to <code>jpushbullet</code>, such as <a href="https://github.com/jcgay/send-notification">send-notification</a>, a general notification library for Java for which the setup is quite similar.</p>
 <p>Hope this was helpful.</p>
-    <div class="footer">
-        <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-    </div>
-</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
+        </div>
 
-<div id="sidebar">
-    <p>
-        <input id="search_terms" type="search" placeholder="Search terms"/>
-        <button id="search_button" onclick="search()">?</button>
-    </p>
-    <p><a href="/">Home</a></p>
-    <p><a href="/content.html">All pages</a></p>
-    <p><a href="/graph.html">Link network</a></p>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-    <h3>Contents</h3>
-    <div class="toc">
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul></ul>
 </div>
-
     
-    <h3>Backlinks</h3>
-        <ul>
-        
-            <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-        
-        </ul>
-    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-    <div class="footer">
-        modified 1611740059
-    </div>
 
-</div>
+
+            <div class="footer">
+                modified 1611740059
+            </div>
+
+        </div>
+    <div>
 
 <script>
 const input = document.getElementById('search_terms');

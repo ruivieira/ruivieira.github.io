@@ -7,20 +7,31 @@ body {
   font-size: 13pt;
   color: #1b2d45;
 }
-#content {
-  max-width: 40rem;
-  padding: 2rem;
-  margin: auto;
+#grid {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "nav content side"
+    "footer footer footer";
+  grid-template-columns: minmax(1.2rem, 1fr) minmax(auto, 57ch) minmax(
+      1.2rem,
+      1fr
+    );
+  grid-template-rows: 0 auto auto;
+  column-gap: 1rem;
 }
 #sidebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  max-width: 20rem;
-  margin-left: 3rem;
-  margin-top: 3rem;
-  width: 20rem;
+  grid-area: nav;
   font-size: 0.95rem;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+#sidebar-search {
+  margin-bottom: 2rem;
+}
+
+#content {
+  grid-area: content;
 }
 h1,
 h2,
@@ -149,57 +160,97 @@ a[href^="http://"]:after
   font-size: 0.95rem;
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 760px) {
   body {
     font-family: Nunito;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #1b2d45;
   }
-  #sidebar {
-    max-width: 90%;
-  }
-  #content {
-    max-width: 90%;
-    margin-top: auto;
-  }
-}
-
-@media screen and (min-width: 360px) and (max-width: 760px) {
-  body {
-    font-family: Nunito;
-    font-size: 12pt;
-    color: #1b2d45;
+  #grid {
+    display: grid;
+    grid-template-areas:
+      "header header header"
+      "nav content side"
+      "footer footer footer";
+    grid-template-columns: 0 100% 0;
+    grid-template-rows: 50px auto 0;
+    column-gap: 0;
   }
   #sidebar {
+    grid-area: header;
+    display: inline;
+  }
+  #sidebar-search {
+    display: inline;
+    max-width: 150px;
+  }
+  #sidebar-home {
+    display: inline;
+  }
+  #sidebar-home::after {
+    content: "/";
+    margin-left: 5px;
+  }
+  #sidebar-all-pages {
+    display: inline;
+  }
+  .footer {
     display: none;
   }
+  #search_terms {
+    max-width: 110px;
+  }
+  #search_button {
+    width: 20px;
+  }
+  #sidebar-graph,
+  #sidebar-contents {
+    display: none !important;
+  }
   #content {
-    max-width: 40rem;
-    /* margin-left: 12rem; */
-    margin-top: auto;
+    padding: 1rem;
+  }
+  ul {
+    padding: 0.75rem;
   }
 }
 
 @media screen and (min-width: 760px) and (max-width: 1024px) {
   body {
     font-family: Nunito;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #1b2d45;
   }
 
-  #sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    max-width: 10rem;
-    margin-left: 1rem;
-    margin-top: 1rem;
-    width: 10rem;
-    font-size: 0.95rem;
+  #grid {
+    display: grid;
+    grid-template-areas:
+      "header header header"
+      "nav content side"
+      "footer footer footer";
+    grid-template-columns:
+      0.75fr
+      minmax(auto, 57ch)
+      0;
+    grid-template-rows:
+      0
+      auto
+      auto;
+
+    column-gap: 0;
   }
-  #content {
-    max-width: 40rem;
-    margin-left: 11rem;
-    margin-top: auto;
+  #header {
+    grid-area: header;
+    display: none;
+  }
+  #sidebar {
+    grid-area: nav;
+    font-size: 0.85rem;
+  }
+  #sidebar-search {
+    margin-bottom: 1rem;
+  }
+  ul {
+    padding: 0.75rem;
   }
 }
