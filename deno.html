@@ -7,7 +7,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Notes on Pandas">
+    <meta name="description" content="Notes on Deno">
     <meta name="robots" content="index">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
     <link href="/assets/code.css" rel="stylesheet">
-    <title>ruivieira.dev - Pandas</title>
+    <title>ruivieira.dev - Deno</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
         #search_terms {
@@ -55,10 +55,17 @@
     <div id="grid">
 
         <div id="content">
-            <h1 id="pandas">Pandas</h1>
-<ul>
-<li><a href="/pandas-basics.html">Basics</a></li>
-</ul>
+            <h1 id="deno">Deno</h1>
+<h2 id="installation">Installation</h2>
+<h3 id="fedora">Fedora</h3>
+<p>To install Deno on Fedora, first download the installation file:</p>
+<div class="highlight"><pre><span></span><code>curl -fsSL https://deno.land/x/install/install.sh <span class="p">|</span> sh
+</code></pre></div>
+
+<p>And then add the following to your shell's profile (<em>e.g.</em> <code>~/.bashrc</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">DENO_INSTALL</span><span class="o">=</span><span class="s2">&quot;/home/</span><span class="nv">$USER</span><span class="s2">/.deno&quot;</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$DENO_INSTALL</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</code></pre></div>
             <div class="footer">
                 <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
             </div>
@@ -76,18 +83,19 @@
             <div id="sidebar-contents">
                 <h3>Contents</h3>
                 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#fedora">Fedora</a></li>
+</ul>
+</li>
+</ul>
 </div>
     
                 
                 <h3>Backlinks</h3>
                     <ul>
                     
-                        <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/counterfactual-fairness.html">Counterfactual Fairness</a><sup>&#5833</sup></li>
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
                     
                     </ul>
                 
@@ -96,7 +104,7 @@
 
 
             <div class="footer">
-                modified 1611740059
+                modified 1614961267
             </div>
 
         </div>
