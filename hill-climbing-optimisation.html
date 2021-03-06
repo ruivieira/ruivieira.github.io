@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes on Hill-climbing optimisation">
+    <meta name="robots" content="index">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+          integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+
+    <script src="/assets/mark.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+    <link href="/assets/style.css" rel="stylesheet">
+    <link href="/assets/code.css" rel="stylesheet">
+    <title>ruivieira.dev - Hill-climbing optimisation</title>
+    <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <style>
+        #search_terms {
+            font-size: 1rem;
+            font-family: Nunito;
+            width: 40%;
+        }
+        #search_terms::placeholder {
+            color: #bbb;
+        }
+        #search_button {
+            background-color: #eee;
+            border: none;
+            color: black;
+            padding: 0.25rem 0.25rem;
+            font-size: 1rem;
+            font-family: Nunito;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 3rem;
+        }
+</style>
+</head>
+<body>
+    <div id="grid">
+
+        <div id="content">
+            <h1 id="hill-climbing-optimisation">Hill-climbing optimisation</h1>
+<h2 id="global-maximum">Global maximum</h2>
+<p>Let's try it with the function</p>
+\[
+f(x,y) = e^{-\left(x^2+y^2\right)}
+\]
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cp</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmaps</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;f(x,y)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/hill-climbing-optimisation-output_3_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gradient_free_optimizers</span> <span class="kn">import</span> <span class="n">HillClimbingOptimizer</span>
+
+<span class="n">search_space</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+  <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">opt</span> <span class="o">=</span> <span class="n">HillClimbingOptimizer</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">z</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> 
+                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">30000</span><span class="p">,</span> 
+                    <span class="n">verbosity</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;print_times&#39;</span><span class="p">],</span> 
+                    <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>   Evaluation time   : 0.8271605968475342 sec    [33.25 %]
+   Optimization time : 1.6604328155517578 sec    [66.75 %]
+   Iteration time    : 2.487593412399292 sec    [12059.85 iter/sec]
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">opt</span><span class="o">.</span><span class="n">results</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>score</th>
+      <th>x</th>
+      <th>y</th>
+      <th>eval_time</th>
+      <th>iter_time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.010</td>
+      <td>1.792</td>
+      <td>1.195</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.015</td>
+      <td>1.888</td>
+      <td>-0.815</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.411</td>
+      <td>-0.667</td>
+      <td>-0.667</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.411</td>
+      <td>-0.667</td>
+      <td>0.667</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.411</td>
+      <td>0.667</td>
+      <td>-0.667</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>29995</th>
+      <td>0.953</td>
+      <td>0.178</td>
+      <td>0.126</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29996</th>
+      <td>0.981</td>
+      <td>-0.138</td>
+      <td>0.018</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29997</th>
+      <td>0.991</td>
+      <td>-0.082</td>
+      <td>0.050</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29998</th>
+      <td>0.995</td>
+      <td>-0.058</td>
+      <td>-0.038</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29999</th>
+      <td>0.974</td>
+      <td>0.158</td>
+      <td>0.042</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+<p>30000 rows × 5 columns</p>
+</div>
+
+<p><img alt="SegmentLocal" src="./images/hill-climbing-1.gif" title="segment" /></p>
+<h2 id="local-maximum">Local maximum</h2>
+<p>Let's try it with the function</p>
+\[
+f(x,y) = e^{-\left(x^2+y^2\right)}+2e^{-\left((x-1.7)^2+(y-1.7)^2\right)}
+\]
+
+<div class="highlight"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">X</span><span class="o">-</span><span class="mf">1.7</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">Y</span><span class="o">-</span><span class="mf">1.7</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cp</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmaps</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;f(x,y)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/hill-climbing-optimisation-output_11_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">opt</span> <span class="o">=</span> <span class="n">HillClimbingOptimizer</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="mf">1.7</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="mf">1.7</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">z</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> 
+                    <span class="n">n_iter</span><span class="o">=</span><span class="mi">30000</span><span class="p">,</span> 
+                    <span class="n">verbosity</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;print_times&#39;</span><span class="p">],</span> 
+                    <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>   Evaluation time   : 0.9191639423370361 sec    [35.42 %]
+   Optimization time : 1.6756830215454102 sec    [64.58 %]
+   Iteration time    : 2.5948469638824463 sec    [11561.38 iter/sec]
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">opt</span><span class="o">.</span><span class="n">results</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>score</th>
+      <th>x</th>
+      <th>y</th>
+      <th>eval_time</th>
+      <th>iter_time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.547</td>
+      <td>1.792</td>
+      <td>1.195</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.018</td>
+      <td>1.888</td>
+      <td>-0.815</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.411</td>
+      <td>-0.667</td>
+      <td>-0.667</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.414</td>
+      <td>-0.667</td>
+      <td>0.667</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.414</td>
+      <td>0.667</td>
+      <td>-0.667</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>29995</th>
+      <td>1.915</td>
+      <td>1.872</td>
+      <td>1.820</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29996</th>
+      <td>1.963</td>
+      <td>1.556</td>
+      <td>1.712</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29997</th>
+      <td>1.984</td>
+      <td>1.612</td>
+      <td>1.744</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29998</th>
+      <td>1.992</td>
+      <td>1.636</td>
+      <td>1.656</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>29999</th>
+      <td>1.954</td>
+      <td>1.852</td>
+      <td>1.736</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+<p>30000 rows × 5 columns</p>
+</div>
+
+<p><img alt="SegmentLocal" src="./images/hill-climbing-2.gif" title="segment" /></p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
+        </div>
+
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
+<li><a href="#global-maximum">Global maximum</a></li>
+<li><a href="#local-maximum">Local maximum</a></li>
+</ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/gradient-free-optimisation.html">Gradient-free optimisation</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
+
+
+
+            <div class="footer">
+                modified 1615065461
+            </div>
+
+        </div>
+    <div>
+
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
+
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
+            }
+        });
+
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
+
+</body>
+</html>

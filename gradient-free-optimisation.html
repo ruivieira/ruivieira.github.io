@@ -7,7 +7,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Notes on Distance metrics">
+    <meta name="description" content="Notes on Gradient-free optimisation">
     <meta name="robots" content="index">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
     <link href="/assets/code.css" rel="stylesheet">
-    <title>ruivieira.dev - Distance metrics</title>
+    <title>ruivieira.dev - Gradient-free optimisation</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
         #search_terms {
@@ -55,47 +55,10 @@
     <div id="grid">
 
         <div id="content">
-            <h1 id="distance-metrics">Distance metrics</h1>
-<h2 id="l-p-metrics">L-p metrics</h2>
-<h3 id="manhattan-distance-l1">Manhattan distance (L1)</h3>
-<p>Given two vectors \(p\) and \(q\), such that</p>
-\[
-\begin{aligned}
-p &amp;= \left(p_1, p_2, \dots,p_n\right) \\
-q &amp;= \left(q_1, q_2, \dots,q_n\right)
-\end{aligned}
-\]
-
-<p>we define the Manhattan distance as:</p>
-\[
-d_1(p, q) = \|p - q\|_1 = \sum_{i=1}^n |p_i-q_i|
-\]
-
-<h3 id="euclidean-distance-l2">Euclidean distance (L2)</h3>
-<p>In general, for points given by Cartesian coordinates in \(n\)-dimensional Euclidean space, the distance is</p>
-\[
-d(p,q)=\sqrt {(p_{1}-q_{1})^{2}+(p_{2}-q_{2})^{2}+\cdots +(p_{i}-q_{i})^{2}+\cdots +(p_{n}-q_{n})^{2}}
-\]
-
-<h2 id="cluster-distances">Cluster distances</h2>
-<h3 id="within-cluster-sum-of-squares-wcss">Within-cluster sum of squares (WCSS)</h3>
-<p>Given a set of observations (\(x_1, x_2,\dots,x_n\)), where each observation is a \(d\)-dimensional real vector, \(k\)-means clustering aims to partition the \(n\) observations into \(k\) (\(\leq n\)) sets \(S=\lbrace S_1, S_2, \dots, S_k\rbrace\) so as to minimize the within-cluster sum of squares (WCSS) (<em>i.e.</em> variance). Formally, the objective is to find:</p>
-\[
-{\underset {\mathbf {S} }{\operatorname {arg\,min} }}\sum _{i=1}^{k}\sum _{\mathbf {x} \in S_{i}}\left\|\mathbf {x} -{\boldsymbol {\mu }}_{i}\right\|^{2}={\underset {\mathbf {S} }{\operatorname {arg\,min} }}\sum _{i=1}^{k}|S_{i}|\operatorname {Var} S_{i}
-\]
-
-<p>where \(\mu_i\) is the mean of points in \(S_i\). This is equivalent to minimizing the pairwise squared deviations of points in the same cluster:</p>
-\[
-{\displaystyle {\underset {\mathbf {S} }{\operatorname {arg\,min} }}\sum _{i=1}^{k}\,{\frac {1}{2|S_{i}|}}\,\sum _{\mathbf {x} ,\mathbf {y} \in S_{i}}\left\|\mathbf {x} -\mathbf {y} \right\|^{2}}
-\]
-
-<p>The equivalence can be deduced from identity </p>
-\[
-\]
-
-<p>Because the total variance is constant, this is equivalent to maximizing the sum of squared deviations between points in <em>different</em> clusters (between-cluster sum of squares, BCSS) which follows from the law of total variance.</p>
-<h3 id="dunn-index">Dunn index</h3>
-<p>A full explanation is available at <a href="/dunn-index.html">Dunn index</a>.</p>
+            <h1 id="gradient-free-optimisation">Gradient-free optimisation</h1>
+<ul>
+<li><a href="/hill-climbing-optimisation.html">Hill-climbing optimisation</a></li>
+</ul>
             <div class="footer">
                 <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
             </div>
@@ -113,35 +76,14 @@ d(p,q)=\sqrt {(p_{1}-q_{1})^{2}+(p_{2}-q_{2})^{2}+\cdots +(p_{i}-q_{i})^{2}+\cdo
             <div id="sidebar-contents">
                 <h3>Contents</h3>
                 <div class="toc">
-<ul>
-<li><a href="#l-p-metrics">L-p metrics</a><ul>
-<li><a href="#manhattan-distance-l1">Manhattan distance (L1)</a></li>
-<li><a href="#euclidean-distance-l2">Euclidean distance (L2)</a></li>
-</ul>
-</li>
-<li><a href="#cluster-distances">Cluster distances</a><ul>
-<li><a href="#within-cluster-sum-of-squares-wcss">Within-cluster sum of squares (WCSS)</a></li>
-<li><a href="#dunn-index">Dunn index</a></li>
-</ul>
-</li>
-</ul>
+<ul></ul>
 </div>
     
                 
                 <h3>Backlinks</h3>
                     <ul>
                     
-                        <li><a href="/k-means-clustering.html">K-means clustering</a><sup>&#5833</sup></li>
-                    
                         <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/dunn-index.html">Dunn index</a><sup>&#5833</sup></li>
                     
                     </ul>
                 
@@ -150,7 +92,7 @@ d(p,q)=\sqrt {(p_{1}-q_{1})^{2}+(p_{2}-q_{2})^{2}+\cdots +(p_{i}-q_{i})^{2}+\cdo
 
 
             <div class="footer">
-                modified 1614765259
+                modified 1615040848
             </div>
 
         </div>

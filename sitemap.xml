@@ -318,6 +318,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/gradient-free-optimisation.html
+		</loc>
+		<lastmod>
+			2021-03-06T14:27:28Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/doom-emacs-go.html
 		</loc>
 		<lastmod>
@@ -681,7 +696,7 @@
 			http://ruivieira.dev/index.html
 		</loc>
 		<lastmod>
-			2021-03-05T16:21:39Z
+			2021-03-06T21:15:14Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -817,6 +832,21 @@
 		</loc>
 		<lastmod>
 			2021-01-27T09:34:19Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/hill-climbing-optimisation.html
+		</loc>
+		<lastmod>
+			2021-03-06T21:17:41Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -1011,7 +1041,7 @@
 			http://ruivieira.dev/machine-learning.html
 		</loc>
 		<lastmod>
-			2021-03-02T10:21:27Z
+			2021-03-06T14:26:48Z
 		</lastmod>
 		<changefreq>
 			weekly
