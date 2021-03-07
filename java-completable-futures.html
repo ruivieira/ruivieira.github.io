@@ -74,8 +74,51 @@
 <div class="highlight"><pre><span></span><code>HelloBeautifulWorld
 </code></pre></div>
 
+<h2 id="waiting-for-all">Waiting for all</h2>
+<p>Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\).
+How can we set \(f\) to complete only when <em>all</em> \(f_1, f_2, \dots, f_N\) are also completed?</p>
+<p>The answer is to use a combination of <code>allOf</code><sup id="fnref:allOf"><a class="footnote-ref" href="#fn:allOf">1</a></sup> with <code>thenRun</code><sup id="fnref:thenRun"><a class="footnote-ref" href="#fn:thenRun">2</a></sup>. According to the documentation, <code>allOf</code> returns a new <code>CompletableFuture</code> that is completed when all of the given <code>CompletableFuture</code>s complete. In turn, <code>thenRun</code> will execute the given action.
+Let's look at an example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CompletableFuture</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">completedFuture</span><span class="p">(</span><span class="s">&quot;f1&quot;</span><span class="p">);</span>
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">completedFuture</span><span class="p">(</span><span class="s">&quot;f2&quot;</span><span class="p">);</span>
+<span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">f3</span> <span class="o">=</span> <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">completedFuture</span><span class="p">(</span><span class="s">&quot;f3&quot;</span><span class="p">);</span>
+
+<span class="n">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="n">Executors</span><span class="p">.</span><span class="na">newSingleThreadExecutor</span><span class="p">();</span>
+    <span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="n">CompletableFuture</span><span class="p">.</span><span class="na">allOf</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">thenRun</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="n">f</span><span class="p">.</span><span class="na">complete</span><span class="p">(</span><span class="s">&quot;f1,f2,f3 completed.\nProceed to finish f.&quot;</span><span class="p">));</span>
+    <span class="p">});</span>
+
+<span class="n">f</span><span class="p">.</span><span class="na">thenAccept</span><span class="p">(</span><span class="n">v</span> <span class="o">-&gt;</span> <span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>f1,f2,f3 completed.
+Proceed to finish f.
+</code></pre></div>
+
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:allOf">
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture...-">https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture...-</a>&#160;<a class="footnote-backref" href="#fnref:allOf" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:thenRun">
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#thenRun-java.lang.Runnable-">https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#thenRun-java.lang.Runnable-</a>&#160;<a class="footnote-backref" href="#fnref:thenRun" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
             <div class="footer">
                 <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
             </div>
@@ -95,6 +138,7 @@
                 <div class="toc">
 <ul>
 <li><a href="#running-in-parallel">Running in parallel</a></li>
+<li><a href="#waiting-for-all">Waiting for all</a></li>
 </ul>
 </div>
     
@@ -111,7 +155,7 @@
 
 
             <div class="footer">
-                modified 1612280598
+                modified 1615152498
             </div>
 
         </div>
