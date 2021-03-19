@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Python monkey patching (for readability)">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/python-monkey-patching-for-readability.html">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,15 +18,64 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <link href="/assets/code.css" rel="stylesheet">
+    <style>
+        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: white;
+            color: black;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-filter .hljs-argument,
+        .hljs-addition,
+        .hljs-change,
+        .hljs-name,
+        .apache .hljs-tag,
+        .apache .hljs-cbracket,
+        .nginx .hljs-built_in,
+        .tex .hljs-formula {
+            color: #888;
+        }
+
+        .hljs-comment,
+        .hljs-shebang,
+        .hljs-doctype,
+        .hljs-pi,
+        .hljs-javadoc,
+        .hljs-deletion,
+        .apache .hljs-sqbracket {
+            color: #ccc;
+        }
+
+        .hljs-keyword,
+        .hljs-tag .hljs-title,
+        .ini .hljs-title,
+        .lisp .hljs-title,
+        .http .hljs-title,
+        .nginx .hljs-title,
+        .css .hljs-tag,
+        .hljs-winutils,
+        .hljs-flow,
+        .apache .hljs-tag,
+        .tex .hljs-command,
+        .hljs-request,
+        .hljs-status {
+            font-weight: bold;
+        }
+    </style>
     <title>ruivieira.dev - Python monkey patching (for readability)</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -50,151 +99,138 @@
             border-radius: 5px;
             width: 3rem;
         }
-</style>
+    </style>
 </head>
 <body>
-    <div id="grid">
+<div id="grid">
 
-        <div id="content">
-            <h1 id="python-monkey-patching-for-readability">Python monkey patching (for readability)</h1>
+    <div id="content">
+        <hr>
+<p>date: 2019-04-02T23:05:00+01:00
+draft: false
+url: &quot;/python-monkey-patching-for-readability.html&quot;</p>
+<hr>
+<h1 id="python-monkey-patching-for-readability">Python monkey patching (for readability)</h1>
 <p>When preparing a <a href="https://jupyter.org/">Jupyter</a> notebook for a workshop on recommendation engines which I've presented with a colleague, I was faced with the following problem:</p>
 <blockquote>
-<p>"How to break a large class definition into several cells so it can be presented step-by-step."</p>
+<p>&quot;How to break a large class definition into several cells so it can be presented step-by-step.&quot;</p>
 </blockquote>
-<p>Having the ability to declare a rather complex (and large) <a href="/python.html">Python</a> class in separate cells has several advantages, the obvious one being the ability to fully document each method's functionality with Markdown, rather than comments.
-Python does allow for functionality to be added to classes after their declaration via the assignment of methods through attributes. This is commonly known as "monkey patching" and hinges on the concepts of <em>bound</em> and <em>unbound</em> methods.</p>
+<p>Having the ability to declare a rather complex (and large) <a href="python.html">Python</a> class in separate cells has several advantages, the obvious one being the ability to fully document each method's functionality with Markdown, rather than comments.
+Python does allow for functionality to be added to classes after their declaration via the assignment of methods through attributes. This is commonly known as &quot;monkey patching&quot; and hinges on the concepts of <em>bound</em> and <em>unbound</em> methods.</p>
 <p>I will show a quick and general overview of the methods that Python puts at our disposal for dynamic runtime object manipulation, but for a more in-depth please consult the official <a href="https://docs.python.org/3/">Python documentation</a>.</p>
 <h2 id="bound-and-unbound-methods">Bound and unbound methods</h2>
 <p>Let's first look at bound methods. If we assume a class called <code>Class</code> and an instance <code>instance</code>, with an instance method <code>bound</code> and class method <code>unbound</code> such that</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Class</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">bound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">unbound</span><span class="p">():</span>
-        <span class="k">pass</span>
+<pre><code class="language-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Class</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bound</span>(<span class="hljs-params">self</span>):</span>
+        <span class="hljs-keyword">pass</span>
+<span class="hljs-meta">    @staticmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unbound</span>():</span>
+        <span class="hljs-keyword">pass</span>
 
-<span class="n">instance</span> <span class="o">=</span> <span class="n">Class</span><span class="p">()</span>
-</code></pre></div>
-
+instance = Class()
+</code></pre>
 <p>Then <code>foo</code> is a bound method and <code>bar</code> is an unbound method.
 This definition, in practice, can be exemplified by the standard way of calling <code>.foo()</code>, which is</p>
-<div class="highlight"><pre><span></span><code><span class="n">instance</span><span class="o">.</span><span class="n">bound</span><span class="p">()</span>
-</code></pre></div>
-
+<pre><code class="language-python">instance.bound()
+</code></pre>
 <p>which in turn is equivalent to</p>
-<div class="highlight"><pre><span></span><code><span class="n">Class</span><span class="o">.</span><span class="n">bound</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
-</code></pre></div>
-
+<pre><code class="language-python">Class.bound(instance)
+</code></pre>
 <p>The standard way of calling <code>unbound</code> is , similarly</p>
-<div class="highlight"><pre><span></span><code><span class="n">instance</span><span class="o">.</span><span class="n">unbound</span><span class="p">()</span>
-</code></pre></div>
-
+<pre><code class="language-python">instance.unbound()
+</code></pre>
 <p>This, however, is equivalent to</p>
-<div class="highlight"><pre><span></span><code><span class="n">Class</span><span class="o">.</span><span class="n">unbound</span><span class="p">()</span>
-</code></pre></div>
-
+<pre><code class="language-python">Class.unbound()
+</code></pre>
 <p>In the unbound case, we can see there's no need to pass the class instance. <code>unbound</code> is <em>not bound</em> to the class instance.</p>
 <p>As mentioned before, Python allow us to change the class attributes at runtime. If we consider a method such as</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">newBound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">pass</span>
-</code></pre></div>
-
+<pre><code class="language-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">newBound</span>(<span class="hljs-params">self</span>):</span>
+    <span class="hljs-keyword">pass</span>
+</code></pre>
 <p>we can then add it to the class, even after declaring it. For instance:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Class</span><span class="o">.</span><span class="n">newBound</span> <span class="o">=</span> <span class="n">newBound</span>
-<span class="n">instance</span> <span class="o">=</span> <span class="n">Class</span><span class="p">()</span>
-<span class="n">instance</span><span class="o">.</span><span class="n">newBound</span><span class="p">()</span> <span class="c1"># Class.newBound(instance)</span>
-</code></pre></div>
-
+<pre><code class="language-python">Class.newBound = newBound
+instance = Class()
+instance.newBound() <span class="hljs-comment"># Class.newBound(instance)</span>
+</code></pre>
 <p>It is interesting to note that any type of function definition will work, since functions are first class objects in Python. As such, if the method can be written as a single statement, a <code>lambda</code> could also be used, <em>i.e.</em></p>
-<div class="highlight"><pre><span></span><code><span class="n">Class</span><span class="o">.</span><span class="n">newBound</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I&#39;m a lambda&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<p>A limitation of the "monkey patching" method, is that attributes can only be changed at the class definition level.
+<pre><code class="language-python">Class.newBound = <span class="hljs-keyword">lambda</span> self: print(<span class="hljs-string">&quot;I&#x27;m a lambda&quot;</span>)
+</code></pre>
+<p>A limitation of the &quot;monkey patching&quot; method, is that attributes can only be changed at the class definition level.
 As an example, although possible, it is not trivial to add the <code>.newBound()</code> method to <code>instance</code>.</p>
 <p>A solution is to either call the descriptor methods (which allow for instance attribute manipulation), or declare the instance attribute as a <code>MethodType</code>.</p>
 <p>To illustrate this in our case:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">types</span>
-<span class="n">instance</span><span class="o">.</span><span class="n">newBound</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">newBound</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
-<span class="n">instance</span><span class="o">.</span><span class="n">newBound</span><span class="p">()</span> <span class="c1"># Prints &quot;I&#39;m a lambda&quot;</span>
-</code></pre></div>
-
+<pre><code class="language-python"><span class="hljs-keyword">import</span> types
+instance.newBound = types.MethodType(newBound, instance)
+instance.newBound() <span class="hljs-comment"># Prints &quot;I&#x27;m a lambda&quot;</span>
+</code></pre>
 <p>This method is precisely, as mentioned, to change attributes for a specific instance, so in this case, if we try to access the bound method from another instance <code>anotherInstance</code>, it would fail</p>
-<div class="highlight"><pre><span></span><code><span class="n">anotherInstance</span> <span class="o">=</span> <span class="n">Class</span><span class="p">()</span>
-<span class="n">anotherInstance</span><span class="o">.</span><span class="n">newBound</span><span class="p">()</span> <span class="c1"># fails with AttributeError</span>
-</code></pre></div>
-
+<pre><code class="language-python">anotherInstance = Class()
+anotherInstance.newBound() <span class="hljs-comment"># fails with AttributeError</span>
+</code></pre>
 <h2 id="abstract-classes">Abstract classes</h2>
-<p>Python supports abstract classes, <em>i.e.</em> the definition of "blueprint" classes for which we delegate the concrete implementation of abstract methods to subclasses. In Python 3.x this is done via the <code>@abstractmethod</code> annotation. If we declare a class such as</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="k">class</span> <span class="nc">AbstractClass</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">abstractMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-</code></pre></div>
-
+<p>Python supports abstract classes, <em>i.e.</em> the definition of &quot;blueprint&quot; classes for which we delegate the concrete implementation of abstract methods to subclasses. In Python 3.x this is done via the <code>@abstractmethod</code> annotation. If we declare a class such as</p>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> abc <span class="hljs-keyword">import</span> ABC, abstractmethod
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractClass</span>(<span class="hljs-params">ABC</span>):</span>
+<span class="hljs-meta">    @abstractmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">abstractMethod</span>(<span class="hljs-params">self</span>):</span>
+        <span class="hljs-keyword">pass</span>
+</code></pre>
 <p>we can then implement <code>abstractMethod</code> in all of <code>AbstractClass</code>'s subclasses:</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ConcreteClass</span><span class="p">(</span><span class="n">AbstractClass</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">abstractMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Concrete class abstract method&quot;</span><span class="p">)</span>
-</code></pre></div>
-
+<pre><code class="language-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConcreteClass</span>(<span class="hljs-params">AbstractClass</span>):</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">abstractMethod</span>(<span class="hljs-params">self</span>):</span>
+        print(<span class="hljs-string">&quot;Concrete class abstract method&quot;</span>)
+</code></pre>
 <p>We could, obviously, do this in Python <em>without</em> abstract classes, but this mechanism allows for a greater safety, since implementation of abstract methods is mandatory in this case. With regular classes, not implementing <code>abstractMethod</code> would simply assume we were using the parent's definition.</p>
 <p>Unfortunately, monkey patching of abstract methods is not supported in Python. We <em>could</em> monkey patch the concrete class:</p>
-<div class="highlight"><pre><span></span><code><span class="n">ConcreteClass</span><span class="o">.</span><span class="n">newBound</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New &#39;child&#39; bound&quot;</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">ConcreteClass</span><span class="p">()</span>
-<span class="n">c</span><span class="o">.</span><span class="n">newBound</span><span class="p">()</span> <span class="c1"># prints &quot;New &#39;child&#39; bound&quot;</span>
-</code></pre></div>
-
+<pre><code class="language-python">ConcreteClass.newBound = <span class="hljs-keyword">lambda</span> self: print(<span class="hljs-string">&quot;New &#x27;child&#x27; bound&quot;</span>)
+c = ConcreteClass()
+c.newBound() <span class="hljs-comment"># prints &quot;New &#x27;child&#x27; bound&quot;</span>
+</code></pre>
 <p>And we could even add a new bound method to the superclass, which will be available to all subclasses:</p>
-<div class="highlight"><pre><span></span><code><span class="n">AbstractClass</span><span class="o">.</span><span class="n">newBound</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New &#39;parent&#39; bound&quot;</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">ConcreteClass</span><span class="p">()</span>
-<span class="n">c</span><span class="o">.</span><span class="n">newBound</span><span class="p">()</span> <span class="c1"># prints &quot;New &#39;parent&#39; bound&quot;</span>
-</code></pre></div>
-
+<pre><code class="language-python">AbstractClass.newBound = <span class="hljs-keyword">lambda</span> self: print(<span class="hljs-string">&quot;New &#x27;parent&#x27; bound&quot;</span>)
+c = ConcreteClass()
+c.newBound() <span class="hljs-comment"># prints &quot;New &#x27;parent&#x27; bound&quot;</span>
+</code></pre>
 <p>However, we can't add abstract methods with monkey patching. This is <a href="https://docs.python.org/3/library/abc.html#abc.abstractmethod">a documented exception</a> of this functionality with the specific warning that</p>
 <blockquote>
-<p>Dynamically adding abstract methods to a class, or attempting to modify the abstraction status of a method or class once it is created, are not supported. The abstractmethod() only affects subclasses derived using regular inheritance; "virtual subclasses" registered with the ABC's register() method are not affected.</p></p>
+<p>Dynamically adding abstract methods to a class, or attempting to modify the abstraction status of a method or class once it is created, are not supported. The abstractmethod() only affects subclasses derived using regular inheritance; &quot;virtual subclasses&quot; registered with the ABC's register() method are not affected.</p></p>
 </blockquote>
 <h2 id="private-methods">Private methods</h2>
 <p>We can dynamically add and replace inner methods, such as:</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Class</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">_inner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Inner bound&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__private</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Private bound&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">callNewPrivate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__newPrivate</span><span class="p">()</span>
+<pre><code class="language-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Class</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_inner</span>(<span class="hljs-params">self</span>):</span>
+        print(<span class="hljs-string">&quot;Inner bound&quot;</span>)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__private</span>(<span class="hljs-params">self</span>):</span>
+        print(<span class="hljs-string">&quot;Private bound&quot;</span>)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">callNewPrivate</span>(<span class="hljs-params">self</span>):</span>
+        self.__newPrivate()
 
-<span class="n">Class</span><span class="o">.</span><span class="n">_newInner</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New inner bound&quot;</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">Class</span><span class="p">()</span>
-<span class="n">c</span><span class="o">.</span><span class="n">_inner</span><span class="p">()</span> <span class="c1"># prints &quot;Inner bound&quot;</span>
-<span class="n">c</span><span class="o">.</span><span class="n">_newInner</span><span class="p">()</span> <span class="c1"># prints &quot;New inner bound&quot;</span>
-</code></pre></div>
-
+Class._newInner = <span class="hljs-keyword">lambda</span> self: print(<span class="hljs-string">&quot;New inner bound&quot;</span>)
+c = Class()
+c._inner() <span class="hljs-comment"># prints &quot;Inner bound&quot;</span>
+c._newInner() <span class="hljs-comment"># prints &quot;New inner bound&quot;</span>
+</code></pre>
 <p>However, private methods behave differently. Python enforces name mangling for private methods. As specified in the documentation:</p>
 <blockquote>
 <p>Since there is a valid use-case for class-private members (namely to avoid name clashes of names with names defined by subclasses), there is limited support for such a mechanism, called name mangling. Any identifier of the form <code>__spam</code> (at least two leading underscores, at most one trailing underscore) is textually replaced with <code>_classname__spam</code>, where classname is the current class name with leading underscore(s) stripped. This mangling is done without regard to the syntactic position of the identifier, as long as it occurs within the definition of a class.</p>
 </blockquote>
 <p>We can then still access the private methods (although we probably shouldn't), but monkey patching won't work as before due to the above.</p>
-<div class="highlight"><pre><span></span><code><span class="n">c</span><span class="o">.</span><span class="n">_Class__private</span><span class="p">()</span> <span class="c1"># Private bound</span>
-<span class="n">Class</span><span class="o">.</span><span class="n">__newPrivate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New private bound&quot;</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">Class</span><span class="p">()</span>
-<span class="n">c</span><span class="o">.</span><span class="n">_Class__newPrivate</span><span class="p">()</span> <span class="c1"># fails with AttributeError</span>
-</code></pre></div>
-
-<p>We have defined a new method called <code>__newPrivate()</code> but interestingly, this method is <em>not</em> private. We can see this by calling it directly (which is allowed) and by calling the new "private" method from inside the class as <code>self.__newPrivate()</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">c</span><span class="o">.</span><span class="n">__newPrivate</span><span class="p">()</span> <span class="c1"># prints &quot;New private bound&quot;</span>
-<span class="n">c</span><span class="o">.</span><span class="n">callNewPrivate</span><span class="p">()</span> 
-<span class="c1"># fails with AttributeError (can&#39;t find _Class_NewPrivate)</span>
-</code></pre></div>
-
+<pre><code class="language-python">c._Class__private() <span class="hljs-comment"># Private bound</span>
+Class.__newPrivate = <span class="hljs-keyword">lambda</span> self: print(<span class="hljs-string">&quot;New private bound&quot;</span>)
+c = Class()
+c._Class__newPrivate() <span class="hljs-comment"># fails with AttributeError</span>
+</code></pre>
+<p>We have defined a new method called <code>__newPrivate()</code> but interestingly, this method is <em>not</em> private. We can see this by calling it directly (which is allowed) and by calling the new &quot;private&quot; method from inside the class as <code>self.__newPrivate()</code>:</p>
+<pre><code class="language-python">c.__newPrivate() <span class="hljs-comment"># prints &quot;New private bound&quot;</span>
+c.callNewPrivate() 
+<span class="hljs-comment"># fails with AttributeError (can&#x27;t find _Class_NewPrivate)</span>
+</code></pre>
 <p>It is possible to perform some OOP abuse and declare the private method by mangling the name ourselves. In this case we could then do:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Class</span><span class="o">.</span><span class="n">_Class__newPrivate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New private bound&quot;</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">Class</span><span class="p">()</span>
-<span class="n">c</span><span class="o">.</span><span class="n">_Class__newPrivate</span><span class="p">()</span> <span class="c1"># prints &quot;New private bound&quot;</span>
-<span class="n">c</span><span class="o">.</span><span class="n">callNewPrivate</span><span class="p">()</span> <span class="c1"># prints &quot;New private bound&quot;</span>
-</code></pre></div>
-
+<pre><code class="language-python">Class._Class__newPrivate = <span class="hljs-keyword">lambda</span> self: print(<span class="hljs-string">&quot;New private bound&quot;</span>)
+c = Class()
+c._Class__newPrivate() <span class="hljs-comment"># prints &quot;New private bound&quot;</span>
+c.callNewPrivate() <span class="hljs-comment"># prints &quot;New private bound&quot;</span>
+</code></pre>
 <h2 id="builtins">Builtins</h2>
 <p>Is it possible to monkey patch builtin classes in Python, <em>e.g.</em> <code>int</code> or <code>float</code>?
 In short, yes, it is.</p>
@@ -202,131 +238,132 @@ In short, yes, it is.</p>
 <p>Primitive (or <em>builtin</em>) classes in Python are typically written in C and as such some of these meta-programming facilities require jumping through extra hoops (as well as being a Very Bad Idea™).
 Let's first look at the integer class representation, <code>int</code>.</p>
 <p>A <code>int</code> doesn't allow bound methods to be added dynamically as previously. For instance:</p>
-<div class="highlight"><pre><span></span><code><span class="n">p</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="c1"># int</span>
-</code></pre></div>
-
+<pre><code class="language-python">p = <span class="hljs-number">5</span>
+<span class="hljs-built_in">type</span>(p) <span class="hljs-comment"># int</span>
+</code></pre>
 <p>We can try to add a method to <code>int</code> to square the value of the instance:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">int</span><span class="o">.</span><span class="n">square</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span> <span class="o">**</span> <span class="mi">2</span>
-</code></pre></div>
-
+<pre><code class="language-python"><span class="hljs-built_in">int</span>.square = <span class="hljs-keyword">lambda</span> self: self ** <span class="hljs-number">2</span>
+</code></pre>
 <p>This fails with the error <code>TypeError: can't set attributes of built-in/extension type 'int'</code>.
 The solution (as presented in Forbidden Fruit) is to first create classes to hold the <code>ctype</code> information of a builtin (C) class. We subclass <code>ctypes</code> Python representation of a C <code>struct</code> in native byte order and hold the <code>signed int</code> size and pointer to <code>PyObject</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">ctypes</span>
-<span class="k">class</span> <span class="nc">PyObject</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
-    <span class="k">pass</span>
+<pre><code class="language-python"><span class="hljs-keyword">import</span> ctypes
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PyObject</span>(<span class="hljs-params">ctypes.Structure</span>):</span>
+    <span class="hljs-keyword">pass</span>
 
-<span class="n">PyObject</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">&#39;ob_refcnt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;ob_type&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">PyObject</span><span class="p">)),</span>
-<span class="p">]</span>
-</code></pre></div>
-
+PyObject.fields = [
+    (<span class="hljs-string">&#x27;ob_refcnt&#x27;</span>, ctypes.c_int),
+    (<span class="hljs-string">&#x27;ob_type&#x27;</span>, ctypes.POINTER(PyObject)),
+]
+</code></pre>
 <p>Next we create a holder for Python objects slots, containing a reference to the <code>ctype</code> structure:</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">SlotsProxy</span><span class="p">(</span><span class="n">PyObject</span><span class="p">):</span>
-    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;dict&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">PyObject</span><span class="p">))]</span>
-</code></pre></div>
-
+<pre><code class="language-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SlotsProxy</span>(<span class="hljs-params">PyObject</span>):</span>
+    _fields_ = [(<span class="hljs-string">&#x27;dict&#x27;</span>, ctypes.POINTER(PyObject))]
+</code></pre>
 <p>The final step is extract the <code>PyProxyDict</code> from the object referenced by the pointer.
 Ideally, we should get the builtin's namespace so we can freely set attributes as we did previously. A helper function to retrieve the builtins (mutable) namespace can then be:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="n">klass</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">klass</span><span class="o">.</span><span class="vm">__name__</span>
-    <span class="n">target</span> <span class="o">=</span> <span class="n">klass</span><span class="o">.</span><span class="vm">__dict__</span>
-    <span class="n">proxy_dict</span> <span class="o">=</span> <span class="n">SlotsProxy</span><span class="o">.</span><span class="n">from_address</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
-    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{}</span>
+<pre><code class="language-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">patch</span>(<span class="hljs-params">klass</span>):</span>
+    name = klass.__name__
+    target = klass.__dict__
+    proxy_dict = SlotsProxy.from_address(<span class="hljs-built_in">id</span>(target))
+    namespace = {}
 
-    <span class="n">ctypes</span><span class="o">.</span><span class="n">pythonapi</span><span class="o">.</span><span class="n">PyDict_SetItem</span><span class="p">(</span>
-        <span class="n">ctypes</span><span class="o">.</span><span class="n">py_object</span><span class="p">(</span><span class="n">namespace</span><span class="p">),</span>
-        <span class="n">ctypes</span><span class="o">.</span><span class="n">py_object</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
-        <span class="n">proxy_dict</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">namespace</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-</code></pre></div>
-
+    ctypes.pythonapi.PyDict_SetItem(
+        ctypes.py_object(namespace),
+        ctypes.py_object(name),
+        proxy_dict.<span class="hljs-built_in">dict</span>,
+    )
+    <span class="hljs-keyword">return</span> namespace[name]
+</code></pre>
 <p>We can now easily patch builtin classes. Let's try to add the square method again by first retrieving the namespace (stored below in <code>d</code>) and setting it directly</p>
-<div class="highlight"><pre><span></span><code><span class="n">d</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">d</span><span class="p">[</span><span class="s2">&quot;square&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span> <span class="o">**</span> <span class="mi">2</span>
+<pre><code class="language-python">d = patch(<span class="hljs-built_in">int</span>)
+d[<span class="hljs-string">&quot;square&quot;</span>] = <span class="hljs-keyword">lambda</span> self: self ** <span class="hljs-number">2</span>
 
-<span class="n">p</span><span class="o">.</span><span class="n">square</span><span class="p">()</span> <span class="c1"># 25</span>
-</code></pre></div>
-
+p.square() <span class="hljs-comment"># 25</span>
+</code></pre>
 <p>All future instance of <code>int</code> will also contain the square method now:</p>
-<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">square</span><span class="p">()</span> <span class="c1"># 49</span>
-</code></pre></div>
-
+<pre><code class="language-python">(<span class="hljs-number">2</span> + p).square() <span class="hljs-comment"># 49</span>
+</code></pre>
 <h1 id="conclusion">Conclusion</h1>
-<p>"Monkey patching" is usually, and rightly so, considered a code smell, due to the increased indirection and potential source of unwanted surprises.
-However, having the ability to "monkey patch" classes in Python allows us to write Jupyter notebooks in a more literate, fluid way rather than presenting the user with a "wall of code".
+<p>&quot;Monkey patching&quot; is usually, and rightly so, considered a code smell, due to the increased indirection and potential source of unwanted surprises.
+However, having the ability to &quot;monkey patch&quot; classes in Python allows us to write Jupyter notebooks in a more literate, fluid way rather than presenting the user with a &quot;wall of code&quot;.
 Thank you for reading. If you have any comments or suggestions please drop me a message on <a href="https://mastodon.technology/@ruivieira">Mastodon</a>.</p>
-            <div class="footer">
-                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-            </div>
+        <div class="footer">
+            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
         </div>
+    </div>
 
-        <div id="sidebar">
-            <div id="sidebar-search">
-                <input id="search_terms" type="search" placeholder="Search terms" />
-                <button id="search_button" onclick="search()">?</button>
-            </div>
-            <div id="sidebar-home"><a href="/">Home</a></div>
-            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+    <div id="sidebar">
+        <div id="sidebar-search">
+            <input id="search_terms" type="search" placeholder="Search terms" />
+            <button id="search_button" onclick="search()">?</button>
+        </div>
+        <div id="sidebar-home"><a href="/">Home</a></div>
+        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-            <div id="sidebar-contents">
-                <h3>Contents</h3>
-                <div class="toc">
-<ul>
+        <div id="sidebar-contents">
+            <h3>Contents</h3>
+            <ul>
 <li><a href="#bound-and-unbound-methods">Bound and unbound methods</a></li>
 <li><a href="#abstract-classes">Abstract classes</a></li>
 <li><a href="#private-methods">Private methods</a></li>
 <li><a href="#builtins">Builtins</a></li>
 </ul>
-</div>
-    
-                
-                <h3>Backlinks</h3>
-                    <ul>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                    
-                    </ul>
-                
-            </div>
+
+                        <h3>Backlinks</h3>
+            <ul>
+                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                            </ul>
+                    </div>
 
 
 
-            <div class="footer">
-                modified 1614869116
-            </div>
+        <div class="footer">
+            modified 2 weeks ago        </div>
 
-        </div>
+    </div>
     <div>
 
-<script>
-const input = document.getElementById('search_terms');
-const highlight = new URLSearchParams(document.location.search).get("h");
+        <script>
+            const input = document.getElementById('search_terms');
+            const highlight = new URLSearchParams(document.location.search).get("h");
 
-if (highlight!=null) {
-    const markInstance = new Mark("#content");
-    markInstance.mark(highlight);
-}
-
-input.addEventListener("keyup", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-            if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                search_button.click();
+            if (highlight!=null) {
+                const markInstance = new Mark("#content");
+                markInstance.mark(highlight);
             }
-        });
 
-let search = function() {
-            const query = new URLSearchParams({"q": input.value});
-            console.log(query.toString());
-            window.location.href = "/search.html?" + query.toString();
-}
-</script>
+            input.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    search_button.click();
+                }
+            });
+
+            let search = function() {
+                const query = new URLSearchParams({"q": input.value});
+                console.log(query.toString());
+                window.location.href = "/search.html?" + query.toString();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(
+                    document.body,
+                    {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "\\[", right: "\\]", display: true},
+                            {left: "$", right: "$", display: false},
+                            {left: "\\(", right: "\\)", display: false}
+                        ]
+                    }
+                );
+            });
+        </script>
 
 </body>
 </html>

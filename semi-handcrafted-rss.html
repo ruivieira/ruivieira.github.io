@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on (Semi) handcrafted RSS">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/semi-handcrafted-rss.html">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,15 +18,64 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <link href="/assets/code.css" rel="stylesheet">
+    <style>
+        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: white;
+            color: black;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-filter .hljs-argument,
+        .hljs-addition,
+        .hljs-change,
+        .hljs-name,
+        .apache .hljs-tag,
+        .apache .hljs-cbracket,
+        .nginx .hljs-built_in,
+        .tex .hljs-formula {
+            color: #888;
+        }
+
+        .hljs-comment,
+        .hljs-shebang,
+        .hljs-doctype,
+        .hljs-pi,
+        .hljs-javadoc,
+        .hljs-deletion,
+        .apache .hljs-sqbracket {
+            color: #ccc;
+        }
+
+        .hljs-keyword,
+        .hljs-tag .hljs-title,
+        .ini .hljs-title,
+        .lisp .hljs-title,
+        .http .hljs-title,
+        .nginx .hljs-title,
+        .css .hljs-tag,
+        .hljs-winutils,
+        .hljs-flow,
+        .apache .hljs-tag,
+        .tex .hljs-command,
+        .hljs-request,
+        .hljs-status {
+            font-weight: bold;
+        }
+    </style>
     <title>ruivieira.dev - (Semi) handcrafted RSS</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -50,13 +99,13 @@
             border-radius: 5px;
             width: 3rem;
         }
-</style>
+    </style>
 </head>
 <body>
-    <div id="grid">
+<div id="grid">
 
-        <div id="content">
-            <h1 id="semi-handcrafted-rss">(Semi) handcrafted RSS</h1>
+    <div id="content">
+        <h1 id="semi-handcrafted-rss">(Semi) handcrafted RSS</h1>
 <p>I've been using a minimalist blog setup for some time now.</p>
 <p>I was having something of a framework fatigue after switching between a few static site generators.
 Each new generator I decided to try implied usually either learning a new programming language (<a href="https://docs.getpelican.com/en/stable/">Python</a>, <a href="https://jekyllrb.com/">Ruby</a>, <a href="https://gohugo.io/">Go</a>) to perform basic setup <em>and</em> a new template engine syntax. Typically I wasn't using the vast majority of the features available
@@ -67,35 +116,33 @@ I've discussed with some friends and colleagues why it's my opinion that a plain
 <ul>
 <li>I write the content of the post to an HTML fragment (no <code>HEAD</code>, for instance). All files are HTML and in the same folder.</li>
 <li>I have a shell script to walk through the files in the input folder and add a common header, footer and process all code blocks with syntax highlighting.</li>
-<li>Save the "processed" files to an output folder</li>
+<li>Save the &quot;processed&quot; files to an output folder</li>
 <li>Upload (currently to <a href="https://github.com/ruivieira/ruivieira.github.io">Github</a> to be served via Github pages).</li>
 </ul>
 <p>The HTML fragments are minimal, for instance:</p>
-<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>A post-modern title<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>A post-modern title<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
 
-<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Yes, this could be an entire blog post.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-</code></pre></div>
-
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Yes, this could be an entire blog post.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</code></pre>
 <p>The point is, where do we draw the line on <em>what</em> a static generator is? For this post, I won't consider a loose collection
-of specialised scripts to be a static generator. There is no configuration, no convention, no theming ability <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. You can argue that this is what many generators do, but I think that's beyond the scope of this short post.</p>
+of specialised scripts to be a static generator. There is no configuration, no convention, no theming ability <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>. You can argue that this is what many generators do, but I think that's beyond the scope of this short post.</p>
 <p>Since my static blog is straightforward, with minimal markup, why not create something equally simple for RSS generation?
-To do so, I've decided to go the way of "handcrafted" HTML.</p>
+To do so, I've decided to go the way of &quot;handcrafted&quot; HTML.</p>
 <p>However, I was accustomed to a static site generator to generate some goodies, such as syndication feeds automatically.</p>
 <p>I've decided to add an RSS feed to the site, using minimal dependencies (only shell scripting and a couple of universal user-land tools such as <code>grep</code> and <code>cat</code>). This approach has the added benefit that it is applicable to expose other types of data as an RSS feed, such as server and periodic job logs.</p>
 <p>We start by adding the feed header to the <code>index.xml</code>:</p>
-<div class="highlight"><pre><span></span><code>&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>?&gt;
-&lt;rss <span class="nv">version</span><span class="o">=</span><span class="s2">&quot;2.0&quot;</span>&gt;
+<pre><code class="language-bash">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;
+&lt;rss version=<span class="hljs-string">&quot;2.0&quot;</span>&gt;
         &lt;channel&gt;
 
-                &lt;title&gt;Rui Vieira<span class="s1">&#39;s blog&lt;/title&gt;</span>
-<span class="s1">                &lt;description&gt;Rui Vieira&#39;</span>s personal blog&lt;/description&gt;
+                &lt;title&gt;Rui Vieira<span class="hljs-string">&#x27;s blog&lt;/title&gt;
+                &lt;description&gt;Rui Vieira&#x27;</span>s personal blog&lt;/description&gt;
                 &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
-                &lt;lastBuildDate&gt;<span class="k">$(</span>date<span class="k">)</span>&lt;/lastBuildDate&gt;
+                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;
 EOF
-</code></pre></div>
-
+</code></pre>
 <p>The <a href="https://validator.w3.org/feed/docs/rss2.html">RSS 2.0 specification</a> is quite simple in terms of the minimum requirements for a valid feed.
-The mandatory "header" fields are:</p>
+The mandatory &quot;header&quot; fields are:</p>
 <ul>
 <li><code>title</code>, the name of the channel.</li>
 <li><code>link</code>, the URL to the HTML website corresponding to the channel.</li>
@@ -115,70 +162,64 @@ It predates <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> by six
 <a href="https://tools.ietf.org/html/rfc733">RFC 733</a>.</p>
 </blockquote>
 <p>We then loop over all the input files to build the RSS entries.</p>
-<div class="highlight"><pre><span></span><code><span class="nv">FILES</span><span class="o">=</span>input/*.html
-<span class="k">for</span> FILE <span class="k">in</span> <span class="nv">$FILES</span>
-<span class="k">do</span>
-    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="c1"># extract title ...</span>
-    <span class="c1"># write entry to index.xml</span>
-<span class="k">done</span>
-</code></pre></div>
-
+<pre><code class="language-bash">FILES=input/*.html
+<span class="hljs-keyword">for</span> FILE <span class="hljs-keyword">in</span> <span class="hljs-variable">$FILES</span>
+<span class="hljs-keyword">do</span>
+    FILENAME=<span class="hljs-string">&quot;<span class="hljs-variable">${FILE##*/}</span>&quot;</span>
+    FILENAME=<span class="hljs-string">&quot;<span class="hljs-variable">${FILENAME%.*}</span>&quot;</span>
+    <span class="hljs-comment"># extract title ...</span>
+    <span class="hljs-comment"># write entry to index.xml</span>
+<span class="hljs-keyword">done</span>
+</code></pre>
 <h2 id="using-bash">Using Bash</h2>
 <p>First, extract the title. The actual title is not inside the <code>&lt;title&gt;</code> tag, but on the first header <code>&lt;h1&gt;</code>.</p>
-<div class="highlight"><pre><span></span><code>cat output/nb-estimation.html <span class="p">|</span>  grep -E <span class="s2">&quot;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span>
-</code></pre></div>
-
+<pre><code class="language-bash">cat output/nb-estimation.html |  grep -E <span class="hljs-string">&quot;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&quot;</span> | sed <span class="hljs-string">&#x27;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#x27;</span>
+</code></pre>
 <p>The first produces:</p>
-<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;main&quot;</span><span class="p">&gt;</span>
-  <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;negative-binomial-estimation&quot;</span><span class="p">&gt;</span>Negative Binomial estimation<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</code></pre></div>
-
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;main&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;negative-binomial-estimation&quot;</span>&gt;</span>Negative Binomial estimation<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
 <p>While the second produces:</p>
-<div class="highlight"><pre><span></span><code>Negative Binomial estimations
-</code></pre></div>
-
+<pre><code class="language-text">Negative Binomial estimations
+</code></pre>
 <p>Now, what happens if we have more than one <code>&lt;h1&gt;</code> header? UNIX pipelines to the rescue.
 We simple retrieve the <em>first</em> line of the matching grep, by inserting a <code>head -1</code>.</p>
 <p>To get the modified date of <code>$FILE</code> we can use:</p>
-<div class="highlight"><pre><span></span><code>date -r <span class="nv">$FILE</span>.html
-</code></pre></div>
-
+<pre><code class="language-bash">date -r <span class="hljs-variable">$FILE</span>.html
+</code></pre>
 <p>The final RSS feed build is:</p>
-<div class="highlight"><pre><span></span><code>cat &gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
-<span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-<span class="s">&lt;rss version=&quot;2.0&quot;&gt;</span>
-<span class="s">        &lt;channel&gt;</span>
+<pre><code class="language-bash">cat &gt;output/index.xml &lt;&lt;<span class="hljs-string">EOF
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;rss version=&quot;2.0&quot;&gt;
+        &lt;channel&gt;
 
-<span class="s">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;</span>
-<span class="s">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;</span>
-<span class="s">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;</span>
-<span class="s">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;</span>
-<span class="s">EOF</span>
+                &lt;title&gt;Rui Vieira&#x27;s blog&lt;/title&gt;
+                &lt;description&gt;Rui Vieira&#x27;s personal blog&lt;/description&gt;
+                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
+                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;
+EOF</span>
 
-<span class="nv">FILES</span><span class="o">=</span>input/*.html
-<span class="k">for</span> FILE <span class="k">in</span> <span class="nv">$FILES</span>
-<span class="k">do</span>
-    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="nv">TITLE</span><span class="o">=</span><span class="k">$(</span>cat output/<span class="nv">$FILENAME</span>.html <span class="p">|</span> grep -E <span class="s2">&quot;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&quot;</span> <span class="p">|</span> head -1 <span class="p">|</span> sed <span class="s1">&#39;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#39;</span><span class="k">)</span>
-    cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
-<span class="s">                &lt;item&gt;</span>
-<span class="s">                        &lt;title&gt;$TITLE&lt;/title&gt;</span>
-<span class="s">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;</span>
-<span class="s">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;</span>
-<span class="s">                &lt;/item&gt;</span>
-<span class="s">EOF</span>
-<span class="k">done</span>
+FILES=input/*.html
+<span class="hljs-keyword">for</span> FILE <span class="hljs-keyword">in</span> <span class="hljs-variable">$FILES</span>
+<span class="hljs-keyword">do</span>
+    FILENAME=<span class="hljs-string">&quot;<span class="hljs-variable">${FILE##*/}</span>&quot;</span>
+    FILENAME=<span class="hljs-string">&quot;<span class="hljs-variable">${FILENAME%.*}</span>&quot;</span>
+    TITLE=$(cat output/<span class="hljs-variable">$FILENAME</span>.html | grep -E <span class="hljs-string">&quot;&lt;h1.*&gt;(.*?)&lt;/h1&gt;&quot;</span> | head -1 | sed <span class="hljs-string">&#x27;s/.*&lt;h1.*&gt;\(.*\)&lt;\/h1&gt;.*/\1/&#x27;</span>)
+    cat &gt;&gt;output/index.xml &lt;&lt;<span class="hljs-string">EOF
+                &lt;item&gt;
+                        &lt;title&gt;$TITLE&lt;/title&gt;
+                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;
+                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;
+                &lt;/item&gt;
+EOF</span>
+<span class="hljs-keyword">done</span>
 
-cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
-<span class="s">        &lt;/channel&gt;</span>
-<span class="s">&lt;/rss&gt;</span>
-<span class="s">EOF</span>
-</code></pre></div>
-
+cat &gt;&gt;output/index.xml &lt;&lt;<span class="hljs-string">EOF
+        &lt;/channel&gt;
+&lt;/rss&gt;
+EOF</span>
+</code></pre>
 <h2 id="using-python">Using Python</h2>
 <p>Another possibility is to use a specialised tool to extract an RSS item from an HTML file.
 To do so, we need to parse the necessary data and replace the extraction part of the loop.
@@ -186,131 +227,135 @@ This is, after all, along the lines of the <a href="https://en.wikipedia.org/wik
 create specialised tools with a focus on modularity and reusability.</p>
 <p>To do, we create a simple script called <code>post_title.py</code>. It uses the <em>Beautiful Soup</em> library, which you can install
 using:</p>
-<div class="highlight"><pre><span></span><code>$ pip install beautifulsoup4
-</code></pre></div>
-
+<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> pip install beautifulsoup4</span>
+</code></pre>
 <p>The script reads an HTML file, extract the title and return:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> sys
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(sys.argv[<span class="hljs-number">1</span>], <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:
+    data = file.read()
 
-<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+soup = BeautifulSoup(data, features=<span class="hljs-string">&quot;html.parser&quot;</span>)
 
-<span class="nb">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">h1</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
-</code></pre></div>
-
+print(soup.h1.string)
+</code></pre>
 <p>This script can now be used to replace the title extraction:</p>
-<div class="highlight"><pre><span></span><code>cat &gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
-<span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-<span class="s">&lt;rss version=&quot;2.0&quot;&gt;</span>
-<span class="s">        &lt;channel&gt;</span>
-<span class="s">                &lt;title&gt;Rui Vieira&#39;s blog&lt;/title&gt;</span>
-<span class="s">                &lt;description&gt;Rui Vieira&#39;s personal blog&lt;/description&gt;</span>
-<span class="s">                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;</span>
-<span class="s">                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;</span>
-<span class="s">EOF</span>
+<pre><code class="language-bash hl_lines=&quot;18&quot;">cat &gt;output/index.xml &lt;&lt;<span class="hljs-string">EOF
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;rss version=&quot;2.0&quot;&gt;
+        &lt;channel&gt;
+                &lt;title&gt;Rui Vieira&#x27;s blog&lt;/title&gt;
+                &lt;description&gt;Rui Vieira&#x27;s personal blog&lt;/description&gt;
+                &lt;link&gt;https://ruivieira.dev/&lt;/link&gt;
+                &lt;lastBuildDate&gt;$(date)&lt;/lastBuildDate&gt;
+EOF</span>
 
-<span class="nv">FILES</span><span class="o">=</span>input/*.html
-<span class="k">for</span> FILE <span class="k">in</span> <span class="nv">$FILES</span>
-<span class="k">do</span>
-    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="nv">FILENAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILENAME</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
-    cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
-<span class="s">                &lt;item&gt;</span>
-<span class="hll"><span class="s">                        &lt;title&gt;$(post_title.py $FILENAME.html)&lt;/title&gt;</span>
-</span><span class="s">                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;</span>
-<span class="s">                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;</span>
-<span class="s">                &lt;/item&gt;</span>
-<span class="s">EOF</span>
-<span class="k">done</span>
+FILES=input/*.html
+<span class="hljs-keyword">for</span> FILE <span class="hljs-keyword">in</span> <span class="hljs-variable">$FILES</span>
+<span class="hljs-keyword">do</span>
+    FILENAME=<span class="hljs-string">&quot;<span class="hljs-variable">${FILE##*/}</span>&quot;</span>
+    FILENAME=<span class="hljs-string">&quot;<span class="hljs-variable">${FILENAME%.*}</span>&quot;</span>
+    cat &gt;&gt;output/index.xml &lt;&lt;<span class="hljs-string">EOF
+                &lt;item&gt;
+                        &lt;title&gt;$(post_title.py $FILENAME.html)&lt;/title&gt;
+                        &lt;link&gt;https://ruivieira.dev/$FILENAME.html&lt;/link&gt;
+                        &lt;pubDate&gt;$(date -r output/$FILENAME.html)&lt;/pubDate&gt;
+                &lt;/item&gt;
+EOF</span>
+<span class="hljs-keyword">done</span>
 
-cat &gt;&gt;output/index.xml <span class="s">&lt;&lt;EOF</span>
-<span class="s">        &lt;/channel&gt;</span>
-<span class="s">&lt;/rss&gt;</span>
-<span class="s">EOF</span>
-</code></pre></div>
-
-<p>The reason why the whole RSS feed is not generated in Python is to have the title extraction as a "function" which can map to
+cat &gt;&gt;output/index.xml &lt;&lt;<span class="hljs-string">EOF
+        &lt;/channel&gt;
+&lt;/rss&gt;
+EOF</span>
+</code></pre>
+<p>The reason why the whole RSS feed is not generated in Python is to have the title extraction as a &quot;function&quot; which can map to
 whichever logic the shell script is using.</p>
 <p>Hope this could be useful to you.
 Happy coding!</p>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p>Apart from plain CSS theming, that is.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1"  class="footnote-item"><p>Apart from plain CSS theming, that is. <a href="#fnref1" class="footnote-backref">↩</a></p>
 </li>
 </ol>
-</div>
-            <div class="footer">
-                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-            </div>
+</section>
+        <div class="footer">
+            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
         </div>
+    </div>
 
-        <div id="sidebar">
-            <div id="sidebar-search">
-                <input id="search_terms" type="search" placeholder="Search terms" />
-                <button id="search_button" onclick="search()">?</button>
-            </div>
-            <div id="sidebar-home"><a href="/">Home</a></div>
-            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+    <div id="sidebar">
+        <div id="sidebar-search">
+            <input id="search_terms" type="search" placeholder="Search terms" />
+            <button id="search_button" onclick="search()">?</button>
+        </div>
+        <div id="sidebar-home"><a href="/">Home</a></div>
+        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-            <div id="sidebar-contents">
-                <h3>Contents</h3>
-                <div class="toc">
-<ul>
+        <div id="sidebar-contents">
+            <h3>Contents</h3>
+            <ul>
 <li><a href="#using-bash">Using Bash</a></li>
 <li><a href="#using-python">Using Python</a></li>
 </ul>
-</div>
-    
-                
-                <h3>Backlinks</h3>
-                    <ul>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                    
-                    </ul>
-                
-            </div>
+
+                        <h3>Backlinks</h3>
+            <ul>
+                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                            </ul>
+                    </div>
 
 
 
-            <div class="footer">
-                modified 1614868910
-            </div>
+        <div class="footer">
+            modified 2 weeks ago        </div>
 
-        </div>
+    </div>
     <div>
 
-<script>
-const input = document.getElementById('search_terms');
-const highlight = new URLSearchParams(document.location.search).get("h");
+        <script>
+            const input = document.getElementById('search_terms');
+            const highlight = new URLSearchParams(document.location.search).get("h");
 
-if (highlight!=null) {
-    const markInstance = new Mark("#content");
-    markInstance.mark(highlight);
-}
-
-input.addEventListener("keyup", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-            if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                search_button.click();
+            if (highlight!=null) {
+                const markInstance = new Mark("#content");
+                markInstance.mark(highlight);
             }
-        });
 
-let search = function() {
-            const query = new URLSearchParams({"q": input.value});
-            console.log(query.toString());
-            window.location.href = "/search.html?" + query.toString();
-}
-</script>
+            input.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    search_button.click();
+                }
+            });
+
+            let search = function() {
+                const query = new URLSearchParams({"q": input.value});
+                console.log(query.toString());
+                window.location.href = "/search.html?" + query.toString();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(
+                    document.body,
+                    {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "\\[", right: "\\]", display: true},
+                            {left: "$", right: "$", display: false},
+                            {left: "\\(", right: "\\)", display: false}
+                        ]
+                    }
+                );
+            });
+        </script>
 
 </body>
 </html>

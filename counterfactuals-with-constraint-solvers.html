@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Counterfactuals with Constraint Solvers">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/counterfactuals-with-constraint-solvers.html">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,15 +18,64 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <link href="/assets/code.css" rel="stylesheet">
+    <style>
+        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: white;
+            color: black;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-filter .hljs-argument,
+        .hljs-addition,
+        .hljs-change,
+        .hljs-name,
+        .apache .hljs-tag,
+        .apache .hljs-cbracket,
+        .nginx .hljs-built_in,
+        .tex .hljs-formula {
+            color: #888;
+        }
+
+        .hljs-comment,
+        .hljs-shebang,
+        .hljs-doctype,
+        .hljs-pi,
+        .hljs-javadoc,
+        .hljs-deletion,
+        .apache .hljs-sqbracket {
+            color: #ccc;
+        }
+
+        .hljs-keyword,
+        .hljs-tag .hljs-title,
+        .ini .hljs-title,
+        .lisp .hljs-title,
+        .http .hljs-title,
+        .nginx .hljs-title,
+        .css .hljs-tag,
+        .hljs-winutils,
+        .hljs-flow,
+        .apache .hljs-tag,
+        .tex .hljs-command,
+        .hljs-request,
+        .hljs-status {
+            font-weight: bold;
+        }
+    </style>
     <title>ruivieira.dev - Counterfactuals with Constraint Solvers</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -50,139 +99,176 @@
             border-radius: 5px;
             width: 3rem;
         }
-</style>
+    </style>
 </head>
 <body>
-    <div id="grid">
+<div id="grid">
 
-        <div id="content">
-            <h1 id="counterfactuals-with-constraint-solvers">Counterfactuals with constraint solvers</h1>
+    <div id="content">
+        <h1 id="counterfactuals-with-constraint-solvers">Counterfactuals with constraint solvers</h1>
 <h2 id="scoring">Scoring</h2>
-<p>An implementation on how to calculate <a href="/counterfactuals.html">counterfactuals</a> with Constraint Solvers (namely <a href="/optaplanner.html">OptaPlanner</a>) is available <a href="https://github.com/kiegroup/trusty-ai-sandbox/tree/master/explainability/core/counterfactuals">here</a>.</p>
-<p>This implementation satisfies several criteria of the <a href="/counterfactuals.html#Desiderata">counterfactuals desiderata</a>.</p>
-<p>The penalisation score is represented with a <code>BendableBigDecimalScore</code><sup id="fnref:BendableBigDecimalScore"><a class="footnote-ref" href="#fn:BendableBigDecimalScore">1</a></sup>, having three "<em>hard</em>" levels and one "<em>soft</em>" level.</p>
-<p><img alt="" src="./images/diagrams/counterfactual_score.png" /></p>
-<p>The first hard level component, <span class="point">1</span>, penalises the score according to the distance between the prediction, \(y^{\prime}\) for the currently proposed solution, \(x^{\prime}\) and the original prediction \(y\), that is this our \((\hat{f}(x^{\prime})-y^{\prime})^2\).</p>
-<p>The <a href="/counterfactuals.html#Actionability">actionability</a> is score with <span class="point">2</span>. This component penalises the score according to number of <em>immutable</em> features which were changed in the counterfactual.</p>
-<p>A confidence score component, <span class="point">3</span> is use to, optionally, impose a minimum confidence threshold to the counterfactual's associated prediction, \(x^{\prime}\).</p>
+<p>An implementation on how to calculate <a href="counterfactuals.html">counterfactuals</a> with Constraint Solvers (namely <a href="optaplanner.html">OptaPlanner</a>) is available <a href="https://github.com/kiegroup/trusty-ai-sandbox/tree/master/explainability/core/counterfactuals">here</a>.</p>
+<p>This implementation satisfies several criteria of the <a href="counterfactuals.html#Desiderata">counterfactuals desiderata</a>.</p>
+<p>The penalisation score is represented with a <code>BendableBigDecimalScore</code><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>, having three &quot;<em>hard</em>&quot; levels and one &quot;<em>soft</em>&quot; level.</p>
+<p><img src="./images/diagrams/counterfactual_score.png" alt=""></p>
+<p>The first hard level component, <span class="point">1</span>, penalises the score according to the distance between the prediction, $y^{\prime}$ for the currently proposed solution, $x^{\prime}$ and the original prediction $y$, that is this our $(\hat{f}(x^{\prime})-y^{\prime})^2$.</p>
+<p>The <a href="counterfactuals.html#Actionability">actionability</a> is score with <span class="point">2</span>. This component penalises the score according to number of <em>immutable</em> features which were changed in the counterfactual.</p>
+<p>A confidence score component, <span class="point">3</span> is use to, optionally, impose a minimum confidence threshold to the counterfactual's associated prediction, $x^{\prime}$.</p>
 <p>Finally, the <em>feature distance</em>, <span class="point">4</span>, penalises the score according to the feature distance. This is the representation of</p>
-\[
+<p>$$
 d(x, x^{\prime}).
-\]
-
-<p>In the concrete implementation linked above, the distance, \(d\), chosen is a <a href="/distance-metrics.html#Manhattan distance L1">Manhattan</a> (or \(L^1\)) distance calculated feature-wise.</p>
+$$</p>
+<p>In the concrete implementation linked above, the distance, $d$, chosen is a [Manhattan](distance-metrics.html#Manhattan distance L1) (or $L^1$) distance calculated feature-wise.</p>
 <h2 id="implementation">Implementation</h2>
-<p><img alt="" src="./images/diagrams/counterfactual_impl.png" /></p>
+<p><img src="./images/diagrams/counterfactual_impl.png" alt=""></p>
 <p>Entities are defined by classes such as <code>Integer</code>, <code>Categorical</code>, <code>Boolean</code> or <code>Float</code>, as shown in <span class="point">5</span>.
 Each of the features, shown in <span class="point">6</span>, is created as an instance of one of these entities. For instance, <code>feature1</code> would be of type <code>Integer</code> and <code>feature2</code> would be of type <code>Categorical</code>, <em>etc.</em></p>
-<p>The original data point, \(x\) is represented by this set of features (<span class="point">6</span>).</p>
+<p>The original data point, $x$ is represented by this set of features (<span class="point">6</span>).</p>
 <p>A planning solution (<code>PlanningSolution</code>), illustrated in <span class="point">7</span> will produce candidate solutions (shown in <span class="point">8</span>)</p>
-<p>For each solution, we propose a new set of features (\(x^{\prime}\)) as a counterfactual candidate. For instance, <code>solution A</code> in <span class="point">8</span>.</p>
-<p>In the following section we will look at how each component is calculated. We will refer to each "hard" level component as \(H_1, H_2\) and \(H_3\) and the "soft" component as \(S_1\). The overal score consists, then, of \(S=\{H_1, H_2, H_3, S_1 \}\)</p>
+<p>For each solution, we propose a new set of features ($x^{\prime}$) as a counterfactual candidate. For instance, <code>solution A</code> in <span class="point">8</span>.</p>
+<p>In the following section we will look at how each component is calculated. We will refer to each &quot;hard&quot; level component as $H_1, H_2$ and $H_3$ and the &quot;soft&quot; component as $S_1$. The overal score consists, then, of $S=\{H_1, H_2, H_3, S_1 \}$</p>
 <h3 id="prediction-distance">Prediction distance</h3>
-<p>The first component of the score, <span class="point">1</span> is established by sending the proposed counterfactual \(x^{\prime}\), <span class="point">8</span> to a predictive model, <span class="point">9</span> and calculating the distance between the desired outcome, \(y^{\prime}\) and the model's prediction. This is done component wise, for each feature of the output. That is, for a prediction with \(N\) features, we calculate</p>
-\[
+<p>The first component of the score, <span class="point">1</span> is established by sending the proposed counterfactual $x^{\prime}$, <span class="point">8</span> to a predictive model, <span class="point">9</span> and calculating the distance between the desired outcome, $y^{\prime}$ and the model's prediction. This is done component wise, for each feature of the output. That is, for a prediction with $N$ features, we calculate</p>
+<p>$$
 H_1=\left(\sum_i^Nf(x^{\prime}_i) - y^{\prime}_i\right)^2
-\]
-
+$$</p>
 <h3 id="actionability-score">Actionability score</h3>
-<p>For the second component, the actionability score, <span class="point">2</span>. We calculate the number of features for the protected set \(\mathcal{A}\), which have a different value from the original. That is, assuming we have a certain number of protectd features \(M\), such that \(\mathcal{A}=\{A_1,A_2,\dots,A_M\}\), we calculate:</p>
-\[
-H_2 = \sum_{a \in \mathcal{A}} \mathbb{1}(x_a \neq x^{\prime}_a), 
-\]
-
+<p>For the second component, the actionability score, <span class="point">2</span>. We calculate the number of features for the protected set $\mathcal{A}$, which have a different value from the original. That is, assuming we have a certain number of protectd features $M$, such that $\mathcal{A}=\{A_1,A_2,\dots,A_M\}$, we calculate:</p>
+<p>$$
+H_2 = \sum_{a \in \mathcal{A}} \mathbb{1}(x_a \neq x^{\prime}_a),
+$$</p>
 <h3 id="confidence-score">Confidence score</h3>
-<p>For each feature \(i\), if we have a prediction confidence, \(p_i(f(x^{\prime}))\), we calculate the number of features which have a confidence below a certain predefined threshold, \(P_i\). If the threshold is not defined, this component will always be zero and not influence the counterfactual selection. Assuming we have defined a threshold for all \(N\) features, \(P = \{P_1, P_2, \dots, P_N\}\) we calculate this score as</p>
-\[
+<p>For each feature $i$, if we have a prediction confidence, $p_i(f(x^{\prime}))$, we calculate the number of features which have a confidence below a certain predefined threshold, $P_i$. If the threshold is not defined, this component will always be zero and not influence the counterfactual selection. Assuming we have defined a threshold for all $N$ features, $P = \{P_1, P_2, \dots, P_N\}$ we calculate this score as</p>
+<p>$$
 H_3 = \sum_i^N \mathbb{1} \left( p_i \left( f(x^{\prime}) &lt; P_i \right) \right)
-\]
-
+$$</p>
 <h3 id="feature-distance">Feature distance</h3>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:BendableBigDecimalScore">
-<p><em>c.f.</em> https://docs.optaplanner.org/8.0.0.Final/optaplanner-javadoc/org/optaplanner/core/api/score/buildin/bendablebigdecimal/BendableBigDecimalScore.html&#160;<a class="footnote-backref" href="#fnref:BendableBigDecimalScore" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>Considering that each datapoint $x$ consists of different $N$ features, such that $x=\left(f_1,\dots,f_n\right)$ and that each feature might be numerical or categorical<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>, we calculate the distance between a datapoint $x$ and a potential counterfactual $x^{\prime}$:</p>
+<p>$$
+d\left(x,x^{\prime}\right)=\sum_{i=1}^Nd^{\prime}\left(x_i,x_i^{\prime}\right)
+$$
+$$
+d^{\prime}\left(x_i,x_i^{\prime}\right)=
+\begin{cases}
+\left(x_i-x_i^{\prime}\right)^2,\quad\text{if}\ x_i,x_i^{\prime}\in\mathbb{N} \lor x_i,x_i^{\prime}\in\mathbb{R}\\
+1-\delta_{x,x^{\prime}},\quad\text{if}\ x_i,x_i^{\prime}\ \text{categorical}
+\end{cases}
+$$</p>
+<p>Since in many scenarios we might not have access to the training data, the above distance are not normalised. In the event that we do have access to training data, then we can use the <strong>standard deviation</strong> ($SD$) to normalise the features. The $SD$ can be calculated as:</p>
+<p>$$
+SD=\sqrt{\frac{1}{N}\sum_{i=1}^N\left(x_i-\bar{x}\right)^2}
+$$</p>
+<p>so that, in this case, we scale the numerical features with</p>
+<p>$$
+\bar{d}^{\prime}\left(x_i,x_i^{\prime}\right)=
+\frac{\left(x_i-x_i^{\prime}\right)^2}{SD}.
+$$</p>
+<h2 id="searching">Searching</h2>
+<p>To search for a counterfactual, we start by specifying a search domain for each feature.
+This will include:</p>
+<ul>
+<li>An upper and lower bounds for numerical features, respectively $\mathcal{D}_l, \mathcal{D}_u$</li>
+<li>A set of categories for categorical features, $\mathcal{C}$</li>
+<li>$\mathcal{B}=\{0,1\}$ for the specific case of boolean/binary values</li>
+</ul>
+<p>Typically these values would be either established by someone with domain knowledge, or by values that might reflect our expectation for the actual counterfactual (for instance, an <code>age</code> would have realistic values).</p>
+<p>The algorithm used for the search is <strong>Tabu search</strong><sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup> (Glover, 1989).</p>
+<p><img src="./images/diagrams/tabu_chart.png" alt=""></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1"  class="footnote-item"><p><em>c.f.</em> https://docs.optaplanner.org/8.0.0.Final/optaplanner-javadoc/org/optaplanner/core/api/score/buildin/bendablebigdecimal/BendableBigDecimalScore.html <a href="#fnref1" class="footnote-backref">↩</a></p>
+</li>
+<li id="fn2"  class="footnote-item"><p>Here we are considering binary and boolean values as categorical. <a href="#fnref2" class="footnote-backref">↩</a></p>
+</li>
+<li id="fn3"  class="footnote-item"><p>Glover, Fred. &quot;Tabu search—part I.&quot; <em>ORSA Journal on computing</em> 1, no. 3 (1989): 190-206. <a href="#fnref3" class="footnote-backref">↩</a></p>
 </li>
 </ol>
-</div>
-            <div class="footer">
-                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-            </div>
+</section>
+        <div class="footer">
+            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
         </div>
+    </div>
 
-        <div id="sidebar">
-            <div id="sidebar-search">
-                <input id="search_terms" type="search" placeholder="Search terms" />
-                <button id="search_button" onclick="search()">?</button>
-            </div>
-            <div id="sidebar-home"><a href="/">Home</a></div>
-            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+    <div id="sidebar">
+        <div id="sidebar-search">
+            <input id="search_terms" type="search" placeholder="Search terms" />
+            <button id="search_button" onclick="search()">?</button>
+        </div>
+        <div id="sidebar-home"><a href="/">Home</a></div>
+        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-            <div id="sidebar-contents">
-                <h3>Contents</h3>
-                <div class="toc">
-<ul>
+        <div id="sidebar-contents">
+            <h3>Contents</h3>
+            <ul>
 <li><a href="#scoring">Scoring</a></li>
-<li><a href="#implementation">Implementation</a><ul>
+<li><a href="#implementation">Implementation</a>
+<ul>
 <li><a href="#prediction-distance">Prediction distance</a></li>
 <li><a href="#actionability-score">Actionability score</a></li>
 <li><a href="#confidence-score">Confidence score</a></li>
 <li><a href="#feature-distance">Feature distance</a></li>
+</ul></li>
+<li><a href="#searching">Searching</a></li>
 </ul>
-</li>
-</ul>
-</div>
-    
-                
-                <h3>Backlinks</h3>
-                    <ul>
-                    
-                        <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/explainability.html">Explainability</a><sup>&#5833</sup></li>
-                    
-                    </ul>
-                
-            </div>
+
+                        <h3>Backlinks</h3>
+            <ul>
+                                <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
+                                <li><a href="/explainability.html">Explainability</a><sup>&#5833</sup></li>
+                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                            </ul>
+                    </div>
 
 
 
-            <div class="footer">
-                modified 1611740059
-            </div>
+        <div class="footer">
+            modified just now        </div>
 
-        </div>
+    </div>
     <div>
 
-<script>
-const input = document.getElementById('search_terms');
-const highlight = new URLSearchParams(document.location.search).get("h");
+        <script>
+            const input = document.getElementById('search_terms');
+            const highlight = new URLSearchParams(document.location.search).get("h");
 
-if (highlight!=null) {
-    const markInstance = new Mark("#content");
-    markInstance.mark(highlight);
-}
-
-input.addEventListener("keyup", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-            if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                search_button.click();
+            if (highlight!=null) {
+                const markInstance = new Mark("#content");
+                markInstance.mark(highlight);
             }
-        });
 
-let search = function() {
-            const query = new URLSearchParams({"q": input.value});
-            console.log(query.toString());
-            window.location.href = "/search.html?" + query.toString();
-}
-</script>
+            input.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    search_button.click();
+                }
+            });
+
+            let search = function() {
+                const query = new URLSearchParams({"q": input.value});
+                console.log(query.toString());
+                window.location.href = "/search.html?" + query.toString();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(
+                    document.body,
+                    {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "\\[", right: "\\]", display: true},
+                            {left: "$", right: "$", display: false},
+                            {left: "\\(", right: "\\)", display: false}
+                        ]
+                    }
+                );
+            });
+        </script>
 
 </body>
 </html>

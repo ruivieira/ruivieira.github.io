@@ -1,158 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link
-    rel="icon"
-    type="image/png"
-    sizes="16x16"
-    href="/favicons/favicon-16x16.png"
-  />
-  <link
-    rel="icon"
-    type="image/png"
-    sizes="32x32"
-    href="/favicons/favicon-32x32.png"
-  />
-  <link
-    rel="icon"
-    type="image/png"
-    sizes="48x48"
-    href="/favicons/favicon.ico"
-  />
+    <link
+            href="/favicons/favicon-16x16.png"
+            rel="icon"
+            sizes="16x16"
+            type="image/png"
+    />
+    <link
+            href="/favicons/favicon-32x32.png"
+            rel="icon"
+            sizes="32x32"
+            type="image/png"
+    />
+    <link
+            href="/favicons/favicon.ico"
+            rel="icon"
+            sizes="48x48"
+            type="image/png"
+    />
 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="canonical" href="https://ruivieira.dev/graph.html">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="https://ruivieira.dev/graph.html" rel="canonical">
 
-  <script src="/assets/vis-network.min.js"></script>
-  <script src="/graph.js"></script>
+    <script src="/assets/vis-network.min.js"></script>
+    <script src="/graph.js"></script>
 
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap"
-    rel="stylesheet"
-  />
-  <link href="/assets/style.css" rel="stylesheet" />
-  <link href="/assets/code.css" rel="stylesheet" />
-  <title>ruivieira.dev - Search page</title>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <style>
-    #search_terms {
-      width: 75%;
-      font-size: 2rem;
-      font-family: Nunito;
-      margin-top: 7rem;
-    }
-    #search_button {
-      background-color: #ddd;
-      border: none;
-      color: black;
-      padding: 0.5rem 1rem;
-      font-size: 2rem;
-      font-family: Nunito;
-      text-decoration: none;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 10px;
-      width: 20%;
-    }
-    #results {
-      margin-top: 2rem;
-    }
-    #graph {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 75%;
-      border: 1px solid lightgray;
-    }
-    #links {
-      position: fixed;
-      top: 0;
-      height: 25%;
-      overflow-y: scroll;
-      max-width: 40rem;
-    }
-    #node-links {
-      font-size: 0.75rem;
-      margin-bottom: 3rem;
-    }
-  </style>
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap"
+            rel="stylesheet"
+    />
+    <link href="/assets/style.css" rel="stylesheet"/>
+    <link href="/assets/code.css" rel="stylesheet"/>
+    <title>ruivieira.dev - Search page</title>
+    <script async data-goatcounter="https://ruivieira-dev.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+    <style>
+        #search_terms {
+            width: 75%;
+            font-size: 2rem;
+            font-family: Nunito;
+            margin-top: 7rem;
+        }
+
+        #search_button {
+            background-color: #ddd;
+            border: none;
+            color: black;
+            padding: 0.5rem 1rem;
+            font-size: 2rem;
+            font-family: Nunito;
+            text-decoration: none;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
+            width: 20%;
+        }
+
+        #results {
+            margin-top: 2rem;
+        }
+
+        #graph {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 75%;
+            border: 1px solid lightgray;
+        }
+
+        #links {
+            position: fixed;
+            top: 0;
+            height: 25%;
+            overflow-y: scroll;
+            max-width: 40rem;
+        }
+
+        #node-links {
+            font-size: 0.75rem;
+            margin-bottom: 3rem;
+        }
+    </style>
 </head>
 <body>
 <div id="grid">
     <div id="content">
-      <div id="links">
-        <p id="node-title"></p>
-        <p id="node-links"></p>
-      </div>
+        <div id="links">
+            <p id="node-title"></p>
+            <p id="node-links"></p>
+        </div>
     </div>
 
     <div id="sidebar">
-      <p><a href="/">Home</a></p>
-      <p><a href="/content.html">All pages</a></p>
+        <p><a href="/">Home</a></p>
+        <p><a href="/content.html">All pages</a></p>
 
-      <div class="footer">modified .</div>
+        <div class="footer">modified .</div>
     </div>
 
     <div id="graph"></div>
 </div>
-  <script>
+<script>
     // create a network
     const container = document.getElementById("graph");
     const data = {
-      nodes: nodes,
-      edges: edges,
+        nodes: nodes,
+        edges: edges,
     };
 
     const nodeTitle = document.getElementById("node-title");
     const nodeLink = document.getElementById("node-links");
 
     const options = {
-      layout: { randomSeed: 2 },
-      nodes: {
-        shape: "dot",
-        color: "#ffd0d8",
-        font: "12px Nunito black",
-      },
+        layout: {randomSeed: 2},
+        nodes: {
+            shape: "dot",
+            color: "#ffd0d8",
+            font: "12px Nunito black",
+        },
     };
     const network = new vis.Network(container, data, options);
 
     let findNode = function (id) {
-      return nodes.find((x) => x.id === id);
+        return nodes.find((x) => x.id === id);
     };
 
     network.on("click", function (params) {
-      params.event = "[original event]";
-      const id = this.getNodeAt(params.pointer.DOM);
-      const selectedNode = findNode(id);
-      nodeTitle.innerHTML = `<a href="${selectedNode.url}">${selectedNode.label}</a>`;
-      let links = new Set();
-      const destinations = edges.filter((x) => x.from === id);
-      if (destinations.length > 0) {
-        for (destination of destinations) {
-          links.add(findNode(destination.to));
+        params.event = "[original event]";
+        const id = this.getNodeAt(params.pointer.DOM);
+        const selectedNode = findNode(id);
+        nodeTitle.innerHTML = `<a href="${selectedNode.url}">${selectedNode.label}</a>`;
+        let links = new Set();
+        const destinations = edges.filter((x) => x.from === id);
+        if (destinations.length > 0) {
+            for (destination of destinations) {
+                links.add(findNode(destination.to));
+            }
         }
-      }
-      const sources = edges.filter((x) => x.to === id);
-      if (sources.length > 0) {
-        for (source of sources) {
-          links.add(findNode(source.from));
+        const sources = edges.filter((x) => x.to === id);
+        if (sources.length > 0) {
+            for (source of sources) {
+                links.add(findNode(source.from));
+            }
         }
-      }
-      if (links.size > 0) {
-        console.log(links);
-        let text = [];
-        for (link of links) {
-          text.push(`<a href="${link.url}">${link.label}</a>`);
+        if (links.size > 0) {
+            console.log(links);
+            let text = [];
+            for (link of links) {
+                text.push(`<a href="${link.url}">${link.label}</a>`);
+            }
+            nodeLink.innerHTML = "This page links to " + text.join(", ") + ".";
+            console.log(
+                    "click event, getNodeAt returns: " +
+                    this.getNodeAt(params.pointer.DOM)
+            );
         }
-        nodeLink.innerHTML = "This page links to " + text.join(", ") + ".";
-        console.log(
-          "click event, getNodeAt returns: " +
-            this.getNodeAt(params.pointer.DOM)
-        );
-      }
     });
-  </script>
+</script>
 </body>
 </html>

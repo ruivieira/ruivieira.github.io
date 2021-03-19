@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on index">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/index.html">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,16 +18,65 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <link href="/assets/code.css" rel="stylesheet">
-    <title>ruivieira.dev - Main page of ruivieira.dev</title>
+    <style>
+        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: white;
+            color: black;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-filter .hljs-argument,
+        .hljs-addition,
+        .hljs-change,
+        .hljs-name,
+        .apache .hljs-tag,
+        .apache .hljs-cbracket,
+        .nginx .hljs-built_in,
+        .tex .hljs-formula {
+            color: #888;
+        }
+
+        .hljs-comment,
+        .hljs-shebang,
+        .hljs-doctype,
+        .hljs-pi,
+        .hljs-javadoc,
+        .hljs-deletion,
+        .apache .hljs-sqbracket {
+            color: #ccc;
+        }
+
+        .hljs-keyword,
+        .hljs-tag .hljs-title,
+        .ini .hljs-title,
+        .lisp .hljs-title,
+        .http .hljs-title,
+        .nginx .hljs-title,
+        .css .hljs-tag,
+        .hljs-winutils,
+        .hljs-flow,
+        .apache .hljs-tag,
+        .tex .hljs-command,
+        .hljs-request,
+        .hljs-status {
+            font-weight: bold;
+        }
+    </style>
+    <title>ruivieira.dev - index</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
         #search_terms {
@@ -50,155 +99,164 @@
             border-radius: 5px;
             width: 3rem;
         }
-</style>
+    </style>
 </head>
 <body>
-    <div id="grid">
+<div id="grid">
 
-        <div id="content">
-            <h1 id="ruivieiradev">ruivieira.dev</h1>
-<div class="highlight"><pre><span></span><code>-----BEGIN GEEK CODE BLOCK-----
+    <div id="content">
+        <h1 id="ruivieira.dev">ruivieira.dev</h1>
+<pre><code class="language-text">-----BEGIN GEEK CODE BLOCK-----
 Version: 3.1
 GCS/M/MU d-- s:+&gt; !a C++$&gt;+++ ULC P+&gt;++ L+++&gt;++++ E-@ W++ 
 !N&gt;+ !o K--? !w O&gt;+ M+ !V PS++@ PE-@ !Y PGP@&gt;++ t+ !5 X++ 
 R@&gt;+ tv+&gt; b++&gt;+++ DI&gt;+ D++&gt;+++ G++&gt;+++ e++++ h---- r+++ z
 ------END GEEK CODE BLOCK------
-</code></pre></div>
-
+</code></pre>
 <h2 id="welcome">Welcome</h2>
 <p>Welcome to my site, <strong>ruivieira.dev</strong>.</p>
-<p>Formerly, this site used to be a blog. Currently, it is adhering to the principles of a <a href="/digital-garden.html">Digital Garden</a> and following the guidelines of <a href="/brutalist-web-design.html">Brutalist Web Design</a>. It is intended to be a collection of notes, a learning journal and a reference -- all growing organically. Parts of this site and other additional content (including a <code>gemlog</code>) are available at <a href="gemini://ruivieira.srht.site/">ruivieira.srht.site</a> (using <a href="/gemini.html">Gemini</a>).</p>
-<p>Technical details about this site are available on the <a href="/site-details.html">site details</a> page.</p>
-<p>You can still find most of my old "blog posts" here:</p>
+<p>Formerly, this site used to be a blog. Currently, it is adhering to the principles of a <a href="digital-garden.html">Digital Garden</a> and following the guidelines of <a href="brutalist-web-design.html">Brutalist Web Design</a>. It is intended to be a collection of notes, a learning journal and a reference -- all growing organically. Parts of this site and other additional content (including a <code>gemlog</code>) are available at <a href="gemini://ruivieira.srht.site/">ruivieira.srht.site</a> (using <a href="gemini.html">Gemini</a>).</p>
+<p>Technical details about this site are available on the <a href="site-details.html">site details</a> page.</p>
+<p>You can still find most of my old &quot;blog posts&quot; here:</p>
 <ul>
-<li><a href="/serving-models-with-seldon.html">Serving models with Seldon</a></li>
-<li><a href="/semi-handcrafted-rss.html">(Semi) handcrafted RSS</a></li>
-<li><a href="/introduction-to-balanced-box-decomposition-trees.html">Introduction to Balanced Box-Decomposition Trees</a></li>
-<li><a href="/monotonic-cubic-spline-interpolation-with-some-rust.html">Monotonic Cubic Spline interpolation (with some Rust)</a></li>
-<li><a href="/python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a></li>
-<li><a href="/introduction-to-isolation-forests.html">Introduction to Isolation Forests</a></li>
-<li><a href="/mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
-<li><a href="/containerised-streaming-data-generation-using-state-space-models.html">Containerised Streaming Data Generation using State-Space Models</a></li>
-<li><a href="/a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
-<li><a href="/a-streaming-als-implementation.html">A streaming ALS implementation</a></li>
-<li><a href="/bayesian-estimation-of-changepoints.html">Bayesian estimation of changepoints</a></li>
-<li><a href="/t-as-mixture-of-normals.html">t as mixture of Normals</a></li>
-<li><a href="/langtons-ant.html">Langton's Ant</a></li>
-<li><a href="/a-gibbs-sampler-in-crystal.html">A Gibbs Sampler in Crystal</a></li>
-<li><a href="/mcmc-notifications.html">MCMC notifications</a></li>
-<li><a href="/gulp.html">gulp</a></li>
+<li><a href="serving-models-with-seldon.html">Serving models with Seldon</a></li>
+<li><a href="semi-handcrafted-rss.html">(Semi) handcrafted RSS</a></li>
+<li><a href="introduction-to-balanced-box-decomposition-trees.html">Introduction to Balanced Box-Decomposition Trees</a></li>
+<li><a href="monotonic-cubic-spline-interpolation-with-some-rust.html">Monotonic Cubic Spline interpolation (with some Rust)</a></li>
+<li><a href="python-monkey-patching-for-readability.html">Python monkey patching (for readability)</a></li>
+<li><a href="introduction-to-isolation-forests.html">Introduction to Isolation Forests</a></li>
+<li><a href="mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
+<li><a href="containerised-streaming-data-generation-using-state-space-models.html">Containerised Streaming Data Generation using State-Space Models</a></li>
+<li><a href="a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
+<li><a href="a-streaming-als-implementation.html">A streaming ALS implementation</a></li>
+<li><a href="bayesian-estimation-of-changepoints.html">Bayesian estimation of changepoints</a></li>
+<li><a href="t-as-mixture-of-normals.html">t as mixture of Normals</a></li>
+<li><a href="langtons-ant.html">Langton's Ant</a></li>
+<li><a href="a-gibbs-sampler-in-crystal.html">A Gibbs Sampler in Crystal</a></li>
+<li><a href="mcmc-notifications.html">MCMC notifications</a></li>
+<li><a href="gulp.html">gulp</a></li>
 </ul>
-<p>Some topics on <a href="/machine-learning.html">Machine Learning</a>:</p>
+<p>Some topics on <a href="machine-learning.html">Machine Learning</a>:</p>
 <ul>
-<li>A section on <a href="/explainability.html">Explainability</a>, with a focus on<ul>
-<li><a href="/counterfactuals.html">Counterfactuals</a></li>
-</ul>
-</li>
-<li><a href="/synthetic-data-generation.html">Synthetic data generation</a><ul>
-<li>Using <a href="/synthetic-data-with-sdv-and-gaussian-copulas.html">Gaussian copulas</a>, <a href="/synthetic-data-with-sdv-and-ctgan.html">CTGAN</a> and <a href="/synthetic-data-with-sdv-and-copulagan.html">CopulaGAN</a></li>
-</ul>
-</li>
-<li>Optimisation methods, including <a href="/hill-climbing-optimisation.html">Hill-climbing optimisation</a></li>
+<li>A section on <a href="explainability.html">Explainability</a>, with a focus on
+<ul>
+<li><a href="counterfactuals.html">Counterfactuals</a></li>
+</ul></li>
+<li><a href="synthetic-data-generation.html">Synthetic data generation</a>
+<ul>
+<li>Using <a href="synthetic-data-with-sdv-and-gaussian-copulas.html">Gaussian copulas</a>, <a href="synthetic-data-with-sdv-and-ctgan.html">CTGAN</a> and <a href="synthetic-data-with-sdv-and-copulagan.html">CopulaGAN</a></li>
+</ul></li>
+<li>Optimisation methods, including <a href="hill-climbing-optimisation.html">Hill-climbing optimisation</a></li>
 </ul>
 <p>There are some areas about programming languages I frequently use, in no particular order:</p>
 <ul>
-<li><a href="/go.html">Go</a></li>
-<li><a href="/python.html">Python</a></li>
-<li><a href="/java.html">Java</a></li>
-<li><a href="/clojure.html">Clojure</a></li>
-<li><a href="/rust.html">Rust</a></li>
-<li><a href="/deno.html">Deno</a></li>
+<li><a href="go.html">Go</a></li>
+<li><a href="python.html">Python</a></li>
+<li><a href="java.html">Java</a></li>
+<li><a href="clojure.html">Clojure</a></li>
+<li><a href="rust.html">Rust</a></li>
+<li><a href="deno.html">Deno</a></li>
 </ul>
 <p>And other frameworks/tools:</p>
 <ul>
-<li><a href="/ansible.html">Ansible</a></li>
-<li><a href="/emacs.html">Emacs</a></li>
+<li><a href="ansible.html">Ansible</a></li>
+<li><a href="emacs.html">Emacs</a></li>
 </ul>
 <h2 id="about-me">About me</h2>
-<p>I'm a software engineer at <a href="https://www.redhat.com/en/about">Red Hat</a><sup id="fnref:redhat"><a class="footnote-ref" href="#fn:redhat">1</a></sup> working on distributed applications, process automation and machine learning. I have a PhD in Bayesian Statistics (specifically in Sequential Monte-Carlo methods for long-running streaming data) from the <a href="https://www.ncl.ac.uk/maths-physics/">School of Mathematics, Statistics and Physics</a> at Newcastle University, UK.</p>
+<p>I'm a software engineer at <a href="https://www.redhat.com/en/about">Red Hat</a><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> working on distributed applications, process automation and machine learning. I have a PhD in Bayesian Statistics (specifically in Sequential Monte-Carlo methods for long-running streaming data) from the <a href="https://www.ncl.ac.uk/maths-physics/">School of Mathematics, Statistics and Physics</a> at Newcastle University, UK.</p>
 <h2 id="recently-changed">Recently changed</h2>
 <ul>
-<li><a href="/hill-climbing-optimisation.html">Hill-climbing optimisation</a></li>
-<li><a href="/dunn-index.html">Dunn index</a></li>
-<li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a></li>
-<li><a href="/ssh.html">SSH</a></li>
-<li><a href="/gpg.html">GPG</a></li>
-<li><a href="/python-grammar-of-graphics.html">Python grammar of graphics</a></li>
-<li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a></li>
-<li><a href="/counterfactual-fairness.html">Counterfactual Fairness</a></li>
-<li><a href="/distance-metrics.html">Distance metrics</a></li>
-<li><a href="/portuguese-christmas-recipes.html">Portuguese Christmas recipes</a></li>
-<li><a href="/java-consumer.html">Java consumer</a></li>
+<li><a href="hill-climbing-optimisation.html">Hill-climbing optimisation</a></li>
+<li><a href="dunn-index.html">Dunn index</a></li>
+<li><a href="optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a></li>
+<li><a href="ssh.html">SSH</a></li>
+<li><a href="gpg.html">GPG</a></li>
+<li><a href="python-grammar-of-graphics.html">Python grammar of graphics</a></li>
+<li><a href="counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a></li>
+<li><a href="counterfactual-fairness.html">Counterfactual Fairness</a></li>
+<li><a href="distance-metrics.html">Distance metrics</a></li>
+<li><a href="portuguese-christmas-recipes.html">Portuguese Christmas recipes</a></li>
+<li><a href="java-consumer.html">Java consumer</a></li>
 </ul>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:redhat">
-<p>All opinions on this site are my own, not Red Hat's.&#160;<a class="footnote-backref" href="#fnref:redhat" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1"  class="footnote-item"><p>All opinions on this site are my own, not Red Hat's. <a href="#fnref1" class="footnote-backref">↩</a></p>
 </li>
 </ol>
-</div>
-            <div class="footer">
-                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-            </div>
+</section>
+        <div class="footer">
+            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
         </div>
+    </div>
 
-        <div id="sidebar">
-            <div id="sidebar-search">
-                <input id="search_terms" type="search" placeholder="Search terms" />
-                <button id="search_button" onclick="search()">?</button>
-            </div>
-            <div id="sidebar-home"><a href="/">Home</a></div>
-            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+    <div id="sidebar">
+        <div id="sidebar-search">
+            <input id="search_terms" type="search" placeholder="Search terms" />
+            <button id="search_button" onclick="search()">?</button>
+        </div>
+        <div id="sidebar-home"><a href="/">Home</a></div>
+        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-            <div id="sidebar-contents">
-                <h3>Contents</h3>
-                <div class="toc">
-<ul>
+        <div id="sidebar-contents">
+            <h3>Contents</h3>
+            <ul>
 <li><a href="#welcome">Welcome</a></li>
 <li><a href="#about-me">About me</a></li>
 <li><a href="#recently-changed">Recently changed</a></li>
 </ul>
-</div>
-    
-                
-            </div>
+
+                    </div>
 
 
 
-            <div class="footer">
-                modified 1615065314
-            </div>
+        <div class="footer">
+            modified 1 week ago        </div>
 
-        </div>
+    </div>
     <div>
 
-<script>
-const input = document.getElementById('search_terms');
-const highlight = new URLSearchParams(document.location.search).get("h");
+        <script>
+            const input = document.getElementById('search_terms');
+            const highlight = new URLSearchParams(document.location.search).get("h");
 
-if (highlight!=null) {
-    const markInstance = new Mark("#content");
-    markInstance.mark(highlight);
-}
-
-input.addEventListener("keyup", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-            if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                search_button.click();
+            if (highlight!=null) {
+                const markInstance = new Mark("#content");
+                markInstance.mark(highlight);
             }
-        });
 
-let search = function() {
-            const query = new URLSearchParams({"q": input.value});
-            console.log(query.toString());
-            window.location.href = "/search.html?" + query.toString();
-}
-</script>
+            input.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    search_button.click();
+                }
+            });
+
+            let search = function() {
+                const query = new URLSearchParams({"q": input.value});
+                console.log(query.toString());
+                window.location.href = "/search.html?" + query.toString();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(
+                    document.body,
+                    {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "\\[", right: "\\]", display: true},
+                            {left: "$", right: "$", display: false},
+                            {left: "\\(", right: "\\)", display: false}
+                        ]
+                    }
+                );
+            });
+        </script>
 
 </body>
 </html>
