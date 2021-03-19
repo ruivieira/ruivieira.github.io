@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Java consumer">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/java-consumer.html">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,15 +18,64 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <link href="/assets/code.css" rel="stylesheet">
+    <style>
+        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: white;
+            color: black;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-filter .hljs-argument,
+        .hljs-addition,
+        .hljs-change,
+        .hljs-name,
+        .apache .hljs-tag,
+        .apache .hljs-cbracket,
+        .nginx .hljs-built_in,
+        .tex .hljs-formula {
+            color: #888;
+        }
+
+        .hljs-comment,
+        .hljs-shebang,
+        .hljs-doctype,
+        .hljs-pi,
+        .hljs-javadoc,
+        .hljs-deletion,
+        .apache .hljs-sqbracket {
+            color: #ccc;
+        }
+
+        .hljs-keyword,
+        .hljs-tag .hljs-title,
+        .ini .hljs-title,
+        .lisp .hljs-title,
+        .http .hljs-title,
+        .nginx .hljs-title,
+        .css .hljs-tag,
+        .hljs-winutils,
+        .hljs-flow,
+        .apache .hljs-tag,
+        .tex .hljs-command,
+        .hljs-request,
+        .hljs-status {
+            font-weight: bold;
+        }
+    </style>
     <title>ruivieira.dev - Java consumer</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -50,171 +99,172 @@
             border-radius: 5px;
             width: 3rem;
         }
-</style>
+    </style>
 </head>
 <body>
-    <div id="grid">
+<div id="grid">
 
-        <div id="content">
-            <h1 id="java-consumer">Java consumer</h1>
+    <div id="content">
+        <h1 id="java-consumer">Java consumer</h1>
 <h2 id="introduction">Introduction</h2>
 <h3 id="applying">Applying</h3>
 <p>Introduced in Java 8, the <code>Consumer</code> interface aims at providing additional functional programming capabilities for Java.</p>
 <p><code>Consumer</code> defined functions do not return any value and they consist mainly of two methods:</p>
-<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">accept</span><span class="p">(</span><span class="n">T</span> <span class="n">t</span><span class="p">);</span>
-<span class="k">default</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">andThen</span><span class="p">(</span><span class="n">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">after</span><span class="p">);</span>
-</code></pre></div>
-
+<pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">accept</span><span class="hljs-params">(T t)</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">default</span> Consumer&lt;T&gt; <span class="hljs-title">andThen</span><span class="hljs-params">(Consumer&lt;? <span class="hljs-keyword">super</span> T&gt; after)</span></span>;
+</code></pre>
 <p>Let's look at an example:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="p">;</span> 
-<span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="p">;</span> 
-<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span> 
-<span class="kn">import</span> <span class="nn">java.util.function.Consumer</span><span class="p">;</span> 
+<pre><code class="language-java"><span class="hljs-keyword">import</span> java.util.ArrayList; 
+<span class="hljs-keyword">import</span> java.util.LinkedList; 
+<span class="hljs-keyword">import</span> java.util.List; 
+<span class="hljs-keyword">import</span> java.util.function.Consumer; 
 
-<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">say</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello, &quot;</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="s">&quot;!&quot;</span><span class="p">);</span> 
+Consumer&lt;String&gt; say = a -&gt; System.out.println(<span class="hljs-string">&quot;Hello, &quot;</span> + a + <span class="hljs-string">&quot;!&quot;</span>); 
 
-<span class="n">say</span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="s">&quot;World&quot;</span><span class="p">);</span> 
-</code></pre></div>
+say.accept(<span class="hljs-string">&quot;World&quot;</span>); 
+</code></pre>
+<pre><code><span class="hljs-built_in">Hello,</span> World!
 
-<div class="highlight"><pre><span></span><code>Hello, World!
-</code></pre></div>
-
+</code></pre>
 <p>A <code>Consumer</code> can be applied in a functional way, since applying a consumer is equivalent to applying the <code>accept</code> method.
 For instance:</p>
-<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">musketeers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;D&#39;Artagnan&quot;</span><span class="p">);</span>
-<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;Athos&quot;</span><span class="p">);</span>
-<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;Aramis&quot;</span><span class="p">);</span>
-<span class="n">musketeers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">&quot;Porthos&quot;</span><span class="p">);</span>
-<span class="n">musketeers</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">say</span><span class="p">)</span>
-</code></pre></div>
+<pre><code class="language-java">List&lt;String&gt; musketeers = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;();
+musketeers.add(<span class="hljs-string">&quot;D&#x27;Artagnan&quot;</span>);
+musketeers.add(<span class="hljs-string">&quot;Athos&quot;</span>);
+musketeers.add(<span class="hljs-string">&quot;Aramis&quot;</span>);
+musketeers.add(<span class="hljs-string">&quot;Porthos&quot;</span>);
+musketeers.stream().forEach(say)
+</code></pre>
+<pre><code><span class="hljs-built_in">Hello,</span> D&#x27;Artagnan!
+<span class="hljs-built_in">Hello,</span> Athos!
+<span class="hljs-built_in">Hello,</span> Aramis!
+<span class="hljs-built_in">Hello,</span> Porthos!
 
-<div class="highlight"><pre><span></span><code>Hello, D&#39;Artagnan!
-Hello, Athos!
-Hello, Aramis!
-Hello, Porthos!
-</code></pre></div>
-
+</code></pre>
 <p><code>Consumer</code> functions can also modify reference objects. For instance:</p>
-<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span><span class="p">();</span> 
-<span class="n">numbers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mf">1d</span><span class="p">);</span> 
-<span class="n">numbers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mf">2d</span><span class="p">);</span> 
-<span class="n">numbers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mf">3d</span><span class="p">);</span> 
+<pre><code class="language-java">List&lt;Double&gt; numbers = <span class="hljs-keyword">new</span> ArrayList&lt;Double&gt;(); 
+numbers.add(<span class="hljs-number">1d</span>); 
+numbers.add(<span class="hljs-number">2d</span>); 
+numbers.add(<span class="hljs-number">3d</span>); 
 
-<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;&gt;</span> <span class="n">square</span> <span class="o">=</span> <span class="n">list</span> <span class="o">-&gt;</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list</span><span class="p">.</span><span class="na">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">list</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-        <span class="n">list</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">);</span> 
-    <span class="p">};</span>
-<span class="p">};</span>
+Consumer&lt;List&lt;Double&gt;&gt; square = list -&gt; {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; list.size(); i++) {
+        <span class="hljs-keyword">double</span> x = list.get(i);
+        list.set(i, x*x); 
+    };
+};
 
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">numbers</span><span class="p">);</span>
+System.out.println(numbers);
 
-<span class="n">square</span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="n">numbers</span><span class="p">);</span>
+square.accept(numbers);
 
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">numbers</span><span class="p">);</span>
-</code></pre></div>
+System.out.println(numbers);
+</code></pre>
+<pre><code>[<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>]
+[<span class="hljs-number">1.0</span>, <span class="hljs-number">4.0</span>, <span class="hljs-number">9.0</span>]
 
-<div class="highlight"><pre><span></span><code><span class="k">[1.0, 2.0, 3.0]</span>
-<span class="k">[1.0, 4.0, 9.0]</span>
-</code></pre></div>
-
+</code></pre>
 <h3 id="composing">Composing</h3>
 <p>Let's now look at how to create a chain of <code>Consumer</code>s by composing them with the <code>andThen</code> method. Let's first create a consumer which converts a string to uppercase in-place:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">upperCaseConsumer</span> <span class="o">=</span> <span class="n">list</span> <span class="o">-&gt;</span> <span class="p">{</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">list</span><span class="p">.</span><span class="na">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-            <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="na">toUpperCase</span><span class="p">();</span>
-            <span class="n">list</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
+<pre><code class="language-java">Consumer&lt;List&lt;String&gt;&gt; upperCaseConsumer = list -&gt; {
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt; list.size(); i++){
+            String value = list.get(i).toUpperCase();
+            list.set(i, value);
+        }
+    };
 
-<span class="n">Consumer</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">sayAll</span> <span class="o">=</span> <span class="n">list</span> <span class="o">-&gt;</span> <span class="n">list</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">say</span><span class="p">);</span>
-</code></pre></div>
-
+Consumer&lt;List&lt;String&gt;&gt; sayAll = list -&gt; list.stream().forEach(say);
+</code></pre>
 <p>We will now create a chain by first applying <code>upperCaseConsumer</code> and the <code>say</code> to our list.</p>
-<div class="highlight"><pre><span></span><code><span class="n">upperCaseConsumer</span><span class="p">.</span><span class="na">andThen</span><span class="p">(</span><span class="n">sayAll</span><span class="p">).</span><span class="na">accept</span><span class="p">(</span><span class="n">musketeers</span><span class="p">);</span>
-</code></pre></div>
+<pre><code class="language-java">upperCaseConsumer.andThen(sayAll).accept(musketeers);
+</code></pre>
+<pre><code><span class="hljs-built_in">Hello,</span> D&#x27;ARTAGNAN!
+<span class="hljs-built_in">Hello,</span> ATHOS!
+<span class="hljs-built_in">Hello,</span> ARAMIS!
+<span class="hljs-built_in">Hello,</span> PORTHOS!
 
-<div class="highlight"><pre><span></span><code>Hello, D&#39;ARTAGNAN!
-Hello, ATHOS!
-Hello, ARAMIS!
-Hello, PORTHOS!
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
-            <div class="footer">
-                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-            </div>
+</code></pre>
+<pre><code class="language-java">
+</code></pre>
+        <div class="footer">
+            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
         </div>
+    </div>
 
-        <div id="sidebar">
-            <div id="sidebar-search">
-                <input id="search_terms" type="search" placeholder="Search terms" />
-                <button id="search_button" onclick="search()">?</button>
-            </div>
-            <div id="sidebar-home"><a href="/">Home</a></div>
-            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+    <div id="sidebar">
+        <div id="sidebar-search">
+            <input id="search_terms" type="search" placeholder="Search terms" />
+            <button id="search_button" onclick="search()">?</button>
+        </div>
+        <div id="sidebar-home"><a href="/">Home</a></div>
+        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-            <div id="sidebar-contents">
-                <h3>Contents</h3>
-                <div class="toc">
+        <div id="sidebar-contents">
+            <h3>Contents</h3>
+            <ul>
+<li><a href="#introduction">Introduction</a>
 <ul>
-<li><a href="#introduction">Introduction</a><ul>
 <li><a href="#applying">Applying</a></li>
 <li><a href="#composing">Composing</a></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-</div>
-    
-                
-                <h3>Backlinks</h3>
-                    <ul>
-                    
-                        <li><a href="/java.html">Java</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                    
-                    </ul>
-                
-            </div>
+
+                        <h3>Backlinks</h3>
+            <ul>
+                                <li><a href="/java.html">Java</a><sup>&#5833</sup></li>
+                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                            </ul>
+                    </div>
 
 
 
-            <div class="footer">
-                modified 1613685566
-            </div>
+        <div class="footer">
+            modified 1 week ago        </div>
 
-        </div>
+    </div>
     <div>
 
-<script>
-const input = document.getElementById('search_terms');
-const highlight = new URLSearchParams(document.location.search).get("h");
+        <script>
+            const input = document.getElementById('search_terms');
+            const highlight = new URLSearchParams(document.location.search).get("h");
 
-if (highlight!=null) {
-    const markInstance = new Mark("#content");
-    markInstance.mark(highlight);
-}
-
-input.addEventListener("keyup", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-            if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                search_button.click();
+            if (highlight!=null) {
+                const markInstance = new Mark("#content");
+                markInstance.mark(highlight);
             }
-        });
 
-let search = function() {
-            const query = new URLSearchParams({"q": input.value});
-            console.log(query.toString());
-            window.location.href = "/search.html?" + query.toString();
-}
-</script>
+            input.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    search_button.click();
+                }
+            });
+
+            let search = function() {
+                const query = new URLSearchParams({"q": input.value});
+                console.log(query.toString());
+                window.location.href = "/search.html?" + query.toString();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(
+                    document.body,
+                    {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "\\[", right: "\\]", display: true},
+                            {left: "$", right: "$", display: false},
+                            {left: "\\(", right: "\\)", display: false}
+                        ]
+                    }
+                );
+            });
+        </script>
 
 </body>
 </html>

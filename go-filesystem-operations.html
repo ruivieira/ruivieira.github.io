@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Go filesystem operations">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/go-filesystem-operations.html">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,15 +18,64 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <link href="/assets/code.css" rel="stylesheet">
+    <style>
+        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: white;
+            color: black;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-filter .hljs-argument,
+        .hljs-addition,
+        .hljs-change,
+        .hljs-name,
+        .apache .hljs-tag,
+        .apache .hljs-cbracket,
+        .nginx .hljs-built_in,
+        .tex .hljs-formula {
+            color: #888;
+        }
+
+        .hljs-comment,
+        .hljs-shebang,
+        .hljs-doctype,
+        .hljs-pi,
+        .hljs-javadoc,
+        .hljs-deletion,
+        .apache .hljs-sqbracket {
+            color: #ccc;
+        }
+
+        .hljs-keyword,
+        .hljs-tag .hljs-title,
+        .ini .hljs-title,
+        .lisp .hljs-title,
+        .http .hljs-title,
+        .nginx .hljs-title,
+        .css .hljs-tag,
+        .hljs-winutils,
+        .hljs-flow,
+        .apache .hljs-tag,
+        .tex .hljs-command,
+        .hljs-request,
+        .hljs-status {
+            font-weight: bold;
+        }
+    </style>
     <title>ruivieira.dev - Go filesystem operations</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -50,132 +99,137 @@
             border-radius: 5px;
             width: 3rem;
         }
-</style>
+    </style>
 </head>
 <body>
-    <div id="grid">
+<div id="grid">
 
-        <div id="content">
-            <h1 id="go-filesystem-operations">Go filesystem operations</h1>
+    <div id="content">
+        <h1 id="go-filesystem-operations">Go filesystem operations</h1>
 <p>Notes on Go filesystem operations.</p>
 <h2 id="copying-files">Copying files</h2>
 <p>Go does not have an utility method to copy files. We have to rely on writing our own implementation using the reading and writing functionality in other packages. As an example:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nx">main</span> 
+<pre><code class="language-go"><span class="hljs-keyword">package</span> main 
 
-<span class="kn">import</span> <span class="p">(</span>
-    <span class="s">&quot;io&quot;</span>
-    <span class="s">&quot;log&quot;</span>
-    <span class="s">&quot;os&quot;</span>
-<span class="p">)</span> 
+<span class="hljs-keyword">import</span> (
+    <span class="hljs-string">&quot;io&quot;</span>
+    <span class="hljs-string">&quot;log&quot;</span>
+    <span class="hljs-string">&quot;os&quot;</span>
+) 
 
-<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span> 
-    <span class="nx">from</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;./foo.txt&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> 
-        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
-    <span class="p">}</span> 
-    <span class="k">defer</span> <span class="nx">from</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span> 
-
-    <span class="nx">to</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">OpenFile</span><span class="p">(</span><span class="s">&quot;./bar.txt&quot;</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">O_RDWR</span><span class="p">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="p">,</span> <span class="mo">0666</span><span class="p">)</span> 
-    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> 
-        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
-    <span class="p">}</span> 
-    <span class="k">defer</span> <span class="nx">to</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span> 
-
-    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">from</span><span class="p">)</span> 
-    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> 
-        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> 
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> { 
+    from, err := os.Open(<span class="hljs-string">&quot;./foo.txt&quot;</span>)
+    <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> { 
+        log.Fatal(err) 
+    } 
+    <span class="hljs-keyword">defer</span> from.Close() 
+    
+    to, err := os.OpenFile(<span class="hljs-string">&quot;./bar.txt&quot;</span>, os.O_RDWR|os.O_CREATE, <span class="hljs-number">0666</span>) 
+    <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> { 
+        log.Fatal(err) 
+    } 
+    <span class="hljs-keyword">defer</span> to.Close() 
+    
+    _, err = io.Copy(to, from) 
+    <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> { 
+        log.Fatal(err) 
+    }
+}
+</code></pre>
 <h2 id="path-operations">Path operations</h2>
 <h3 id="basepath">Basepath</h3>
 <p>To get the basepath of a path string we use the <a href="https://golang.org/pkg/path/#Dir">Dir</a> method:</p>
-<div class="highlight"><pre><span></span><code><span class="nx">filepath</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="s">&quot;/etc/foo/file.txt&quot;</span><span class="p">)</span> <span class="c1">// &quot;/etc/foo&quot;</span>
-</code></pre></div>
-
+<pre><code class="language-go">filepath.Dir(<span class="hljs-string">&quot;/etc/foo/file.txt&quot;</span>) <span class="hljs-comment">// &quot;/etc/foo&quot;</span>
+</code></pre>
 <h3 id="check-if-directory-exists">Check if directory exists</h3>
-<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="s">&quot;/etc/foo/&quot;</span><span class="p">);</span> <span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// do something because it does not exist</span>
-<span class="p">}</span>
-</code></pre></div>
-
+<pre><code class="language-go"><span class="hljs-keyword">if</span> _, err := os.Stat(<span class="hljs-string">&quot;/etc/foo/&quot;</span>); os.IsNotExist(err) {
+    <span class="hljs-comment">// do something because it does not exist</span>
+}
+</code></pre>
 <h3 id="create-nested-directories">Create nested directories</h3>
 <p>Use <a href="https://golang.org/pkg/os/#MkdirAll">MkdirAll</a>:</p>
-<div class="highlight"><pre><span></span><code><span class="nx">os</span><span class="p">.</span><span class="nx">MkdirAll</span><span class="p">(</span><span class="s">&quot;/etc/long/nested/path/to/create&quot;</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">ModePerm</span><span class="p">)</span>
-</code></pre></div>
-            <div class="footer">
-                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-            </div>
+<pre><code class="language-go">os.MkdirAll(<span class="hljs-string">&quot;/etc/long/nested/path/to/create&quot;</span>, os.ModePerm)
+</code></pre>
+        <div class="footer">
+            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
         </div>
+    </div>
 
-        <div id="sidebar">
-            <div id="sidebar-search">
-                <input id="search_terms" type="search" placeholder="Search terms" />
-                <button id="search_button" onclick="search()">?</button>
-            </div>
-            <div id="sidebar-home"><a href="/">Home</a></div>
-            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+    <div id="sidebar">
+        <div id="sidebar-search">
+            <input id="search_terms" type="search" placeholder="Search terms" />
+            <button id="search_button" onclick="search()">?</button>
+        </div>
+        <div id="sidebar-home"><a href="/">Home</a></div>
+        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-            <div id="sidebar-contents">
-                <h3>Contents</h3>
-                <div class="toc">
-<ul>
+        <div id="sidebar-contents">
+            <h3>Contents</h3>
+            <ul>
 <li><a href="#copying-files">Copying files</a></li>
-<li><a href="#path-operations">Path operations</a><ul>
+<li><a href="#path-operations">Path operations</a>
+<ul>
 <li><a href="#basepath">Basepath</a></li>
 <li><a href="#check-if-directory-exists">Check if directory exists</a></li>
 <li><a href="#create-nested-directories">Create nested directories</a></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-</div>
-    
-                
-                <h3>Backlinks</h3>
-                    <ul>
-                    
-                        <li><a href="/go.html">Go</a><sup>&#5833</sup></li>
-                    
-                    </ul>
-                
-            </div>
+
+                        <h3>Backlinks</h3>
+            <ul>
+                                <li><a href="/go.html">Go</a><sup>&#5833</sup></li>
+                            </ul>
+                    </div>
 
 
 
-            <div class="footer">
-                modified 1611740059
-            </div>
+        <div class="footer">
+            modified 1 month ago        </div>
 
-        </div>
+    </div>
     <div>
 
-<script>
-const input = document.getElementById('search_terms');
-const highlight = new URLSearchParams(document.location.search).get("h");
+        <script>
+            const input = document.getElementById('search_terms');
+            const highlight = new URLSearchParams(document.location.search).get("h");
 
-if (highlight!=null) {
-    const markInstance = new Mark("#content");
-    markInstance.mark(highlight);
-}
-
-input.addEventListener("keyup", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-            if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                search_button.click();
+            if (highlight!=null) {
+                const markInstance = new Mark("#content");
+                markInstance.mark(highlight);
             }
-        });
 
-let search = function() {
-            const query = new URLSearchParams({"q": input.value});
-            console.log(query.toString());
-            window.location.href = "/search.html?" + query.toString();
-}
-</script>
+            input.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    search_button.click();
+                }
+            });
+
+            let search = function() {
+                const query = new URLSearchParams({"q": input.value});
+                console.log(query.toString());
+                window.location.href = "/search.html?" + query.toString();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(
+                    document.body,
+                    {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "\\[", right: "\\]", display: true},
+                            {left: "$", right: "$", display: false},
+                            {left: "\\(", right: "\\)", display: false}
+                        ]
+                    }
+                );
+            });
+        </script>
 
 </body>
 </html>

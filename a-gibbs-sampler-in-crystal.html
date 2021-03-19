@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on A Gibbs Sampler in Crystal">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/a-gibbs-sampler-in-crystal.html">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,15 +18,64 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <link href="/assets/code.css" rel="stylesheet">
+    <style>
+        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: white;
+            color: black;
+            -webkit-text-size-adjust: none;
+        }
+
+        .hljs-string,
+        .hljs-tag .hljs-value,
+        .hljs-filter .hljs-argument,
+        .hljs-addition,
+        .hljs-change,
+        .hljs-name,
+        .apache .hljs-tag,
+        .apache .hljs-cbracket,
+        .nginx .hljs-built_in,
+        .tex .hljs-formula {
+            color: #888;
+        }
+
+        .hljs-comment,
+        .hljs-shebang,
+        .hljs-doctype,
+        .hljs-pi,
+        .hljs-javadoc,
+        .hljs-deletion,
+        .apache .hljs-sqbracket {
+            color: #ccc;
+        }
+
+        .hljs-keyword,
+        .hljs-tag .hljs-title,
+        .ini .hljs-title,
+        .lisp .hljs-title,
+        .http .hljs-title,
+        .nginx .hljs-title,
+        .css .hljs-tag,
+        .hljs-winutils,
+        .hljs-flow,
+        .apache .hljs-tag,
+        .tex .hljs-command,
+        .hljs-request,
+        .hljs-status {
+            font-weight: bold;
+        }
+    </style>
     <title>ruivieira.dev - A Gibbs Sampler in Crystal</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -50,167 +99,150 @@
             border-radius: 5px;
             width: 3rem;
         }
-</style>
+    </style>
 </head>
 <body>
-    <div id="grid">
+<div id="grid">
 
-        <div id="content">
-            <h1 id="a-gibbs-sampler-in-crystal">A Gibbs Sampler in Crystal</h1>
+    <div id="content">
+        <h1 id="a-gibbs-sampler-in-crystal">A Gibbs Sampler in Crystal</h1>
 <p>Recently, I've been following with interest the development of the <a href="http://crystal-lang.org/">Crystal</a> language.</p>
 <p>Crystal is a statically type language with a syntax resembling Ruby's. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to native code along with a dead simple way of creating bindings to existing C code.</p>
 <p>These features make it quite attractive, in my opinion, for scientific computing. To test it against more popular languages, I've decided to run the Gibbs sampling examples created in <a href="https://darrenjw.wordpress.com/2011/07/16/gibbs-sampler-in-various-languages-revisited/">Darren Wilkinson's blog</a>.</p>
 <p>I recommend reading this post, and in fact, if you are interested in Mathematics and scientific computing in general, I <em>strongly</em> recommend you follow the <a href="https://darrenjw.wordpress.com/">blog</a>.</p>
 <p>As explained in the linked post, I will make a Gibbs sampler for</p>
-\[
+<p>$$
 f\left(x,y\right)=kx^2\exp\left\lbrace-xy^2-y^2+2y-4x\right\rbrace
-\]
-
+$$</p>
 <p>with</p>
-\[
+<p>$$
 \begin{aligned}
-x|y &amp;\sim Ga\left(3,y^2+4\right) \\\\
-
-y|x &amp;\sim N\left(\frac{1}{1+x},\frac{1}{2\left(1+x\right)}\right)
-
-\end{aligned}
-\]
-
+x|y &amp;\sim Ga\left(3,y^2+4\right) \\\\</p>
+<p>y|x &amp;\sim N\left(\frac{1}{1+x},\frac{1}{2\left(1+x\right)}\right)</p>
+<p>\end{aligned}
+$$</p>
 <p>The original examples were ran again, without any code alterations. I've just added the Crystal version.</p>
 <p>This implementation uses a <a href="https://github.com/ruivieira/crystal-gsl">very simple wrapper</a> I wrote to the famous <a href="http://www.gnu.org/software/gsl/">GNU Scientific Language</a> (GSL).</p>
-<div class="highlight"><pre><span></span><code><span class="k">require</span> <span class="s2">&quot;../libs/gsl/statistics.cr&quot;</span>
+<pre><code class="language-crystal"><span class="hljs-keyword">require</span> <span class="hljs-string">&quot;../libs/gsl/statistics.cr&quot;</span>
 
-<span class="k">require</span> <span class="s2">&quot;math&quot;</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">&quot;math&quot;</span>
 
-<span class="k">def</span> <span class="nf">gibbs</span><span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">thin</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">gibbs</span></span>(n : Int = <span class="hljs-number">50000</span>, thin : Int = <span class="hljs-number">1000</span>)
 
-    <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+    x = <span class="hljs-number">0.0</span>
+    y = <span class="hljs-number">0.0</span>
 
-    <span class="nb">puts</span> <span class="s2">&quot;Iter x y&quot;</span>
+    puts <span class="hljs-string">&quot;Iter x y&quot;</span>
 
-    <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
-        <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">thin</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">y</span><span class="p">\</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mf">4.0</span><span class="p">)</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">::</span><span class="n">Normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">1.0</span><span class="p">),</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">Math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">\</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mf">2.0</span><span class="p">))</span>
-        <span class="k">end</span>
+    (<span class="hljs-number">0</span>..n).each <span class="hljs-keyword">do</span> |i|
+        (<span class="hljs-number">0</span>..thin).each <span class="hljs-keyword">do</span> |j|
+            x = <span class="hljs-symbol">Statistics:</span>:Gamma.sample(<span class="hljs-number">3.0</span>, y\*y+<span class="hljs-number">4.0</span>)
+            y = <span class="hljs-symbol">Statistics:</span>:Normal.sample(<span class="hljs-number">1.0</span>/(x+<span class="hljs-number">1.0</span>), <span class="hljs-number">1.0</span>/Math.sqrt(<span class="hljs-number">2.0</span>\*x+<span class="hljs-number">2.0</span>))
+        <span class="hljs-keyword">end</span>
 
-        <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span>
+        puts <span class="hljs-string">&quot;<span class="hljs-subst">#{i}</span> <span class="hljs-subst">#{x}</span> <span class="hljs-subst">#{y}</span>&quot;</span>
 
-    <span class="k">end</span>
+    <span class="hljs-keyword">end</span>
 
-<span class="k">end</span>
+<span class="hljs-keyword">end</span>
 
-<span class="n">gibbs</span>
-</code></pre></div>
-
+gibbs
+</code></pre>
 <p>(As you can see, the Crystal code is quite similar to the Python one).</p>
 <p>To make sure it's a fair comparison, I ran it in compiled (and optimised) mode build using</p>
-<div class="highlight"><pre><span></span><code>$ crystal build gibbs.cr --release
-$ <span class="nb">time</span> ./gibbs &gt; gibbs_crystal.csv
-</code></pre></div>
-
+<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> crystal build gibbs.cr --release</span>
+<span class="hljs-meta">$</span><span class="bash"> time ./gibbs &gt; gibbs_crystal.csv</span>
+</code></pre>
 <p>Looking at the results, you can see that they are consistent with the other implementations:</p>
-<p><img alt="Gibbs" src="./images/gibbs.png" /></p>
+<p><img src="./images/gibbs.png" alt="Gibbs"></p>
 <p>The timings for each of the different versions (ran in a 1.7 GHz Intel Core i7 Macbook Air) were</p>
 <table>
 <thead>
-<tr>
-<th>Language</th>
-<th>Time (s)</th>
-</tr>
+<tr><th>Language</th><th>Time (s)</th></tr>
 </thead>
 <tbody>
-<tr>
-<td>R</td>
-<td>364.8</td>
-</tr>
-<tr>
-<td>Python</td>
-<td>144.0</td>
-</tr>
-<tr>
-<td>Scala</td>
-<td>9.896</td>
-</tr>
-<tr>
-<td>Crystal</td>
-<td>5.171</td>
-</tr>
-<tr>
-<td>C</td>
-<td>5.038</td>
-</tr>
+<tr><td>R</td><td>364.8</td></tr>
+<tr><td>Python</td><td>144.0</td></tr>
+<tr><td>Scala</td><td>9.896</td></tr>
+<tr><td>Crystal</td><td>5.171</td></tr>
+<tr><td>C</td><td>5.038</td></tr>
 </tbody>
 </table>
 <p>So there you have it. A Ruby-like language which can easily compete with C performance-wise.</p>
 <p>I sincerely hope that Crystal gets some traction in the scientific community.</p>
 <p>That of course won't depend solely on its merits but rather on an active community along with a strong library ecosystem.</p>
 <p>This is lacking at the moment, simply because it is relatively new language with the specs and standard library still being finalised.</p>
-            <div class="footer">
-                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
-            </div>
+        <div class="footer">
+            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
         </div>
+    </div>
 
-        <div id="sidebar">
-            <div id="sidebar-search">
-                <input id="search_terms" type="search" placeholder="Search terms" />
-                <button id="search_button" onclick="search()">?</button>
-            </div>
-            <div id="sidebar-home"><a href="/">Home</a></div>
-            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
-
-            <div id="sidebar-contents">
-                <h3>Contents</h3>
-                <div class="toc">
-<ul></ul>
-</div>
-    
-                
-                <h3>Backlinks</h3>
-                    <ul>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                    
-                    </ul>
-                
-            </div>
-
-
-
-            <div class="footer">
-                modified 1614868904
-            </div>
-
+    <div id="sidebar">
+        <div id="sidebar-search">
+            <input id="search_terms" type="search" placeholder="Search terms" />
+            <button id="search_button" onclick="search()">?</button>
         </div>
+        <div id="sidebar-home"><a href="/">Home</a></div>
+        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+
+        <div id="sidebar-contents">
+            <h3>Contents</h3>
+            
+                        <h3>Backlinks</h3>
+            <ul>
+                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                            </ul>
+                    </div>
+
+
+
+        <div class="footer">
+            modified 2 weeks ago        </div>
+
+    </div>
     <div>
 
-<script>
-const input = document.getElementById('search_terms');
-const highlight = new URLSearchParams(document.location.search).get("h");
+        <script>
+            const input = document.getElementById('search_terms');
+            const highlight = new URLSearchParams(document.location.search).get("h");
 
-if (highlight!=null) {
-    const markInstance = new Mark("#content");
-    markInstance.mark(highlight);
-}
-
-input.addEventListener("keyup", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-            if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                search_button.click();
+            if (highlight!=null) {
+                const markInstance = new Mark("#content");
+                markInstance.mark(highlight);
             }
-        });
 
-let search = function() {
-            const query = new URLSearchParams({"q": input.value});
-            console.log(query.toString());
-            window.location.href = "/search.html?" + query.toString();
-}
-</script>
+            input.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    search_button.click();
+                }
+            });
+
+            let search = function() {
+                const query = new URLSearchParams({"q": input.value});
+                console.log(query.toString());
+                window.location.href = "/search.html?" + query.toString();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(
+                    document.body,
+                    {
+                        delimiters: [
+                            {left: "$$", right: "$$", display: true},
+                            {left: "\\[", right: "\\]", display: true},
+                            {left: "$", right: "$", display: false},
+                            {left: "\\(", right: "\\)", display: false}
+                        ]
+                    }
+                );
+            });
+        </script>
 
 </body>
 </html>
