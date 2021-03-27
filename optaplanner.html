@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on OptaPlanner">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/optaplanner.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - OptaPlanner</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,271 +50,266 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <pre><code class="language-java">%%loadFromPOM
-&lt;dependency&gt;
-    &lt;groupId&gt;org.optaplanner&lt;/groupId&gt;
-    &lt;artifactId&gt;optaplanner-core&lt;/artifactId&gt;
-    &lt;version&gt;8.3.0.Final&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
+        <div id="content">
+            <div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">loadFromPOM</span>
+<span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="p">.</span><span class="na">optaplanner</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">optaplanner</span><span class="o">-</span><span class="n">core</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">8.3.0</span><span class="p">.</span><span class="na">Final</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+</code></pre></div>
+
 <p>Define the Lesson:</p>
-<pre><code class="language-java"><span class="hljs-keyword">import</span> java.time.DayOfWeek;
-<span class="hljs-keyword">import</span> java.time.LocalTime;
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.time.DayOfWeek</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.time.LocalTime</span><span class="p">;</span>
 
-<span class="hljs-keyword">import</span> org.optaplanner.core.api.domain.lookup.PlanningId;
+<span class="kn">import</span> <span class="nn">org.optaplanner.core.api.domain.lookup.PlanningId</span><span class="p">;</span>
 
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>{
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="p">{</span>
 
-    <span class="hljs-meta">@PlanningId</span>
-    <span class="hljs-keyword">private</span> Long id;
+    <span class="nd">@PlanningId</span>
+    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="p">;</span>
 
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> height;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> weight;
+    <span class="kd">private</span> <span class="kt">double</span> <span class="n">height</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="kt">double</span> <span class="n">weight</span><span class="p">;</span>
 
-    <span class="hljs-comment">// No-arg constructor required for Hibernate</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Timeslot</span><span class="hljs-params">()</span> </span>{
-    }
+    <span class="c1">// No-arg constructor required for Hibernate</span>
+    <span class="kd">public</span> <span class="nf">Timeslot</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Timeslot</span><span class="hljs-params">(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime)</span> </span>{
-        <span class="hljs-keyword">this</span>.dayOfWeek = dayOfWeek;
-        <span class="hljs-keyword">this</span>.startTime = startTime;
-        <span class="hljs-keyword">this</span>.endTime = endTime;
-    }
+    <span class="kd">public</span> <span class="nf">Timeslot</span><span class="p">(</span><span class="n">DayOfWeek</span> <span class="n">dayOfWeek</span><span class="p">,</span> <span class="n">LocalTime</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">LocalTime</span> <span class="n">endTime</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">dayOfWeek</span> <span class="o">=</span> <span class="n">dayOfWeek</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">startTime</span> <span class="o">=</span> <span class="n">startTime</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">endTime</span> <span class="o">=</span> <span class="n">endTime</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Timeslot</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id, DayOfWeek dayOfWeek, LocalTime startTime)</span> </span>{
-        <span class="hljs-keyword">this</span>(dayOfWeek, startTime, startTime.plusMinutes(<span class="hljs-number">50</span>));
-        <span class="hljs-keyword">this</span>.id = id;
-    }
+    <span class="kd">public</span> <span class="nf">Timeslot</span><span class="p">(</span><span class="kt">long</span> <span class="n">id</span><span class="p">,</span> <span class="n">DayOfWeek</span> <span class="n">dayOfWeek</span><span class="p">,</span> <span class="n">LocalTime</span> <span class="n">startTime</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">(</span><span class="n">dayOfWeek</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">startTime</span><span class="p">.</span><span class="na">plusMinutes</span><span class="p">(</span><span class="mi">50</span><span class="p">));</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> dayOfWeek + <span class="hljs-string">&quot; &quot;</span> + startTime;
-    }
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">dayOfWeek</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">startTime</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-comment">// ************************************************************************</span>
-    <span class="hljs-comment">// Getters and setters</span>
-    <span class="hljs-comment">// ************************************************************************</span>
+    <span class="c1">// ************************************************************************</span>
+    <span class="c1">// Getters and setters</span>
+    <span class="c1">// ************************************************************************</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getId</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> id;
-    }
+    <span class="kd">public</span> <span class="n">Long</span> <span class="nf">getId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> DayOfWeek <span class="hljs-title">getDayOfWeek</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> dayOfWeek;
-    }
+    <span class="kd">public</span> <span class="n">DayOfWeek</span> <span class="nf">getDayOfWeek</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">dayOfWeek</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> LocalTime <span class="hljs-title">getStartTime</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> startTime;
-    }
+    <span class="kd">public</span> <span class="n">LocalTime</span> <span class="nf">getStartTime</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">startTime</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> LocalTime <span class="hljs-title">getEndTime</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> endTime;
-    }
+    <span class="kd">public</span> <span class="n">LocalTime</span> <span class="nf">getEndTime</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">endTime</span><span class="p">;</span>
+    <span class="p">}</span>
 
-}
-</code></pre>
-<pre><code class="language-java"><span class="hljs-keyword">import</span> org.optaplanner.core.api.domain.lookup.PlanningId;
+<span class="p">}</span>
+</code></pre></div>
 
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Room</span> </span>{
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">org.optaplanner.core.api.domain.lookup.PlanningId</span><span class="p">;</span>
 
-    <span class="hljs-meta">@PlanningId</span>
-    <span class="hljs-keyword">private</span> Long id;
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Room</span> <span class="p">{</span>
 
-    <span class="hljs-keyword">private</span> String name;
+    <span class="nd">@PlanningId</span>
+    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="p">;</span>
 
-    <span class="hljs-comment">// No-arg constructor required for Hibernate</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Room</span><span class="hljs-params">()</span> </span>{
-    }
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="p">;</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Room</span><span class="hljs-params">(String name)</span> </span>{
-        <span class="hljs-keyword">this</span>.name = name.trim();
-    }
+    <span class="c1">// No-arg constructor required for Hibernate</span>
+    <span class="kd">public</span> <span class="nf">Room</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Room</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id, String name)</span> </span>{
-        <span class="hljs-keyword">this</span>(name);
-        <span class="hljs-keyword">this</span>.id = id;
-    }
+    <span class="kd">public</span> <span class="nf">Room</span><span class="p">(</span><span class="n">String</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="na">trim</span><span class="p">();</span>
+    <span class="p">}</span>
 
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> name;
-    }
+    <span class="kd">public</span> <span class="nf">Room</span><span class="p">(</span><span class="kt">long</span> <span class="n">id</span><span class="p">,</span> <span class="n">String</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-comment">// ************************************************************************</span>
-    <span class="hljs-comment">// Getters and setters</span>
-    <span class="hljs-comment">// ************************************************************************</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getId</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> id;
-    }
+    <span class="c1">// ************************************************************************</span>
+    <span class="c1">// Getters and setters</span>
+    <span class="c1">// ************************************************************************</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> name;
-    }
+    <span class="kd">public</span> <span class="n">Long</span> <span class="nf">getId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="p">;</span>
+    <span class="p">}</span>
 
-}
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">;</span>
+    <span class="p">}</span>
 
-</code></pre>
-<pre><code class="language-java"><span class="hljs-keyword">import</span> org.optaplanner.core.api.domain.entity.PlanningEntity;
-<span class="hljs-keyword">import</span> org.optaplanner.core.api.domain.lookup.PlanningId;
-<span class="hljs-keyword">import</span> org.optaplanner.core.api.domain.variable.PlanningVariable;
+<span class="p">}</span>
+</code></pre></div>
 
-<span class="hljs-meta">@PlanningEntity</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lesson</span> </span>{
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">org.optaplanner.core.api.domain.entity.PlanningEntity</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.optaplanner.core.api.domain.lookup.PlanningId</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.optaplanner.core.api.domain.variable.PlanningVariable</span><span class="p">;</span>
 
-    <span class="hljs-meta">@PlanningId</span>
-    <span class="hljs-keyword">private</span> Long id;
+<span class="nd">@PlanningEntity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lesson</span> <span class="p">{</span>
 
-    <span class="hljs-keyword">private</span> String subject;
-    <span class="hljs-keyword">private</span> String teacher;
-    <span class="hljs-keyword">private</span> String studentGroup;
+    <span class="nd">@PlanningId</span>
+    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="p">;</span>
 
-    <span class="hljs-meta">@PlanningVariable(valueRangeProviderRefs = &quot;timeslotRange&quot;)</span>
-    <span class="hljs-keyword">private</span> Timeslot timeslot;
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">subject</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">teacher</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">studentGroup</span><span class="p">;</span>
 
-    <span class="hljs-meta">@PlanningVariable(valueRangeProviderRefs = &quot;roomRange&quot;)</span>
-    <span class="hljs-keyword">private</span> Room room;
+    <span class="nd">@PlanningVariable</span><span class="p">(</span><span class="n">valueRangeProviderRefs</span> <span class="o">=</span> <span class="s">&quot;timeslotRange&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">Timeslot</span> <span class="n">timeslot</span><span class="p">;</span>
 
-    <span class="hljs-comment">// No-arg constructor required for Hibernate and OptaPlanner</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Lesson</span><span class="hljs-params">()</span> </span>{
-    }
+    <span class="nd">@PlanningVariable</span><span class="p">(</span><span class="n">valueRangeProviderRefs</span> <span class="o">=</span> <span class="s">&quot;roomRange&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="n">Room</span> <span class="n">room</span><span class="p">;</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Lesson</span><span class="hljs-params">(String subject, String teacher, String studentGroup)</span> </span>{
-        <span class="hljs-keyword">this</span>.subject = subject.trim();
-        <span class="hljs-keyword">this</span>.teacher = teacher.trim();
-        <span class="hljs-keyword">this</span>.studentGroup = studentGroup.trim();
-    }
+    <span class="c1">// No-arg constructor required for Hibernate and OptaPlanner</span>
+    <span class="kd">public</span> <span class="nf">Lesson</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Lesson</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id, String subject, String teacher, String studentGroup, Timeslot timeslot, Room room)</span> </span>{
-        <span class="hljs-keyword">this</span>(subject, teacher, studentGroup);
-        <span class="hljs-keyword">this</span>.id = id;
-        <span class="hljs-keyword">this</span>.timeslot = timeslot;
-        <span class="hljs-keyword">this</span>.room = room;
-    }
+    <span class="kd">public</span> <span class="nf">Lesson</span><span class="p">(</span><span class="n">String</span> <span class="n">subject</span><span class="p">,</span> <span class="n">String</span> <span class="n">teacher</span><span class="p">,</span> <span class="n">String</span> <span class="n">studentGroup</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">subject</span> <span class="o">=</span> <span class="n">subject</span><span class="p">.</span><span class="na">trim</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">teacher</span> <span class="o">=</span> <span class="n">teacher</span><span class="p">.</span><span class="na">trim</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">studentGroup</span> <span class="o">=</span> <span class="n">studentGroup</span><span class="p">.</span><span class="na">trim</span><span class="p">();</span>
+    <span class="p">}</span>
 
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> subject + <span class="hljs-string">&quot;(&quot;</span> + id + <span class="hljs-string">&quot;)&quot;</span>;
-    }
+    <span class="kd">public</span> <span class="nf">Lesson</span><span class="p">(</span><span class="kt">long</span> <span class="n">id</span><span class="p">,</span> <span class="n">String</span> <span class="n">subject</span><span class="p">,</span> <span class="n">String</span> <span class="n">teacher</span><span class="p">,</span> <span class="n">String</span> <span class="n">studentGroup</span><span class="p">,</span> <span class="n">Timeslot</span> <span class="n">timeslot</span><span class="p">,</span> <span class="n">Room</span> <span class="n">room</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">teacher</span><span class="p">,</span> <span class="n">studentGroup</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">timeslot</span> <span class="o">=</span> <span class="n">timeslot</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">room</span> <span class="o">=</span> <span class="n">room</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-comment">// ************************************************************************</span>
-    <span class="hljs-comment">// Getters and setters</span>
-    <span class="hljs-comment">// ************************************************************************</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">subject</span> <span class="o">+</span> <span class="s">&quot;(&quot;</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">&quot;)&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getId</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> id;
-    }
+    <span class="c1">// ************************************************************************</span>
+    <span class="c1">// Getters and setters</span>
+    <span class="c1">// ************************************************************************</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getSubject</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> subject;
-    }
+    <span class="kd">public</span> <span class="n">Long</span> <span class="nf">getId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getTeacher</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> teacher;
-    }
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getSubject</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">subject</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getStudentGroup</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> studentGroup;
-    }
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTeacher</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">teacher</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Timeslot <span class="hljs-title">getTimeslot</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> timeslot;
-    }
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getStudentGroup</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">studentGroup</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setTimeslot</span><span class="hljs-params">(Timeslot timeslot)</span> </span>{
-        <span class="hljs-keyword">this</span>.timeslot = timeslot;
-    }
+    <span class="kd">public</span> <span class="n">Timeslot</span> <span class="nf">getTimeslot</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">timeslot</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Room <span class="hljs-title">getRoom</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> room;
-    }
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTimeslot</span><span class="p">(</span><span class="n">Timeslot</span> <span class="n">timeslot</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">timeslot</span> <span class="o">=</span> <span class="n">timeslot</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setRoom</span><span class="hljs-params">(Room room)</span> </span>{
-        <span class="hljs-keyword">this</span>.room = room;
-    }
+    <span class="kd">public</span> <span class="n">Room</span> <span class="nf">getRoom</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">room</span><span class="p">;</span>
+    <span class="p">}</span>
 
-}
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setRoom</span><span class="p">(</span><span class="n">Room</span> <span class="n">room</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">room</span> <span class="o">=</span> <span class="n">room</span><span class="p">;</span>
+    <span class="p">}</span>
 
-</code></pre>
-<pre><code class="language-java">
-</code></pre>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul></ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
+
+
+
+            <div class="footer">
+                modified 23 days ago
+            </div>
+
         </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
-
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
-
-
-
-        <div class="footer">
-            modified 1 week ago        </div>
-
-    </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

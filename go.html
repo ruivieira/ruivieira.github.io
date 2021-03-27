@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Go">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/go.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Go</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,296 +50,305 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="the-go-language">The Go language</h1>
+        <div id="content">
+            <h1 id="the-go-language">The Go language</h1>
 <p>Some notes regarding the <a href="https://golang.org/">Go</a> language.
 Some topics have graduated to their own page:</p>
 <ul>
-<li><a href="go-resource-bundling.html">Go resource bundling</a></li>
-<li><a href="go-filesystem-operations.html">Go filesystem operations</a></li>
+<li><a href="/go-resource-bundling.html">Go resource bundling</a></li>
+<li><a href="/go-filesystem-operations.html">Go filesystem operations</a> </li>
 </ul>
 <h2 id="language-design">Language design</h2>
 <h3 id="go-doesnt-have-sets">Go doesn't have sets</h3>
-<p>The Go language, notoriously, does not have<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> some common data structures like sets. There are two main reasons for that:</p>
+<p>The Go language, notoriously, does not have<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> some common data structures like sets. There are two main reasons for that:</p>
 <ol>
-<li>Go does not have generics<sup class="footnote-ref"><a href="#fn1" id="fnref1:1">[1]</a></sup></li>
+<li>Go does not have generics<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup></li>
 <li>Go relies on you writing your own data structures, generally</li>
 </ol>
 <p>Go lacks generics, which prevent writing a ... well, generic and efficient set implementation.
 Also, writing your own (non-generic) set with <code>map</code>s is quite straight-forward.
 The usual structure for a type <code>T</code> is <code>map[T]bool</code>, where the key is the element and the value is just a placeholder. For instance, for a <code>int</code> set:</p>
-<pre><code class="language-go">s := <span class="hljs-keyword">map</span>[<span class="hljs-keyword">int</span>]<span class="hljs-keyword">bool</span>{<span class="hljs-number">1</span>: <span class="hljs-literal">true</span>, <span class="hljs-number">3</span>: <span class="hljs-literal">true</span>}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">s</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">bool</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+</code></pre></div>
+
 <p>where we can add elements:</p>
-<pre><code class="language-go">s[<span class="hljs-number">1</span>] = <span class="hljs-literal">true</span> <span class="hljs-comment">// already present</span>
-s[<span class="hljs-number">2</span>] = <span class="hljs-literal">true</span> <span class="hljs-comment">// adds new element</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span> <span class="c1">// already present</span>
+<span class="nx">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span> <span class="c1">// adds new element</span>
+</code></pre></div>
+
 <p>Some other techniques for maps replacing sets:</p>
 <h4 id="set-union">Set union</h4>
-<pre><code class="language-go">set_union := <span class="hljs-keyword">map</span>[<span class="hljs-keyword">int</span>]<span class="hljs-keyword">bool</span>{}
+<div class="highlight"><pre><span></span><code><span class="nx">set_union</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">bool</span><span class="p">{}</span>
 
-<span class="hljs-keyword">for</span> k, _ := <span class="hljs-keyword">range</span> set_1{
-    set_union[k] = <span class="hljs-literal">true</span>
-}
-<span class="hljs-keyword">for</span> k, _ := <span class="hljs-keyword">range</span> set_2{
-    set_union[k] = <span class="hljs-literal">true</span>
-}
-</code></pre>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_1</span><span class="p">{</span>
+    <span class="nx">set_union</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_2</span><span class="p">{</span>
+    <span class="nx">set_union</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <h4 id="set-intersection">Set intersection</h4>
-<pre><code class="language-go">set_intersection := <span class="hljs-keyword">map</span>[<span class="hljs-keyword">int</span>]<span class="hljs-keyword">bool</span>{}
-<span class="hljs-keyword">for</span> k,_ := <span class="hljs-keyword">range</span> set_1 { 
-  <span class="hljs-keyword">if</span> set_2[k] {
-    set_intersection[k] = <span class="hljs-literal">true</span>
-  }
-} 
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">set_intersection</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">bool</span><span class="p">{}</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span><span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_1</span> <span class="p">{</span> 
+  <span class="k">if</span> <span class="nx">set_2</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">{</span>
+    <span class="nx">set_intersection</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+</code></pre></div>
+
 <h4 id="set-to-array">Set to array</h4>
 <p>To convert a (map) set to an array:</p>
-<pre><code class="language-go">array := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">int</span>, <span class="hljs-number">0</span>)
+<div class="highlight"><pre><span></span><code><span class="nx">array</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span class="hljs-keyword">for</span> k := <span class="hljs-keyword">range</span> set_1 {  
-   array = <span class="hljs-built_in">append</span>(array, k)  
-}
-</code></pre>
+<span class="k">for</span> <span class="nx">k</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">set_1</span> <span class="p">{</span>  
+   <span class="nx">array</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">array</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span>  
+<span class="p">}</span>
+</code></pre></div>
+
 <h2 id="ci">CI</h2>
 <h3 id="github">GitHub</h3>
 <p>A potential workflow for GitHub is to use <a href="https://github.com/mvdan/github-actions-golang">GitHub Actions for Go</a>.
-An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see [Go](go.html#Testing in Go)) and <code>go vet</code> is:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">on:</span> [<span class="hljs-string">push</span>, <span class="hljs-string">pull_request\</span>]
-<span class="hljs-attr">name:</span> <span class="hljs-string">Test</span>
-<span class="hljs-attr">jobs:</span>
-  <span class="hljs-attr">test:</span>
-    <span class="hljs-attr">strategy:</span>
-      <span class="hljs-attr">matrix:</span>
-        <span class="hljs-attr">go-version:</span> [<span class="hljs-number">1.14</span><span class="hljs-string">.x</span>, <span class="hljs-number">1.15</span><span class="hljs-string">.x</span>]
-        <span class="hljs-attr">os:</span> [<span class="hljs-string">ubuntu-latest</span>]
-    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">${{</span> <span class="hljs-string">matrix.os</span> <span class="hljs-string">}}</span>
-    <span class="hljs-attr">steps:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Install</span> <span class="hljs-string">Go</span>
-      <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-go@v2</span>
-      <span class="hljs-attr">with:</span>
-        <span class="hljs-attr">go-version:</span> <span class="hljs-string">${{</span> <span class="hljs-string">matrix.go-version</span> <span class="hljs-string">}}</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Checkout</span> <span class="hljs-string">code</span>
-      <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v2</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Test</span>
-      <span class="hljs-attr">run:</span> <span class="hljs-string">go</span> <span class="hljs-string">test</span> <span class="hljs-string">./...</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Vet</span>
-      <span class="hljs-attr">run:</span> <span class="hljs-string">go</span> <span class="hljs-string">vet</span> <span class="hljs-string">./...</span>
-</code></pre>
+An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href="/go.html#Testing in Go">Go</a>) and <code>go vet</code> is:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">on</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">,</span> <span class="nv">pull_request\</span><span class="p p-Indicator">]</span>
+<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Test</span>
+<span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">test</span><span class="p">:</span>
+    <span class="nt">strategy</span><span class="p">:</span>
+      <span class="nt">matrix</span><span class="p">:</span>
+        <span class="nt">go-version</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">1.14.x</span><span class="p p-Indicator">,</span> <span class="nv">1.15.x</span><span class="p p-Indicator">]</span>
+        <span class="nt">os</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">]</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span>
+    <span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Go</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-go@v2</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">go-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.go-version }}</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Checkout code</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Test</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">go test ./...</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Vet</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">go vet ./...</span>
+</code></pre></div>
+
 <h2 id="containers">Containers</h2>
 <h3 id="minimal-example">Minimal example</h3>
-<p>A minimal example of a Go <a href="containers.html">container</a> configuration for a web server running on port <code>8080</code>:</p>
-<pre><code class="language-Dockerfile"><span class="hljs-comment"># Start from the latest golang base image  </span>
-<span class="hljs-keyword">FROM</span> golang:latest  
-<span class="hljs-comment"># Add Maintainer Info  </span>
-<span class="hljs-keyword">LABEL</span><span class="bash"> maintainer=<span class="hljs-string">&quot;Rui Vieira&quot;</span>  </span>
-<span class="hljs-comment"># Set the Current Working Directory inside the container  </span>
-<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app  </span>
-<span class="hljs-comment"># Copy go mod and sum files  </span>
-<span class="hljs-keyword">COPY</span><span class="bash"> go.mod go.sum ./  </span>
-<span class="hljs-comment"># Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed  </span>
-<span class="hljs-keyword">RUN</span><span class="bash"> go mod download  </span>
-<span class="hljs-comment"># Copy the source from the current directory to the Working Directory inside the container  </span>
-<span class="hljs-keyword">COPY</span><span class="bash"> . .  </span>
-<span class="hljs-comment"># Build the Go app  </span>
-<span class="hljs-keyword">RUN</span><span class="bash"> go build -o main .  </span>
-<span class="hljs-comment"># Expose port 8080 to the outside world  </span>
-<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8080</span>  
-<span class="hljs-comment"># Command to run the executable  </span>
-<span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">&quot;./main&quot;</span>]</span>
-</code></pre>
+<p>A minimal example of a Go <a href="/containers.html">container</a> configuration for a web server running on port <code>8080</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Start from the latest golang base image  </span>
+<span class="k">FROM</span> <span class="s">golang:latest</span>  
+<span class="c"># Add Maintainer Info  </span>
+<span class="k">LABEL</span> <span class="nv">maintainer</span><span class="o">=</span><span class="s2">&quot;Rui Vieira&quot;</span>  
+<span class="c"># Set the Current Working Directory inside the container  </span>
+<span class="k">WORKDIR</span><span class="s"> /app  </span>
+<span class="c"># Copy go mod and sum files  </span>
+<span class="k">COPY</span> go.mod go.sum ./  
+<span class="c"># Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed  </span>
+<span class="k">RUN</span> go mod download  
+<span class="c"># Copy the source from the current directory to the Working Directory inside the container  </span>
+<span class="k">COPY</span> . .  
+<span class="c"># Build the Go app  </span>
+<span class="k">RUN</span> go build -o main .  
+<span class="c"># Expose port 8080 to the outside world  </span>
+<span class="k">EXPOSE</span><span class="s"> 8080  </span>
+<span class="c"># Command to run the executable  </span>
+<span class="k">CMD</span> <span class="p">[</span><span class="s2">&quot;./main&quot;</span><span class="p">]</span>
+</code></pre></div>
+
 <h2 id="reference">Reference</h2>
 <h3 id="conversions">Conversions</h3>
-<h4 id="how-to-convert-a-string-to-byte-array?">How to convert a string to byte array?</h4>
-<pre><code class="language-go">b := []<span class="hljs-keyword">byte</span>(<span class="hljs-string">&quot;This is a string&quot;</span>)
-</code></pre>
+<h4 id="how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</h4>
+<div class="highlight"><pre><span></span><code><span class="nx">b</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;This is a string&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <h3 id="collections">Collections</h3>
 <h4 id="sort-map-keys-alphabetically">Sort map keys alphabetically</h4>
 <p>If a <code>map</code> contains <code>string</code> keys, i.e. <code>var myMap map[string]T</code>, we must sort the map keys independently. For instance:</p>
-<pre><code class="language-go">keys := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">string</span>, <span class="hljs-number">0</span>)
-<span class="hljs-keyword">for</span> k, _ := <span class="hljs-keyword">range</span> myMap {
-    keys = <span class="hljs-built_in">append</span>(keys, k)
-}
-sort.Strings(keys)
-<span class="hljs-keyword">for</span> _, k := <span class="hljs-keyword">range</span> keys {
-    fmt.Println(k, myMap[k])
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">keys</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">myMap</span> <span class="p">{</span>
+    <span class="nx">keys</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">sort</span><span class="p">.</span><span class="nx">Strings</span><span class="p">(</span><span class="nx">keys</span><span class="p">)</span>
+<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">k</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">keys</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span> <span class="nx">myMap</span><span class="p">[</span><span class="nx">k</span><span class="p">])</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <h4 id="check-for-element">Check for element</h4>
 <p>If we consider a collection, say, <code>[]string collection</code>, the way to check for an element already present is, for instance:</p>
-<pre><code class="language-go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">existsIn</span><span class="hljs-params">(needle <span class="hljs-keyword">string</span>, haystack []<span class="hljs-keyword">string</span>)</span> <span class="hljs-title">bool</span></span> {
-    <span class="hljs-keyword">for</span> _, element := <span class="hljs-keyword">range</span> haystack {
-        <span class="hljs-keyword">if</span> element == needle {
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
-        }
-    }
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span> <span class="nx">existsIn</span><span class="p">(</span><span class="nx">needle</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">haystack</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">element</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">haystack</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">element</span> <span class="o">==</span> <span class="nx">needle</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <h3 id="templates">Templates</h3>
 <h4 id="check-if-variable-empty">Check if variable empty</h4>
-<p>In a <a href="go.html">Go</a> template you check if a variable is empty by doing:</p>
-<pre><code class="language-go">{{if .Items}}
-    &lt;ul&gt;
-        {{range .Items}}
-            &lt;li&gt;{{.Name}}&lt;/li&gt;
-        {{end}}
-    &lt;/ul&gt;
-{{end}}
-</code></pre>
+<p>In a <a href="/go.html">Go</a> template you check if a variable is empty by doing:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{{</span><span class="k">if</span> <span class="p">.</span><span class="nx">Items</span><span class="p">}}</span>
+    <span class="p">&lt;</span><span class="nx">ul</span><span class="p">&gt;</span>
+        <span class="p">{{</span><span class="k">range</span> <span class="p">.</span><span class="nx">Items</span><span class="p">}}</span>
+            <span class="p">&lt;</span><span class="nx">li</span><span class="p">&gt;{{.</span><span class="nx">Name</span><span class="p">}}&lt;</span><span class="o">/</span><span class="nx">li</span><span class="p">&gt;</span>
+        <span class="p">{{</span><span class="nx">end</span><span class="p">}}</span>
+    <span class="p">&lt;</span><span class="o">/</span><span class="nx">ul</span><span class="p">&gt;</span>
+<span class="p">{{</span><span class="nx">end</span><span class="p">}}</span>
+</code></pre></div>
+
 <h4 id="looping-over-a-map">Looping over a map</h4>
 <p>Looping over the map <code>var data map[string]bool</code> in a Go template:</p>
-<pre><code class="language-go">{{<span class="hljs-keyword">range</span> $index, $element := .}}
-    {{$index}}: {{$element}}
-{{end}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">{{</span><span class="k">range</span> <span class="err">$</span><span class="nx">index</span><span class="p">,</span> <span class="err">$</span><span class="nx">element</span> <span class="o">:=</span> <span class="p">.}}</span>
+    <span class="p">{{</span><span class="err">$</span><span class="nx">index</span><span class="p">}}:</span> <span class="p">{{</span><span class="err">$</span><span class="nx">element</span><span class="p">}}</span>
+<span class="p">{{</span><span class="nx">end</span><span class="p">}}</span>
+</code></pre></div>
+
 <h3 id="processes">Processes</h3>
 <h4 id="executing-external-processes">Executing external processes</h4>
 <p>Executing an external process and directing input and output to <code>Stdout</code> and <code>Stderr</code>.</p>
-<pre><code class="language-go">cmd := exec.Command(<span class="hljs-string">&quot;ls&quot;</span>, <span class="hljs-string">&quot;-1ao&quot;</span>)
-cmd.Stdout = os.Stdout
-cmd.Stderr = os.Stderr
-err := cmd.Run()
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-    log.Fatalf(<span class="hljs-string">&quot;cmd.Run() failed with %s\\n&quot;</span>, err)
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;ls&quot;</span><span class="p">,</span> <span class="s">&quot;-1ao&quot;</span><span class="p">)</span>
+<span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span>
+<span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span>
+<span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nx">Run</span><span class="p">()</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;cmd.Run() failed with %s\\n&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <h3 id="testing-in-go">Testing in Go</h3>
 <p>Place the tests in your place of choosing, but keep the package declaration. Test functions should be parameterised as <code>(t *testing.T</code> and start with the prefix <code>Test</code>, for instance:</p>
-<pre><code class="language-go"><span class="hljs-keyword">package</span> main
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nx">main</span>
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestFoo</span><span class="hljs-params">(t *testing.T)</span></span> { 
-    value := Foo(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>) 
-    <span class="hljs-comment">// ... assertions</span>
-</code></pre>
+<span class="kd">func</span> <span class="nx">TestFoo</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">value</span> <span class="o">:=</span> <span class="nx">Foo</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> 
+    <span class="c1">// ... assertions</span>
+</code></pre></div>
+
 <p>The test files themselves must have the suffix <code>*_test.go</code>.
-Call the tests with <code>go test</code>.</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1"  class="footnote-item"><p>As of the time of writing, that is Go 1.15. <a href="#fnref1" class="footnote-backref">↩</a> <a href="#fnref1:1" class="footnote-backref">↩</a></p>
+Call the tests with <code>go test</code>. </p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>As of the time of writing, that is Go 1.15.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
-</section>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
-<li><a href="#language-design">Language design</a>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul>
-<li><a href="#go-doesnt-have-sets">Go doesn't have sets</a>
-<ul>
+<li><a href="#language-design">Language design</a><ul>
+<li><a href="#go-doesnt-have-sets">Go doesn't have sets</a><ul>
 <li><a href="#set-union">Set union</a></li>
 <li><a href="#set-intersection">Set intersection</a></li>
 <li><a href="#set-to-array">Set to array</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#ci">CI</a>
-<ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#ci">CI</a><ul>
 <li><a href="#github">GitHub</a></li>
-</ul></li>
-<li><a href="#containers">Containers</a>
-<ul>
+</ul>
+</li>
+<li><a href="#containers">Containers</a><ul>
 <li><a href="#minimal-example">Minimal example</a></li>
-</ul></li>
-<li><a href="#reference">Reference</a>
-<ul>
-<li><a href="#conversions">Conversions</a>
-<ul>
-<li><a href="#how-to-convert-a-string-to-byte-array?">How to convert a string to byte array?</a></li>
-</ul></li>
-<li><a href="#collections">Collections</a>
-<ul>
+</ul>
+</li>
+<li><a href="#reference">Reference</a><ul>
+<li><a href="#conversions">Conversions</a><ul>
+<li><a href="#how-to-convert-a-string-to-byte-array">How to convert a string to byte array?</a></li>
+</ul>
+</li>
+<li><a href="#collections">Collections</a><ul>
 <li><a href="#sort-map-keys-alphabetically">Sort map keys alphabetically</a></li>
 <li><a href="#check-for-element">Check for element</a></li>
-</ul></li>
-<li><a href="#templates">Templates</a>
-<ul>
+</ul>
+</li>
+<li><a href="#templates">Templates</a><ul>
 <li><a href="#check-if-variable-empty">Check if variable empty</a></li>
 <li><a href="#looping-over-a-map">Looping over a map</a></li>
-</ul></li>
-<li><a href="#processes">Processes</a>
-<ul>
-<li><a href="#executing-external-processes">Executing external processes</a></li>
-</ul></li>
-<li><a href="#testing-in-go">Testing in Go</a></li>
-</ul></li>
 </ul>
+</li>
+<li><a href="#processes">Processes</a><ul>
+<li><a href="#executing-external-processes">Executing external processes</a></li>
+</ul>
+</li>
+<li><a href="#testing-in-go">Testing in Go</a></li>
+</ul>
+</li>
+</ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/site-details.html">Site details</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/go.html">Go</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/go.html">Go</a><sup>&#5833</sup></li>
-                                <li><a href="/site-details.html">Site details</a><sup>&#5833</sup></li>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified a month ago
+            </div>
 
-        <div class="footer">
-            modified 1 month ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on MCMC performance on Substrate VM">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/mcmc-performance-on-substrate-vm.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - MCMC performance on Substrate VM</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,66 +50,94 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="mcmc-performance-on-substrate-vm">MCMC performance on Substrate VM</h1>
+        <div id="content">
+            <h1 id="mcmc-performance-on-substrate-vm">MCMC performance on Substrate VM</h1>
 <p>Recently I've been following (but not very closely, I admit) the development of the <a href="https://www.graalvm.org/">GraalVM</a> project. The project has many interesting goals (such as <a href="http://openjdk.java.net/projects/metropolis/">Project Metropolis</a>, increased JIT performance and others).</p>
 <p>However, having dabbled with projects such as <a href="https://github.com/scala-native/scala-native">Scala native</a> and <a href="https://kotlinlang.org/docs/reference/native-overview.html">Kotlin native</a>, one of the aspects of GraalVM that caught my attention was the <a href="https://github.com/oracle/graal/tree/master/substratevm">SubstrateVM</a>, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</p>
 <p>I specifically wanted to compare the performance and memory consumption of simple scientific computing tasks when using the JVM and native executables.
 To do this, I picked two simple numerical simulations in the form of toy Gibbs samplers, in order to keep the cores busy for a while.</p>
 <h2 id="binomial-beta-case">Binomial-Beta case</h2>
 <p>The first problem chosen was the one of sampling from a Beta-Binomial distribution where we have</p>
-<p>$$
+\[
 X \sim \text{Binom}\left(n,\theta\right) \\\\
 \theta \sim \text{B}\left(a,b\right).
-$$</p>
+\]
+
 <p>Since we know that</p>
-<p>$$
+\[
 \pi\left(\theta|x\right) \propto \theta^x \left(1-\theta\right)^{n-x}\theta^{a-1}\left(1-\theta\right)^{b-1},
-$$</p>
+\]
+
 <p>We calculate the joint density</p>
-<p>$$
+\[
 p(x,\theta) = \begin{pmatrix} n \\\\ x \end{pmatrix} \theta^x \left(1-\theta\right)^{n-x}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\theta^{a-1}\left(1-\theta\right)^{b-1}
-$$</p>
+\]
+
 <p>The marginal distribution is a Binomial-Beta:</p>
-<p>$$
+\[
 p\left(x\right)=\begin{pmatrix} n \\\\ x \end{pmatrix}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\frac{\Gamma\left(a+b\right)\Gamma\left(b+n-x\right)}{\Gamma\left(a+b+n\right)},\qquad x=0,1,\cdots,n.
-$$</p>
+\]
+
 <p>The code for this simulation is available <a href="https://github.com/ruivieira/benchmark-gibbs">here</a>.</p>
 <p>The project is setup so that Maven produces an assembly Jar file, since I've found that to be the easier artifact we can offer to the GraalVM's native compiler. To enable assembly Jars we add the <code>maven-assembly-plugin</code> to <code>pom.xml</code> and specify a main class. The assembly can then be produced simply by executing</p>
-<pre><code class="language-bash">mvn package
-</code></pre>
-<p>An assembly Jar should be available in the <code>target</code> folder and named <code>benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</code>.
-Both the Jar and the native executable allow to specify how many iterations the Gibbs sampler should run for (as well as the thinning factor). If nothing is specified, the default will be used, which is $50000$ iterations thinned by $100$.</p>
-<p>This particular Gibbs sampler was implemented in two variants. One variant stores the samples draws of $x$ and $\theta$ in arrays <code>double[]</code> while the other one simply calculates the Gibbs steps by using the previous value, that is $x_i=f(x_{i-1},\theta_{i-1})$ and then discarding the previous values. The latter has a constant memory cost in $\mathcal{O}(1)$ in terms of number of iterations, while the former clearly doesn't.</p>
+<div class="highlight"><pre><span></span><code>mvn package
+</code></pre></div>
+
+<p>An assembly Jar should be available in the <code>target</code> folder and named <code>benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</code>. 
+Both the Jar and the native executable allow to specify how many iterations the Gibbs sampler should run for (as well as the thinning factor). If nothing is specified, the default will be used, which is \(50000\) iterations thinned by \(100\).</p>
+<p>This particular Gibbs sampler was implemented in two variants. One variant stores the samples draws of \(x\) and \(\theta\) in arrays <code>double[]</code> while the other one simply calculates the Gibbs steps by using the previous value, that is \(x_i=f(x_{i-1},\theta_{i-1})\) and then discarding the previous values. The latter has a constant memory cost in \(\mathcal{O}(1)\) in terms of number of iterations, while the former clearly doesn't.</p>
 <p>We can them proceed with the first test, first benchmarking it under the JVM by running (for both sample history variants):</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store 50000 100</span>
-<span class="hljs-meta">$</span><span class="bash"> /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore 50000 100</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code>$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store <span class="m">50000</span> <span class="m">100</span>
+$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore <span class="m">50000</span> <span class="m">100</span>
+</code></pre></div>
+
 <p>(It is important to note that the <code>time</code> command is the executable under <code>/usr/bin</code> and not your shell's builtin.)
 The next step is to build the native image using GraalVM's compiler. This is also quite straight-forward and simply a matter of calling:</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash">GRAALVM_BIN/native-image target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nv">$GRAALVM_BIN</span>/native-image target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar
+</code></pre></div>
+
 <p>where <code>$GRAALVM_BIN</code> is simply the location where you installed the GraalVM binaries. If the compilation is successful, you should see some information about the compilation steps, such as parsing, inlining, compiling and writing the image. Finally, if using the default, you should have a native executable available in your current directory. Again, the benchmark command is similar to the JVM step, that is:</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies store 50000 100</span>
-<span class="hljs-meta">$</span><span class="bash"> /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore 50000 100</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code>$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies store <span class="m">50000</span> <span class="m">100</span>
+$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore <span class="m">50000</span> <span class="m">100</span>
+</code></pre></div>
+
 <p>The results from the runs which saved the sampling history on both platforms (JVM and native) were consistent as we can see from the plots below:</p>
-<p><img src="./images/gibbs_jvm_native.png" alt=""></p>
+<p><img alt="" src="./images/gibbs_jvm_native.png" /></p>
 <p>The (peak) memory consumption and execution time for each version is presented in the table below:</p>
 <table>
 <thead>
-<tr><th></th><th>Time(s)</th><th>Peak (Mb)</th></tr>
+<tr>
+<th></th>
+<th>Time(s)</th>
+<th>Peak (Mb)</th>
+</tr>
 </thead>
 <tbody>
-<tr><td>JVM (no sample history)</td><td>110.09</td><td>320.913</td></tr>
-<tr><td>native (no sample history)</td><td>130.52</td><td>273.747</td></tr>
-<tr><td>JVM (sample history)</td><td>112.51</td><td>324.796</td></tr>
-<tr><td>native (sample history)</td><td>130.62</td><td>274.239</td></tr>
+<tr>
+<td>JVM (no sample history)</td>
+<td>110.09</td>
+<td>320.913</td>
+</tr>
+<tr>
+<td>native (no sample history)</td>
+<td>130.52</td>
+<td>273.747</td>
+</tr>
+<tr>
+<td>JVM (sample history)</td>
+<td>112.51</td>
+<td>324.796</td>
+</tr>
+<tr>
+<td>native (sample history)</td>
+<td>130.62</td>
+<td>274.239</td>
+</tr>
 </tbody>
 </table>
 <h2 id="another-bivariate-case">Another bivariate case</h2>
@@ -166,90 +145,94 @@ The next step is to build the native image using GraalVM's compiler. This is als
 The code is included in the same repositoty as the Beta-Binomial case and the setup for the benchmarks is similar. The only step needed to run this example is to change the main class in the assemply plugin section of the <code>pom.xml</code> from <code>BinomialBet</code>a to <code>Bivariate</code>. The benchmark results are in the table below:</p>
 <table>
 <thead>
-<tr><th></th><th>Time(s)</th><th>Peak (Mb)</th></tr>
+<tr>
+<th></th>
+<th>Time(s)</th>
+<th>Peak (Mb)</th>
+</tr>
 </thead>
 <tbody>
-<tr><td>JVM</td><td>106.92</td><td>176.541</td></tr>
-<tr><td>native</td><td>121.29</td><td>273.383</td></tr>
+<tr>
+<td>JVM</td>
+<td>106.92</td>
+<td>176.541</td>
+</tr>
+<tr>
+<td>native</td>
+<td>121.29</td>
+<td>273.383</td>
+</tr>
 </tbody>
 </table>
 <p>Now, in this case, the results are much more interesting. The JVM version outperforms the native version in <em>both</em> execution time and memory consumption. I don't have an explanation for this, but if you think you have (or have any other questions) please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
 <p>Thanks for reading!</p>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
 <li><a href="#binomial-beta-case">Binomial-Beta case</a></li>
 <li><a href="#another-bivariate-case">Another bivariate case</a></li>
 </ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified 22 days ago
+            </div>
 
-        <div class="footer">
-            modified 2 weeks ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

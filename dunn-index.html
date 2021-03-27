@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Dunn index">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/dunn-index.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Dunn index</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,262 +50,303 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="dunn-index">Dunn index</h1>
+        <div id="content">
+            <h1 id="dunn-index">Dunn index</h1>
 <p>There are  several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the <strong>Dunn index</strong>, <strong>Davis-Bouldin index</strong> and <strong>Silhoutte index</strong>.</p>
 <p>But before we start, let's introduce some concepts.</p>
-<p>We are interested in clustering algorithms for a dataset $\mathcal{D}$ with $N$ elements in a $n$-dimensional real space, that is:</p>
-<p>$$
+<p>We are interested in clustering algorithms for a dataset \(\mathcal{D}\) with \(N\) elements in a \(n\)-dimensional real space, that is:</p>
+\[
 \mathcal{D} = {x_1, x_2, \ldots, x_N} \in \mathbb{R}^p
-$$</p>
-<p>The clustering algorithm will create a set $C$ of $K$ distinct disjoint groups from $\mathcal{D}$ $C={c_1, c_2, \ldots, c_k}$, such that:</p>
-<p>$$
+\]
+
+<p>The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint groups from \(\mathcal{D}\) \(C={c_1, c_2, \ldots, c_k}\), such that:</p>
+\[
 \cup_{c_k\in C}c_k=\mathcal{D} \\
 c_k \cap c_l \neq \emptyset \forall k\neq l
-$$</p>
-<p>Each group (or cluster) $c_k$, will have a <strong>centroid</strong>, $\bar{c}_k$, which is the mean vector of its elements such that:</p>
-<p>$$
-\bar{c}<em>k=\frac{1}{|c_k|}\sum</em>{x_i \in c_k}x_i
-$$</p>
-<p>We will also make use of the dataset's mean vector, $\bar{\mathcal{D}}$, defined as:</p>
-<p>$$
+\]
+
+<p>Each group (or cluster) \(c_k\), will have a <strong>centroid</strong>, \(\bar{c}_k\), which is the mean vector of its elements such that:</p>
+\[
+\bar{c}_k=\frac{1}{|c_k|}\sum_{x_i \in c_k}x_i
+\]
+
+<p>We will also make use of the dataset's mean vector, \(\bar{\mathcal{D}}\), defined as:</p>
+\[
 \bar{\mathcal{D}}=\frac{1}{N}\sum_{x_i \in X}x_i
-$$</p>
-<h2 id="dunn-index">Dunn index</h2>
+\]
+
+<h2 id="dunn-index_1">Dunn index</h2>
 <p>The <strong>Dunn index</strong>[^1] aims at quantifying the compactness and variance of the clustering.
 A cluster is considered <strong>compact</strong> if there is small variance between members of the cluster.
-This can be calculated using $\Delta(c_k)$, where</p>
-<p>$$
+This can be calculated using \(\Delta(c_k)\), where</p>
+\[
 \Delta(c_k) = \max_{x_i, x_j \in c_k}{d_e(x_i, x_j)}
-$$</p>
-<p>and $d_e$ is the [Euclidian distance](distance-metrics.html#Euclidean distance L2) defined as:</p>
-<p>$$
+\]
+
+<p>and \(d_e\) is the <a href="/distance-metrics.html#Euclidean distance L2">Euclidian distance</a> defined as:</p>
+\[
 d_e=\sqrt{\sum_{j=1}^p (x_{ij}-x_{kj})^2}.
-$$</p>
+\]
+
 <p>A cluster is considered <em>well separated</em> if the cluster are far-apart. This can quantified using</p>
-<p>$$
+\[
 \delta(c_k, c_l) = \min_{x_i \in c_k}\min_{x_j\in c_l}{d_e(x_i, x_j)}.
-$$</p>
-<p>Given these quantities, the <em>Dunn index</em> for a set of clusters $C$, $DI(C)$, is then defined by:</p>
-<p>$$
+\]
+
+<p>Given these quantities, the <em>Dunn index</em> for a set of clusters \(C\), \(DI(C)\), is then defined by:</p>
+\[
 DI(C)=\frac{\min_{c_k \in C}{\delta(c_k, c_l)}}{\max_{c_k\in C}\Delta(c_k)}
-$$</p>
+\]
+
 <p>A higher <em>Dunn Index</em> will indicate compact, well-separated clusters, while a lower index will indicate less compact or less well-separated clusters.</p>
 <p>We can now try to calculate the metric for the dataset we've created previously.
 Let's simulate some data and apply the Dunn index from scratch.
 First, we will create a compact and well-separated dataset using the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html"><code>make_blobs</code></a> method in <code>scikit-learn</code>.
-We will create a dataset of $\mathbb{R}^2$ data (for easier plotting), with three clusters.</p>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> make_blobs
+We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with three clusters.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 
-X, y = make_blobs(n_samples=<span class="hljs-number">1000</span>,
-                  centers=<span class="hljs-number">3</span>, 
-                  n_features=<span class="hljs-number">2</span>,
-                  random_state=<span class="hljs-number">23</span>)
-</code></pre>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-<span class="hljs-keyword">from</span> plotnine <span class="hljs-keyword">import</span> *
-<span class="hljs-keyword">from</span> plotnine.data <span class="hljs-keyword">import</span> *
-<span class="hljs-keyword">from</span> plotutils <span class="hljs-keyword">import</span> *
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                  <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+                  <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                  <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</code></pre></div>
 
-data = pd.DataFrame(X, columns=[<span class="hljs-string">&quot;x1&quot;</span>, <span class="hljs-string">&quot;x2&quot;</span>])
-data[<span class="hljs-string">&quot;y&quot;</span>] = y
-data[<span class="hljs-string">&quot;y&quot;</span>] = data.y.astype(<span class="hljs-string">&#x27;category&#x27;</span>)
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">plotnine.data</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
 
-ggplot(data=data) +\
-geom_point(mapping=aes(x=<span class="hljs-string">&quot;x1&quot;</span>, y=<span class="hljs-string">&quot;x2&quot;</span>, colour=<span class="hljs-string">&quot;y&quot;</span>)) + \
-scale_color_manual(values=[colours[<span class="hljs-number">0</span>], colours[<span class="hljs-number">1</span>], colours[<span class="hljs-number">2</span>]]) + theme_classic()
-</code></pre>
-<p><img src="./images/dunn-index_1.png" alt="dunn-index_1">
-We now cluster the data[^2] and we will have, as expected three distinct clusters, plotted below.</p>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> sklearn <span class="hljs-keyword">import</span> cluster
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">])</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
 
-k_means = cluster.KMeans(n_clusters=<span class="hljs-number">3</span>)
-k_means.fit(data)
-y_pred = k_means.predict(data)
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">))</span> <span class="o">+</span> \
+<span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">colours</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
 
-prediction = pd.concat([data, pd.DataFrame(y_pred, columns=[<span class="hljs-string">&#x27;pred&#x27;</span>])], axis = <span class="hljs-number">1</span>)
+<p><img alt="png" src="images/dunn-index-output_2_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (323234735)&gt;
+</code></pre></div>
 
-clus0 = prediction.loc[prediction.pred == <span class="hljs-number">0</span>]  
-clus1 = prediction.loc[prediction.pred == <span class="hljs-number">1</span>]  
-clus2 = prediction.loc[prediction.pred == <span class="hljs-number">2</span>]  
-k_list = [clus0.values, clus1.values,clus2.values]
-</code></pre>
-<p>Let's focus now on two of these cluster, let's call them $c_k$ and $c_l$.</p>
-<pre><code class="language-python">ck = k_list[<span class="hljs-number">0</span>]
-cl = k_list[<span class="hljs-number">1</span>]
-</code></pre>
-<p>We know we have to calculate the distance between the points in $c_k$ and $c_l$. We know that the <code>len(ck)=len(cl)=333</code> we create</p>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<p>We now cluster the data[^2] and we will have, as expected three distinct clusters, plotted below.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">cluster</span>
 
-values = np.ones([<span class="hljs-built_in">len</span>(ck), <span class="hljs-built_in">len</span>(cl)])
-values
-</code></pre>
-<p>For each pair of points, we then get the norm of $x_i-x_j$. For instance, for $i=0\in c_k$ and $i=1\in c_l$, we would have:</p>
-<pre><code class="language-python">values[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>] = np.linalg.norm(ck[<span class="hljs-number">0</span>]-cl[<span class="hljs-number">1</span>])
-print(ck[<span class="hljs-number">0</span>], cl[<span class="hljs-number">1</span>])
-print(values[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>])
-</code></pre>
-<pre><code>[<span class="hljs-number">1.76127766</span> <span class="hljs-number">9.39696306</span> <span class="hljs-number">0</span>.         <span class="hljs-number">0</span>.        ] [ <span class="hljs-number">5.46312794</span> -<span class="hljs-number">3.08938807</span>  <span class="hljs-number">1</span>.          <span class="hljs-number">1</span>.        ]
-<span class="hljs-number">13</span>.<span class="hljs-number">100101521169044</span>
+<span class="n">k_means</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">k_means</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">k_means</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-</code></pre>
-<p>The calculation of $\delta(c_k, c_l)$ between two clusters $c_k$ and $c_l$ will be defined as follows:</p>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">])],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> δ(<span class="hljs-params">ck, cl</span>):</span>  
-    values = np.ones([<span class="hljs-built_in">len</span>(ck), <span class="hljs-built_in">len</span>(cl)])
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(ck)):
-        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(cl)):
-            values[i, j] = np.linalg.norm(ck[i]-cl[j])
-    <span class="hljs-keyword">return</span> np.<span class="hljs-built_in">min</span>(values)
-</code></pre>
-<p>So, for our two clusters above, $\delta(c_k, c_l)$ will be:</p>
-<pre><code class="language-python">δ(ck, cl)
-</code></pre>
-<p>Within a single cluster $c_k$, we can calculate $\Delta(c_k)$ similarly as:</p>
-<pre><code class="language-python"><span class="hljs-function"><span class="hljs-keyword">def</span> Δ(<span class="hljs-params">ci</span>):</span>
-    values = np.zeros([<span class="hljs-built_in">len</span>(ci), <span class="hljs-built_in">len</span>(ci)])
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(ci)):
-        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(ci)):
-            values[i, j] = np.linalg.norm(ci[i]-ci[j])
-    <span class="hljs-keyword">return</span> np.<span class="hljs-built_in">max</span>(values)
-</code></pre>
-<p>So, for instance, for our $c_k$ and $c_l$ we would have:</p>
-<pre><code class="language-python">print(Δ(ck))
-print(Δ(cl))
-</code></pre>
-<pre><code><span class="hljs-attribute">5</span>.<span class="hljs-number">8077337425156745</span>
-<span class="hljs-attribute">6</span>.<span class="hljs-number">173844284636552</span>
+<span class="n">clus0</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>  
+<span class="n">clus1</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>  
+<span class="n">clus2</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>  
+<span class="n">k_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">clus0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">clus1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">clus2</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+</code></pre></div>
 
-</code></pre>
+<p>Let's focus now on two of these cluster, let's call them \(c_k\) and \(c_l\).</p>
+<div class="highlight"><pre><span></span><code><span class="n">ck</span> <span class="o">=</span> <span class="n">k_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cl</span> <span class="o">=</span> <span class="n">k_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+
+<p>We know we have to calculate the distance between the points in \(c_k\) and \(c_l\). We know that the <code>len(ck)=len(cl)=333</code> we create</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">ck</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">cl</span><span class="p">)])</span>
+<span class="n">values</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>array([[1., 1., 1., ..., 1., 1., 1.],
+       [1., 1., 1., ..., 1., 1., 1.],
+       [1., 1., 1., ..., 1., 1., 1.],
+       ...,
+       [1., 1., 1., ..., 1., 1., 1.],
+       [1., 1., 1., ..., 1., 1., 1.],
+       [1., 1., 1., ..., 1., 1., 1.]])
+</code></pre></div>
+
+<p>For each pair of points, we then get the norm of \(x_i-x_j\). For instance, for \(i=0\in c_k\) and \(i=1\in c_l\), we would have:</p>
+<div class="highlight"><pre><span></span><code><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ck</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">cl</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ck</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cl</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[1.76127766 9.39696306 0.         0.        ] [ 5.46312794 -3.08938807  1.          1.        ]</span>
+<span class="na">13.100101521169044</span>
+</code></pre></div>
+
+<p>The calculation of \(\delta(c_k, c_l)\) between two clusters \(c_k\) and \(c_l\) will be defined as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">δ</span><span class="p">(</span><span class="n">ck</span><span class="p">,</span> <span class="n">cl</span><span class="p">):</span>  
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">ck</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">cl</span><span class="p">)])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ck</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cl</span><span class="p">)):</span>
+            <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ck</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">cl</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div>
+
+<p>So, for our two clusters above, \(\delta(c_k, c_l)\) will be:</p>
+<div class="highlight"><pre><span></span><code><span class="n">δ</span><span class="p">(</span><span class="n">ck</span><span class="p">,</span> <span class="n">cl</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">8.70692734880369</span>
+</code></pre></div>
+
+<p>Within a single cluster \(c_k\), we can calculate \(\Delta(c_k)\) similarly as:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">Δ</span><span class="p">(</span><span class="n">ci</span><span class="p">):</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">ci</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ci</span><span class="p">)])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ci</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ci</span><span class="p">)):</span>
+            <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ci</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">ci</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div>
+
+<p>So, for instance, for our \(c_k\) and \(c_l\) we would have:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">Δ</span><span class="p">(</span><span class="n">ck</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Δ</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">5.8077337425156745</span>
+<span class="mf">6.173844284636552</span>
+</code></pre></div>
+
 <p>We can now define the <em>Dunn index</em> as</p>
-<pre><code class="language-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dunn</span>(<span class="hljs-params">k_list</span>):</span>
-    δs = np.ones([<span class="hljs-built_in">len</span>(k_list), <span class="hljs-built_in">len</span>(k_list)])
-    Δs = np.zeros([<span class="hljs-built_in">len</span>(k_list), <span class="hljs-number">1</span>])
-    l_range = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(k_list)))
-    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> l_range:
-        <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> (l_range[<span class="hljs-number">0</span>:k]+l_range[k+<span class="hljs-number">1</span>:]):
-            δs[k, l] = δ(k_list[k], k_list[l])
-            Δs[k] = Δ(k_list[k])
-            di = np.<span class="hljs-built_in">min</span>(δs)/np.<span class="hljs-built_in">max</span>(Δs)
-    <span class="hljs-keyword">return</span> di
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dunn</span><span class="p">(</span><span class="n">k_list</span><span class="p">):</span>
+    <span class="n">δs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">k_list</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">k_list</span><span class="p">)])</span>
+    <span class="n">Δs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">k_list</span><span class="p">),</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">l_range</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">k_list</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">l_range</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="p">(</span><span class="n">l_range</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">k</span><span class="p">]</span><span class="o">+</span><span class="n">l_range</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">δs</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">δ</span><span class="p">(</span><span class="n">k_list</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">k_list</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+            <span class="n">Δs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Δ</span><span class="p">(</span><span class="n">k_list</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="n">di</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">δs</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">Δs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">di</span>
+</code></pre></div>
+
 <p>and calculate the <em>Dunn index</em> for our clustered values list as</p>
-<pre><code class="language-python">dunn(k_list)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">dunn</span><span class="p">(</span><span class="n">k_list</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">0.14867620697065728</span>
+</code></pre></div>
+
 <p>Intuitively, we can expect a dataset with less well-defined clusters to have a lower <em>Dunn index</em>. Let's try it.
 We first generate the new dataset.</p>
-<pre><code class="language-python">X, y = make_blobs(n_samples=<span class="hljs-number">1000</span>,
-                  centers=<span class="hljs-number">3</span>, 
-                  n_features=<span class="hljs-number">2</span>,
-                  cluster_std=<span class="hljs-number">10.0</span>, 
-                  random_state=<span class="hljs-number">24</span>) 
+<div class="highlight"><pre><span></span><code><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                  <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+                  <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                  <span class="n">cluster_std</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> 
+                  <span class="n">random_state</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span> 
 
-df = pd.DataFrame(X, columns=[<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>])
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">])</span>
 
-k_means = cluster.KMeans(n_clusters=<span class="hljs-number">3</span>) 
-k_means.fit(df) 
+<span class="n">k_means</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> 
+<span class="n">k_means</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> 
 
-<span class="hljs-comment">#K-means training </span>
-y_pred = k_means.predict(df)
+<span class="c1">#K-means training </span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">k_means</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
-prediction = pd.concat([df,pd.DataFrame(y_pred, columns=[<span class="hljs-string">&#x27;pred&#x27;</span>])], axis = <span class="hljs-number">1</span>)
-prediction[<span class="hljs-string">&quot;pred&quot;</span>] = prediction.pred.astype(<span class="hljs-string">&#x27;category&#x27;</span>)
-</code></pre>
-<pre><code class="language-python">ggplot(data=prediction) +\
-geom_point(mapping=aes(x=<span class="hljs-string">&quot;A&quot;</span>, y=<span class="hljs-string">&quot;B&quot;</span>, colour=<span class="hljs-string">&quot;pred&quot;</span>)) + \
-scale_color_manual(values=[colours[<span class="hljs-number">0</span>], colours[<span class="hljs-number">1</span>], colours[<span class="hljs-number">2</span>]]) + theme_classic()
-</code></pre>
-<p><img src="./images/dunn-index_2.png" alt="dunn-index_2"></p>
-<pre><code class="language-python">clus0 = prediction.loc[prediction.pred == <span class="hljs-number">0</span>]
-clus1 = prediction.loc[prediction.pred == <span class="hljs-number">1</span>]
-clus2 = prediction.loc[prediction.pred == <span class="hljs-number">2</span>]  
-k_list = [clus0.values, clus1.values,clus2.values]
-</code></pre>
-<pre><code class="language-python">dunn(k_list)
-</code></pre>
-<pre><code class="language-python">
-</code></pre>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">])],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">prediction</span><span class="p">[</span><span class="s2">&quot;pred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">pred</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">prediction</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="s2">&quot;pred&quot;</span><span class="p">))</span> <span class="o">+</span> \
+<span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">colours</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/dunn-index-output_25_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (323289555)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">clus0</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">clus1</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">clus2</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>  
+<span class="n">k_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">clus0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">clus1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">clus2</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">dunn</span><span class="p">(</span><span class="n">k_list</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">0.019563892388205984</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
-<li><a href="#dunn-index">Dunn index</a></li>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
+<li><a href="#dunn-index_1">Dunn index</a></li>
 </ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/distance-metrics.html">Distance metrics</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/distance-metrics.html">Distance metrics</a><sup>&#5833</sup></li>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified 24 days ago
+            </div>
 
-        <div class="footer">
-            modified 1 week ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

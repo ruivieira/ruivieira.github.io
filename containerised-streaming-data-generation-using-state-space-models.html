@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Containerised Streaming Data Generation using State-Space Models">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Containerised Streaming Data Generation using State-Space Models</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,184 +50,207 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="containerised-streaming-data-generation-using-state-space-models">Containerised Streaming Data Generation using State-Space Models</h1>
+        <div id="content">
+            <h1 id="containerised-streaming-data-generation-using-state-space-models">Containerised Streaming Data Generation using State-Space Models</h1>
 <p>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as <a href="https://kafka.apache.org/">Apache Kafka</a> and <a href="https://spark.apache.org/">Apache Spark</a> and deployment in a cloud environment like <a href="https://www.openshift.com/">OpenShift</a> with tools such as <a href="https://radanalytics.io/">oshinko</a>.</p>
 <p>Simulating data is not trivial, since we might want to capture complex characteristic to evaluate our algorithms in conditions similar to the real world.
 In this post I'll introduce a tool, <a href="https://github.com/ruivieira/timeseries-mock">timeseries-mock</a>, which allows for a simple, containerised deployment of a data simulator along with some of the theory behind the data generation.</p>
 <h1 id="state-space-models">State-space models</h1>
 <p>A common way of modelling these patterns is to use state-space models (SSM). SSMs can be divided into a model and a observation structure.</p>
-<p>$$
+\[
 Y_t|\theta_t,\Phi \sim f\left(y_t|\theta_t,\Phi_t\right) \\
 \theta_t|\theta_{t-1},\Phi_t \sim g\left(\theta_t|\theta_{t-1},\Phi_t\right).
-$$</p>
-<p><img src="./images/ssm/ssm_diagram.png" alt=""></p>
-<p>It is clear from the above that the state possesses a Markovian nature. The state at time $t$, $\theta_t$ will on depend on the previous value, $\theta_{t-1}$ and an observation at time $t$, $y_t$ will only depend on the current state, $\theta_t$, that is:</p>
-<p>$$
+\]
+
+<p><img alt="" src="./images/ssm/ssm_diagram.png" /></p>
+<p>It is clear from the above that the state possesses a Markovian nature. The state at time \(t\), \(\theta_t\) will on depend on the previous value, \(\theta_{t-1}\) and an observation at time \(t\), \(y_t\) will only depend on the current state, \(\theta_t\), that is:</p>
+\[
 p\left(\theta_{t}|\theta_{0:t-1},y_{0:t-1}\right)=p\left(\theta_{t}|\theta_{t-1}\right) \\
 p\left(\theta_{t-1}|\theta_{t:T},y_{t:T}\right)=p\left(\theta_{t-1}|\theta_{t}\right) \\
 p\left(y_{t}|\theta_{0:t},y_{0:t-1}\right)=p\left(y_{t}|\theta_{t}\right).
-$$</p>
-<p>In this post we will focus on a specific instance of SSMs, namely Dynamic Generalised Linear Models (DGLMs). If you want a deeper theoretical analysis of DGLMs I strongly recommend Mike West and Jeff Harrison's &quot;<a href="https://www.springer.com/gb/book/9780387947259">Bayesian Forecasting and Dynamic Models</a>&quot; (1997).
-In DGLMs, the observation follows a distribution from the exponential family, $E\left(\cdot\right)$ such, that</p>
-<p>$$
+\]
+
+<p>In this post we will focus on a specific instance of SSMs, namely Dynamic Generalised Linear Models (DGLMs). If you want a deeper theoretical analysis of DGLMs I strongly recommend Mike West and Jeff Harrison's "<a href="https://www.springer.com/gb/book/9780387947259">Bayesian Forecasting and Dynamic Models</a>" (1997).
+In DGLMs, the observation follows a distribution from the exponential family, \(E\left(\cdot\right)\) such, that</p>
+\[
 Y_t|\theta_t,\Phi \sim E\left(\eta_t,\Phi\right) \\
 \eta_t|\theta_t = L\left(\mathsf{F}^T \theta_t\right)
-$$</p>
-<p>where $L\left(\cdot\right)$ is the linear predictor and the state evolves according to a multivariate normal (MVN) distribution:</p>
-<p>$$
+\]
+
+<p>where \(L\left(\cdot\right)\) is the linear predictor and the state evolves according to a multivariate normal (MVN) distribution:</p>
+\[
 \theta_t \sim \mathcal{N}\left(\theta_t;\mathsf{G}\theta_{t-1},\mathsf{W}\right)
-$$</p>
+\]
+
 <h2 id="structure">Structure</h2>
-<p>The fundamental way in which <code>timeseries-mock</code> works is by specifying the underlying structure and observational model in a YAML configuration file. In the following sections we will look at the options available in terms of structural and observational components and look at how to represent them. As we've seen from (5), the structure will allows us to define the underlying patterns of the state evolution $\lbrace \theta_1, \theta_2, \cdots, \theta_t\rbrace$. One of the advantages of DGLMs is the ability to compose several simpler components into a single complex structure. We will then look at some of these &quot;fundamental&quot; components.</p>
+<p>The fundamental way in which <code>timeseries-mock</code> works is by specifying the underlying structure and observational model in a YAML configuration file. In the following sections we will look at the options available in terms of structural and observational components and look at how to represent them. As we've seen from (5), the structure will allows us to define the underlying patterns of the state evolution \(\lbrace \theta_1, \theta_2, \cdots, \theta_t\rbrace\). One of the advantages of DGLMs is the ability to compose several simpler components into a single complex structure. We will then look at some of these "fundamental" components.</p>
 <h3 id="mean">Mean</h3>
 <p>An underlying mean component will represent a random-walk scalar state which can be specified in the configuration file by</p>
-<pre><code class="language-yaml"><span class="hljs-attr">structure:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-    <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-    <span class="hljs-attr">noise:</span> <span class="hljs-number">1.5</span>
-</code></pre>
-<p>In this case <code>start</code> will correspond the mean of the state prior, $m_0$, and <code>noise</code> will correspond to the prior's variance, $\tau^2$, that is</p>
-<p>$$
+<div class="highlight"><pre><span></span><code><span class="nt">structure</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+    <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+</code></pre></div>
+
+<p>In this case <code>start</code> will correspond the mean of the state prior, \(m_0\), and <code>noise</code> will correspond to the prior's variance, \(\tau^2\), that is</p>
+\[
 \theta_0 \sim \mathcal{N}\left(m_0, \tau^2\right).
-$$</p>
+\]
+
 <p>In the figure below we can see the above configuration for, respectively, a higher and lower value of <code>noise</code>.</p>
-<p><img src="./images/ssm/lc.png" alt=""></p>
+<p><img alt="" src="./images/ssm/lc.png" /></p>
 <h3 id="seasonality">Seasonality</h3>
 <p>Seasonality is represented by Fourier components. A Fourier component can be completely specified by providing the <code>period</code>, <code>start</code>, <code>noise</code> and <code>harmonics</code>.
 The <code>start</code> and <code>noise</code> parameters are analogous to the mean components we saw previously.
 The <code>period</code> parameter refers to how long does it take for the cyclical pattern to repeat. This is done relatively to your time-point interval, such that</p>
-<p>$$
+\[
 P = p_{\text{fourier}}\cdot p_{\text{stream}}.
-$$</p>
-<p>That is, if your stream's rate is one observation every 100 milliseconds, $p_{\text{stream}}=0.1$, and the harmonic's period is 2000, $p_{\text{fourier}}=1000$, then the seasonal component will repeat every $200$ seconds. The configuration example</p>
-<pre><code class="language-yaml"><span class="hljs-attr">structure:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-    <span class="hljs-attr">period:</span> <span class="hljs-number">200</span>
-    <span class="hljs-attr">harmonics:</span> <span class="hljs-number">5</span>
-    <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-    <span class="hljs-attr">noise:</span> <span class="hljs-number">0.7</span>
-</code></pre>
-<p>will create a sequence of state vectors $\boldsymbol{\theta}_{0:T}$ with five components, such that:</p>
-<p>$$
-\boldsymbol{\theta}<em>t = \lbrace\theta</em>{1,t},\cdots,\theta_{5,t}\rbrace.
-$$</p>
-<p>In this example, <code>period</code> refers to the number of time-points for each cycle's repetition and <code>harmonics</code> to the number of Fourier harmonics used. &quot;Simpler&quot; cyclic patterns usually require less harmonics. In the figure below we show on the lowest and highest frequency harmonics, on the left and right respectively.</p>
-<p><img src="./images/ssm/fourier.png" alt=""></p>
-<h3 id="ar-*p*">AR-<em>p</em></h3>
-<p>An AR($p$) (Auto-Regressive) component can be specified using the directives:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">structure:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">arma</span>
-    <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-    <span class="hljs-attr">coefficients:</span> <span class="hljs-number">0.1</span><span class="hljs-string">,0.3,0.15</span>
-    <span class="hljs-attr">noise:</span> <span class="hljs-number">0.5</span>
-</code></pre>
-<p>In the above example we would be creating an AR(3) component, with respective coefficients $\phi=\lbrace 0.1,0.3,0.15 \rbrace$. These coefficients will take part of the state model as</p>
-<p>$$
+\]
+
+<p>That is, if your stream's rate is one observation every 100 milliseconds, \(p_{\text{stream}}=0.1\), and the harmonic's period is 2000, \(p_{\text{fourier}}=1000\), then the seasonal component will repeat every \(200\) seconds. The configuration example</p>
+<div class="highlight"><pre><span></span><code><span class="nt">structure</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+    <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">200</span>
+    <span class="nt">harmonics</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+    <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
+</code></pre></div>
+
+<p>will create a sequence of state vectors \(\boldsymbol{\theta}_{0:T}\) with five components, such that:</p>
+\[
+\boldsymbol{\theta}_t = \lbrace\theta_{1,t},\cdots,\theta_{5,t}\rbrace.
+\]
+
+<p>In this example, <code>period</code> refers to the number of time-points for each cycle's repetition and <code>harmonics</code> to the number of Fourier harmonics used. "Simpler" cyclic patterns usually require less harmonics. In the figure below we show on the lowest and highest frequency harmonics, on the left and right respectively.</p>
+<p><img alt="" src="./images/ssm/fourier.png" /></p>
+<h3 id="ar-p">AR-<em>p</em></h3>
+<p>An AR(\(p\)) (Auto-Regressive) component can be specified using the directives:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">structure</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">arma</span>
+    <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="nt">coefficients</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1,0.3,0.15</span>
+    <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+</code></pre></div>
+
+<p>In the above example we would be creating an AR(3) component, with respective coefficients \(\phi=\lbrace 0.1,0.3,0.15 \rbrace\). These coefficients will take part of the state model as</p>
+\[
 \mathsf{G} = \begin{bmatrix}
 \phi_1 &amp; \phi_2 &amp; \cdots &amp; \phi_{p-1} &amp; \phi_p \\
 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
 \vdots &amp; &amp; \ddots &amp; \vdots &amp; \vdots \\
 0 &amp; \cdots &amp; 0 &amp; 1 &amp; 0
 \end{bmatrix}
-$$</p>
+\]
+
 <p>In the following plots we show respectively the first and second component of the AR(3) state vector.</p>
-<p><img src="./images/ssm/arma3.png" alt=""></p>
+<p><img alt="" src="./images/ssm/arma3.png" /></p>
 <h3 id="composing">Composing</h3>
 <p>Structural composition of DGLM structures amounts to the individual composition of the state covariance matrix and state/observational evolution matrices such that:</p>
-<p>$$
+\[
 \mathsf{F}^T = \begin{bmatrix}\mathsf{F}_1 &amp;amp; \mathsf{F}_2 &amp;amp; \dots \mathsf{F}_i\end{bmatrix}^T \\
 \mathsf{G} = \text{blockdiag}\left(\mathsf{G}_1, \mathsf{G}_2, \dots, \mathsf{G}_i\right) \\
 \mathsf{W} = \text{blockdiag}\left(\mathsf{W}_1, \mathsf{W}_2, \dots, \mathsf{W}_i\right)
-$$</p>
+\]
+
 <p>To express the composition of structures in the YAML configuration, we simply enumerate the separate components under the <code>structure</code> key. As as example, to compose the previous <code>mean</code> and <code>seasonal</code> components, we would simply write:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">structure:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-    <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-    <span class="hljs-attr">noise:</span> <span class="hljs-number">1.5</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-    <span class="hljs-attr">period:</span> <span class="hljs-number">200</span>
-    <span class="hljs-attr">harmonics:</span> <span class="hljs-number">5</span>
-    <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-    <span class="hljs-attr">noise:</span> <span class="hljs-number">0.7</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nt">structure</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+    <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+    <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">200</span>
+    <span class="nt">harmonics</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+    <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
+</code></pre></div>
+
 <p>This would create a structure containing both an underlying mean <em>and</em> a seasonal component.</p>
 <h2 id="observations">Observations</h2>
 <p>As we have seen from (3) that an observational model can be coupled with a structure to complete the DGLM specification. In the following sections we will look at some example observational models and in which situations they might be useful.</p>
 <h3 id="continuous">Continuous</h3>
 <p>Continuous observations are useful to model real valued data such as stock prices, temperature readings, <em>etc.</em> This can be achieved by specifying the observational component as a Gaussian distribution such that:</p>
-<p>$$
+\[
 Y_t|\Phi \sim \mathcal{N}\left(y_t|\eta_t, \mathsf{W}\right).
-$$</p>
-<pre><code class="language-yaml"><span class="hljs-attr">observations:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">continuous</span>
-    <span class="hljs-attr">noise:</span> <span class="hljs-number">1.5</span>
-</code></pre>
+\]
+
+<div class="highlight"><pre><span></span><code><span class="nt">observations</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+    <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+</code></pre></div>
+
 <p>The following plot shows the coupling of the structure used in the <code>mean</code> section with the continuous (example above) observational model.</p>
-<p><img src="./images/ssm/continous.png" alt=""></p>
+<p><img alt="" src="./images/ssm/continous.png" /></p>
 <h3 id="discrete">Discrete</h3>
-<p>Discrete observations, sometimes referred as &quot;count data&quot;, can be used to model integer quantities. This can be achieved by using a Poisson distribution in the observational model, such that:</p>
-<p>$$
+<p>Discrete observations, sometimes referred as "count data", can be used to model integer quantities. This can be achieved by using a Poisson distribution in the observational model, such that:</p>
+\[
 Y_t|\Phi \sim \text{Po}\left(y_t|\eta_t\right)
-$$</p>
+\]
+
 <p>An example configuration would be:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">observations:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">discrete</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nt">observations</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">discrete</span>
+</code></pre></div>
+
 <p>In this case we will use the previous ARMA(3) structure example and couple it with a discrete observational model. The result is shown in the plot below:</p>
-<p><img src="./images/ssm/discrete.png" alt=""></p>
+<p><img alt="" src="./images/ssm/discrete.png" /></p>
 <h3 id="categorical">Categorical</h3>
 <p>In the categorical case, we model the observations according to a binomial distribution, such that</p>
-<p>$$
+\[
 Y_t \sim \text{Bin}\left(y_t|\eta_t,r\right),
-$$</p>
-<p>where $r$ represents the number of categories. A typical example would be the case where $r=1$ which would represent a binary outcome (0 or 1). The following configuration implements this very case:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">observations:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">categorical</span>
-    <span class="hljs-attr">categories:</span> <span class="hljs-number">1</span>
-</code></pre>
+\]
+
+<p>where \(r\) represents the number of categories. A typical example would be the case where \(r=1\) which would represent a binary outcome (0 or 1). The following configuration implements this very case:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">observations</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+    <span class="nt">categories</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+</code></pre></div>
+
 <p>We can see in the plot below (<em>states on the left, observations on the right</em>) a realisation of this stream, when using the previous seasonal example structure.</p>
-<p><img src="./images/ssm/categorical.png" alt=""></p>
+<p><img alt="" src="./images/ssm/categorical.png" /></p>
 <p>Often, when simulating a data stream, we might be interested in the category labels themselves, rather than a numerical value. The generator allows to pass directly a list of labels and output the labelled observations. Let's assume we wanted to generate a stream of random DNA nucleotides (C, T, A and G). The generator allows to pass the labels directly and output the direct mapping between observations and label, that is:</p>
-<p>$$
+\[
 y_t: \lbrace 0, 1, 2, 3 \rbrace \mapsto \lbrace\text{C, T, A, G}\rbrace
-$$</p>
-<pre><code class="language-yaml"><span class="hljs-attr">observations:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">categorical</span>
-    <span class="hljs-attr">values:</span> <span class="hljs-string">C,T,A,G</span>
-</code></pre>
+\]
+
+<div class="highlight"><pre><span></span><code><span class="nt">observations</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+    <span class="nt">values</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">C,T,A,G</span>
+</code></pre></div>
+
 <p>Using the same seasonal structure and observation model as above, the output would then be:</p>
-<p><img src="./images/ssm/categorical_nucleotides.png" alt=""></p>
+<p><img alt="" src="./images/ssm/categorical_nucleotides.png" /></p>
 <h2 id="composite-model">Composite model</h2>
 <p>In a real-world scenario we are interested in simulating multivariate data and that comprises of different observational models. For instance, combining observation components from categorical, continuous, <em>etc.</em></p>
-<p>The approach taken for multivariate composite models, is that the structures are composed as seen previously into a single one and the resulting state vector is then &quot;collapsed&quot; into a vector on natural parameters, $\eta_t$ which are then used to sample the individual observation components.</p>
-<p>$$
-\theta_t = \lbrace\underbrace{\theta_{1}, \theta_{2}, \theta_{3}}<em>{\eta_1}, \underbrace{\theta</em>{4}, \theta_{5}, \theta_{6}}_{\eta_2}\rbrace \\
+<p>The approach taken for multivariate composite models, is that the structures are composed as seen previously into a single one and the resulting state vector is then "collapsed" into a vector on natural parameters, \(\eta_t\) which are then used to sample the individual observation components.</p>
+\[
+\theta_t = \lbrace\underbrace{\theta_{1}, \theta_{2}, \theta_{3}}_{\eta_1}, \underbrace{\theta_{4}, \theta_{5}, \theta_{6}}_{\eta_2}\rbrace \\
 y = f(\eta_t) \\
 = \lbrace f_1(\eta_1), f_2(\eta_2)\rbrace
-$$</p>
+\]
+
 <p>The model composition can be expressed by grouping the different structures and observations under a <code>compose</code> key:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">compose:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">structure:</span>          <span class="hljs-comment"># component 1</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-<span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-<span class="hljs-attr">noise:</span> <span class="hljs-number">0.5</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">observations:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">continuous</span>
-<span class="hljs-attr">noise:</span> <span class="hljs-number">0.5</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">structure:</span>          <span class="hljs-comment"># component 2</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-<span class="hljs-attr">start:</span> <span class="hljs-number">5.0</span>
-<span class="hljs-attr">noise:</span> <span class="hljs-number">3.7</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">observations:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">continuous</span>
-<span class="hljs-attr">noise:</span> <span class="hljs-number">1.5</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nt">compose</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="nt">structure</span><span class="p">:</span>          <span class="c1"># component 1</span>
+<span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+<span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="p p-Indicator">-</span> <span class="nt">observations</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+<span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="p p-Indicator">-</span> <span class="nt">structure</span><span class="p">:</span>          <span class="c1"># component 2</span>
+<span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+<span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5.0</span>
+<span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.7</span>
+<span class="p p-Indicator">-</span> <span class="nt">observations</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+<span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.5</span>
+</code></pre></div>
+
 <h3 id="examples">Examples</h3>
 <p>We will look at two separate examples, one that creates a stream of simulated stock prices and one that generates a fake HTTP log.
 We assume we want to simulate a stream of per-day stock prices for 3 different companies, each with different characteristics. In this case, we will model the following:</p>
@@ -287,96 +261,99 @@ We assume we want to simulate a stream of per-day stock prices for 3 different c
 </ul>
 <p>Since we will be using per-day data we won't be streaming this in realtime! We can map each daily observation to a second in our stream so we will specify a <code>period=1</code>. All stocks will exhibit a small monthly effect (<code>period=30</code>), which will be indicated by a <code>noise=0.01</code> and a yearly effect (<code>period=365</code>) with a <code>noise=2.5</code>.</p>
 <p>The resulting configuration will be:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">compose:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">structure:</span> <span class="hljs-comment"># company A</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-        <span class="hljs-attr">start:</span> <span class="hljs-number">700</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">0.01</span>  <span class="hljs-comment"># low structural variance</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-        <span class="hljs-attr">period:</span> <span class="hljs-number">30</span>   <span class="hljs-comment"># monthly seasonality</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">0.1</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-        <span class="hljs-attr">period:</span> <span class="hljs-number">365</span><span class="hljs-string">.</span> <span class="hljs-comment"># yearly seasonality</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">1.7</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">observations:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">continuous</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">0.05</span>  <span class="hljs-comment"># low observational variance</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">structure:</span> <span class="hljs-comment"># company B</span>
-            <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-            <span class="hljs-attr">start:</span> <span class="hljs-number">500</span>
-            <span class="hljs-attr">noise:</span> <span class="hljs-number">0.01</span>  <span class="hljs-comment"># low structural variance</span>
-            <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-            <span class="hljs-attr">period:</span> <span class="hljs-number">30</span>   <span class="hljs-comment"># monthly seasonality</span>
-            <span class="hljs-attr">noise:</span> <span class="hljs-number">0.7</span>
-            <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-            <span class="hljs-attr">period:</span> <span class="hljs-number">365</span><span class="hljs-string">.</span> <span class="hljs-comment"># yearly seasonality</span>
-            <span class="hljs-attr">noise:</span> <span class="hljs-number">3.7</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">observations:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">continuous</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">3.00</span>  <span class="hljs-comment"># higher observational variance</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">structure:</span> <span class="hljs-comment"># company C</span>
-            <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-            <span class="hljs-attr">start:</span> <span class="hljs-number">600</span>
-            <span class="hljs-attr">noise:</span> <span class="hljs-number">3.0</span>  <span class="hljs-comment"># higher structural variance</span>
-            <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-            <span class="hljs-attr">period:</span> <span class="hljs-number">30</span>   <span class="hljs-comment"># monthly seasonality</span>
-            <span class="hljs-attr">noise:</span> <span class="hljs-number">0.1</span>
-            <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-            <span class="hljs-attr">period:</span> <span class="hljs-number">365</span><span class="hljs-string">.</span> <span class="hljs-comment"># yearly seasonality</span>
-            <span class="hljs-attr">noise:</span> <span class="hljs-number">0.25</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">observations:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">continuous</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">4.0</span>  <span class="hljs-comment"># higher observational variance</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nt">compose</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">structure</span><span class="p">:</span> <span class="c1"># company A</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">700</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>  <span class="c1"># low structural variance</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+        <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>   <span class="c1"># monthly seasonality</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+        <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">365.</span> <span class="c1"># yearly seasonality</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.7</span>
+    <span class="p p-Indicator">-</span> <span class="nt">observations</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.05</span>  <span class="c1"># low observational variance</span>
+        <span class="p p-Indicator">-</span> <span class="nt">structure</span><span class="p">:</span> <span class="c1"># company B</span>
+            <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+            <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">500</span>
+            <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>  <span class="c1"># low structural variance</span>
+            <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+            <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>   <span class="c1"># monthly seasonality</span>
+            <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.7</span>
+            <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+            <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">365.</span> <span class="c1"># yearly seasonality</span>
+            <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.7</span>
+    <span class="p p-Indicator">-</span> <span class="nt">observations</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.00</span>  <span class="c1"># higher observational variance</span>
+        <span class="p p-Indicator">-</span> <span class="nt">structure</span><span class="p">:</span> <span class="c1"># company C</span>
+            <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+            <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">600</span>
+            <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0</span>  <span class="c1"># higher structural variance</span>
+            <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+            <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>   <span class="c1"># monthly seasonality</span>
+            <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+            <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+            <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">365.</span> <span class="c1"># yearly seasonality</span>
+            <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
+    <span class="p p-Indicator">-</span> <span class="nt">observations</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">continuous</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4.0</span>  <span class="c1"># higher observational variance</span>
+</code></pre></div>
+
 <p>A realisation of this stream looks like the figure below.</p>
-<p><img src="./images/ssm/mv_continous.png" alt=""></p>
+<p><img alt="" src="./images/ssm/mv_continous.png" /></p>
 <p>To generate the fake HTTP log we will make the following assumptions:</p>
 <ul>
 <li>We will have a request type (<code>GET</code>, <code>POST</code>, <code>PUT</code>) which will vary following a random walk</li>
 <li>A set of visited pages which, for illustration purposes, will be limited to (<code>/site/page.htm</code>, <code>/site/index.htm</code> and <code>/internal/example.htm</code>). We also want that the URLs visited follow a seasonal pattern.</li>
 <li>An IP address in the IPv4 format (<em>i.e.</em> <code>0-255.0-255.0-255.0-255</code>)</li>
 </ul>
-<p>It is clear that for all variables the appropriate observational model is the categorical one. For the request type and the visited page we can pass directly the category name in the configuration file and for the IP we simply need four categorical observations with $r=255$.</p>
+<p>It is clear that for all variables the appropriate observational model is the categorical one. For the request type and the visited page we can pass directly the category name in the configuration file and for the IP we simply need four categorical observations with \(r=255\).</p>
 <p>If the underlying structure is the same, a useful shortcut to specify several observation component is the <code>replicate</code> key. In this particular example to generate four <code>0-255</code> numbers with an underlying mean as the structure, we simple use:</p>
-<pre><code class="language-yaml"><span class="hljs-bullet">-</span> <span class="hljs-attr">replicate:</span> <span class="hljs-number">4</span>
-    <span class="hljs-attr">structure:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-    <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-    <span class="hljs-attr">noise:</span> <span class="hljs-number">2.1</span>
-    <span class="hljs-attr">observations:</span>
-    <span class="hljs-attr">type:</span> <span class="hljs-string">categorical</span>
-    <span class="hljs-attr">categories:</span> <span class="hljs-number">255</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">replicate</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+    <span class="l l-Scalar l-Scalar-Plain">structure</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+    <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2.1</span>
+    <span class="nt">observations</span><span class="p">:</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+    <span class="nt">categories</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">255</span>
+</code></pre></div>
+
 <p>The full configuration for the HTTP log simulation could then be something like this:</p>
-<pre><code class="language-yaml"><span class="hljs-attr">compose:</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">structure:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-        <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">0.01</span>
-        <span class="hljs-attr">observations:</span>
-        <span class="hljs-attr">type:</span> <span class="hljs-string">categorical</span>
-        <span class="hljs-attr">values:</span> <span class="hljs-string">GET,POST,PUT</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">structure:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-        <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">0.01</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">season</span>
-        <span class="hljs-attr">start:</span> <span class="hljs-number">1.0</span>
-        <span class="hljs-attr">period:</span> <span class="hljs-number">15</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">0.2</span>
-<span class="hljs-attr">observations:</span>
-    <span class="hljs-attr">type:</span> <span class="hljs-string">categorical</span>
-    <span class="hljs-attr">values:</span> <span class="hljs-string">/site/page.htm,/site/index.htm,/internal/example.htm</span>
-    <span class="hljs-bullet">-</span> <span class="hljs-attr">replicate:</span> <span class="hljs-number">4</span>
-    <span class="hljs-attr">structure:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">mean</span>
-        <span class="hljs-attr">start:</span> <span class="hljs-number">0.0</span>
-        <span class="hljs-attr">noise:</span> <span class="hljs-number">2.1</span>
-<span class="hljs-attr">observations:</span>
-    <span class="hljs-attr">type:</span> <span class="hljs-string">categorical</span>
-    <span class="hljs-attr">categories:</span> <span class="hljs-number">255</span>
-</code></pre>
-<pre><code class="language-text">[&quot;PUT&quot;, &quot;/internal/example.htm&quot;, 171, 158, 59, 89]
+<div class="highlight"><pre><span></span><code><span class="nt">compose</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">structure</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+        <span class="nt">observations</span><span class="p">:</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+        <span class="nt">values</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GET,POST,PUT</span>
+    <span class="p p-Indicator">-</span> <span class="nt">structure</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">season</span>
+        <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0</span>
+        <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">15</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="nt">observations</span><span class="p">:</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+    <span class="nt">values</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/site/page.htm,/site/index.htm,/internal/example.htm</span>
+    <span class="p p-Indicator">-</span> <span class="nt">replicate</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+    <span class="nt">structure</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mean</span>
+        <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+        <span class="nt">noise</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2.1</span>
+<span class="nt">observations</span><span class="p">:</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">categorical</span>
+    <span class="nt">categories</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">255</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>[&quot;PUT&quot;, &quot;/internal/example.htm&quot;, 171, 158, 59, 89]
 [&quot;GET&quot;, &quot;/internal/example.htm&quot;, 171, 253, 71, 146]
 [&quot;PUT&quot;, &quot;/internal/example.htm&quot;, 224, 252, 9, 156]
 [&quot;POST&quot;, &quot;/site/index.htm&quot;, 143, 253, 6, 126]
@@ -385,11 +362,12 @@ We assume we want to simulate a stream of per-day stock prices for 3 different c
 [&quot;POST&quot;, &quot;/internal/example.htm&quot;, 229, 234, 103, 233]
 [&quot;GET&quot;, &quot;/internal/example.htm&quot;, 185, 221, 109, 195]
 ...
-</code></pre>
+</code></pre></div>
+
 <h2 id="setting-up-the-generator">Setting up the generator</h2>
-<p>As I have mentioned in the beginning of this post, we want to fit the data simulation solution into a cloud computing workflow. To illustrate this we will use the <a href="https://www.openshift.com/">OpenShift</a> platform which allows for the deployment of containerised applications. A typical setup for a streaming data processing application would be as illustrated in the figure below. We have several sources connected to a message broker, such as Apache Kafka in this case. Data might be partitioned into &quot;topics&quot; which are then consumed by different applications, each performing data processing, either independently or in a distributed manner.</p>
-<p><img src="./images/ssm/kafka.png" alt=""></p>
-<p>An advantage of <code>timeseries-mock</code> would then be to replace the &quot;real&quot; data sources with a highly configurable simulator either for the prototyping or initial testing phase. If we consider our previous example of the &quot;fake&quot; HTTP log generation, an application for Web log analytics could be prototyped and tested with simulated log data very quickly, without being blocked by the lack of suitable real data.
+<p>As I have mentioned in the beginning of this post, we want to fit the data simulation solution into a cloud computing workflow. To illustrate this we will use the <a href="https://www.openshift.com/">OpenShift</a> platform which allows for the deployment of containerised applications. A typical setup for a streaming data processing application would be as illustrated in the figure below. We have several sources connected to a message broker, such as Apache Kafka in this case. Data might be partitioned into "topics" which are then consumed by different applications, each performing data processing, either independently or in a distributed manner.</p>
+<p><img alt="" src="./images/ssm/kafka.png" /></p>
+<p>An advantage of <code>timeseries-mock</code> would then be to replace the "real" data sources with a highly configurable simulator either for the prototyping or initial testing phase. If we consider our previous example of the "fake" HTTP log generation, an application for Web log analytics could be prototyped and tested with simulated log data very quickly, without being blocked by the lack of suitable real data.
 Since the data is consumed by proxy via the message broker's topics, we could later on replace the simulator with real data sources seamlessly without an impact on any of the applications.
 To setup the generator (and assuming Kafka and your consumer application are already running on OpenShift) we only need to perform two steps:</p>
 <ul>
@@ -397,20 +375,22 @@ To setup the generator (and assuming Kafka and your consumer application are alr
 <li>Use the <code>s2i</code> to deploy the simulator</li>
 </ul>
 <p>The <code>s2i</code> functionality of OpenShift <a href="https://github.com/openshift/source-to-image">allows to create</a> deployment ready images by simply pointing to a source code location. In this case we could simply write:</p>
-<pre><code class="language-shell">oc new-app centos/python-36-centos7~https://github.com/ruivieira/timeseries-mock \
--e KAFKA_BROKERS=kafka:9092 \
--e KAFKA_TOPIC=example \
--e CONF=examples/mean_continuous.yml \
---name=emitter
-</code></pre>
+<div class="highlight"><pre><span></span><code>oc new-app centos/python-36-centos7~https://github.com/ruivieira/timeseries-mock <span class="se">\</span>
+-e <span class="nv">KAFKA_BROKERS</span><span class="o">=</span>kafka:9092 <span class="se">\</span>
+-e <span class="nv">KAFKA_TOPIC</span><span class="o">=</span>example <span class="se">\</span>
+-e <span class="nv">CONF</span><span class="o">=</span>examples/mean_continuous.yml <span class="se">\</span>
+--name<span class="o">=</span>emitter
+</code></pre></div>
+
 <p>In this case, we would deploy a simulator generating data according to the specifications in <code>mean_continuous.yml</code>. This data will be sent to the topic <code>example</code> of a Kafka broker running on port <code>9092</code>.</p>
-<p><img src="./images/ssm/kafka_ssm.png" alt=""></p>
+<p><img alt="" src="./images/ssm/kafka_ssm.png" /></p>
 <p>The stream will be ready to consume and message payload will a stream of serialised JSON strings. In the case of the simulated HTTP log this would be:</p>
-<pre><code class="language-json">{
-name: &quot;HTTP log&quot;
-values: [&quot;GET&quot;, &quot;/internal/example.htm&quot;, 185, 221, 109, 195]
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="kc">na</span><span class="err">me</span><span class="p">:</span> <span class="s2">&quot;HTTP log&quot;</span>
+<span class="err">values</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;/internal/example.htm&quot;</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">221</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <ul>
 <li><code>name</code> - the name given to this stream in the configuration file</li>
 <li><code>values</code> - a single observation for this stream</li>
@@ -420,97 +400,89 @@ values: [&quot;GET&quot;, &quot;/internal/example.htm&quot;, 185, 221, 109, 195]
 If you have any suggestions, use cases (or found an issue!), please let me know in the <a href="https://github.com/ruivieira/timeseries-mock">repository</a>.</p>
 <p>If you have any comments please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> (or <a href="https://twitter.com/ruimvieira">Twitter</a>).</p>
 <p>Happy coding!</p>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
-<li><a href="#structure">Structure</a>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul>
+<li><a href="#structure">Structure</a><ul>
 <li><a href="#mean">Mean</a></li>
 <li><a href="#seasonality">Seasonality</a></li>
-<li><a href="#ar-*p*">AR-<em>p</em></a></li>
+<li><a href="#ar-p">AR-p</a></li>
 <li><a href="#composing">Composing</a></li>
-</ul></li>
-<li><a href="#observations">Observations</a>
-<ul>
+</ul>
+</li>
+<li><a href="#observations">Observations</a><ul>
 <li><a href="#continuous">Continuous</a></li>
 <li><a href="#discrete">Discrete</a></li>
 <li><a href="#categorical">Categorical</a></li>
-</ul></li>
-<li><a href="#composite-model">Composite model</a>
-<ul>
+</ul>
+</li>
+<li><a href="#composite-model">Composite model</a><ul>
 <li><a href="#examples">Examples</a></li>
-</ul></li>
+</ul>
+</li>
 <li><a href="#setting-up-the-generator">Setting up the generator</a></li>
 </ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified 22 days ago
+            </div>
 
-        <div class="footer">
-            modified 2 weeks ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

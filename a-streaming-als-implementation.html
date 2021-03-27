@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on A streaming ALS implementation">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/a-streaming-als-implementation.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - A streaming ALS implementation</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,275 +50,320 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="a-streaming-als-implementation">A streaming ALS implementation</h1>
+        <div id="content">
+            <h1 id="a-streaming-als-implementation">A streaming ALS implementation</h1>
 <p>In this blog post I would like to talk a little bit about recommendation engines in general and how to build a streaming recommendation engine on top of <a href="https://spark.apache.org/">Apache Spark</a>.</p>
 <p>I will start by introducing the concept of <a href="#collab">collaborative filtering</a>, and focus in two variants: <a href="#batch_als">batch</a> and <a href="#streaming_als">streaming</a> Alternating Least Squares (ALS). I will look at the principles of a streaming distributed recommendation engine on Spark and finally, I'll talk about practical issues when using these methods.</p>
 <h2 id="recommendation-engines">Recommendation engines</h2>
-<p>So what <em>are</em> &quot;recommendation engines&quot;?</p>
+<p>So what <em>are</em> "recommendation engines"?</p>
 <p>Recommendation engines are a popular method to match <em>users</em>, <em>products</em> and historical <em>data</em> on user behaviour.</p>
 <h2 id="collaborative-filtering">Collaborative filtering</h2>
-<p>In the majority of cases, we assume there's a unique mapping between a <em>user</em> $x$, a <em>product</em> $y$ and <em>rating</em> $\mathsf{R}_{x,y}$.</p>
-<p>$$
+<p>In the majority of cases, we assume there's a unique mapping between a <em>user</em> \(x\), a <em>product</em> \(y\) and <em>rating</em> \(\mathsf{R}_{x,y}\).</p>
+\[
 \left(x,y\right) \mapsto \mathsf{R}_{x,y}
-$$</p>
-<p>The &quot;collaborative&quot; aspect refers to the fact that we are using collective information from a group of users and &quot;filtering&quot; is simply a synonym for &quot;prediction&quot;.</p>
+\]
+
+<p>The "collaborative" aspect refers to the fact that we are using collective information from a group of users and "filtering" is simply a synonym for "prediction".</p>
 <p>So, we use collaborative filtering quite frequently in our daily life and it really seems like common sense.</p>
 <p>The main principle is that if a group of people tend to collectively have similar tastes, it is more likely that they agree on an unknown product.</p>
 <p>Let's imagine that you have a number of friends with whom you share a very similar musical taste, let's call it <code>A</code> and another group, <code>B</code>, compared to which you have very different musical tastes.</p>
 <p>If group <code>A</code> and group <code>B</code> both recommend you a new album which they regard highly, which one would you pick?</p>
 <p>You will probably pick the album from group <code>A</code>, right? So that's collaborative filtering in a nutshell.</p>
-<p><img src="./images/als/groups.png" alt="Data"></p>
+<p><img alt="Data" src="./images/als/groups.png" /></p>
 <p><em>Bonus question</em>: what if an album is considered really bad by group <code>B</code>? Does it mean you'll like it?</p>
 <p>It's difficult to tell. Because group <code>A</code> has relevance to you, it's easy to match.</p>
 <p>Because <code>B</code> is too dissimilar, a low rating is not very informative.</p>
 <h2 id="alternating-least-squares-als">Alternating Least Squares (ALS)</h2>
 <p>One of the most popular collaborative filtering methods is <a href="https://link.springer.com/chapter/10.1007/978-3-540-68880-8_32">Alternating Least Squares</a> (ALS).</p>
 <p>In ALS we assume that the available rating data can be represented in a sparse matrix form, that is, we will assume a sequential ordering of both users and products. Each entry of the matrix will then represent the rating for a unique pair of user and products.</p>
-<p>If we then consider ratings data as a matrix, let's call it $\mathsf{R}$, the <em>user</em> and <em>product</em> ids will represent coordinates in a ratings matrix and the actual rating will be the value for that particular entry. To keep the notation consistent with the above we simply call the entry $(x,y)$ as $\mathsf{R}_{x,y}$. This will look something like the matrix represented in the figure below.</p>
-<p><img src="./images/als/ratings_table.png" alt="Ratings table"></p>
-<p>The idea behind ALS is to factorise the ratings matrix $\mathsf{R}_{x,y}$ into two matrices $\mathsf{U}$ and $\mathsf{P}$, which in turn, when multiplied back, will return an approximation of the original ratings matrix, that is:</p>
-<p>$$
+<p>If we then consider ratings data as a matrix, let's call it \(\mathsf{R}\), the <em>user</em> and <em>product</em> ids will represent coordinates in a ratings matrix and the actual rating will be the value for that particular entry. To keep the notation consistent with the above we simply call the entry \((x,y)\) as \(\mathsf{R}_{x,y}\). This will look something like the matrix represented in the figure below.</p>
+<p><img alt="Ratings table" src="./images/als/ratings_table.png" /></p>
+<p>The idea behind ALS is to factorise the ratings matrix \(\mathsf{R}_{x,y}\) into two matrices \(\mathsf{U}\) and \(\mathsf{P}\), which in turn, when multiplied back, will return an approximation of the original ratings matrix, that is:</p>
+\[
 \mathsf{R} \approx \hat{\mathsf{R}} = \mathsf{U}^T \mathsf{P}
-$$</p>
-<p>To &quot;predict&quot; a missing rating for a user $x$ and product $y$, we can simply multiply two vectors, namely the $x$ row from the user latent factors and the $y$ column from the product latent factors, $\hat{\mathsf{R}}_{x,y}$, that is:</p>
-<p>$$
+\]
+
+<p>To "predict" a missing rating for a user \(x\) and product \(y\), we can simply multiply two vectors, namely the \(x\) row from the user latent factors and the \(y\) column from the product latent factors, \(\hat{\mathsf{R}}_{x,y}\), that is:</p>
+\[
 \hat{\mathsf{R}}_{x,y} = \mathsf{U}_x^T \mathsf{P}_y
-$$</p>
+\]
+
 <p>There are several ways to tackle this factorisation problem and we will cover two of them in here. We will first look at a <a href="#batch_als">batch method</a>, which aims at factorising using the whole of the ratings matrix and a <a href="#streaming_als">stochastic gradient descent method</a>, which uses a single observation at a time.</p>
 <h3 id="batch-als">Batch ALS</h3>
-<p>This factorisation is performed by first defining an (objective) loss function (here called $\ell$).</p>
-<p>A general form is represented below where, as before, $\mathsf{R}<em>{x,y}$ is the <em>true rating</em> and $\hat{\mathsf{R}}</em>{x,y}$ is the <em>predicted rating</em>, calculated as seen previously. The remaining terms are simply regularisation terms to help prevent overfitting.</p>
-<p>$$
-\ell = \sum c_{x,y} \left(\mathsf{R}_{x,y} - \underbrace{\mathsf{U}<em>x^T \mathsf{P}<em>y}</em>{\hat{\mathsf{R}}</em>{x,t}}\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2\right)
-$$</p>
-<p>The value of $(c_{x,y})$ constitutes a penalisation function and will depend on whether we are considering <em>explicit</em> or <em>implicit</em> feedback. If we consider the known ratings as our training dataset $\mathcal{T}$, then, in the case of explicit feedback we have</p>
-<p>$$
+<p>This factorisation is performed by first defining an (objective) loss function (here called \(\ell\)).</p>
+<p>A general form is represented below where, as before, \(\mathsf{R}_{x,y}\) is the <em>true rating</em> and \(\hat{\mathsf{R}}_{x,y}\) is the <em>predicted rating</em>, calculated as seen previously. The remaining terms are simply regularisation terms to help prevent overfitting.</p>
+\[
+\ell = \sum c_{x,y} \left(\mathsf{R}_{x,y} - \underbrace{\mathsf{U}_x^T \mathsf{P}_y}_{\hat{\mathsf{R}}_{x,t}}\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2\right)
+\]
+
+<p>The value of \((c_{x,y})\) constitutes a penalisation function and will depend on whether we are considering <em>explicit</em> or <em>implicit</em> feedback. If we consider the known ratings as our training dataset \(\mathcal{T}\), then, in the case of explicit feedback we have</p>
+\[
 c_{x,y} = \begin{cases}
 0,\qquad\text{if}\ \left(x,y\right) \notin \mathcal{T} \\\\
 1,\qquad\text{if}\ \left(x,y\right) \in \mathcal{T}
 \end{cases}
-$$</p>
+\]
+
 <p>Constraining our loss function to only include known ratings. The implicit feedback case is different (and a possible future topic) and for the remainder of this post we will only consider the explicit feedback case. Given the above, we can then simplify our loss function, in the explicit feedback case, to</p>
-<p>$$
-\ell = \sum_{x,y \in \mathcal{T}} \left(\mathsf{R}<em>{x,y} -\hat{\mathsf{R}}</em>{x,y}\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2\right)
-$$</p>
-<p>Minimizing $\ell$ is however an NP-hard problem, due to its non-convexity. However, if we treat $\mathsf{U}$ as constant, then $\ell$ is a convex in relation to $\mathsf{P}$ and if we treat $\mathsf{P}$ as constant, $\ell$ is convex in relation to $\mathsf{U}$. We can then alternate between fixing $\mathsf{U}$ and $\mathsf{P}$, changing the values such that the loss function $\ell$ (above) is minimized. This procedure is then repeated until we reach convergence.</p>
-<p>The way that ALS works is, in simplified terms, to find the factors $\mathsf{U}$ and $\mathsf{P}$, which when multiplied together provide an approximation of our ratings matrix $\mathsf{R}$, as we've seen previously.</p>
-<p><img src="./images/als/rupt.png" alt=""></p>
-<p>Once we have the factors $\mathsf{U}$ and $\mathsf{P}$, we can then predict the missing values in $\mathsf{R}$ by using the approximation $\hat{\mathsf{R}}$.</p>
+\[
+\ell = \sum_{x,y \in \mathcal{T}} \left(\mathsf{R}_{x,y} -\hat{\mathsf{R}}_{x,y}\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2\right)
+\]
+
+<p>Minimizing \(\ell\) is however an NP-hard problem, due to its non-convexity. However, if we treat \(\mathsf{U}\) as constant, then \(\ell\) is a convex in relation to \(\mathsf{P}\) and if we treat \(\mathsf{P}\) as constant, \(\ell\) is convex in relation to \(\mathsf{U}\). We can then alternate between fixing \(\mathsf{U}\) and \(\mathsf{P}\), changing the values such that the loss function \(\ell\) (above) is minimized. This procedure is then repeated until we reach convergence.</p>
+<p>The way that ALS works is, in simplified terms, to find the factors \(\mathsf{U}\) and \(\mathsf{P}\), which when multiplied together provide an approximation of our ratings matrix \(\mathsf{R}\), as we've seen previously.</p>
+<p><img alt="" src="./images/als/rupt.png" /></p>
+<p>Once we have the factors \(\mathsf{U}\) and \(\mathsf{P}\), we can then predict the missing values in \(\mathsf{R}\) by using the approximation \(\hat{\mathsf{R}}\).</p>
 <p>It is clear that in a real world scenario we would have <em>many</em> missing ratings, simply due to the assumption that no user rates all products (if they did, the case for a recommendation engine will be significantly weaker). ALS is designed to deal with sparse matrices and to fill the blanks using <em>predicted values</em>. After factorization, our approximated ratings matrix will look something like this:</p>
-<p><img src="./images/als/ratings_table_filled.png" alt=""></p>
+<p><img alt="" src="./images/als/ratings_table_filled.png" /></p>
 <p>As mentioned previously, the first step is then to minimise the loss function. In this case we take the partial derivatives and set them to zero and fortunately this has a closed form solution. We get a system of linear equations which we can easily implement. The system will correspond to the solution of</p>
-<p>$$
+\[
 \frac{\partial \ell}{\partial \mathsf{U}_x}=0, \qquad \frac{\partial \ell}{\partial \mathsf{P}_y}=0.
-$$</p>
+\]
+
 <p>We start by solving the user latent factor minimisation using:</p>
-<p>$$
-\frac{1}{2}\frac{\partial \ell}{\partial \mathsf{U}_x}=0 \\\\</p>
-<p>\frac{1}{2}\frac{\partial}{\partial \mathsf{U}<em>x} \sum</em>{x,y \in \mathcal{T}} \left(\mathsf{R}_{x,y} - \mathsf{U}_x^T \mathsf{P}_y\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2\right)=0 \\\\</p>
-<p>-\sum_{x,y \in \mathcal{T}} \left(\mathsf{R}_{x,y} - \mathsf{U}_x^T \mathsf{P}_y\right)\mathsf{P}_y^T + \lambda \mathsf{U}\_x^T=0\\\\</p>
-<p>-\left(\mathsf{R}_x -\mathsf{U}_x^T \mathsf{P}^T\right)\mathsf{P} + \lambda \mathsf{U}_x^T=0\\\\</p>
-<p>\mathsf{U}_x^T\left(\mathsf{P}^T \mathsf{P} + \lambda \boldsymbol{\mathsf{I}}\right) = \mathsf{R}_x \mathsf{P} \\\\</p>
-<p>\mathsf{U}_x^T = \mathsf{R}_x \mathsf{P} \left(\mathsf{P}^T \mathsf{P} + \lambda \boldsymbol{\mathsf{I}}\right)^{-1}.
-$$</p>
+\[
+\frac{1}{2}\frac{\partial \ell}{\partial \mathsf{U}_x}=0 \\\\
+
+\frac{1}{2}\frac{\partial}{\partial \mathsf{U}_x} \sum_{x,y \in \mathcal{T}} \left(\mathsf{R}_{x,y} - \mathsf{U}_x^T \mathsf{P}_y\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2\right)=0 \\\\
+
+-\sum_{x,y \in \mathcal{T}} \left(\mathsf{R}_{x,y} - \mathsf{U}_x^T \mathsf{P}_y\right)\mathsf{P}_y^T + \lambda \mathsf{U}\_x^T=0\\\\
+
+-\left(\mathsf{R}_x -\mathsf{U}_x^T \mathsf{P}^T\right)\mathsf{P} + \lambda \mathsf{U}_x^T=0\\\\
+
+\mathsf{U}_x^T\left(\mathsf{P}^T \mathsf{P} + \lambda \boldsymbol{\mathsf{I}}\right) = \mathsf{R}_x \mathsf{P} \\\\
+
+\mathsf{U}_x^T = \mathsf{R}_x \mathsf{P} \left(\mathsf{P}^T \mathsf{P} + \lambda \boldsymbol{\mathsf{I}}\right)^{-1}.
+\]
+
 <p>Similarly, we can solve for the product latent factor by using:</p>
-<p>$$
-\frac{1}{2}\frac{\partial \ell}{\partial \mathsf{P}_y}=0 \\\\</p>
-<p>-\sum_{x,y \in \mathcal{T}} \left(\mathsf{R}\_{x,y} - \mathsf{P}\_y^T \mathsf{U}_x\right)\mathsf{U}_x^T + \lambda \mathsf{P}_y^T=0\\\\</p>
-<p>-\left(\mathsf{R}_y - \mathsf{P}_y^T \mathsf{U}^T\right)\mathsf{U} + \lambda \mathsf{P}_y^T=0\\\\</p>
-<p>\mathsf{P}_y^T\left(\mathsf{U}^T \mathsf{U} + \lambda \boldsymbol{\mathsf{I}}\right) = \mathsf{R}_y \mathsf{U} \\\\</p>
-<p>\mathsf{P}_y^T = \mathsf{R}_y \mathsf{U} \left(\mathsf{U}^T \mathsf{U} + \lambda \boldsymbol{\mathsf{I}}\right)^{-1}.
-$$</p>
-<p>We can then calculate each factor iteratively, by fixing the other one and solving the estimator. While this process is alternated, an error measure (usually the <em>Root Mean Squared Error</em> [RMSE](error-metrics.html#Root Mean Squared error)), or $RMSE$ is calculated (as below) between the rating matrix approximation given by the latent factors and the ratings which we have, $\mathcal{T}$. This method is guaranteed to converge and when we consider out approximation to be good enough, or after a set number of iterations we can then stop the refinement.</p>
-<p>$$
-RMSE = \sqrt{\frac{1}{n}\sum_{x,y \in \mathcal{T}}\lvert \hat{\mathsf{R}}<em>{x,y} - \mathsf{R}</em>{x,y}\rvert}
-$$</p>
+\[
+\frac{1}{2}\frac{\partial \ell}{\partial \mathsf{P}_y}=0 \\\\
+
+-\sum_{x,y \in \mathcal{T}} \left(\mathsf{R}\_{x,y} - \mathsf{P}\_y^T \mathsf{U}_x\right)\mathsf{U}_x^T + \lambda \mathsf{P}_y^T=0\\\\
+
+-\left(\mathsf{R}_y - \mathsf{P}_y^T \mathsf{U}^T\right)\mathsf{U} + \lambda \mathsf{P}_y^T=0\\\\
+
+\mathsf{P}_y^T\left(\mathsf{U}^T \mathsf{U} + \lambda \boldsymbol{\mathsf{I}}\right) = \mathsf{R}_y \mathsf{U} \\\\
+
+\mathsf{P}_y^T = \mathsf{R}_y \mathsf{U} \left(\mathsf{U}^T \mathsf{U} + \lambda \boldsymbol{\mathsf{I}}\right)^{-1}.
+\]
+
+<p>We can then calculate each factor iteratively, by fixing the other one and solving the estimator. While this process is alternated, an error measure (usually the <em>Root Mean Squared Error</em> <a href="/error-metrics.html#Root Mean Squared error">RMSE</a>), or \(RMSE\) is calculated (as below) between the rating matrix approximation given by the latent factors and the ratings which we have, \(\mathcal{T}\). This method is guaranteed to converge and when we consider out approximation to be good enough, or after a set number of iterations we can then stop the refinement.</p>
+\[
+RMSE = \sqrt{\frac{1}{n}\sum_{x,y \in \mathcal{T}}\lvert \hat{\mathsf{R}}_{x,y} - \mathsf{R}_{x,y}\rvert}
+\]
+
 <p>After the latent factors are estimated, we can then use them to try to recreate the original ratings matrix</p>
-<p>with the approximation as we've seen. The missing ratings in the original matrix will now be filled by values which minimize the least squares recursion and these are taken as the ratings &quot;predictions&quot;.</p>
+<p>with the approximation as we've seen. The missing ratings in the original matrix will now be filled by values which minimize the least squares recursion and these are taken as the ratings "predictions".</p>
 <p>To illustrate the working of ALS, let's assume we have a very quirky shop that only ever sells 300 products and has exactly 300 customers. On top of that, users are allowed to use 8 bit to rate the products. We will also assume in this unusual shop that every user has rated every product.</p>
 <p>Now we're humans, and we visualise patterns in colour more easily than in numbers. We will assign a palette to the ratings, so that each rating corresponds to a colour.</p>
-<p><img src="./images/als/colour_matrix.png" alt=""></p>
+<p><img alt="" src="./images/als/colour_matrix.png" /></p>
 <p>I think you know where this is going ... we make up this final ratings matrix so now we can visualise the ALS progress.</p>
-<p><img src="./images/als/mona_lisa_pixelated_viridis.png" alt=""></p>
-<p>So how do we perform this factorisation? The initial step is to fill the latent factors $\mathsf{U}$ and $\mathsf{P}$) with random values. Since at this point, we assume we don't have any ratings, having random factors will lead to an initial random guess of the ratings matrix.</p>
-<p><img src="./images/als/initial.png" alt=""></p>
+<p><img alt="" src="./images/als/mona_lisa_pixelated_viridis.png" /></p>
+<p>So how do we perform this factorisation? The initial step is to fill the latent factors \(\mathsf{U}\) and \(\mathsf{P}\)) with random values. Since at this point, we assume we don't have any ratings, having random factors will lead to an initial random guess of the ratings matrix.</p>
+<p><img alt="" src="./images/als/initial.png" /></p>
 <p>We then proceed to calculate each factor matrix, as we've seen, by calculating one using the estimator while keeping the other one constant and then alternating. We can see by the movie below that at each iteration the approximation to the original ratings gets better, stabilising after a few steps.</p>
 <p>This is to be expected, in this case, since this would be the simplest implementation of ALS: a batch ALS on a single machine where we know all the ratings.</p>
 <video width="100%" controls loop autoplay><source src='./images/als/simple_factorization.mp4' type='video/mp4'></video>
+
 <p>So a fair question that arises is: why can't we update this model and perform recommendations in a streaming fashion using this method?</p>
 <p>After all, if users add product ratings, we can simply update the predictions by recalculating the factors!</p>
-<p>The problem is that when a new rating is added, or when new users and new products are added, we need to recalculate the entirety of the $\mathsf{U}$ and $\mathsf{P}$ matrices, and to do so, we need to have access to all of the data, $\mathsf{R}$.</p>
+<p>The problem is that when a new rating is added, or when new users and new products are added, we need to recalculate the entirety of the \(\mathsf{U}\) and \(\mathsf{P}\) matrices, and to do so, we need to have access to all of the data, \(\mathsf{R}\).</p>
 <h3 id="streaming-als">Streaming ALS</h3>
-<p>Ideally, we want a method that would allow us to update $\mathsf{U}$ and $\mathsf{P}$ using one observation, $\mathsf{R}_{x,y}$ at a time</p>
+<p>Ideally, we want a method that would allow us to update \(\mathsf{U}\) and \(\mathsf{P}\) using one observation, \(\mathsf{R}_{x,y}\) at a time</p>
 <p>It turns out that the <em>Stochastic Gradient Descent</em> (or SGD) method allows us to do precisely that. We'll look at the specific variant of SGD we've used which is called <em>Bias-Stochastic Gradient Descent</em> (B-SGD).</p>
 <p>It is important to keep in mind, under a certain point of view, both methods aim at the same thing.</p>
-<p><img src="./images/als/batch_streaming_comparison.png" alt=""></p>
+<p><img alt="" src="./images/als/batch_streaming_comparison.png" /></p>
 <p>They both try to factorise the ratings matrix as latent factors, which would then be used to perform predictions. The main differences are of course, how the data is used (batch or one observation at the time) and how the factorisation is calculated.</p>
-<p>In the SGD case we use the concept of biases in both users and items. The bias is a measure of how consistently a product is rated by different users. The bias of rating $(x,y)$, that is the rating given by user $x$ to product $y$, can be calculated as the sum of $\mu$, an overall average rating and the observed deviations of user $x$, which we call $b_x$, and the observed deviations of product $y$, called $b_y$, that is:</p>
-<p>$$
+<p>In the SGD case we use the concept of biases in both users and items. The bias is a measure of how consistently a product is rated by different users. The bias of rating \((x,y)\), that is the rating given by user \(x\) to product \(y\), can be calculated as the sum of \(\mu\), an overall average rating and the observed deviations of user \(x\), which we call \(b_x\), and the observed deviations of product \(y\), called \(b_y\), that is:</p>
+\[
 b_{x,y} = \mu + b_x + b_y
-$$</p>
+\]
+
 <p>This bias information is now incorporated in the rating prediction. We can see that the SGD prediction is simply the batch prediction plus the corresponding bias term</p>
-<p>$$
-\hat{\mathsf{R}}<em>{x,y} = b</em>{x,y} + \underbrace{\mathsf{U}^T_x \cdot \mathsf{P}<em>y}</em>{batch}
-$$</p>
+\[
+\hat{\mathsf{R}}_{x,y} = b_{x,y} + \underbrace{\mathsf{U}^T_x \cdot \mathsf{P}_y}_{batch}
+\]
+
 <p>If we take the loss function definition for the batch method (and still considering the explicit feedback case), we can then replace the predicted rating formulation with our new one. We have, as before, some regularisation terms, but now also include a new regularisation term for the bias components,</p>
 <p>but we don't need to go into that.</p>
-<p>$$
-\ell_{SGD} = \sum_{x,y \in \mathcal{T}} \left(\mathsf{R}<em>{x,y} - b</em>{x,y} - \hat{\mathsf{R}}_{x,y}\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2 + b_x^2 + b_y^2\right)
-$$</p>
+\[
+\ell_{SGD} = \sum_{x,y \in \mathcal{T}} \left(\mathsf{R}_{x,y} - b_{x,y} - \hat{\mathsf{R}}_{x,y}\right)^2 + \lambda\left(\left\lVert \mathsf{U} \right\rVert^2 + \left\lVert \mathsf{P} \right\rVert^2 + b_x^2 + b_y^2\right)
+\]
+
 <p>Since calculating the full gradient is computationally very expensive, we calculate it for a single observation. As we can see, the SGD method allows us to update the user and product specific bias as well as a single user and product latent factor row given a single rating.</p>
-<p>Provided we have a single rating, the rating of user $x$ for product $y$, we can update the biases as well as the latent vectors for user $x$ and for product $y$, that is, we no longer need to update the entire matrices $\mathsf{U}$ and $\mathsf{P}$, while still maintaining a convergence property.</p>
-<p>Provided with a learning rate $\gamma$ and defining our <em>prediction error</em> as</p>
-<p>$$
-\epsilon_{x,y}=\mathsf{R}<em>{x,y}-\hat{\mathsf{R}}</em>{x,y},
-$$</p>
+<p>Provided we have a single rating, the rating of user \(x\) for product \(y\), we can update the biases as well as the latent vectors for user \(x\) and for product \(y\), that is, we no longer need to update the entire matrices \(\mathsf{U}\) and \(\mathsf{P}\), while still maintaining a convergence property.</p>
+<p>Provided with a learning rate \(\gamma\) and defining our <em>prediction error</em> as</p>
+\[
+\epsilon_{x,y}=\mathsf{R}_{x,y}-\hat{\mathsf{R}}_{x,y},
+\]
+
 <p>the biases and latent factors can now be updated in the opposite direction of the calculated gradient, proportionally to the learning rate, such that</p>
-<p>$$
-\begin{aligned}</p>
-<p>b_x &amp;\leftarrow b_x + \gamma \left(\epsilon_{x,y}-\lambda_x b_x\right) \\\\</p>
-<p>b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\</p>
-<p>\mathsf{U}_x &amp;\leftarrow \mathsf{U}<em>x + \gamma \left(\epsilon</em>{x,y}\mathsf{P}_y - \lambda^\prime_x \mathsf{U}_x\right) \\\\</p>
-<p>\mathsf{P}_y &amp;\leftarrow \mathsf{P}<em>y + \gamma \left(\epsilon</em>{x,y}\mathsf{U}_x - \lambda^\prime_y \mathsf{P}_y\right)</p>
-<p>\end{aligned}
-$$</p>
+\[
+\begin{aligned}
+
+b_x &amp;\leftarrow b_x + \gamma \left(\epsilon_{x,y}-\lambda_x b_x\right) \\\\
+
+b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
+
+
+\mathsf{U}_x &amp;\leftarrow \mathsf{U}_x + \gamma \left(\epsilon_{x,y}\mathsf{P}_y - \lambda^\prime_x \mathsf{U}_x\right) \\\\
+
+\mathsf{P}_y &amp;\leftarrow \mathsf{P}_y + \gamma \left(\epsilon_{x,y}\mathsf{U}_x - \lambda^\prime_y \mathsf{P}_y\right)
+
+\end{aligned}
+\]
+
 <p>So the practical difference, in terms of streaming data is evident now. Given that, in both methods, the objective is to estimate the latent factors, given the ratings: with batch ALS, whenever we get a new rating, we need to fully recalculate the factors iteratively until we reach convergence. Conversely, with an SGD based factorisation, whenever we have a new rating, we can simply estimate the relevant row and column in the latent factors, by calculating the gradients and adjusting its values.</p>
-<p><img src="./images/als/batch_streaming_comparison_2.png" alt=""></p>
+<p><img alt="" src="./images/als/batch_streaming_comparison_2.png" /></p>
 <p>Next we show the previous manufactured ratings matrix being factorised using B-SGD. We now simply recalculate the biases and a single latent factor vector, one observation at the time. We can see that, as expected, the convergence is slower (we <em>are</em> using a single observation at each step) but in the end, it produces a similar result.</p>
 <video width="100%" controls loop autoplay><source src='./images/als/sgd_factorization.mp4' type='video/mp4'></video>
+
 <p>Now, this works fine for a single machine implementing streaming ALS. But we are interested in scaling this to something larger than this example so we will use a distributed implementation of ALS. And this is were it can start to get tricky. As it is the case with distributed algorithms, there are some pitfalls which we need to avoid in order to have a performant implementation. We will look at a few of these by looking at the Apache Spark's and its default ALS implementation.</p>
 <h3 id="apache-spark">Apache Spark</h3>
 <p>As probably most of you are familiar with, Spark is an Apache community project which aims at providing a modern platform for distributed computations. Spark provides several core data structures, such as <code>RDD</code>s (<a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#resilient-distributed-datasets-rdds">Resilient Distributed Datasets</a>), <code>Dataframes</code> and <code>Datasets</code>.</p>
 <p>The <code>RDD</code> is an immutable, distributed typed collection of objects. The <code>RDD</code> is partitioned across the cluster. This allows the spark operations, such as function mapping, to be applied to each subset of the <code>RDD</code> in parallel at each partition.</p>
-<p><img src="./images/als/RDD.png" alt=""></p>
+<p><img alt="" src="./images/als/RDD.png" /></p>
 <p>For the streaming ALS application we will use <code>RDD</code>s to implement the algorithm. Spark's MLlib provides a collaborative filtering implementation based on the distributed batch ALS which we've covered previously. The API is quite simple and to train a model we need:</p>
-<pre><code class="language-scala"><span class="hljs-keyword">val</span> model = <span class="hljs-type">ALS</span>.train(ratings, rank, iterations, lambda)
+<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">ratings</span><span class="o">,</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iterations</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
 
-<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Rating</span>(<span class="hljs-params">int user, int product, double rating</span>)</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Rating</span><span class="o">(</span><span class="n">int</span> <span class="n">user</span><span class="o">,</span> <span class="n">int</span> <span class="n">product</span><span class="o">,</span> <span class="n">double</span> <span class="n">rating</span><span class="o">)</span>
 
-<span class="hljs-keyword">val</span> ratings: <span class="hljs-type">RDD</span>[<span class="hljs-type">Rating</span>]
-<span class="hljs-keyword">val</span> rank: int
-<span class="hljs-keyword">val</span> iterations: int
-<span class="hljs-keyword">val</span> lambda: <span class="hljs-type">Double</span>
-</code></pre>
+<span class="k">val</span> <span class="n">ratings</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]</span>
+<span class="k">val</span> <span class="n">rank</span><span class="k">:</span> <span class="kt">int</span>
+<span class="k">val</span> <span class="n">iterations</span><span class="k">:</span> <span class="kt">int</span>
+<span class="k">val</span> <span class="n">lambda</span><span class="k">:</span> <span class="kt">Double</span>
+</code></pre></div>
+
 <ul>
 <li>An <code>RDD</code> containing the ratings. The <code>RDD</code> has elements of the class <code>Rating</code>, which is basically a wrapper around a tuple of user id, product id and rating. This <code>RDD</code> corresponds to all the entries in our ratings matrix used previously.</li>
-<li>The rank which corresponds to the number of elements in our latent factor vectors (this would be the number of columns or rows in our $\mathsf{U}$ and $\mathsf{P}$ matrices).</li>
+<li>The rank which corresponds to the number of elements in our latent factor vectors (this would be the number of columns or rows in our \(\mathsf{U}\) and \(\mathsf{P}\) matrices).</li>
 <li>A stopping criteria in terms of iterations for the ALS.</li>
 <li>And finally, we set the <code>lambda</code> parameter, a regularisation parameter, which we've shown to be a part of the loss function's regularisation.</li>
 </ul>
 <p>Since we have the data, the question is then how to choose the parameters. A typical method is to split the original ratings data into two random sets, one for training and one for validation. We then proceed to train the model to several different parameters, usually according to a grid search, and calculate some error measure between the predicted and validation ratings, choosing the parameters which minimise the error.</p>
 <p>Once the model is trained, we get a <code>MatrixFactorizationModel</code> instance, which is basically a wrapper for the latent factors as <code>RDD</code>s.</p>
-<pre><code class="language-scala"><span class="hljs-keyword">val</span> model = <span class="hljs-type">ALS</span>.train(ratings, rank, iterations, lambda)
+<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">ratings</span><span class="o">,</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iterations</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
 
-model: <span class="hljs-type">MatrixFactorizationModel</span>
+<span class="n">model</span><span class="k">:</span> <span class="kt">MatrixFactorizationModel</span>
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MatrixFactorizationModel</span> </span>{
+<span class="k">class</span> <span class="nc">MatrixFactorizationModel</span> <span class="o">{</span>
 
-    <span class="hljs-keyword">val</span> userFeatures: <span class="hljs-type">RDD</span>[(<span class="hljs-type">Int</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Double</span>])]
-    <span class="hljs-keyword">val</span> productFeatures: <span class="hljs-type">RDD</span>[(<span class="hljs-type">Int</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Double</span>])]
+    <span class="k">val</span> <span class="n">userFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span>
+    <span class="k">val</span> <span class="n">productFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span>
 
-}
-</code></pre>
+<span class="o">}</span>
+</code></pre></div>
+
 <p>One we have the trained model, we can now perform predictions.</p>
 <h3 id="streaming-data">Streaming data</h3>
 <p>We now want to build a streaming recommender system. For this scenario, we will assume that the observations take the form of a Spark's <em>Discretised Stream</em> or <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html#discretized-streams-dstreams">DStream</a>. With DStreams we consume the stream as mini-batches of <code>RDD</code>s over a certain interval window.</p>
-<p><img src="./images/als/dstream.png" alt=""></p>
+<p><img alt="" src="./images/als/dstream.png" /></p>
 <p>We can for instance, use the first mini-batch to initialise the model and the following batches to continuously train the model.</p>
 <p>One immediate advantage of using observations as a stream is that we no longer need to keep the entirety of the data in memory or read it from storage. If we consider the batch implementation with a very large dataset if we had a single new observation and wanted to retrain the model, we would have to, for instance, read several million ratings from a database. With a streaming variant we can use that single observation to update the latent factors.</p>
 <p>We will try to recreate Spark's batch ALS API by allowing model training using a ratings <code>RDD</code>, however this time, we consume each <code>RDD</code> from the stream mini-batch and will incrementally train the model as observations trickle in.</p>
-<p><img src="./images/als/dstream_als.png" alt=""></p>
+<p><img alt="" src="./images/als/dstream_als.png" /></p>
 <p>First, we start by establishing the quantities and data structures needed to implement streaming ALS.</p>
 <p>We've seen in the previous slides that the recursions for the gradient calculation take the following form, here presented in pseudo-code:</p>
-<pre><code class="language-python">userBias += gamma * (error - <span class="hljs-keyword">lambda</span> \* userBias) 
+<div class="highlight"><pre><span></span><code><span class="n">userBias</span> <span class="o">+=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">error</span> <span class="o">-</span> <span class="k">lambda</span> \<span class="o">*</span> <span class="n">userBias</span><span class="p">)</span> 
 
-userFeature(i) += gamma * (error   prodFeature(j) - <span class="hljs-keyword">lambda</span> * userFeature(i))
-</code></pre>
+<span class="n">userFeature</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">error</span>   <span class="n">prodFeature</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="k">lambda</span> <span class="o">*</span> <span class="n">userFeature</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</code></pre></div>
+
 <p>We create a <code>Factor</code> class to encapsulate the features and the corresponding bias.</p>
 <p>We recall that in the Spark ALS implementation, the features were stored in <code>RDD</code>s typed as a tuple of <code>(id, Array)</code>, where now we have an equivalent form of <code>(id, Factor)</code> which allows us to capture the bias. I'll now provide a quick overview of the steps required to go from the initial ratings stream to the trained model, in terms of Spark's <code>RDD</code> operations.</p>
 <p>Similarly to Spark's ALS, we can assume that the model data will be in the form of <code>Rating</code>'s <code>RDD</code>s. These, as we've seen, will correspond to a mini-batch of ratings from our data stream. We first need to create the initial user and product latent factors for the observed data and we would start by creating two separate <code>RDD</code>s from the data, one keyed by user id, the other by product id.</p>
-<p><img src="./images/als/stream_als_step_1.png" alt=""></p>
+<p><img alt="" src="./images/als/stream_als_step_1.png" /></p>
 <p>For each entry of those new <code>RDD</code>s (the user and product indexed ones) we will now generate a random vector of features. This can be done by simply filling a vector of size <code>rank</code> with random uniform values, but as you will recall, we now also have a bias associated with each entry, which will initially also be set to a random value.</p>
-<p><img src="./images/als/stream_als_step_2.png" alt=""></p>
+<p><img alt="" src="./images/als/stream_als_step_2.png" /></p>
 <p>We now join the incoming ratings, with the generated user factors (using the user id as the key) getting a resulting <code>RDD</code> consisting of product ids, user ids, ratings and user factors (and the same thing for products and product factors).</p>
-<p><img src="./images/als/stream_als_step_3.png" alt=""></p>
+<p><img alt="" src="./images/als/stream_als_step_3.png" /></p>
 <p>Finally, we have these two joint <code>RDD</code>s which have all the necessary quantities needed to calculate the partial gradient in each element. Recalling how to calculate a predicted rating in streaming ALS, we need the global bias, the user and product bias and the corresponding user and product latent vectors.</p>
 <p>This is straightforward to calculate for each element as we can see from the pseudo-code.</p>
 <p>Here the <code>dot</code> function is simply a function to calculate the dot product treating the two factor arrays as vectors.</p>
-<p>$$
+\[
 \hat{\mathsf{R}}_{x,y}=\mu + b_x + b_y + \mathsf{U}_x^T \cdot \mathsf{P}_y
-$$</p>
-<pre><code class="language-scala">prediction = dot(userFactors.features, itemFactors.features) + userFactors.bias + itemFactors.bias + bias
-</code></pre>
+\]
+
+<div class="highlight"><pre><span></span><code><span class="n">prediction</span> <span class="o">=</span> <span class="n">dot</span><span class="o">(</span><span class="n">userFactors</span><span class="o">.</span><span class="n">features</span><span class="o">,</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">features</span><span class="o">)</span> <span class="o">+</span> <span class="n">userFactors</span><span class="o">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">bias</span>
+</code></pre></div>
+
 <p>Given the prediction, the error is also straightforward to calculate, since the real rating is also included in this <code>RDD</code>.</p>
-<p>$$
-\epsilon_{x,y} = \mathsf{R}<em>{x,y} - \hat{\mathsf{R}}</em>{x,y}
-$$</p>
-<pre><code class="language-scala">eps = rating - prediction
-</code></pre>
+\[
+\epsilon_{x,y} = \mathsf{R}_{x,y} - \hat{\mathsf{R}}_{x,y}
+\]
+
+<div class="highlight"><pre><span></span><code><span class="n">eps</span> <span class="o">=</span> <span class="n">rating</span> <span class="o">-</span> <span class="n">prediction</span>
+</code></pre></div>
+
 <p>And now, since we have the error, we can also easily calculate the update term for the user and product features. As mentioned previously, <code>gamma</code> and <code>lambda</code> are known model parameters which we pick ourselves when instantiating the streaming ALS algorithm.</p>
-<p>$$
+\[
 \gamma \left(\epsilon_{x,y}\mathsf{U}_x-\lambda^{\prime}\mathsf{P}_y\right)
-$$</p>
-<pre><code class="language-scala">(<span class="hljs-number">0</span> until rank).map { i =&gt; 
-    gamma * (eps * userFactors.features(i) - lambda * itemFactors.features(i))
-}
-</code></pre>
+\]
+
+<div class="highlight"><pre><span></span><code><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">rank</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span> <span class="n">i</span> <span class="o">=&gt;</span> 
+    <span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">eps</span> <span class="o">*</span> <span class="n">userFactors</span><span class="o">.</span><span class="n">features</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">features</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre></div>
+
 <p>Finally, we update the user and product biases given the model parameters and the previous bias.</p>
-<p>$$
+\[
 \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right)
-$$</p>
-<pre><code class="language-scala">gamma * (eps - lambda * itemFactors.bias)
-</code></pre>
+\]
+
+<div class="highlight"><pre><span></span><code><span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">eps</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">bias</span><span class="o">)</span>
+</code></pre></div>
+
 <p>These calculated gradients can now be mapped to a new <code>RDD</code> which we will use to update the final biases and latent factors.</p>
 <p>The last step is to split the gradients according to user and product, and finally, when in possession of all the individual gradients, we reduce them into latent factors by performing an aggregated sum for each user and product.</p>
 <p>So these steps define the entirety of the streaming ALS operation. For each observation window, we calculate the latent factors <code>RDD</code>, and on the following window we update these factors, given the current observations.</p>
 <p>We've covered the initialisation case, that is, we assumed the case where the model is not initialised and we received the first mini-batch of ratings. If, on the following window, we receive ratings for previously unseen user or products, the procedure is exactly the same, that is, we generate random factors and update as described.</p>
-<p><img src="./images/als/stream_als_overview.png" alt=""></p>
+<p><img alt="" src="./images/als/stream_als_overview.png" /></p>
 <p>Now I'll just quickly cover the case where we get some ratings from users or for some product we've already seen. For this new set of observations, we proceed exactly as previously, that is, we split the data into separate <code>RDD</code>s, each one containing the ratings but keyed by user and product id. I'll assume that we get a mixture of completely new data, that is, unseen user and products and some ratings for previously seen users and products shown in red.</p>
-<p><img src="./images/als/stream_als_post_step_1.png" alt=""></p>
+<p><img alt="" src="./images/als/stream_als_post_step_1.png" /></p>
 <p>The difference now is that, instead of assigning random factors and biases to each entry of these <code>RDD</code>s, we perform a full outer join between them and the current latent factors.</p>
 <p>The strategy is then to keep the matching existing latent factor and create random features and biases just for the user and product entries we haven't seen before.</p>
 <p>Now that we are in possession of this joint <code>RDD</code>, we can apply exactly the same steps as previously to update the factors and repeat these steps for all future incoming observations, allowing us to continuously update the model.</p>
 <p>It is now easy to see that, in the limit situation where we only have one new rating, we would now only have to update a single entry of the latent factors <code>RDD</code>, in contrast with the batch method, where the entirety of the factors would be used in the ALS step.</p>
-<p><img src="./images/als/stream_als_post_step_2.png" alt=""></p>
+<p><img alt="" src="./images/als/stream_als_post_step_2.png" /></p>
 <p>Let's look at some results comparing the streaming implementation with the Spark's batch implementation.</p>
 <p>The dataset we have chosen to use in these tests is one of the <a href="https://grouplens.org/datasets/movielens/latest/">MovieLens' datasets</a>. These dataset are a widely used data in recommendation engine research. They are managed by the Lens corporation and are freely available for non-commercial applications.</p>
 <p>These datasets come in several variants, namely a <a href="http://files.grouplens.org/datasets/movielens/ml-latest-small-README.html">small</a> variant, useful for a quick algorithm prototyping and testing, and a <a href="http://files.grouplens.org/datasets/movielens/ml-latest-README.html">full</a> variant, with approximately 26 million ratings (from 45,000 movies and 270,000 users), useful for a more comprehensive testing and benchmark.</p>
 <p>The data is available as a set of Comma Separated Value files, each containing different variables, but we are mainly interested in the <code>ratings</code> file which contains four variables: a unique user and movie id, represented as integers, a rating represented by a value from 0 to 5 with steps of 0.5 and a timestamp for when the movie was rated by this user.</p>
 <p>First, we'll start by training a batch ALS model using the MovieLens data. We assume that we already have the observations as an <code>RDD</code> of ratings and simply split the data into 80% for training and 20% for validation.</p>
-<pre><code class="language-scala"><span class="hljs-keyword">val</span> split: <span class="hljs-type">Array</span>[<span class="hljs-type">RDD</span>[<span class="hljs-type">Rating</span>]] = ratings.randomSplit(<span class="hljs-number">0.8</span>, <span class="hljs-number">0.2</span>)
+<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">split</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]]</span> <span class="o">=</span> <span class="n">ratings</span><span class="o">.</span><span class="n">randomSplit</span><span class="o">(</span><span class="mf">0.8</span><span class="o">,</span> <span class="mf">0.2</span><span class="o">)</span>
 
-<span class="hljs-keyword">val</span> model = <span class="hljs-type">ALS</span>.train(split(<span class="hljs-number">0</span>), rank, iter, lambda)
-</code></pre>
+<span class="k">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iter</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
+</code></pre></div>
+
 <p>Here, we won't show the steps to determine the best parameters for this dataset, were we performed a simple parameter grid search over a number of possible candidates. The Spark ALS API is quite simple and to train the model we simply pass the training <code>RDD</code> and the parameters.</p>
 <p>We can now use the remaining 20% of the observations to calculate the RMSE between the model predictions and the actual ratings.</p>
 <p>We now can persist the validation <code>RDD</code>, so we can use the exact same one for the streaming ALS run.</p>
-<pre><code class="language-scala"><span class="hljs-keyword">val</span> predictions: <span class="hljs-type">RDD</span>[<span class="hljs-type">Rating</span>] = model
-    .predict(split(<span class="hljs-number">1</span>).map { 
-        x =&gt;(x.user, x.product))
-    }
+<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">predictions</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="o">.</span><span class="n">predict</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span> 
+        <span class="n">x</span> <span class="o">=&gt;(</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">))</span>
+    <span class="o">}</span>
 
-<span class="hljs-keyword">val</span> pairs = predictions
-    .map(x =&gt; ((x.user, x.product), x.rating))
-    .join(
-        split(<span class="hljs-number">1</span>)
-            .map(x =&gt; ((x.user, x.product), x.rating))
-    .values
+<span class="k">val</span> <span class="n">pairs</span> <span class="o">=</span> <span class="n">predictions</span>
+    <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="o">((</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">),</span> <span class="n">x</span><span class="o">.</span><span class="n">rating</span><span class="o">))</span>
+    <span class="o">.</span><span class="n">join</span><span class="o">(</span>
+        <span class="n">split</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+            <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="o">((</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">),</span> <span class="n">x</span><span class="o">.</span><span class="n">rating</span><span class="o">))</span>
+    <span class="o">.</span><span class="n">values</span>
 
-<span class="hljs-keyword">val</span> <span class="hljs-type">RMSE</span> = math.sqrt(
-    pairs.map(x =&gt; math.pow(x._1 - x._2, <span class="hljs-number">2</span>)).mean())
-</code></pre>
+<span class="k">val</span> <span class="nc">RMSE</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="o">(</span>
+    <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">_1</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">_2</span><span class="o">,</span> <span class="mi">2</span><span class="o">)).</span><span class="n">mean</span><span class="o">())</span>
+</code></pre></div>
+
 <p>In order to test the streaming version, we first need to define a data source. We start with the original MovieLens data and remove all the ratings from the validation observations.</p>
 <p>We then create a simulated stream of observations using <a href="https://kafka.apache.org/">Kafka</a>, with an interval of 5 seconds and with 1000 observations in each mini-batch. These are arbitrary numbers, chosen just for practical reasons. We could have, for instance, a single observation in each mini-batch.</p>
 <p>It is not guaranteed that the best parameters (namely <code>rank</code> and <code>lambda</code>) chosen for the batch version are the best for the streaming implementation, however we've decided to use the same ones. For each mini-batch we then incrementally train the model and calculate the RMSE up to that point. Given the actual ratings in the validation set and the model's prediction, the RMSE calculation is the same as in the batch version. And looking at the results, we can see that with each mini-batch (of 1000 observations), the RMSE from the streaming version (in blue) is edging towards the batch value (plotted as the horizontal dashed line).</p>
-<p><img src="./images/als/mse_comparison.png" alt=""></p>
+<p><img alt="" src="./images/als/mse_comparison.png" /></p>
 <h3 id="caveats">Caveats</h3>
 <p>However, streaming ALS has pitfalls which we have to take into account.</p>
 <h4 id="cold-start">Cold start</h4>
@@ -376,108 +372,100 @@ $$</p>
 <h4 id="hyperparameter-estimation">Hyperparameter estimation</h4>
 <p>Another challenge we encounter is hyperparameter estimation.</p>
 <p>In the batch ALS case, we can perform a grid search for instance and estimate the hyperparameters. If, after some time, we find ourselves with a new ratings or even new product and users, we can simply repeat this procedure using the totality of the data. As an example, if in batch ALS at any point we wish to estimate the model with a different rank, this would be perfectly acceptable.</p>
-<p><img src="./images/als/hyperparameters.png" alt=""></p>
+<p><img alt="" src="./images/als/hyperparameters.png" /></p>
 <p>In the streaming case, we can't do that. When we have a new batch of observations, we assume that previous ones were discarded since they are already incorporated in the latent factors. If they weren't and we keep all the observations in the stream, we might as well use batch ALS.</p>
-<p><img src="./images/als/hyperparameters_2.png" alt=""></p>
+<p><img alt="" src="./images/als/hyperparameters_2.png" /></p>
 <p>A solution is to perform a grid search in parallel from the start and prune the least performant models as time progresses. This has the disadvantage of being expensive in terms of resources, since we have to keep several models simultaneously and again, we have the cold start problem surfacing.</p>
 <p>This means that we have no guarantee that the best parameters for a initial batch with few observations will still be the best further on.</p>
-<p><img src="./images/als/hyperparameters_3.png" alt=""></p>
+<p><img alt="" src="./images/als/hyperparameters_3.png" /></p>
 <h4 id="performance">Performance</h4>
 <p>Also, there are some performance considerations. As we've seen, we implement some operations which can be costly in a Spark setting. We have several join operations which can lead to a considerable amount of data shuffling between partitions.</p>
 <p>Care must be taken into choosing an appropriate partitioning strategy to minimise data shuffling.</p>
 <p>Spark's implementation of batch ALS uses a specific method called blocked ALS, which computes outgoing and ingoing links between user and products vectors and then partitioning them in blocks in order to minimise data transfer between nodes.</p>
-<p><img src="./images/als/partitioning.png" alt=""></p>
+<p><img alt="" src="./images/als/partitioning.png" /></p>
 <p>Also, to make predictions we might have to try and perform random access to the latent factors <code>RDDs</code>. This also can be quite inefficient since we are using <code>lookup</code> methods.</p>
 <p>If you want to get straight setting up your own distributed recommendation engine, I highly suggest you start with Spark's builtin solution. I would highly recommended looking at the <code>jiminy</code> project (part of the <a href="https://radanalytics.io/">radanalytics.io</a> community), a micro-service oriented complete recommendation engine, ready to deploy on <a href="https://www.openshift.com/">OpenShift</a>.</p>
 <p>The engine is split into services such as a <a href="https://github.com/radanalyticsio/jiminy-predictor">predictor</a> and a <a href="https://github.com/radanalyticsio/jiminy-modeler">modeler</a>, along with a <a href="https://github.com/radanalyticsio/jiminy-html-server">front-end</a> and <a href="https://github.com/radanalyticsio/jiminy-tools">tools</a> to simplify tasks (such as using the MovieLens data) and it's a great way to look at how to put a modern recommender engine together and also a great code read.</p>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
 <li><a href="#recommendation-engines">Recommendation engines</a></li>
 <li><a href="#collaborative-filtering">Collaborative filtering</a></li>
-<li><a href="#alternating-least-squares-als--">Alternating Least Squares (ALS)  </a>
-<ul>
+<li><a href="#alternating-least-squares-als">Alternating Least Squares (ALS)</a><ul>
 <li><a href="#batch-als">Batch ALS</a></li>
 <li><a href="#streaming-als">Streaming ALS</a></li>
 <li><a href="#apache-spark">Apache Spark</a></li>
 <li><a href="#streaming-data">Streaming data</a></li>
-<li><a href="#caveats">Caveats</a>
-<ul>
+<li><a href="#caveats">Caveats</a><ul>
 <li><a href="#cold-start">Cold start</a></li>
 <li><a href="#hyperparameter-estimation">Hyperparameter estimation</a></li>
 <li><a href="#performance">Performance</a></li>
-</ul></li>
-</ul></li>
 </ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified 22 days ago
+            </div>
 
-        <div class="footer">
-            modified 2 weeks ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

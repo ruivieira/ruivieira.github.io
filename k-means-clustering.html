@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on K-means clustering">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/k-means-clustering.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - K-means clustering</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,35 +50,38 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="k-means-clustering">K-means clustering</h1>
+        <div id="content">
+            <h1 id="k-means-clustering">K-means clustering</h1>
 <h2 id="introduction">Introduction</h2>
 <p><em>K</em>-means is still one of the fundamental clustering algorithms. It is used in such diverse fields as Natural Language Processing (NLP), social sciences and medical sciences.</p>
-<p>The core idea behind <em>K</em>-means is that we want to group data in <em>clusters</em>. Data points will be assigned to a specific cluster depending on it's distance to a cluster's center, usually called the <em>centroid</em>.</p>
+<p>The core idea behind <em>K</em>-means is that we want to group data in <em>clusters</em>. Data points will be assigned to a specific cluster depending on it's distance to a cluster's center, usually called the <em>centroid</em>. </p>
 <p>It is important to note that typically, the mean distance to a centroid is used to partition the clusters, however, difference distances can be used and different pivot points. An example is the <em>K</em>-medoids clustering algorithm.</p>
 <p>We will define the two main steps of a generic <em>K</em>-means clustering algorithm, namely the data assignement and the centroid update step.</p>
 <h3 id="data-assignement">Data assignement</h3>
-<p>The criteria to determine whether a point is closer to one centroid is typically an [Euclidean distance](distance-metrics.html#Euclidean distance L2) ($L^2$) .
-If we consider a set of $n$ centroids $C$, such that</p>
-<p>$$
+<p>The criteria to determine whether a point is closer to one centroid is typically an <a href="/distance-metrics.html#Euclidean distance L2">Euclidean distance</a> (\(L^2\)) .
+If we consider a set of \(n\) centroids \(C\), such that</p>
+\[
 C = \lbrace c_1, c_2, \dots, c_n \rbrace
-$$</p>
-<p>We assign each data point in $\mathcal{D}=\lbrace x_1, x_2, \dots, x_n \rbrace$ to the nearest centroid according to its distance, such that</p>
-<p>$$
+\]
+
+<p>We assign each data point in \(\mathcal{D}=\lbrace x_1, x_2, \dots, x_n \rbrace\) to the nearest centroid according to its distance, such that</p>
+\[
 \underset{c_i \in C}{\arg\min} \; dist(c_i,x)^2
-$$
-As mentioned previously $dist(\cdot)$ is typically the standard ($L^2$) [Euclidean distance](distance-metrics.html#Euclidean distance L2).
-We define the subset of points assigned to a centroid $i$ as $S_i$.</p>
+\]
+
+<p>As mentioned previously \(dist(\cdot)\) is typically the standard (\(L^2\)) <a href="/distance-metrics.html#Euclidean distance L2">Euclidean distance</a>.
+We define the subset of points assigned to a centroid \(i\) as \(S_i\).</p>
 <h3 id="centroid-update-step">Centroid update step</h3>
-<p>This step corresponds to updating the centroids using the mean of add points assign to a cluster, $S_i$. That is</p>
-<p>$$
+<p>This step corresponds to updating the centroids using the mean of add points assign to a cluster, \(S_i\). That is</p>
+\[
 c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
-$$</p>
+\]
+
 <h1 id="partitioning">Partitioning</h1>
 <p>Different algorithms can be used for cluster partitioning, for instance:</p>
 <ul>
@@ -136,133 +90,131 @@ $$</p>
 <li>CLARANS</li>
 </ul>
 <h2 id="pam">PAM</h2>
-<p>To illustrate the PAM partitioning method, we will use a synthetic dataset created along the guidelines in <a href="synthetic-data-generation.html#Separability">synthetic data generation</a>.</p>
+<p>To illustrate the PAM partitioning method, we will use a synthetic dataset created along the guidelines in <a href="/synthetic-data-generation.html#Separability">synthetic data generation</a>.</p>
 <h1 id="elbow-method">Elbow method</h1>
-<p>In order to use the &quot;Elbow method&quot; we calculate the [Within-Cluster Sum of Squares (WCSS)](distance-metrics.html#Within-cluster sum of squares (WCSS)) for a varying number of clusters, $K$.</p>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
-<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
-<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd 
-<span class="hljs-keyword">import</span> sklearn
+<p>In order to use the "Elbow method" we calculate the <a href="/distance-metrics.html#Within-cluster sum of squares (WCSS)">Within-Cluster Sum of Squares (WCSS)</a> for a varying number of clusters, \(K\). </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">sklearn</span>
 
-<span class="hljs-keyword">import</span> warnings
-warnings.filterwarnings(<span class="hljs-string">&quot;ignore&quot;</span>)
-</code></pre>
-<pre><code class="language-python">dataset = pd.read_csv(<span class="hljs-string">&#x27;data/mall-customers.zip&#x27;</span>)
-X = dataset.iloc[:, [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>]].values
-</code></pre>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> sklearn.cluster <span class="hljs-keyword">import</span> KMeans
-wcss = [] 
-<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">11</span>): 
-    kmeans = KMeans(n_clusters = i, init = <span class="hljs-string">&#x27;k-means++&#x27;</span>, random_state = <span class="hljs-number">42</span>)
-    kmeans.fit(X) 
-    wcss.append(kmeans.inertia_)
-</code></pre>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> plotutils <span class="hljs-keyword">import</span> *
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</code></pre></div>
 
-plt.plot(<span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">11</span>), wcss)
-plt.xlabel(<span class="hljs-string">&#x27;Number of clusters&#x27;</span>)
-plt.ylabel(<span class="hljs-string">&#x27;WCSS&#x27;</span>) 
-plt.show()
-</code></pre>
-<p><img src="./images/k-means-clustering_1.png" alt="k-means-clustering_1"></p>
-<pre><code class="language-python">kmeans = KMeans(n_clusters = <span class="hljs-number">5</span>, init = <span class="hljs-string">&quot;k-means++&quot;</span>, random_state = <span class="hljs-number">42</span>)
-y_kmeans = kmeans.fit_predict(X)
-</code></pre>
-<pre><code class="language-python">ps = <span class="hljs-number">30</span>
-plt.scatter(X[y_kmeans == <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], X[y_kmeans == <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], s = ps, c = colours[<span class="hljs-number">0</span>], label = <span class="hljs-string">&#x27;Cluster1&#x27;</span>)
-plt.scatter(X[y_kmeans == <span class="hljs-number">1</span>, <span class="hljs-number">0</span>], X[y_kmeans == <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], s = ps, c = colours[<span class="hljs-number">1</span>], label = <span class="hljs-string">&#x27;Cluster2&#x27;</span>)
-plt.scatter(X[y_kmeans == <span class="hljs-number">2</span>, <span class="hljs-number">0</span>], X[y_kmeans == <span class="hljs-number">2</span>, <span class="hljs-number">1</span>], s = ps, c = colours[<span class="hljs-number">2</span>], label = <span class="hljs-string">&#x27;Cluster3&#x27;</span>)
-plt.scatter(X[y_kmeans == <span class="hljs-number">3</span>, <span class="hljs-number">0</span>], X[y_kmeans == <span class="hljs-number">3</span>, <span class="hljs-number">1</span>], s = ps, c = colours[<span class="hljs-number">3</span>], label = <span class="hljs-string">&#x27;Cluster4&#x27;</span>)
-plt.scatter(X[y_kmeans == <span class="hljs-number">4</span>, <span class="hljs-number">0</span>], X[y_kmeans == <span class="hljs-number">4</span>, <span class="hljs-number">1</span>], s = ps, c = colours[<span class="hljs-number">4</span>], label = <span class="hljs-string">&#x27;Cluster5&#x27;</span>) 
-plt.scatter(kmeans.cluster_centers_[:, <span class="hljs-number">0</span>], kmeans.cluster_centers_[:, <span class="hljs-number">1</span>], s = <span class="hljs-number">100</span>, c = <span class="hljs-string">&#x27;black&#x27;</span>, label = <span class="hljs-string">&#x27;Centroids&#x27;</span>)
-plt.xlabel(<span class="hljs-string">&#x27;Annual Income (k$)&#x27;</span>) 
-plt.ylabel(<span class="hljs-string">&#x27;Spending Score (1-100)&#x27;</span>) 
-plt.legend() 
+<div class="highlight"><pre><span></span><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/mall-customers.zip&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+</code></pre></div>
 
-plt.show()
-</code></pre>
-<p><img src="./images/k-means-clustering_2.png" alt="k-means-clustering_2"></p>
-<pre><code class="language-python">
-</code></pre>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="n">wcss</span> <span class="o">=</span> <span class="p">[]</span> 
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span> 
+    <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">init</span> <span class="o">=</span> <span class="s1">&#39;k-means++&#39;</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+    <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> 
+    <span class="n">wcss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">wcss</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of clusters&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;WCSS&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/k-means-clustering-output_16_0.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">init</span> <span class="o">=</span> <span class="s2">&quot;k-means++&quot;</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+<span class="n">y_kmeans</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ps</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ps</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Cluster1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ps</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Cluster2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ps</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Cluster3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ps</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Cluster4&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y_kmeans</span> <span class="o">==</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ps</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">colours</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Cluster5&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Centroids&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Annual Income (k$)&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Spending Score (1-100)&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/k-means-clustering-output_18_0.png" /></p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
-<li><a href="#introduction">Introduction</a>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul>
+<li><a href="#introduction">Introduction</a><ul>
 <li><a href="#data-assignement">Data assignement</a></li>
 <li><a href="#centroid-update-step">Centroid update step</a></li>
-</ul></li>
+</ul>
+</li>
 <li><a href="#pam">PAM</a></li>
 </ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified a month ago
+            </div>
 
-        <div class="footer">
-            modified 1 month ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

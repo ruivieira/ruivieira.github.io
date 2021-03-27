@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Monotonic Cubic Spline interpolation (with some Rust)">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Monotonic Cubic Spline interpolation (with some Rust)</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,282 +50,298 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="monotonic-cubic-spline-interpolation-with-some-rust">Monotonic Cubic Spline interpolation (with some Rust)</h1>
+        <div id="content">
+            <h1 id="monotonic-cubic-spline-interpolation-with-some-rust">Monotonic Cubic Spline interpolation (with some Rust)</h1>
 <p>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot.
-In this post I'll show how to implement the method developed by F. N. Fritsch and R. E. Carlson <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
+In this post I'll show how to implement the method developed by F. N. Fritsch and R. E. Carlson <sup id="fnref:Fritsch2005"><a class="footnote-ref" href="#fn:Fritsch2005">1</a></sup> in the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
 <h1 id="rust">Rust</h1>
 <p><em>Why</em> Rust? Definitely this is a type of solution so simple that it can be implemented in  practically any programming language we can think of. However, I do find that the best way to get acquainted with a new language and its concepts is precisely to try to implement a simple and well-know solution. Although this post does not intend to be an introduction to the Rust language, some of the fundamentals will be presented as we go along.</p>
-<p>Idiomatic Rust Object-Oriented Programming (OOP) has several characteristics which differ significantly from &quot;traditional&quot; OOP languages.
-Rust achieves data and behaviour encapsulation by means of defining data structure blueprints (called <code>struct</code>) and then defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple &quot;class&quot; <code>Foo</code> would consist of:</p>
-<pre><code class="language-rust"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Foo</span></span> {
-}
+<p>Idiomatic Rust Object-Oriented Programming (OOP) has several characteristics which differ significantly from "traditional" OOP languages.
+Rust achieves data and behaviour encapsulation by means of defining data structure blueprints (called <code>struct</code>) and then defining their behaviour though a concrete implementation (through <code>impl</code>). As an example, a simple "class" <code>Foo</code> would consist of:</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="hljs-keyword">impl</span> Foo {
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">new</span></span>() -&gt; Foo {
-        <span class="hljs-keyword">return</span> Foo {};
-  }
-  <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">method</span></span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) {}
-  <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">static_method</span></span>() {}
-}
+<span class="k">impl</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">new</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">fn</span> <span class="nf">method</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">  </span><span class="k">fn</span> <span class="nf">static_method</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> f = Foo::new();
-    f.method();
-    Foo::static_method();
-}
-</code></pre>
-<p>The &quot;constructor&quot; is defined typically as <code>new()</code>, but any &quot;static&quot; method which returns an initialised <code>struct</code> <em>can</em> be a constructor and &quot;object&quot; methods include the passing of the <code>self</code> instance not unlike languages such as Python. The <code>&amp;mut self</code> refers to the control or exclusive access to <code>self</code> and it is not directly related to <code>mut</code> mutability control. These concepts touch on Rust's borrowing and ownership model which, unfortunately, are <em>way</em> beyond the scope of this blog post. A nice introduction is provided by the &quot;<em>Rust programming book</em>&quot; available <a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">here</a>.
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Foo</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="p">.</span><span class="n">method</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">Foo</span>::<span class="n">static_method</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>The "constructor" is defined typically as <code>new()</code>, but any "static" method which returns an initialised <code>struct</code> <em>can</em> be a constructor and "object" methods include the passing of the <code>self</code> instance not unlike languages such as Python. The <code>&amp;mut self</code> refers to the control or exclusive access to <code>self</code> and it is not directly related to <code>mut</code> mutability control. These concepts touch on Rust's borrowing and ownership model which, unfortunately, are <em>way</em> beyond the scope of this blog post. A nice introduction is provided by the "<em>Rust programming book</em>" available <a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">here</a>.
 Our implementation aims at building a MCSI class <code>MonotonicCubicSpline</code> by splitting the algorithm into the slope calculation at <em>construction</em> time, a <em>Hermite interpolation</em> function and a <em>partial application function generator</em>. This will follow the general structure</p>
-<pre><code class="language-rust"><span class="hljs-keyword">pub</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">MonotonicCubicSpline</span></span> {
-    m_x: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;,
-    m_y: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;,
-    m_m: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;
-}
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_m</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="hljs-keyword">impl</span> MonotonicCubicSpline {
-    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">new</span></span>(x : &amp;<span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;, y : &amp;<span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;) -&gt; MonotonicCubicSpline {
-        <span class="hljs-comment">// ...</span>
-    }
-    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">hermite</span></span>(point: <span class="hljs-built_in">f64</span>, x : (<span class="hljs-built_in">f64</span>, <span class="hljs-built_in">f64</span>), y: (<span class="hljs-built_in">f64</span>, <span class="hljs-built_in">f64</span>), m: (<span class="hljs-built_in">f64</span>, <span class="hljs-built_in">f64</span>)) -&gt; <span class="hljs-built_in">f64</span> {
-        <span class="hljs-comment">// ...</span>
-    }
+<span class="k">impl</span><span class="w"> </span><span class="n">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">x</span><span class="w"> </span>: <span class="kp">&amp;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span>: <span class="kp">&amp;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">MonotonicCubicSpline</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hermite</span><span class="p">(</span><span class="n">point</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">y</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">m</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">))</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">interpolate</span></span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, point : <span class="hljs-built_in">f64</span>) -&gt; <span class="hljs-built_in">f64</span> {
-        <span class="hljs-comment">// ...</span>
-    }
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">interpolate</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">point</span><span class="w"> </span>: <span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">partial</span></span>(x: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;, y: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;) -&gt; <span class="hljs-keyword">impl</span> <span class="hljs-built_in">Fn</span>(<span class="hljs-built_in">f64</span>) -&gt; <span class="hljs-built_in">f64</span> {
-        <span class="hljs-comment">// ...</span>
-    }
-}
-</code></pre>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">partial</span><span class="p">(</span><span class="n">x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="nb">Fn</span><span class="p">(</span><span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
 <p><code>Vec</code> is a vector, a typed growable collection available in Rust's standard library with documentation available <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">here</a>.</p>
 <h2 id="monotonic-cubic-splines">Monotonic Cubic Splines</h2>
-<p>MCSI hinges on the concept of cubic Hermite interpolators. The Hermite interpolation for the unit interval for a generic interval $(x_k,x_{k+1})$ is</p>
-<p>$$
+<p>MCSI hinges on the concept of cubic Hermite interpolators. The Hermite interpolation for the unit interval for a generic interval \((x_k,x_{k+1})\) is</p>
+\[
 p(x)=p_k h_{00}(t)+ h_{10}(t)(x_{k+1}-x_k)m_k + \\ h_{01}(t)p_{k+1} + h_{11}(t)(x_{k+1}-x_{k})m_{k+1}.
-$$</p>
-<p>The $h_{\star}$ functions are usually called the <em>Hermite basis functions</em> in the literature and here we will use the factorised forms of:</p>
-<p>$$
+\]
+
+<p>The \(h_{\star}\) functions are usually called the <em>Hermite basis functions</em> in the literature and here we will use the factorised forms of:</p>
+\[
 \begin{aligned}
 h_{00}(t) &amp;= (1+2t)(1-t)^2 \\
 h_{10}(t) &amp;= t(1-t)^2 \\
 h_{01}(t) &amp;= t^2 (3-2t) \\
 h_{11}(t) &amp;= t^2 (t-1).
 \end{aligned}
-$$</p>
+\]
+
 <p>This can be rewritten as</p>
-<p>$$
+\[
 p(x) = (p_k(1 + 2t) + \Delta x_k m_k  t)(1-t)(1-t) + \\ (p_{k+1} (3 -2t) + \Delta x_k m_{k+1} (t-1))t^2
-$$</p>
+\]
+
 <p>where</p>
-<p>$$
+\[
 \begin{aligned}
 \Delta x_k &amp;= x_{k+1} - x_k \\
 t &amp;= \frac{x-x_k}{h}.
 \end{aligned}
-$$</p>
-<p>This associated Rust method is the above mentioned &quot;static&quot; <code>MonotonicCubicSpline::hermite()</code>:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">hermite</span></span>(point: <span class="hljs-built_in">f64</span>, x : (<span class="hljs-built_in">f64</span>, <span class="hljs-built_in">f64</span>), y: (<span class="hljs-built_in">f64</span>, <span class="hljs-built_in">f64</span>), m: (<span class="hljs-built_in">f64</span>, <span class="hljs-built_in">f64</span>)) -&gt; <span class="hljs-built_in">f64</span> {
-    <span class="hljs-keyword">let</span> h = x.<span class="hljs-number">1</span> - x.<span class="hljs-number">0</span>;
-    <span class="hljs-keyword">let</span> t = (point - x.<span class="hljs-number">0</span>) / h;
-    <span class="hljs-keyword">return</span> (y.<span class="hljs-number">0</span> (<span class="hljs-number">1.0</span> + <span class="hljs-number">2.0</span> t) + h m.<span class="hljs-number">0</span> t) (<span class="hljs-number">1.0</span> - t) (<span class="hljs-number">1.0</span> - t)
-        + (y.<span class="hljs-number">1</span> (<span class="hljs-number">3.0</span> - <span class="hljs-number">2.0</span> t) + h m.<span class="hljs-number">1</span> (t - <span class="hljs-number">1.0</span>)) t t;
-}
-</code></pre>
-<p>where the tuples correspond to $x \to (x_k, x_{k+1})$, $t \to (y_k, y_{k+1})$ and $m \to (m_k, m_{k+1})$</p>
-<p>For a series of data points $(x_k, y_k)$ with $k=1,\dots,n$ we then calculate the slopes of the secant lines between consecutive points, that is:</p>
-<p>$$
+\]
+
+<p>This associated Rust method is the above mentioned "static" <code>MonotonicCubicSpline::hermite()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hermite</span><span class="p">(</span><span class="n">point</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">y</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">),</span><span class="w"> </span><span class="n">m</span>: <span class="p">(</span><span class="kt">f64</span><span class="p">,</span><span class="w"> </span><span class="kt">f64</span><span class="p">))</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">point</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="mf">3.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0</span><span class="p">))</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>where the tuples correspond to \(x \to (x_k, x_{k+1})\), \(t \to (y_k, y_{k+1})\) and \(m \to (m_k, m_{k+1})\)</p>
+<p>For a series of data points \((x_k, y_k)\) with \(k=1,\dots,n\) we then calculate the slopes of the secant lines between consecutive points, that is:</p>
+\[
 \Delta_k = \frac{\Delta y_{k}}{\Delta x_k},\qquad \text{for}\ k=1,\dots,n-1
-$$</p>
-<p>with $Delta y_k = y_{k+1}-y_k$ and $\Delta x_k$ as defined previously.</p>
-<p><img src="./images/splines/secants.gif" alt=""></p>
-<p>Since the data is represented by the vectors <code>x : Vec&lt;f64&gt;</code> and <code>y : Vec&lt;f64&gt;</code> we implement this in the &quot;constructor&quot;:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> secants = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0.0</span> ; n - <span class="hljs-number">1</span>];
-<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> slopes  = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0.0</span> ; n];
-<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..(n-<span class="hljs-number">1</span>) {
-    <span class="hljs-keyword">let</span> dx = x[i + <span class="hljs-number">1</span>] - x[i];
-    <span class="hljs-keyword">let</span> dy = y[i + <span class="hljs-number">1</span>] - y[i];
-    secants[i] = dy / dx;
-}
-</code></pre>
+\]
+
+<p>with \(Delta y_k = y_{k+1}-y_k\) and \(\Delta x_k\) as defined previously.</p>
+<p><img alt="" src="./images/splines/secants.gif" /></p>
+<p>Since the data is represented by the vectors <code>x : Vec&lt;f64&gt;</code> and <code>y : Vec&lt;f64&gt;</code> we implement this in the "constructor":</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">secants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mf">0.0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">slopes</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mf">0.0</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="p">];</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dx</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
 <p>The next step is to average the secants in order to get the tangents, such that</p>
-<p>$$
+\[
 m_k = \frac{\Delta_{k-1}+\Delta_k}{2},\qquad \text{for}\ k=2,\dots,n-1.
-$$</p>
+\]
+
 <p>This is achieved by the code:</p>
-<pre><code class="language-rust">slopes[<span class="hljs-number">0</span>] = secants[<span class="hljs-number">0</span>];
-<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..(n-<span class="hljs-number">1</span>) {
-    slopes[i] = (secants[i - <span class="hljs-number">1</span>] + secants[i]) * <span class="hljs-number">0.5</span>;
-}
-slopes[n - <span class="hljs-number">1</span>] = secants[n - <span class="hljs-number">2</span>];
-</code></pre>
-<p>By definition, we want to ensure monotonicity of the interpolated points, but to guarantee this we must avoid the interpolation spline to go too far from a certain radius of the control points.
-If we define $\alpha_k$ and $\beta_k$ as</p>
-<p>$$
+<div class="highlight"><pre><span></span><code><span class="n">slopes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">..</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="n">slopes</span><span class="p">[</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
+</code></pre></div>
+
+<p>By definition, we want to ensure monotonicity of the interpolated points, but to guarantee this we must avoid the interpolation spline to go too far from a certain radius of the control points. 
+If we define \(\alpha_k\) and \(\beta_k\) as</p>
+\[
 \begin{aligned}
 \alpha_k &amp;= \frac{m_k}{\Delta_k} \\
 \beta_k &amp;= \frac{m_{k+1}}{\Delta_k},
 \end{aligned}
-$$</p>
+\]
+
 <p>to ensure the monotonicity of the interpolation we can impose the following constraint on the above quantities:</p>
-<p>$$
+\[
 \phi(\alpha, \beta) = \alpha - \frac{(2\alpha+\beta-3)^2}{3(\alpha+\beta-2)}\geq 0,
-$$</p>
+\]
+
 <p>that is</p>
-<p>$$
+\[
 \alpha + 2\beta - 3 \leq 0, \text{or}\ 2\alpha+\beta-3 \leq 0
-$$</p>
-<p>Typically the vector $(\alpha_k, \beta_k)$ is restricted to a circle of radius 3, that is</p>
-<p>$$
+\]
+
+<p>Typically the vector \((\alpha_k, \beta_k)\) is restricted to a circle of radius 3, that is</p>
+\[
 \alpha^2_l + \beta_k^2&gt;9,
-$$</p>
+\]
+
 <p>and then setting</p>
-<p>$$
+\[
 m_{k+1} = t\beta_k\Delta_k,
-$$</p>
+\]
+
 <p>where</p>
-<p>$$
+\[
 \begin{aligned}
 h &amp;amp;= \sqrt{\alpha^2_k + \beta^2_k} \\
 t &amp;amp;= \frac{3}{h}.
 \end{aligned}
-$$</p>
-<p>One of the ways in which Rust implements polymorphism is through method dispatch. The <code>f64</code> primitive <a href="https://doc.rust-lang.org/std/primitive.f64.html#method.hypot">provides</a> a shorthand for the quantity $\sqrt{\alpha^2_k + \beta^2_k}$ as $\alpha.\text{hypot}(\beta)$. The relevant Rust code will then be:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..(n-<span class="hljs-number">1</span>) {
-    <span class="hljs-keyword">if</span> secants[i] == <span class="hljs-number">0.0</span> {
-        slopes[i] = <span class="hljs-number">0.0</span>;
-        slopes[i + <span class="hljs-number">1</span>] = <span class="hljs-number">0.0</span>;
-    } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">let</span> alpha = slopes[i] / secants[i];
-        <span class="hljs-keyword">let</span> beta = slopes[i + <span class="hljs-number">1</span>] / secants[i];
-        <span class="hljs-keyword">let</span> h = alpha.hypot(beta);
-        <span class="hljs-keyword">if</span> h &gt; <span class="hljs-number">3.0</span> {
-            <span class="hljs-keyword">let</span> t = <span class="hljs-number">3.0</span> / h;
-            slopes[i] = t * alpha * secants[i];
-            slopes[i + <span class="hljs-number">1</span>] = t * beta * secants[i];
-        }
-    }
-}
-</code></pre>
-<p>We are now able to define a &quot;smooth function&quot; generator using MCSI. We generate a smooth function $g(\cdot)$ given a set of $(x_k, y_k)$ points, such that</p>
-<p>$$
+\]
+
+<p>One of the ways in which Rust implements polymorphism is through method dispatch. The <code>f64</code> primitive <a href="https://doc.rust-lang.org/std/primitive.f64.html#method.hypot">provides</a> a shorthand for the quantity \(\sqrt{\alpha^2_k + \beta^2_k}\) as \(\alpha.\text{hypot}(\beta)\). The relevant Rust code will then be:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="p">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">beta</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">secants</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>We are now able to define a "smooth function" generator using MCSI. We generate a smooth function \(g(\cdot)\) given a set of \((x_k, y_k)\) points, such that</p>
+\[
 f(x_k, y_k, p) \to g(p).
-$$</p>
+\]
+
 <h2 id="partial-application">Partial application</h2>
 <p>Before anything, it is important to recall the difference between partial application and <em>currying</em>, since the two are (incorrectly) used interchangeably quite often.
 <em>Function currying</em> allows to factor functions with multiple arguments into a chain of single-argument functions, that is</p>
-<p>$$
+\[
 f(x, y, z) = h(x)(y)(z)
-$$</p>
-<p>The concept is prevalent in functional programming, since its initial formalisation <sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>. Partial application, however, generally aims at using an existing function conditioned on some argument as a basis to build functions with a reduced arity. In this case this would be useful since ultimately we want to create a smooth, continuous function based on the control points $(x_k, y_k)$. The partial application implementation is done in Rust as</p>
-<pre><code class="language-rust"><span class="hljs-keyword">pub</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">partial</span></span>(x: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;, y: <span class="hljs-built_in">Vec</span>&lt;<span class="hljs-built_in">f64</span>&gt;) -&gt; <span class="hljs-keyword">impl</span> <span class="hljs-built_in">Fn</span>(<span class="hljs-built_in">f64</span>) -&gt; <span class="hljs-built_in">f64</span> {
-    <span class="hljs-keyword">move</span> |p| {
-        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> spline = MonotonicCubicSpline::new(&amp;x, &amp;y);
-        spline.interpolate(p)
-    }
-}
-</code></pre>
-<p>An example of how to generate a concrete smoothed continuous function from a set of control points can be:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">let</span> x = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">10.0</span>];
-<span class="hljs-keyword">let</span> y = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">1.0</span>, <span class="hljs-number">4.0</span>, <span class="hljs-number">8.0</span>, <span class="hljs-number">10.5</span>];
-<span class="hljs-keyword">let</span> g = partial(x, y);
+\]
 
-<span class="hljs-comment">// calculate an interpolated point</span>
-<span class="hljs-keyword">let</span> point = g(<span class="hljs-number">0.39</span>);
-</code></pre>
-<p><img src="./images/splines/interpolation.png" alt=""></p>
+<p>The concept is prevalent in functional programming, since its initial formalisation <sup id="fnref:Curry1958"><a class="footnote-ref" href="#fn:Curry1958">2</a></sup>. Partial application, however, generally aims at using an existing function conditioned on some argument as a basis to build functions with a reduced arity. In this case this would be useful since ultimately we want to create a smooth, continuous function based on the control points \((x_k, y_k)\). The partial application implementation is done in Rust as</p>
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">partial</span><span class="p">(</span><span class="n">x</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">f64</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="nb">Fn</span><span class="p">(</span><span class="kt">f64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">move</span><span class="w"> </span><span class="o">|</span><span class="n">p</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">spline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MonotonicCubicSpline</span>::<span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">spline</span><span class="p">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>An example of how to generate a concrete smoothed continuous function from a set of control points can be:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">10.0</span><span class="p">];</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span><span class="w"> </span><span class="mf">10.5</span><span class="p">];</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">partial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// calculate an interpolated point</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="mf">0.39</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+
+<p><img alt="" src="./images/splines/interpolation.png" /></p>
 <p>The full code can be found <a href="https://gitlab.com/ruivieira/mentat/blob/master/src/lib.rs">here</a>.</p>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1"  class="footnote-item"><p>Fritsch, F. N., &amp;amp; Carlson, R. E. (2005). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em>. https://doi.org/10.1137/0717021 <a href="#fnref1" class="footnote-backref">↩</a></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:Fritsch2005">
+<p>Fritsch, F. N., &amp; Carlson, R. E. (2005). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em>. https://doi.org/10.1137/0717021&#160;<a class="footnote-backref" href="#fnref:Fritsch2005" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn2"  class="footnote-item"><p>Curry, Haskell; Feys, Robert (1958). Combinatory logic. I (2 ed.). Amsterdam, Netherlands: North-Holland Publishing Company. <a href="#fnref2" class="footnote-backref">↩</a></p>
+<li id="fn:Curry1958">
+<p>Curry, Haskell; Feys, Robert (1958). Combinatory logic. I (2 ed.). Amsterdam, Netherlands: North-Holland Publishing Company.&#160;<a class="footnote-backref" href="#fnref:Curry1958" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 </ol>
-</section>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
 <li><a href="#monotonic-cubic-splines">Monotonic Cubic Splines</a></li>
 <li><a href="#partial-application">Partial application</a></li>
 </ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified 22 days ago
+            </div>
 
-        <div class="footer">
-            modified 2 weeks ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

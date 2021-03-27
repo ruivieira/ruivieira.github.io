@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Python environments">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/python-environments.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Python environments</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,50 +50,59 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="python-environments">Python environments</h1>
+        <div id="content">
+            <h1 id="python-environments">Python environments</h1>
 <h2 id="interpreters">Interpreters</h2>
-<p>To install different <a href="python.html">Python</a> interpreters I strongly recommend <code>asdf</code><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.</p>
+<p>To install different <a href="/python.html">Python</a> interpreters I strongly recommend <code>asdf</code><sup id="fnref:asdf"><a class="footnote-ref" href="#fn:asdf">1</a></sup>.</p>
 <p>Let's look at to install Python in two different OSes, macOS and Fedora.</p>
 <h3 id="macos">macOS</h3>
-<p>To install <code>asdf</code> on a macOS, first install the general dependencies with</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> brew install coreutils curl git</span>
-</code></pre>
-<p>then install <code>asdf</code> itself with</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> brew install asdf</span>
-</code></pre>
-<p>Add to the shell, in our case <a href="zsh" class="wikilink">zsh</a> with:</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\n. <span class="hljs-subst">$(brew --prefix asdf)</span>/asdf.sh&quot;</span> &gt;&gt; ~/.zshrc</span>
-</code></pre>
-<p>Add a plugin, in our case <a href="python.html">Python</a>, with</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> asdf plugin add Python</span>
-</code></pre>
+<p>To install <code>asdf</code> on a macOS, first install the general dependencies with </p>
+<div class="highlight"><pre><span></span><code>$ brew install coreutils curl git
+</code></pre></div>
+
+<p>then install <code>asdf</code> itself with </p>
+<div class="highlight"><pre><span></span><code>$ brew install asdf
+</code></pre></div>
+
+<p>Add to the shell, in our case <a href="/zsh.html">zsh</a> with: </p>
+<div class="highlight"><pre><span></span><code>$ <span class="nb">echo</span> -e <span class="s2">&quot;\n. </span><span class="k">$(</span>brew --prefix asdf<span class="k">)</span><span class="s2">/asdf.sh&quot;</span> &gt;&gt; ~/.zshrc
+</code></pre></div>
+
+<p>Add a plugin, in our case <a href="/python.html">Python</a>, with </p>
+<div class="highlight"><pre><span></span><code>$ asdf plugin add Python
+</code></pre></div>
+
 <p>You can list all available versions with</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> asdf list all Python</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code>$ asdf list all Python
+</code></pre></div>
+
 <p>Install a specific version, say,</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> asdf install Python 3.9.0</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code>$ asdf install Python <span class="m">3</span>.9.0
+</code></pre></div>
+
 <h3 id="fedora">Fedora</h3>
-<p>To install <code>asdf</code> on a Fedora, first install the general dependencies</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> sudo dnf install curl git</span>
-</code></pre>
-<p>Clone the repository</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> git <span class="hljs-built_in">clone</span> https://github.com/asdf-vm/asdf.git \
-  ~/.asdf --branch v0.8.0</span>
-</code></pre>
+<p>To install <code>asdf</code> on a Fedora, first install the general dependencies </p>
+<div class="highlight"><pre><span></span><code>$ sudo dnf install curl git
+</code></pre></div>
+
+<p>Clone the repository </p>
+<div class="highlight"><pre><span></span><code>$ git clone https://github.com/asdf-vm/asdf.git <span class="se">\</span>
+  ~/.asdf --branch v0.8.0
+</code></pre></div>
+
 <p>Add to <code>zsh</code> with</p>
-<pre><code class="language-shell"><span class="hljs-meta">$</span><span class="bash"> . <span class="hljs-variable">$HOME</span>/.asdf/asdf.sh`</span>
-</code></pre>
+<div class="highlight"><pre><span></span><code>$ . <span class="nv">$HOME</span>/.asdf/asdf.sh<span class="sb">`</span>
+</code></pre></div>
+
 <h2 id="pyenv">pyenv</h2>
 <h3 id="compiling-on-macos">Compiling on macOS</h3>
-<p><code>pyenv</code> can be notoriously problematic on macOS. For instance, running <code>pyenv doctor</code> on my laptop<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup> will result in:</p>
-<pre><code class="language-text">Cloning ~/.pyenv/plugins/pyenv-doctor/bin/.....
+<p><code>pyenv</code> can be notoriously problematic on macOS. For instance, running <code>pyenv doctor</code> on my laptop<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">2</a></sup> will result in:</p>
+<div class="highlight"><pre><span></span><code>Cloning ~/.pyenv/plugins/pyenv-doctor/bin/.....
 Installing python-pyenv-doctor...
 python-build: use readline from homebrew
 python-build: use zlib from xcode sdk
@@ -166,149 +126,153 @@ make: *** No targets specified and no makefile found.  Stop.
 Problem(s) detected while checking system.
 
 See https://github.com/pyenv/pyenv/wiki/Common-build-problems for known solutions.
-</code></pre>
+</code></pre></div>
+
 <p>The problem in this case is that <code>pyenv</code> can't find the relevant C headers for compilation of new versions. This can be fixed by using:</p>
-<pre><code class="language-bash">$ CFLAGS=<span class="hljs-string">&quot;-I<span class="hljs-subst">$(brew --prefix openssl)</span>/include \
-  -I<span class="hljs-subst">$(brew --prefix readline)</span>/include \
-  -I<span class="hljs-subst">$(xcrun --show-sdk-path)</span>/usr/include&quot;</span> \
-  LDFLAGS=<span class="hljs-string">&quot;-L<span class="hljs-subst">$(brew --prefix openssl)</span>/lib \
-  -L<span class="hljs-subst">$(brew --prefix readline)</span>/lib \
-  -L<span class="hljs-subst">$(xcrun --show-sdk-path)</span>/usr/lib&quot;</span> \
+<div class="highlight"><pre><span></span><code>$ <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-I</span><span class="k">$(</span>brew --prefix openssl<span class="k">)</span><span class="s2">/include \</span>
+<span class="s2">  -I</span><span class="k">$(</span>brew --prefix readline<span class="k">)</span><span class="s2">/include \</span>
+<span class="s2">  -I</span><span class="k">$(</span>xcrun --show-sdk-path<span class="k">)</span><span class="s2">/usr/include&quot;</span> <span class="se">\</span>
+  <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L</span><span class="k">$(</span>brew --prefix openssl<span class="k">)</span><span class="s2">/lib \</span>
+<span class="s2">  -L</span><span class="k">$(</span>brew --prefix readline<span class="k">)</span><span class="s2">/lib \</span>
+<span class="s2">  -L</span><span class="k">$(</span>xcrun --show-sdk-path<span class="k">)</span><span class="s2">/usr/lib&quot;</span> <span class="se">\</span>
   pyenv doctor
-</code></pre>
+</code></pre></div>
+
 <p>and the output will be:</p>
-<pre><code class="language-text">Cloning ~/.pyenv/plugins/pyenv-doctor/bin/.....
+<div class="highlight"><pre><span></span><code>Cloning ~/.pyenv/plugins/pyenv-doctor/bin/.....
 Installing python-pyenv-doctor...
 python-build: use readline from homebrew
 python-build: use zlib from xcode sdk
 Installed python-pyenv-doctor to /var/folders/c2/9d2fsqt57t10zn1f2ylp1jxw0000gn/T/pyenv-doctor.20210128095003.18889/prefix
 
 Congratulations! You are ready to build pythons!
-</code></pre>
+</code></pre></div>
+
 <h2 id="poetry">Poetry</h2>
 <h3 id="poetry-as-jupyter-kernel">Poetry as Jupyter kernel</h3>
 <p>To register a <code>poetry</code> environment (named <code>foo</code>) as a Jupyter kernel, run:</p>
-<pre><code class="language-shell">poetry run python -m ipykernel install --user --name foo
-</code></pre>
+<div class="highlight"><pre><span></span><code>poetry run python -m ipykernel install --user --name foo
+</code></pre></div>
+
 <h2 id="venv">venv</h2>
 <p>Create a new <code>venv</code> with the command:</p>
-<pre><code class="language-bash">$ virtualenv venv
-</code></pre>
+<div class="highlight"><pre><span></span><code>$ virtualenv venv
+</code></pre></div>
+
 <p>and activate it using (under Bash or zsh) with:</p>
-<pre><code class="language-bash">$ <span class="hljs-built_in">source</span> venv/bin/activate
-</code></pre>
+<div class="highlight"><pre><span></span><code>$ <span class="nb">source</span> venv/bin/activate
+</code></pre></div>
+
 <h2 id="anaconda">Anaconda</h2>
-<p>First download <a href="https://www.anaconda.com/products/individual">Anaconda</a> (or <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a>). Once installed you can proceed to create environments<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>.</p>
+<p>First download <a href="https://www.anaconda.com/products/individual">Anaconda</a> (or <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a>). Once installed you can proceed to create environments<sup id="fnref:anaconda"><a class="footnote-ref" href="#fn:anaconda">3</a></sup>.</p>
 <h3 id="creating-environments">Creating environments</h3>
 <p>An environment <code>foo</code> can be created using</p>
-<pre><code class="language-shell">conda create --name foo
-</code></pre>
+<div class="highlight"><pre><span></span><code>conda create --name foo
+</code></pre></div>
+
 <p>One it is created, it can be activated using</p>
-<pre><code class="language-shell">conda activate foo
-</code></pre>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1"  class="footnote-item"><p>https://asdf-vm.com/ <a href="#fnref1" class="footnote-backref">↩</a></p>
+<div class="highlight"><pre><span></span><code>conda activate foo
+</code></pre></div>
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:asdf">
+<p>https://asdf-vm.com/&#160;<a class="footnote-backref" href="#fnref:asdf" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn2"  class="footnote-item"><p>I'm running Big Sur at the moment of writing <a href="#fnref2" class="footnote-backref">↩</a></p>
+<li id="fn:1">
+<p>I'm running Big Sur at the moment of writing&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
-<li id="fn3"  class="footnote-item"><p>The remainder will assume that you have installed <code>Anaconda</code>, rather than <code>Miniconda</code>. <a href="#fnref3" class="footnote-backref">↩</a></p>
+<li id="fn:anaconda">
+<p>The remainder will assume that you have installed <code>Anaconda</code>, rather than <code>Miniconda</code>.&#160;<a class="footnote-backref" href="#fnref:anaconda" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
-</section>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
-<li><a href="#interpreters">Interpreters</a>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
 <ul>
+<li><a href="#interpreters">Interpreters</a><ul>
 <li><a href="#macos">macOS</a></li>
 <li><a href="#fedora">Fedora</a></li>
-</ul></li>
-<li><a href="#pyenv">pyenv</a>
-<ul>
-<li><a href="#compiling-on-macos">Compiling on macOS</a></li>
-</ul></li>
-<li><a href="#poetry">Poetry</a>
-<ul>
-<li><a href="#poetry-as-jupyter-kernel">Poetry as Jupyter kernel</a></li>
-</ul></li>
-<li><a href="#venv">venv</a></li>
-<li><a href="#anaconda">Anaconda</a>
-<ul>
-<li><a href="#creating-environments">Creating environments</a></li>
-</ul></li>
 </ul>
+</li>
+<li><a href="#pyenv">pyenv</a><ul>
+<li><a href="#compiling-on-macos">Compiling on macOS</a></li>
+</ul>
+</li>
+<li><a href="#poetry">Poetry</a><ul>
+<li><a href="#poetry-as-jupyter-kernel">Poetry as Jupyter kernel</a></li>
+</ul>
+</li>
+<li><a href="#venv">venv</a></li>
+<li><a href="#anaconda">Anaconda</a><ul>
+<li><a href="#creating-environments">Creating environments</a></li>
+</ul>
+</li>
+</ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/cookiecutter-data-science.html">Cookiecutter Data Science</a><sup>&#5833</sup></li>
-                                <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified 26 days ago
+            </div>
 
-        <div class="footer">
-            modified 2 weeks ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

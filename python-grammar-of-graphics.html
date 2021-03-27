@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Python grammar of graphics">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/python-grammar-of-graphics.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Python grammar of graphics</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,35 +50,37 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="python-grammar-of-graphics">Python grammar of graphics</h1>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-<span class="hljs-keyword">import</span> warnings
-warnings.filterwarnings(<span class="hljs-string">&#x27;ignore&#x27;</span>)
-warnings.simplefilter(<span class="hljs-string">&#x27;ignore&#x27;</span>)
+        <div id="content">
+            <h1 id="python-grammar-of-graphics">Python grammar of graphics</h1>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
-mpg = pd.read_csv(<span class="hljs-string">&quot;data/mpg.csv&quot;</span>)
-</code></pre>
-<pre><code class="language-python">mpg.head()
-</code></pre>
+<span class="n">mpg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/mpg.csv&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">mpg</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -208,126 +161,159 @@ mpg = pd.read_csv(<span class="hljs-string">&quot;data/mpg.csv&quot;</span>)
   </tbody>
 </table>
 </div>
-```python
-from plotnine import *
-from plotnine.data import *
-<p>ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;)) + theme_classic()</p>
-<pre><code>
-!<span class="hljs-literal">[<span class="hljs-identifier">python</span>-<span class="hljs-identifier">grammar</span>-<span class="hljs-identifier">of</span>-<span class="hljs-identifier">graphics_1</span>]</span>(./images/python-grammar-<span class="hljs-keyword">of</span>-graphics_1.png)
-```python
-ggplot(data=mpg) +\
-geom<span class="hljs-constructor">_point(<span class="hljs-params">mapping</span>=<span class="hljs-params">aes</span>(<span class="hljs-params">x</span>=<span class="hljs-string">&quot;displ&quot;</span>, <span class="hljs-params">y</span>=<span class="hljs-string">&quot;hwy&quot;</span>, <span class="hljs-params">color</span>=<span class="hljs-string">&quot;class&quot;</span>)</span>) + theme<span class="hljs-constructor">_classic()</span>
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_2.png" alt="python-grammar-of-graphics_2"></p>
-<pre><code class="language-python">ggplot(data=mpg) +\
-geom_point(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>, size=<span class="hljs-string">&quot;class&quot;</span>)) + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_3.png" alt="python-grammar-of-graphics_3"></p>
-<pre><code class="language-python"><span class="hljs-comment"># Left</span>
-ggplot(data=mpg) +\
-geom_point(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>, alpha=<span class="hljs-string">&quot;manufacturer&quot;</span>)) + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_4.png" alt="python-grammar-of-graphics_4"></p>
-<pre><code class="language-python"><span class="hljs-comment"># Right</span>
-ggplot(data=mpg) +\
-geom_point(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>, shape=<span class="hljs-string">&quot;manufacturer&quot;</span>)) + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_5.png" alt="python-grammar-of-graphics_5"></p>
-<pre><code class="language-python">ggplot(data=mpg) +\
-geom_point(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>), color=<span class="hljs-string">&quot;blue&quot;</span>) + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_6.png" alt="python-grammar-of-graphics_6"></p>
-<pre><code class="language-python">ggplot(data=mpg) +\
-geom_smooth(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>)) + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_7.png" alt="python-grammar-of-graphics_7"></p>
-<pre><code class="language-python">ggplot(data=mpg) +\
-geom_smooth(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>, linetype=<span class="hljs-string">&quot;drv&quot;</span>)) + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_8.png" alt="python-grammar-of-graphics_8"></p>
-<pre><code class="language-python">ggplot(data=mpg) +\
-geom_point(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>)) +\
-geom_smooth(mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>)) + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_9.png" alt="python-grammar-of-graphics_9"></p>
-<pre><code class="language-python">ggplot(data=mpg, mapping=aes(x=<span class="hljs-string">&quot;displ&quot;</span>, y=<span class="hljs-string">&quot;hwy&quot;</span>)) +\
-geom_point(mapping=aes(color=<span class="hljs-string">&quot;class&quot;</span>)) +\
-geom_smooth() + theme_classic()
-</code></pre>
-<p><img src="./images/python-grammar-of-graphics_10.png" alt="python-grammar-of-graphics_10"></p>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">plotnine.data</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_3_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (366319782)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_4_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (366405940)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_5_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (366362040)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Left</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="s2">&quot;manufacturer&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_6_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (366298329)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Right</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;manufacturer&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_7_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (381115233)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_8_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (381154256)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_smooth</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_9_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (381119507)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_smooth</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;drv&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_10_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (381071879)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">)</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">))</span> <span class="o">+</span>\
+<span class="n">geom_smooth</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_11_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (366461585)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mpg</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;displ&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;hwy&quot;</span><span class="p">))</span> <span class="o">+</span>\
+<span class="n">geom_point</span><span class="p">(</span><span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">))</span> <span class="o">+</span>\
+<span class="n">geom_smooth</span><span class="p">()</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/python-grammar-of-graphics-output_12_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (366351376)&gt;
+</code></pre></div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul></ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
+
+
+
+            <div class="footer">
+                modified 24 days ago
+            </div>
+
         </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
-
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/python.html">Python</a><sup>&#5833</sup></li>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
-
-
-
-        <div class="footer">
-            modified 1 week ago        </div>
-
-    </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

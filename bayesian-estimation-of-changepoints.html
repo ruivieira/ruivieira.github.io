@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Bayesian estimation of changepoints">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/bayesian-estimation-of-changepoints.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Bayesian estimation of changepoints</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,244 +50,262 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="bayesian-estimation-of-changepoints">Bayesian estimation of changepoints</h1>
+        <div id="content">
+            <h1 id="bayesian-estimation-of-changepoints">Bayesian estimation of changepoints</h1>
 <p>A common introductory problem in Bayesian changepoint detection is the record of UK coal mining disasters from 1851 to 1962. More information can be found in <a href="http://www.jstor.org/stable/2347570">Carlin, Gelfand and Smith</a> (1992).</p>
 <p>As we can see from the plot below, the number of yearly disasters ranges from 0 to 6 and we will assume that at some point within this time range a change in the accident rate has occured.</p>
-<p><img src="./images/coal_disasters_data.png" alt="Data"></p>
-<p>The number of yearly disasters can be modelled as a Poisson with a unknown rate depending on the changepoint $k$:</p>
-<p>$$
+<p><img alt="Data" src="./images/coal_disasters_data.png" /></p>
+<p>The number of yearly disasters can be modelled as a Poisson with a unknown rate depending on the changepoint \(k\):</p>
+\[
 y_t \sim \text{Po}\left(\rho\right),\qquad \rho = \begin{cases}
 \mu, &amp; \text{if}\ t=1,2,\dots,k \\\\
 \lambda, &amp; \text{if}\ t = k +1, k + 2, \dots,m
 \end{cases}
-$$</p>
-<p>Our objective is to estimate in which year the change occurs (the changepoint $k$) and the accident rate before ($\mu$) and after ($\lambda$) the changepoint amounting to the parameter set $\Phi = \left\lbrace\mu,\lambda,k\right\rbrace$.</p>
+\]
+
+<p>Our objective is to estimate in which year the change occurs (the changepoint \(k\)) and the accident rate before (\(\mu\)) and after (\(\lambda\)) the changepoint amounting to the parameter set \(\Phi = \left\lbrace\mu,\lambda,k\right\rbrace\).</p>
 <p>We will use <a href="https://crystal-lang.org/">Crystal</a> (with <a href="https://github.com/ruivieira/crystal-gsl">crystal-gsl</a>) to perform the estimation.</p>
 <p>We start by placing independent priors on the parameters:</p>
 <ul>
-<li>$k \sim \mathcal{U}\left(0, m\right)$</li>
-<li>$\mu \sim \mathcal{G}\left(a_1, b_1\right)$</li>
-<li>$\lambda \sim \mathcal{G}\left(a_2, b_2\right)$</li>
+<li>\(k \sim \mathcal{U}\left(0, m\right)\)</li>
+<li>\(\mu \sim \mathcal{G}\left(a_1, b_1\right)\)</li>
+<li>\(\lambda \sim \mathcal{G}\left(a_2, b_2\right)\)</li>
 </ul>
-<p>For the remainder we'll set $a_1=a_2=0.5$, $c_1=c_2=0$ and $d_1=d_2=1$.</p>
-<p>The joint posterior of $\Phi$ is then:</p>
-<p>$$
+<p>For the remainder we'll set \(a_1=a_2=0.5\), \(c_1=c_2=0\) and \(d_1=d_2=1\).</p>
+<p>The joint posterior of \(\Phi\) is then:</p>
+\[
 \pi\left(\Phi|Y\right) \propto p\left(Y|\Phi\right) \pi\left(k\right) \pi\left(\mu\right) \pi\left(\lambda\right),
-$$</p>
+\]
+
 <p>where the likelihood is</p>
-<p>$$
+\[
 \begin{aligned}
 p\left(Y|\Phi\right) &amp;= \prod_{i=1}^{k} p\left(y_i|\mu,k\right) \prod_{i=k+1}^{m} p\left(y_i|\lambda,k\right) \\\\
 &amp;= \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!}.
 \end{aligned}
-$$</p>
+\]
+
 <p>As such, the full joint posterior can be written as:</p>
-<p>$$
+\[
 \begin{aligned}
 \pi\left(\Phi|Y\right) &amp;\propto \prod_{i=1}^{k} \frac{\mu^{y_i}e^{-\mu}}{y_i!} \prod_{i=k+1}^{m} \frac{\lambda^{y_i}e^{-\lambda}}{y_i!} \left(\mu^{a_1-1} e^{-\mu b_1}\right) \left(\lambda^{a_2-1} e^{-\lambda b_2}\right) \frac{1}{m} \\\\
-&amp;= \mu^{a_1 + \sum_{1}^{k}y_i - 1}e^{-\mu\left(k+b\<em>1\right)} \lambda^{a_2 + \sum</em>{k+1}^{m}y_i - 1}e^{-\lambda\left(m-k+b_2\right)}
+&amp;= \mu^{a_1 + \sum_{1}^{k}y_i - 1}e^{-\mu\left(k+b\_1\right)} \lambda^{a_2 + \sum_{k+1}^{m}y_i - 1}e^{-\lambda\left(m-k+b_2\right)}
 \end{aligned}.
-$$</p>
-<p>It follows that the full conditionals are, for $\mu$:</p>
-<p>$$
+\]
+
+<p>It follows that the full conditionals are, for \(\mu\):</p>
+\[
 \begin{aligned}
 \pi\left(\mu|\lambda,k,Y\right) &amp;\propto \mu^{a_1 + \sum_{i=1}^{k}y_i-1}e^{-\mu\left(k+b_1\right)} \\\\
 &amp;= \mathcal{G}\left(a_1+\sum_{i=1}^{k}y_i, k + b_1\right)
 \end{aligned}
-$$</p>
-<p>We can define the $\mu$ update as:</p>
-<pre><code class="language-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mu_update</span></span>(data : Array(Int), k : Int, b1 : Float64) : Float64
+\]
 
-    Gamma.sample(<span class="hljs-number">0.5</span> + data[<span class="hljs-number">0</span>..k].sum, k + b1)
+<p>We can define the \(\mu\) update as:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">mu_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">b1</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
-<span class="hljs-keyword">end</span>
-</code></pre>
-<p>The full conditional for $\lambda$ is:</p>
-<p>$$
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>
+
+<span class="k">end</span>
+</code></pre></div>
+
+<p>The full conditional for \(\lambda\) is:</p>
+\[
 \begin{aligned}
 \pi\left(\lambda|\mu,k,Y\right) &amp;\propto \lambda^{a_2 + \sum_{i=k+1}^{m}y_i-1}e^{-\lambda\left(m-k+b_2\right)} \\\\
 &amp;= \mathcal{G}\left(a_2+\sum_{i=k+1}^{m}y_i, m - k + b_2\right),
 \end{aligned}
-$$</p>
+\]
+
 <p>which we implement as:</p>
-<pre><code class="language-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">lambda_update</span></span>(data : Array(Int), k : Int, b2 : Float64) : Float64
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">lambda_update</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">b2</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
-    Gamma.sample(<span class="hljs-number">0.5</span> + data[(k+<span class="hljs-number">1</span>)..M].sum, M - k + b2)
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">data</span><span class="o">[</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">..</span><span class="n">M</span><span class="o">].</span><span class="n">sum</span><span class="p">,</span> <span class="n">M</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
 
-<span class="hljs-keyword">end</span>
-</code></pre>
+<span class="k">end</span>
+</code></pre></div>
+
 <p>The next step is to take</p>
-<p>$$
+\[
 \begin{aligned}
 b_1 &amp;\sim \mathcal{G}\left(a_1 + c_1,\mu + d_1\right) \\\\
 b_2 &amp;\sim \mathcal{G}\left(a_2 + c_2,\lambda + d_2\right),
 \end{aligned}
-$$</p>
+\]
+
 <p>which we will implement as:</p>
-<pre><code class="language-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">b1_update</span></span>(mu : Float64) : Float64
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">b1_update</span><span class="p">(</span><span class="n">mu</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
-    Gamma.sample(<span class="hljs-number">0.5</span>, mu + <span class="hljs-number">1.0</span>)
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
-<span class="hljs-keyword">end</span>
+<span class="k">end</span>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">b2_update</span></span>(lambda : Float64) : Float64
+<span class="k">def</span> <span class="nf">b2_update</span><span class="p">(</span><span class="n">lambda</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
-    Gamma.sample(<span class="hljs-number">0.5</span>, lambda + <span class="hljs-number">1.0</span>)
+    <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lambda</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
-<span class="hljs-keyword">end</span>
-</code></pre>
-<p>And finally we choose the next year, $k$, according to</p>
-<p>$$
+<span class="k">end</span>
+</code></pre></div>
+
+<p>And finally we choose the next year, \(k\), according to</p>
+\[
 p\left(k|Y,\Phi\right)=\frac{L\left(Y|\Phi\right)}{\sum_{k^{\prime}} L\left(Y|\Phi^{\prime}\right)}
-$$</p>
+\]
+
 <p>where</p>
-<p>$$
+\[
 L\left(Y|\Phi\right) = e^{\left(\lambda-\mu\right)k}\left(\frac{\mu}{\lambda}\right)^{\sum_i^k y_i}
-$$</p>
+\]
+
 <p>implemented as</p>
-<pre><code class="language-crystal"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">l</span></span>(data : Array(Int), k : Int, lambda : Float64, mu : Float64) : Float64
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">k</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">lambda</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">,</span> <span class="n">mu</span> <span class="p">:</span> <span class="n">Float64</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float64</span>
 
-    <span class="hljs-symbol">Math:</span>:E**((lambda - mu)*k) * (mu / lambda)**(data[<span class="hljs-number">0</span>..k].sum)
+    <span class="n">Math</span><span class="o">::</span><span class="n">E</span><span class="o">**</span><span class="p">((</span><span class="n">lambda</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="n">lambda</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="n">k</span><span class="o">].</span><span class="n">sum</span><span class="p">)</span>
 
-<span class="hljs-keyword">end</span>
-</code></pre>
+<span class="k">end</span>
+</code></pre></div>
+
 <p>So, let's start by writing our initials conditions:</p>
-<pre><code class="language-crystal">iterations = <span class="hljs-number">100000</span>
+<div class="highlight"><pre><span></span><code><span class="n">iterations</span> <span class="o">=</span> <span class="mi">100000</span>
 
-b1 = <span class="hljs-number">1.0</span>
-b2 = <span class="hljs-number">1.0</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-M = data.size <span class="hljs-comment"># number of data points</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="c1"># number of data points</span>
 
-<span class="hljs-comment"># parameter storage</span>
+<span class="c1"># parameter storage</span>
 
-mus = Array(Float64).new(iterations, <span class="hljs-number">0.0</span>)
+<span class="n">mus</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-lambdas = Array(Float64).new(iterations, <span class="hljs-number">0.0</span>)
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-ks = Array(Int32).new(iterations, <span class="hljs-number">0</span>)
-</code></pre>
+<span class="n">ks</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
 <p>We can then cast the priors:</p>
-<pre><code class="language-crystal">mus[<span class="hljs-number">0</span>] = Gamma.sample(<span class="hljs-number">0.5</span>, b1)
+<div class="highlight"><pre><span></span><code><span class="n">mus</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
 
-lambdas[<span class="hljs-number">0</span>] = Gamma.sample(<span class="hljs-number">0.5</span>, b2)
+<span class="n">lambdas</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 
-ks[<span class="hljs-number">0</span>] = Random.new.rand(M)
-</code></pre>
+<span class="n">ks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">Random</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+</code></pre></div>
+
 <p>And define the main body of our Gibbs sampler:</p>
-<pre><code class="language-crystal">(<span class="hljs-number">1</span>...iterations).map { |i|
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">1</span><span class="o">...</span><span class="n">iterations</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
 
-    k = ks[i-<span class="hljs-number">1</span>]
+    <span class="n">k</span> <span class="o">=</span> <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
 
-    mus[i] = mu_update(data, k, b1)
+    <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">mu_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
 
-    lambdas[i] = lambda_update(data, k, b2)
+    <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">lambda_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 
-    b1 = b1_update(mus[i])
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">b1_update</span><span class="p">(</span><span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
 
-    b2 = b2_update(lambdas[i])
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">b2_update</span><span class="p">(</span><span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
 
-    ks[i] = Multinomial.sample((<span class="hljs-number">0</span>...M).map { |kk|
+    <span class="n">ks</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Multinomial</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="mi">0</span><span class="o">...</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">kk</span><span class="o">|</span>
 
-        l(data, kk, lambdas[i], mus[i])
+        <span class="n">l</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kk</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">mus</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
 
-    })
+    <span class="p">})</span>
 
-}
-</code></pre>
-<p>Looking at the results, we see that the mean value of $k$ is 38.761, which seems</p>
-<p>to indicate that the change in accident rates occurred somewhere near $1850+38.761\approx 1889$.</p>
-<p>We can visually check this by looking at the graph below. Also plotted are the density for the accident rates before ($\mu$) and after ($\lambda$) the change.</p>
-<p><img src="./images/coal_disasters_years_gibbs.png" alt="Coal disasters years"></p>
-<p><img src="./images/coal_disasters_mu_lambda_gibbs.png" alt="Mu, Lambda Gibbs"></p>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Looking at the results, we see that the mean value of \(k\) is 38.761, which seems</p>
+<p>to indicate that the change in accident rates occurred somewhere near \(1850+38.761\approx 1889\).</p>
+<p>We can visually check this by looking at the graph below. Also plotted are the density for the accident rates before (\(\mu\)) and after (\(\lambda\)) the change.</p>
+<p><img alt="Coal disasters years" src="./images/coal_disasters_years_gibbs.png" /></p>
+<p><img alt="Mu, Lambda Gibbs" src="./images/coal_disasters_mu_lambda_gibbs.png" /></p>
 <p>Of course, one the main advantages of implementing the solution in Crystal is not only the boilerplate-free code, but the execution speed.</p>
 <p>Compared to an equivalent implementation in <code>R</code> the Crystal code executed roughly 17 times faster.</p>
 <table>
 <thead>
-<tr><th>Language</th><th>Time (s)</th></tr>
+<tr>
+<th>Language</th>
+<th>Time (s)</th>
+</tr>
 </thead>
 <tbody>
-<tr><td>R</td><td>58.678</td></tr>
-<tr><td>Crystal</td><td>3.587</td></tr>
+<tr>
+<td>R</td>
+<td>58.678</td>
+</tr>
+<tr>
+<td>Crystal</td>
+<td>3.587</td>
+</tr>
 </tbody>
 </table>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul></ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
+
+
+
+            <div class="footer">
+                modified 22 days ago
+            </div>
+
         </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
-
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
-
-
-
-        <div class="footer">
-            modified 2 weeks ago        </div>
-
-    </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>

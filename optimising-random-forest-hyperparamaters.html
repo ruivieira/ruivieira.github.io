@@ -10,7 +10,7 @@
     <meta name="description" content="Notes on Optimising random forest hyperparamaters">
     <meta name="robots" content="index">
     <link rel="canonical" href="https://ruivieira.dev/optimising-random-forest-hyperparamaters.html">
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
           integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 
@@ -18,64 +18,15 @@
             integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
             crossorigin="anonymous"></script>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
 
     <script src="/assets/mark.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
     <link href="/assets/style.css" rel="stylesheet">
-    <style>
-        /*Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>*/
-
-        .hljs {
-            display: block;
-            overflow-x: auto;
-            padding: 0.5em;
-            background: white;
-            color: black;
-            -webkit-text-size-adjust: none;
-        }
-
-        .hljs-string,
-        .hljs-tag .hljs-value,
-        .hljs-filter .hljs-argument,
-        .hljs-addition,
-        .hljs-change,
-        .hljs-name,
-        .apache .hljs-tag,
-        .apache .hljs-cbracket,
-        .nginx .hljs-built_in,
-        .tex .hljs-formula {
-            color: #888;
-        }
-
-        .hljs-comment,
-        .hljs-shebang,
-        .hljs-doctype,
-        .hljs-pi,
-        .hljs-javadoc,
-        .hljs-deletion,
-        .apache .hljs-sqbracket {
-            color: #ccc;
-        }
-
-        .hljs-keyword,
-        .hljs-tag .hljs-title,
-        .ini .hljs-title,
-        .lisp .hljs-title,
-        .http .hljs-title,
-        .nginx .hljs-title,
-        .css .hljs-tag,
-        .hljs-winutils,
-        .hljs-flow,
-        .apache .hljs-tag,
-        .tex .hljs-command,
-        .hljs-request,
-        .hljs-status {
-            font-weight: bold;
-        }
-    </style>
+    <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Optimising random forest hyperparamaters</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
@@ -99,16 +50,16 @@
             border-radius: 5px;
             width: 3rem;
         }
-    </style>
+</style>
 </head>
 <body>
-<div id="grid">
+    <div id="grid">
 
-    <div id="content">
-        <h1 id="optimising-random-forest-hyperparameters">Optimising random forest hyperparameters</h1>
+        <div id="content">
+            <h1 id="optimising-random-forest-hyperparameters">Optimising random forest hyperparameters</h1>
 <p>Typically the hyper-parameters which will have the most significant impact on the behaviour of a random forest are the following:</p>
 <ul>
-<li>[The number of decision trees](optimising-random-forest-hyperparamaters.html#Number of decision trees) in a random forest</li>
+<li><a href="/optimising-random-forest-hyperparamaters.html#Number of decision trees">The number of decision trees</a> in a random forest</li>
 <li>The split criteria</li>
 <li>Maximum depth of individual trees</li>
 <li>Minimum samples per internal node</li>
@@ -118,29 +69,31 @@
 </ul>
 <p>We will look at each of these hyper-parameters individually with examples of how to select them.</p>
 <h2 id="data">Data</h2>
-<p>To understand how we can optimise the hyperparameters in a random forest model, we will use <a href="scikit-learn.html">scikit-learn's</a> <code>RandomForestClassifier</code> and a subset of <em>Titanic</em><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> dataset.</p>
-<p>First, we will import the features and labels using <a href="pandas.html">Pandas</a>.</p>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<p>To understand how we can optimise the hyperparameters in a random forest model, we will use <a href="/scikit-learn.html">scikit-learn's</a> <code>RandomForestClassifier</code> and a subset of <em>Titanic</em><sup id="fnref:titanic"><a class="footnote-ref" href="#fn:titanic">1</a></sup> dataset.</p>
+<p>First, we will import the features and labels using <a href="/pandas.html">Pandas</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-train_features = pd.read_csv(<span class="hljs-string">&quot;data/svm-hyperparameters-train-features.csv&quot;</span>)
-train_label = pd.read_csv(<span class="hljs-string">&quot;data/svm-hyperparameters-train-label.csv&quot;</span>)
-</code></pre>
+<span class="n">train_features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/svm-hyperparameters-train-features.csv&quot;</span><span class="p">)</span>
+<span class="n">train_label</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/svm-hyperparameters-train-label.csv&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 <p>Let's look at a random sample of entries from this dataset, both for features and labels.</p>
-<pre><code class="language-python">train_features.sample(<span class="hljs-number">10</span>)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">train_features</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -248,7 +201,8 @@ train_label = pd.read_csv(<span class="hljs-string">&quot;data/svm-hyperparamete
   </tbody>
 </table>
 </div>
-Some of the available features are:
+
+<p>Some of the available features are:</p>
 <ul>
 <li><code>Pclass</code>, ticket class</li>
 <li><code>Sex</code></li>
@@ -257,21 +211,22 @@ Some of the available features are:
 <li><code>Parch</code>, number of parents/children aboard</li>
 <li><code>Fare</code>, passenger fare</li>
 </ul>
-<pre><code class="language-python">train_label.sample(<span class="hljs-number">10</span>)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">train_label</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -324,14 +279,16 @@ Some of the available features are:
   </tbody>
 </table>
 </div>
-The outcome label indicates whether a passenger survived the disaster.
-<p>As part of the typical initial steps for model training, we will prepare the data by splitting it into a training and testing subset.</p>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split
 
-X_train, X_test, y_train, y_test = train_test_split(train_features, train_label, test_size=<span class="hljs-number">0.33</span>, random_state=<span class="hljs-number">23</span>)
-</code></pre>
+<p>The outcome label indicates whether a passenger survived the disaster.</p>
+<p>As part of the typical initial steps for model training, we will prepare the data by splitting it into a training and testing subset.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_label</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</code></pre></div>
+
 <h2 id="naive-model">Naive model</h2>
-<p>First we will train a &quot;naive&quot; model, that is a model using the defaults provided by <code>RandomForestClassifier</code><sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>. These defaults are:</p>
+<p>First we will train a "naive" model, that is a model using the defaults provided by <code>RandomForestClassifier</code><sup id="fnref:rf"><a class="footnote-ref" href="#fn:rf">2</a></sup>. These defaults are:</p>
 <ul>
 <li><code>n_estimators = 10</code></li>
 <li><code>criterion=’gini’</code></li>
@@ -352,108 +309,135 @@ X_train, X_test, y_train, y_test = train_test_split(train_features, train_label,
 <li><code>class_weight=None</code></li>
 </ul>
 <p>We will instantiate a random forest classifier:</p>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> RandomForestClassifier
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 
-rf = RandomForestClassifier()
-</code></pre>
-<p>And training it using the <code>X_train</code> and <code>y_train</code> subsets using the appropriate <code>fit</code> method<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>.</p>
-<pre><code class="language-python">true_labels = train_label.values.ravel()
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+</code></pre></div>
 
-rf.fit(X_train, y_train.values.ravel())
-</code></pre>
+<p>And training it using the <code>X_train</code> and <code>y_train</code> subsets using the appropriate <code>fit</code> method<sup id="fnref:fit"><a class="footnote-ref" href="#fn:fit">3</a></sup>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">true_labels</span> <span class="o">=</span> <span class="n">train_label</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>RandomForestClassifier()
+</code></pre></div>
+
 <p>We can now evaluate trained naive model's score.</p>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> precision_score
-</code></pre>
-<pre><code class="language-python">predicted_labels = rf.predict(X_test)
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span>
+</code></pre></div>
 
-precision_score(y_test, predicted_labels)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">0.7592592592592593</span>
+</code></pre></div>
+
 <h2 id="hyperparameter-search">Hyperparameter search</h2>
-<p>A simple example of a generic hyperparameter search using the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html"><code>GridSearchCV</code></a> method in <code>scikit-learn</code>. The score used to measure the &quot;best&quot; model is the <code>mean_test_score</code>, but other metrics could be used, such as the <a href="oob-score-in-random-forests.html">Out-of-bag (OOB)</a> error.</p>
-<pre><code class="language-python">parameters = {
-    <span class="hljs-string">&quot;n_estimators&quot;</span>:[<span class="hljs-number">5</span>,<span class="hljs-number">10</span>,<span class="hljs-number">50</span>,<span class="hljs-number">100</span>,<span class="hljs-number">250</span>],
-    <span class="hljs-string">&quot;max_depth&quot;</span>:[<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">8</span>,<span class="hljs-number">16</span>,<span class="hljs-number">32</span>,<span class="hljs-literal">None</span>]
-    
-}
-</code></pre>
-<pre><code class="language-python">rfc = RandomForestClassifier()
-</code></pre>
-<pre><code class="language-python"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> GridSearchCV
-</code></pre>
-<pre><code class="language-python">cv = GridSearchCV(rfc,parameters,cv=<span class="hljs-number">5</span>)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre>
-<pre><code class="language-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">display</span>(<span class="hljs-params">results</span>):</span>
-    print(<span class="hljs-string">f&#x27;Best parameters are: <span class="hljs-subst">{results.best_params_}</span>&#x27;</span>)
-    print(<span class="hljs-string">&quot;\n&quot;</span>)
-    mean_score = results.cv_results_[<span class="hljs-string">&#x27;mean_test_score&#x27;</span>]
-    std_score = results.cv_results_[<span class="hljs-string">&#x27;std_test_score&#x27;</span>]
-    params = results.cv_results_[<span class="hljs-string">&#x27;params&#x27;</span>]
-    <span class="hljs-keyword">for</span> mean,std,params <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(mean_score,std_score,params):
-        print(<span class="hljs-string">f&#x27;<span class="hljs-subst">{<span class="hljs-built_in">round</span>(mean,<span class="hljs-number">3</span>)}</span> + or -<span class="hljs-subst">{<span class="hljs-built_in">round</span>(std,<span class="hljs-number">3</span>)}</span> for the <span class="hljs-subst">{params}</span>&#x27;</span>)
-</code></pre>
-<pre><code class="language-python">display(cv)
-</code></pre>
-<pre><code><span class="hljs-attribute">Best</span> parameters are: {&#x27;max_depth&#x27;: <span class="hljs-number">8</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">50</span>}
+<p>A simple example of a generic hyperparameter search using the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html"><code>GridSearchCV</code></a> method in <code>scikit-learn</code>. The score used to measure the "best" model is the <code>mean_test_score</code>, but other metrics could be used, such as the <a href="/oob-score-in-random-forests.html">Out-of-bag (OOB)</a> error.</p>
+<div class="highlight"><pre><span></span><code><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;n_estimators&quot;</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">250</span><span class="p">],</span>
+    <span class="s2">&quot;max_depth&quot;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,</span><span class="n">parameters</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>GridSearchCV(cv=5, estimator=RandomForestClassifier(),
+             param_grid={&#39;max_depth&#39;: [2, 4, 8, 16, 32, None],
+                         &#39;n_estimators&#39;: [5, 10, 50, 100, 250]})
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best parameters are: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">best_params_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">mean_score</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]</span>
+    <span class="n">std_score</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">mean</span><span class="p">,</span><span class="n">std</span><span class="p">,</span><span class="n">params</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mean_score</span><span class="p">,</span><span class="n">std_score</span><span class="p">,</span><span class="n">params</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> + or -</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">std</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> for the </span><span class="si">{</span><span class="n">params</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nv">Best</span> <span class="nv">parameters</span> <span class="nv">are</span>: {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">8</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">50</span>}
 
 
-<span class="hljs-attribute">0</span>.<span class="hljs-number">795</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">02</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">2</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">5</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">775</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">024</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">2</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">10</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">774</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">025</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">2</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">50</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">779</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">02</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">2</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">100</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">78</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">018</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">2</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">250</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">814</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">024</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">4</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">5</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">81</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">028</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">4</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">10</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">807</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">022</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">4</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">50</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">804</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">018</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">4</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">100</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">817</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">025</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">4</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">250</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">815</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">017</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">8</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">5</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">815</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">017</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">8</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">10</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">822</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">019</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">8</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">50</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">82</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">014</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">8</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">100</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">82</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">016</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">8</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">250</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">807</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">028</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">16</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">5</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">812</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">028</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">16</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">10</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">814</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">028</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">16</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">50</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">807</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">028</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">16</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">100</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">812</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">026</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">16</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">250</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">779</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">036</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">32</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">5</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">807</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">027</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">32</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">10</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">814</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">021</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">32</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">50</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">802</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">023</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">32</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">100</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">797</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">021</span> for the {&#x27;max_depth&#x27;: <span class="hljs-number">32</span>, &#x27;n_estimators&#x27;: <span class="hljs-number">250</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">789</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">027</span> for the {&#x27;max_depth&#x27;: None, &#x27;n_estimators&#x27;: <span class="hljs-number">5</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">795</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">033</span> for the {&#x27;max_depth&#x27;: None, &#x27;n_estimators&#x27;: <span class="hljs-number">10</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">804</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">023</span> for the {&#x27;max_depth&#x27;: None, &#x27;n_estimators&#x27;: <span class="hljs-number">50</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">802</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">014</span> for the {&#x27;max_depth&#x27;: None, &#x27;n_estimators&#x27;: <span class="hljs-number">100</span>}
-<span class="hljs-attribute">0</span>.<span class="hljs-number">815</span> + or -<span class="hljs-number">0</span>.<span class="hljs-number">021</span> for the {&#x27;max_depth&#x27;: None, &#x27;n_estimators&#x27;: <span class="hljs-number">250</span>}
+<span class="mi">0</span>.<span class="mi">795</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">02</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">2</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">5</span>}
+<span class="mi">0</span>.<span class="mi">775</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">024</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">2</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">10</span>}
+<span class="mi">0</span>.<span class="mi">774</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">025</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">2</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">50</span>}
+<span class="mi">0</span>.<span class="mi">779</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">02</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">2</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">100</span>}
+<span class="mi">0</span>.<span class="mi">78</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">018</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">2</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">250</span>}
+<span class="mi">0</span>.<span class="mi">814</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">024</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">4</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">5</span>}
+<span class="mi">0</span>.<span class="mi">81</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">028</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">4</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">10</span>}
+<span class="mi">0</span>.<span class="mi">807</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">022</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">4</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">50</span>}
+<span class="mi">0</span>.<span class="mi">804</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">018</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">4</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">100</span>}
+<span class="mi">0</span>.<span class="mi">817</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">025</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">4</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">250</span>}
+<span class="mi">0</span>.<span class="mi">815</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">017</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">8</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">5</span>}
+<span class="mi">0</span>.<span class="mi">815</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">017</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">8</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">10</span>}
+<span class="mi">0</span>.<span class="mi">822</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">019</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">8</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">50</span>}
+<span class="mi">0</span>.<span class="mi">82</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">014</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">8</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">100</span>}
+<span class="mi">0</span>.<span class="mi">82</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">016</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">8</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">250</span>}
+<span class="mi">0</span>.<span class="mi">807</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">028</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">16</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">5</span>}
+<span class="mi">0</span>.<span class="mi">812</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">028</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">16</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">10</span>}
+<span class="mi">0</span>.<span class="mi">814</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">028</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">16</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">50</span>}
+<span class="mi">0</span>.<span class="mi">807</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">028</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">16</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">100</span>}
+<span class="mi">0</span>.<span class="mi">812</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">026</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">16</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">250</span>}
+<span class="mi">0</span>.<span class="mi">779</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">036</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">32</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">5</span>}
+<span class="mi">0</span>.<span class="mi">807</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">027</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">32</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">10</span>}
+<span class="mi">0</span>.<span class="mi">814</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">021</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">32</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">50</span>}
+<span class="mi">0</span>.<span class="mi">802</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">023</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">32</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">100</span>}
+<span class="mi">0</span>.<span class="mi">797</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">021</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="mi">32</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">250</span>}
+<span class="mi">0</span>.<span class="mi">789</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">027</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="nv">None</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">5</span>}
+<span class="mi">0</span>.<span class="mi">795</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">033</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="nv">None</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">10</span>}
+<span class="mi">0</span>.<span class="mi">804</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">023</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="nv">None</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">50</span>}
+<span class="mi">0</span>.<span class="mi">802</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">014</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="nv">None</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">100</span>}
+<span class="mi">0</span>.<span class="mi">815</span> <span class="o">+</span> <span class="nv">or</span> <span class="o">-</span><span class="mi">0</span>.<span class="mi">021</span> <span class="k">for</span> <span class="nv">the</span> {<span class="s1">&#39;</span><span class="s">max_depth</span><span class="s1">&#39;</span>: <span class="nv">None</span>, <span class="s1">&#39;</span><span class="s">n_estimators</span><span class="s1">&#39;</span>: <span class="mi">250</span>}
+</code></pre></div>
 
-</code></pre>
 <h2 id="parameters">Parameters</h2>
 <h3 id="number-of-decision-trees">Number of decision trees</h3>
 <p>This is specified using the <code>n_estimators</code> hyper-parameter on the random forest initialisation.</p>
 <p>Typically, a higher number of trees will lead to greater accuracy at the expense of model size and training time.</p>
-<pre><code class="language-python">cv = GridSearchCV(rfc,{<span class="hljs-string">&quot;n_estimators&quot;</span>:[<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">16</span>, <span class="hljs-number">32</span>, <span class="hljs-number">64</span>, <span class="hljs-number">128</span>, <span class="hljs-number">256</span>, <span class="hljs-number">512</span>]},cv=<span class="hljs-number">5</span>)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre>
-<pre><code class="language-python">results = pd.DataFrame({<span class="hljs-string">&quot;n_estimators&quot;</span>: [param[<span class="hljs-string">&quot;n_estimators&quot;</span>] <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> cv.cv_results_[<span class="hljs-string">&#x27;params&#x27;</span>]],
-             <span class="hljs-string">&quot;mean_score&quot;</span>: <span class="hljs-built_in">list</span>(cv.cv_results_[<span class="hljs-string">&#x27;mean_test_score&#x27;</span>]),
-             <span class="hljs-string">&quot;std_score&quot;</span>: cv.cv_results_[<span class="hljs-string">&#x27;std_test_score&#x27;</span>]})
-results
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>GridSearchCV(cv=5, estimator=RandomForestClassifier(),
+             param_grid={&#39;n_estimators&#39;: [2, 4, 8, 16, 32, 64, 128, 256, 512]})
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -522,50 +506,59 @@ results
   </tbody>
 </table>
 </div>
-```python
-from plotnine import *
-<p>(
-ggplot(results) + geom_boxplot(aes(x='factor(n_estimators)', y='mean_score')) +
-geom_errorbar(aes(x='factor(n_estimators)', ymin='mean_score - std_score', ymax='mean_score + std_score')) +
-theme_classic() + xlab('Number of trees') + ylab('Mean score')
-)</p>
-<pre><code>
-![optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_1](./images/optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_1.png)
-### The <span class="hljs-built_in">split</span> criteria
-At each node, a <span class="hljs-built_in">random</span> forest decides, according to a specific algorithm, which <span class="hljs-built_in">feature</span> <span class="hljs-keyword">and</span> value <span class="hljs-built_in">split</span> the tree.
-Therefore, the choice of splitting algorithm <span class="hljs-built_in">is</span> crucial <span class="hljs-keyword">for</span> the <span class="hljs-built_in">random</span> forest&#x27;s performance.
 
-Since, <span class="hljs-keyword">in</span> this <span class="hljs-built_in">example</span>, we are dealing with a classification problem, the choices of <span class="hljs-built_in">split</span> algorithm are, <span class="hljs-keyword">for</span> instance:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
 
-- Gini
-- Entropy
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(n_estimators)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(n_estimators)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Number of trees&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
 
-If we were dealing with a <span class="hljs-built_in">random</span> forest <span class="hljs-keyword">for</span> regression, other methods (such as [MSE](<span class="hljs-built_in">error</span>-metrics.html)) would be a possible choice.
-We will now <span class="hljs-built_in">compare</span> both <span class="hljs-built_in">split</span> algorithms as specified above, <span class="hljs-keyword">in</span> training a <span class="hljs-built_in">random</span> forest with our data:
-```python
-rfc = RandomForestClassifier(n_estimators=<span class="hljs-number">256</span>)
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_26_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (358398967)&gt;
+</code></pre></div>
 
-<span class="hljs-built_in">cv</span> = GridSearchCV(rfc,{<span class="hljs-string">&quot;criterion&quot;</span>: [<span class="hljs-string">&quot;gini&quot;</span>, <span class="hljs-string">&quot;entropy&quot;</span>]},<span class="hljs-built_in">cv</span>=<span class="hljs-number">5</span>)
-<span class="hljs-built_in">cv</span>.fit(X_train, y_train.<span class="hljs-built_in">values</span>.ravel())
-</code></pre>
-<pre><code class="language-python">results = pd.DataFrame({<span class="hljs-string">&quot;criterion&quot;</span>: [param[<span class="hljs-string">&quot;criterion&quot;</span>] <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> cv.cv_results_[<span class="hljs-string">&#x27;params&#x27;</span>]],
-             <span class="hljs-string">&quot;mean_score&quot;</span>: <span class="hljs-built_in">list</span>(cv.cv_results_[<span class="hljs-string">&#x27;mean_test_score&#x27;</span>]),
-             <span class="hljs-string">&quot;std_score&quot;</span>: cv.cv_results_[<span class="hljs-string">&#x27;std_test_score&#x27;</span>]})
-results
-</code></pre>
+<h3 id="the-split-criteria">The split criteria</h3>
+<p>At each node, a random forest decides, according to a specific algorithm, which feature and value split the tree.
+Therefore, the choice of splitting algorithm is crucial for the random forest's performance.</p>
+<p>Since, in this example, we are dealing with a classification problem, the choices of split algorithm are, for instance:</p>
+<ul>
+<li>Gini</li>
+<li>Entropy</li>
+</ul>
+<p>If we were dealing with a random forest for regression, other methods (such as <a href="/error-metrics.html">MSE</a>) would be a possible choice.
+We will now compare both split algorithms as specified above, in training a random forest with our data:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s2">&quot;criterion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;gini&quot;</span><span class="p">,</span> <span class="s2">&quot;entropy&quot;</span><span class="p">]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>GridSearchCV(cv=5, estimator=RandomForestClassifier(n_estimators=256),
+             param_grid={&#39;criterion&#39;: [&#39;gini&#39;, &#39;entropy&#39;]})
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;criterion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;criterion&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -592,37 +585,45 @@ results
   </tbody>
 </table>
 </div>
-### Maximum depth of individual trees
-In theory, the "longer" the tree, the more splits it can have and better accommodate the data. However, at the tree level can this can lead to overfitting.
+
+<h3 id="maximum-depth-of-individual-trees">Maximum depth of individual trees</h3>
+<p>In theory, the "longer" the tree, the more splits it can have and better accommodate the data. However, at the tree level can this can lead to overfitting.
 Although this is a problem for decision trees, it is not necessarily a problem for the ensemble, the random forest.
 Although the key is to strike a balance between trees that aren't too large or too short, there's no universal heuristic to determine the size.
-Let's try a few option for maximum depth:
-```python
-rfc = RandomForestClassifier(n_estimators=256,
-                           criterion="entropy")
-<p>cv = GridSearchCV(rfc,{'max_depth': [2, 4, 8, 16, 32, None]},cv=5)
-cv.fit(X_train, y_train.values.ravel())</p>
-<pre><code>
-```python
-results = pd<span class="hljs-selector-class">.DataFrame</span>({<span class="hljs-string">&quot;max_depth&quot;</span>: <span class="hljs-selector-attr">[param[<span class="hljs-string">&quot;max_depth&quot;</span>]</span> <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> cv<span class="hljs-selector-class">.cv_results_</span><span class="hljs-selector-attr">[<span class="hljs-string">&#x27;params&#x27;</span>]</span>],
-             <span class="hljs-string">&quot;mean_score&quot;</span>: list(cv<span class="hljs-selector-class">.cv_results_</span><span class="hljs-selector-attr">[<span class="hljs-string">&#x27;mean_test_score&#x27;</span>]</span>),
-             <span class="hljs-string">&quot;std_score&quot;</span>: cv<span class="hljs-selector-class">.cv_results_</span><span class="hljs-selector-attr">[<span class="hljs-string">&#x27;std_test_score&#x27;</span>]</span>})
-results = results<span class="hljs-selector-class">.dropna</span>()
-results
-</code></pre>
+Let's try a few option for maximum depth:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                           <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">)</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="kc">None</span><span class="p">]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>GridSearchCV(cv=5,
+             estimator=RandomForestClassifier(criterion=&#39;entropy&#39;,
+                                              n_estimators=256),
+             param_grid={&#39;max_depth&#39;: [2, 4, 8, 16, 32, None]})
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">results</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -667,45 +668,56 @@ results
   </tbody>
 </table>
 </div>
-```python
-from plotnine import *
-<p>(
-ggplot(results) + geom_boxplot(aes(x='factor(max_depth)', y='mean_score')) +
-theme_classic() + xlab('Max tree depth') + ylab('Mean score')
-)</p>
-<pre><code>
-![optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_2](./images/optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_2.png)
-### Maximum number of leaf nodes
-This hyperparameter can be of importance to other topics, such as [Explainability](explainability.html).
 
-It <span class="hljs-built_in">is</span> specified <span class="hljs-keyword">in</span> `scikit-learn` using the `max_leaf_nodes` parameter. Let&#x27;s try a few different <span class="hljs-built_in">values</span>:
-```python
-rfc = RandomForestClassifier(n_estimators=<span class="hljs-number">256</span>,
-                           criterion=<span class="hljs-string">&quot;entropy&quot;</span>,
-                            max_depth=<span class="hljs-number">8</span>)
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="hljs-built_in">cv</span> = GridSearchCV(rfc,{&#x27;max_leaf_nodes&#x27;: [<span class="hljs-number">2</span>**i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">8</span>)]},<span class="hljs-built_in">cv</span>=<span class="hljs-number">5</span>)
-<span class="hljs-built_in">cv</span>.fit(X_train, y_train.<span class="hljs-built_in">values</span>.ravel())
-</code></pre>
-<pre><code class="language-python">results = pd.DataFrame({<span class="hljs-string">&quot;max_leaf_nodes&quot;</span>: [param[<span class="hljs-string">&quot;max_leaf_nodes&quot;</span>] <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> cv.cv_results_[<span class="hljs-string">&#x27;params&#x27;</span>]],
-             <span class="hljs-string">&quot;mean_score&quot;</span>: <span class="hljs-built_in">list</span>(cv.cv_results_[<span class="hljs-string">&#x27;mean_test_score&#x27;</span>]),
-             <span class="hljs-string">&quot;std_score&quot;</span>: cv.cv_results_[<span class="hljs-string">&#x27;std_test_score&#x27;</span>]})
-results = results.dropna()
-results
-</code></pre>
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_depth)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Max tree depth&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_35_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (358468337)&gt;
+</code></pre></div>
+
+<h3 id="maximum-number-of-leaf-nodes">Maximum number of leaf nodes</h3>
+<p>This hyperparameter can be of importance to other topics, such as <a href="/explainability.html">Explainability</a>.</p>
+<p>It is specified in <code>scikit-learn</code> using the <code>max_leaf_nodes</code> parameter. Let's try a few different values:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                           <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">,</span>
+                            <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s1">&#39;max_leaf_nodes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>GridSearchCV(cv=5,
+             estimator=RandomForestClassifier(criterion=&#39;entropy&#39;, max_depth=8,
+                                              n_estimators=256),
+             param_grid={&#39;max_leaf_nodes&#39;: [2, 4, 8, 16, 32, 64, 128]})
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;max_leaf_nodes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_leaf_nodes&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">results</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -762,59 +774,70 @@ results
   </tbody>
 </table>
 </div>
-```python
-from plotnine import *
-<p>(
-ggplot(results) + geom_boxplot(aes(x='factor(max_leaf_nodes)', y='mean_score')) +
-geom_errorbar(aes(x='factor(max_leaf_nodes)', ymin='mean_score - std_score', ymax='mean_score + std_score')) +
-theme_classic() + xlab('Maximum leaf nodes') + ylab('Mean score')
-)</p>
-<pre><code>
-![optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_3](./images/optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_3.png)
-### Random <span class="hljs-built_in">features</span> per <span class="hljs-built_in">split</span>
-This <span class="hljs-built_in">is</span> an important hyperparameter that will depend on how noisy the original data <span class="hljs-built_in">is</span>.
-Typically, <span class="hljs-keyword">if</span> the data <span class="hljs-built_in">is</span> <span class="hljs-keyword">not</span> very noisy, the number of used <span class="hljs-built_in">random</span> <span class="hljs-built_in">features</span> can be kept low. Otherwise, it needs to be kept high.
 
-An important consideration <span class="hljs-built_in">is</span> also the following trade-off:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
 
-- A low number of <span class="hljs-built_in">random</span> <span class="hljs-built_in">features</span> decrease the forest&#x27;s overall variance
-- A low number of <span class="hljs-built_in">random</span> <span class="hljs-built_in">features</span> increases the bias
-- A high number of <span class="hljs-built_in">random</span> <span class="hljs-built_in">features</span> increases computational <span class="hljs-built_in">time</span>
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_leaf_nodes)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_leaf_nodes)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Maximum leaf nodes&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
 
-In `scikit-learn` this <span class="hljs-built_in">is</span> specified with the `max_features` parameter. Assuming $N_f$ <span class="hljs-built_in">is</span> the total number of <span class="hljs-built_in">features</span>,
-<span class="hljs-built_in">some</span> possible <span class="hljs-built_in">values</span> <span class="hljs-keyword">for</span> this parameter are:
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_40_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (358911004)&gt;
+</code></pre></div>
 
-- `<span class="hljs-built_in">sqrt</span>`, this will take the `max_features` as the rounded $\<span class="hljs-built_in">sqrt</span>{N_f}$
-- `log2`, as above, takes the $\log_2(N_f)$
-- The actual maximum number of <span class="hljs-built_in">features</span> can be directly specified
+<h3 id="random-features-per-split">Random features per split</h3>
+<p>This is an important hyperparameter that will depend on how noisy the original data is.
+Typically, if the data is not very noisy, the number of used random features can be kept low. Otherwise, it needs to be kept high.</p>
+<p>An important consideration is also the following trade-off:</p>
+<ul>
+<li>A low number of random features decrease the forest's overall variance</li>
+<li>A low number of random features increases the bias</li>
+<li>A high number of random features increases computational time</li>
+</ul>
+<p>In <code>scikit-learn</code> this is specified with the <code>max_features</code> parameter. Assuming \(N_f\) is the total number of features,
+some possible values for this parameter are:</p>
+<ul>
+<li><code>sqrt</code>, this will take the <code>max_features</code> as the rounded \(\sqrt{N_f}\)</li>
+<li><code>log2</code>, as above, takes the \(\log_2(N_f)\)</li>
+<li>The actual maximum number of features can be directly specified</li>
+</ul>
+<p>Let's try a simple benchmark, even though our data does not have many features to begin with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                             <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">,</span>
+                             <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
-Let&#x27;s try a simple benchmark, <span class="hljs-built_in">even</span> though our data does <span class="hljs-keyword">not</span> have many <span class="hljs-built_in">features</span> to begin with:
-```python
-rfc = RandomForestClassifier(n_estimators=<span class="hljs-number">256</span>,
-                             criterion=<span class="hljs-string">&quot;entropy&quot;</span>,
-                             max_depth=<span class="hljs-number">8</span>)
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;sqrt&quot;</span><span class="p">,</span> <span class="s2">&quot;log2&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
 
-<span class="hljs-built_in">cv</span> = GridSearchCV(rfc,{&#x27;max_features&#x27;: [<span class="hljs-string">&quot;sqrt&quot;</span>, <span class="hljs-string">&quot;log2&quot;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]},<span class="hljs-built_in">cv</span>=<span class="hljs-number">5</span>)
-<span class="hljs-built_in">cv</span>.fit(X_train, y_train.<span class="hljs-built_in">values</span>.ravel())
-</code></pre>
-<pre><code class="language-python">results = pd.DataFrame({<span class="hljs-string">&quot;max_features&quot;</span>: [param[<span class="hljs-string">&quot;max_features&quot;</span>] <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> cv.cv_results_[<span class="hljs-string">&#x27;params&#x27;</span>]],
-             <span class="hljs-string">&quot;mean_score&quot;</span>: <span class="hljs-built_in">list</span>(cv.cv_results_[<span class="hljs-string">&#x27;mean_test_score&#x27;</span>]),
-             <span class="hljs-string">&quot;std_score&quot;</span>: cv.cv_results_[<span class="hljs-string">&#x27;std_test_score&#x27;</span>]})
-results
-</code></pre>
+<div class="highlight"><pre><span></span><code>GridSearchCV(cv=5,
+             estimator=RandomForestClassifier(criterion=&#39;entropy&#39;, max_depth=8,
+                                              n_estimators=256),
+             param_grid={&#39;max_features&#39;: [&#39;sqrt&#39;, &#39;log2&#39;, 1, 2, 3, 4, 5, 6]})
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;max_features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_features&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -877,52 +900,65 @@ results
   </tbody>
 </table>
 </div>
-```python
-from plotnine import *
-<p>(
-ggplot(results) + geom_boxplot(aes(x='factor(max_features)', y='mean_score')) +
-geom_errorbar(aes(x='factor(max_features)', ymin='mean_score - std_score', ymax='mean_score + std_score')) +
-theme_classic() + xlab('Maximum number of features') + ylab('Mean score')
-)</p>
-<pre><code>
-![optimising-random-forest-hyperparamaters_4](./images/optimising-random-forest-hyperparamaters_4.png)
-<span class="hljs-comment">### Bootstrap dataset size</span>
-This hyperparameter relates <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> proportion <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> training data <span class="hljs-keyword">to</span> be used <span class="hljs-keyword">by</span> decision trees.
 
-It <span class="hljs-keyword">is</span> specified <span class="hljs-keyword">in</span> `scikit-learn` <span class="hljs-keyword">by</span> `max_samples` <span class="hljs-keyword">and</span> can take <span class="hljs-keyword">the</span> value <span class="hljs-keyword">of</span> either:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
 
-- `None`, take <span class="hljs-keyword">the</span> entirety <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> samples
-- An <span class="hljs-built_in">integer</span>, representing <span class="hljs-keyword">the</span> actual <span class="hljs-built_in">number</span> <span class="hljs-keyword">of</span> samples
-- A float, representing a proportion <span class="hljs-keyword">between</span> `<span class="hljs-number">0</span>` <span class="hljs-keyword">and</span> `<span class="hljs-number">1</span>` <span class="hljs-keyword">or</span> <span class="hljs-keyword">the</span> samples <span class="hljs-keyword">to</span> take.
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_features)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_features)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Maximum number of features&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
 
-Let&#x27;s <span class="hljs-keyword">try</span> a hyperparameter search <span class="hljs-keyword">with</span> <span class="hljs-keyword">some</span> values:
-```python
-rfc = RandomForestClassifier(n_estimators=<span class="hljs-number">256</span>,
-                             criterion=<span class="hljs-string">&quot;entropy&quot;</span>,
-                             max_depth=<span class="hljs-number">8</span>,
-                             max_features=<span class="hljs-number">6</span>)
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_45_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (358798611)&gt;
+</code></pre></div>
 
-cv = GridSearchCV(rfc,{&#x27;max_samples&#x27;: [i/<span class="hljs-number">10.0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>)]},cv=<span class="hljs-number">5</span>)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre>
-<pre><code class="language-python">results = pd.DataFrame({<span class="hljs-string">&quot;max_samples&quot;</span>: [param[<span class="hljs-string">&quot;max_samples&quot;</span>] <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> cv.cv_results_[<span class="hljs-string">&#x27;params&#x27;</span>]],
-             <span class="hljs-string">&quot;mean_score&quot;</span>: <span class="hljs-built_in">list</span>(cv.cv_results_[<span class="hljs-string">&#x27;mean_test_score&#x27;</span>]),
-             <span class="hljs-string">&quot;std_score&quot;</span>: cv.cv_results_[<span class="hljs-string">&#x27;std_test_score&#x27;</span>]})
-results
-</code></pre>
+<h3 id="bootstrap-dataset-size">Bootstrap dataset size</h3>
+<p>This hyperparameter relates to the proportion of the training data to be used by decision trees.</p>
+<p>It is specified in <code>scikit-learn</code> by <code>max_samples</code> and can take the value of either:</p>
+<ul>
+<li><code>None</code>, take the entirety of the samples</li>
+<li>An integer, representing the actual number of samples</li>
+<li>A float, representing a proportion between <code>0</code> and <code>1</code> or the samples to take.</li>
+</ul>
+<p>Let's try a hyperparameter search with some values:</p>
+<div class="highlight"><pre><span></span><code><span class="n">rfc</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                             <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">,</span>
+                             <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                             <span class="n">max_features</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">rfc</span><span class="p">,{</span><span class="s1">&#39;max_samples&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="mf">10.0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]},</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>GridSearchCV(cv=5,
+             estimator=RandomForestClassifier(criterion=&#39;entropy&#39;, max_depth=8,
+                                              max_features=6,
+                                              n_estimators=256),
+             param_grid={&#39;max_samples&#39;: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8,
+                                         0.9]})
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;max_samples&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_samples&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]],</span>
+             <span class="s2">&quot;mean_score&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;mean_test_score&#39;</span><span class="p">]),</span>
+             <span class="s2">&quot;std_score&quot;</span><span class="p">:</span> <span class="n">cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">&#39;std_test_score&#39;</span><span class="p">]})</span>
+<span class="n">results</span>
+</code></pre></div>
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
 
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -991,116 +1027,118 @@ results
   </tbody>
 </table>
 </div>
-```python
-from plotnine import *
-<p>(
-ggplot(results) + geom_boxplot(aes(x='factor(max_samples)', y='mean_score')) +
-geom_errorbar(aes(x='factor(max_samples)', ymin='mean_score - std_score', ymax='mean_score + std_score')) +
-theme_classic() + xlab('Proportion bootstrap samples') + ylab('Mean score')
-)</p>
-<pre><code>
-![optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_5](./images/optimising-<span class="hljs-built_in">random</span>-forest-hyperparamaters_5.png)
-```python
 
-</code></pre>
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1"  class="footnote-item"><p>Titanic Dataset - <a href="https://www.kaggle.com/c/titanic-dataset/data">https://www.kaggle.com/c/titanic-dataset/data</a> <a href="#fnref1" class="footnote-backref">↩</a></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="p">(</span>
+     <span class="n">ggplot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">+</span> <span class="n">geom_boxplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_samples)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mean_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">geom_errorbar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(max_samples)&#39;</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="s1">&#39;mean_score - std_score&#39;</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="s1">&#39;mean_score + std_score&#39;</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s1">&#39;Proportion bootstrap samples&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ylab</span><span class="p">(</span><span class="s1">&#39;Mean score&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/optimising-random-forest-hyperparamaters-output_50_0.png" /></p>
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (358907088)&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:titanic">
+<p>Titanic Dataset - <a href="https://www.kaggle.com/c/titanic-dataset/data">https://www.kaggle.com/c/titanic-dataset/data</a>&#160;<a class="footnote-backref" href="#fnref:titanic" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn2"  class="footnote-item"><p><a href="https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html">https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html</a> <a href="#fnref2" class="footnote-backref">↩</a></p>
+<li id="fn:rf">
+<p><a href="https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html">https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html</a>&#160;<a class="footnote-backref" href="#fnref:rf" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
-<li id="fn3"  class="footnote-item"><p><a href="https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier.fit">https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier.fit</a> <a href="#fnref3" class="footnote-backref">↩</a></p>
+<li id="fn:fit">
+<p><a href="https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier.fit">https://sklearn.org/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier.fit</a>&#160;<a class="footnote-backref" href="#fnref:fit" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
-</section>
-        <div class="footer">
-            <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+</div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
         </div>
-    </div>
 
-    <div id="sidebar">
-        <div id="sidebar-search">
-            <input id="search_terms" type="search" placeholder="Search terms" />
-            <button id="search_button" onclick="search()">?</button>
-        </div>
-        <div id="sidebar-home"><a href="/">Home</a></div>
-        <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
-        <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
 
-        <div id="sidebar-contents">
-            <h3>Contents</h3>
-            <ul>
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
 <li><a href="#data">Data</a></li>
 <li><a href="#naive-model">Naive model</a></li>
 <li><a href="#hyperparameter-search">Hyperparameter search</a></li>
-<li><a href="#parameters">Parameters</a>
-<ul>
+<li><a href="#parameters">Parameters</a><ul>
 <li><a href="#number-of-decision-trees">Number of decision trees</a></li>
 <li><a href="#the-split-criteria">The split criteria</a></li>
 <li><a href="#maximum-depth-of-individual-trees">Maximum depth of individual trees</a></li>
 <li><a href="#maximum-number-of-leaf-nodes">Maximum number of leaf nodes</a></li>
 <li><a href="#random-features-per-split">Random features per split</a></li>
 <li><a href="#bootstrap-dataset-size">Bootstrap dataset size</a></li>
-</ul></li>
 </ul>
+</li>
+</ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
 
-                        <h3>Backlinks</h3>
-            <ul>
-                                <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
-                                <li><a href="/scikit-learn.html">Scikit-learn</a><sup>&#5833</sup></li>
-                                <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                            </ul>
-                    </div>
 
 
+            <div class="footer">
+                modified 25 days ago
+            </div>
 
-        <div class="footer">
-            modified 1 week ago        </div>
-
-    </div>
+        </div>
     <div>
 
-        <script>
-            const input = document.getElementById('search_terms');
-            const highlight = new URLSearchParams(document.location.search).get("h");
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
 
-            if (highlight!=null) {
-                const markInstance = new Mark("#content");
-                markInstance.mark(highlight);
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
             }
+        });
 
-            input.addEventListener("keyup", function(event) {
-                // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                    // Cancel the default action, if needed
-                    event.preventDefault();
-                    // Trigger the button element with a click
-                    search_button.click();
-                }
-            });
-
-            let search = function() {
-                const query = new URLSearchParams({"q": input.value});
-                console.log(query.toString());
-                window.location.href = "/search.html?" + query.toString();
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                renderMathInElement(
-                    document.body,
-                    {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\[", right: "\\]", display: true},
-                            {left: "$", right: "$", display: false},
-                            {left: "\\(", right: "\\)", display: false}
-                        ]
-                    }
-                );
-            });
-        </script>
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
 
 </body>
 </html>
