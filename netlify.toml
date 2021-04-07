@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://notes.ruivieira.dev/*"
+  to = "https://publish.obsidian.md/serve?url=notes.ruivieira.dev/:splat"
+  status = 200
+  force = true
