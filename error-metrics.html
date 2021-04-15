@@ -24,7 +24,8 @@
 
     <script src="/assets/mark.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="/assets/style.css" rel="stylesheet">
     <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - Error metrics</title>
@@ -32,7 +33,7 @@
     <style>
         #search_terms {
             font-size: 1rem;
-            font-family: Nunito;
+            font-family: "Source Serif Pro", serif;
             width: 40%;
         }
         #search_terms::placeholder {
@@ -44,7 +45,7 @@
             color: black;
             padding: 0.25rem 0.25rem;
             font-size: 1rem;
-            font-family: Nunito;
+            font-family: "Source Serif Pro", serif;
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
@@ -57,20 +58,9 @@
 
         <div id="content">
             <h1 id="error-metrics">Error metrics</h1>
-<h2 id="root-mean-squared-error">Root Mean Squared error</h2>
-<p>A typical way of measuring the difference between observations and results from a predictor.</p>
-<p>The formal definition is:</p>
-\[
-\begin{aligned}
-RMSE(\hat{\theta}) &amp;= \sqrt{\operatorname{MSE}(\hat{\theta})} \\
-&amp;= \sqrt{\operatorname{E}((\hat{\theta}-\theta)^2)}.
-\end{aligned}
-\]
-
-<p>For \(N\) observations \(Y=\{y_1,\dots,y_N\}\) we can express it as:</p>
-\[
-RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
-\]
+<ul>
+<li><a href="/root-mean-squared-error.html">Root Mean Squared Error</a></li>
+</ul>
             <div class="footer">
                 <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
             </div>
@@ -88,9 +78,7 @@ RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
             <div id="sidebar-contents">
                 <h3>Contents</h3>
                 <div class="toc">
-<ul>
-<li><a href="#root-mean-squared-error">Root Mean Squared error</a></li>
-</ul>
+<ul></ul>
 </div>
     
                 
@@ -101,8 +89,6 @@ RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
                     
                         <li><a href="/optimising-random-forest-hyperparamaters.html">Optimising random forest hyperparamaters</a><sup>&#5833</sup></li>
                     
-                        <li><a href="/a-streaming-als-implementation.html">A streaming ALS implementation</a><sup>&#5833</sup></li>
-                    
                     </ul>
                 
             </div>
@@ -110,7 +96,7 @@ RMSE=\sqrt{\frac{\sum_{n=1}^{N}({\hat {y}}_{n}-y_{n})^{2}}{N}}.
 
 
             <div class="footer">
-                modified a month ago
+                modified a day ago
             </div>
 
         </div>

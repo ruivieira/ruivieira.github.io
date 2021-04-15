@@ -9,7 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="https://ruivieira.dev/content.html">
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
     <link href="/assets/style.css" rel="stylesheet"/>
     <link href="/assets/code.css" rel="stylesheet"/>
     <title>ruivieira.dev - All pages</title>
@@ -17,7 +19,7 @@
 <style>
         #search_terms {
             font-size: 1rem;
-            font-family: Nunito;
+            font-family: "Source Serif Pro", serif;
             width: 40%;
         }
         #search_terms::placeholder {
@@ -29,11 +31,19 @@
             color: black;
             padding: 0.5rem 0.5rem;
             font-size: 1rem;
-            font-family: Nunito;
+            font-family: "Source Serif Pro", serif;
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
             width: 3rem;
+        }
+        ul.links {
+            -moz-column-count: 2;
+            -moz-column-gap: 20px;
+            -webkit-column-count: 2;
+            -webkit-column-gap: 20px;
+            column-count: 2;
+            column-gap: 20px;
         }
 </style>
 </head>
@@ -42,7 +52,7 @@
 
         <div id="content">
             <h1>Content</h1>
-            <ul>
+            <ul class="links">
                 
                     <li><a href="/semi-handcrafted-rss.html">(Semi) handcrafted RSS</a></li>
                 
@@ -163,6 +173,8 @@
                     <li><a href="/python-pandas.html">Python Pandas</a></li>
                 
                     <li><a href="/python-pweave.html">Python Pweave</a></li>
+                
+                    <li><a href="/root-mean-squared-error.html">Root Mean Squared Error</a></li>
                 
                     <li><a href="/rust.html">Rust</a></li>
                 

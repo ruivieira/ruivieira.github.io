@@ -24,7 +24,8 @@
 
     <script src="/assets/mark.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,300i,800&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="/assets/style.css" rel="stylesheet">
     <link href="/assets/code.css" rel="stylesheet">
     <title>ruivieira.dev - A streaming ALS implementation</title>
@@ -32,7 +33,7 @@
     <style>
         #search_terms {
             font-size: 1rem;
-            font-family: Nunito;
+            font-family: "Source Serif Pro", serif;
             width: 40%;
         }
         #search_terms::placeholder {
@@ -44,7 +45,7 @@
             color: black;
             padding: 0.25rem 0.25rem;
             font-size: 1rem;
-            font-family: Nunito;
+            font-family: "Source Serif Pro", serif;
             text-decoration: none;
             cursor: pointer;
             border-radius: 5px;
@@ -153,7 +154,7 @@ c_{x,y} = \begin{cases}
 \mathsf{P}_y^T = \mathsf{R}_y \mathsf{U} \left(\mathsf{U}^T \mathsf{U} + \lambda \boldsymbol{\mathsf{I}}\right)^{-1}.
 \]
 
-<p>We can then calculate each factor iteratively, by fixing the other one and solving the estimator. While this process is alternated, an error measure (usually the <em>Root Mean Squared Error</em> <a href="/error-metrics.html#Root Mean Squared error">RMSE</a>), or \(RMSE\) is calculated (as below) between the rating matrix approximation given by the latent factors and the ratings which we have, \(\mathcal{T}\). This method is guaranteed to converge and when we consider out approximation to be good enough, or after a set number of iterations we can then stop the refinement.</p>
+<p>We can then calculate each factor iteratively, by fixing the other one and solving the estimator. While this process is alternated, an error measure (usually the <a href="/root-mean-squared-error.html">Root Mean Squared Error</a>), or \(RMSE\) is calculated (as below) between the rating matrix approximation given by the latent factors and the ratings which we have, \(\mathcal{T}\). This method is guaranteed to converge and when we consider out approximation to be good enough, or after a set number of iterations we can then stop the refinement.</p>
 \[
 RMSE = \sqrt{\frac{1}{n}\sum_{x,y \in \mathcal{T}}\lvert \hat{\mathsf{R}}_{x,y} - \mathsf{R}_{x,y}\rvert}
 \]
@@ -435,7 +436,7 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 
 
             <div class="footer">
-                modified 22 days ago
+                modified a day ago
             </div>
 
         </div>

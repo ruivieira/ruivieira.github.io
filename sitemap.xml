@@ -276,7 +276,7 @@
 			http://ruivieira.dev/error-metrics.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-04-14T21:03:05Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -321,7 +321,7 @@
 			http://ruivieira.dev/gradient-free-optimisation.html
 		</loc>
 		<lastmod>
-			2021-03-06T14:27:28Z
+			2021-03-27T23:37:03Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -861,7 +861,7 @@
 			http://ruivieira.dev/a-streaming-als-implementation.html
 		</loc>
 		<lastmod>
-			2021-03-04T14:42:03Z
+			2021-04-14T21:02:12Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -997,6 +997,21 @@
 		</loc>
 		<lastmod>
 			2021-03-02T10:09:11Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/root-mean-squared-error.html
+		</loc>
+		<lastmod>
+			2021-04-14T21:40:23Z
 		</lastmod>
 		<changefreq>
 			weekly
