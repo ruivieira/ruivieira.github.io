@@ -1,41 +1,41 @@
 @font-face {
-    font-family: JuliaMono-Regular;
-    src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+  font-family: JuliaMono-Regular;
+  src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
 }
 
 body {
-    font-family: Nunito;
-    font-size: 13pt;
-    color: #1b2d45;
+  font-family: "Source Serif Pro";
+  font-size: 13pt;
+  color: #1b2d45;
 }
 
 #grid {
-    display: grid;
-    grid-template-areas:
+  display: grid;
+  grid-template-areas:
     "header header header"
     "nav content side"
     "footer footer footer";
-    grid-template-columns: minmax(1.2rem, 1fr) minmax(auto, 57ch) minmax(
+  grid-template-columns: minmax(1.2rem, 1fr) minmax(auto, 80ch) minmax(
       1.2rem,
       1fr
     );
-    grid-template-rows: 0 auto auto;
-    column-gap: 1rem;
+  grid-template-rows: 0 auto auto;
+  column-gap: 1rem;
 }
 
 #sidebar {
-    grid-area: nav;
-    font-size: 0.95rem;
-    margin-top: 1rem;
-    margin-left: 2rem;
+  grid-area: nav;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  margin-left: 2rem;
 }
 
 #sidebar-search {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 #content {
-    grid-area: content;
+  grid-area: content;
 }
 
 h1,
@@ -44,253 +44,311 @@ h3,
 h4,
 h5,
 h6 {
-    color: #00214d;
+  color: #00214d;
 }
 
 h1 {
-    font-size: 200%;
+  font-size: 200%;
+}
+
+#content > h1::after {
+  content: "";
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid black;
+  left: 0;
+  bottom: 0.05em;
+  pointer-events: none;
 }
 
 h2 {
-    font-size: 167%;
+  font-size: 167%;
+}
+
+#content > h2::after {
+  content: "";
+  display: block;
+  width: 100%;
+  border-bottom: 1px dotted black;
+  left: 0;
+  bottom: 0.05em;
+  pointer-events: none;
 }
 
 h3 {
-    font-size: 133%;
-    font-weight: normal;
+  font-size: 133%;
+  font-weight: normal;
+}
+
+#content > h3::after {
+  content: "";
+  display: block;
+  width: 100%;
+  border-bottom: 1px dotted grey;
+  left: 0;
+  bottom: 0.05em;
+  pointer-events: none;
 }
 
 pre {
-    background-color: #eee !important;
-    overflow-x: scroll;
-    font-family: JuliaMono-Regular, monospace;
-    font-size: 75%;
-    padding: 1rem;
-    border-radius: 0.4rem;
+  background-color: #eee !important;
+  overflow-x: scroll;
+  font-family: JuliaMono-Regular, monospace;
+  font-size: 75%;
+  padding: 1rem;
+  border-radius: 0.4rem;
 }
 
 code {
-    background-color: #eee !important;
-    font-family: JuliaMono-Regular, monospace;
-    font-size: 75%;
+  background-color: #eee !important;
+  font-family: JuliaMono-Regular, monospace;
+  font-size: 75%;
 }
 
 pre > code {
-    font-size: 100%;
+  font-size: 100%;
 }
 
 img {
-    max-width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+  max-width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .katex {
-    font-size: 1em !important;
+  font-size: 1em !important;
 }
 
 .footer {
-    margin-top: 3rem;
-    font-size: 0.75rem;
-    color: #ccc;
+  margin-top: 3rem;
+  font-size: 0.75rem;
+  color: #ccc;
 }
 
 .cc-symbol {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 a,
 a:visited {
-    /*background-color: #00ebc7;*/
-    /*color: #00214d;*/
-    color: #ff5470;
-    padding: 1px;
-    border-radius: 2px;
-    text-decoration: none;
+  /*background-color: #00ebc7;*/
+  /*color: #00214d;*/
+  color: #ff5470;
+  padding: 1px;
+  border-radius: 2px;
+  text-decoration: none;
 }
 
 a.footnote-ref {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 a.footnote-ref::before {
-    content: "[";
+  content: "[";
 }
 
 a.footnote-ref::after {
-    content: "]";
+  content: "]";
+}
+
+/* Lists */
+
+ul {
+  list-style: none;
+}
+
+ul > li::before {
+  content: "";
+  display: inline-block;
+  height: 0.6em;
+  width: 0.6em;
+  background-image: url(/assets/star.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 0.5em;
 }
 
 li.heading-3 {
-    margin-left: 1.5rem;
-    list-style: circle;
+  margin-left: 1.5rem;
+  list-style: circle;
 }
 
 li.heading-3::before {
-    color: #555;
+  color: #555;
 }
 
 a:hover {
-    background-color: #ff5470;
-    color: #fff;
+  background-color: #ff5470;
+  color: #fff;
 }
 
 a[href^="https://"],
-a[href^="http://"] {
-    text-decoration: underline;
+a[href^="http://"]
+{
+  text-decoration: underline;
 }
 
 a[href^="https://"]:after,
-a[href^="http://"]:after {
-    content: "\2609";
-    text-decoration: none !important;
+a[href^="http://"]:after
+{
+  content: "\2609";
+  text-decoration: none !important;
 }
 
 /* Dataframe styling */
 .dataframe * {
-    border-color: none !important;
-    border: none !important;
-    font-family: JuliaMono;
-    font-size: 90%;
+  border-color: none !important;
+  border: none !important;
+  font-family: JuliaMono;
+  font-size: 90%;
 }
 
 .dataframe th {
-    background: #eee;
+  background: #eee;
 }
 
 .dataframe td {
-    text-align: right;
-    min-width: 5em;
+  text-align: right;
+  min-width: 5em;
 }
 
 /* Format summary rows */
 .dataframe-summary-row tr:last-child,
 .dataframe-summary-col td:last-child {
-    background: #eee;
-    font-weight: 500;
+  background: #eee;
+  font-weight: 500;
 }
 
 .point {
-    border-radius: 50%;
-    padding: 1px 6px 1px 6px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    background: #000;
-    color: #fff;
-    text-align: center;
+  border-radius: 50%;
+  padding: 1px 6px 1px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  background: #000;
+  color: #fff;
+  text-align: center;
+}
+
+.footnote > hr {
+  display: none;
 }
 
 .footnote {
-    font-size: 0.95rem;
+  font-size: 0.95rem;
+  margin-top: 5rem;
+  background: whitesmoke;
+  padding-bottom: 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid lightgray;
 }
 
 @media screen and (max-width: 760px) {
-    body {
-        font-family: Nunito;
-        font-size: 11pt;
-        color: #1b2d45;
-    }
+  body {
+    font-family: "Source Serif Pro";
+    font-size: 11pt;
+    color: #1b2d45;
+  }
 
-    #grid {
-        display: grid;
-        grid-template-areas:
+  #grid {
+    display: grid;
+    grid-template-areas:
       "header header header"
       "nav content side"
       "footer footer footer";
-        grid-template-columns: 0 100% 0;
-        grid-template-rows: 50px auto 0;
-        column-gap: 0;
-    }
+    grid-template-columns: 0 100% 0;
+    grid-template-rows: 50px auto 0;
+    column-gap: 0;
+  }
 
-    #sidebar {
-        grid-area: header;
-        display: inline;
-    }
+  #sidebar {
+    grid-area: header;
+    display: inline;
+  }
 
-    #sidebar-search {
-        display: inline;
-        max-width: 150px;
-    }
+  #sidebar-search {
+    display: inline;
+    max-width: 150px;
+  }
 
-    #sidebar-home {
-        display: inline;
-    }
+  #sidebar-home {
+    display: inline;
+  }
 
-    #sidebar-home::after {
-        content: "/";
-        margin-left: 5px;
-    }
+  #sidebar-home::after {
+    content: "/";
+    margin-left: 5px;
+  }
 
-    #sidebar-all-pages {
-        display: inline;
-    }
+  #sidebar-all-pages {
+    display: inline;
+  }
 
-    .footer {
-        display: none;
-    }
+  .footer {
+    display: none;
+  }
 
-    #search_terms {
-        max-width: 110px;
-    }
+  #search_terms {
+    max-width: 110px;
+  }
 
-    #search_button {
-        width: 20px;
-    }
+  #search_button {
+    width: 20px;
+  }
 
-    #sidebar-graph,
-    #sidebar-contents {
-        display: none !important;
-    }
+  #sidebar-graph,
+  #sidebar-contents {
+    display: none !important;
+  }
 
-    #content {
-        padding: 1rem;
-    }
+  #content {
+    padding: 1rem;
+  }
 
-    ul {
-        padding: 0.75rem;
-    }
+  ul {
+    padding: 0.75rem;
+  }
 }
 
 @media screen and (min-width: 760px) and (max-width: 1024px) {
-    body {
-        font-family: Nunito;
-        font-size: 11pt;
-        color: #1b2d45;
-    }
+  body {
+    font-family: "Source Serif Pro";
+    font-size: 11pt;
+    color: #1b2d45;
+  }
 
-    #grid {
-        display: grid;
-        grid-template-areas:
+  #grid {
+    display: grid;
+    grid-template-areas:
       "header header header"
       "nav content side"
       "footer footer footer";
-        grid-template-columns:
+    grid-template-columns:
       0.75fr
       minmax(auto, 57ch)
       0;
-        grid-template-rows:
+    grid-template-rows:
       0
       auto
       auto;
 
-        column-gap: 0;
-    }
+    column-gap: 0;
+  }
 
-    #header {
-        grid-area: header;
-        display: none;
-    }
+  #header {
+    grid-area: header;
+    display: none;
+  }
 
-    #sidebar {
-        grid-area: nav;
-        font-size: 0.85rem;
-    }
+  #sidebar {
+    grid-area: nav;
+    font-size: 0.85rem;
+  }
 
-    #sidebar-search {
-        margin-bottom: 1rem;
-    }
+  #sidebar-search {
+    margin-bottom: 1rem;
+  }
 
-    ul {
-        padding: 0.75rem;
-    }
+  ul {
+    padding: 0.75rem;
+  }
 }
