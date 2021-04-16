@@ -115,7 +115,7 @@ The usual structure for a type <code>T</code> is <code>map[T]bool</code>, where 
 <h2 id="ci">CI</h2>
 <h3 id="github">GitHub</h3>
 <p>A potential workflow for GitHub is to use <a href="https://github.com/mvdan/github-actions-golang">GitHub Actions for Go</a>.
-An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href="/go.html#Testing in Go">Go</a>) and <code>go vet</code> is:</p>
+An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href="/go.html#testing-in-go">Go</a>) and <code>go vet</code> is:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">on</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">,</span> <span class="nv">pull_request\</span><span class="p p-Indicator">]</span>
 <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Test</span>
 <span class="nt">jobs</span><span class="p">:</span>

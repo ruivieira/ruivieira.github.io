@@ -62,12 +62,12 @@
 <h2 id="desiderata">Desiderata</h2>
 <p>According to Verma <em>et al</em> <sup id="fnref:verma2020"><a class="footnote-ref" href="#fn:verma2020">1</a></sup> the counterfactual desiderata is:</p>
 <ul>
-<li><a href="/counterfactuals.html#Validity">Validity</a></li>
-<li><a href="/counterfactuals.html#Actionability">Actionability</a></li>
-<li><a href="/counterfactuals.html#Sparsity">Sparsity</a></li>
-<li><a href="/counterfactuals.html#Data manifold closeness">Data manifold closeness</a></li>
-<li><a href="/counterfactuals.html#Causality">Causality</a></li>
-<li><a href="/counterfactuals.html#Amortised inference">Amortised inference</a></li>
+<li><a href="/counterfactuals.html#validity">Validity</a></li>
+<li><a href="/counterfactuals.html#actionability">Actionability</a></li>
+<li><a href="/counterfactuals.html#sparsity">Sparsity</a></li>
+<li><a href="/counterfactuals.html#data-manifold-closeness">Data manifold closeness</a></li>
+<li><a href="/counterfactuals.html#causality">Causality</a></li>
+<li><a href="/counterfactuals.html#amortised-inference">Amortised inference</a></li>
 </ul>
 <h3 id="validity">Validity</h3>
 <p>We assume that a counterfactual is <em>valid</em> if it solves the optimisation as states in Wachter <em>et al</em><sup id="fnref:wachter"><a class="footnote-ref" href="#fn:wachter">2</a></sup>. If we defined the loss function as</p>
@@ -84,7 +84,7 @@ L(x,x^{\prime},y^{\prime},\lambda)=\lambda\cdot(\hat{f}(x^{\prime})−y^{\prime}
 * \(x \in \mathcal{X}\) is the original data point
 * \(x^{\prime} \in \mathcal{X}\) is the counterfactual
 * \(y^{\prime} \in \mathcal{Y}\) is the desired label
-*  \(d\) is a <a href="/distance-metrics.html">distance metric</a> to measure the distance between \(x\) and \(x^{\prime}\). this could be a <a href="/distance-metrics.html#Manhattan distance L1">L1</a> or L2 distance, a quadratic distance, <em>etc.</em></p>
+*  \(d\) is a <a href="/distance-metrics.html">distance metric</a> to measure the distance between \(x\) and \(x^{\prime}\). this could be a <a href="/distance-metrics.html#manhattan-distance-l1">L1</a> or L2 distance, a quadratic distance, <em>etc.</em></p>
 <h3 id="actionability">Actionability</h3>
 <p>Still according to <sup id="fnref2:wachter"><a class="footnote-ref" href="#fn:wachter">2</a></sup>, <em>actionability</em> refers to the ability of a counterfactual method to separate between <em>mutable</em> and <em>immutable</em> features. Immutable, and additionally legally protected features, shouldn't be changed by a counterfactual implementation. Formally, if we defined our set of mutable (or <em>actionable</em>) features as \(\mathcal{A}\), we have</p>
 \[
@@ -97,7 +97,7 @@ L(x,x^{\prime},y^{\prime},\lambda)=\lambda\cdot(\hat{f}(x^{\prime})−y^{\prime}
 g(x^{\prime}-x)
 \]
 
-<p>which increases the more features are changed and could be a L0 or <a href="/distance-metrics.html#Manhattan distance L1">L1</a> metric, for instance. We can then define the counterfactual as</p>
+<p>which increases the more features are changed and could be a L0 or <a href="/distance-metrics.html#manhattan-distance-l1">L1</a> metric, for instance. We can then define the counterfactual as</p>
 \[
 \arg \underset{x^{\prime} \in \mathcal{A}}{\min}\underset{\lambda}{\max} \lambda\cdot(\hat{f}(x^{\prime})−y^{\prime})^2+d(x,x^{\prime})+g(x^{\prime}-x)
 \]
@@ -164,15 +164,15 @@ g(x^{\prime}-x)
                 <h3>Backlinks</h3>
                     <ul>
                     
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
                         <li><a href="/explainability.html">Explainability</a><sup>&#5833</sup></li>
                     
-                        <li><a href="/synthetic-data-generation.html">Synthetic Data Generation</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                        <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
                     
                         <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
                     
-                        <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
+                        <li><a href="/synthetic-data-generation.html">Synthetic Data Generation</a><sup>&#5833</sup></li>
                     
                     </ul>
                 

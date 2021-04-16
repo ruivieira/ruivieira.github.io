@@ -64,7 +64,7 @@
 <p>It is important to note that typically, the mean distance to a centroid is used to partition the clusters, however, difference distances can be used and different pivot points. An example is the <em>K</em>-medoids clustering algorithm.</p>
 <p>We will define the two main steps of a generic <em>K</em>-means clustering algorithm, namely the data assignement and the centroid update step.</p>
 <h3 id="data-assignement">Data assignement</h3>
-<p>The criteria to determine whether a point is closer to one centroid is typically an <a href="/distance-metrics.html#Euclidean distance L2">Euclidean distance</a> (\(L^2\)) .
+<p>The criteria to determine whether a point is closer to one centroid is typically an <a href="/distance-metrics.html#euclidean-distance-l2">Euclidean distance</a> (\(L^2\)) .
 If we consider a set of \(n\) centroids \(C\), such that</p>
 \[
 C = \lbrace c_1, c_2, \dots, c_n \rbrace
@@ -75,7 +75,7 @@ C = \lbrace c_1, c_2, \dots, c_n \rbrace
 \underset{c_i \in C}{\arg\min} \; dist(c_i,x)^2
 \]
 
-<p>As mentioned previously \(dist(\cdot)\) is typically the standard (\(L^2\)) <a href="/distance-metrics.html#Euclidean distance L2">Euclidean distance</a>.
+<p>As mentioned previously \(dist(\cdot)\) is typically the standard (\(L^2\)) <a href="/distance-metrics.html#euclidean-distance-l2">Euclidean distance</a>.
 We define the subset of points assigned to a centroid \(i\) as \(S_i\).</p>
 <h3 id="centroid-update-step">Centroid update step</h3>
 <p>This step corresponds to updating the centroids using the mean of add points assign to a cluster, \(S_i\). That is</p>
@@ -91,9 +91,9 @@ c_i=\frac{1}{|S_i|}\sum_{x_i \in S_i} x_i
 <li>CLARANS</li>
 </ul>
 <h2 id="pam">PAM</h2>
-<p>To illustrate the PAM partitioning method, we will use a synthetic dataset created along the guidelines in <a href="/synthetic-data-generation.html#Separability">synthetic data generation</a>.</p>
+<p>To illustrate the PAM partitioning method, we will use a synthetic dataset created along the guidelines in <a href="/synthetic-data-generation.html#separability">synthetic data generation</a>.</p>
 <h1 id="elbow-method">Elbow method</h1>
-<p>In order to use the "Elbow method" we calculate the <a href="/distance-metrics.html#Within-cluster sum of squares (WCSS)">Within-Cluster Sum of Squares (WCSS)</a> for a varying number of clusters, \(K\). </p>
+<p>In order to use the "Elbow method" we calculate the <a href="/distance-metrics.html#within-cluster-sum-of-squares-wcss">Within-Cluster Sum of Squares (WCSS)</a> for a varying number of clusters, \(K\). </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 

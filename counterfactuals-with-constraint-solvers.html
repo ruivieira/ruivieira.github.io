@@ -60,18 +60,18 @@
             <h1 id="counterfactuals-with-constraint-solvers">Counterfactuals with constraint solvers</h1>
 <h2 id="scoring">Scoring</h2>
 <p>An implementation on how to calculate <a href="/counterfactuals.html">counterfactuals</a> with Constraint Solvers (namely <a href="/optaplanner.html">OptaPlanner</a>) is available <a href="https://github.com/kiegroup/trusty-ai-sandbox/tree/master/explainability/core/counterfactuals">here</a>.</p>
-<p>This implementation satisfies several criteria of the <a href="/counterfactuals.html#Desiderata">counterfactuals desiderata</a>.</p>
+<p>This implementation satisfies several criteria of the <a href="/counterfactuals.html#desiderata">counterfactuals desiderata</a>.</p>
 <p>The penalisation score is represented with a <code>BendableBigDecimalScore</code><sup id="fnref:BendableBigDecimalScore"><a class="footnote-ref" href="#fn:BendableBigDecimalScore">1</a></sup>, having three "<em>hard</em>" levels and one "<em>soft</em>" level.</p>
 <p><img alt="" src="./images/diagrams/counterfactual_score.png" /></p>
-<p>The first hard level component, <span class="point">1</span>, penalises the score according to the distance between the prediction, \(y^{\prime}\) for the currently proposed solution, \(x^{\prime}\) and the original prediction \(y\), that is this our \((\hat{f}(x^{\prime})-y^{\prime})^2\).</p>
-<p>The <a href="/counterfactuals.html#Actionability">actionability</a> is score with <span class="point">2</span>. This component penalises the score according to number of <em>immutable</em> features which were changed in the counterfactual.</p>
+<p>The first hard level component, <span class="point">1</span>, penalises the score according to the distance between the prediction, \(y^{\prime}\) for the currently proposed solution, \(x^{\prime}\) and the original prediction \(y\), that is this our \((\hat{f}(x^{\prime})-y^{\prime})^2\). This corresponds to the counterfactual's <a href="/counterfactuals.html#validity">validity property</a>.</p>
+<p>The <a href="/counterfactuals.html#actionability">actionability</a> is score with <span class="point">2</span>. This component penalises the score according to number of <em>immutable</em> features which were changed in the counterfactual.</p>
 <p>A confidence score component, <span class="point">3</span> is use to, optionally, impose a minimum confidence threshold to the counterfactual's associated prediction, \(x^{\prime}\).</p>
 <p>Finally, the <em>feature distance</em>, <span class="point">4</span>, penalises the score according to the feature distance. This is the representation of</p>
 \[
 d(x, x^{\prime}).
 \]
 
-<p>In the concrete implementation linked above, the distance, \(d\), chosen is a <a href="/distance-metrics.html#Manhattan distance L1">Manhattan</a> (or \(L^1\)) distance calculated feature-wise.</p>
+<p>In the concrete implementation linked above, the distance, \(d\), chosen is a <a href="/distance-metrics.html#manhattan-distance-l1">Manhattan</a> (or \(L^1\)) distance calculated feature-wise. This also corresponds to the <a href="/counterfactuals.html#validity">validity property.</a></p>
 <h2 id="implementation">Implementation</h2>
 <p><img alt="" src="./images/diagrams/counterfactual_impl.png" /></p>
 <p>Entities are defined by classes such as <code>Integer</code>, <code>Categorical</code>, <code>Boolean</code> or <code>Float</code>, as shown in <span class="point">5</span>.
@@ -181,9 +181,9 @@ This will include:</p>
                 <h3>Backlinks</h3>
                     <ul>
                     
-                        <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
-                    
                         <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
                     
                         <li><a href="/explainability.html">Explainability</a><sup>&#5833</sup></li>
                     
@@ -194,7 +194,7 @@ This will include:</p>
 
 
             <div class="footer">
-                modified 27 days ago
+                modified 10 hours ago
             </div>
 
         </div>
