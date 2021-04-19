@@ -1,10 +1,26 @@
 @charset "UTF-8";
 @font-face {
-  font-family: JuliaMono-Regular;
-  src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+  font-family: "iA-Quattro";
+  src: url("/assets/fonts/iAWriterQuattroS-Regular.woff2");
+}
+/*bold version*/
+@font-face {
+  font-family: "iA-Quattro";
+  src: url("/assets/fonts/iAWriterQuattroS-Bold.woff2");
+  font-weight: bold;
+}
+/*italic version*/
+@font-face {
+  font-family: "iA-Quattro";
+  src: url("/assets/fonts/iAWriterQuattroS-Italic.woff2");
+  font-style: italic;
+}
+@font-face {
+  font-family: "JetbrainsMono-Regular";
+  src: url("/assets/fonts/JetBrainsMono-Regular.woff2");
 }
 body {
-  font-family: "Source Serif Pro";
+  font-family: "iA-Quattro";
   font-size: 13pt;
   color: #1b2d45;
 }
@@ -83,8 +99,8 @@ h3 {
 pre {
   background-color: whitesmoke !important;
   overflow-x: scroll;
-  font-family: "JuliaMono-Regular", monospace;
-  font-size: 75%;
+  font-family: "JetbrainsMono-Regular", monospace;
+  font-size: 1rem;
   padding: 1rem;
   border-radius: 0.4rem;
   text-shadow: 0 1px white;
@@ -108,17 +124,19 @@ pre > code {
 
 code {
   background-color: whitesmoke !important;
-  font-family: "JuliaMono-Regular", monospace;
-  font-size: 75%;
+  font-family: "JetbrainsMono-Regular", monospace;
+  font-size: 1rem;
   text-shadow: 0 1px white;
   white-space: pre;
   word-spacing: normal;
 }
 
 img {
-  max-width: 100%;
+  max-width: 75%;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  margin-left: 12.5%;
+  margin-right: 12.5%;
 }
 
 .katex {
@@ -186,11 +204,14 @@ a.footnote-ref::after {
 }
 
 /* Dataframe styling */
+.dataframe {
+  /* Format summary rows */
+}
 .dataframe * {
   border-color: none !important;
   border: none !important;
-  font-family: JuliaMono;
-  font-size: 90%;
+  font-family: "JetbrainsMono-Regular";
+  font-size: 1rem;
 }
 .dataframe th {
   background: #eee;
@@ -199,10 +220,7 @@ a.footnote-ref::after {
   text-align: right;
   min-width: 5em;
 }
-
-/* Format summary rows */
-.dataframe-summary-row tr:last-child,
-.dataframe-summary-col td:last-child {
+.dataframe-summary-row tr:last-child, .dataframe-summary-col td:last-child {
   background: #eee;
   font-weight: 500;
 }
@@ -231,7 +249,7 @@ a.footnote-ref::after {
 
 @media screen and (max-width: 760px) {
   body {
-    font-family: "Source Serif Pro";
+    font-family: "iA-Quattro";
     font-size: 11pt;
     color: #1b2d45;
   }
@@ -294,7 +312,7 @@ a.footnote-ref::after {
 }
 @media screen and (min-width: 760px) and (max-width: 1024px) {
   body {
-    font-family: "Source Serif Pro";
+    font-family: "iA-Quattro";
     font-size: 11pt;
     color: #1b2d45;
   }

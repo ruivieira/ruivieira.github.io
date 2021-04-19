@@ -243,6 +243,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/site-details.sync-conflict-20210419-210206-uf2txg7.html
+		</loc>
+		<lastmod>
+			2021-04-19T21:02:00Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/clojure.html
 		</loc>
 		<lastmod>
@@ -951,7 +966,7 @@
 			http://ruivieira.dev/site-details.html
 		</loc>
 		<lastmod>
-			2021-04-16T10:55:21Z
+			2021-04-19T21:03:08Z
 		</lastmod>
 		<changefreq>
 			weekly
