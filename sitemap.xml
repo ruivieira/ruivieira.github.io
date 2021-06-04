@@ -3,6 +3,21 @@
 	
     <url>
 		<loc>
+			http://ruivieira.dev/java-streams.html
+		</loc>
+		<lastmod>
+			2021-05-11T21:33:48Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/optaplanner.html
 		</loc>
 		<lastmod>
@@ -63,6 +78,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/reading-list.html
+		</loc>
+		<lastmod>
+			2021-04-30T11:23:37Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/go.html
 		</loc>
 		<lastmod>
@@ -81,7 +111,7 @@
 			http://ruivieira.dev/python.html
 		</loc>
 		<lastmod>
-			2021-03-27T11:27:46Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -126,7 +156,7 @@
 			http://ruivieira.dev/java-completable-futures.html
 		</loc>
 		<lastmod>
-			2021-03-18T21:32:23Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -243,21 +273,6 @@
     
     <url>
 		<loc>
-			http://ruivieira.dev/site-details.sync-conflict-20210419-210206-uf2txg7.html
-		</loc>
-		<lastmod>
-			2021-04-19T21:02:00Z
-		</lastmod>
-		<changefreq>
-			weekly
-		</changefreq>
-		<priority>
-			0.3
-		</priority>
-	</url>
-    
-    <url>
-		<loc>
 			http://ruivieira.dev/clojure.html
 		</loc>
 		<lastmod>
@@ -291,7 +306,7 @@
 			http://ruivieira.dev/error-metrics.html
 		</loc>
 		<lastmod>
-			2021-04-14T21:03:05Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -336,7 +351,22 @@
 			http://ruivieira.dev/gradient-free-optimisation.html
 		</loc>
 		<lastmod>
-			2021-03-27T23:37:03Z
+			2021-04-30T11:23:37Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/counterfactual-fairness-in-java.html
+		</loc>
+		<lastmod>
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -351,7 +381,7 @@
 			http://ruivieira.dev/deno-types.html
 		</loc>
 		<lastmod>
-			2021-03-16T16:56:21Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -516,7 +546,7 @@
 			http://ruivieira.dev/explainability.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -546,7 +576,7 @@
 			http://ruivieira.dev/latex.html
 		</loc>
 		<lastmod>
-			2021-03-26T21:41:33Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -561,7 +591,7 @@
 			http://ruivieira.dev/counterfactuals-with-constraint-solvers.html
 		</loc>
 		<lastmod>
-			2021-04-16T10:39:00Z
+			2021-06-04T14:37:10Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -636,7 +666,7 @@
 			http://ruivieira.dev/python-pweave.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -681,7 +711,7 @@
 			http://ruivieira.dev/python-environments.html
 		</loc>
 		<lastmod>
-			2021-02-28T16:28:16Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -726,7 +756,7 @@
 			http://ruivieira.dev/python-monkey-patching-for-readability.html
 		</loc>
 		<lastmod>
-			2021-03-04T14:45:16Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -741,7 +771,7 @@
 			http://ruivieira.dev/index.html
 		</loc>
 		<lastmod>
-			2021-03-06T21:15:14Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -756,7 +786,7 @@
 			http://ruivieira.dev/synthetic-data-with-sdv-and-copulagan.html
 		</loc>
 		<lastmod>
-			2021-03-02T10:16:22Z
+			2021-05-11T21:23:22Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -786,7 +816,7 @@
 			http://ruivieira.dev/python-grammar-of-graphics.html
 		</loc>
 		<lastmod>
-			2021-03-03T09:39:54Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -801,7 +831,7 @@
 			http://ruivieira.dev/shell-tricks.html
 		</loc>
 		<lastmod>
-			2021-03-17T09:36:02Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -876,7 +906,7 @@
 			http://ruivieira.dev/a-streaming-als-implementation.html
 		</loc>
 		<lastmod>
-			2021-04-14T21:02:12Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -936,7 +966,7 @@
 			http://ruivieira.dev/python-pandas.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -966,7 +996,7 @@
 			http://ruivieira.dev/site-details.html
 		</loc>
 		<lastmod>
-			2021-04-19T21:03:08Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -1026,7 +1056,7 @@
 			http://ruivieira.dev/root-mean-squared-error.html
 		</loc>
 		<lastmod>
-			2021-04-16T10:32:15Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -1101,7 +1131,7 @@
 			http://ruivieira.dev/graalvm.html
 		</loc>
 		<lastmod>
-			2021-03-24T21:55:49Z
+			2021-04-30T11:23:37Z
 		</lastmod>
 		<changefreq>
 			weekly

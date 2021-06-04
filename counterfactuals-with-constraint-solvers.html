@@ -85,6 +85,31 @@ Each of the features, shown in <span class="point">6</span>, is created as an in
 H_1=\left(\sum_i^Nf(x^{\prime}_i) - y^{\prime}_i\right)^2
 \]
 
+<h4 id="tolerance">Tolerance</h4>
+<p>For numerical features, the above score (\(H_1\)) will cause the counterfactual to be invalid, unless the distance between the outcomes and proposed values is <em>exactly zero</em>.</p>
+<p>We can solve this problem by introducing a "tolerance" adjustment, which allows proposed values to be accepted if they are "close enough" to the goal.</p>
+<p>To make the tolerance scale-invariant and unit-less we can use a relative change and set the distance to zero, if smaller than the threshold \(t\), that is</p>
+\[
+\begin{cases}
+0,&amp;\qquad\text{if}\ \frac{|f(x^{\prime}_i) - y^{\prime}_i|}{\max(|f(x^{\prime}_i)|,|y^{\prime}_i|)} &lt; t\\
+|f(x^{\prime}_i) - y^{\prime}_i|,&amp;\qquad\text{otherwise}
+\end{cases}
+\]
+
+<p>and compare to the threshold \(t\). As an example, for a goal \(y^{\prime}_i=3\) and a threshold of \(t=0.01\), around the goal we would have the distance as in the figure below: </p>
+<p><img alt="" src="./images/cf_distance_1.png" /></p>
+<p>This would however fail for the edge case where \(y^{\prime}_i=0\) as we can see below:</p>
+<p><img alt="" src="./images/cf_distance_2.png" /></p>
+<p>To solve this, we can introduce a special case for \(y^{\prime}_i=0\), such that:</p>
+\[
+\begin{cases}
+0,&amp;\qquad \text{if}\ |f(x^{\prime}_i)|&lt; t\\
+|f(x^{\prime}_i) - y^{\prime}_i|,&amp;\qquad\text{otherwise}
+\end{cases}
+\]
+
+<p>So that we have now the desired behaviour at \(y^{\prime}_i=0\):</p>
+<p><img alt="" src="./images/cf_distance_3.png" /></p>
 <h3 id="actionability-score">Actionability score</h3>
 <p>For the second component, the actionability score, <span class="point">2</span>. We calculate the number of features for the protected set \(\mathcal{A}\), which have a different value from the original. That is, assuming we have a certain number of protectd features \(M\), such that \(\mathcal{A}=\{A_1,A_2,\dots,A_M\}\), we calculate:</p>
 \[
@@ -166,7 +191,10 @@ This will include:</p>
 <ul>
 <li><a href="#scoring">Scoring</a></li>
 <li><a href="#implementation">Implementation</a><ul>
-<li><a href="#prediction-distance">Prediction distance</a></li>
+<li><a href="#prediction-distance">Prediction distance</a><ul>
+<li><a href="#tolerance">Tolerance</a></li>
+</ul>
+</li>
 <li><a href="#actionability-score">Actionability score</a></li>
 <li><a href="#confidence-score">Confidence score</a></li>
 <li><a href="#feature-distance">Feature distance</a></li>
@@ -180,11 +208,11 @@ This will include:</p>
                 <h3>Backlinks</h3>
                     <ul>
                     
+                        <li><a href="/explainability.html">Explainability</a><sup>&#5833</sup></li>
+                    
                         <li><a href="/index.html">index</a><sup>&#5833</sup></li>
                     
                         <li><a href="/counterfactuals.html">Counterfactuals</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/explainability.html">Explainability</a><sup>&#5833</sup></li>
                     
                     </ul>
                 
@@ -193,7 +221,7 @@ This will include:</p>
 
 
             <div class="footer">
-                modified 3 days ago
+                modified 57 minutes ago
             </div>
 
         </div>

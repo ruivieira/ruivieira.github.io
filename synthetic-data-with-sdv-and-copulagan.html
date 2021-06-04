@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="/assets/style.css" rel="stylesheet">
     <link href="/assets/code.css" rel="stylesheet">
-    <title>ruivieira.dev - Synthetic data with SDV and CopulaGAN</title>
+    <title>ruivieira.dev - "Synthetic data with SDV and CopulaGAN"</title>
     <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <style>
         #search_terms {
@@ -57,14 +57,6 @@
 
         <div id="content">
             <h1 id="synthetic-data-with-sdv-and-copulagan">Synthetic data with SDV and CopulaGAN</h1>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/svm-hyperparameters-train-features.csv&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </code></pre></div>
 
@@ -143,6 +135,14 @@
   </tbody>
 </table>
 </div>
+
+<div class="highlight"><pre><span></span><code>##    Pclass  Sex   Age  SibSp  Parch     Fare
+## 0       3    1  22.0      1      0   7.2500
+## 1       1    0  38.0      1      0  71.2833
+## 2       3    0  26.0      0      0   7.9250
+## 3       1    0  35.0      1      0  53.1000
+## 4       3    1  35.0      0      0   8.0500
+</code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
 </code></pre></div>
@@ -250,6 +250,17 @@
 </table>
 </div>
 
+<div class="highlight"><pre><span></span><code>##            Pclass         Sex         Age       SibSp       Parch        Fare
+## count  891.000000  891.000000  891.000000  891.000000  891.000000  891.000000
+## mean     2.308642    0.647587   29.758889    0.523008    0.381594   32.204208
+## std      0.836071    0.477990   13.002570    1.102743    0.806057   49.693429
+## min      1.000000    0.000000    0.420000    0.000000    0.000000    0.000000
+## 25%      2.000000    0.000000   22.000000    0.000000    0.000000    7.910400
+## 50%      3.000000    1.000000   30.000000    0.000000    0.000000   14.454200
+## 75%      3.000000    1.000000   35.000000    1.000000    0.000000   31.000000
+## max      3.000000    1.000000   80.000000    8.000000    6.000000  512.329200
+</code></pre></div>
+
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sdv.tabular</span> <span class="kn">import</span> <span class="n">CopulaGAN</span>
 </code></pre></div>
 
@@ -340,6 +351,14 @@
   </tbody>
 </table>
 </div>
+
+<div class="highlight"><pre><span></span><code>##    Pclass  Sex        Age  SibSp  Parch        Fare
+## 0       1    0  11.797730      3      2   15.963036
+## 1       2    0  28.135436      2      2   12.701402
+## 2       3    0  26.367627      0      1   10.742400
+## 3       3    1  24.116738      0      1  144.611161
+## 4       2    0  31.368429      3      1   13.659402
+</code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">new_data</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
 </code></pre></div>
@@ -447,12 +466,26 @@
 </table>
 </div>
 
+<div class="highlight"><pre><span></span><code>##            Pclass         Sex         Age       SibSp       Parch        Fare
+## count  200.000000  200.000000  200.000000  200.000000  200.000000  200.000000
+## mean     1.990000    0.440000   31.717758    0.945000    1.240000   76.998168
+## std      0.795654    0.497633   14.745161    0.925341    1.487773   82.340578
+## min      1.000000    0.000000   -0.299758    0.000000    0.000000    4.534767
+## 25%      1.000000    0.000000   23.051398    0.000000    0.000000   14.265699
+## 50%      2.000000    0.000000   30.367405    1.000000    1.000000   36.297745
+## 75%      3.000000    1.000000   40.796266    1.000000    2.000000  115.727641
+## max      3.000000    1.000000   77.002768    5.000000    6.000000  350.698375
+</code></pre></div>
+
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sdv.evaluation</span> <span class="kn">import</span> <span class="n">evaluate</span>
 
 <span class="n">evaluate</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="mf">0.2793053940561327</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## 0.4487854281948458
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">CopulaGAN</span><span class="p">(</span>
@@ -693,13 +726,13 @@
                 <h3>Backlinks</h3>
                     <ul>
                     
-                        <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
-                    
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
+                        <li><a href="/synthetic-data-generation-with-sdv.html">Synthetic Data Generation with SDV</a><sup>&#5833</sup></li>
                     
                         <li><a href="/synthetic-data-generation.html">Synthetic Data Generation</a><sup>&#5833</sup></li>
                     
-                        <li><a href="/synthetic-data-generation-with-sdv.html">Synthetic Data Generation with SDV</a><sup>&#5833</sup></li>
+                        <li><a href="/machine-learning.html">Machine Learning</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
                     
                     </ul>
                 
@@ -708,7 +741,7 @@
 
 
             <div class="footer">
-                modified a month ago
+                modified 23 days ago
             </div>
 
         </div>
