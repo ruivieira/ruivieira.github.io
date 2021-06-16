@@ -96,7 +96,7 @@
 			http://ruivieira.dev/go.html
 		</loc>
 		<lastmod>
-			2021-01-27T09:34:19Z
+			2021-06-09T21:10:00Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -858,6 +858,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/unfairness-detection.html
+		</loc>
+		<lastmod>
+			2021-06-11T22:07:17Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/git.html
 		</loc>
 		<lastmod>
@@ -1143,6 +1158,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/model-fairness.html
+		</loc>
+		<lastmod>
+			2021-06-11T21:45:15Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/langtons-ant.html
 		</loc>
 		<lastmod>
@@ -1176,7 +1206,7 @@
 			http://ruivieira.dev/machine-learning.html
 		</loc>
 		<lastmod>
-			2021-03-06T14:26:48Z
+			2021-06-11T21:44:12Z
 		</lastmod>
 		<changefreq>
 			weekly

@@ -230,14 +230,14 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 <p>The <code>RDD</code> is an immutable, distributed typed collection of objects. The <code>RDD</code> is partitioned across the cluster. This allows the spark operations, such as function mapping, to be applied to each subset of the <code>RDD</code> in parallel at each partition.</p>
 <p><img alt="" src="./images/als/RDD.png" /></p>
 <p>For the streaming ALS application we will use <code>RDD</code>s to implement the algorithm. Spark's MLlib provides a collaborative filtering implementation based on the distributed batch ALS which we've covered previously. The API is quite simple and to train a model we need:</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">ratings</span><span class="o">,</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iterations</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">ratings</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">lambda</span><span class="p">)</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">Rating</span><span class="o">(</span><span class="n">int</span> <span class="n">user</span><span class="o">,</span> <span class="n">int</span> <span class="n">product</span><span class="o">,</span> <span class="n">double</span> <span class="n">rating</span><span class="o">)</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Rating</span><span class="p">(</span><span class="n">int</span> <span class="n">user</span><span class="p">,</span> <span class="n">int</span> <span class="n">product</span><span class="p">,</span> <span class="n">double</span> <span class="n">rating</span><span class="p">)</span>
 
-<span class="k">val</span> <span class="n">ratings</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]</span>
-<span class="k">val</span> <span class="n">rank</span><span class="k">:</span> <span class="kt">int</span>
-<span class="k">val</span> <span class="n">iterations</span><span class="k">:</span> <span class="kt">int</span>
-<span class="k">val</span> <span class="n">lambda</span><span class="k">:</span> <span class="kt">Double</span>
+<span class="kd">val</span> <span class="n">ratings</span><span class="p">:</span> <span class="nc">RDD</span><span class="p">[</span><span class="nc">Rating</span><span class="p">]</span>
+<span class="kd">val</span> <span class="n">rank</span><span class="p">:</span> <span class="n">int</span>
+<span class="kd">val</span> <span class="n">iterations</span><span class="p">:</span> <span class="n">int</span>
+<span class="kd">val</span> <span class="n">lambda</span><span class="p">:</span> <span class="nc">Double</span>
 </code></pre></div>
 
 <ul>
@@ -248,16 +248,16 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 </ul>
 <p>Since we have the data, the question is then how to choose the parameters. A typical method is to split the original ratings data into two random sets, one for training and one for validation. We then proceed to train the model to several different parameters, usually according to a grid search, and calculate some error measure between the predicted and validation ratings, choosing the parameters which minimise the error.</p>
 <p>Once the model is trained, we get a <code>MatrixFactorizationModel</code> instance, which is basically a wrapper for the latent factors as <code>RDD</code>s.</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">ratings</span><span class="o">,</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iterations</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">ratings</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">lambda</span><span class="p">)</span>
 
-<span class="n">model</span><span class="k">:</span> <span class="kt">MatrixFactorizationModel</span>
+<span class="n">model</span><span class="p">:</span> <span class="nc">MatrixFactorizationModel</span>
 
-<span class="k">class</span> <span class="nc">MatrixFactorizationModel</span> <span class="o">{</span>
+<span class="k">class</span> <span class="nc">MatrixFactorizationModel</span> <span class="p">{</span>
 
-    <span class="k">val</span> <span class="n">userFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span>
-    <span class="k">val</span> <span class="n">productFeatures</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])]</span>
+    <span class="kd">val</span> <span class="n">userFeatures</span><span class="p">:</span> <span class="nc">RDD</span><span class="p">[(</span><span class="nc">Int</span><span class="p">,</span> <span class="nc">Array</span><span class="p">[</span><span class="nc">Double</span><span class="p">])]</span>
+    <span class="kd">val</span> <span class="n">productFeatures</span><span class="p">:</span> <span class="nc">RDD</span><span class="p">[(</span><span class="nc">Int</span><span class="p">,</span> <span class="nc">Array</span><span class="p">[</span><span class="nc">Double</span><span class="p">])]</span>
 
-<span class="o">}</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>One we have the trained model, we can now perform predictions.</p>
@@ -290,7 +290,7 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 \hat{\mathsf{R}}_{x,y}=\mu + b_x + b_y + \mathsf{U}_x^T \cdot \mathsf{P}_y
 \]
 
-<div class="highlight"><pre><span></span><code><span class="n">prediction</span> <span class="o">=</span> <span class="n">dot</span><span class="o">(</span><span class="n">userFactors</span><span class="o">.</span><span class="n">features</span><span class="o">,</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">features</span><span class="o">)</span> <span class="o">+</span> <span class="n">userFactors</span><span class="o">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">bias</span>
+<div class="highlight"><pre><span></span><code><span class="n">prediction</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">userFactors</span><span class="p">.</span><span class="n">features</span><span class="p">,</span> <span class="n">itemFactors</span><span class="p">.</span><span class="n">features</span><span class="p">)</span> <span class="o">+</span> <span class="n">userFactors</span><span class="p">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">itemFactors</span><span class="p">.</span><span class="n">bias</span> <span class="o">+</span> <span class="n">bias</span>
 </code></pre></div>
 
 <p>Given the prediction, the error is also straightforward to calculate, since the real rating is also included in this <code>RDD</code>.</p>
@@ -306,9 +306,9 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 \gamma \left(\epsilon_{x,y}\mathsf{U}_x-\lambda^{\prime}\mathsf{P}_y\right)
 \]
 
-<div class="highlight"><pre><span></span><code><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">rank</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span> <span class="n">i</span> <span class="o">=&gt;</span> 
-    <span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">eps</span> <span class="o">*</span> <span class="n">userFactors</span><span class="o">.</span><span class="n">features</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">features</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
-<span class="o">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">rank</span><span class="p">).</span><span class="n">map</span> <span class="p">{</span> <span class="n">i</span> <span class="o">=&gt;</span> 
+    <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">eps</span> <span class="o">*</span> <span class="n">userFactors</span><span class="p">.</span><span class="n">features</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="p">.</span><span class="n">features</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>Finally, we update the user and product biases given the model parameters and the previous bias.</p>
@@ -316,7 +316,7 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right)
 \]
 
-<div class="highlight"><pre><span></span><code><span class="n">gamma</span> <span class="o">*</span> <span class="o">(</span><span class="n">eps</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="o">.</span><span class="n">bias</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">eps</span> <span class="o">-</span> <span class="n">lambda</span> <span class="o">*</span> <span class="n">itemFactors</span><span class="p">.</span><span class="n">bias</span><span class="p">)</span>
 </code></pre></div>
 
 <p>These calculated gradients can now be mapped to a new <code>RDD</code> which we will use to update the final biases and latent factors.</p>
@@ -336,28 +336,28 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 <p>These datasets come in several variants, namely a <a href="http://files.grouplens.org/datasets/movielens/ml-latest-small-README.html">small</a> variant, useful for a quick algorithm prototyping and testing, and a <a href="http://files.grouplens.org/datasets/movielens/ml-latest-README.html">full</a> variant, with approximately 26 million ratings (from 45,000 movies and 270,000 users), useful for a more comprehensive testing and benchmark.</p>
 <p>The data is available as a set of Comma Separated Value files, each containing different variables, but we are mainly interested in the <code>ratings</code> file which contains four variables: a unique user and movie id, represented as integers, a rating represented by a value from 0 to 5 with steps of 0.5 and a timestamp for when the movie was rated by this user.</p>
 <p>First, we'll start by training a batch ALS model using the MovieLens data. We assume that we already have the observations as an <code>RDD</code> of ratings and simply split the data into 80% for training and 20% for validation.</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">split</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]]</span> <span class="o">=</span> <span class="n">ratings</span><span class="o">.</span><span class="n">randomSplit</span><span class="o">(</span><span class="mf">0.8</span><span class="o">,</span> <span class="mf">0.2</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">split</span><span class="p">:</span> <span class="nc">Array</span><span class="p">[</span><span class="nc">RDD</span><span class="p">[</span><span class="nc">Rating</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ratings</span><span class="p">.</span><span class="n">randomSplit</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
 
-<span class="k">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="o">.</span><span class="n">train</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">rank</span><span class="o">,</span> <span class="n">iter</span><span class="o">,</span> <span class="n">lambda</span><span class="o">)</span>
+<span class="kd">val</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ALS</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">rank</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="n">lambda</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Here, we won't show the steps to determine the best parameters for this dataset, were we performed a simple parameter grid search over a number of possible candidates. The Spark ALS API is quite simple and to train the model we simply pass the training <code>RDD</code> and the parameters.</p>
 <p>We can now use the remaining 20% of the observations to calculate the RMSE between the model predictions and the actual ratings.</p>
 <p>We now can persist the validation <code>RDD</code>, so we can use the exact same one for the streaming ALS run.</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="n">predictions</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Rating</span><span class="o">]</span> <span class="o">=</span> <span class="n">model</span>
-    <span class="o">.</span><span class="n">predict</span><span class="o">(</span><span class="n">split</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span> 
-        <span class="n">x</span> <span class="o">=&gt;(</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">))</span>
-    <span class="o">}</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="n">predictions</span><span class="p">:</span> <span class="nc">RDD</span><span class="p">[</span><span class="nc">Rating</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">map</span> <span class="p">{</span> 
+        <span class="n">x</span> <span class="o">=&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">user</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">product</span><span class="p">))</span>
+    <span class="p">}</span>
 
-<span class="k">val</span> <span class="n">pairs</span> <span class="o">=</span> <span class="n">predictions</span>
-    <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="o">((</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">),</span> <span class="n">x</span><span class="o">.</span><span class="n">rating</span><span class="o">))</span>
-    <span class="o">.</span><span class="n">join</span><span class="o">(</span>
-        <span class="n">split</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-            <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="o">((</span><span class="n">x</span><span class="o">.</span><span class="n">user</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="o">),</span> <span class="n">x</span><span class="o">.</span><span class="n">rating</span><span class="o">))</span>
-    <span class="o">.</span><span class="n">values</span>
+<span class="kd">val</span> <span class="n">pairs</span> <span class="o">=</span> <span class="n">predictions</span>
+    <span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="p">((</span><span class="n">x</span><span class="p">.</span><span class="n">user</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">product</span><span class="p">),</span> <span class="n">x</span><span class="p">.</span><span class="n">rating</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">split</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="p">((</span><span class="n">x</span><span class="p">.</span><span class="n">user</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">product</span><span class="p">),</span> <span class="n">x</span><span class="p">.</span><span class="n">rating</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">values</span>
 
-<span class="k">val</span> <span class="nc">RMSE</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="o">(</span>
-    <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">_1</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">_2</span><span class="o">,</span> <span class="mi">2</span><span class="o">)).</span><span class="n">mean</span><span class="o">())</span>
+<span class="kd">val</span> <span class="nc">RMSE</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">pairs</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">math</span><span class="p">.</span><span class="n">pow</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">_1</span> <span class="o">-</span> <span class="n">x</span><span class="p">.</span><span class="n">_2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)).</span><span class="n">mean</span><span class="p">())</span>
 </code></pre></div>
 
 <p>In order to test the streaming version, we first need to define a data source. We start with the original MovieLens data and remove all the ratings from the validation observations.</p>

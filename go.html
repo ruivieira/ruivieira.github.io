@@ -232,7 +232,20 @@ An example workflow file, <code>.github/workflows/test.yml</code>, which runs <c
 </code></pre></div>
 
 <p>The test files themselves must have the suffix <code>*_test.go</code>.
-Call the tests with <code>go test</code>. </p>
+Call the tests with <code>go test</code>.</p>
+<h3 id="output">Output</h3>
+<h4 id="printing-struct-keys">Printing struct keys</h4>
+<p>To print a <code>struct</code> along with its keys, we can use the <code>Printf</code> switch as in the <a href="https://golang.org/pkg/fmt/#hdr-Printing">official documentation</a>. That is,</p>
+<div class="highlight"><pre><span></span><code><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%+v\n&quot;</span><span class="p">,</span> <span class="nx">myStruct</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="date-and-time">Date and time</h3>
+<h4 id="check-if-a-date-is-empty">Check if a date is empty</h4>
+<p>If a date is unassigned, the <code>.IsZero()</code> method can be used to check it</p>
+<div class="highlight"><pre><span></span><code><span class="nx">a</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="p">{}</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">IsZero</span><span class="p">()</span> <span class="c1">// This will be true</span>
+</code></pre></div>
+
 <div class="footnote">
 <hr />
 <ol>
@@ -296,6 +309,14 @@ Call the tests with <code>go test</code>. </p>
 </ul>
 </li>
 <li><a href="#testing-in-go">Testing in Go</a></li>
+<li><a href="#output">Output</a><ul>
+<li><a href="#printing-struct-keys">Printing struct keys</a></li>
+</ul>
+</li>
+<li><a href="#date-and-time">Date and time</a><ul>
+<li><a href="#check-if-a-date-is-empty">Check if a date is empty</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -316,7 +337,7 @@ Call the tests with <code>go test</code>. </p>
 
 
             <div class="footer">
-                modified 4 months ago
+                modified 5 days ago
             </div>
 
         </div>
