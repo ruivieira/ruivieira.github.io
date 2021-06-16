@@ -111,7 +111,7 @@ We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with th
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                  <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+                  <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                   <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                   <span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
 </code></pre></div>
@@ -131,7 +131,7 @@ We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with th
 </code></pre></div>
 
 <p><img alt="png" src="images/dunn-index-output_2_0.png" /></p>
-<div class="highlight"><pre><span></span><code>&lt;ggplot: (323234735)&gt;
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (322716386)&gt;
 </code></pre></div>
 
 <p>We now cluster the data[^2] and we will have, as expected three distinct clusters, plotted below.</p>
@@ -176,8 +176,8 @@ We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with th
 <span class="nb">print</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="k">[1.76127766 9.39696306 0.         0.        ] [ 5.46312794 -3.08938807  1.          1.        ]</span>
-<span class="na">13.100101521169044</span>
+<div class="highlight"><pre><span></span><code><span class="k">[ 5.84161203 -3.98182959  1.          0.        ] [-5.24664039  5.60223387  2.          1.        ]</span>
+<span class="na">14.724252577342527</span>
 </code></pre></div>
 
 <p>The calculation of \(\delta(c_k, c_l)\) between two clusters \(c_k\) and \(c_l\) will be defined as follows:</p>
@@ -195,7 +195,7 @@ We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with th
 <div class="highlight"><pre><span></span><code><span class="n">δ</span><span class="p">(</span><span class="n">ck</span><span class="p">,</span> <span class="n">cl</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="mf">8.70692734880369</span>
+<div class="highlight"><pre><span></span><code><span class="mf">8.13474311744193</span>
 </code></pre></div>
 
 <p>Within a single cluster \(c_k\), we can calculate \(\Delta(c_k)\) similarly as:</p>
@@ -212,8 +212,8 @@ We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with th
 <span class="nb">print</span><span class="p">(</span><span class="n">Δ</span><span class="p">(</span><span class="n">cl</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="mf">5.8077337425156745</span>
-<span class="mf">6.173844284636552</span>
+<div class="highlight"><pre><span></span><code><span class="mf">6.173844284636552</span>
+<span class="mf">6.726025773561468</span>
 </code></pre></div>
 
 <p>We can now define the <em>Dunn index</em> as</p>
@@ -262,7 +262,7 @@ We first generate the new dataset.</p>
 </code></pre></div>
 
 <p><img alt="png" src="images/dunn-index-output_25_0.png" /></p>
-<div class="highlight"><pre><span></span><code>&lt;ggplot: (323289555)&gt;
+<div class="highlight"><pre><span></span><code>&lt;ggplot: (314277879)&gt;
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">clus0</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prediction</span><span class="o">.</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
@@ -305,9 +305,9 @@ We first generate the new dataset.</p>
                 <h3>Backlinks</h3>
                     <ul>
                     
-                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
-                    
                         <li><a href="/distance-metrics.html">Distance metrics</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/index.html">index</a><sup>&#5833</sup></li>
                     
                     </ul>
                 
@@ -316,7 +316,7 @@ We first generate the new dataset.</p>
 
 
             <div class="footer">
-                modified 3 months ago
+                modified 6 hours ago
             </div>
 
         </div>

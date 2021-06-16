@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes on Gower distance">
+    <meta name="robots" content="index">
+    <link rel="canonical" href="https://ruivieira.dev/gower-distance.html">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+          integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+
+    <script src="/assets/mark.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="/assets/style.css" rel="stylesheet">
+    <link href="/assets/code.css" rel="stylesheet">
+    <title>ruivieira.dev - Gower distance</title>
+    <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <style>
+        #search_terms {
+            font-size: 1rem;
+            font-family: "iA-Quattro", sans-serif;
+            width: 40%;
+        }
+        #search_terms::placeholder {
+            color: #bbb;
+        }
+        #search_button {
+            background-color: #eee;
+            border: none;
+            color: black;
+            padding: 0.25rem 0.25rem;
+            font-size: 1rem;
+            font-family: "iA-Quattro", sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 3rem;
+        }
+</style>
+</head>
+<body>
+    <div id="grid">
+
+        <div id="content">
+            <h1 id="gower-distance">Gower distance</h1>
+<p>The Gower distance can be defined as</p>
+\[
+d_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}.
+\]
+
+<p>For each feature \(k=1,\dots,p\) a score \(s_{ijk}\) is calculated.
+A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\) depending on whether the variables \(x_i\) and \(x_j\) can be compared or not (e.g. if they have different types).</p>
+<p>The score \(s_{ijk}\) calculation will depend on the type of variable and below we will see some examples.</p>
+<h2 id="scoring">Scoring</h2>
+<h3 id="numerical-variables">Numerical variables</h3>
+<p>For numerical variables the score can be calculated as</p>
+\[
+s_{ijk} = 1 - \frac{|x_{ik}-x_{jk}|}{R_k}.
+\]
+
+<p>The quantity \(R_k\) refers to the range of feature (population <em>or</em> sample).</p>
+<h3 id="categorical-variables">Categorical variables</h3>
+<p>For categorical variables we will use following score:</p>
+\[
+s_{ijk} = 1\{x_{ik}=x_{jk}\}
+\]
+
+<p>This score will be \(1\) if the categories are the same and \(0\) if they are not.</p>
+<h2 id="example">Example</h2>
+<p>A test dataset can be</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Sex1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">],</span>
+    <span class="s2">&quot;Sex2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">],</span>
+    <span class="s2">&quot;Age1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+    <span class="s2">&quot;Age2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex1</th>
+      <th>Sex2</th>
+      <th>Age1</th>
+      <th>Age2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>78</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>78</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>For the numerical variable we can define the range as \(R_{\text{age}}=\left(\max{\text{age}}-\min{\text{age}}\right)\).</p>
+<div class="highlight"><pre><span></span><code><span class="n">age_min</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Age1&quot;</span><span class="p">,</span> <span class="s2">&quot;Age2&quot;</span><span class="p">](</span><span class="o">/</span><span class="s2">&quot;age1&quot;</span><span class="p">,</span><span class="o">-</span><span class="s2">&quot;age2&quot;</span><span class="o">.</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">age_max</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Age1&quot;</span><span class="p">,</span> <span class="s2">&quot;Age2&quot;</span><span class="p">](</span><span class="o">/</span><span class="s2">&quot;age1&quot;</span><span class="p">,</span><span class="o">-</span><span class="s2">&quot;age2&quot;</span><span class="o">.</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">R_age</span> <span class="o">=</span> <span class="n">age_max</span> <span class="o">-</span> <span class="n">age_min</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R_age = </span><span class="si">{</span><span class="n">R_age</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>R_age = 85
+</code></pre></div>
+
+<p>We can now calculate the score for each numerical field</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">s_numeric</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x1</span><span class="o">-</span><span class="n">x2</span><span class="p">)</span><span class="o">/</span><span class="n">R</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;s_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">s_numeric</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;Age1&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;Age2&#39;</span><span class="p">],</span> <span class="n">R_age</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex1</th>
+      <th>Sex2</th>
+      <th>Age1</th>
+      <th>Age2</th>
+      <th>s_age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>15</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>36</td>
+      <td>0.752941</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>58</td>
+      <td>0.494118</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>78</td>
+      <td>0.258824</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>100</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>15</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>36</td>
+      <td>0.752941</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>58</td>
+      <td>0.494118</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>78</td>
+      <td>0.258824</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>100</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>For categorical variables we can define the following score function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">s_categorical</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x1</span><span class="o">==</span><span class="n">x2</span> <span class="k">else</span> <span class="mi">0</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;s_sex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">s_categorical</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;Sex1&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;Sex2&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex1</th>
+      <th>Sex2</th>
+      <th>Age1</th>
+      <th>Age2</th>
+      <th>s_age</th>
+      <th>s_sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>15</td>
+      <td>1.000000</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>36</td>
+      <td>0.752941</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>58</td>
+      <td>0.494118</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>78</td>
+      <td>0.258824</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>100</td>
+      <td>0.000000</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>15</td>
+      <td>1.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>36</td>
+      <td>0.752941</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>58</td>
+      <td>0.494118</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>78</td>
+      <td>0.258824</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>100</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>We can now calculate the final score using</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;s_age&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;s_sex&#39;</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex1</th>
+      <th>Sex2</th>
+      <th>Age1</th>
+      <th>Age2</th>
+      <th>s_age</th>
+      <th>s_sex</th>
+      <th>s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>15</td>
+      <td>1.000000</td>
+      <td>1</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>M</td>
+      <td>M</td>
+      <td>15</td>
+      <td>36</td>
+      <td>0.752941</td>
+      <td>1</td>
+      <td>0.876471</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>58</td>
+      <td>0.494118</td>
+      <td>1</td>
+      <td>0.747059</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>78</td>
+      <td>0.258824</td>
+      <td>1</td>
+      <td>0.629412</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>F</td>
+      <td>F</td>
+      <td>15</td>
+      <td>100</td>
+      <td>0.000000</td>
+      <td>1</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>15</td>
+      <td>1.000000</td>
+      <td>0</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>M</td>
+      <td>F</td>
+      <td>15</td>
+      <td>36</td>
+      <td>0.752941</td>
+      <td>0</td>
+      <td>0.376471</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>58</td>
+      <td>0.494118</td>
+      <td>0</td>
+      <td>0.247059</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>78</td>
+      <td>0.258824</td>
+      <td>0</td>
+      <td>0.129412</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>F</td>
+      <td>M</td>
+      <td>15</td>
+      <td>100</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="range-impact">Range impact</h2>
+<p>Let's visualise how the choice of range can affect the scoring, if can set it arbitrarily.
+First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
+<p>We will vary the bounds from a \(15\leq x_{min}&lt;30\) and \(35&lt; x_{max} \leq 100\).</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+    <span class="n">s_0</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">R</span>
+    <span class="n">s_1</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">x2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">s_0</span> <span class="o">+</span> <span class="n">s_1</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="n">bmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">bmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">scores_min</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">100</span><span class="o">-</span><span class="n">bm</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmin</span><span class="p">]</span>
+<span class="n">scores_max</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bm</span><span class="o">-</span><span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmax</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">plotutils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">bmin</span><span class="p">,</span> <span class="n">scores_min</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Range minimum&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gower distance</span><span class="se">\n</span><span class="s2">for varying minimum bound&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">bmax</span><span class="p">,</span> <span class="n">scores_max</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Range maximum&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gower distance</span><span class="se">\n</span><span class="s2">for varying maximum bound&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/gower-distance-output_16_0.png" /></p>
+<p>Let's try with more separated points</p>
+<div class="highlight"><pre><span></span><code><span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="n">bmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">bmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">scores_min</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">100</span><span class="o">-</span><span class="n">bm</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmin</span><span class="p">]</span>
+<span class="n">scores_max</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bm</span><span class="o">-</span><span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmax</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">bmin</span><span class="p">,</span> <span class="n">scores_min</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Range minimum&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gower distance</span><span class="se">\n</span><span class="s2">for varying minimum bound&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">bmax</span><span class="p">,</span> <span class="n">scores_max</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Range maximum&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Score&quot;</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gower distance</span><span class="se">\n</span><span class="s2">for varying maximum bound&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/gower-distance-output_19_0.png" /></p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
+        </div>
+
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
+<li><a href="#scoring">Scoring</a><ul>
+<li><a href="#numerical-variables">Numerical variables</a></li>
+<li><a href="#categorical-variables">Categorical variables</a></li>
+</ul>
+</li>
+<li><a href="#example">Example</a></li>
+<li><a href="#range-impact">Range impact</a></li>
+</ul>
+</div>
+    
+                
+                <h3>Backlinks</h3>
+                    <ul>
+                    
+                        <li><a href="/distance-metrics.html">Distance metrics</a><sup>&#5833</sup></li>
+                    
+                        <li><a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a><sup>&#5833</sup></li>
+                    
+                    </ul>
+                
+            </div>
+
+
+
+            <div class="footer">
+                modified 29 seconds ago
+            </div>
+
+        </div>
+    <div>
+
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
+
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
+            }
+        });
+
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
+
+</body>
+</html>
