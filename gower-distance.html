@@ -59,12 +59,13 @@
             <h1 id="gower-distance">Gower distance</h1>
 <p>The Gower distance can be defined as</p>
 \[
-d_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}.
+S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}.
 \]
 
 <p>For each feature \(k=1,\dots,p\) a score \(s_{ijk}\) is calculated.
 A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\) depending on whether the variables \(x_i\) and \(x_j\) can be compared or not (e.g. if they have different types).</p>
 <p>The score \(s_{ijk}\) calculation will depend on the type of variable and below we will see some examples.</p>
+<p>This similarity score will take values between \(0 \leq s_{ijk}\) </p>
 <h2 id="scoring">Scoring</h2>
 <h3 id="numerical-variables">Numerical variables</h3>
 <p>For numerical variables the score can be calculated as</p>
@@ -80,6 +81,12 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
 \]
 
 <p>This score will be \(1\) if the categories are the same and \(0\) if they are not.</p>
+<p>In reality the distance \(d_{\text{Gower}}(x_i, x_j)\) will be a <em>similarity score</em> taking values between \(0\) (for equal points) and \(1\) for extremely dissimilar points.
+In order to turn this value into a <em>distance metric</em> we can convert it using (for instance)</p>
+\[
+d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
+\]
+
 <h2 id="example">Example</h2>
 <p>A test dataset can be</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -243,7 +250,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000000</td>
+      <td>1.000</td>
     </tr>
     <tr>
       <th>1</th>
@@ -251,7 +258,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>36</td>
-      <td>0.752941</td>
+      <td>0.753</td>
     </tr>
     <tr>
       <th>2</th>
@@ -259,7 +266,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494118</td>
+      <td>0.494</td>
     </tr>
     <tr>
       <th>3</th>
@@ -267,7 +274,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>78</td>
-      <td>0.258824</td>
+      <td>0.259</td>
     </tr>
     <tr>
       <th>4</th>
@@ -275,7 +282,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000000</td>
+      <td>0.000</td>
     </tr>
     <tr>
       <th>5</th>
@@ -283,7 +290,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000000</td>
+      <td>1.000</td>
     </tr>
     <tr>
       <th>6</th>
@@ -291,7 +298,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>36</td>
-      <td>0.752941</td>
+      <td>0.753</td>
     </tr>
     <tr>
       <th>7</th>
@@ -299,7 +306,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494118</td>
+      <td>0.494</td>
     </tr>
     <tr>
       <th>8</th>
@@ -307,7 +314,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>78</td>
-      <td>0.258824</td>
+      <td>0.259</td>
     </tr>
     <tr>
       <th>9</th>
@@ -315,7 +322,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000000</td>
+      <td>0.000</td>
     </tr>
   </tbody>
 </table>
@@ -363,7 +370,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000000</td>
+      <td>1.000</td>
       <td>1</td>
     </tr>
     <tr>
@@ -372,7 +379,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>36</td>
-      <td>0.752941</td>
+      <td>0.753</td>
       <td>1</td>
     </tr>
     <tr>
@@ -381,7 +388,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494118</td>
+      <td>0.494</td>
       <td>1</td>
     </tr>
     <tr>
@@ -390,7 +397,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>78</td>
-      <td>0.258824</td>
+      <td>0.259</td>
       <td>1</td>
     </tr>
     <tr>
@@ -399,7 +406,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000000</td>
+      <td>0.000</td>
       <td>1</td>
     </tr>
     <tr>
@@ -408,7 +415,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000000</td>
+      <td>1.000</td>
       <td>0</td>
     </tr>
     <tr>
@@ -417,7 +424,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>36</td>
-      <td>0.752941</td>
+      <td>0.753</td>
       <td>0</td>
     </tr>
     <tr>
@@ -426,7 +433,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494118</td>
+      <td>0.494</td>
       <td>0</td>
     </tr>
     <tr>
@@ -435,7 +442,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>78</td>
-      <td>0.258824</td>
+      <td>0.259</td>
       <td>0</td>
     </tr>
     <tr>
@@ -444,7 +451,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000000</td>
+      <td>0.000</td>
       <td>0</td>
     </tr>
   </tbody>
@@ -452,7 +459,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
 </div>
 
 <p>We can now calculate the final score using</p>
-<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;s_age&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;s_sex&#39;</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;s_age&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;s_sex&#39;</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">df</span>
 </code></pre></div>
 
@@ -481,6 +491,7 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <th>s_age</th>
       <th>s_sex</th>
       <th>s</th>
+      <th>d</th>
     </tr>
   </thead>
   <tbody>
@@ -490,9 +501,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000000</td>
+      <td>1.000</td>
       <td>1</td>
-      <td>1.000000</td>
+      <td>1.000</td>
+      <td>0.000</td>
     </tr>
     <tr>
       <th>1</th>
@@ -500,9 +512,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>36</td>
-      <td>0.752941</td>
+      <td>0.753</td>
       <td>1</td>
-      <td>0.876471</td>
+      <td>0.876</td>
+      <td>0.351</td>
     </tr>
     <tr>
       <th>2</th>
@@ -510,9 +523,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494118</td>
+      <td>0.494</td>
       <td>1</td>
-      <td>0.747059</td>
+      <td>0.747</td>
+      <td>0.503</td>
     </tr>
     <tr>
       <th>3</th>
@@ -520,9 +534,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>78</td>
-      <td>0.258824</td>
+      <td>0.259</td>
       <td>1</td>
-      <td>0.629412</td>
+      <td>0.629</td>
+      <td>0.609</td>
     </tr>
     <tr>
       <th>4</th>
@@ -530,9 +545,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000000</td>
+      <td>0.000</td>
       <td>1</td>
-      <td>0.500000</td>
+      <td>0.500</td>
+      <td>0.707</td>
     </tr>
     <tr>
       <th>5</th>
@@ -540,9 +556,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000000</td>
+      <td>1.000</td>
       <td>0</td>
-      <td>0.500000</td>
+      <td>0.500</td>
+      <td>0.707</td>
     </tr>
     <tr>
       <th>6</th>
@@ -550,9 +567,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>F</td>
       <td>15</td>
       <td>36</td>
-      <td>0.752941</td>
+      <td>0.753</td>
       <td>0</td>
-      <td>0.376471</td>
+      <td>0.376</td>
+      <td>0.790</td>
     </tr>
     <tr>
       <th>7</th>
@@ -560,9 +578,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494118</td>
+      <td>0.494</td>
       <td>0</td>
-      <td>0.247059</td>
+      <td>0.247</td>
+      <td>0.868</td>
     </tr>
     <tr>
       <th>8</th>
@@ -570,9 +589,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>78</td>
-      <td>0.258824</td>
+      <td>0.259</td>
       <td>0</td>
-      <td>0.129412</td>
+      <td>0.129</td>
+      <td>0.933</td>
     </tr>
     <tr>
       <th>9</th>
@@ -580,9 +600,10 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
       <td>M</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000000</td>
+      <td>0.000</td>
       <td>0</td>
-      <td>0.000000</td>
+      <td>0.000</td>
+      <td>1.000</td>
     </tr>
   </tbody>
 </table>
@@ -596,6 +617,9 @@ First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
     <span class="n">s_0</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">R</span>
     <span class="n">s_1</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">x2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">s_0</span> <span class="o">+</span> <span class="n">s_1</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
+
+<span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">s</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -604,8 +628,8 @@ First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
 <span class="n">bmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 <span class="n">bmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">scores_min</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">100</span><span class="o">-</span><span class="n">bm</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmin</span><span class="p">]</span>
-<span class="n">scores_max</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bm</span><span class="o">-</span><span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmax</span><span class="p">]</span>
+<span class="n">scores_min</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">100</span><span class="o">-</span><span class="n">bm</span><span class="p">))</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmin</span><span class="p">]</span>
+<span class="n">scores_max</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bm</span><span class="o">-</span><span class="mi">15</span><span class="p">))</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmax</span><span class="p">]</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -631,8 +655,8 @@ First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
 <span class="n">bmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">bmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">scores_min</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">100</span><span class="o">-</span><span class="n">bm</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmin</span><span class="p">]</span>
-<span class="n">scores_max</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bm</span><span class="o">-</span><span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmax</span><span class="p">]</span>
+<span class="n">scores_min</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">100</span><span class="o">-</span><span class="n">bm</span><span class="p">))</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmin</span><span class="p">]</span>
+<span class="n">scores_max</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bm</span><span class="o">-</span><span class="mi">16</span><span class="p">))</span> <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bmax</span><span class="p">]</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
