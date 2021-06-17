@@ -57,15 +57,20 @@
 
         <div id="content">
             <h1 id="gower-distance">Gower distance</h1>
-<p>The Gower distance can be defined as</p>
+<p>For features \(x_i=\{x_{i1},\dots,x_{ip}\}\) and \(x_j=\{x_{j1},\dots,x_{jp}\}\), the Gower similarity matrix <sup id="fnref:gower"><a class="footnote-ref" href="#fn:gower">1</a></sup> can be defined as</p>
 \[
 S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}.
 \]
 
 <p>For each feature \(k=1,\dots,p\) a score \(s_{ijk}\) is calculated.
 A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\) depending on whether the variables \(x_i\) and \(x_j\) can be compared or not (e.g. if they have different types).</p>
+<p>A special case<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">2</a></sup> for when <em>no missing values exist</em> can be formulated as the mean of the Gower similarity scores, that is:</p>
+\[
+S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}}{p}.
+\]
+
 <p>The score \(s_{ijk}\) calculation will depend on the type of variable and below we will see some examples.</p>
-<p>This similarity score will take values between \(0 \leq s_{ijk}\) </p>
+<p>This similarity score will take values between \(0 \leq s_{ijk} \leq 1\) with \(0\) representing maximum similarity and \(1\) no similarity. </p>
 <h2 id="scoring">Scoring</h2>
 <h3 id="numerical-variables">Numerical variables</h3>
 <p>For numerical variables the score can be calculated as</p>
@@ -73,7 +78,8 @@ A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\
 s_{ijk} = 1 - \frac{|x_{ik}-x_{jk}|}{R_k}.
 \]
 
-<p>The quantity \(R_k\) refers to the range of feature (population <em>or</em> sample).</p>
+<p>This is simply a <a href="/distance-metrics.html#manhattan-distance-l1">Manhattan distance</a> distance between the two values normalised by a quantity \(R_k\).
+The quantity \(R_k\) refers to the range of feature (population <em>or</em> sample).</p>
 <h3 id="categorical-variables">Categorical variables</h3>
 <p>For categorical variables we will use following score:</p>
 \[
@@ -81,14 +87,15 @@ s_{ijk} = 1\{x_{ik}=x_{jk}\}
 \]
 
 <p>This score will be \(1\) if the categories are the same and \(0\) if they are not.</p>
-<p>In reality the distance \(d_{\text{Gower}}(x_i, x_j)\) will be a <em>similarity score</em> taking values between \(0\) (for equal points) and \(1\) for extremely dissimilar points.
+<p>In reality the score \(S_{\text{Gower}}(x_i, x_j)\) will be a <em>similarity score</em> taking values between \(1\) (for equal points) and \(0\) for extremely dissimilar points.
 In order to turn this value into a <em>distance metric</em> we can convert it using (for instance)</p>
 \[
-d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
+d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}.
 \]
 
+<p>This will take values of \(1\) for the furthest points and \(0\) for the same points.</p>
 <h2 id="example">Example</h2>
-<p>A test dataset can be</p>
+<p>Here we will use the special case when no missing values exist. A test dataset can be:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
@@ -199,7 +206,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
 </table>
 </div>
 
-<p>For the numerical variable we can define the range as \(R_{\text{age}}=\left(\max{\text{age}}-\min{\text{age}}\right)\).</p>
+<p>For the numerical variable (age) we can define the range as \(R_{\text{age}}=\left(\max{\text{age}}-\min{\text{age}}\right)\).</p>
 <div class="highlight"><pre><span></span><code><span class="n">age_min</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Age1&quot;</span><span class="p">,</span> <span class="s2">&quot;Age2&quot;</span><span class="p">](</span><span class="o">/</span><span class="s2">&quot;age1&quot;</span><span class="p">,</span><span class="o">-</span><span class="s2">&quot;age2&quot;</span><span class="o">.</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 <span class="n">age_max</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Age1&quot;</span><span class="p">,</span> <span class="s2">&quot;Age2&quot;</span><span class="p">](</span><span class="o">/</span><span class="s2">&quot;age1&quot;</span><span class="p">,</span><span class="o">-</span><span class="s2">&quot;age2&quot;</span><span class="o">.</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 <span class="n">R_age</span> <span class="o">=</span> <span class="n">age_max</span> <span class="o">-</span> <span class="n">age_min</span>
@@ -250,7 +257,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000</td>
+      <td>1.000000</td>
     </tr>
     <tr>
       <th>1</th>
@@ -258,7 +265,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>36</td>
-      <td>0.753</td>
+      <td>0.752941</td>
     </tr>
     <tr>
       <th>2</th>
@@ -266,7 +273,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494</td>
+      <td>0.494118</td>
     </tr>
     <tr>
       <th>3</th>
@@ -274,7 +281,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>78</td>
-      <td>0.259</td>
+      <td>0.258824</td>
     </tr>
     <tr>
       <th>4</th>
@@ -282,7 +289,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>5</th>
@@ -290,7 +297,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000</td>
+      <td>1.000000</td>
     </tr>
     <tr>
       <th>6</th>
@@ -298,7 +305,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>36</td>
-      <td>0.753</td>
+      <td>0.752941</td>
     </tr>
     <tr>
       <th>7</th>
@@ -306,7 +313,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494</td>
+      <td>0.494118</td>
     </tr>
     <tr>
       <th>8</th>
@@ -314,7 +321,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>78</td>
-      <td>0.259</td>
+      <td>0.258824</td>
     </tr>
     <tr>
       <th>9</th>
@@ -322,7 +329,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000</td>
+      <td>0.000000</td>
     </tr>
   </tbody>
 </table>
@@ -370,7 +377,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000</td>
+      <td>1.000000</td>
       <td>1</td>
     </tr>
     <tr>
@@ -379,7 +386,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>36</td>
-      <td>0.753</td>
+      <td>0.752941</td>
       <td>1</td>
     </tr>
     <tr>
@@ -388,7 +395,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494</td>
+      <td>0.494118</td>
       <td>1</td>
     </tr>
     <tr>
@@ -397,7 +404,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>78</td>
-      <td>0.259</td>
+      <td>0.258824</td>
       <td>1</td>
     </tr>
     <tr>
@@ -406,7 +413,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000</td>
+      <td>0.000000</td>
       <td>1</td>
     </tr>
     <tr>
@@ -415,7 +422,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000</td>
+      <td>1.000000</td>
       <td>0</td>
     </tr>
     <tr>
@@ -424,7 +431,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>36</td>
-      <td>0.753</td>
+      <td>0.752941</td>
       <td>0</td>
     </tr>
     <tr>
@@ -433,7 +440,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494</td>
+      <td>0.494118</td>
       <td>0</td>
     </tr>
     <tr>
@@ -442,7 +449,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>78</td>
-      <td>0.259</td>
+      <td>0.258824</td>
       <td>0</td>
     </tr>
     <tr>
@@ -451,7 +458,7 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000</td>
+      <td>0.000000</td>
       <td>0</td>
     </tr>
   </tbody>
@@ -501,10 +508,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000</td>
+      <td>1.000000</td>
       <td>1</td>
-      <td>1.000</td>
-      <td>0.000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>1</th>
@@ -512,10 +519,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>36</td>
-      <td>0.753</td>
+      <td>0.752941</td>
       <td>1</td>
-      <td>0.876</td>
-      <td>0.351</td>
+      <td>0.876471</td>
+      <td>0.351468</td>
     </tr>
     <tr>
       <th>2</th>
@@ -523,10 +530,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494</td>
+      <td>0.494118</td>
       <td>1</td>
-      <td>0.747</td>
-      <td>0.503</td>
+      <td>0.747059</td>
+      <td>0.502933</td>
     </tr>
     <tr>
       <th>3</th>
@@ -534,10 +541,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>78</td>
-      <td>0.259</td>
+      <td>0.258824</td>
       <td>1</td>
-      <td>0.629</td>
-      <td>0.609</td>
+      <td>0.629412</td>
+      <td>0.608760</td>
     </tr>
     <tr>
       <th>4</th>
@@ -545,10 +552,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000</td>
+      <td>0.000000</td>
       <td>1</td>
-      <td>0.500</td>
-      <td>0.707</td>
+      <td>0.500000</td>
+      <td>0.707107</td>
     </tr>
     <tr>
       <th>5</th>
@@ -556,10 +563,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>15</td>
-      <td>1.000</td>
+      <td>1.000000</td>
       <td>0</td>
-      <td>0.500</td>
-      <td>0.707</td>
+      <td>0.500000</td>
+      <td>0.707107</td>
     </tr>
     <tr>
       <th>6</th>
@@ -567,10 +574,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>F</td>
       <td>15</td>
       <td>36</td>
-      <td>0.753</td>
+      <td>0.752941</td>
       <td>0</td>
-      <td>0.376</td>
-      <td>0.790</td>
+      <td>0.376471</td>
+      <td>0.789639</td>
     </tr>
     <tr>
       <th>7</th>
@@ -578,10 +585,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>58</td>
-      <td>0.494</td>
+      <td>0.494118</td>
       <td>0</td>
-      <td>0.247</td>
-      <td>0.868</td>
+      <td>0.247059</td>
+      <td>0.867722</td>
     </tr>
     <tr>
       <th>8</th>
@@ -589,10 +596,10 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>78</td>
-      <td>0.259</td>
+      <td>0.258824</td>
       <td>0</td>
-      <td>0.129</td>
-      <td>0.933</td>
+      <td>0.129412</td>
+      <td>0.933053</td>
     </tr>
     <tr>
       <th>9</th>
@@ -600,16 +607,17 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}
       <td>M</td>
       <td>15</td>
       <td>100</td>
-      <td>0.000</td>
+      <td>0.000000</td>
       <td>0</td>
-      <td>0.000</td>
-      <td>1.000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
     </tr>
   </tbody>
 </table>
 </div>
 
 <h2 id="range-impact">Range impact</h2>
+<h3 id="varying-bounds">Varying bounds</h3>
 <p>Let's visualise how the choice of range can affect the scoring, if can set it arbitrarily.
 First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 <p>We will vary the bounds from a \(15\leq x_{min}&lt;30\) and \(35&lt; x_{max} \leq 100\).</p>
@@ -649,7 +657,7 @@ First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="images/gower-distance-output_16_0.png" /></p>
+<p><img alt="png" src="images/gower-distance-output_15_0.png" /></p>
 <p>Let's try with more separated points</p>
 <div class="highlight"><pre><span></span><code><span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
 <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
@@ -672,9 +680,65 @@ First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="png" src="images/gower-distance-output_19_0.png" /></p>
-<div class="highlight"><pre><span></span><code>
+<p><img alt="png" src="images/gower-distance-output_18_0.png" /></p>
+<h3 id="varying-range-directly">Varying range directly</h3>
+<p>We will now try to see how the distance between two point comparisons (very close, very far) changes when varying the range directly.
+We will choose two sets of points, \(x_1=(1000, M), x_2=(1001, F)\) and \(x_1=(500, M), x_2=(50000, F)\). 
+The range will vary between</p>
+\[
+\max(x_1, x_2)-\min(x_1, x_2)&lt;R&lt;100000.
+\]
+
+<p>We are also interested on the weight the categorical variable will have on the final distance with varying bounds, so we will also calculate them for an alternative \(x_2'=(1001, M)\) anf \(x_2'=(50000, M)\).</p>
+<p>For the first set of points we will have:</p>
+<div class="highlight"><pre><span></span><code><span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1000.0</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1001.0</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="n">MAX_RANGE</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">MAX_RANGE</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+
+<span class="n">distances_M</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">R</span><span class="p">]</span>
+<span class="n">distances_F</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="p">(</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;M&#39;</span><span class="p">),</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">R</span><span class="p">]</span>
 </code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">distances_M</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">distances_F</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x_2&#39;$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Range&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Distance&quot;</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gower distance</span><span class="se">\n</span><span class="s2">for varying range (close points)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/gower-distance-output_21_0.png" /></p>
+<p>And for far away points we will have:</p>
+<div class="highlight"><pre><span></span><code><span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">500.0</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">50000.0</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="n">MAX_RANGE</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">MAX_RANGE</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+
+<span class="n">distances_M</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">R</span><span class="p">]</span>
+<span class="n">distances_F</span> <span class="o">=</span> <span class="p">[</span><span class="n">distance</span><span class="p">(</span><span class="n">score</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="p">(</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;M&#39;</span><span class="p">),</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">R</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">distances_M</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">distances_F</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x_2&#39;$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Range&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Distance&quot;</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gower distance</span><span class="se">\n</span><span class="s2">for varying range (far away points)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/gower-distance-output_24_0.png" /></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:gower">
+<p>Gower, John C. "<em>A general coefficient of similarity and some of its properties.</em>" <em>Biometrics</em> (1971): 857-871.&#160;<a class="footnote-backref" href="#fnref:gower" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:1">
+<p>This is for instance the case we deal with in the <a href="/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a>.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
             <div class="footer">
                 <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
             </div>
@@ -699,7 +763,11 @@ First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 </ul>
 </li>
 <li><a href="#example">Example</a></li>
-<li><a href="#range-impact">Range impact</a></li>
+<li><a href="#range-impact">Range impact</a><ul>
+<li><a href="#varying-bounds">Varying bounds</a></li>
+<li><a href="#varying-range-directly">Varying range directly</a></li>
+</ul>
+</li>
 </ul>
 </div>
     
@@ -718,7 +786,7 @@ First let's pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 
 
             <div class="footer">
-                modified 29 seconds ago
+                modified 12 seconds ago
             </div>
 
         </div>
