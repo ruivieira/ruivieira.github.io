@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btnMute">Turn Sound On</button>
+</body>
+<script>
+
+var canvas = document.createElement('canvas');
+document.body.appendChild(canvas);
+canvas.id = "canvas";
+var ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+var stripeStartPos = 0, imgLoadPos = 0;
+var exitHeadersSignal = true, exitDataSignal = true;
+var contentPosX = canvas.width / 10;
+var contentWidth = canvas.width - canvas.width / 5;
+var contentPosY = canvas.height / 10;
+var contentHeight = canvas.height - canvas.height / 5;
+var pilotColors = ["#007A87", "#720000"];
+var dataColors = ["#665B00", "#001459"];
+var pilotColorsIndex = 0;
+var pilotSignalTimer;
+var zxTextMessages = [];
+var img = new Image();
+var isImageReady = false, isDrawingData = false, isImageDrawn = false;
+var soundHeadersStart = 0, soundDataStart = 5, soundDrawingStart = 7;
+
+var sound = new Audio("./tape.mp3");
+sound.muted = true;
+
+//Force drawing sound to play on loop
+sound.ontimeupdate= function(i) {
+    if (this.currentTime>8)
+        this.currentTime = soundDrawingStart;
+};
+
+//Play sound only for headers, data and drawing
+function PlaySound() {
+    if (!exitHeadersSignal) {
+        sound.currentTime = soundHeadersStart;
+        sound.play();
+    }
+    if (!exitDataSignal) {
+        if (!isDrawingData)
+            sound.currentTime = soundDataStart;
+        else {
+            sound.currentTime = soundDrawingStart;
+        }
+        sound.play();
+    }
+
+}
+
+var zxTextMessage = function (text, msTimeout, isHeader) {
+    this.text = text;
+    this.isHeader = isHeader;
+    if (msTimeout !== 0)
+        setTimeout(this.showText.bind(this), msTimeout);
+    else this.showText();
+};
+
+zxTextMessage.prototype.showText = function () {
+    ctx.font = '48px ZxSpectrum7';
+    ctx.fillStyle = 'black';
+    ctx.textBaseline = 'top';
+    if (this.isHeader === false) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (isImageDrawn)
+            ctx.drawImage(img, contentPosX, contentPosY, contentWidth, contentHeight);
+        ctx.fillText(this.text, canvas.width / 10, canvas.height - (canvas.height / 10));
+    }
+    else ctx.fillText(this.text, contentPosX, contentPosY + 48);
+    this.isTextShown = true;
+};
+
+function showContent(clearFirst) {
+    if (clearFirst === undefined)
+        clearFirst = false;
+
+    if (clearFirst)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!isImageDrawn) {
+        ctx.fillStyle = "white";
+        ctx.fillRect(contentPosX, contentPosY, contentWidth, contentHeight);
+    } else
+        ctx.drawImage(img, contentPosX, contentPosY, contentWidth, contentHeight);
+        for (var i = 0; i < zxTextMessages.length; i++) {
+            if (zxTextMessages[i].isHeader && zxTextMessages[i].isTextShown)
+                zxTextMessages[i].showText(zxTextMessages[i]);
+        }
+}
+
+// ==================PILOT SIGNAL=========================
+function startPilotSignal() {
+    if (!exitHeadersSignal)
+        stopHeadersSignal();
+    if (!exitDataSignal)
+        stopDataSignal();
+    showPilotSignal();
+}
+
+function showPilotSignal() {
+    ctx.fillStyle = pilotColors[pilotColorsIndex];
+    pilotColorsIndex = 1 - pilotColorsIndex;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    showContent();
+    pilotSignalTimer = setTimeout(showPilotSignal, 2000);
+}
+
+// ==================HEADER SIGNAL=========================
+function startHeadersSignal() {
+    stripeStartPos = 0;
+    exitHeadersSignal = false;
+    if (!exitDataSignal)
+        stopDataSignal();
+    PlaySound();
+
+    clearTimeout(pilotSignalTimer);
+    showHeadersSignal();
+}
+
+function showHeadersSignal() {
+    ctx.fillStyle = pilotColors[0];
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = pilotColors[1];
+    var stripeThinckness = canvas.height / 27;
+    for (var i = -1; i < 28; i += 2) {
+        ctx.fillRect(0, i * stripeThinckness+stripeStartPos, canvas.width, stripeThinckness);
+    }
+    stripeStartPos++;
+    if (stripeStartPos > stripeThinckness * 2)
+        stripeStartPos = 0;
+    showContent();
+    if (!exitHeadersSignal)
+        requestAnimationFrame(showHeadersSignal);
+}
+
+function stopHeadersSignal() {
+    exitHeadersSignal = true;
+    sound.pause();
+}
+
+// ==================DRAWING IMAGE=========================
+function startDrawingSignal() {
+    isDrawingData = true;
+    startDataSignal();
+}
+
+function loadImage() {
+    img.crossOrigin = "";
+    img.src = "./kogito.jpg";
+    img.onload = function () {
+        isImageReady = true;
+    };
+}
+
+function drawContentImage() {
+    if (isImageReady) {
+        var rectWidth = contentWidth / 192;
+        var rectHeight = contentHeight / 168;
+        var rectHeightOneThird = rectHeight * 7 * 8;
+        ctx.fillStyle = "black";
+        ctx.fillRect(contentPosX, contentPosY, contentWidth, contentHeight);
+        ctx.globalCompositeOperation = 'xor';
+        ctx.fillStyle = "white";
+        var thirdBlockStartPos=0;
+        var j = 0;
+        ctx.beginPath();
+        for (j = 0; j < 3; j++) {
+            if (imgLoadPos <= (j+1) * 8 * 7 * 192)
+                break;
+            ctx.rect(contentPosX, contentPosY + (j * rectHeightOneThird), contentWidth, rectHeightOneThird);
+            thirdBlockStartPos += rectHeightOneThird;
+        }
+        var tempImgLoadPos = imgLoadPos - (j * 192 * 8 * 7);
+            for (var i = 0; i < 7; i++) {
+                if (i * 192 > tempImgLoadPos)
+                    break;
+                var blockHeight = Math.ceil((tempImgLoadPos - (i * 192)) / 192 / 7) * rectHeight;
+                ctx.rect(contentPosX, contentPosY + thirdBlockStartPos + (rectHeight * i * 8), contentWidth, blockHeight);
+            }
+        ctx.fill();
+        ctx.drawImage(img, contentPosX, contentPosY, contentWidth, contentHeight);
+        ctx.globalCompositeOperation = 'source-over';
+    }
+}
+
+// ==================DATA SIGNAL=========================
+function startDataSignal() {
+    stripeStartPos = 0;
+    exitDataSignal = false;
+    clearTimeout(pilotSignalTimer);
+    if (!exitHeadersSignal)
+        stopHeadersSignal();
+    PlaySound();
+
+    showDataSignal();
+}
+
+function showDataSignal() {
+    if (exitDataSignal)
+        return;
+        ctx.fillStyle = dataColors[0];
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = dataColors[1];
+        var stripeThinckness = canvas.height / 27 / 2;
+        var stripeStartPos = -stripeThinckness;
+        for (var i = 0; i < 28 * 2; i++) {
+            var randomThickness = Math.floor(Math.random() * 2 + 1);
+            var thickness = stripeThinckness * randomThickness;
+            ctx.fillStyle = dataColors[i % 2];
+            ctx.fillRect(0, stripeStartPos, canvas.width, thickness);
+            stripeStartPos += thickness;
+        }
+        if (!isDrawingData)
+            showContent();
+        else if (isImageDrawn) {
+            showContent(true);
+            stopDataSignal();
+            showPilotSignal();
+            setTimeout(startHeadersSignal, 3000);
+            setTimeout(stopHeadersSignal, 4000);
+            setTimeout(zxTextMessages.push(new zxTextMessage("R Tape loading error, 0:1", 4500, false)));
+        }
+        else {
+            drawContentImage();
+            imgLoadPos += 24;
+            if (imgLoadPos > 192 * 168)
+                isImageDrawn = true;
+        }
+        if (!exitDataSignal)
+            requestAnimationFrame(showDataSignal);
+}
+
+function stopDataSignal() {
+    exitDataSignal = true;
+    sound.pause();
+}
+
+document.getElementById('btnMute').addEventListener('click', function (evt) {
+    if (sound.muted) {
+        sound.muted = false;
+        evt.target.innerHTML = "Turn Sound Off";
+        PlaySound();
+    }
+    else {
+        sound.muted = true;
+        evt.target.innerHTML = "Turn Sound On";
+    }
+});
+
+loadImage();
+zxTextMessages.push(new zxTextMessage("©  1982 Sinclair Research Ltd", 200, false));
+zxTextMessages.push(new zxTextMessage("Load L", 1000, false));
+zxTextMessages.push(new zxTextMessage("Load \"L", 1250, false));
+zxTextMessages.push(new zxTextMessage("Load \"\"L", 1500, false));
+setTimeout(startPilotSignal, 2500);
+setTimeout(startHeadersSignal, 6000);
+setTimeout(startDataSignal, 10000);
+setTimeout(startPilotSignal, 10250);
+zxTextMessages.push(new zxTextMessage("Program:  TrustyAI", 10500, true));
+setTimeout(startHeadersSignal, 11250);
+setTimeout(startDataSignal, 13000);
+setTimeout(startPilotSignal, 14000);
+setTimeout(startHeadersSignal, 16000);
+setTimeout(startDataSignal, 18000);
+setTimeout(startPilotSignal, 18250);
+setTimeout(startHeadersSignal, 20000);
+setTimeout(startDrawingSignal, 22000);
+
+</script>
+</html>    
+    
+    
