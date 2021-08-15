@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon.ico">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes on XGBoost">
+    <meta name="robots" content="index">
+    <link rel="canonical" href="https://ruivieira.dev/xgboost.html">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+          integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+            integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+            crossorigin="anonymous"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+
+    <script src="/assets/mark.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="/assets/style.css" rel="stylesheet">
+    <link href="/assets/code.css" rel="stylesheet">
+    <title>ruivieira.dev - XGBoost</title>
+    <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <style>
+        #search_terms {
+            font-size: 1rem;
+            font-family: "iA-Quattro", sans-serif;
+            width: 40%;
+        }
+        #search_terms::placeholder {
+            color: #bbb;
+        }
+        #search_button {
+            background-color: #eee;
+            border: none;
+            color: black;
+            padding: 0.25rem 0.25rem;
+            font-size: 1rem;
+            font-family: "iA-Quattro", sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 3rem;
+        }
+</style>
+</head>
+<body>
+    <div id="grid">
+
+        <div id="content">
+            <h1 id="xgboost">XGBoost</h1>
+<p>Training XGBoost with the <code>credit-bias</code> dataset.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/credit-bias-train.zip&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NewCreditCustomer</th>
+      <th>Amount</th>
+      <th>Interest</th>
+      <th>LoanDuration</th>
+      <th>Education</th>
+      <th>NrOfDependants</th>
+      <th>EmploymentDurationCurrentEmployer</th>
+      <th>IncomeFromPrincipalEmployer</th>
+      <th>IncomeFromPension</th>
+      <th>IncomeFromFamilyAllowance</th>
+      <th>...</th>
+      <th>Mortgage</th>
+      <th>Other</th>
+      <th>Owner</th>
+      <th>Owner_with_encumbrance</th>
+      <th>Tenant</th>
+      <th>Entrepreneur</th>
+      <th>Fully</th>
+      <th>Partially</th>
+      <th>Retiree</th>
+      <th>Self_employed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>2125.0</td>
+      <td>20.97</td>
+      <td>60</td>
+      <td>4.0</td>
+      <td>0.0</td>
+      <td>6.0</td>
+      <td>0.0</td>
+      <td>301.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>3000.0</td>
+      <td>17.12</td>
+      <td>60</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>6.0</td>
+      <td>900.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>True</td>
+      <td>9100.0</td>
+      <td>13.67</td>
+      <td>60</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>600.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>True</td>
+      <td>635.0</td>
+      <td>42.66</td>
+      <td>60</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>745.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>5000.0</td>
+      <td>24.52</td>
+      <td>60</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>1000.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 40 columns</p>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">X_df</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;PaidLoan&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_df</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;PaidLoan&#39;</span><span class="p">]</span>
+<span class="n">y_df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>count     58003
+unique        2
+top        True
+freq      29219
+Name: PaidLoan, dtype: object
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">train_x</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_y</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">y_df</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Runs a grid search to find the tuning parameters that maxisimise the area under the curve (AUC)
+<code>train_x</code> is the training data frame with loan details and <code>train_y</code> is the default target column for training
+The method returns the best parameters and corresponding AUC score.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">xgboost.sklearn</span> <span class="kn">import</span> <span class="n">XGBClassifier</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="k">def</span> <span class="nf">find_best_xgboost_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">train_y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="n">scale_pos_weight</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_y</span><span class="p">)</span> <span class="o">-</span> <span class="n">train_y</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">train_y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="n">param_test</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+            <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">],</span>
+            <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
+        <span class="p">}</span>
+
+    <span class="n">gsearch</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">XGBClassifier</span><span class="p">(</span>
+        <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;binary:logistic&#39;</span><span class="p">,</span>
+        <span class="n">scale_pos_weight</span><span class="o">=</span><span class="n">scale_pos_weight</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="mi">27</span><span class="p">),</span>
+        <span class="n">param_grid</span><span class="o">=</span><span class="n">param_test</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+    <span class="n">gsearch</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gsearch</span><span class="o">.</span><span class="n">best_params_</span><span class="p">,</span> <span class="n">gsearch</span><span class="o">.</span><span class="n">best_score_</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">best_params</span><span class="p">,</span> <span class="n">best_score</span> <span class="o">=</span> <span class="n">find_best_xgboost_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>/<span class="n">Users</span><span class="o">/</span><span class="n">rui</span><span class="o">/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog-source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site-packages</span><span class="o">/</span><span class="n">xgboost</span><span class="o">/</span><span class="n">sklearn</span>.<span class="n">py:1146:</span> <span class="n">UserWarning:</span> <span class="n">The</span> <span class="k">use</span> <span class="nb">of</span> <span class="n">label</span> <span class="nb">encoder</span> <span class="nb">in</span> <span class="n">XGBClassifier</span> <span class="k">is</span> <span class="n">deprecated</span> <span class="o">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">removed</span> <span class="nb">in</span> <span class="n">a</span> <span class="n">future</span> <span class="nb">release</span>. <span class="n">To</span> <span class="n">remove</span> <span class="n">this</span> <span class="n">warning</span>, <span class="nb">do</span> <span class="n">the</span> <span class="n">following:</span> <span class="mi">1</span>) <span class="n">Pass</span> <span class="n">option</span> <span class="n">use_label_encoder</span>=<span class="nb">False</span> <span class="k">when</span> <span class="n">constructing</span> <span class="n">XGBClassifier</span> <span class="n">object</span>; <span class="o">and</span> <span class="mi">2</span>) <span class="n">Encode</span> <span class="n">your</span> <span class="n">labels</span> (<span class="n">y</span>) <span class="n">as</span> <span class="n">integers</span> <span class="n">starting</span> <span class="k">with</span> <span class="mi">0</span>, <span class="n">i</span>.<span class="nb">e</span>. <span class="mi">0</span>, <span class="mi">1</span>, <span class="mi">2</span>, ..., [<span class="n">num_class</span> - <span class="mi">1</span>].
+  <span class="n">warnings</span>.<span class="nb">warn</span>(<span class="n">label_encoder_deprecation_msg</span>, <span class="n">UserWarning</span>)
+
+
+[<span class="mi">18</span>:<span class="mi">29</span>:<span class="mi">24</span>] <span class="n">WARNING:</span> /<span class="n">Users</span><span class="o">/</span><span class="n">travis</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">dmlc</span><span class="o">/</span><span class="n">xgboost</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">learner</span>.<span class="n">cc:1095:</span> <span class="n">Starting</span> <span class="nb">in</span> <span class="n">XGBoost</span> <span class="mf">1.3.0</span>, <span class="n">the</span> <span class="k">default</span> <span class="n">evaluation</span> <span class="n">metric</span> <span class="n">used</span> <span class="k">with</span> <span class="n">the</span> <span class="n">objective</span> <span class="s">&#39;binary:logistic&#39;</span> <span class="n">was</span> <span class="nb">changed</span> <span class="nb">from</span> <span class="s">&#39;error&#39;</span> <span class="nb">to</span> <span class="s">&#39;logloss&#39;</span>. <span class="n">Explicitly</span> <span class="n">set</span> <span class="n">eval_metric</span> <span class="k">if</span> <span class="n">you&#39;d</span> <span class="nb">like</span> <span class="nb">to</span> <span class="nb">restore</span> <span class="n">the</span> <span class="nb">old</span> <span class="n">behavior</span>.
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best Parameters: </span><span class="si">{}</span><span class="s1"> | Best AUC: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">best_params</span><span class="p">,</span> <span class="n">best_score</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Best Parameters: {&#39;learning_rate&#39;: 0.07, &#39;max_depth&#39;: 8, &#39;n_estimators&#39;: 200} | Best AUC: 0.7408776972949906
+</code></pre></div>
+
+<p>Using the xgboost model parameters, it predicts the probabilities of defaulting.</p>
+<ul>
+<li><code>best_params_</code>, best tuning parameters</li>
+<li><code>train_x</code>, training dataframe with loan details</li>
+<li><code>train_y</code>, default target column for training</li>
+<li><code>test_x</code>, testing dataframe with loan details</li>
+<li><code>test_y</code>, default target column for testing</li>
+<li>The result is a series of probabilities whether loan entry will default or not and corresponding model's AUC score</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+
+<span class="k">def</span> <span class="nf">xgboost_predict</span><span class="p">(</span><span class="n">best_params_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">train_x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">train_y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">test_x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+                    <span class="n">test_y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="n">scale_pos_weight</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_y</span><span class="p">)</span> <span class="o">-</span> <span class="n">train_y</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">train_y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">xgb_model</span> <span class="o">=</span> <span class="n">XGBClassifier</span><span class="p">(</span><span class="n">objective</span><span class="o">=</span><span class="s1">&#39;binary:logistic&#39;</span><span class="p">,</span>
+                              <span class="n">scale_pos_weight</span><span class="o">=</span><span class="n">scale_pos_weight</span><span class="p">,</span>
+                              <span class="n">seed</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span>
+                              <span class="n">max_depth</span><span class="o">=</span><span class="n">best_params_</span><span class="p">[</span><span class="s1">&#39;max_depth&#39;</span><span class="p">],</span>
+                              <span class="n">learning_rate</span><span class="o">=</span><span class="n">best_params_</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">],</span>
+                              <span class="n">n_estimators</span><span class="o">=</span><span class="n">best_params_</span><span class="p">[</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">]</span>
+                              <span class="p">)</span>
+
+    <span class="n">xgb_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+    <span class="n">predicted_probabilities_</span> <span class="o">=</span> <span class="n">xgb_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">test_x</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">auc_</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">predicted_probabilities_</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">predicted_probabilities_</span><span class="p">,</span> <span class="n">auc_</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">predicted_probabilities</span><span class="p">,</span> <span class="n">auc</span> <span class="o">=</span> <span class="n">xgboost_predict</span><span class="p">(</span><span class="n">best_params</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AUC: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">auc</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>[<span class="mi">18</span>:<span class="mi">29</span>:<span class="mi">33</span>] <span class="nv">WARNING</span>: <span class="o">/</span><span class="nv">Users</span><span class="o">/</span><span class="nv">travis</span><span class="o">/</span><span class="nv">build</span><span class="o">/</span><span class="nv">dmlc</span><span class="o">/</span><span class="nv">xgboost</span><span class="o">/</span><span class="nv">src</span><span class="o">/</span><span class="nv">learner</span>.<span class="nv">cc</span>:<span class="mi">1095</span>: <span class="nv">Starting</span> <span class="nv">in</span> <span class="nv">XGBoost</span> <span class="mi">1</span>.<span class="mi">3</span>.<span class="mi">0</span>, <span class="nv">the</span> <span class="nv">default</span> <span class="nv">evaluation</span> <span class="nv">metric</span> <span class="nv">used</span> <span class="nv">with</span> <span class="nv">the</span> <span class="nv">objective</span> <span class="s1">&#39;</span><span class="s">binary:logistic</span><span class="s1">&#39;</span> <span class="nv">was</span> <span class="nv">changed</span> <span class="nv">from</span> <span class="s1">&#39;</span><span class="s">error</span><span class="s1">&#39;</span> <span class="nv">to</span> <span class="s1">&#39;</span><span class="s">logloss</span><span class="s1">&#39;</span>. <span class="nv">Explicitly</span> <span class="nv">set</span> <span class="nv">eval_metric</span> <span class="k">if</span> <span class="nv">you</span><span class="s1">&#39;</span><span class="s">d like to restore the old behavior.</span>
+<span class="nv">AUC</span>: <span class="mi">0</span>.<span class="mi">7372207434311429</span>
+</code></pre></div>
+
+<p>Filters the original loan dataframe to just include the loans from the test dataframe and then it adds the
+predicted probabilities.</p>
+<ul>
+<li><code>loans_df_</code>, original loan dataframe</li>
+<li><code>test_index</code>, indices from the test dataframes</li>
+<li><code>predicted_probabilities_</code>, the probabilities forecasted by the XGBoost model</li>
+<li>Returns the loans dataframe with predictions</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">prepare_test_with_predictions</span><span class="p">(</span><span class="n">loans_df_</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">test_index</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">,</span> <span class="n">predicted_probabilities_</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>\
+        <span class="o">-&gt;</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">loan_test_df</span> <span class="o">=</span> <span class="n">loans_df_</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+    <span class="n">loan_test_df</span><span class="p">[</span><span class="s1">&#39;predicted_probabilities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predicted_probabilities_</span>
+    <span class="k">return</span> <span class="n">loan_test_df</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">loans_with_predictions_df</span> <span class="o">=</span> <span class="n">prepare_test_with_predictions</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">test_x</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">predicted_probabilities</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">loans_with_predictions_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="visualisation">Visualisation</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">loans_with_predictions_df</span><span class="p">[</span><span class="s1">&#39;predicted_probabilities&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>&lt;AxesSubplot:xlabel=&#39;predicted_probabilities&#39;, ylabel=&#39;Density&#39;&gt;
+</code></pre></div>
+
+<p><img alt="png" src="images/xgboost-output_16_1.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span><span class="n">loans_with_predictions_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;predicted_probabilities&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;PaidLoan&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>&lt;seaborn.axisgrid.FacetGrid at 0x140bea280&gt;
+</code></pre></div>
+
+<p><img alt="png" src="images/xgboost-output_17_1.png" /></p>
+<h2 id="roc-and-auc">ROC and AUC</h2>
+<p>Based on actuals and predicted values, it calculates their false positive rate (fpr), the true positive rate (tpr).
+It also returns the corresponding thresholds used as well as the value for the area under the curve.</p>
+<ul>
+<li><code>actuals</code>, series of actual values indicating whether the loan defaulted or not</li>
+<li><code>predicted_probabilities</code>, series of predicted probabilities of the loan defaulting</li>
+<li>Return a unique series of false and true positive rates with corresponding series of thresholds and value for total area under the curve.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">auc</span>
+
+<span class="k">def</span> <span class="nf">get_roc_auc_data</span><span class="p">(</span><span class="n">actuals</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">predicted_probabilities</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> \
+        <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">actuals</span><span class="p">,</span> <span class="n">predicted_probabilities</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">auc_score</span> <span class="o">=</span> <span class="n">auc</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">,</span> <span class="n">auc_score</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">,</span> <span class="n">auc_score</span> <span class="o">=</span> <span class="n">get_roc_auc_data</span><span class="p">(</span><span class="n">loans_with_predictions_df</span><span class="p">[</span><span class="s1">&#39;PaidLoan&#39;</span><span class="p">],</span> <span class="n">loans_with_predictions_df</span><span class="p">[</span><span class="s1">&#39;predicted_probabilities&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">fpr</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">rui</span><span class="o">/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">seaborn</span><span class="o">/</span><span class="n">_decorators</span><span class="p">.</span><span class="n">py</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span> <span class="n">FutureWarning</span><span class="o">:</span> <span class="n">Pass</span> <span class="n">the</span> <span class="k">following</span> <span class="n">variable</span> <span class="k">as</span> <span class="n">a</span> <span class="n">keyword</span> <span class="n">arg</span><span class="o">:</span> <span class="n">x</span><span class="p">.</span> <span class="k">From</span> <span class="n">version</span> <span class="mf">0.12</span><span class="p">,</span> <span class="n">the</span> <span class="k">only</span> <span class="n">valid</span> <span class="n">positional</span> <span class="n">argument</span> <span class="n">will</span> <span class="n">be</span> <span class="n n-Quoted">`data`</span><span class="p">,</span> <span class="k">and</span> <span class="n">passing</span> <span class="n">other</span> <span class="n">arguments</span> <span class="k">without</span> <span class="n">an</span> <span class="n">explicit</span> <span class="n">keyword</span> <span class="n">will</span> <span class="n">result</span> <span class="k">in</span> <span class="n">an</span> <span class="k">error</span> <span class="k">or</span> <span class="n">misinterpretation</span><span class="p">.</span>
+  <span class="k">warnings</span><span class="p">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">rui</span><span class="o">/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nanfunctions</span><span class="p">.</span><span class="n">py</span><span class="o">:</span><span class="mi">1368</span><span class="o">:</span> <span class="n">RuntimeWarning</span><span class="o">:</span> <span class="k">All</span><span class="o">-</span><span class="n">NaN</span> <span class="n">slice</span> <span class="n">encountered</span>
+  <span class="n">r</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">function_base</span><span class="p">.</span><span class="n">_ureduce</span><span class="p">(</span>
+
+
+
+<span class="o">---------------------------------------------------------------------------</span>
+
+<span class="n">KeyboardInterrupt</span>                         <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="k">call</span> <span class="k">last</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="n">input</span><span class="o">-</span><span class="mi">34</span><span class="o">-</span><span class="mf">1507e2960</span><span class="n">d14</span><span class="o">&gt;</span> <span class="k">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">fpr</span><span class="p">)</span>
+
+
+<span class="o">~/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">seaborn</span><span class="o">/</span><span class="n">_decorators</span><span class="p">.</span><span class="n">py</span> <span class="k">in</span> <span class="n">inner_f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+     <span class="mi">44</span>             <span class="p">)</span>
+     <span class="mi">45</span>         <span class="n">kwargs</span><span class="p">.</span><span class="k">update</span><span class="p">(</span><span class="err">{</span><span class="n">k</span><span class="o">:</span> <span class="n">arg</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">arg</span> <span class="k">in</span> <span class="n">zip</span><span class="p">(</span><span class="n">sig</span><span class="p">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span><span class="err">}</span><span class="p">)</span>
+<span class="o">---&gt;</span> <span class="mi">46</span>         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+     <span class="mi">47</span>     <span class="k">return</span> <span class="n">inner_f</span>
+     <span class="mi">48</span>
+
+
+<span class="o">~/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">seaborn</span><span class="o">/</span><span class="n">relational</span><span class="p">.</span><span class="n">py</span> <span class="k">in</span> <span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hue</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="k">data</span><span class="p">,</span> <span class="n">palette</span><span class="p">,</span> <span class="n">hue_order</span><span class="p">,</span> <span class="n">hue_norm</span><span class="p">,</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">size_order</span><span class="p">,</span> <span class="n">size_norm</span><span class="p">,</span> <span class="n">dashes</span><span class="p">,</span> <span class="n">markers</span><span class="p">,</span> <span class="n">style_order</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">ci</span><span class="p">,</span> <span class="n">n_boot</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">err_style</span><span class="p">,</span> <span class="n">err_kws</span><span class="p">,</span> <span class="n">legend</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">701</span>     <span class="n">p</span><span class="p">.</span><span class="n">_attach</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="mi">702</span> 
+<span class="o">--&gt;</span> <span class="mi">703</span>     <span class="n">p</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">704</span>     <span class="k">return</span> <span class="n">ax</span>
+    <span class="mi">705</span>
+
+
+<span class="o">~/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">seaborn</span><span class="o">/</span><span class="n">relational</span><span class="p">.</span><span class="n">py</span> <span class="k">in</span> <span class="n">plot</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">kws</span><span class="p">)</span>
+    <span class="mi">497</span>                     <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;estimator must be None when specifying units&quot;</span>
+    <span class="mi">498</span>                     <span class="n">raise</span> <span class="n">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="o">--&gt;</span> <span class="mi">499</span>                 <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_ci</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="k">aggregate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="mi">500</span>             <span class="k">else</span><span class="o">:</span>
+    <span class="mi">501</span>                 <span class="n">y_ci</span> <span class="o">=</span> <span class="k">None</span>
+
+
+<span class="o">~/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">seaborn</span><span class="o">/</span><span class="n">relational</span><span class="p">.</span><span class="n">py</span> <span class="k">in</span> <span class="k">aggregate</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">grouper</span><span class="p">,</span> <span class="n">units</span><span class="p">)</span>
+    <span class="mi">412</span>                                <span class="k">columns</span><span class="o">=</span><span class="err">[</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="err">]</span><span class="p">).</span><span class="n">stack</span><span class="p">()</span>
+    <span class="mi">413</span>         <span class="k">else</span><span class="o">:</span>
+<span class="o">--&gt;</span> <span class="mi">414</span>             <span class="n">cis</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">bootstrapped_cis</span><span class="p">)</span>
+    <span class="mi">415</span> 
+    <span class="mi">416</span>         <span class="c1"># Unpack the CIs into &quot;wide&quot; format for plotting</span>
+
+
+<span class="o">~/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">groupby</span><span class="o">/</span><span class="n">generic</span><span class="p">.</span><span class="n">py</span> <span class="k">in</span> <span class="n">apply</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">224</span>     <span class="p">)</span>
+    <span class="mi">225</span>     <span class="n">def</span> <span class="n">apply</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">:</span>
+<span class="o">--&gt;</span> <span class="mi">226</span>         <span class="k">return</span> <span class="k">super</span><span class="p">().</span><span class="n">apply</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">227</span> 
+    <span class="mi">228</span>     <span class="nv">@doc</span><span class="p">(</span>
+
+
+<span class="o">~/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">groupby</span><span class="o">/</span><span class="n">groupby</span><span class="p">.</span><span class="n">py</span> <span class="k">in</span> <span class="n">apply</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">857</span>         <span class="k">with</span> <span class="n">option_context</span><span class="p">(</span><span class="s2">&quot;mode.chained_assignment&quot;</span><span class="p">,</span> <span class="k">None</span><span class="p">)</span><span class="o">:</span>
+    <span class="mi">858</span>             <span class="n">try</span><span class="o">:</span>
+<span class="o">--&gt;</span> <span class="mi">859</span>                 <span class="n">result</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">_python_apply_general</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">_selected_obj</span><span class="p">)</span>
+    <span class="mi">860</span>             <span class="k">except</span> <span class="n">TypeError</span><span class="o">:</span>
+    <span class="mi">861</span>                 <span class="c1"># gh-20949</span>
+
+
+<span class="o">~/</span><span class="n">venvs</span><span class="o">/</span><span class="n">blog</span><span class="o">-</span><span class="k">source</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">pandas</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">groupby</span><span class="o">/</span><span class="n">groupby</span><span class="p">.</span><span class="n">py</span> <span class="k">in</span> <span class="n">_python_apply_general</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="k">data</span><span class="p">)</span>
+    <span class="mi">890</span>             <span class="k">data</span> <span class="k">after</span> <span class="n">applying</span> <span class="n">f</span>
+    <span class="mi">891</span>         <span class="s2">&quot;</span><span class="se">&quot;&quot;</span><span class="s2"></span>
+<span class="s2">--&gt; 892         keys, values, mutated = self.grouper.apply(f, data, self.axis)</span>
+<span class="s2">    893 </span>
+<span class="s2">    894         return self._wrap_applied_output(</span>
+
+
+<span class="s2">~/venvs/blog-source/lib/python3.9/site-packages/pandas/core/groupby/ops.py in apply(self, f, data, axis)</span>
+<span class="s2">    211             # group might be modified</span>
+<span class="s2">    212             group_axes = group.axes</span>
+<span class="s2">--&gt; 213             res = f(group)</span>
+<span class="s2">    214             if not _is_indexed_like(res, group_axes):</span>
+<span class="s2">    215                 mutated = True</span>
+
+
+<span class="s2">~/venvs/blog-source/lib/python3.9/site-packages/seaborn/relational.py in bootstrapped_cis(vals)</span>
+<span class="s2">    393                 return null_ci</span>
+<span class="s2">    394 </span>
+<span class="s2">--&gt; 395             boots = bootstrap(vals, func=func, n_boot=n_boot, seed=seed)</span>
+<span class="s2">    396             cis = ci_func(boots, ci)</span>
+<span class="s2">    397             return pd.Series(cis, [&quot;</span><span class="n">low</span><span class="s2">&quot;, &quot;</span><span class="n">high</span><span class="s2">&quot;])</span>
+
+
+<span class="s2">~/venvs/blog-source/lib/python3.9/site-packages/seaborn/algorithms.py in bootstrap(*args, **kwargs)</span>
+<span class="s2">     83         resampler = integers(0, n, n, dtype=np.intp)  # intp is indexing dtype</span>
+<span class="s2">     84         sample = [a.take(resampler, axis=0) for a in args]</span>
+<span class="s2">---&gt; 85         boot_dist.append(f(*sample, **func_kwargs))</span>
+<span class="s2">     86     return np.array(boot_dist)</span>
+<span class="s2">     87</span>
+
+
+<span class="s2">~/venvs/blog-source/lib/python3.9/site-packages/seaborn/algorithms.py in f(x)</span>
+<span class="s2">     64     if isinstance(func, str):</span>
+<span class="s2">     65         def f(x):</span>
+<span class="s2">---&gt; 66             return getattr(x, func)()</span>
+<span class="s2">     67     else:</span>
+<span class="s2">     68         f = func</span>
+
+
+<span class="s2">~/venvs/blog-source/lib/python3.9/site-packages/numpy/core/_methods.py in _mean(a, axis, dtype, out, keepdims, where)</span>
+<span class="s2">    159             um.clip, a, min, max, out=out, casting=casting, **kwargs)</span>
+<span class="s2">    160 </span>
+<span class="s2">--&gt; 161 def _mean(a, axis=None, dtype=None, out=None, keepdims=False, *, where=True):</span>
+<span class="s2">    162     arr = asanyarray(a)</span>
+<span class="s2">    163</span>
+
+
+<span class="s2">KeyboardInterrupt:</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/xgboost-output_21_2.png" /></p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+            <div class="footer">
+                <span class="cc-symbol">&#127341;</span> 2020 CC BY Rui Vieira
+            </div>
+        </div>
+
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <input id="search_terms" type="search" placeholder="Search terms" />
+                <button id="search_button" onclick="search()">?</button>
+            </div>
+            <div id="sidebar-home"><a href="/">Home</a></div>
+            <div id="sidebar-all-pages"><a href="/content.html">All pages</a></div>
+            <div id="sidebar-graph"><a href="/graph.html">Link network</a></div>
+
+            <div id="sidebar-contents">
+                <h3>Contents</h3>
+                <div class="toc">
+<ul>
+<li><a href="#visualisation">Visualisation</a></li>
+<li><a href="#roc-and-auc">ROC and AUC</a></li>
+</ul>
+</div>
+    
+                
+            </div>
+
+
+
+            <div class="footer">
+                modified a month ago
+            </div>
+
+        </div>
+    <div>
+
+<script>
+const input = document.getElementById('search_terms');
+const highlight = new URLSearchParams(document.location.search).get("h");
+
+if (highlight!=null) {
+    const markInstance = new Mark("#content");
+    markInstance.mark(highlight);
+}
+
+input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_button.click();
+            }
+        });
+
+let search = function() {
+            const query = new URLSearchParams({"q": input.value});
+            console.log(query.toString());
+            window.location.href = "/search.html?" + query.toString();
+}
+</script>
+
+</body>
+</html>

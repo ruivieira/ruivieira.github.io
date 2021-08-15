@@ -81,7 +81,7 @@
 			http://ruivieira.dev/reading-list.html
 		</loc>
 		<lastmod>
-			2021-06-20T21:34:04Z
+			2021-08-15T22:00:30Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -111,7 +111,7 @@
 			http://ruivieira.dev/gower-distance.html
 		</loc>
 		<lastmod>
-			2021-06-19T22:11:53Z
+			2021-06-21T23:13:57Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -303,6 +303,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/feature-scaling.html
+		</loc>
+		<lastmod>
+			2021-06-21T22:32:04Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/mcmc-notifications.html
 		</loc>
 		<lastmod>
@@ -442,6 +457,21 @@
 		</loc>
 		<lastmod>
 			2021-03-04T14:44:19Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/xgboost.html
+		</loc>
+		<lastmod>
+			2021-07-01T18:32:07Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -693,6 +723,21 @@
     
     <url>
 		<loc>
+			http://ruivieira.dev/transformation-functions.html
+		</loc>
+		<lastmod>
+			2021-06-21T21:14:18Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
 			http://ruivieira.dev/synthetic-data-generation.html
 		</loc>
 		<lastmod>
@@ -786,7 +831,7 @@
 			http://ruivieira.dev/index.html
 		</loc>
 		<lastmod>
-			2021-06-17T15:36:36Z
+			2021-08-15T22:02:52Z
 		</lastmod>
 		<changefreq>
 			weekly
@@ -1162,6 +1207,21 @@
 		</loc>
 		<lastmod>
 			2021-04-30T11:23:37Z
+		</lastmod>
+		<changefreq>
+			weekly
+		</changefreq>
+		<priority>
+			0.3
+		</priority>
+	</url>
+    
+    <url>
+		<loc>
+			http://ruivieira.dev/roc.html
+		</loc>
+		<lastmod>
+			2021-07-01T10:56:06Z
 		</lastmod>
 		<changefreq>
 			weekly
