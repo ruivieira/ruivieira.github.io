@@ -2,303 +2,303 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://ruivieira.dev/map/</loc>
+    <loc>https://ruivieira.dev/map/</loc>
     <lastmod>2021-11-25T00:06:57+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/</loc>
+    <loc>https://ruivieira.dev/</loc>
     <lastmod>2021-12-07T22:50:15+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/semi-handcrafted-rss.html</loc>
+    <loc>https://ruivieira.dev/semi-handcrafted-rss.html</loc>
     <lastmod>2021-11-28T15:21:54+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/a-gibbs-sampler-in-crystal.html</loc>
+    <loc>https://ruivieira.dev/a-gibbs-sampler-in-crystal.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/a-simple-python-benchmark-exercise.html</loc>
+    <loc>https://ruivieira.dev/a-simple-python-benchmark-exercise.html</loc>
     <lastmod>2021-11-28T15:21:54+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/a-streaming-als-implementation.html</loc>
+    <loc>https://ruivieira.dev/a-streaming-als-implementation.html</loc>
     <lastmod>2021-11-28T15:21:54+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/ansible.html</loc>
+    <loc>https://ruivieira.dev/ansible.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/bayesian-estimation-of-changepoints.html</loc>
+    <loc>https://ruivieira.dev/bayesian-estimation-of-changepoints.html</loc>
     <lastmod>2021-11-28T15:21:54+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/brutalist-web-design.html</loc>
+    <loc>https://ruivieira.dev/brutalist-web-design.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/categories.html</loc>
+    <loc>https://ruivieira.dev/categories.html</loc>
   </url><url>
-    <loc>http://ruivieira.dev/clojure.html</loc>
+    <loc>https://ruivieira.dev/clojure.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</loc>
+    <loc>https://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</loc>
     <lastmod>2021-11-28T15:21:54+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/containers.html</loc>
+    <loc>https://ruivieira.dev/containers.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/cookiecutter-data-science.html</loc>
+    <loc>https://ruivieira.dev/cookiecutter-data-science.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/counterfactual-fairness.html</loc>
+    <loc>https://ruivieira.dev/counterfactual-fairness.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/counterfactual-fairness-in-java.html</loc>
+    <loc>https://ruivieira.dev/counterfactual-fairness-in-java.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/counterfactuals.html</loc>
+    <loc>https://ruivieira.dev/counterfactuals.html</loc>
     <lastmod>2021-11-12T15:51:21+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/counterfactuals-with-constraint-solvers.html</loc>
+    <loc>https://ruivieira.dev/counterfactuals-with-constraint-solvers.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/deno.html</loc>
+    <loc>https://ruivieira.dev/deno.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/deno-types.html</loc>
+    <loc>https://ruivieira.dev/deno-types.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/digital-garden.html</loc>
+    <loc>https://ruivieira.dev/digital-garden.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/distance-metrics.html</loc>
+    <loc>https://ruivieira.dev/distance-metrics.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/doom-emacs.html</loc>
+    <loc>https://ruivieira.dev/doom-emacs.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/doom-emacs.html</loc>
+    <loc>https://ruivieira.dev/doom-emacs.html</loc>
     <lastmod>2021-11-25T22:32:40+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/dunn-index.html</loc>
+    <loc>https://ruivieira.dev/dunn-index.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/emacs.html</loc>
+    <loc>https://ruivieira.dev/emacs.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/error-metrics.html</loc>
+    <loc>https://ruivieira.dev/error-metrics.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/explainability.html</loc>
+    <loc>https://ruivieira.dev/explainability.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/extending-junit.html</loc>
+    <loc>https://ruivieira.dev/extending-junit.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/feature-scaling.html</loc>
+    <loc>https://ruivieira.dev/feature-scaling.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/gemini.html</loc>
+    <loc>https://ruivieira.dev/gemini.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/git.html</loc>
+    <loc>https://ruivieira.dev/git.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/go.html</loc>
+    <loc>https://ruivieira.dev/go.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/go-filesystem-operations.html</loc>
+    <loc>https://ruivieira.dev/go-filesystem-operations.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/go-resource-bundling.html</loc>
+    <loc>https://ruivieira.dev/go-resource-bundling.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/gower-distance.html</loc>
+    <loc>https://ruivieira.dev/gower-distance.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/gpg.html</loc>
+    <loc>https://ruivieira.dev/gpg.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/graalvm.html</loc>
+    <loc>https://ruivieira.dev/graalvm.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/gradient-free-optimisation.html</loc>
+    <loc>https://ruivieira.dev/gradient-free-optimisation.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/gulp.html</loc>
+    <loc>https://ruivieira.dev/gulp.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/hill-climbing-optimisation.html</loc>
+    <loc>https://ruivieira.dev/hill-climbing-optimisation.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/hugo.html</loc>
+    <loc>https://ruivieira.dev/hugo.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</loc>
+    <loc>https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/introduction-to-isolation-forests.html</loc>
+    <loc>https://ruivieira.dev/introduction-to-isolation-forests.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/java.html</loc>
+    <loc>https://ruivieira.dev/java.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/java-completable-futures.html</loc>
+    <loc>https://ruivieira.dev/java-completable-futures.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/java-consumer.html</loc>
+    <loc>https://ruivieira.dev/java-consumer.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/java-streams.html</loc>
+    <loc>https://ruivieira.dev/java-streams.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/k-means-clustering.html</loc>
+    <loc>https://ruivieira.dev/k-means-clustering.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/langtons-ant.html</loc>
+    <loc>https://ruivieira.dev/langtons-ant.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/lars-path.html</loc>
+    <loc>https://ruivieira.dev/lars-path.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/latex.html</loc>
+    <loc>https://ruivieira.dev/latex.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/linux-admin.html</loc>
+    <loc>https://ruivieira.dev/linux-admin.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/lstm.html</loc>
+    <loc>https://ruivieira.dev/lstm.html</loc>
     <lastmod>2021-11-27T18:37:48+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/machine-learning.html</loc>
+    <loc>https://ruivieira.dev/machine-learning.html</loc>
     <lastmod>2021-11-27T18:37:48+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/mcmc-notifications.html</loc>
+    <loc>https://ruivieira.dev/mcmc-notifications.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/mcmc-performance-on-substrate-vm.html</loc>
+    <loc>https://ruivieira.dev/mcmc-performance-on-substrate-vm.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/model-fairness.html</loc>
+    <loc>https://ruivieira.dev/model-fairness.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</loc>
+    <loc>https://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/oob-score-in-random-forests.html</loc>
+    <loc>https://ruivieira.dev/oob-score-in-random-forests.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/optaplanner.html</loc>
+    <loc>https://ruivieira.dev/optaplanner.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/optimising-random-forest-hyperparamaters.html</loc>
+    <loc>https://ruivieira.dev/optimising-random-forest-hyperparamaters.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/pandas.html</loc>
+    <loc>https://ruivieira.dev/pandas.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/pandas-basics.html</loc>
+    <loc>https://ruivieira.dev/pandas-basics.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/portuguese-christmas-recipes.html</loc>
+    <loc>https://ruivieira.dev/portuguese-christmas-recipes.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/posts.html</loc>
+    <loc>https://ruivieira.dev/posts.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/project-euler-in-elisp.html</loc>
+    <loc>https://ruivieira.dev/project-euler-in-elisp.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/python.html</loc>
+    <loc>https://ruivieira.dev/python.html</loc>
     <lastmod>2021-11-26T10:00:48+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/python-environments.html</loc>
+    <loc>https://ruivieira.dev/python-environments.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/python-grammar-of-graphics.html</loc>
+    <loc>https://ruivieira.dev/python-grammar-of-graphics.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/python-monkey-patching-for-readability.html</loc>
+    <loc>https://ruivieira.dev/python-monkey-patching-for-readability.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/python-pandas.html</loc>
+    <loc>https://ruivieira.dev/python-pandas.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/python-pweave.html</loc>
+    <loc>https://ruivieira.dev/python-pweave.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/reading-list.html</loc>
+    <loc>https://ruivieira.dev/reading-list.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/roc.html</loc>
+    <loc>https://ruivieira.dev/roc.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/root-mean-squared-error.html</loc>
+    <loc>https://ruivieira.dev/root-mean-squared-error.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/rust.html</loc>
+    <loc>https://ruivieira.dev/rust.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/rust-exercises.html</loc>
+    <loc>https://ruivieira.dev/rust-exercises.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/scikit-learn.html</loc>
+    <loc>https://ruivieira.dev/scikit-learn.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/search.html</loc>
+    <loc>https://ruivieira.dev/search.html</loc>
     <lastmod>2021-11-28T15:21:54+00:00</lastmod>
     <priority>0.1</priority>
   </url><url>
-    <loc>http://ruivieira.dev/serving-models-with-seldon.html</loc>
+    <loc>https://ruivieira.dev/serving-models-with-seldon.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/shell-configurations.html</loc>
+    <loc>https://ruivieira.dev/shell-configurations.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/shell-tricks.html</loc>
+    <loc>https://ruivieira.dev/shell-tricks.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/site-details.html</loc>
+    <loc>https://ruivieira.dev/site-details.html</loc>
     <lastmod>2021-11-28T15:21:54+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/ssh.html</loc>
+    <loc>https://ruivieira.dev/ssh.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/synthetic-data-generation.html</loc>
+    <loc>https://ruivieira.dev/synthetic-data-generation.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/synthetic-data-generation-with-sdv.html</loc>
+    <loc>https://ruivieira.dev/synthetic-data-generation-with-sdv.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/synthetic-data-with-svd-and-copulagan.html</loc>
+    <loc>https://ruivieira.dev/synthetic-data-with-svd-and-copulagan.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/synthetic-data-with-sdv-and-ctgan.html</loc>
+    <loc>https://ruivieira.dev/synthetic-data-with-sdv-and-ctgan.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/synthetic-data-with-svd-and-gaussian-copulas.html</loc>
+    <loc>https://ruivieira.dev/synthetic-data-with-svd-and-gaussian-copulas.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/t-as-mixture-of-normals.html</loc>
+    <loc>https://ruivieira.dev/t-as-mixture-of-normals.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/tags.html</loc>
+    <loc>https://ruivieira.dev/tags.html</loc>
   </url><url>
-    <loc>http://ruivieira.dev/emacs.html</loc>
+    <loc>https://ruivieira.dev/emacs.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/transformation-functions.html</loc>
+    <loc>https://ruivieira.dev/transformation-functions.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/typography.html</loc>
+    <loc>https://ruivieira.dev/typography.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/unfairness-detection.html</loc>
+    <loc>https://ruivieira.dev/unfairness-detection.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/vim-keys.html</loc>
+    <loc>https://ruivieira.dev/vim-keys.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/vue.html</loc>
+    <loc>https://ruivieira.dev/vue.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/workflow.html</loc>
+    <loc>https://ruivieira.dev/workflow.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
-    <loc>http://ruivieira.dev/xgboost.html</loc>
+    <loc>https://ruivieira.dev/xgboost.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url>
 </urlset>

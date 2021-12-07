@@ -10,7 +10,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> Java Completable Futures | Rui Vieira</title>
-  <link rel = 'canonical' href = 'http://ruivieira.dev/java-completable-futures.html'>
+  <link rel = 'canonical' href = 'https://ruivieira.dev/java-completable-futures.html'>
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="all,follow">
@@ -18,7 +18,7 @@
   <meta property="og:title" content="Java Completable Futures" />
 <meta property="og:description" content="Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture&lt;String&gt; future1 = CompletableFuture.supplyAsync(() -&gt; &#34;Hello&#34;); CompletableFuture&lt;String&gt; future2 = CompletableFuture.supplyAsync(() -&gt; &#34;Beautiful&#34;); CompletableFuture&lt;String&gt; future3 = CompletableFuture.supplyAsync(() -&gt; &#34;World&#34;); CompletableFuture&lt;Void&gt; combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture&lt;String&gt; result = combinedFuture.thenApply(v -&gt; future1.join() &#43; future2.join() &#43; future3.join()); System.out.println(result.get()); } Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\)." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://ruivieira.dev/java-completable-futures.html" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://ruivieira.dev/java-completable-futures.html" /><meta property="article:section" content="posts" />
 
 <meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
 
@@ -32,7 +32,7 @@
     
   
   
-  <link rel="stylesheet" href="http://ruivieira.dev/css/styles.11452b79971f363af7cee81005cd790dc0a7c965142f8adb59e36437063f2d447687b3711ada73b6a88b3b41a41508a42a384d9620740b48cefa0ea9f5e49459.css" integrity="sha512-EUUreZcfNjr3zugQBc15DcCnyWUUL4rbWeNkNwY/LUR2h7NxGtpztqiLO0GkFQikKjhNliB0C0jO&#43;g6p9eSUWQ=="> 
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.11452b79971f363af7cee81005cd790dc0a7c965142f8adb59e36437063f2d447687b3711ada73b6a88b3b41a41508a42a384d9620740b48cefa0ea9f5e49459.css" integrity="sha512-EUUreZcfNjr3zugQBc15DcCnyWUUL4rbWeNkNwY/LUR2h7NxGtpztqiLO0GkFQikKjhNliB0C0jO&#43;g6p9eSUWQ=="> 
 
   
   
@@ -44,7 +44,7 @@
   
 
   
-<link rel="icon" type="image/png" href="http://ruivieira.dev/images/favicon.ico" />
+<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
 
   
   
@@ -76,14 +76,14 @@
       <ul>
         
         <li>
-          <a class="icon" href=" http://ruivieira.dev/java-consumer.html" aria-label="Previous">
+          <a class="icon" href=" https://ruivieira.dev/java-consumer.html" aria-label="Previous">
             <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
           </a>
         </li>
         
         
         <li>
-          <a class="icon" href="http://ruivieira.dev/java.html" aria-label="Next">
+          <a class="icon" href="https://ruivieira.dev/java.html" aria-label="Next">
             <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
           </a>
         </li>
@@ -114,47 +114,47 @@
   
   
   <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Facebook">
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Facebook">
       <i class="fab fa-facebook " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label="Twitter">
       <i class="fab fa-twitter " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Linkedin">
       <i class="fab fa-linkedin " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label="Pinterest">
       <i class="fab fa-pinterest " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Email">
+    <a class="icon" href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Email">
       <i class="fas fa-envelope " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Pocket">
       <i class="fab fa-get-pocket " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="reddit">
       <i class="fab fa-reddit " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
       <i class="fab fa-hacker-news " aria-hidden="true"></i>
     </a>
   </li>
@@ -178,7 +178,7 @@
       <ul>
       
       
-        <li class="header-post toc"><a href="http://ruivieira.dev/java.html">Java</a></li>
+        <li class="header-post toc"><a href="https://ruivieira.dev/java.html">Java</a></li>
       
       
       </ul>
@@ -318,47 +318,47 @@ Let&rsquo;s look at an example:</p>
   
   
   <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Facebook">
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Facebook">
       <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label="Twitter">
       <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Linkedin">
       <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label="Pinterest">
       <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Email">
+    <a class="icon" href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Email">
       <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Pocket">
       <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="reddit">
       <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
       <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
     </a>
   </li>

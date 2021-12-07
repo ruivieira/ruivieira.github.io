@@ -10,7 +10,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> A Gibbs Sampler in Crystal | Rui Vieira</title>
-  <link rel = 'canonical' href = 'http://ruivieira.dev/a-gibbs-sampler-in-crystal.html'>
+  <link rel = 'canonical' href = 'https://ruivieira.dev/a-gibbs-sampler-in-crystal.html'>
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="all,follow">
@@ -20,7 +20,7 @@
 Crystal is a statically type language with a syntax resembling Ruby&rsquo;s. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to native code along with a dead simple way of creating bindings to existing C code.
 These features make it quite attractive, in my opinion, for scientific computing." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://ruivieira.dev/a-gibbs-sampler-in-crystal.html" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://ruivieira.dev/a-gibbs-sampler-in-crystal.html" /><meta property="article:section" content="posts" />
 
 <meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
 
@@ -36,7 +36,7 @@ These features make it quite attractive, in my opinion, for scientific computing
     
   
   
-  <link rel="stylesheet" href="http://ruivieira.dev/css/styles.11452b79971f363af7cee81005cd790dc0a7c965142f8adb59e36437063f2d447687b3711ada73b6a88b3b41a41508a42a384d9620740b48cefa0ea9f5e49459.css" integrity="sha512-EUUreZcfNjr3zugQBc15DcCnyWUUL4rbWeNkNwY/LUR2h7NxGtpztqiLO0GkFQikKjhNliB0C0jO&#43;g6p9eSUWQ=="> 
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.11452b79971f363af7cee81005cd790dc0a7c965142f8adb59e36437063f2d447687b3711ada73b6a88b3b41a41508a42a384d9620740b48cefa0ea9f5e49459.css" integrity="sha512-EUUreZcfNjr3zugQBc15DcCnyWUUL4rbWeNkNwY/LUR2h7NxGtpztqiLO0GkFQikKjhNliB0C0jO&#43;g6p9eSUWQ=="> 
 
   
   
@@ -48,7 +48,7 @@ These features make it quite attractive, in my opinion, for scientific computing
   
 
   
-<link rel="icon" type="image/png" href="http://ruivieira.dev/images/favicon.ico" />
+<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
 
   
   
@@ -80,14 +80,14 @@ These features make it quite attractive, in my opinion, for scientific computing
       <ul>
         
         <li>
-          <a class="icon" href=" http://ruivieira.dev/a-simple-python-benchmark-exercise.html" aria-label="Previous">
+          <a class="icon" href=" https://ruivieira.dev/a-simple-python-benchmark-exercise.html" aria-label="Previous">
             <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
           </a>
         </li>
         
         
         <li>
-          <a class="icon" href="http://ruivieira.dev/semi-handcrafted-rss.html" aria-label="Next">
+          <a class="icon" href="https://ruivieira.dev/semi-handcrafted-rss.html" aria-label="Next">
             <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
           </a>
         </li>
@@ -118,47 +118,47 @@ These features make it quite attractive, in my opinion, for scientific computing
   
   
   <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Facebook">
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Facebook">
       <i class="fab fa-facebook " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&text=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&text=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Twitter">
       <i class="fab fa-twitter " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Linkedin">
       <i class="fab fa-linkedin " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&is_video=false&description=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&is_video=false&description=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pinterest">
       <i class="fab fa-pinterest " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=A%20Gibbs%20Sampler%20in%20Crystal&body=Check out this article: http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Email">
+    <a class="icon" href="mailto:?subject=A%20Gibbs%20Sampler%20in%20Crystal&body=Check out this article: https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Email">
       <i class="fas fa-envelope " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pocket">
       <i class="fab fa-get-pocket " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="reddit">
       <i class="fab fa-reddit " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&name=A%20Gibbs%20Sampler%20in%20Crystal&description=Recently%2c%20I%26rsquo%3bve%20been%20following%20with%20interest%20the%20development%20of%20the%20Crystal%20language.%0aCrystal%20is%20a%20statically%20type%20language%20with%20a%20syntax%20resembling%20Ruby%26rsquo%3bs.%20The%20main%20features%20which%20drawn%20me%20to%20it%20were%20its%20simple%20boilerplate-free%20syntax%20%28which%20is%20ideal%20for%20quick%20prototyping%29%2c%20tied%20with%20the%20ability%20to%20compile%20directly%20to%20native%20code%20along%20with%20a%20dead%20simple%20way%20of%20creating%20bindings%20to%20existing%20C%20code.%0aThese%20features%20make%20it%20quite%20attractive%2c%20in%20my%20opinion%2c%20for%20scientific%20computing." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&name=A%20Gibbs%20Sampler%20in%20Crystal&description=Recently%2c%20I%26rsquo%3bve%20been%20following%20with%20interest%20the%20development%20of%20the%20Crystal%20language.%0aCrystal%20is%20a%20statically%20type%20language%20with%20a%20syntax%20resembling%20Ruby%26rsquo%3bs.%20The%20main%20features%20which%20drawn%20me%20to%20it%20were%20its%20simple%20boilerplate-free%20syntax%20%28which%20is%20ideal%20for%20quick%20prototyping%29%2c%20tied%20with%20the%20ability%20to%20compile%20directly%20to%20native%20code%20along%20with%20a%20dead%20simple%20way%20of%20creating%20bindings%20to%20existing%20C%20code.%0aThese%20features%20make%20it%20quite%20attractive%2c%20in%20my%20opinion%2c%20for%20scientific%20computing." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&t=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&t=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Hacker News">
       <i class="fab fa-hacker-news " aria-hidden="true"></i>
     </a>
   </li>
@@ -177,10 +177,10 @@ These features make it quite attractive, in my opinion, for scientific computing
       <ul>
       
       
-        <li class="header-post toc"><a href="http://ruivieira.dev/a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
+        <li class="header-post toc"><a href="https://ruivieira.dev/a-simple-python-benchmark-exercise.html">A simple Python benchmark exercise</a></li>
       
       
-        <li class="header-post toc"><a href="http://ruivieira.dev/mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
+        <li class="header-post toc"><a href="https://ruivieira.dev/mcmc-performance-on-substrate-vm.html">MCMC performance on Substrate VM</a></li>
       
       
       </ul>
@@ -339,47 +339,47 @@ $ <span style="color:#999">time</span> ./gibbs &gt; gibbs_crystal.csv
   
   
   <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Facebook">
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Facebook">
       <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&text=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&text=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Twitter">
       <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Linkedin">
       <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&is_video=false&description=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&is_video=false&description=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pinterest">
       <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=A%20Gibbs%20Sampler%20in%20Crystal&body=Check out this article: http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Email">
+    <a class="icon" href="mailto:?subject=A%20Gibbs%20Sampler%20in%20Crystal&body=Check out this article: https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html" aria-label="Email">
       <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Pocket">
       <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&title=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="reddit">
       <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&name=A%20Gibbs%20Sampler%20in%20Crystal&description=Recently%2c%20I%26rsquo%3bve%20been%20following%20with%20interest%20the%20development%20of%20the%20Crystal%20language.%0aCrystal%20is%20a%20statically%20type%20language%20with%20a%20syntax%20resembling%20Ruby%26rsquo%3bs.%20The%20main%20features%20which%20drawn%20me%20to%20it%20were%20its%20simple%20boilerplate-free%20syntax%20%28which%20is%20ideal%20for%20quick%20prototyping%29%2c%20tied%20with%20the%20ability%20to%20compile%20directly%20to%20native%20code%20along%20with%20a%20dead%20simple%20way%20of%20creating%20bindings%20to%20existing%20C%20code.%0aThese%20features%20make%20it%20quite%20attractive%2c%20in%20my%20opinion%2c%20for%20scientific%20computing." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&name=A%20Gibbs%20Sampler%20in%20Crystal&description=Recently%2c%20I%26rsquo%3bve%20been%20following%20with%20interest%20the%20development%20of%20the%20Crystal%20language.%0aCrystal%20is%20a%20statically%20type%20language%20with%20a%20syntax%20resembling%20Ruby%26rsquo%3bs.%20The%20main%20features%20which%20drawn%20me%20to%20it%20were%20its%20simple%20boilerplate-free%20syntax%20%28which%20is%20ideal%20for%20quick%20prototyping%29%2c%20tied%20with%20the%20ability%20to%20compile%20directly%20to%20native%20code%20along%20with%20a%20dead%20simple%20way%20of%20creating%20bindings%20to%20existing%20C%20code.%0aThese%20features%20make%20it%20quite%20attractive%2c%20in%20my%20opinion%2c%20for%20scientific%20computing." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&t=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fa-gibbs-sampler-in-crystal.html&t=A%20Gibbs%20Sampler%20in%20Crystal" aria-label="Hacker News">
       <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
     </a>
   </li>

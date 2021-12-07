@@ -10,7 +10,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> Serving models with Seldon | Rui Vieira</title>
-  <link rel = 'canonical' href = 'http://ruivieira.dev/serving-models-with-seldon.html'>
+  <link rel = 'canonical' href = 'https://ruivieira.dev/serving-models-with-seldon.html'>
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="all,follow">
@@ -20,7 +20,7 @@
 Seldon is a tool which aims at providing a production workflow for machine learning models, allowing to build model serving containers which expose well-defined APIs.
 In this post, I&rsquo;ll show how to create a simple model and how to deploy it with Seldon. The model is a customer segmentation one." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://ruivieira.dev/serving-models-with-seldon.html" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://ruivieira.dev/serving-models-with-seldon.html" /><meta property="article:section" content="posts" />
 
 <meta property="article:modified_time" content="2021-11-25T08:28:11+00:00" />
 
@@ -36,7 +36,7 @@ In this post, I&rsquo;ll show how to create a simple model and how to deploy it 
     
   
   
-  <link rel="stylesheet" href="http://ruivieira.dev/css/styles.11452b79971f363af7cee81005cd790dc0a7c965142f8adb59e36437063f2d447687b3711ada73b6a88b3b41a41508a42a384d9620740b48cefa0ea9f5e49459.css" integrity="sha512-EUUreZcfNjr3zugQBc15DcCnyWUUL4rbWeNkNwY/LUR2h7NxGtpztqiLO0GkFQikKjhNliB0C0jO&#43;g6p9eSUWQ=="> 
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.11452b79971f363af7cee81005cd790dc0a7c965142f8adb59e36437063f2d447687b3711ada73b6a88b3b41a41508a42a384d9620740b48cefa0ea9f5e49459.css" integrity="sha512-EUUreZcfNjr3zugQBc15DcCnyWUUL4rbWeNkNwY/LUR2h7NxGtpztqiLO0GkFQikKjhNliB0C0jO&#43;g6p9eSUWQ=="> 
 
   
   
@@ -48,7 +48,7 @@ In this post, I&rsquo;ll show how to create a simple model and how to deploy it 
   
 
   
-<link rel="icon" type="image/png" href="http://ruivieira.dev/images/favicon.ico" />
+<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
 
   
   
@@ -80,14 +80,14 @@ In this post, I&rsquo;ll show how to create a simple model and how to deploy it 
       <ul>
         
         <li>
-          <a class="icon" href=" http://ruivieira.dev/shell-configurations.html" aria-label="Previous">
+          <a class="icon" href=" https://ruivieira.dev/shell-configurations.html" aria-label="Previous">
             <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
           </a>
         </li>
         
         
         <li>
-          <a class="icon" href="http://ruivieira.dev/search.html" aria-label="Next">
+          <a class="icon" href="https://ruivieira.dev/search.html" aria-label="Next">
             <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
           </a>
         </li>
@@ -118,47 +118,47 @@ In this post, I&rsquo;ll show how to create a simple model and how to deploy it 
   
   
   <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Facebook">
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Facebook">
       <i class="fab fa-facebook " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&text=Serving%20models%20with%20Seldon" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&text=Serving%20models%20with%20Seldon" aria-label="Twitter">
       <i class="fab fa-twitter " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Linkedin">
       <i class="fab fa-linkedin " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&is_video=false&description=Serving%20models%20with%20Seldon" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&is_video=false&description=Serving%20models%20with%20Seldon" aria-label="Pinterest">
       <i class="fab fa-pinterest " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=Serving%20models%20with%20Seldon&body=Check out this article: http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Email">
+    <a class="icon" href="mailto:?subject=Serving%20models%20with%20Seldon&body=Check out this article: https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Email">
       <i class="fas fa-envelope " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Pocket">
       <i class="fab fa-get-pocket " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="reddit">
       <i class="fab fa-reddit " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&name=Serving%20models%20with%20Seldon&description=Deploying%20machine%20learning%20models%20in%20production%20comes%20with%20several%20requirements.%20We%20must%20manage%20the%20model%20lifecycle.%20We%20need%20reproducibility%20and%20typically%20use%20containerised%20workflows.%0aSeldon%20is%20a%20tool%20which%20aims%20at%20providing%20a%20production%20workflow%20for%20machine%20learning%20models%2c%20allowing%20to%20build%20model%20serving%20containers%20which%20expose%20well-defined%20APIs.%0aIn%20this%20post%2c%20I%26rsquo%3bll%20show%20how%20to%20create%20a%20simple%20model%20and%20how%20to%20deploy%20it%20with%20Seldon.%20The%20model%20is%20a%20customer%20segmentation%20one." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&name=Serving%20models%20with%20Seldon&description=Deploying%20machine%20learning%20models%20in%20production%20comes%20with%20several%20requirements.%20We%20must%20manage%20the%20model%20lifecycle.%20We%20need%20reproducibility%20and%20typically%20use%20containerised%20workflows.%0aSeldon%20is%20a%20tool%20which%20aims%20at%20providing%20a%20production%20workflow%20for%20machine%20learning%20models%2c%20allowing%20to%20build%20model%20serving%20containers%20which%20expose%20well-defined%20APIs.%0aIn%20this%20post%2c%20I%26rsquo%3bll%20show%20how%20to%20create%20a%20simple%20model%20and%20how%20to%20deploy%20it%20with%20Seldon.%20The%20model%20is%20a%20customer%20segmentation%20one." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&t=Serving%20models%20with%20Seldon" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&t=Serving%20models%20with%20Seldon" aria-label="Hacker News">
       <i class="fab fa-hacker-news " aria-hidden="true"></i>
     </a>
   </li>
@@ -545,47 +545,47 @@ Happy coding!</p>
   
   
   <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Facebook">
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Facebook">
       <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&text=Serving%20models%20with%20Seldon" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&text=Serving%20models%20with%20Seldon" aria-label="Twitter">
       <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Linkedin">
       <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&is_video=false&description=Serving%20models%20with%20Seldon" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&is_video=false&description=Serving%20models%20with%20Seldon" aria-label="Pinterest">
       <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=Serving%20models%20with%20Seldon&body=Check out this article: http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Email">
+    <a class="icon" href="mailto:?subject=Serving%20models%20with%20Seldon&body=Check out this article: https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html" aria-label="Email">
       <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="Pocket">
       <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&title=Serving%20models%20with%20Seldon" aria-label="reddit">
       <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&name=Serving%20models%20with%20Seldon&description=Deploying%20machine%20learning%20models%20in%20production%20comes%20with%20several%20requirements.%20We%20must%20manage%20the%20model%20lifecycle.%20We%20need%20reproducibility%20and%20typically%20use%20containerised%20workflows.%0aSeldon%20is%20a%20tool%20which%20aims%20at%20providing%20a%20production%20workflow%20for%20machine%20learning%20models%2c%20allowing%20to%20build%20model%20serving%20containers%20which%20expose%20well-defined%20APIs.%0aIn%20this%20post%2c%20I%26rsquo%3bll%20show%20how%20to%20create%20a%20simple%20model%20and%20how%20to%20deploy%20it%20with%20Seldon.%20The%20model%20is%20a%20customer%20segmentation%20one." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&name=Serving%20models%20with%20Seldon&description=Deploying%20machine%20learning%20models%20in%20production%20comes%20with%20several%20requirements.%20We%20must%20manage%20the%20model%20lifecycle.%20We%20need%20reproducibility%20and%20typically%20use%20containerised%20workflows.%0aSeldon%20is%20a%20tool%20which%20aims%20at%20providing%20a%20production%20workflow%20for%20machine%20learning%20models%2c%20allowing%20to%20build%20model%20serving%20containers%20which%20expose%20well-defined%20APIs.%0aIn%20this%20post%2c%20I%26rsquo%3bll%20show%20how%20to%20create%20a%20simple%20model%20and%20how%20to%20deploy%20it%20with%20Seldon.%20The%20model%20is%20a%20customer%20segmentation%20one." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=http%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&t=Serving%20models%20with%20Seldon" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fserving-models-with-seldon.html&t=Serving%20models%20with%20Seldon" aria-label="Hacker News">
       <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
     </a>
   </li>

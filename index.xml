@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Index on Rui Vieira</title>
-    <link>http://ruivieira.dev/</link>
+    <link>https://ruivieira.dev/</link>
     <description>Recent content in Index on Rui Vieira</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Tue, 06 Feb 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://ruivieira.dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Feb 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ruivieira.dev/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>(Semi) handcrafted RSS</title>
-      <link>http://ruivieira.dev/semi-handcrafted-rss.html</link>
+      <link>https://ruivieira.dev/semi-handcrafted-rss.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/semi-handcrafted-rss.html</guid>
+      <guid>https://ruivieira.dev/semi-handcrafted-rss.html</guid>
       <description>I&amp;rsquo;ve been using a minimalist blog setup for some time now.
 I was having something of a framework fatigue after switching between a few static site generators. Each new generator I decided to try implied usually either learning a new programming language (Python, Ruby, Go) to perform basic setup and a new template engine syntax1. Typically I wasn&amp;rsquo;t using the vast majority of the features available for each generator. And finally, most of the generators I tried over the years rely on heavy configuration if I want to maintain the site organisation and look.</description>
     </item>
     
     <item>
       <title>A Gibbs Sampler in Crystal</title>
-      <link>http://ruivieira.dev/a-gibbs-sampler-in-crystal.html</link>
+      <link>https://ruivieira.dev/a-gibbs-sampler-in-crystal.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/a-gibbs-sampler-in-crystal.html</guid>
+      <guid>https://ruivieira.dev/a-gibbs-sampler-in-crystal.html</guid>
       <description>Recently, I&amp;rsquo;ve been following with interest the development of the Crystal language.
 Crystal is a statically type language with a syntax resembling Ruby&amp;rsquo;s. The main features which drawn me to it were its simple boilerplate-free syntax (which is ideal for quick prototyping), tied with the ability to compile directly to native code along with a dead simple way of creating bindings to existing C code.
 These features make it quite attractive, in my opinion, for scientific computing.</description>
@@ -30,10 +30,10 @@ These features make it quite attractive, in my opinion, for scientific computing
     
     <item>
       <title>A simple Python benchmark exercise</title>
-      <link>http://ruivieira.dev/a-simple-python-benchmark-exercise.html</link>
+      <link>https://ruivieira.dev/a-simple-python-benchmark-exercise.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/a-simple-python-benchmark-exercise.html</guid>
+      <guid>https://ruivieira.dev/a-simple-python-benchmark-exercise.html</guid>
       <description>Recently when discussing the Crystal language and specifically the Gibbs sample blog post with a colleague, he mentioned that the Python benchmark numbers looked a bit off and not consistent with his experience of numerical programming in Python.
 To recall, the numbers were:
    Language Time(s)     &amp;mdash;&amp;mdash;&amp;ndash; &amp;mdash;&amp;mdash;-   R 364.8   Python 144.0   Scala 9.896   Crystal 5.171   C 5.</description>
@@ -41,30 +41,30 @@ To recall, the numbers were:
     
     <item>
       <title>A streaming ALS implementation</title>
-      <link>http://ruivieira.dev/a-streaming-als-implementation.html</link>
+      <link>https://ruivieira.dev/a-streaming-als-implementation.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/a-streaming-als-implementation.html</guid>
+      <guid>https://ruivieira.dev/a-streaming-als-implementation.html</guid>
       <description>In this blog post I would like to talk a little bit about recommendation engines in general and how to build a streaming recommendation engine on top of Apache Spark.
 I will start by introducing the concept of collaborative filterig, and focus in two variants: batch and streaming Alternating Least Squares (ALS). I will look at the principles of a streaming distributed recommendation engine on Spark and finally, I&amp;rsquo;ll talk about practical issues when using these methods.</description>
     </item>
     
     <item>
       <title>Ansible</title>
-      <link>http://ruivieira.dev/ansible.html</link>
+      <link>https://ruivieira.dev/ansible.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/ansible.html</guid>
+      <guid>https://ruivieira.dev/ansible.html</guid>
       <description>Ansible notes.
 Installation Debian/Ubuntu $ sudo apt update $ sudo apt install software-properties-common $ sudo add-apt-repository --yes --update ppa:ansible/ansible $ sudo apt install ansible Reference </description>
     </item>
     
     <item>
       <title>Bayesian estimation of changepoints</title>
-      <link>http://ruivieira.dev/bayesian-estimation-of-changepoints.html</link>
+      <link>https://ruivieira.dev/bayesian-estimation-of-changepoints.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/bayesian-estimation-of-changepoints.html</guid>
+      <guid>https://ruivieira.dev/bayesian-estimation-of-changepoints.html</guid>
       <description>A common introductory problem in Bayesian changepoint detection is the record of UK coal mining disasters from 1851 to 1962. More information can be found in Carlin, Gelfand and Smith (1992).
 As we can see from the plot below, the number of yearly disasters ranges from 0 to 6 and we will assume that at some point within this time range a change in the accident rate has occured.
  The number of yearly disasters can be modelled as a Poisson with a unknown rate depending on the changepoint \(k\):</description>
@@ -72,10 +72,10 @@ As we can see from the plot below, the number of yearly disasters ranges from 0 
     
     <item>
       <title>Brutalist web design</title>
-      <link>http://ruivieira.dev/brutalist-web-design.html</link>
+      <link>https://ruivieira.dev/brutalist-web-design.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/brutalist-web-design.html</guid>
+      <guid>https://ruivieira.dev/brutalist-web-design.html</guid>
       <description>The major guidelines of the Brutalist web design 1 are:
  Content is readable on all reasonable screens and devices. Only hyperlinks and buttons respond to clicks. Hyperlinks are underlined and buttons look like buttons. The back button works as expected. View content by scrolling. Decoration when needed and no unrelated content. Performance is a feature.    https://brutalist-web.design/&amp;#160;&amp;#x21a9;&amp;#xfe0e;
    </description>
@@ -83,10 +83,10 @@ As we can see from the plot below, the number of yearly disasters ranges from 0 
     
     <item>
       <title>Clojure</title>
-      <link>http://ruivieira.dev/clojure.html</link>
+      <link>https://ruivieira.dev/clojure.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/clojure.html</guid>
+      <guid>https://ruivieira.dev/clojure.html</guid>
       <description>Notes on Clojure.
 Reference Concatenating strings (require &amp;#39;[clojure.string :as string]) (string/join [&amp;#34;foo&amp;#34; &amp;#34;bar&amp;#34;]) List files recursively To list files recursively in Clojure1
 (file-seq &amp;#34;/etc&amp;#34;) Filter by extension (filter #(.endsWith (.toString %) &amp;#34;.conf&amp;#34;) (file-seq &amp;#34;/etc&amp;#34;))) Get home directory def home (System/getProperty &amp;#34;user.home&amp;#34;))   Compare with the Java version.&amp;#160;&amp;#x21a9;&amp;#xfe0e;
@@ -95,19 +95,19 @@ Reference Concatenating strings (require &amp;#39;[clojure.string :as string]) (
     
     <item>
       <title>Containerised Streaming Data Generation using State-Space Models</title>
-      <link>http://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</link>
+      <link>https://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</guid>
+      <guid>https://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html</guid>
       <description>To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as Apache Kafka and Apache Spark and deployment in a cloud environment like OpenShift with tools such as oshinko.</description>
     </item>
     
     <item>
       <title>Containers</title>
-      <link>http://ruivieira.dev/containers.html</link>
+      <link>https://ruivieira.dev/containers.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/containers.html</guid>
+      <guid>https://ruivieira.dev/containers.html</guid>
       <description>Notes on containers.
 Tips Extract image locally To extract a container&amp;rsquo;s image locally (e.g. using Docker) the following can be used:
 docker export $CONTAINER_NAME &amp;gt; output.tar Alternatively, and using the $IMAGE_ID we can do:
@@ -116,10 +116,10 @@ docker save $IMAGE_ID$ &amp;gt; output.tar </description>
     
     <item>
       <title>Cookiecutter data science</title>
-      <link>http://ruivieira.dev/cookiecutter-data-science.html</link>
+      <link>https://ruivieira.dev/cookiecutter-data-science.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/cookiecutter-data-science.html</guid>
+      <guid>https://ruivieira.dev/cookiecutter-data-science.html</guid>
       <description>Main documentation is available here.
 Setup Requirements For the purpose of these instructions we will assume the following are installed:
  Python 3.9.0 virtualenv  A new venv can be created with virtualenv env1 and activated with source venv/bin/activate. Once the environment is active we can install the cookiecutter package using pip install cookiecutter.
@@ -129,20 +129,20 @@ cookiecutter https://github.com/drivendata/cookiecutter-data-science For the rem
     
     <item>
       <title>Counterfactual Fairness</title>
-      <link>http://ruivieira.dev/counterfactual-fairness.html</link>
+      <link>https://ruivieira.dev/counterfactual-fairness.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/counterfactual-fairness.html</guid>
+      <guid>https://ruivieira.dev/counterfactual-fairness.html</guid>
       <description>Building counterfactually fair models Data To evaluate counterfactual fairness we will be using the &amp;ldquo;law school&amp;rdquo; dataset1.
 The Law School Admission Council conducted a survey across 163 law schools in the United States. It contains information on 21,790 law students such as their entrance exam scores (LSAT), their grade-point average (GPA) collected prior to law school, and their first year average grade (FYA). Given this data, a school may wish to predict if an applicant will have a high `FYA`.</description>
     </item>
     
     <item>
       <title>Counterfactual Fairness in Java</title>
-      <link>http://ruivieira.dev/counterfactual-fairness-in-java.html</link>
+      <link>https://ruivieira.dev/counterfactual-fairness-in-java.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/counterfactual-fairness-in-java.html</guid>
+      <guid>https://ruivieira.dev/counterfactual-fairness-in-java.html</guid>
       <description>Here we will look at how to build a counterfactually fair model, as detailed in Counterfactual Fairness, specifically the &amp;ldquo;Fair Add&amp;rdquo; model.
 This implementation will rely mostly on Apache Commons Math1 linear regression implementations, namely the Ordinary Least Squares (OLS) regression2. We start then by adding the relevant Maven dependencies:
 ```xml org.apache.commonscommons-math33.6.1```
@@ -151,10 +151,10 @@ Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\tim
     
     <item>
       <title>Counterfactuals</title>
-      <link>http://ruivieira.dev/counterfactuals.html</link>
+      <link>https://ruivieira.dev/counterfactuals.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/counterfactuals.html</guid>
+      <guid>https://ruivieira.dev/counterfactuals.html</guid>
       <description>A special type of Explainability.
 Desiderata According to Verma et al 1 the counterfactual desiderata is:
  Validity Actionability Sparsity Data manifold closeness Causality Amortised inference  Validity We assume that a counterfactual is valid if it solves the optimisation as states in Wachter et al2. If we defined the loss function as
@@ -167,10 +167,10 @@ where:
     
     <item>
       <title>Counterfactuals with Constraint Solvers</title>
-      <link>http://ruivieira.dev/counterfactuals-with-constraint-solvers.html</link>
+      <link>https://ruivieira.dev/counterfactuals-with-constraint-solvers.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/counterfactuals-with-constraint-solvers.html</guid>
+      <guid>https://ruivieira.dev/counterfactuals-with-constraint-solvers.html</guid>
       <description>Scoring An implementation on how to calculate counterfactuals with Constraint Solvers (namely [OptaPlanner]]) is available here.
 This implementation satisfies several criteria of the counterfactuals .
 The penalisation score is represented with a BendableBigDecimalScore 1, having three &amp;ldquo;hard&amp;rdquo; levels and one &amp;ldquo;soft&amp;rdquo; level.
@@ -179,10 +179,10 @@ The penalisation score is represented with a BendableBigDecimalScore 1, having 
     
     <item>
       <title>Deno</title>
-      <link>http://ruivieira.dev/deno.html</link>
+      <link>https://ruivieira.dev/deno.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/deno.html</guid>
+      <guid>https://ruivieira.dev/deno.html</guid>
       <description>Installation Fedora To install Deno on Fedora, first download the installation file:
 curl -fsSL https://deno.land/x/install/install.sh | sh And then add the following to your shell&amp;rsquo;s profile (e.g. ~/.bashrc):
 export DENO_INSTALL=&amp;#34;/home/$USER/.deno&amp;#34; export PATH=&amp;#34;$DENO_INSTALL/bin:$PATH&amp;#34; Topis  Deno types  </description>
@@ -190,20 +190,20 @@ export DENO_INSTALL=&amp;#34;/home/$USER/.deno&amp;#34; export PATH=&amp;#34;$DE
     
     <item>
       <title>Deno types</title>
-      <link>http://ruivieira.dev/deno-types.html</link>
+      <link>https://ruivieira.dev/deno-types.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/deno-types.html</guid>
+      <guid>https://ruivieira.dev/deno-types.html</guid>
       <description>Union types function add(a: any, b: any) { if (typeof a === &#39;number&#39; &amp;amp;&amp;amp; typeof b === &#39;number&#39;) { return a + b; } if (typeof a === &#39;string&#39; &amp;amp;&amp;amp; typeof b === &#39;string&#39;) { return a.concat(b); } throw new Error(&#39;Parameters must be numbers or strings&#39;); } return add(true, false); error: TS2345 [ERROR]: Argument of type &amp;lsquo;boolean&amp;rsquo; is not assignable to parameter of type &amp;lsquo;string | number&amp;rsquo;. console.log(add(true, false));})())));
 function add(a: number | string, b: number | string) { if (typeof a === &#39;number&#39; &amp;amp;&amp;amp; typeof b === &#39;number&#39;) { return a + b; } if (typeof a === &#39;string&#39; &amp;amp;&amp;amp; typeof b === &#39;string&#39;) { return a.</description>
     </item>
     
     <item>
       <title>Digital Garden Digital Garden</title>
-      <link>http://ruivieira.dev/digital-garden.html</link>
+      <link>https://ruivieira.dev/digital-garden.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/digital-garden.html</guid>
+      <guid>https://ruivieira.dev/digital-garden.html</guid>
       <description>Digital gardens are places where information grows.
 Challenges Chronological is the wrong metaphor, but how to capture time and sequence?
 Example, have a Git commit hash as well as a recent changes history. </description>
@@ -211,10 +211,10 @@ Example, have a Git commit hash as well as a recent changes history. </descripti
     
     <item>
       <title>Distance metrics</title>
-      <link>http://ruivieira.dev/distance-metrics.html</link>
+      <link>https://ruivieira.dev/distance-metrics.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/distance-metrics.html</guid>
+      <guid>https://ruivieira.dev/distance-metrics.html</guid>
       <description>L-p metrics Manhattan distance (L1) Given two vectors \(p\) and \(q\), such that
 \begin{aligned} p &amp;amp;= \left(p_1, p_2, \dots,p_n\right) \\ q &amp;amp;= \left(q_1, q_2, \dots,q_n\right) \end{aligned}
 we define the Manhattan distance as:
@@ -226,10 +226,10 @@ Cluster distances Within-cluster sum of squares (WCSS) Given a set of observatio
     
     <item>
       <title>DOOM Emacs</title>
-      <link>http://ruivieira.dev/doom-emacs.html</link>
+      <link>https://ruivieira.dev/doom-emacs.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/doom-emacs.html</guid>
+      <guid>https://ruivieira.dev/doom-emacs.html</guid>
       <description>Setup The following modules must be enabled in init.el:
 `(go +lsp)` in the `lang` section `lsp` in the `tools` section `snippets` in the `editor` section `gopls` should be installed.
 Running `doom sync` will finish the setup.</description>
@@ -237,10 +237,10 @@ Running `doom sync` will finish the setup.</description>
     
     <item>
       <title>DOOM Emacs</title>
-      <link>http://ruivieira.dev/doom-emacs.html</link>
+      <link>https://ruivieira.dev/doom-emacs.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/doom-emacs.html</guid>
+      <guid>https://ruivieira.dev/doom-emacs.html</guid>
       <description>This an annotated version of my DOOM Emacs configuration.
 Languages Python Black formatter To allow formatting of Python blocks in org-mode and elsewhere, add python-black 1 to packages.el.
 (package! python-black) Then we configure it with
@@ -251,10 +251,10 @@ Go The following modules must be enabled in init.el:
     
     <item>
       <title>Dunn index</title>
-      <link>http://ruivieira.dev/dunn-index.html</link>
+      <link>https://ruivieira.dev/dunn-index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/dunn-index.html</guid>
+      <guid>https://ruivieira.dev/dunn-index.html</guid>
       <description>There are several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the Dunn index, Davis-Bouldin index and Silhoutte index.
 But before we start, let&amp;rsquo;s introduce some concepts.
 We are interested in clustering algorithms for a dataset \(\mathcal{D}\) with \(N\) elements in a $n$-dimensional real space, that is:
@@ -264,55 +264,55 @@ The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint grou
     
     <item>
       <title>Emacs</title>
-      <link>http://ruivieira.dev/emacs.html</link>
+      <link>https://ruivieira.dev/emacs.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/emacs.html</guid>
+      <guid>https://ruivieira.dev/emacs.html</guid>
       <description>Notes on Emacs My current flavour/distribution of Emacs is DOOM Emacs spacemacs DOOM Emacs. DOOM Emacs is my preferred configuration framework at the moment. I have used Spacemacs for a long time, but the performance increase by switching to DOOM Emacs is simply to great to be ignored. Recently, I have also migrated to the Emacs 28 branch which includes Elisp native compilation. It is a thing of beauty in terms of speed.</description>
     </item>
     
     <item>
       <title>Error metrics</title>
-      <link>http://ruivieira.dev/error-metrics.html</link>
+      <link>https://ruivieira.dev/error-metrics.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/error-metrics.html</guid>
+      <guid>https://ruivieira.dev/error-metrics.html</guid>
       <description> Root Mean Squared Error  </description>
     </item>
     
     <item>
       <title>Explainability</title>
-      <link>http://ruivieira.dev/explainability.html</link>
+      <link>https://ruivieira.dev/explainability.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/explainability.html</guid>
+      <guid>https://ruivieira.dev/explainability.html</guid>
       <description>Topics Counterfactuals  Counterfactuals with Constraint Solvers  Fairness  Counterfactual Fairness (also how to create counterfactually fair models [Counterfactual Fairness in Java|in Java]])  Resources  TrustyAI Explainability Toolkit1 pre-print, https://arxiv.org/abs/2104.12717 A nice presentation on AI/ML explainability: https://explainml-tutorial.github.io/neurips20  Literature  Kakogeorgiou, Ioannis, and Konstantinos Karantzalos. &amp;ldquo;Evaluating Explainable Artificial Intelligence Methods for Multi-label Deep Learning Classification Tasks in Remote Sensing.&amp;rdquo; arXiv preprint arXiv:2104.01375(2021).    : Geada, Rob, Tommaso Teofili, Rui Vieira, Rebecca Whitworth and Daniele Zonca.</description>
     </item>
     
     <item>
       <title>Extending JUnit</title>
-      <link>http://ruivieira.dev/extending-junit.html</link>
+      <link>https://ruivieira.dev/extending-junit.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/extending-junit.html</guid>
+      <guid>https://ruivieira.dev/extending-junit.html</guid>
       <description>Summary </description>
     </item>
     
     <item>
       <title>Feature scaling</title>
-      <link>http://ruivieira.dev/feature-scaling.html</link>
+      <link>https://ruivieira.dev/feature-scaling.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/feature-scaling.html</guid>
+      <guid>https://ruivieira.dev/feature-scaling.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>Gemini</title>
-      <link>http://ruivieira.dev/gemini.html</link>
+      <link>https://ruivieira.dev/gemini.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/gemini.html</guid>
+      <guid>https://ruivieira.dev/gemini.html</guid>
       <description>A recommended graphical Gemini browser is Lagrange or Amfora for a text-based/terminal browser.
 Syntax Gemini syntax is quite similar to Markdown
 Setup Using the agate server</description>
@@ -320,10 +320,10 @@ Setup Using the agate server</description>
     
     <item>
       <title>Git</title>
-      <link>http://ruivieira.dev/git.html</link>
+      <link>https://ruivieira.dev/git.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/git.html</guid>
+      <guid>https://ruivieira.dev/git.html</guid>
       <description>Hooks pre-push The pre-push script is called by git push, when the push actually happens. If the exit status is 0, then the push will proceed, otherwise it will be stopped.
 The script is supplied with the following arguments:
 $1 -- Name of the remote to which the push is being done (Ex: origin) $2 -- URL to which the push is being done (Ex: https://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/&amp;lt;username&amp;gt;/&amp;lt;project_name&amp;gt;.git) Information about the commits which are being pushed is supplied as lines to the standard input in the form:</description>
@@ -331,10 +331,10 @@ $1 -- Name of the remote to which the push is being done (Ex: origin) $2 -- URL 
     
     <item>
       <title>Go</title>
-      <link>http://ruivieira.dev/go.html</link>
+      <link>https://ruivieira.dev/go.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/go.html</guid>
+      <guid>https://ruivieira.dev/go.html</guid>
       <description>Some notes regarding the Go language. Some topics have graduated to their own page:
  Go resource bundling Go filesystem operations  Setup First things first. How to install Go in Fedora. You can either use dnf directly and simply run
 $ sudo dnf install golang-bin This might not install the latest and greatest. If you want to use the most recent version, download it directly from https://golang.org/doc/install#install. If applicable, delete any previous /usr/local/go directory with</description>
@@ -342,10 +342,10 @@ $ sudo dnf install golang-bin This might not install the latest and greatest. If
     
     <item>
       <title>Go filesystem operations</title>
-      <link>http://ruivieira.dev/go-filesystem-operations.html</link>
+      <link>https://ruivieira.dev/go-filesystem-operations.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/go-filesystem-operations.html</guid>
+      <guid>https://ruivieira.dev/go-filesystem-operations.html</guid>
       <description>Notes on Go filesystem operations.
 Copying files Go does not have an utility method to copy files. We have to rely on writing our own implementation using the reading and writing functionality in other packages. As an example:
 package main import ( &amp;#34;io&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; ) func main() { from, err := os.Open(&amp;#34;./foo.txt&amp;#34;) if err != nil { log.Fatal(err) } defer from.Close() to, err := os.OpenFile(&amp;#34;./bar.txt&amp;#34;, os.O_RDWR|os.O_CREATE, 0666) if err !</description>
@@ -353,10 +353,10 @@ package main import ( &amp;#34;io&amp;#34; &amp;#34;log&amp;#34; &amp;#34;os&amp
     
     <item>
       <title>Go resource bundling</title>
-      <link>http://ruivieira.dev/go-resource-bundling.html</link>
+      <link>https://ruivieira.dev/go-resource-bundling.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/go-resource-bundling.html</guid>
+      <guid>https://ruivieira.dev/go-resource-bundling.html</guid>
       <description>Notes on the installation and usage of pkger.
 Installation done with
 go get github.com/markbates/pkger/cmd/pkger pkger works by bundling the resources with a code-generated pkg.go. The configuration of assets to be bundled is done by reflection at compile time and not direct configuration. This is done by replacing standard Go file operations with pkger proxy ones, such as:
@@ -365,10 +365,10 @@ type Pkger interface { Parse(p string) (Path, error) Current() (here.Info, error
     
     <item>
       <title>Gower distance</title>
-      <link>http://ruivieira.dev/gower-distance.html</link>
+      <link>https://ruivieira.dev/gower-distance.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/gower-distance.html</guid>
+      <guid>https://ruivieira.dev/gower-distance.html</guid>
       <description>For features \(x_i=\{x_{i1},\dots,x_{ip}\}\) and \(x_j=\{x_{j1},\dots,x_{jp}\}\), the Gower similarity matrix 1 can be defined as
 \[ S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}. \]
 For each feature \(k=1,\dots,p\) a score \(s_{ijk}\) is calculated. A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\) depending on whether the variables \(x_i\) and \(x_j\) can be compared or not (e.g. if they have different types).
@@ -377,10 +377,10 @@ A special case2 for when no missing values exist can be formulated as the mean o
     
     <item>
       <title>GPG</title>
-      <link>http://ruivieira.dev/gpg.html</link>
+      <link>https://ruivieira.dev/gpg.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/gpg.html</guid>
+      <guid>https://ruivieira.dev/gpg.html</guid>
       <description>Installation macOS You can install GPG on macOS using:
 $ brew install gpg Troubleshooting macOS Can&amp;rsquo;t access keychain from UI If a program cannot access the keychain from the UI, probably there&amp;rsquo;s some problem in prompting you for the passphrase. You can install, for instance pinentry to solve this. Install it with
 $ brew install pinentry-mac and then register pinentry as the passphrase input option:
@@ -389,29 +389,29 @@ $ echo &amp;#34;pinentry-program /usr/local/bin/pinentry-mac&amp;#34; &amp;gt;&a
     
     <item>
       <title>GraalVM</title>
-      <link>http://ruivieira.dev/graalvm.html</link>
+      <link>https://ruivieira.dev/graalvm.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/graalvm.html</guid>
+      <guid>https://ruivieira.dev/graalvm.html</guid>
       <description>Missing headers On macOS, if you find missing headers when installing polyglot packages, try:
 $ export CPATH=`xcrun --show-sdk-path`/usr/include </description>
     </item>
     
     <item>
       <title>Gradient-free optimisation</title>
-      <link>http://ruivieira.dev/gradient-free-optimisation.html</link>
+      <link>https://ruivieira.dev/gradient-free-optimisation.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/gradient-free-optimisation.html</guid>
+      <guid>https://ruivieira.dev/gradient-free-optimisation.html</guid>
       <description> Hill-climbing optimisation  </description>
     </item>
     
     <item>
       <title>gulp</title>
-      <link>http://ruivieira.dev/gulp.html</link>
+      <link>https://ruivieira.dev/gulp.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/gulp.html</guid>
+      <guid>https://ruivieira.dev/gulp.html</guid>
       <description>I have been working in a new library called gulp which you can find on https://github.com/ruivieira/gulp.
 On the project&amp;rsquo;s page there are some usage examples but I will try to summarise the main points here.
 The purpose of this library is to facilitate the parallel development of R and Java code, using rJava as the bridge. Creating bindings in rJava is quite simple, the tricky part of the process (in my opinion) being the maintenance of the bindings (usually done by hand) when refactoring your code.</description>
@@ -419,10 +419,10 @@ The purpose of this library is to facilitate the parallel development of R and J
     
     <item>
       <title>Hill-climbing optimisation</title>
-      <link>http://ruivieira.dev/hill-climbing-optimisation.html</link>
+      <link>https://ruivieira.dev/hill-climbing-optimisation.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/hill-climbing-optimisation.html</guid>
+      <guid>https://ruivieira.dev/hill-climbing-optimisation.html</guid>
       <description>Global maximum Let&amp;rsquo;s try it with the function
 \[ f(x,y) = e^{-\left(x^2+y^2\right)} \]
 import numpy as np import matplotlib.pyplot as plt from plotutils import * x = np.linspace(-2.0, 2.0, 1000) y = np.linspace(-2.0, 2.0, 1000) X, Y = np.meshgrid(x, y) Z = np.exp(-(X ** 2 + Y ** 2)) fig, ax = plt.subplots(1, 1) cp = ax.contourf(X, Y, Z, cmap=cmaps[1]) ax.set_title(&amp;quot;f(x,y)&amp;quot;) ax.set_xlabel(&amp;quot;x&amp;quot;) ax.set_ylabel(&amp;quot;y&amp;quot;) plt.show() from gradient_free_optimizers import HillClimbingOptimizer search_space = { &amp;quot;x&amp;quot;: x, &amp;quot;y&amp;quot;: y, } opt = HillClimbingOptimizer(search_space) def f(pos): x = pos[&amp;quot;x&amp;quot;] y = pos[&amp;quot;y&amp;quot;] z = np.</description>
@@ -430,39 +430,39 @@ import numpy as np import matplotlib.pyplot as plt from plotutils import * x = n
     
     <item>
       <title>Hugo</title>
-      <link>http://ruivieira.dev/hugo.html</link>
+      <link>https://ruivieira.dev/hugo.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/hugo.html</guid>
+      <guid>https://ruivieira.dev/hugo.html</guid>
       <description>Templates Special pages By default, the type for a piece of content is inherited from the the content’s section. So, the file you create for content at content/posts/my-post.md automatically has a type of posts. However, you may want to keep my-post.md within that section because you want to rely on Hugo’s default behavior to render the page to yoursite.com/posts/my-post, but you want it to render according to a different layout. In this case, you can specify a type for the content that overrides the default behavior.</description>
     </item>
     
     <item>
       <title>Introduction to Balanced Box-Decomposition Trees</title>
-      <link>http://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</link>
+      <link>https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</guid>
+      <guid>https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html</guid>
       <description>Stardate 96893.29.
 You are the USS Euler&amp;rsquo;s Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that both Emacs and Vim should be installed in all computers.</description>
     </item>
     
     <item>
       <title>Introduction to Isolation Forests</title>
-      <link>http://ruivieira.dev/introduction-to-isolation-forests.html</link>
+      <link>https://ruivieira.dev/introduction-to-isolation-forests.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/introduction-to-isolation-forests.html</guid>
+      <guid>https://ruivieira.dev/introduction-to-isolation-forests.html</guid>
       <description>Isolation Forests (IFs), presented in Liu1 et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of Isolation Trees (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.
 ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the Binary Search Tree (BSTs).</description>
     </item>
     
     <item>
       <title>Java</title>
-      <link>http://ruivieira.dev/java.html</link>
+      <link>https://ruivieira.dev/java.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/java.html</guid>
+      <guid>https://ruivieira.dev/java.html</guid>
       <description>Summary Notes on Java.
  Java Completable Futures Java consumer Extending JUnit  Reference Get user home directory System.getProperty(&amp;#34;user.home&amp;#34;); List files recursively try (Stream&amp;lt;Path&amp;gt; walk = Files.walk(Paths.get(input))) { List&amp;lt;String&amp;gt; result = walk.filter(Files::isRegularFile) .map(x -&amp;gt;x.toString()) .collect(Collectors.toList()); result.forEach(System.out::println); } catch (IOException e) { e.printStackTrace(); } In case we want the file subset with a specific extension, txt we can filter the stream with
 List&amp;lt;String&amp;gt; result = walk.filter(Files::isRegularFile) .filter(x -&amp;gt; x.toString().endsWith(&amp;#34;.txt&amp;#34;)) .map(x -&amp;gt; x.</description>
@@ -470,19 +470,19 @@ List&amp;lt;String&amp;gt; result = walk.filter(Files::isRegularFile) .filter(x 
     
     <item>
       <title>Java Completable Futures</title>
-      <link>http://ruivieira.dev/java-completable-futures.html</link>
+      <link>https://ruivieira.dev/java-completable-futures.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/java-completable-futures.html</guid>
+      <guid>https://ruivieira.dev/java-completable-futures.html</guid>
       <description>Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture&amp;lt;String&amp;gt; future1 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;Hello&amp;#34;); CompletableFuture&amp;lt;String&amp;gt; future2 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;Beautiful&amp;#34;); CompletableFuture&amp;lt;String&amp;gt; future3 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;World&amp;#34;); CompletableFuture&amp;lt;Void&amp;gt; combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture&amp;lt;String&amp;gt; result = combinedFuture.thenApply(v -&amp;gt; future1.join() + future2.join() + future3.join()); System.out.println(result.get()); } Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\).</description>
     </item>
     
     <item>
       <title>Java consumer</title>
-      <link>http://ruivieira.dev/java-consumer.html</link>
+      <link>https://ruivieira.dev/java-consumer.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/java-consumer.html</guid>
+      <guid>https://ruivieira.dev/java-consumer.html</guid>
       <description>Introduction Applying Introduced in Java 8, the Consumer interface aims at providing additional functional programming capabilities for Java.
 Consumer defined functions do not return any value and they consist mainly of two methods:
 void accept(T t); default Consumer&amp;lt;T&amp;gt; andThen(Consumer&amp;lt;? super T&amp;gt; after); Let&amp;rsquo;s look at an example:
@@ -491,19 +491,19 @@ import java.util.ArrayList; import java.util.function.Consumer; public static vo
     
     <item>
       <title>Java streams</title>
-      <link>http://ruivieira.dev/java-streams.html</link>
+      <link>https://ruivieira.dev/java-streams.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/java-streams.html</guid>
+      <guid>https://ruivieira.dev/java-streams.html</guid>
       <description>Flat mapping Nested maps import java.util.Map; import java.util.HashMap; public static void main(String[] args) { final Map&amp;lt;String, Object&amp;gt; client = new HashMap&amp;lt;&amp;gt;(); client.put(&amp;#34;Age&amp;#34;, 43); client.put(&amp;#34;Salary&amp;#34;, 1950); client.put(&amp;#34;Existing payments&amp;#34;, 100); final Map&amp;lt;String, Object&amp;gt; loan = new HashMap&amp;lt;&amp;gt;(); loan.put(&amp;#34;Duration&amp;#34;, 15); loan.put(&amp;#34;Installment&amp;#34;, 100); final Map&amp;lt;String, Object&amp;gt; contextVariables = new HashMap&amp;lt;&amp;gt;(); contextVariables.put(&amp;#34;Client&amp;#34;, client); contextVariables.put(&amp;#34;Loan&amp;#34;, loan); System.out.println(contextVariables); } </description>
     </item>
     
     <item>
       <title>K-means clustering</title>
-      <link>http://ruivieira.dev/k-means-clustering.html</link>
+      <link>https://ruivieira.dev/k-means-clustering.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/k-means-clustering.html</guid>
+      <guid>https://ruivieira.dev/k-means-clustering.html</guid>
       <description>Introduction K-means is still one of the fundamental clustering algorithms. It is used in such diverse fields as Natural Language Processing (NLP), social sciences and medical sciences.
 The core idea behind K-means is that we want to group data in clusters. Data points will be assigned to a specific cluster depending on it&amp;rsquo;s distance to a cluster&amp;rsquo;s center, usually called the centroid.
 It is important to note that typically, the mean distance to a centroid is used to partition the clusters, however, difference distances can be used and different pivot points.</description>
@@ -511,10 +511,10 @@ It is important to note that typically, the mean distance to a centroid is used 
     
     <item>
       <title>Langton&#39;s ant</title>
-      <link>http://ruivieira.dev/langtons-ant.html</link>
+      <link>https://ruivieira.dev/langtons-ant.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/langtons-ant.html</guid>
+      <guid>https://ruivieira.dev/langtons-ant.html</guid>
       <description>Last week, at the North East Functional Programming meet up, we were given a code Kata consisting of the Langton&amp;rsquo;s ant algorithm.
 I&amp;rsquo;ve had a go at Scala but decided later on to put a live version in this blog.
 I considered several implementation options, such as scala.js and Elm, but in the end decided to implement it in plain Javascript.
@@ -523,10 +523,10 @@ Add ant</description>
     
     <item>
       <title>LARS path</title>
-      <link>http://ruivieira.dev/lars-path.html</link>
+      <link>https://ruivieira.dev/lars-path.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/lars-path.html</guid>
+      <guid>https://ruivieira.dev/lars-path.html</guid>
       <description>Summary In statistics, least-angle regression (LARS) is an algorithm for fitting linear regression models to high-dimensional data, developed by Bradley Efron, Trevor Hastie, Iain Johnstone and Robert Tibshirani.[1]
 Suppose we expect a response variable to be determined by a linear combination of a subset of potential covariates. Then the LARS algorithm provides a means of producing an estimate of which variables to include, as well as their coefficients.
 Instead of giving a vector result, the LARS solution consists of a curve denoting the solution for each value of the L1 norm of the parameter vector.</description>
@@ -534,10 +534,10 @@ Instead of giving a vector result, the LARS solution consists of a curve denotin
     
     <item>
       <title>LaTeX</title>
-      <link>http://ruivieira.dev/latex.html</link>
+      <link>https://ruivieira.dev/latex.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/latex.html</guid>
+      <guid>https://ruivieira.dev/latex.html</guid>
       <description>Notes on LaTeX.
 Images side-by-side Use the subfig package.
 \documentclass[10pt,a4paper]{article} \usepackage[demo]{graphicx} \usepackage{subfig} \begin{document} \begin{figure}%  \centering \subfloat[\centering label 1]{{\includegraphics[width=5cm]{img1} }}%  \qquad \subfloat[\centering label 2]{{\includegraphics[width=5cm]{img2} }}%  \caption{2 Figures side by side}%  \label{fig:example}% \end{figure} \end{document} </description>
@@ -545,87 +545,87 @@ Images side-by-side Use the subfig package.
     
     <item>
       <title>Linux admin</title>
-      <link>http://ruivieira.dev/linux-admin.html</link>
+      <link>https://ruivieira.dev/linux-admin.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/linux-admin.html</guid>
+      <guid>https://ruivieira.dev/linux-admin.html</guid>
       <description>Notes on Linux admin.</description>
     </item>
     
     <item>
       <title>LSTM</title>
-      <link>http://ruivieira.dev/lstm.html</link>
+      <link>https://ruivieira.dev/lstm.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/lstm.html</guid>
+      <guid>https://ruivieira.dev/lstm.html</guid>
       <description>Introduction Long short-term memory (LSTM) is an artificial recurrent neural network (RNN) architecture.
 Resources  Hochreiter, S. (1991). Untersuchungen zu dynamischen neuronalen netzen [in german] diploma thesis. TU Munich, (https://people.idsia.ch//~juergen/SeppHochreiter1991ThesisAdvisorSchmidhuber.pdf). Bengio, Y., Simard, P., &amp;amp; Frasconi, P. (1994). Learning long-term dependencies with gradient descent is difficult. IEEE transactions on neural networks, 5(2), 157–166. Hochreiter, S., &amp;amp; Schmidhuber, Jurgen (1997). Long short-term memory. Neural computation, 9(8), 1735–1780. http://www.bioinf.jku.at/publications/older/2604.pdf Gers, F. A., &amp;amp; Schmidhuber, Jurgen (2000).</description>
     </item>
     
     <item>
       <title>Machine learning</title>
-      <link>http://ruivieira.dev/machine-learning.html</link>
+      <link>https://ruivieira.dev/machine-learning.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/machine-learning.html</guid>
+      <guid>https://ruivieira.dev/machine-learning.html</guid>
       <description>Notes on machine learning.
 Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian copulas, Synthetic data with SDV and CTGAN and Synthetic data with SDV and CopulaGAN.  Explainability Clustering  K-means clustering  Fairness  Fairness in machine learning Model fairness  Metrics  Error metrics Distance metrics  Optimisation  Gradient-free optimisation  RNN  LSTM  Frameworks  Cookiecutter Data Science Scikit-learn  </description>
     </item>
     
     <item>
       <title>MCMC notifications</title>
-      <link>http://ruivieira.dev/mcmc-notifications.html</link>
+      <link>https://ruivieira.dev/mcmc-notifications.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/mcmc-notifications.html</guid>
+      <guid>https://ruivieira.dev/mcmc-notifications.html</guid>
       <description>It is said that patience is a virtue but the truth is that no one likes waiting (especially waiting around: this interesting article explores why people prefer walking 8 minutes to the airport’s baggage claim and having the bags ready rather than waiting the same amount of time entirely in the claim area).
 Anyone performing computationally heavy work, such as Monte Carlo methods, will know that these are usually computationally expensive algorithms which, even in modern hardware, can result in waiting times in the magnitude of hours, days and even weeks.</description>
     </item>
     
     <item>
       <title>MCMC performance on substrate VM</title>
-      <link>http://ruivieira.dev/mcmc-performance-on-substrate-vm.html</link>
+      <link>https://ruivieira.dev/mcmc-performance-on-substrate-vm.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/mcmc-performance-on-substrate-vm.html</guid>
+      <guid>https://ruivieira.dev/mcmc-performance-on-substrate-vm.html</guid>
       <description>Recently I&amp;rsquo;ve been following (but not very closely, I admit) the development of the GraalVM project. The project has many interesting goals (such as Project Metropolis, increased JIT performance and others).
 However, having dabbled with projects such as Scala native and Kotlin native, one of the aspects of GraalVM that caught my attention was the SubstrateVM, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</description>
     </item>
     
     <item>
       <title>Model fairness</title>
-      <link>http://ruivieira.dev/model-fairness.html</link>
+      <link>https://ruivieira.dev/model-fairness.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/model-fairness.html</guid>
+      <guid>https://ruivieira.dev/model-fairness.html</guid>
       <description> [Unfairness detection]]  </description>
     </item>
     
     <item>
       <title>Monotonic Cubic Spline interpolation (with some Rust)</title>
-      <link>http://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</link>
+      <link>https://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</guid>
+      <guid>https://ruivieira.dev/monotonic-cubic-spline-interpolation-with-some-rust.html</guid>
       <description>Monotonic Cubic Spline interpolation (MCSI) is a popular and useful method which fits a smooth, continuous function through discrete data. MCSI has several applications in the field of computer vision and trajectory fitting. MCSI further guarantees monotonicity of the smoothed approximation, something which a cubic spline approximation alone cannot. In this post I&amp;rsquo;ll show how to implement the method developed by F. N. Fritsch and R. E. Carlson1 in the Rust programming language.</description>
     </item>
     
     <item>
       <title>OOB score in random forests</title>
-      <link>http://ruivieira.dev/oob-score-in-random-forests.html</link>
+      <link>https://ruivieira.dev/oob-score-in-random-forests.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/oob-score-in-random-forests.html</guid>
+      <guid>https://ruivieira.dev/oob-score-in-random-forests.html</guid>
       <description>In the Random Forest algorithm, we build a decision tree (DT) based on a certain training dataset. This tree will be split in order to minimise some criteria function.
 However, it is not desirable that individual DTs get too large with too many splits, so a common approach is to train each tree with a subset of the training data (sampled with replacement). This will ensure that individual tree maintain a manageable size, while the variance of the tree ensemble is reduced and the overall bias is not altered.</description>
     </item>
     
     <item>
       <title>Optaplanner</title>
-      <link>http://ruivieira.dev/optaplanner.html</link>
+      <link>https://ruivieira.dev/optaplanner.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/optaplanner.html</guid>
+      <guid>https://ruivieira.dev/optaplanner.html</guid>
       <description>```java %%loadFromPOM org.optaplanneroptaplanner-core8.3.0.Final```
 Define the Lesson:
 ```java import java.time.DayOfWeek; import java.time.LocalTime;
@@ -640,29 +640,29 @@ public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfW
     
     <item>
       <title>Optimising random forest hyperparameters</title>
-      <link>http://ruivieira.dev/optimising-random-forest-hyperparamaters.html</link>
+      <link>https://ruivieira.dev/optimising-random-forest-hyperparamaters.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/optimising-random-forest-hyperparamaters.html</guid>
+      <guid>https://ruivieira.dev/optimising-random-forest-hyperparamaters.html</guid>
       <description>Typically the hyper-parameters which will have the most significant impact on the behaviour of a random forest are the following:
  The number of decision trees in a random forest The split criteria Maximum depth of individual trees Minimum samples per internal node Maximum number of leaf nodes Random features per split Number of samples in bootstrap dataset  We will look at each of these hyper-parameters individually with examples of how to select them.</description>
     </item>
     
     <item>
       <title>Pandas</title>
-      <link>http://ruivieira.dev/pandas.html</link>
+      <link>https://ruivieira.dev/pandas.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/pandas.html</guid>
+      <guid>https://ruivieira.dev/pandas.html</guid>
       <description> Pandas basics  </description>
     </item>
     
     <item>
       <title>Pandas basics</title>
-      <link>http://ruivieira.dev/pandas-basics.html</link>
+      <link>https://ruivieira.dev/pandas-basics.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/pandas-basics.html</guid>
+      <guid>https://ruivieira.dev/pandas-basics.html</guid>
       <description>Column operations Renaming columns import pandas as pd import numpy as np import warnings warnings.filterwarnings(&#39;ignore&#39;) df = pd.DataFrame({ &#39;a&#39;:np.random.randn(6), &#39;b&#39;:np.random.choice( [5,7,np.nan], 6), &#39;c&#39;:np.random.choice( [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;], 6), }) df.head() a b c 0 -0.650349 NaN bar 1 -0.740476 7.0 foo 2 -0.535825 7.0 foo 3 -0.754979 5.0 foo 4 0.559798 7.0 baz ```python df.rename(columns={&amp;ldquo;a&amp;rdquo;: &amp;ldquo;new_name&amp;rdquo;}, inplace=True) df.columns ```
 Index([&amp;lsquo;new_name&amp;rsquo;, &amp;lsquo;b&amp;rsquo;, &amp;lsquo;c&amp;rsquo;], dtype=&amp;lsquo;object&amp;rsquo;)
 Using a mapping function. In this case `str.upper()`:
@@ -671,30 +671,30 @@ Using a mapping function. In this case `str.upper()`:
     
     <item>
       <title>Portuguese Christmas recipes</title>
-      <link>http://ruivieira.dev/portuguese-christmas-recipes.html</link>
+      <link>https://ruivieira.dev/portuguese-christmas-recipes.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/portuguese-christmas-recipes.html</guid>
+      <guid>https://ruivieira.dev/portuguese-christmas-recipes.html</guid>
       <description>This year we spent Christmas in &amp;ldquo;lockdown&amp;rdquo; and we tried to make ourselves our full traditional Portuguese Christmas recipes from scratch &amp;ndash; while not being in Portugal. Herein lies the first issue: there are many different &amp;ldquo;traditions&amp;rdquo;, but these are the ones that me and my partner are used to.
 Traditionally, Christmas celebrations in Portugal start on the night of Christmas eve and carry on during Christmas day. The main meals are then dinner on the 24thDecember and lunch on the 25thDecember.</description>
     </item>
     
     <item>
       <title>Project Euler in Elisp</title>
-      <link>http://ruivieira.dev/project-euler-in-elisp.html</link>
+      <link>https://ruivieira.dev/project-euler-in-elisp.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/project-euler-in-elisp.html</guid>
+      <guid>https://ruivieira.dev/project-euler-in-elisp.html</guid>
       <description>Problem 1 If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.
 (require &amp;#39;cl) (apply &amp;#39;+ (remove-if-not &amp;#39;(lambda (x) (or (zerop (% x 3)) (zerop (% x 5)))) (loop for i from 1 to 999 collect i))) 233168 </description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>http://ruivieira.dev/python.html</link>
+      <link>https://ruivieira.dev/python.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/python.html</guid>
+      <guid>https://ruivieira.dev/python.html</guid>
       <description>Summary Main page for all things Python. Other pages cover specific topics, such as:
  Python environments [Python collections]] [&amp;lt;./Python&amp;gt; Pweave.org][Python Pweave]] Pandas Notes on [&amp;lt;./Python&amp;gt; grammar of graphics.org][Python&amp;rsquo;s grammar of graphics]]  Language changes In 2021, the Python steering council accepted the proposal to add a pattern-matching primitive to the language. The proposal consists of PEP634 along with PEP635 and PEP636.
 Modules Relative import in Python 3 If a relative import is present inside a Python 3 file (e.</description>
@@ -702,10 +702,10 @@ Modules Relative import in Python 3 If a relative import is present inside a Pyt
     
     <item>
       <title>Python environments</title>
-      <link>http://ruivieira.dev/python-environments.html</link>
+      <link>https://ruivieira.dev/python-environments.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/python-environments.html</guid>
+      <guid>https://ruivieira.dev/python-environments.html</guid>
       <description>Interpreters To install different Python interpreters I strongly recommend asdf1.
 macOS To install asdf on a macOS, first install the general dependencies with
 $ brew install coreutils curl git then install asdf itself with
@@ -715,19 +715,19 @@ $ asdf plugin add Python You can list all available versions with</description>
     
     <item>
       <title>Python grammar of graphics</title>
-      <link>http://ruivieira.dev/python-grammar-of-graphics.html</link>
+      <link>https://ruivieira.dev/python-grammar-of-graphics.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/python-grammar-of-graphics.html</guid>
+      <guid>https://ruivieira.dev/python-grammar-of-graphics.html</guid>
       <description>import pandas as pd mpg = pd.read_csv(&amp;quot;data/mpg.csv&amp;quot;) mpg.head() mpg cylinders displacement horsepower weight acceleration model_year \ 0 18.0 8 307.0 130 3504 12.0 70 1 15.0 8 350.0 165 3693 11.5 70 2 18.0 8 318.0 150 3436 11.0 70 3 16.0 8 304.0 150 3433 12.0 70 4 17.0 8 302.0 140 3449 10.5 70 origin name 0 1 chevrolet chevelle malibu 1 1 buick skylark 320 2 1 plymouth satellite 3 1 amc rebel sst 4 1 ford torino from plotnine import * from plotnine.</description>
     </item>
     
     <item>
       <title>Python monkey patching (for readability)</title>
-      <link>http://ruivieira.dev/python-monkey-patching-for-readability.html</link>
+      <link>https://ruivieira.dev/python-monkey-patching-for-readability.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/python-monkey-patching-for-readability.html</guid>
+      <guid>https://ruivieira.dev/python-monkey-patching-for-readability.html</guid>
       <description>When preparing a Jupyter notebook for a workshop on recommendation engines which I&amp;rsquo;ve presented with a colleague, I was faced with the following problem:
  &amp;ldquo;How to break a large class definition into several cells so it can be presented step-by-step.&amp;rdquo;
  Having the ability to declare a rather complex (and large) Python class in separate cells has several advantages, the obvious one being the ability to fully document each method&amp;rsquo;s functionality with Markdown, rather than comments.</description>
@@ -735,10 +735,10 @@ $ asdf plugin add Python You can list all available versions with</description>
     
     <item>
       <title>Python Pandas</title>
-      <link>http://ruivieira.dev/python-pandas.html</link>
+      <link>https://ruivieira.dev/python-pandas.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/python-pandas.html</guid>
+      <guid>https://ruivieira.dev/python-pandas.html</guid>
       <description>Subsetting and indexing Indexing performance Let&amp;rsquo;s assume the case where you a column BOOL with values Y or N that you want to replace with an integer 1 or 0 value. The inital1 instinct would be to do something like:
 df[&amp;#34;BOOL&amp;#34;] = df[&amp;#34;BOOL&amp;#34;].eq(&amp;#34;Y&amp;#34;).mul(1) This will result in the warning
 SettingWithCopyWarning: A value is trying to be set on a copy of a slice from a DataFrame. Try using .loc[row_indexer,col_indexer] = value instead Pandas documentation recommends the usage of the following idiom, since it can be considerably faster:</description>
@@ -746,10 +746,10 @@ SettingWithCopyWarning: A value is trying to be set on a copy of a slice from a 
     
     <item>
       <title>Python Pweave</title>
-      <link>http://ruivieira.dev/python-pweave.html</link>
+      <link>https://ruivieira.dev/python-pweave.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/python-pweave.html</guid>
+      <guid>https://ruivieira.dev/python-pweave.html</guid>
       <description>Installing Installing pweave is a matter of simply running1:
 pip3 install pweave At the moment of writing, the editor which, IMO, has the best support for pweave is Atom (using Hydrogen). To install the necessary packages run:
 apm install language-weave Hydrogen apm install language-markdown atom-html-preview pdf-view   I recommend using a separate pyenv for this.&amp;#160;&amp;#x21a9;&amp;#xfe0e;
@@ -758,10 +758,10 @@ apm install language-weave Hydrogen apm install language-markdown atom-html-prev
     
     <item>
       <title>Reading list</title>
-      <link>http://ruivieira.dev/reading-list.html</link>
+      <link>https://ruivieira.dev/reading-list.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/reading-list.html</guid>
+      <guid>https://ruivieira.dev/reading-list.html</guid>
       <description>What I&amp;rsquo;m reading now and what I&amp;rsquo;ve read in the past.
 Reading now Hospital Station, by James White (1962)
  Past readings Books I have read recently (most recently first).
@@ -770,20 +770,20 @@ Reading now Hospital Station, by James White (1962)
     
     <item>
       <title>ROC</title>
-      <link>http://ruivieira.dev/roc.html</link>
+      <link>https://ruivieira.dev/roc.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/roc.html</guid>
+      <guid>https://ruivieira.dev/roc.html</guid>
       <description>Receiver operating characteristic ROC (Receiver operating characteristic).
 import pandas as pd data = pd.read_csv(&amp;#34;./data/credit-bias.zip&amp;#34;) </description>
     </item>
     
     <item>
       <title>Root Mean Squared Error</title>
-      <link>http://ruivieira.dev/root-mean-squared-error.html</link>
+      <link>https://ruivieira.dev/root-mean-squared-error.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/root-mean-squared-error.html</guid>
+      <guid>https://ruivieira.dev/root-mean-squared-error.html</guid>
       <description>A typical way of measuring the difference between observations and results from a predictor.
 The formal definition is:
 \begin{aligned} RMSE(\hat{\theta}) &amp;amp;= \sqrt{\operatorname{MSE}(\hat{\theta})} \\ &amp;amp;= \sqrt{\operatorname{E}((\hat{\theta}-\theta)^2)}. \end{aligned}
@@ -794,10 +794,10 @@ Example import numpy as np X = 2 * np.random.rand(1000,1) X_b = np.c_[np.ones((1
     
     <item>
       <title>Rust</title>
-      <link>http://ruivieira.dev/rust.html</link>
+      <link>https://ruivieira.dev/rust.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/rust.html</guid>
+      <guid>https://ruivieira.dev/rust.html</guid>
       <description>Install $ curl --proto &amp;#39;=https&amp;#39; --tlsv1.2 -sSf https://sh.rustup.rs | sh $ source $HOME/.cargo/env Create a new project using $ cargo new hello_world --bin # for a binary $ cargo new hello_world # for a library Exercises  Rust exercises, resolution of the rustlings exercises  Reference Uploading to crates.io Use
 cargo publish Static constants &amp;ldquo;Lazy&amp;rdquo; static constants can be defined using the lazy_static macro from the lazy_static crate.
 The crate can be added to the dependencies with</description>
@@ -805,29 +805,29 @@ The crate can be added to the dependencies with</description>
     
     <item>
       <title>Rust exercises</title>
-      <link>http://ruivieira.dev/rust-exercises.html</link>
+      <link>https://ruivieira.dev/rust-exercises.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/rust-exercises.html</guid>
+      <guid>https://ruivieira.dev/rust-exercises.html</guid>
       <description>Variables Problem 1 fn main(){x=5;println!(&amp;#34;x has the value {}&amp;#34;,x);}Solution 1 fn main(){letx=5;println!(&amp;#34;x has the value {}&amp;#34;,x);}x has the value 5 Problem 2 fn main(){letx;ifx==10{println!(&amp;#34;Ten!&amp;#34;);}else{println!(&amp;#34;Not ten!&amp;#34;);}}Solution 2 fn main(){letx=10;ifx==10{println!(&amp;#34;Ten!&amp;#34;);}else{println!(&amp;#34;Not ten!&amp;#34;);}}Ten! Problem 3 fn main(){letx=3;println!(&amp;#34;Number {}&amp;#34;,x);x=5;// don&amp;#39;t change this line println!(&amp;#34;Number {}&amp;#34;,x);}Solution 3 fn main(){letmutx=3;println!(&amp;#34;Number {}&amp;#34;,x);x=5;// don&amp;#39;t change this line println!(&amp;#34;Number {}&amp;#34;,x);}Number 3 Number 5 Problem 4 fn main(){letx: i32;println!(&amp;#34;Number {}&amp;#34;,x);}Solution 4 fn main(){letx: i32 =1;println!(&amp;#34;Number {}&amp;#34;,x);}Problem 5 fn main(){letnumber=&amp;#34;T-H-R-E-E&amp;#34;;println!(&amp;#34;Spell a Number : {}&amp;#34;,number);number=3;println!</description>
     </item>
     
     <item>
       <title>Scikit-learn</title>
-      <link>http://ruivieira.dev/scikit-learn.html</link>
+      <link>https://ruivieira.dev/scikit-learn.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/scikit-learn.html</guid>
+      <guid>https://ruivieira.dev/scikit-learn.html</guid>
       <description>Collection of notes on Python&amp;rsquo;s scikit-learn machine learning library.
  Optimising random forest hyperparamaters  </description>
     </item>
     
     <item>
       <title>Search Results</title>
-      <link>http://ruivieira.dev/search.html</link>
+      <link>https://ruivieira.dev/search.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/search.html</guid>
+      <guid>https://ruivieira.dev/search.html</guid>
       <description>This file exists solely to respond to /search URL with the related search layout template.
 No content shown here is rendered, all content is based in the template layouts/page/search.html
 Setting a very low sitemap priority will tell search engines this is not important content.
@@ -838,10 +838,10 @@ Initial setup Search depends on additional output content type of JSON in config
     
     <item>
       <title>Serving models with Seldon</title>
-      <link>http://ruivieira.dev/serving-models-with-seldon.html</link>
+      <link>https://ruivieira.dev/serving-models-with-seldon.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/serving-models-with-seldon.html</guid>
+      <guid>https://ruivieira.dev/serving-models-with-seldon.html</guid>
       <description>Deploying machine learning models in production comes with several requirements. We must manage the model lifecycle. We need reproducibility and typically use containerised workflows.
 Seldon is a tool which aims at providing a production workflow for machine learning models, allowing to build model serving containers which expose well-defined APIs.
 In this post, I&amp;rsquo;ll show how to create a simple model and how to deploy it with Seldon. The model is a customer segmentation one.</description>
@@ -849,30 +849,30 @@ In this post, I&amp;rsquo;ll show how to create a simple model and how to deploy
     
     <item>
       <title>Shell configurations</title>
-      <link>http://ruivieira.dev/shell-configurations.html</link>
+      <link>https://ruivieira.dev/shell-configurations.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/shell-configurations.html</guid>
+      <guid>https://ruivieira.dev/shell-configurations.html</guid>
       <description>According to Bash&amp;rsquo;s man:
  /bin/bash The bash executable /etc/profile The system-wide initialization file, executed for login shells ~/.bash_profile The personal initialization file, executed for login shells ~/.bashrc The individual per-interactive-shell startup file ~/.bash_logout The individual login shell cleanup file, executed when a login shell exits ~/.inputrc Individual readline initialization file  With zsh, .zshrc is always read for an interactive shell, whether it&amp;rsquo;s a login one or not.</description>
     </item>
     
     <item>
       <title>Shell tricks</title>
-      <link>http://ruivieira.dev/shell-tricks.html</link>
+      <link>https://ruivieira.dev/shell-tricks.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/shell-tricks.html</guid>
+      <guid>https://ruivieira.dev/shell-tricks.html</guid>
       <description>Reset cursor Sometimes, especially when using ANSI escape code heavy applications, your terminal state might get mangled. If that&amp;rsquo;s the case, it&amp;rsquo;s just a matter of performing a VT320 escape sequence to reset the state. For instance, in [zsh]], using the unhide command:
 echo -en &amp;#34;\e[?25h&amp;#34; </description>
     </item>
     
     <item>
       <title>Site details</title>
-      <link>http://ruivieira.dev/site-details.html</link>
+      <link>https://ruivieira.dev/site-details.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/site-details.html</guid>
+      <guid>https://ruivieira.dev/site-details.html</guid>
       <description>Assets This site&amp;rsquo;s CSS size is 5.2Kb. This, however, does not include the following dependencies:
  LaTeX processor (KaTeX) custom monospaced font (Jetbrains Mono) custom serif font (iA Quattro)  The minimal CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
 The CSS evolution (size, number of rules, etc) can be tracked over at Project Wallace.
@@ -881,20 +881,20 @@ The site is generated from a set of Markdown files using a Python pre-processor,
     
     <item>
       <title>SSH</title>
-      <link>http://ruivieira.dev/ssh.html</link>
+      <link>https://ruivieira.dev/ssh.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/ssh.html</guid>
+      <guid>https://ruivieira.dev/ssh.html</guid>
       <description>Configuration Config file To add a known server to the config file, use the following syntax:
 Host mymachine HostName 127.0.0.1 User root Port 7654 There is no method to specify or provide on the command line the password in a non-interactive manner for ssh authentication using a OpenSSH built-in mechanism.</description>
     </item>
     
     <item>
       <title>Synthetic Data Generation</title>
-      <link>http://ruivieira.dev/synthetic-data-generation.html</link>
+      <link>https://ruivieira.dev/synthetic-data-generation.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/synthetic-data-generation.html</guid>
+      <guid>https://ruivieira.dev/synthetic-data-generation.html</guid>
       <description>:ID: Synthetic Data Generation :CUSTOM_ID: Synthetic Data Generation
 Generating synthetic data Synthetic data will be used mainly for these scenarios:
  Regression Classification  Here we will mainly look at the methods provided by `scikit-learn` to generate synthetic datasets. For more advanced methods, such as using the SDV library please check the [Synthetic Data Generation with SDV|SDV page]]. It support methods such as [Synthetic data with SDV and Gaussian copulas|Gaussian copulas]], [Synthetic data with SDV and CTGAN|CTGAN]] and [Synthetic data with SDV and CopulaGAN|CopulaGAN]].</description>
@@ -902,19 +902,19 @@ Generating synthetic data Synthetic data will be used mainly for these scenarios
     
     <item>
       <title>Synthetic Data Generation with SDV</title>
-      <link>http://ruivieira.dev/synthetic-data-generation-with-sdv.html</link>
+      <link>https://ruivieira.dev/synthetic-data-generation-with-sdv.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/synthetic-data-generation-with-sdv.html</guid>
+      <guid>https://ruivieira.dev/synthetic-data-generation-with-sdv.html</guid>
       <description>Synthetic data with SDV and Gaussian copulas Synthetic data with SDV and CTGAN Synthetic data with SDV and CopulaGAN </description>
     </item>
     
     <item>
       <title>Synthetic data with SDV and CopulaGAN</title>
-      <link>http://ruivieira.dev/synthetic-data-with-svd-and-copulagan.html</link>
+      <link>https://ruivieira.dev/synthetic-data-with-svd-and-copulagan.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/synthetic-data-with-svd-and-copulagan.html</guid>
+      <guid>https://ruivieira.dev/synthetic-data-with-svd-and-copulagan.html</guid>
       <description>```python data.head() ```
 ``` ## Pclass Sex Age SibSp Parch Fare ## 0 3 1 22.0 1 0 7.2500 ## 1 1 0 38.0 1 0 71.2833 ## 2 3 0 26.0 0 0 7.9250 ## 3 1 0 35.0 1 0 53.1000 ## 4 3 1 35.0 0 0 8.0500 ```
 ```python data.describe(include=&amp;lsquo;all&amp;rsquo;) ```
@@ -923,10 +923,10 @@ Generating synthetic data Synthetic data will be used mainly for these scenarios
     
     <item>
       <title>Synthetic data with SDV and CTGAN</title>
-      <link>http://ruivieira.dev/synthetic-data-with-sdv-and-ctgan.html</link>
+      <link>https://ruivieira.dev/synthetic-data-with-sdv-and-ctgan.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/synthetic-data-with-sdv-and-ctgan.html</guid>
+      <guid>https://ruivieira.dev/synthetic-data-with-sdv-and-ctgan.html</guid>
       <description>```python import pandas as pd import warnings
 warnings.filterwarnings(&amp;lsquo;ignore&amp;rsquo;)
 data = pd.read_csv(&amp;ldquo;data/svm-hyperparameters-train-features.csv&amp;rdquo;) ```
@@ -947,19 +947,19 @@ evaluate(new_data, data) ```
     
     <item>
       <title>Synthetic data with SVD and Gaussian copulas</title>
-      <link>http://ruivieira.dev/synthetic-data-with-svd-and-gaussian-copulas.html</link>
+      <link>https://ruivieira.dev/synthetic-data-with-svd-and-gaussian-copulas.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/synthetic-data-with-svd-and-gaussian-copulas.html</guid>
+      <guid>https://ruivieira.dev/synthetic-data-with-svd-and-gaussian-copulas.html</guid>
       <description>import pandas as pd data = pd.read_csv(&amp;quot;data/svm-hyperparameters-train-features.csv&amp;quot;) data.head() Pclass Sex Age SibSp Parch Fare 0 3 1 22.0 1 0 7.2500 1 1 0 38.0 1 0 71.2833 2 3 0 26.0 0 0 7.9250 3 1 0 35.0 1 0 53.1000 4 3 1 35.0 0 0 8.0500 data.describe(include=&amp;quot;all&amp;quot;) Pclass Sex Age SibSp Parch Fare count 891.000000 891.000000 891.000000 891.000000 891.000000 891.000000 mean 2.308642 0.647587 29.758889 0.523008 0.381594 32.204208 std 0.</description>
     </item>
     
     <item>
       <title>t as mixture of Normals</title>
-      <link>http://ruivieira.dev/t-as-mixture-of-normals.html</link>
+      <link>https://ruivieira.dev/t-as-mixture-of-normals.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/t-as-mixture-of-normals.html</guid>
+      <guid>https://ruivieira.dev/t-as-mixture-of-normals.html</guid>
       <description>(Based on Rasmus Bååth&amp;rsquo;s post)
 A scaled \(t\) distribution, with \(\mu\) mean, \(s\) scale and \(\nu\) degrees of freedom, can be simulated
 from a mixture of Normals with \(\\mu\) mean and precisions following a Gamma distribution:
@@ -970,28 +970,28 @@ To simulate 10,000 samples from \(t_2\left(0,3\right)\) using the mixture, we ca
     
     <item>
       <title>Tikz</title>
-      <link>http://ruivieira.dev/emacs.html</link>
+      <link>https://ruivieira.dev/emacs.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/emacs.html</guid>
+      <guid>https://ruivieira.dev/emacs.html</guid>
       <description> </description>
     </item>
     
     <item>
       <title>Transformation functions</title>
-      <link>http://ruivieira.dev/transformation-functions.html</link>
+      <link>https://ruivieira.dev/transformation-functions.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/transformation-functions.html</guid>
+      <guid>https://ruivieira.dev/transformation-functions.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>Typography</title>
-      <link>http://ruivieira.dev/typography.html</link>
+      <link>https://ruivieira.dev/typography.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/typography.html</guid>
+      <guid>https://ruivieira.dev/typography.html</guid>
       <description>Summary A collection of notes on typography.
 Monospaced fonts The Monoid font has a post to explain some design decisions1.
   https://medium.com/larsenwork-andreas-larsen/class-based-contextual-positioning-in-monospaced-fonts-cb6b8b9ffe6f&amp;#160;&amp;#x21a9;&amp;#xfe0e;
@@ -1000,37 +1000,37 @@ Monospaced fonts The Monoid font has a post to explain some design decisions1.
     
     <item>
       <title>Unfairness detection</title>
-      <link>http://ruivieira.dev/unfairness-detection.html</link>
+      <link>https://ruivieira.dev/unfairness-detection.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/unfairness-detection.html</guid>
+      <guid>https://ruivieira.dev/unfairness-detection.html</guid>
       <description></description>
     </item>
     
     <item>
       <title>Vim keys</title>
-      <link>http://ruivieira.dev/vim-keys.html</link>
+      <link>https://ruivieira.dev/vim-keys.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/vim-keys.html</guid>
+      <guid>https://ruivieira.dev/vim-keys.html</guid>
       <description>Copy paste  Press vto select characters, or uppercase Vto select whole lines yto copy Press Pto paste before the cursor, or pto paste after  </description>
     </item>
     
     <item>
       <title>Vue</title>
-      <link>http://ruivieira.dev/vue.html</link>
+      <link>https://ruivieira.dev/vue.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/vue.html</guid>
+      <guid>https://ruivieira.dev/vue.html</guid>
       <description>Download a file ```javascript saveFile: function() { const data = JSON.stringify(this.myData) const blob = new Blob([data], {type: &amp;lsquo;text/plain&amp;rsquo;}) const e = document.createEvent(&amp;lsquo;MouseEvents&amp;rsquo;), a = document.createElement(&amp;lsquo;a&amp;rsquo;); a.download = &amp;ldquo;myData.json&amp;rdquo;; a.href = window.URL.createObjectURL(blob); a.dataset.downloadurl = [&amp;lsquo;text/json&amp;rsquo;, a.download, a.href].join(&#39;:&#39;); e.initEvent(&amp;lsquo;click&amp;rsquo;, true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); a.dispatchEvent(e); } ```</description>
     </item>
     
     <item>
       <title>Workflow</title>
-      <link>http://ruivieira.dev/workflow.html</link>
+      <link>https://ruivieira.dev/workflow.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/workflow.html</guid>
+      <guid>https://ruivieira.dev/workflow.html</guid>
       <description>Workflow Optimise PNGs To optimise an entired folder of PNGs, you could use optipng. Install it on macOS using
 $ brew install optipng and then apply it recusively with
 $ find . -name &amp;#34;*.png&amp;#34; -exec optipng -o7 {} \; </description>
@@ -1038,10 +1038,10 @@ $ find . -name &amp;#34;*.png&amp;#34; -exec optipng -o7 {} \; </description>
     
     <item>
       <title>XGBoost</title>
-      <link>http://ruivieira.dev/xgboost.html</link>
+      <link>https://ruivieira.dev/xgboost.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://ruivieira.dev/xgboost.html</guid>
+      <guid>https://ruivieira.dev/xgboost.html</guid>
       <description>Introduction Example Training XGBoost with the credit-bias dataset.
 import pandas as pd data = pd.read_csv(&amp;quot;data/credit-bias-train.zip&amp;quot;) data.head() NewCreditCustomer Amount Interest LoanDuration Education \ 0 False 2125.0 20.97 60 4.0 1 False 3000.0 17.12 60 5.0 2 True 9100.0 13.67 60 4.0 3 True 635.0 42.66 60 2.0 4 False 5000.0 24.52 60 4.0 NrOfDependants EmploymentDurationCurrentEmployer \ 0 0.0 6.0 1 0.0 6.0 2 1.0 3.0 3 0.0 1.0 4 1.0 5.0 IncomeFromPrincipalEmployer IncomeFromPension IncomeFromFamilyAllowance \ 0 0.</description>
     </item>
