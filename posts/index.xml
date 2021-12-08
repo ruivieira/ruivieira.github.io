@@ -959,7 +959,8 @@ To simulate 10,000 samples from \(t_2\left(0,3\right)\) using the mixture, we ca
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/tikz.html</guid>
-      <description> </description>
+      <description>Random elements \begin{tikzpicture} \foreach \y in {0.0,0.1,...,0.9} { \foreach \x in {0.0,0.1,...,0.9} { \pgfmathparse{0.9*rnd+0.3} \definecolor{MyColor}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=MyColor] (\x,\y) rectangle ++(0.1,0.1); } } \end{tikzpicture}  Template functions If we want to draw several blocks of random noise (as in Random elements):
+\newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd+0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle ++({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0.0}{0.1}{0.9}{0.0}{0.1}{0.9}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{2.0}{2.2}{3.8}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{4.0}{4.2}{5.8}{0.2}{0.2} \end{tikzpicture}  </description>
     </item>
     
     <item>
