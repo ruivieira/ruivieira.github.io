@@ -234,7 +234,11 @@ X_b \sim \mathcal{N}\left([10, 10], \text{diag}(2, 2)\right).
 </figure>
 
 <p>Below we illustrate the building of a <strong>single</strong> IT (given the data), illustrating the feature split point \(p\) and respective division of the feature list into <strong>left</strong> or <strong>right</strong> IT nodes. The process is conducted recursively until the feature list is no longer divisible. As mentioned previously, this process, the creation of an IT, is repeated \(t\) times in order to create the IF.</p>
-<!-- raw HTML omitted -->
+<p>
+  <video width="100%" autoplay>
+    <source src="./images/isolationforests/split.mp4" type="video/mp4">
+  </video>
+</p>
 <p>In order to perform anomaly detection (<strong>e.g.</strong> observation scoring) we will then use the IT equivalent of the BST unsuccessful search heuristics. An external node termination in an IT is equivalent to a BST unsuccessful search. Given an observation \(x\), our goal is then to calculate the score for this observation, given our defined subsampling size, that is, \(s(x,\psi)\).</p>
 <p>This technique amounts to partitioning the feature space randomly until feature points are “isolated”. Intuitively, points in high density regions will need more partitioning steps, whereas anomalies (by definition away from high density regions) will need fewer splits. Since the building of the ITs is performed in a randomised fashion and using a subsample of the data, this density predictor can be average over a number of ITs, the <strong>Isolation Forest</strong>.</p>
 <p>Intuitively, this could be done by calculating the average path length for our \(\mathcal{T}n, n=1,\dots,t\) ITs, \(\overline{h}(x)\).
@@ -278,7 +282,7 @@ s(x,\psi) = 2^{-\frac{\text{E}[h(x)]}{c(\psi)}}
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><!-- raw HTML omitted --> Liu, F. T., Ting, K. M., &amp; Zhou, Z. (2012). Isolation-based anomaly detection. ACM Transactions on Knowledge Discovery from Data (TKDD), 6(1), 1–39.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><liu2012isolation> Liu, F. T., Ting, K. M., &amp; Zhou, Z. (2012). Isolation-based anomaly detection. ACM Transactions on Knowledge Discovery from Data (TKDD), 6(1), 1–39.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>

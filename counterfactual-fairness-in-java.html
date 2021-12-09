@@ -18,7 +18,7 @@
   <meta property="og:title" content="Counterfactual Fairness in Java" />
 <meta property="og:description" content="Here we will look at how to build a counterfactually fair model, as detailed in Counterfactual Fairness, specifically the &ldquo;Fair Add&rdquo; model.
 This implementation will rely mostly on Apache Commons Math1 linear regression implementations, namely the Ordinary Least Squares (OLS) regression2. We start then by adding the relevant Maven dependencies:
-```xml org.apache.commonscommons-math33.6.1```
+```xml  org.apache.commons commons-math3 3.6.1  ```
 Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/counterfactual-fairness-in-java.html" /><meta property="article:section" content="posts" />
@@ -30,7 +30,7 @@ Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\tim
 <meta name="twitter:title" content="Counterfactual Fairness in Java"/>
 <meta name="twitter:description" content="Here we will look at how to build a counterfactually fair model, as detailed in Counterfactual Fairness, specifically the &ldquo;Fair Add&rdquo; model.
 This implementation will rely mostly on Apache Commons Math1 linear regression implementations, namely the Ordinary Least Squares (OLS) regression2. We start then by adding the relevant Maven dependencies:
-```xml org.apache.commonscommons-math33.6.1```
+```xml  org.apache.commons commons-math3 3.6.1  ```
 Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features."/>
 
   
@@ -155,7 +155,7 @@ Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\tim
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20org.apache.commonscommons-math33.6.1%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20%20org.apache.commons%20commons-math3%203.6.1%20%20%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
@@ -206,11 +206,11 @@ Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\tim
       <p>Here we will look at how to build a counterfactually fair model, as detailed in <a href="/counterfactual-fairness.html">Counterfactual Fairness</a>, specifically the &ldquo;Fair Add&rdquo; model.</p>
 <p>This implementation will rely mostly on Apache Commons Math<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> linear regression implementations, namely the Ordinary Least Squares (OLS) regression<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. We start then by adding the relevant Maven dependencies:</p>
 <p>```xml
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->org.apache.commons<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->commons-math3<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->3.6.1<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<dependency>
+<groupId>org.apache.commons</groupId>
+<artifactId>commons-math3</artifactId>
+<version>3.6.1</version>
+</dependency>
 ```</p>
 <p>Data will be passed as a `RealMatrix`<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features.</p>
 <p>We can instatiate the model using</p>
@@ -360,7 +360,7 @@ return new ArrayRealVector(regression.estimateResiduals());
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20org.apache.commonscommons-math33.6.1%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20%20org.apache.commons%20commons-math3%203.6.1%20%20%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>

@@ -268,7 +268,11 @@ df.columns
 <p>```python
 df
 ```</p>
-<!-- raw HTML omitted -->
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 <p>.dataframe tbody tr th {
 vertical-align: top;
 }</p>
@@ -276,13 +280,65 @@ vertical-align: top;
     text-align: right;
 }
 </code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>second</th>
+      <th>third</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.549838</td>
+      <td>5.0</td>
+      <td>baz</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.658684</td>
+      <td>NaN</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.784545</td>
+      <td>NaN</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.204787</td>
+      <td>5.0</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.206179</td>
+      <td>5.0</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.898500</td>
+      <td>5.0</td>
+      <td>baz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <p>We can drop the `second` column using:</p>
 <p>```python
 df.drop(columns=&lsquo;second&rsquo;)
 ```</p>
-<!-- raw HTML omitted -->
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 <p>.dataframe tbody tr th {
 vertical-align: top;
 }</p>
@@ -290,14 +346,59 @@ vertical-align: top;
     text-align: right;
 }
 </code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>third</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.549838</td>
+      <td>baz</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.658684</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.784545</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.204787</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.206179</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.898500</td>
+      <td>baz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <p>The `del` keyword is also a possibility. However, `del` changes the dataframe <strong><strong>in-place</strong></strong>, therefore we will make a copy of the dataframe first.</p>
 <p>```python
 df_copy = df.copy()
 df_copy
 ```</p>
-<!-- raw HTML omitted -->
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 <p>.dataframe tbody tr th {
 vertical-align: top;
 }</p>
@@ -305,13 +406,65 @@ vertical-align: top;
     text-align: right;
 }
 </code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>second</th>
+      <th>third</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.549838</td>
+      <td>5.0</td>
+      <td>baz</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.658684</td>
+      <td>NaN</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.784545</td>
+      <td>NaN</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.204787</td>
+      <td>5.0</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.206179</td>
+      <td>5.0</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.898500</td>
+      <td>5.0</td>
+      <td>baz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <p>```python
 del df_copy[&lsquo;second&rsquo;]
 df_copy
 ```</p>
-<!-- raw HTML omitted -->
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 <p>.dataframe tbody tr th {
 vertical-align: top;
 }</p>
@@ -319,13 +472,58 @@ vertical-align: top;
     text-align: right;
 }
 </code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>third</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.549838</td>
+      <td>baz</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.658684</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.784545</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.204787</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.206179</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.898500</td>
+      <td>baz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <p>Yet another possibility is to drop the column by index. For instance:</p>
 <p>```python
 df.drop(columns=df.columns[1])
 ```</p>
-<!-- raw HTML omitted -->
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 <p>.dataframe tbody tr th {
 vertical-align: top;
 }</p>
@@ -333,13 +531,58 @@ vertical-align: top;
     text-align: right;
 }
 </code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>third</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.549838</td>
+      <td>baz</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.658684</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.784545</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.204787</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.206179</td>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.898500</td>
+      <td>baz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <p>Or we could use ranges, for instance:</p>
 <p>```python
 df.drop(columns=df.columns[0:2])
 ```</p>
-<!-- raw HTML omitted -->
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 <p>.dataframe tbody tr th {
 vertical-align: top;
 }</p>
@@ -347,8 +590,42 @@ vertical-align: top;
     text-align: right;
 }
 </code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>third</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>baz</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>foo</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>baz</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 <p>```python</p>
 <p>```</p>
 

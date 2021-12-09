@@ -19,7 +19,8 @@
 <meta property="og:description" content="Last week, at the North East Functional Programming meet up, we were given a code Kata consisting of the Langton&rsquo;s ant algorithm.
 I&rsquo;ve had a go at Scala but decided later on to put a live version in this blog.
 I considered several implementation options, such as scala.js and Elm, but in the end decided to implement it in plain Javascript.
-Add ant" />
+
+ Add ant" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/langtons-ant.html" /><meta property="article:section" content="posts" />
 
@@ -31,7 +32,8 @@ Add ant" />
 <meta name="twitter:description" content="Last week, at the North East Functional Programming meet up, we were given a code Kata consisting of the Langton&rsquo;s ant algorithm.
 I&rsquo;ve had a go at Scala but decided later on to put a live version in this blog.
 I considered several implementation options, such as scala.js and Elm, but in the end decided to implement it in plain Javascript.
-Add ant"/>
+
+ Add ant"/>
 
   
   
@@ -155,7 +157,7 @@ Add ant"/>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2flangtons-ant.html&name=Langton%27s%20ant&description=Last%20week%2c%20at%20the%20North%20East%20Functional%20Programming%20meet%20up%2c%20we%20were%20given%20a%20code%20Kata%20consisting%20of%20the%20Langton%26rsquo%3bs%20ant%20algorithm.%0aI%26rsquo%3bve%20had%20a%20go%20at%20Scala%20but%20decided%20later%20on%20to%20put%20a%20live%20version%20in%20this%20blog.%0aI%20considered%20several%20implementation%20options%2c%20such%20as%20scala.js%20and%20Elm%2c%20but%20in%20the%20end%20decided%20to%20implement%20it%20in%20plain%20Javascript.%0aAdd%20ant" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2flangtons-ant.html&name=Langton%27s%20ant&description=Last%20week%2c%20at%20the%20North%20East%20Functional%20Programming%20meet%20up%2c%20we%20were%20given%20a%20code%20Kata%20consisting%20of%20the%20Langton%26rsquo%3bs%20ant%20algorithm.%0aI%26rsquo%3bve%20had%20a%20go%20at%20Scala%20but%20decided%20later%20on%20to%20put%20a%20live%20version%20in%20this%20blog.%0aI%20considered%20several%20implementation%20options%2c%20such%20as%20scala.js%20and%20Elm%2c%20but%20in%20the%20end%20decided%20to%20implement%20it%20in%20plain%20Javascript.%0a%0a%20Add%20ant" aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
@@ -203,14 +205,14 @@ Add ant"/>
   
     
     <div class="content" itemprop="articleBody">
-      <!-- raw HTML omitted -->
+      <script src='/assets/ants.js' type="text/javascript"></script>
 <p>Last week, at the <a href="https://twitter.com/FP%5FNorth%5FEast">North East Functional Programming</a> meet up, we were given a code Kata consisting of the <a href="https://en.wikipedia.org/wiki/Langton%27s%5Fant">Langton&rsquo;s ant</a> algorithm.</p>
 <p>I&rsquo;ve had a go at Scala but decided later on to put a live version in this blog.</p>
 <p>I considered several implementation options, such as scala.js and Elm, but in the end decided to implement it in plain Javascript.</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->Add ant<!-- raw HTML omitted --></p>
+<div style="margin-left: 10%;margin-right: 10%;">
+<p><canvas id="ants" width="640" height="480"></canvas></p>
+</div>
+<p><button type="button" class="btn btn-secondary btn-sm" id="addAntButton">Add ant</button></p>
 
     </div>
   </article>
@@ -290,7 +292,7 @@ Add ant"/>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2flangtons-ant.html&name=Langton%27s%20ant&description=Last%20week%2c%20at%20the%20North%20East%20Functional%20Programming%20meet%20up%2c%20we%20were%20given%20a%20code%20Kata%20consisting%20of%20the%20Langton%26rsquo%3bs%20ant%20algorithm.%0aI%26rsquo%3bve%20had%20a%20go%20at%20Scala%20but%20decided%20later%20on%20to%20put%20a%20live%20version%20in%20this%20blog.%0aI%20considered%20several%20implementation%20options%2c%20such%20as%20scala.js%20and%20Elm%2c%20but%20in%20the%20end%20decided%20to%20implement%20it%20in%20plain%20Javascript.%0aAdd%20ant" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2flangtons-ant.html&name=Langton%27s%20ant&description=Last%20week%2c%20at%20the%20North%20East%20Functional%20Programming%20meet%20up%2c%20we%20were%20given%20a%20code%20Kata%20consisting%20of%20the%20Langton%26rsquo%3bs%20ant%20algorithm.%0aI%26rsquo%3bve%20had%20a%20go%20at%20Scala%20but%20decided%20later%20on%20to%20put%20a%20live%20version%20in%20this%20blog.%0aI%20considered%20several%20implementation%20options%2c%20such%20as%20scala.js%20and%20Elm%2c%20but%20in%20the%20end%20decided%20to%20implement%20it%20in%20plain%20Javascript.%0a%0a%20Add%20ant" aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>

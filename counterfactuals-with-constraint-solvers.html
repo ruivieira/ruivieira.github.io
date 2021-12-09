@@ -239,10 +239,10 @@ The penalisation score is represented with a BendableBigDecimalScore 1, having 
 <figure><img src="/ox-hugo/counterfactual_score.png"/>
 </figure>
 
-<p>The first hard level component, <!-- raw HTML omitted -->1<!-- raw HTML omitted -->, penalises the score according to the distance between the prediction, \(y^{\prime}\) for the currently proposed solution, \(x^{\prime}\) and the original prediction \(y\), that is this our \((\hat{f}(x^{\prime})-y^{\prime})^2\). This corresponds to the counterfactual&rsquo;s <a href="/counterfactuals.html#Validity">validity</a>.</p>
-<p>The <a href="/counterfactuals.html#Actionability">actionability</a> is score with <!-- raw HTML omitted -->2<!-- raw HTML omitted -->. This component penalises the score according to number of <strong>immutable</strong> features which were changed in the counterfactual.</p>
-<p>A confidence score component, <!-- raw HTML omitted -->3<!-- raw HTML omitted --> is use to, optionally, impose a minimum confidence threshold to the counterfactual&rsquo;s associated prediction, \(x^{\prime}\).</p>
-<p>Finally, the <strong>feature distance</strong>, <!-- raw HTML omitted -->4<!-- raw HTML omitted -->, penalises the score according to the feature distance. This is the representation of</p>
+<p>The first hard level component, <span class="point">1</span>, penalises the score according to the distance between the prediction, \(y^{\prime}\) for the currently proposed solution, \(x^{\prime}\) and the original prediction \(y\), that is this our \((\hat{f}(x^{\prime})-y^{\prime})^2\). This corresponds to the counterfactual&rsquo;s <a href="/counterfactuals.html#Validity">validity</a>.</p>
+<p>The <a href="/counterfactuals.html#Actionability">actionability</a> is score with <span class="point">2</span>. This component penalises the score according to number of <strong>immutable</strong> features which were changed in the counterfactual.</p>
+<p>A confidence score component, <span class="point">3</span> is use to, optionally, impose a minimum confidence threshold to the counterfactual&rsquo;s associated prediction, \(x^{\prime}\).</p>
+<p>Finally, the <strong>feature distance</strong>, <span class="point">4</span>, penalises the score according to the feature distance. This is the representation of</p>
 <p>\[
 d(x, x^{\prime}).
 \]</p>
@@ -251,14 +251,14 @@ d(x, x^{\prime}).
 <figure><img src="/ox-hugo/counterfactual_impl.png"/>
 </figure>
 
-<p>Entities are defined by classes such as <code>Integer</code>, <code>Categorical</code>, <code>Boolean</code> or <code>Float</code>, as shown in <!-- raw HTML omitted -->5<!-- raw HTML omitted -->.
-Each of the features, shown in <!-- raw HTML omitted -->6<!-- raw HTML omitted -->, is created as an instance of one of these entities. For instance, <code>feature1</code> would be of type <code>Integer</code> and <code>feature2</code> would be of type <code>Categorical</code>, <em>etc.</em></p>
-<p>The original data point, \(x\) is represented by this set of features (<!-- raw HTML omitted -->6<!-- raw HTML omitted -->).</p>
-<p>A planning solution (<code>PlanningSolution</code>), illustrated in <!-- raw HTML omitted -->7<!-- raw HTML omitted --> will produce candidate solutions (shown in <!-- raw HTML omitted -->8<!-- raw HTML omitted -->)</p>
-<p>For each solution, we propose a new set of features (\(x^{\prime}\)) as a counterfactual candidate. For instance, <code>solution A</code> in <!-- raw HTML omitted -->8<!-- raw HTML omitted -->.</p>
+<p>Entities are defined by classes such as <code>Integer</code>, <code>Categorical</code>, <code>Boolean</code> or <code>Float</code>, as shown in <span class="point">5</span>.
+Each of the features, shown in <span class="point">6</span>, is created as an instance of one of these entities. For instance, <code>feature1</code> would be of type <code>Integer</code> and <code>feature2</code> would be of type <code>Categorical</code>, <em>etc.</em></p>
+<p>The original data point, \(x\) is represented by this set of features (<span class="point">6</span>).</p>
+<p>A planning solution (<code>PlanningSolution</code>), illustrated in <span class="point">7</span> will produce candidate solutions (shown in <span class="point">8</span>)</p>
+<p>For each solution, we propose a new set of features (\(x^{\prime}\)) as a counterfactual candidate. For instance, <code>solution A</code> in <span class="point">8</span>.</p>
 <p>In the following section we will look at how each component is calculated. We will refer to each &ldquo;hard&rdquo; level component as \(H_1, H_2\) and \(H_3\) and the &ldquo;soft&rdquo; component as \(S_1\). The overal score consists, then, of \(S=\{H_1, H_2, H_3, S_1 \}\)</p>
 <p>### Prediction distance</p>
-<p>The first component of the score, <!-- raw HTML omitted -->1<!-- raw HTML omitted --> is established by sending the proposed counterfactual \(x^{\prime}\), <!-- raw HTML omitted -->8<!-- raw HTML omitted --> to a predictive model, <!-- raw HTML omitted -->9<!-- raw HTML omitted --> and calculating the distance between the desired outcome, \(y^{\prime}\) and the model&rsquo;s prediction. This is done component wise, for each feature of the output. That is, for a prediction with \(N\) features, we calculate</p>
+<p>The first component of the score, <span class="point">1</span> is established by sending the proposed counterfactual \(x^{\prime}\), <span class="point">8</span> to a predictive model, <span class="point">9</span> and calculating the distance between the desired outcome, \(y^{\prime}\) and the model&rsquo;s prediction. This is done component wise, for each feature of the output. That is, for a prediction with \(N\) features, we calculate</p>
 <p>\[
 H_1=\left(\sum_i^Nf(x^{\prime}_i) - y^{\prime}_i\right)^2
 \]</p>
@@ -294,7 +294,7 @@ d_{g=0} = \begin{cases}
 <h3 id="gower-distance">Gower distance</h3>
 <p>An alternative metric for the outcome distance (and mixed variables in general) is the <a href="/gower-distance.html">Gower distance</a>.</p>
 <h3 id="actionability-score">Actionability score</h3>
-<p>For the second component, the actionability score, <!-- raw HTML omitted -->2<!-- raw HTML omitted -->. We calculate the number of features for the protected set \(\mathcal{A}\), which have a different value from the original. That is, assuming we have a certain number of protectd features \(M\), such that \(\mathcal{A}=\{A_1,A_2,\dots,A_M\}\), we calculate:</p>
+<p>For the second component, the actionability score, <span class="point">2</span>. We calculate the number of features for the protected set \(\mathcal{A}\), which have a different value from the original. That is, assuming we have a certain number of protectd features \(M\), such that \(\mathcal{A}=\{A_1,A_2,\dots,A_M\}\), we calculate:</p>
 <p>\[
 H_2 = \sum_{a \in \mathcal{A}} \mathbb{1}(x_a \neq x^{\prime}_a),
 \]</p>
@@ -309,7 +309,7 @@ H_3 = \sum_i^N \mathbb{1} \left( p_i \left( f(x^{\prime}) &lt; P_i \right) \righ
 d\left(x,x^{\prime}\right)=\sum_{i=1}^Nd^{\prime}\left(x_i,x_i^{\prime}\right)
 \]
 $$
-d<!-- raw HTML omitted -->′<!-- raw HTML omitted -->\left(x_i,x_i<!-- raw HTML omitted -->′<!-- raw HTML omitted -->\right)=</p>
+d<sup>′</sup>\left(x_i,x_i<sup>′</sup>\right)=</p>
 <p>\begin{cases}
 \left(x_i-x_i^{\prime}\right)^2,\quad\text{if}\ x_i,x_i^{\prime}\in\mathbb{N} \lor x_i,x_i^{\prime}\in\mathbb{R}\\
 1-\delta_{x,x^{\prime}},\quad\text{if}\ x_i,x_i^{\prime}\ \text{categorical}
@@ -344,7 +344,7 @@ This will include:</p>
 <p>: <strong>c.f.</strong> <a href="https://docs.optaplanner.org/8.0.0.Final/optaplanner-javadoc/org/optaplanner/core/api/score/buildin/bendablebigdecimal/BendableBigDecimalScore.html">https://docs.optaplanner.org/8.0.0.Final/optaplanner-javadoc/org/optaplanner/core/api/score/buildin/bendablebigdecimal/BendableBigDecimalScore.html</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p>: <!-- raw HTML omitted --> Glover, F. (1989). Tabu search—part i. ORSA Journal on computing, 1(3), 190–206.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>: <glover1989tabu> Glover, F. (1989). Tabu search—part i. ORSA Journal on computing, 1(3), 190–206.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>

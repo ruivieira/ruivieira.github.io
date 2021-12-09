@@ -661,7 +661,7 @@ FYA &amp;= b_{FYA} + w^R_{FYA}R + w^S_{FYA}S + \epsilon_{FYA} , \epsilon_{FYA} \
 \end{aligned}</p>
 <p>We estimate the error terms \(\epsilon_{GPA}, \epsilon_{LSAT}\) by first fitting two models that each use race and sex to individually
 predict `GPA` and `LSAT`. We then compute the residuals of each model (_e.g._, \(\epsilon_{GPA} =GPA−\hat{Y}_{GPA}(R, S)\)).
-We use these residual estimates of \(\epsilon_{GPA}, \epsilon_{LSAT}\) to predict \(FYA\). In [^Kusner2017] this is called <!-- raw HTML omitted -->Fair Add<!-- raw HTML omitted -->.</p>
+We use these residual estimates of \(\epsilon_{GPA}, \epsilon_{LSAT}\) to predict \(FYA\). In [^Kusner2017] this is called <span class="underline">Fair Add</span>.</p>
 <p>Since the process is similar for the individual predictions for `GPA` and `LSAT`, we will write a method to avoid repetion.</p>
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">def calculate_epsilon(data, var_name, protected_attr):
     X = data[protected_attr]
@@ -842,7 +842,7 @@ plt.show()
 
 <h3 id="finding-sensitive-features">Finding sensitive features</h3>
 <p>Typically a \(SPD &gt; 0.1\) and a \(DI &lt; 0.9\) might indicate discrimination on those features.
-All <!-- raw HTML omitted -->protected attributes<!-- raw HTML omitted --> fail the SPD test and, in our dataset, we have two features (`Hispanic` and `Mexican`) which clearly fail the DI test.</p>
+All <span class="underline">protected attributes</span> fail the SPD test and, in our dataset, we have two features (`Hispanic` and `Mexican`) which clearly fail the DI test.</p>
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">for a in [&quot;Mexican&quot;, &quot;Hispanic&quot;]:
     spd = demographic_parity_difference(y_true=df_train[&quot;ZFYA&quot;],
                                         y_pred=df_train[&quot;ZFYA&quot;],

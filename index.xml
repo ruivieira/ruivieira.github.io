@@ -145,7 +145,7 @@ The Law School Admission Council conducted a survey across 163 law schools in th
       <guid>https://ruivieira.dev/counterfactual-fairness-in-java.html</guid>
       <description>Here we will look at how to build a counterfactually fair model, as detailed in Counterfactual Fairness, specifically the &amp;ldquo;Fair Add&amp;rdquo; model.
 This implementation will rely mostly on Apache Commons Math1 linear regression implementations, namely the Ordinary Least Squares (OLS) regression2. We start then by adding the relevant Maven dependencies:
-```xml org.apache.commonscommons-math33.6.1```
+```xml  org.apache.commons commons-math3 3.6.1  ```
 Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features.</description>
     </item>
     
@@ -286,7 +286,7 @@ The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint grou
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/explainability.html</guid>
-      <description>Topics Counterfactuals  Counterfactuals with Constraint Solvers  Fairness  Counterfactual Fairness (also how to create counterfactually fair models [Counterfactual Fairness in Java|in Java]])  Resources  TrustyAI Explainability Toolkit1 pre-print, https://arxiv.org/abs/2104.12717 A nice presentation on AI/ML explainability: https://explainml-tutorial.github.io/neurips20  Literature  Kakogeorgiou, Ioannis, and Konstantinos Karantzalos. &amp;ldquo;Evaluating Explainable Artificial Intelligence Methods for Multi-label Deep Learning Classification Tasks in Remote Sensing.&amp;rdquo; arXiv preprint arXiv:2104.01375(2021).    : Geada, Rob, Tommaso Teofili, Rui Vieira, Rebecca Whitworth and Daniele Zonca.</description>
+      <description>Topics Counterfactuals  Counterfactuals with Constraint Solvers  Fairness  Counterfactual Fairness (also how to create counterfactually fair models [Counterfactual Fairness in Java|in Java]])  Resources  TrustyAI Explainability Toolkit1 pre-print, https://arxiv.org/abs/2104.12717 A nice presentation on AI/ML explainability: https://explainml-tutorial.github.io/neurips20  Literature  Kakogeorgiou, Ioannis, and Konstantinos Karantzalos. &amp;ldquo;Evaluating Explainable Artificial Intelligence Methods for Multi-label Deep Learning Classification Tasks in Remote Sensing.&amp;rdquo; arXiv preprint arXiv:2104.01375 (2021).    : Geada, Rob, Tommaso Teofili, Rui Vieira, Rebecca Whitworth and Daniele Zonca.</description>
     </item>
     
     <item>
@@ -518,7 +518,8 @@ It is important to note that typically, the mean distance to a centroid is used 
       <description>Last week, at the North East Functional Programming meet up, we were given a code Kata consisting of the Langton&amp;rsquo;s ant algorithm.
 I&amp;rsquo;ve had a go at Scala but decided later on to put a live version in this blog.
 I considered several implementation options, such as scala.js and Elm, but in the end decided to implement it in plain Javascript.
-Add ant</description>
+
+ Add ant</description>
     </item>
     
     <item>
@@ -559,7 +560,7 @@ Images side-by-side Use the subfig package.
       
       <guid>https://ruivieira.dev/lstm.html</guid>
       <description>Introduction Long short-term memory (LSTM) is an artificial recurrent neural network (RNN) architecture.
-Resources  Hochreiter, S. (1991). Untersuchungen zu dynamischen neuronalen netzen [in german] diploma thesis. TU Munich, (https://people.idsia.ch//~juergen/SeppHochreiter1991ThesisAdvisorSchmidhuber.pdf). Bengio, Y., Simard, P., &amp;amp; Frasconi, P. (1994). Learning long-term dependencies with gradient descent is difficult. IEEE transactions on neural networks, 5(2), 157–166. Hochreiter, S., &amp;amp; Schmidhuber, Jurgen (1997). Long short-term memory. Neural computation, 9(8), 1735–1780. http://www.bioinf.jku.at/publications/older/2604.pdf Gers, F. A., &amp;amp; Schmidhuber, Jurgen (2000).</description>
+Resources   Hochreiter, S. (1991). Untersuchungen zu dynamischen neuronalen netzen [in german] diploma thesis. TU Munich, (https://people.idsia.ch//~juergen/SeppHochreiter1991ThesisAdvisorSchmidhuber.pdf).  Bengio, Y., Simard, P., &amp;amp; Frasconi, P. (1994). Learning long-term dependencies with gradient descent is difficult. IEEE transactions on neural networks, 5(2), 157–166.  Hochreiter, S., &amp;amp; Schmidhuber, Jurgen (1997). Long short-term memory. Neural computation, 9(8), 1735–1780. http://www.bioinf.jku.at/publications/older/2604.pdf  Gers, F.</description>
     </item>
     
     <item>
@@ -626,7 +627,7 @@ However, it is not desirable that individual DTs get too large with too many spl
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/optaplanner.html</guid>
-      <description>```java %%loadFromPOM org.optaplanneroptaplanner-core8.3.0.Final```
+      <description>```java %%loadFromPOM  org.optaplanner optaplanner-core 8.3.0.Final  ```
 Define the Lesson:
 ```java import java.time.DayOfWeek; import java.time.LocalTime;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
@@ -635,7 +636,7 @@ public class Person {
 private double height; private double weight;
 // No-arg constructor required for Hibernate public Timeslot() { }
 public Timeslot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) { this.dayOfWeek = dayOfWeek; this.startTime = startTime; this.endTime = endTime; }
-public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.plusMinutes(50)); this.id = id; }</description>
+public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.</description>
     </item>
     
     <item>
@@ -676,7 +677,7 @@ Using a mapping function. In this case `str.upper()`:
       
       <guid>https://ruivieira.dev/portuguese-christmas-recipes.html</guid>
       <description>This year we spent Christmas in &amp;ldquo;lockdown&amp;rdquo; and we tried to make ourselves our full traditional Portuguese Christmas recipes from scratch &amp;ndash; while not being in Portugal. Herein lies the first issue: there are many different &amp;ldquo;traditions&amp;rdquo;, but these are the ones that me and my partner are used to.
-Traditionally, Christmas celebrations in Portugal start on the night of Christmas eve and carry on during Christmas day. The main meals are then dinner on the 24thDecember and lunch on the 25thDecember.</description>
+Traditionally, Christmas celebrations in Portugal start on the night of Christmas eve and carry on during Christmas day. The main meals are then dinner on the 24th December and lunch on the 25th December.</description>
     </item>
     
     <item>
@@ -974,7 +975,9 @@ To simulate 10,000 samples from \(t_2\left(0,3\right)\) using the mixture, we ca
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/tikz.html</guid>
-      <description>Random elements \begin{tikzpicture} \foreach \y in {0.0,0.1,...,0.9} { \foreach \x in {0.0,0.1,...,0.9} { \pgfmathparse{0.9*rnd+0.3} \definecolor{MyColor}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=MyColor] (\x,\y) rectangle ++(0.1,0.1); } } \end{tikzpicture}  Template functions If we want to draw several blocks of random noise (as in Random elements):
+      <description>Random elements 
+\begin{tikzpicture} \foreach \y in {0.0,0.1,...,0.9} { \foreach \x in {0.0,0.1,...,0.9} { \pgfmathparse{0.9*rnd+0.3} \definecolor{MyColor}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=MyColor] (\x,\y) rectangle ++(0.1,0.1); } } \end{tikzpicture}  Template functions If we want to draw several blocks of random noise (as in Random elements):
+
 \newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd+0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle ++({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0.0}{0.1}{0.9}{0.0}{0.1}{0.9}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{2.0}{2.2}{3.8}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{4.0}{4.2}{5.8}{0.2}{0.2} \end{tikzpicture}  </description>
     </item>
     
@@ -1014,7 +1017,7 @@ Monospaced fonts The Monoid font has a post to explain some design decisions1.
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/vim-keys.html</guid>
-      <description>Copy paste  Press vto select characters, or uppercase Vto select whole lines yto copy Press Pto paste before the cursor, or pto paste after  </description>
+      <description>Copy paste  Press v to select characters, or uppercase V to select whole lines y to copy Press P to paste before the cursor, or p to paste after  </description>
     </item>
     
     <item>

@@ -299,13 +299,15 @@ c_{x,y} = \begin{cases}
 \mathsf{P}_y^T\left(\mathsf{U}^T \mathsf{U} + \lambda \boldsymbol{\mathsf{I}}\right) &amp;= \mathsf{R}_y \mathsf{U} \\\\
 \mathsf{P}_y^T &amp;= \mathsf{R}_y \mathsf{U} \left(\mathsf{U}^T \mathsf{U} + \lambda \boldsymbol{\mathsf{I}}\right)^{-1}.
 \end{align}</p>
-<p>We can then calculate each factor iteratively, by fixing the other one and solving the estimator. While this process is alternated, an error measure (usually the [Root Mean Squared Error]]), or \(RMSE\) is calculated (as below) between the rating matrix approximation given by the latent factors and the ratings which we have, \(\mathcal{T}\). This method is guaranteed to converge and when we consider out approximation to be good enough, or after a set number of iterations we can then stop the refinement.</p>
+<p>We can then calculate each factor iteratively, by fixing the other one and solving the estimator. While this process is alternated, an error measure (usually the <a href="/root-mean-squared-error.html">Root Mean Squared Error</a>), or \(RMSE\) is calculated (as below) between the rating matrix approximation given by the latent factors and the ratings which we have, \(\mathcal{T}\).
+This method is guaranteed to converge and when we consider out approximation to be good enough, or after a set number of iterations we can then stop the refinement.</p>
 <p>\[
 RMSE = \sqrt{\frac{1}{n}\sum_{x,y \in \mathcal{T}}\lvert \hat{\mathsf{R}}_{x,y} - \mathsf{R}_{x,y}\rvert}
 \]</p>
-<p>After the latent factors are estimated, we can then use them to try to recreate the original ratings matrix</p>
-<p>with the approximation as we&rsquo;ve seen. The missing ratings in the original matrix will now be filled by values which minimize the least squares recursion and these are taken as the ratings &ldquo;predictions&rdquo;.</p>
-<p>To illustrate the working of ALS, let&rsquo;s assume we have a very quirky shop that only ever sells 300 products and has exactly 300 customers. On top of that, users are allowed to use 8 bit to rate the products. We will also assume in this unusual shop that every user has rated every product.</p>
+<p>After the latent factors are estimated, we can then use them to try to recreate the original ratings matrix with the approximation as we&rsquo;ve seen.
+The missing ratings in the original matrix will now be filled by values which minimize the least squares recursion and these are taken as the ratings &ldquo;predictions&rdquo;.</p>
+<p>To illustrate the working of ALS, let&rsquo;s assume we have a very quirky shop that only ever sells 300 products and has exactly 300 customers.
+On top of that, users are allowed to use 8 bit number to rate the products. We will also assume in this unusual shop that every user has rated every product.</p>
 <p>Now we&rsquo;re humans, and we visualise patterns in colour more easily than in numbers. We will assign a palette to the ratings, so that each rating corresponds to a colour.</p>
 <figure><img src="/ox-hugo/colour_matrix.png"/>
 </figure>
@@ -320,13 +322,16 @@ RMSE = \sqrt{\frac{1}{n}\sum_{x,y \in \mathcal{T}}\lvert \hat{\mathsf{R}}_{x,y} 
 
 <p>We then proceed to calculate each factor matrix, as we&rsquo;ve seen, by calculating one using the estimator while keeping the other one constant and then alternating. We can see by the movie below that at each iteration the approximation to the original ratings gets better, stabilising after a few steps.</p>
 <p>This is to be expected, in this case, since this would be the simplest implementation of ALS: a batch ALS on a single machine where we know all the ratings.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+ <video width="100%" controls loop autoplay>
+ <source src="./ox-hugo/simple-factorization.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 <p>So a fair question that arises is: why can&rsquo;t we update this model and perform recommendations in a streaming fashion using this method?</p>
 <p>After all, if users add product ratings, we can simply update the predictions by recalculating the factors!</p>
 <p>The problem is that when a new rating is added, or when new users and new products are added, we need to recalculate the entirety of the \(\mathsf{U}\) and \(\mathsf{P}\) matrices, and to do so, we need to have access to all of the data, \(\mathsf{R}\).</p>
 <h3 id="streaming-als">Streaming ALS</h3>
 <p>Ideally, we want a method that would allow us to update \(\mathsf{U}\) and \(\mathsf{P}\) using one observation, \(\mathsf{R}_{x,y}\) at a time</p>
-<p>It turns out that the <strong>Stochastic Gradient Descent</strong> (or SGD) method allows us to do precisely that. We&rsquo;ll look at the specific variant of SGD we&rsquo;ve used which is called <strong>Bias-Stochastic Gradient Descent</strong> (B-SGD).</p>
+<p>It turns out that the <strong>Stochastic Gradient Descent</strong> (or SGD)<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> method allows us to do precisely that. We&rsquo;ll look at the specific variant of SGD we&rsquo;ve used which is called <strong>Bias-Stochastic Gradient Descent</strong> (B-SGD).</p>
 <p>It is important to keep in mind, under a certain point of view, both methods aim at the same thing.</p>
 <figure><img src="/ox-hugo/batch_streaming_comparison.png"/>
 </figure>
@@ -363,7 +368,10 @@ b_y &amp;\leftarrow b_y + \gamma \left(\epsilon_{x,y}-\lambda_y b_y\right) \\\\
 </figure>
 
 <p>Next we show the previous manufactured ratings matrix being factorised using B-SGD. We now simply recalculate the biases and a single latent factor vector, one observation at the time. We can see that, as expected, the convergence is slower (we <strong>are</strong> using a single observation at each step) but in the end, it produces a similar result.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+ <video width="100%" controls loop autoplay>
+ <source src="./ox-hugo/sgd-factorization.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 <p>Now, this works fine for a single machine implementing streaming ALS. But we are interested in scaling this to something larger than this example so we will use a distributed implementation of ALS. And this is were it can start to get tricky. As it is the case with distributed algorithms, there are some pitfalls which we need to avoid in order to have a performant implementation. We will look at a few of these by looking at the Apache Spark&rsquo;s and its default ALS implementation.</p>
 <h3 id="apache-spark">Apache Spark</h3>
 <p>As probably most of you are familiar with, Spark is an Apache community project which aims at providing a modern platform for distributed computations. Spark provides several core data structures, such as <code>RDDs</code> (<a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#resilient-distributed-datasets-rdds">Resilient Distributed Datasets</a>), <code>Dataframes</code> and <code>Datasets</code>.</p>
@@ -532,6 +540,14 @@ userFeature(i) <span style="font-weight:bold">+=</span> gamma <span style="font-
 <p>Also, to make predictions we might have to try and perform random access to the latent factors <code>RDDs</code>. This also can be quite inefficient since we are using <code>lookup</code> methods.</p>
 <p>If you want to get straight setting up your own distributed recommendation engine, I highly suggest you start with Spark&rsquo;s builtin solution. I would highly recommended looking at the <code>jiminy</code> project (part of the <a href="https://radanalytics.io/">radanalytics.io</a> community), a micro-service oriented complete recommendation engine, ready to deploy on <a href="https://www.openshift.com/">OpenShift</a>.</p>
 <p>The engine is split into services such as a <a href="https://github.com/radanalyticsio/jiminy-predictor">predictor</a> and a <a href="https://github.com/radanalyticsio/jiminy-modeler">modeler</a>, along with a <a href="https://github.com/radanalyticsio/jiminy-html-server">front-end</a> and <a href="https://github.com/radanalyticsio/jiminy-tools">tools</a> to simplify tasks (such as using the MovieLens data) and it&rsquo;s a great way to look at how to put a modern recommender engine together and also a great code read.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><vinagre2014fast> Vinagre, J., Jorge, A. M., &amp; Gama, J. (2014). Fast incremental matrix factorization for recommendation with positive-only feedback. In , International Conference on User Modeling, Adaptation, and Personalization (pp. 459–470).&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 
     </div>
   </article>
