@@ -22,7 +22,7 @@ It is important to note that typically, the mean distance to a centroid is used 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/k-means-clustering.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
+<meta property="article:modified_time" content="2021-12-09T11:03:26+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -211,8 +211,8 @@ It is important to note that typically, the mean distance to a centroid is used 
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
+          Updated <time datetime="2021-12-09 11:03:26 &#43;0000 GMT" itemprop="datePublished">2021-12-09</time>
+          <span class="commit-hash">(7744337)</span>
         </div>
         
         
@@ -264,12 +264,12 @@ for i in range(1, 11):
     kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
     kmeans.fit(X)
     wcss.append(kmeans.inertia_)
-</code></pre><figure><img src="./.ob-jupyter/06c420485cea96fe14553a69314bf0f7017fc35c.png"/>
+</code></pre><figure><img src="/ox-hugo/7fe5fa71832f305c6d4e4dcac8ba6676a0ce9079.png"/>
 </figure>
 
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">kmeans = KMeans(n_clusters = 5, init = &quot;k-means++&quot;, random_state = 42)
 y_kmeans = kmeans.fit_predict(X)
-</code></pre><figure><img src="./.ob-jupyter/d3fcb3744054f3dc3e75f643878c7e4ad42b4d2f.png"/>
+</code></pre><figure><img src="/ox-hugo/778d17a85dfece071a0213e7acfda53ce01665c4.png"/>
 </figure>
 
 

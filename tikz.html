@@ -16,22 +16,24 @@
   <meta name="robots" content="all,follow">
   <meta name="googlebot" content="index,follow,snippet,archive">
   <meta property="og:title" content="Tikz" />
-<meta property="og:description" content="Random elements 
+<meta property="og:description" content="Introduction Tikz is a language for vector drawing and producing technical illustrations.
+Examples Random elements 
 \begin{tikzpicture} \foreach \y in {0.0,0.1,...,0.9} { \foreach \x in {0.0,0.1,...,0.9} { \pgfmathparse{0.9*rnd&#43;0.3} \definecolor{MyColor}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=MyColor] (\x,\y) rectangle &#43;&#43;(0.1,0.1); } } \end{tikzpicture}  Template functions If we want to draw several blocks of random noise (as in Random elements):
 
-\newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd&#43;0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle &#43;&#43;({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0.0}{0.1}{0.9}{0.0}{0.1}{0.9}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{2.0}{2.2}{3.8}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{4.0}{4.2}{5.8}{0.2}{0.2} \end{tikzpicture}  " />
+\newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd&#43;0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle &#43;&#43;({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/tikz.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-03T18:27:37+00:00" />
+<meta property="article:modified_time" content="2021-12-09T10:26:23+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tikz"/>
-<meta name="twitter:description" content="Random elements 
+<meta name="twitter:description" content="Introduction Tikz is a language for vector drawing and producing technical illustrations.
+Examples Random elements 
 \begin{tikzpicture} \foreach \y in {0.0,0.1,...,0.9} { \foreach \x in {0.0,0.1,...,0.9} { \pgfmathparse{0.9*rnd&#43;0.3} \definecolor{MyColor}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=MyColor] (\x,\y) rectangle &#43;&#43;(0.1,0.1); } } \end{tikzpicture}  Template functions If we want to draw several blocks of random noise (as in Random elements):
 
-\newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd&#43;0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle &#43;&#43;({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0.0}{0.1}{0.9}{0.0}{0.1}{0.9}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{2.0}{2.2}{3.8}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{4.0}{4.2}{5.8}{0.2}{0.2} \end{tikzpicture}  "/>
+\newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd&#43;0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle &#43;&#43;({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0."/>
 
   
   
@@ -155,7 +157,7 @@
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftikz.html&name=Tikz&description=Random%20elements%20%0a%5cbegin%7btikzpicture%7d%20%5cforeach%20%5cy%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.3%7d%20%5cdefinecolor%7bMyColor%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dMyColor%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%280.1%2c0.1%29%3b%20%7d%20%7d%20%5cend%7btikzpicture%7d%20%20Template%20functions%20If%20we%20want%20to%20draw%20several%20blocks%20of%20random%20noise%20%28as%20in%20Random%20elements%29%3a%0a%0a%5cnewcommand%5cRandomBlock%5b8%5d%7b%25%20%09%5cforeach%20%5cy%20in%20%7b%7b%231%7d%2c%7b%232%7d%2c...%2c%7b%233%7d%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b%7b%234%7d%2c%7b%235%7d%2c...%2c%7b%236%7d%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.1%7d%20%5cdefinecolor%7bGrey%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dGrey%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%28%7b%237%7d%2c%7b%238%7d%29%3b%20%7d%20%7d%20%7d%20%5cbegin%7btikzpicture%7d%20%5cRandomBlock%7b0.0%7d%7b0.1%7d%7b0.9%7d%7b0.0%7d%7b0.1%7d%7b0.9%7d%7b0.1%7d%7b0.1%7d%20%5cRandomBlock%7b0.0%7d%7b0.2%7d%7b1.8%7d%7b2.0%7d%7b2.2%7d%7b3.8%7d%7b0.1%7d%7b0.1%7d%20%5cRandomBlock%7b0.0%7d%7b0.2%7d%7b1.8%7d%7b4.0%7d%7b4.2%7d%7b5.8%7d%7b0.2%7d%7b0.2%7d%20%5cend%7btikzpicture%7d%20%20" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftikz.html&name=Tikz&description=Introduction%20Tikz%20is%20a%20language%20for%20vector%20drawing%20and%20producing%20technical%20illustrations.%0aExamples%20Random%20elements%20%0a%5cbegin%7btikzpicture%7d%20%5cforeach%20%5cy%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.3%7d%20%5cdefinecolor%7bMyColor%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dMyColor%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%280.1%2c0.1%29%3b%20%7d%20%7d%20%5cend%7btikzpicture%7d%20%20Template%20functions%20If%20we%20want%20to%20draw%20several%20blocks%20of%20random%20noise%20%28as%20in%20Random%20elements%29%3a%0a%0a%5cnewcommand%5cRandomBlock%5b8%5d%7b%25%20%09%5cforeach%20%5cy%20in%20%7b%7b%231%7d%2c%7b%232%7d%2c...%2c%7b%233%7d%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b%7b%234%7d%2c%7b%235%7d%2c...%2c%7b%236%7d%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.1%7d%20%5cdefinecolor%7bGrey%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dGrey%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%28%7b%237%7d%2c%7b%238%7d%29%3b%20%7d%20%7d%20%7d%20%5cbegin%7btikzpicture%7d%20%5cRandomBlock%7b0." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
@@ -173,12 +175,17 @@
       <h4>Contents</h4>
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#examples">Examples</a>
       <ul>
         <li><a href="#random-elements">Random elements</a></li>
       </ul>
     </li>
-    <li><a href="#template-functions">Template functions</a></li>
+    <li><a href="#template-functions">Template functions</a>
+      <ul>
+        <li><a href="#computations">Computations</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       
@@ -199,8 +206,8 @@
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-03 18:27:37 &#43;0000 GMT" itemprop="datePublished">2021-12-03</time>
-          <span class="commit-hash">(216cf4c)</span>
+          Updated <time datetime="2021-12-09 10:26:23 &#43;0000 GMT" itemprop="datePublished">2021-12-09</time>
+          <span class="commit-hash">(f1ca7e3)</span>
         </div>
         
         
@@ -212,7 +219,10 @@
   
     
     <div class="content" itemprop="articleBody">
-      <h3 id="random-elements">Random elements</h3>
+      <h2 id="introduction">Introduction</h2>
+<p><a href="https://github.com/pgf-tikz/pgf">Tikz</a> is a language for vector drawing and producing technical illustrations.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="random-elements">Random elements</h3>
 <p><a id="code-snippet--block"></a></p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-latex" data-lang="latex"> <span style="font-weight:bold">\begin</span><span style="color:#999">{</span>tikzpicture<span style="color:#999">}</span>
    <span style="font-weight:bold">\foreach</span> <span style="font-weight:bold">\y</span> in <span style="color:#999">{</span>0.0,0.1,...,0.9<span style="color:#999">}</span> <span style="color:#999">{</span>
@@ -245,6 +255,21 @@
 	<span style="font-weight:bold">\RandomBlock</span><span style="color:#999">{</span>0.0<span style="color:#999">}{</span>0.2<span style="color:#999">}{</span>1.8<span style="color:#999">}{</span>4.0<span style="color:#999">}{</span>4.2<span style="color:#999">}{</span>5.8<span style="color:#999">}{</span>0.2<span style="color:#999">}{</span>0.2<span style="color:#999">}</span>
 <span style="font-weight:bold">\end</span><span style="color:#999">{</span>tikzpicture<span style="color:#999">}</span>
 </code></pre></div><figure><img src="/ox-hugo/tikz-random-macro.png"/>
+</figure>
+
+<h3 id="computations">Computations</h3>
+<p>Performing computations inside a template function (or macro):</p>
+<p><a id="code-snippet--block-computations"></a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-latex" data-lang="latex"><span style="font-weight:bold">\newcommand\MyRect</span><span style="color:#008080">[4]</span><span style="color:#999">{</span><span style="color:#998;font-style:italic">%
+</span><span style="color:#998;font-style:italic"></span>	<span style="font-weight:bold">\draw</span><span style="color:#008080">[draw=black]</span> (<span style="color:#999">{</span>#1<span style="color:#999">}</span>,<span style="color:#999">{</span>#2<span style="color:#999">}</span>) rectangle (<span style="color:#999">{</span>(#1+#3)<span style="color:#999">}</span>,<span style="color:#999">{</span>(#2+#4)<span style="color:#999">}</span>);
+<span style="color:#999">}</span>
+
+<span style="font-weight:bold">\begin</span><span style="color:#999">{</span>tikzpicture<span style="color:#999">}</span>
+	<span style="font-weight:bold">\MyRect</span><span style="color:#999">{</span>0.0<span style="color:#999">}{</span>0.0<span style="color:#999">}{</span>1<span style="color:#999">}{</span>2<span style="color:#999">}</span>
+	<span style="font-weight:bold">\MyRect</span><span style="color:#999">{</span>2.0<span style="color:#999">}{</span>0.0<span style="color:#999">}{</span>2<span style="color:#999">}{</span>2<span style="color:#999">}</span>
+	<span style="font-weight:bold">\MyRect</span><span style="color:#999">{</span>5.0<span style="color:#999">}{</span>0.0<span style="color:#999">}{</span>2<span style="color:#999">}{</span>1<span style="color:#999">}</span>
+<span style="font-weight:bold">\end</span><span style="color:#999">{</span>tikzpicture<span style="color:#999">}</span>
+</code></pre></div><figure><img src="/ox-hugo/tikz-computations.png"/>
 </figure>
 
 
@@ -280,12 +305,17 @@
     <div id="toc-footer" style="display: none">
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#examples">Examples</a>
       <ul>
         <li><a href="#random-elements">Random elements</a></li>
       </ul>
     </li>
-    <li><a href="#template-functions">Template functions</a></li>
+    <li><a href="#template-functions">Template functions</a>
+      <ul>
+        <li><a href="#computations">Computations</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
     </div>
@@ -335,7 +365,7 @@
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftikz.html&name=Tikz&description=Random%20elements%20%0a%5cbegin%7btikzpicture%7d%20%5cforeach%20%5cy%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.3%7d%20%5cdefinecolor%7bMyColor%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dMyColor%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%280.1%2c0.1%29%3b%20%7d%20%7d%20%5cend%7btikzpicture%7d%20%20Template%20functions%20If%20we%20want%20to%20draw%20several%20blocks%20of%20random%20noise%20%28as%20in%20Random%20elements%29%3a%0a%0a%5cnewcommand%5cRandomBlock%5b8%5d%7b%25%20%09%5cforeach%20%5cy%20in%20%7b%7b%231%7d%2c%7b%232%7d%2c...%2c%7b%233%7d%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b%7b%234%7d%2c%7b%235%7d%2c...%2c%7b%236%7d%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.1%7d%20%5cdefinecolor%7bGrey%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dGrey%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%28%7b%237%7d%2c%7b%238%7d%29%3b%20%7d%20%7d%20%7d%20%5cbegin%7btikzpicture%7d%20%5cRandomBlock%7b0.0%7d%7b0.1%7d%7b0.9%7d%7b0.0%7d%7b0.1%7d%7b0.9%7d%7b0.1%7d%7b0.1%7d%20%5cRandomBlock%7b0.0%7d%7b0.2%7d%7b1.8%7d%7b2.0%7d%7b2.2%7d%7b3.8%7d%7b0.1%7d%7b0.1%7d%20%5cRandomBlock%7b0.0%7d%7b0.2%7d%7b1.8%7d%7b4.0%7d%7b4.2%7d%7b5.8%7d%7b0.2%7d%7b0.2%7d%20%5cend%7btikzpicture%7d%20%20" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftikz.html&name=Tikz&description=Introduction%20Tikz%20is%20a%20language%20for%20vector%20drawing%20and%20producing%20technical%20illustrations.%0aExamples%20Random%20elements%20%0a%5cbegin%7btikzpicture%7d%20%5cforeach%20%5cy%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b0.0%2c0.1%2c...%2c0.9%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.3%7d%20%5cdefinecolor%7bMyColor%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dMyColor%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%280.1%2c0.1%29%3b%20%7d%20%7d%20%5cend%7btikzpicture%7d%20%20Template%20functions%20If%20we%20want%20to%20draw%20several%20blocks%20of%20random%20noise%20%28as%20in%20Random%20elements%29%3a%0a%0a%5cnewcommand%5cRandomBlock%5b8%5d%7b%25%20%09%5cforeach%20%5cy%20in%20%7b%7b%231%7d%2c%7b%232%7d%2c...%2c%7b%233%7d%7d%20%7b%20%5cforeach%20%5cx%20in%20%7b%7b%234%7d%2c%7b%235%7d%2c...%2c%7b%236%7d%7d%20%7b%20%5cpgfmathparse%7b0.9%2arnd%2b0.1%7d%20%5cdefinecolor%7bGrey%7d%7brgb%7d%7b%5cpgfmathresult%2c%5cpgfmathresult%2c%5cpgfmathresult%7d%20%5cpath%5bfill%3dGrey%5d%20%28%5cx%2c%5cy%29%20rectangle%20%2b%2b%28%7b%237%7d%2c%7b%238%7d%29%3b%20%7d%20%7d%20%7d%20%5cbegin%7btikzpicture%7d%20%5cRandomBlock%7b0." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>

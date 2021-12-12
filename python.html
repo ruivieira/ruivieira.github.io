@@ -339,7 +339,7 @@ The operation can be rewritten as the function <code>u_and</code>:</p>
 
     home = str(Path.home())
 </code></pre><h4 id="list-files-recursively">List files recursively</h4>
-<p>For Python +3.5, use `glob`:</p>
+<p>For Python +3.5, use <code>glob</code>:</p>
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">
 import glob
 
@@ -354,7 +354,7 @@ for filename in glob.iglob(root_dir + '**/*.md', recursive=True):
 
 ts = datetime.now().replace(tzinfo=None)
 print(ts)
-</code></pre><p>And you want to calculate the \(\delta\) with a `datetime` which <span class="underline">has</span> a time (_offset aware_). We&rsquo;ll get an error.</p>
+</code></pre><p>And you want to calculate the \(\delta\) with a <code>datetime</code> which <span class="underline">has</span> a time (_offset aware_). We&rsquo;ll get an error.</p>
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">delta = datetime.now(timezone.utc) - ts
 </code></pre><p>The solution is to add a timezone to the <span class="underline">offset naive</span> date. For instance:</p>
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">ts = datetime.now(timezone.utc)

@@ -23,7 +23,7 @@ A special case2 for when no missing values exist can be formulated as the mean o
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/gower-distance.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
+<meta property="article:modified_time" content="2021-12-09T11:03:26+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -220,8 +220,8 @@ A special case2 for when no missing values exist can be formulated as the mean o
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
+          Updated <time datetime="2021-12-09 11:03:26 &#43;0000 GMT" itemprop="datePublished">2021-12-09</time>
+          <span class="commit-hash">(7744337)</span>
         </div>
         
         
@@ -296,33 +296,33 @@ R_age = age_max - age_min
     return 1 - abs(x1-x2)/R
 </code></pre><pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">df['s_age'] = df.apply(lambda x: s_numeric(x['Age1'], x['Age2'], R_age), axis=1)
 df
-</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2  s_age  s_sex     s     d
-0    M    M    15    15  1.000      1 1.000 0.000
-1    M    M    15    36  0.753      1 0.876 0.351
-2    F    F    15    58  0.494      1 0.747 0.503
-3    F    F    15    78  0.259      1 0.629 0.609
-4    F    F    15   100  0.000      1 0.500 0.707
-5    M    F    15    15  1.000      0 0.500 0.707
-6    M    F    15    36  0.753      0 0.376 0.790
-7    F    M    15    58  0.494      0 0.247 0.868
-8    F    M    15    78  0.259      0 0.129 0.933
-9    F    M    15   100  0.000      0 0.000 1.000
+</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2  s_age
+0    M    M    15    15  1.000
+1    M    M    15    36  0.753
+2    F    F    15    58  0.494
+3    F    F    15    78  0.259
+4    F    F    15   100  0.000
+5    M    F    15    15  1.000
+6    M    F    15    36  0.753
+7    F    M    15    58  0.494
+8    F    M    15    78  0.259
+9    F    M    15   100  0.000
 </code></pre></div><p>For categorical variables we can define the following score function:</p>
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">def s_categorical(x1, x2):
     return 1 if x1==x2 else 0
 </code></pre><pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">df['s_sex'] = df.apply(lambda x: s_categorical(x['Sex1'], x['Sex2']), axis=1)
 df
-</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2  s_age  s_sex     s     d
-0    M    M    15    15  1.000      1 1.000 0.000
-1    M    M    15    36  0.753      1 0.876 0.351
-2    F    F    15    58  0.494      1 0.747 0.503
-3    F    F    15    78  0.259      1 0.629 0.609
-4    F    F    15   100  0.000      1 0.500 0.707
-5    M    F    15    15  1.000      0 0.500 0.707
-6    M    F    15    36  0.753      0 0.376 0.790
-7    F    M    15    58  0.494      0 0.247 0.868
-8    F    M    15    78  0.259      0 0.129 0.933
-9    F    M    15   100  0.000      0 0.000 1.000
+</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2  s_age  s_sex
+0    M    M    15    15  1.000      1
+1    M    M    15    36  0.753      1
+2    F    F    15    58  0.494      1
+3    F    F    15    78  0.259      1
+4    F    F    15   100  0.000      1
+5    M    F    15    15  1.000      0
+6    M    F    15    36  0.753      0
+7    F    M    15    58  0.494      0
+8    F    M    15    78  0.259      0
+9    F    M    15   100  0.000      0
 </code></pre></div><p>We can now calculate the final score using</p>
 <pre tabindex="0"><code class="language-jupyter-python" data-lang="jupyter-python">import math
 

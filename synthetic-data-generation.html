@@ -22,7 +22,7 @@ Generating synthetic data Synthetic data will be used mainly for these scenarios
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/synthetic-data-generation.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
+<meta property="article:modified_time" content="2021-12-09T11:03:26+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -231,8 +231,8 @@ Generating synthetic data Synthetic data will be used mainly for these scenarios
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
+          Updated <time datetime="2021-12-09 11:03:26 &#43;0000 GMT" itemprop="datePublished">2021-12-09</time>
+          <span class="commit-hash">(7744337)</span>
         </div>
         
         
@@ -309,14 +309,14 @@ print(dataset[1][:10])
 df[&quot;y&quot;] = dataset[1]
 
 df.head()
-</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">         f1        f2        f3        f4           y
-0  0.873059 -1.630962  0.525384 -0.190358   20.004490
-1  1.006987  0.798349 -0.040577 -0.313586  -30.410547
-2 -0.614643  1.651103  0.757915 -0.003984   52.653714
-3 -1.085367  1.823378  0.461259 -1.723253 -119.263762
-4 -1.677748 -0.544013  0.863479 -0.302505   33.788055
+</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">      f1     f2     f3     f4        y
+0  0.873 -1.631  0.525 -0.190   20.004
+1  1.007  0.798 -0.041 -0.314  -30.411
+2 -0.615  1.651  0.758 -0.004   52.654
+3 -1.085  1.823  0.461 -1.723 -119.264
+4 -1.678 -0.544  0.863 -0.303   33.788
 </code></pre></div><p>Let&rsquo;s plot the data:</p>
-<figure><img src="/ox-hugo/c43ea461e138673b560e61689c82725622f7131e.png"/>
+<figure><img src="/ox-hugo/632c82a90db8f6e06a03de226cfc4a331908c336.png"/>
 </figure>
 
 <h3 id="changing-the-gaussian-noise-level">Changing the Gaussian noise level</h3>
@@ -446,11 +446,11 @@ data = make_classification(
 df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
 
 df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src="./.ob-jupyter/5f22e4a6a797e5f32ac787e3e781a056d7bd866a.png"/>
+</code></pre><figure><img src="/ox-hugo/378dea2e99c1388bce3f8237ebaae85cd3039bd2.png"/>
 </figure>
 
 <p>We can make the cluster separability more difficult, by decreasing the value of <code>class_sep</code>.</p>
-<figure><img src="./.ob-jupyter/7a257f49eae0901c0cb03f51ec20c7483601f681.png"/>
+<figure><img src="/ox-hugo/215dce045e870b2acbce68e7fe3885ffc040dc09.png"/>
 </figure>
 
 <h3 id="noise-level">Noise level</h3>
@@ -481,7 +481,7 @@ data = make_blobs(
 )
 df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURE)])
 df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src="./.ob-jupyter/6043355483e50017b34e04e98d6268efe0d0543a.png"/>
+</code></pre><figure><img src="/ox-hugo/e16ecb860aa8486f746e60799f679d65e01f702a.png"/>
 </figure>
 
 <p>To make a cluster more separable we can change <code>cluster_std</code>.</p>
@@ -496,7 +496,7 @@ df[&quot;y&quot;] = data[1]
 )
 df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
 df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src="./.ob-jupyter/2e1a17c5b537fa4028f9827ba8c6ce1beb2a37f3.png"/>
+</code></pre><figure><img src="/ox-hugo/04e8df141424d44665be1458850985315ad5d552.png"/>
 </figure>
 
 <p>By decreasing <code>cluster_std</code> we make them less separable.</p>
@@ -511,7 +511,7 @@ df[&quot;y&quot;] = data[1]
 )
 df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
 df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src="./.ob-jupyter/dc6674d3345ac16d721fa01f4d0c5a3f45a07b99.png"/>
+</code></pre><figure><img src="/ox-hugo/4d867ba60bce3ca264cc57207487779bd7136e66.png"/>
 </figure>
 
 <h3 id="anisotropic-data">Anisotropic data</h3>
@@ -531,7 +531,7 @@ plt.xlabel(&quot;f1&quot;)
 plt.ylabel(&quot;f2&quot;)
 plt.show()
 
-</code></pre><figure><img src="./.ob-jupyter/e34914d3eb500c6d558b1174289cda7ef2d7143f.png"/>
+</code></pre><figure><img src="/ox-hugo/605de6ba4fcf08f1dc3878694feb7bb9c4a79e9d.png"/>
 </figure>
 
 <h2 id="concentric-clusters">Concentric clusters</h2>

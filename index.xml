@@ -474,7 +474,7 @@ List&amp;lt;String&amp;gt; result = walk.filter(Files::isRegularFile) .filter(x 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/java-completable-futures.html</guid>
-      <description>Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture&amp;lt;String&amp;gt; future1 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;Hello&amp;#34;); CompletableFuture&amp;lt;String&amp;gt; future2 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;Beautiful&amp;#34;); CompletableFuture&amp;lt;String&amp;gt; future3 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;World&amp;#34;); CompletableFuture&amp;lt;Void&amp;gt; combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture&amp;lt;String&amp;gt; result = combinedFuture.thenApply(v -&amp;gt; future1.join() + future2.join() + future3.join()); System.out.println(result.get()); } Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\).</description>
+      <description>Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture&amp;lt;String&amp;gt; future1 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;Hello&amp;#34;); CompletableFuture&amp;lt;String&amp;gt; future2 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;Beautiful&amp;#34;); CompletableFuture&amp;lt;String&amp;gt; future3 = CompletableFuture.supplyAsync(() -&amp;gt; &amp;#34;World&amp;#34;); CompletableFuture&amp;lt;Void&amp;gt; combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture&amp;lt;String&amp;gt; result = combinedFuture.thenApply(v -&amp;gt; future1.join() + future2.join() + future3.join()); System.out.println(result.get()); } HelloBeautifulWorld Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\).</description>
     </item>
     
     <item>
@@ -486,7 +486,7 @@ List&amp;lt;String&amp;gt; result = walk.filter(Files::isRegularFile) .filter(x 
       <description>Introduction Applying Introduced in Java 8, the Consumer interface aims at providing additional functional programming capabilities for Java.
 Consumer defined functions do not return any value and they consist mainly of two methods:
 void accept(T t); default Consumer&amp;lt;T&amp;gt; andThen(Consumer&amp;lt;? super T&amp;gt; after); Let&amp;rsquo;s look at an example:
-import java.util.ArrayList; import java.util.function.Consumer; public static void main(String[] args) { Consumer&amp;lt;String&amp;gt; say = a -&amp;gt; System.out.println(&amp;#34;Hello, &amp;#34; + a + &amp;#34;!&amp;#34;); say.accept(&amp;#34;World&amp;#34;); } A Consumer can be applied in a functional way, since applying a consumer is equivalent to applying the accept method.</description>
+import java.util.ArrayList; import java.util.function.Consumer; public static void main(String[] args) { Consumer&amp;lt;String&amp;gt; say = a -&amp;gt; System.out.println(&amp;#34;Hello, &amp;#34; + a + &amp;#34;!&amp;#34;); say.accept(&amp;#34;World&amp;#34;); } Hello, World!</description>
     </item>
     
     <item>
@@ -495,7 +495,7 @@ import java.util.ArrayList; import java.util.function.Consumer; public static vo
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/java-streams.html</guid>
-      <description>Flat mapping Nested maps import java.util.Map; import java.util.HashMap; public static void main(String[] args) { final Map&amp;lt;String, Object&amp;gt; client = new HashMap&amp;lt;&amp;gt;(); client.put(&amp;#34;Age&amp;#34;, 43); client.put(&amp;#34;Salary&amp;#34;, 1950); client.put(&amp;#34;Existing payments&amp;#34;, 100); final Map&amp;lt;String, Object&amp;gt; loan = new HashMap&amp;lt;&amp;gt;(); loan.put(&amp;#34;Duration&amp;#34;, 15); loan.put(&amp;#34;Installment&amp;#34;, 100); final Map&amp;lt;String, Object&amp;gt; contextVariables = new HashMap&amp;lt;&amp;gt;(); contextVariables.put(&amp;#34;Client&amp;#34;, client); contextVariables.put(&amp;#34;Loan&amp;#34;, loan); System.out.println(contextVariables); } </description>
+      <description>Flat mapping Nested maps import java.util.Map; import java.util.HashMap; public static void main(String[] args) { final Map&amp;lt;String, Object&amp;gt; client = new HashMap&amp;lt;&amp;gt;(); client.put(&amp;#34;Age&amp;#34;, 43); client.put(&amp;#34;Salary&amp;#34;, 1950); client.put(&amp;#34;Existing payments&amp;#34;, 100); final Map&amp;lt;String, Object&amp;gt; loan = new HashMap&amp;lt;&amp;gt;(); loan.put(&amp;#34;Duration&amp;#34;, 15); loan.put(&amp;#34;Installment&amp;#34;, 100); final Map&amp;lt;String, Object&amp;gt; contextVariables = new HashMap&amp;lt;&amp;gt;(); contextVariables.put(&amp;#34;Client&amp;#34;, client); contextVariables.put(&amp;#34;Loan&amp;#34;, loan); System.out.println(contextVariables); } {Loan={Installment=100, Duration=15}, Client={Salary=1950, Existing payments=100, Age=43}} </description>
     </item>
     
     <item>
@@ -664,7 +664,7 @@ public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfW
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/pandas-basics.html</guid>
-      <description>Column operations Renaming columns import pandas as pd import numpy as np import warnings warnings.filterwarnings(&#39;ignore&#39;) df = pd.DataFrame({ &#39;a&#39;:np.random.randn(6), &#39;b&#39;:np.random.choice( [5,7,np.nan], 6), &#39;c&#39;:np.random.choice( [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;], 6), }) df.head() a b c 0 -0.650349 NaN bar 1 -0.740476 7.0 foo 2 -0.535825 7.0 foo 3 -0.754979 5.0 foo 4 0.559798 7.0 baz ```python df.rename(columns={&amp;ldquo;a&amp;rdquo;: &amp;ldquo;new_name&amp;rdquo;}, inplace=True) df.columns ```
+      <description>Column operations Renaming columns import pandas as pd import numpy as np import warnings warnings.filterwarnings(&#39;ignore&#39;) df = pd.DataFrame({ &#39;a&#39;:np.random.randn(6), &#39;b&#39;:np.random.choice( [5,7,np.nan], 6), &#39;c&#39;:np.random.choice( [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;], 6), }) df.head() a b c 0 1.630 NaN foo 1 2.378 NaN foo 2 0.461 7.000 baz 3 -1.176 NaN baz 4 0.909 NaN foo ```python df.rename(columns={&amp;ldquo;a&amp;rdquo;: &amp;ldquo;new_name&amp;rdquo;}, inplace=True) df.columns ```
 Index([&amp;lsquo;new_name&amp;rsquo;, &amp;lsquo;b&amp;rsquo;, &amp;lsquo;c&amp;rsquo;], dtype=&amp;lsquo;object&amp;rsquo;)
 Using a mapping function. In this case `str.upper()`:
 ```python df.rename(columns=str.upper, inplace=True) df.</description>
@@ -720,7 +720,7 @@ $ asdf plugin add Python You can list all available versions with</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/python-grammar-of-graphics.html</guid>
-      <description>import pandas as pd mpg = pd.read_csv(&amp;quot;data/mpg.csv&amp;quot;) mpg.head() mpg cylinders displacement horsepower weight acceleration model_year \ 0 18.0 8 307.0 130 3504 12.0 70 1 15.0 8 350.0 165 3693 11.5 70 2 18.0 8 318.0 150 3436 11.0 70 3 16.0 8 304.0 150 3433 12.0 70 4 17.0 8 302.0 140 3449 10.5 70 origin name 0 1 chevrolet chevelle malibu 1 1 buick skylark 320 2 1 plymouth satellite 3 1 amc rebel sst 4 1 ford torino from plotnine import * from plotnine.</description>
+      <description>import pandas as pd mpg = pd.read_csv(&amp;quot;data/mpg.csv&amp;quot;) mpg.head() mpg cylinders displacement horsepower weight acceleration model_year origin name 0 18.000 8 307.000 130 3504 12.000 70 1 chevrolet chevelle malibu 1 15.000 8 350.000 165 3693 11.500 70 1 buick skylark 320 2 18.000 8 318.000 150 3436 11.000 70 1 plymouth satellite 3 16.000 8 304.000 150 3433 12.000 70 1 amc rebel sst 4 17.000 8 302.000 140 3449 10.</description>
     </item>
     
     <item>
@@ -975,10 +975,11 @@ To simulate 10,000 samples from \(t_2\left(0,3\right)\) using the mixture, we ca
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/tikz.html</guid>
-      <description>Random elements 
+      <description>Introduction Tikz is a language for vector drawing and producing technical illustrations.
+Examples Random elements 
 \begin{tikzpicture} \foreach \y in {0.0,0.1,...,0.9} { \foreach \x in {0.0,0.1,...,0.9} { \pgfmathparse{0.9*rnd+0.3} \definecolor{MyColor}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=MyColor] (\x,\y) rectangle ++(0.1,0.1); } } \end{tikzpicture}  Template functions If we want to draw several blocks of random noise (as in Random elements):
 
-\newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd+0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle ++({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0.0}{0.1}{0.9}{0.0}{0.1}{0.9}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{2.0}{2.2}{3.8}{0.1}{0.1} \RandomBlock{0.0}{0.2}{1.8}{4.0}{4.2}{5.8}{0.2}{0.2} \end{tikzpicture}  </description>
+\newcommand\RandomBlock[8]{% 	\foreach \y in {{#1},{#2},...,{#3}} { \foreach \x in {{#4},{#5},...,{#6}} { \pgfmathparse{0.9*rnd+0.1} \definecolor{Grey}{rgb}{\pgfmathresult,\pgfmathresult,\pgfmathresult} \path[fill=Grey] (\x,\y) rectangle ++({#7},{#8}); } } } \begin{tikzpicture} \RandomBlock{0.</description>
     </item>
     
     <item>

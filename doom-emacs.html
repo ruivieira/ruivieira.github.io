@@ -183,6 +183,11 @@ Go The following modules must be enabled in init.el:
         <li><a href="#go">Go</a></li>
       </ul>
     </li>
+    <li><a href="#ui">UI</a>
+      <ul>
+        <li><a href="#prettify-symbols">Prettify symbols</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       
@@ -250,7 +255,23 @@ Go The following modules must be enabled in init.el:
 </code></pre></div><p>This will install the <code>web-mode</code> package<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>
 To specify the sepcific template engine as Go <kbd>M-x</kbd> <code>web-mode-set-engine</code> to <code>go</code>.</p>
 <p>Running <code>doom sync</code> will finish the setup.</p>
-<section class="footnotes" role="doc-endnotes">
+<h2 id="ui">UI</h2>
+<h3 id="prettify-symbols">Prettify symbols</h3>
+<p>Since Emacs 24.4<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> there is a builtin <code>prettify-symbols-mode</code>. It can be customized by changing <code>prettify-symbols-alist</code>. These strings will be replace by our selection, typically an unicode symbol. In this configuration we use the following:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#999">defun</span> <span style="color:#008080">my/pretty-symbols</span> ()
+  (<span style="color:#999">setq</span> <span style="color:#008080">prettify-symbols-alist</span>
+          <span style="font-weight:bold">&#39;</span>((<span style="color:#b84">&#34;#+begin_src python&#34;</span> <span style="font-weight:bold">.</span> <span style="color:#b84">&#34;🐍&#34;</span>)
+            (<span style="color:#b84">&#34;#+begin_src elisp&#34;</span> <span style="font-weight:bold">.</span> <span style="color:#b84">&#34;λ&#34;</span>)
+            (<span style="color:#b84">&#34;#+begin_src jupyter-python&#34;</span> <span style="font-weight:bold">.</span> <span style="color:#b84">&#34;🐍&#34;</span>)
+            (<span style="color:#b84">&#34;#+end_src&#34;</span> <span style="font-weight:bold">.</span> <span style="color:#b84">&#34;―&#34;</span>)
+            (<span style="color:#b84">&#34;#+results:&#34;</span> <span style="font-weight:bold">.</span> <span style="color:#b84">&#34;🔨&#34;</span>)
+            (<span style="color:#b84">&#34;#+RESULTS:&#34;</span> <span style="font-weight:bold">.</span> <span style="color:#b84">&#34;🔨&#34;</span>))))
+</code></pre></div><p>This will, for instance, replace the beginning of <a href="/python.html">Python</a> <code>org-babel</code> blocks with the single symbol.
+To register the <code>prettify</code> list with each mode we use</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">add-hook</span> <span style="color:#b84">&#39;org-mode-hook</span> <span style="color:#b84">&#39;my/pretty-symbols</span>)
+</code></pre></div><p>Or we can register the <code>prettify-symbols-mode</code> as a global mode</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">global-prettify-symbols-mode</span> <span style="color:#099">+1</span>)
+</code></pre></div><section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
@@ -261,6 +282,9 @@ To specify the sepcific template engine as Go <kbd>M-x</kbd> <code>web-mode-set-
 </li>
 <li id="fn:3" role="doc-endnote">
 <p><a href="https://web-mode.org/">https://web-mode.org/</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://www.emacswiki.org/emacs/PrettySymbol">https://www.emacswiki.org/emacs/PrettySymbol</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -301,6 +325,11 @@ To specify the sepcific template engine as Go <kbd>M-x</kbd> <code>web-mode-set-
       <ul>
         <li><a href="#python">Python</a></li>
         <li><a href="#go">Go</a></li>
+      </ul>
+    </li>
+    <li><a href="#ui">UI</a>
+      <ul>
+        <li><a href="#prettify-symbols">Prettify symbols</a></li>
       </ul>
     </li>
   </ul>

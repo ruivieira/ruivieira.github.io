@@ -16,19 +16,19 @@
   <meta name="robots" content="all,follow">
   <meta name="googlebot" content="index,follow,snippet,archive">
   <meta property="og:title" content="Pandas basics" />
-<meta property="og:description" content="Column operations Renaming columns import pandas as pd import numpy as np import warnings warnings.filterwarnings(&#39;ignore&#39;) df = pd.DataFrame({ &#39;a&#39;:np.random.randn(6), &#39;b&#39;:np.random.choice( [5,7,np.nan], 6), &#39;c&#39;:np.random.choice( [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;], 6), }) df.head() a b c 0 -0.650349 NaN bar 1 -0.740476 7.0 foo 2 -0.535825 7.0 foo 3 -0.754979 5.0 foo 4 0.559798 7.0 baz ```python df.rename(columns={&ldquo;a&rdquo;: &ldquo;new_name&rdquo;}, inplace=True) df.columns ```
+<meta property="og:description" content="Column operations Renaming columns import pandas as pd import numpy as np import warnings warnings.filterwarnings(&#39;ignore&#39;) df = pd.DataFrame({ &#39;a&#39;:np.random.randn(6), &#39;b&#39;:np.random.choice( [5,7,np.nan], 6), &#39;c&#39;:np.random.choice( [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;], 6), }) df.head() a b c 0 1.630 NaN foo 1 2.378 NaN foo 2 0.461 7.000 baz 3 -1.176 NaN baz 4 0.909 NaN foo ```python df.rename(columns={&ldquo;a&rdquo;: &ldquo;new_name&rdquo;}, inplace=True) df.columns ```
 Index([&lsquo;new_name&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;], dtype=&lsquo;object&rsquo;)
 Using a mapping function. In this case `str.upper()`:
 ```python df.rename(columns=str.upper, inplace=True) df." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/pandas-basics.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
+<meta property="article:modified_time" content="2021-12-09T11:03:26+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Pandas basics"/>
-<meta name="twitter:description" content="Column operations Renaming columns import pandas as pd import numpy as np import warnings warnings.filterwarnings(&#39;ignore&#39;) df = pd.DataFrame({ &#39;a&#39;:np.random.randn(6), &#39;b&#39;:np.random.choice( [5,7,np.nan], 6), &#39;c&#39;:np.random.choice( [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;], 6), }) df.head() a b c 0 -0.650349 NaN bar 1 -0.740476 7.0 foo 2 -0.535825 7.0 foo 3 -0.754979 5.0 foo 4 0.559798 7.0 baz ```python df.rename(columns={&ldquo;a&rdquo;: &ldquo;new_name&rdquo;}, inplace=True) df.columns ```
+<meta name="twitter:description" content="Column operations Renaming columns import pandas as pd import numpy as np import warnings warnings.filterwarnings(&#39;ignore&#39;) df = pd.DataFrame({ &#39;a&#39;:np.random.randn(6), &#39;b&#39;:np.random.choice( [5,7,np.nan], 6), &#39;c&#39;:np.random.choice( [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;], 6), }) df.head() a b c 0 1.630 NaN foo 1 2.378 NaN foo 2 0.461 7.000 baz 3 -1.176 NaN baz 4 0.909 NaN foo ```python df.rename(columns={&ldquo;a&rdquo;: &ldquo;new_name&rdquo;}, inplace=True) df.columns ```
 Index([&lsquo;new_name&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;], dtype=&lsquo;object&rsquo;)
 Using a mapping function. In this case `str.upper()`:
 ```python df.rename(columns=str.upper, inplace=True) df."/>
@@ -155,7 +155,7 @@ Using a mapping function. In this case `str.upper()`:
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpandas-basics.html&name=Pandas%20basics&description=Column%20operations%20Renaming%20columns%20import%20pandas%20as%20pd%20import%20numpy%20as%20np%20import%20warnings%20warnings.filterwarnings%28%27ignore%27%29%20df%20%3d%20pd.DataFrame%28%7b%20%27a%27%3anp.random.randn%286%29%2c%20%27b%27%3anp.random.choice%28%20%5b5%2c7%2cnp.nan%5d%2c%206%29%2c%20%27c%27%3anp.random.choice%28%20%5b%27foo%27%2c%27bar%27%2c%27baz%27%5d%2c%206%29%2c%20%7d%29%20df.head%28%29%20a%20b%20c%200%20-0.650349%20NaN%20bar%201%20-0.740476%207.0%20foo%202%20-0.535825%207.0%20foo%203%20-0.754979%205.0%20foo%204%200.559798%207.0%20baz%20%60%60%60python%20df.rename%28columns%3d%7b%26ldquo%3ba%26rdquo%3b%3a%20%26ldquo%3bnew_name%26rdquo%3b%7d%2c%20inplace%3dTrue%29%20df.columns%20%60%60%60%0aIndex%28%5b%26lsquo%3bnew_name%26rsquo%3b%2c%20%26lsquo%3bb%26rsquo%3b%2c%20%26lsquo%3bc%26rsquo%3b%5d%2c%20dtype%3d%26lsquo%3bobject%26rsquo%3b%29%0aUsing%20a%20mapping%20function.%20In%20this%20case%20%60str.upper%28%29%60%3a%0a%60%60%60python%20df.rename%28columns%3dstr.upper%2c%20inplace%3dTrue%29%20df." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpandas-basics.html&name=Pandas%20basics&description=Column%20operations%20Renaming%20columns%20import%20pandas%20as%20pd%20import%20numpy%20as%20np%20import%20warnings%20warnings.filterwarnings%28%27ignore%27%29%20df%20%3d%20pd.DataFrame%28%7b%20%27a%27%3anp.random.randn%286%29%2c%20%27b%27%3anp.random.choice%28%20%5b5%2c7%2cnp.nan%5d%2c%206%29%2c%20%27c%27%3anp.random.choice%28%20%5b%27foo%27%2c%27bar%27%2c%27baz%27%5d%2c%206%29%2c%20%7d%29%20df.head%28%29%20a%20b%20c%200%201.630%20NaN%20foo%201%202.378%20NaN%20foo%202%200.461%207.000%20baz%203%20-1.176%20NaN%20baz%204%200.909%20NaN%20foo%20%60%60%60python%20df.rename%28columns%3d%7b%26ldquo%3ba%26rdquo%3b%3a%20%26ldquo%3bnew_name%26rdquo%3b%7d%2c%20inplace%3dTrue%29%20df.columns%20%60%60%60%0aIndex%28%5b%26lsquo%3bnew_name%26rsquo%3b%2c%20%26lsquo%3bb%26rsquo%3b%2c%20%26lsquo%3bc%26rsquo%3b%5d%2c%20dtype%3d%26lsquo%3bobject%26rsquo%3b%29%0aUsing%20a%20mapping%20function.%20In%20this%20case%20%60str.upper%28%29%60%3a%0a%60%60%60python%20df.rename%28columns%3dstr.upper%2c%20inplace%3dTrue%29%20df." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
@@ -207,8 +207,8 @@ Using a mapping function. In this case `str.upper()`:
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
+          Updated <time datetime="2021-12-09 11:03:26 &#43;0000 GMT" itemprop="datePublished">2021-12-09</time>
+          <span class="commit-hash">(7744337)</span>
         </div>
         
         
@@ -234,12 +234,12 @@ df = pd.DataFrame({
     'c':np.random.choice( ['foo','bar','baz'], 6),
     })
 df.head()
-</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">          a    b    c
-0 -0.650349  NaN  bar
-1 -0.740476  7.0  foo
-2 -0.535825  7.0  foo
-3 -0.754979  5.0  foo
-4  0.559798  7.0  baz
+</code></pre><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">       a     b    c
+0  1.630   NaN  foo
+1  2.378   NaN  foo
+2  0.461 7.000  baz
+3 -1.176   NaN  baz
+4  0.909   NaN  foo
 </code></pre></div><p>```python
 df.rename(columns={&ldquo;a&rdquo;: &ldquo;new_name&rdquo;}, inplace=True)
 df.columns
@@ -715,7 +715,7 @@ vertical-align: top;
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpandas-basics.html&name=Pandas%20basics&description=Column%20operations%20Renaming%20columns%20import%20pandas%20as%20pd%20import%20numpy%20as%20np%20import%20warnings%20warnings.filterwarnings%28%27ignore%27%29%20df%20%3d%20pd.DataFrame%28%7b%20%27a%27%3anp.random.randn%286%29%2c%20%27b%27%3anp.random.choice%28%20%5b5%2c7%2cnp.nan%5d%2c%206%29%2c%20%27c%27%3anp.random.choice%28%20%5b%27foo%27%2c%27bar%27%2c%27baz%27%5d%2c%206%29%2c%20%7d%29%20df.head%28%29%20a%20b%20c%200%20-0.650349%20NaN%20bar%201%20-0.740476%207.0%20foo%202%20-0.535825%207.0%20foo%203%20-0.754979%205.0%20foo%204%200.559798%207.0%20baz%20%60%60%60python%20df.rename%28columns%3d%7b%26ldquo%3ba%26rdquo%3b%3a%20%26ldquo%3bnew_name%26rdquo%3b%7d%2c%20inplace%3dTrue%29%20df.columns%20%60%60%60%0aIndex%28%5b%26lsquo%3bnew_name%26rsquo%3b%2c%20%26lsquo%3bb%26rsquo%3b%2c%20%26lsquo%3bc%26rsquo%3b%5d%2c%20dtype%3d%26lsquo%3bobject%26rsquo%3b%29%0aUsing%20a%20mapping%20function.%20In%20this%20case%20%60str.upper%28%29%60%3a%0a%60%60%60python%20df.rename%28columns%3dstr.upper%2c%20inplace%3dTrue%29%20df." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpandas-basics.html&name=Pandas%20basics&description=Column%20operations%20Renaming%20columns%20import%20pandas%20as%20pd%20import%20numpy%20as%20np%20import%20warnings%20warnings.filterwarnings%28%27ignore%27%29%20df%20%3d%20pd.DataFrame%28%7b%20%27a%27%3anp.random.randn%286%29%2c%20%27b%27%3anp.random.choice%28%20%5b5%2c7%2cnp.nan%5d%2c%206%29%2c%20%27c%27%3anp.random.choice%28%20%5b%27foo%27%2c%27bar%27%2c%27baz%27%5d%2c%206%29%2c%20%7d%29%20df.head%28%29%20a%20b%20c%200%201.630%20NaN%20foo%201%202.378%20NaN%20foo%202%200.461%207.000%20baz%203%20-1.176%20NaN%20baz%204%200.909%20NaN%20foo%20%60%60%60python%20df.rename%28columns%3d%7b%26ldquo%3ba%26rdquo%3b%3a%20%26ldquo%3bnew_name%26rdquo%3b%7d%2c%20inplace%3dTrue%29%20df.columns%20%60%60%60%0aIndex%28%5b%26lsquo%3bnew_name%26rsquo%3b%2c%20%26lsquo%3bb%26rsquo%3b%2c%20%26lsquo%3bc%26rsquo%3b%5d%2c%20dtype%3d%26lsquo%3bobject%26rsquo%3b%29%0aUsing%20a%20mapping%20function.%20In%20this%20case%20%60str.upper%28%29%60%3a%0a%60%60%60python%20df.rename%28columns%3dstr.upper%2c%20inplace%3dTrue%29%20df." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>
