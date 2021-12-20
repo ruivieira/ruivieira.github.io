@@ -241,12 +241,11 @@ Running `doom sync` will finish the setup.</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/doom-emacs.html</guid>
-      <description>This an annotated version of my DOOM Emacs configuration.
+      <description>This an annotated version of my DOOM Emacs configuration. The source files can be found on Github or Sourcehut.
 Languages Python Black formatter To allow formatting of Python blocks in org-mode and elsewhere, add python-black 1 to packages.el.
 (package! python-black) Then we configure it with
 (use-package! python-black :after python :hook (python-mode . python-black-on-save-mode-enable-dwim)) We should install black-machiatto 2 to allow formatting of partial regions.
-Go The following modules must be enabled in init.el:
- (go +lsp) in the lang section lsp in the tools section snippets in the editor section  gopls should be installed.</description>
+Go The following modules must be enabled in init.</description>
     </item>
     
     <item>
@@ -263,12 +262,32 @@ The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint grou
     </item>
     
     <item>
+      <title>Elisp</title>
+      <link>https://ruivieira.dev/elisp.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/elisp.html</guid>
+      <description>Tips Execute command in shell buffer comint-send-string is the function we&amp;rsquo;re looking for.1
+It takes a PROCESS and a STRING. You can get the process from the shell buffer, and conveniently the shell function returns the buffer, so you can streamline it all into something like:
+(defun my-server () &amp;#34;SSH to my.server.com in `shell&amp;#39;buffer.&amp;#34; (interactive) (comint-send-string (get-buffer-process (shell)) &amp;#34;ssh my.server.com\n&amp;#34;)) Where the (shell) call will take care of creating the shell buffer and/or process if necessary.</description>
+    </item>
+    
+    <item>
       <title>Emacs</title>
       <link>https://ruivieira.dev/emacs.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/emacs.html</guid>
       <description>Notes on Emacs My current flavour/distribution of Emacs is DOOM Emacs spacemacs DOOM Emacs. DOOM Emacs is my preferred configuration framework at the moment. I have used Spacemacs for a long time, but the performance increase by switching to DOOM Emacs is simply to great to be ignored. Recently, I have also migrated to the Emacs 28 branch which includes Elisp native compilation. It is a thing of beauty in terms of speed.</description>
+    </item>
+    
+    <item>
+      <title>Emacs Quarkus</title>
+      <link>https://ruivieira.dev/emacs-quarkus.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/emacs-quarkus.html</guid>
+      <description>An Emacs package for Quarkus.</description>
     </item>
     
     <item>
@@ -570,7 +589,7 @@ Resources   Hochreiter, S. (1991). Untersuchungen zu dynamischen neuronalen netz
       
       <guid>https://ruivieira.dev/machine-learning.html</guid>
       <description>Notes on machine learning.
-Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian copulas, Synthetic data with SDV and CTGAN and Synthetic data with SDV and CopulaGAN.  Explainability Clustering  K-means clustering  Fairness  Fairness in machine learning Model fairness  Metrics  Error metrics Distance metrics  Optimisation  Gradient-free optimisation  RNN  LSTM  Frameworks  Cookiecutter Data Science Scikit-learn  </description>
+Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian copulas, Synthetic data with SDV and CTGAN and Synthetic data with SDV and CopulaGAN.  Explainability Clustering  K-means clustering  Fairness  Fairness in machine learning Model fairness  Metrics  Error metrics Distance metrics  Optimisation  Gradient-free optimisation  RNN  LSTM  Statistics  Streaming statistics  Frameworks  Cookiecutter Data Science Scikit-learn  </description>
     </item>
     
     <item>
@@ -758,6 +777,17 @@ apm install language-weave Hydrogen apm install language-markdown atom-html-prev
     </item>
     
     <item>
+      <title>Quarkus</title>
+      <link>https://ruivieira.dev/quarkus.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/quarkus.html</guid>
+      <description>Page for Quarkus.
+Creating projects An example on how to create a Quarkus project:
+mvn io.quarkus:quarkus-maven-plugin:2.5.1.Final:create \  -DprojectGroupId=com.okta.rest \  -DprojectArtifactId=quarkus \  -DclassName=&amp;#34;com.okta.rest.quarkus.HelloResource&amp;#34; \  -Dpath=&amp;#34;/hello&amp;#34; \  -Dextensions=&amp;#34;smallrye-jwt,resteasy-reactive&amp;#34; </description>
+    </item>
+    
+    <item>
       <title>Reading list</title>
       <link>https://ruivieira.dev/reading-list.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -888,6 +918,19 @@ The site is generated from a set of Markdown files using a Python pre-processor,
       <guid>https://ruivieira.dev/ssh.html</guid>
       <description>Configuration Config file To add a known server to the config file, use the following syntax:
 Host mymachine HostName 127.0.0.1 User root Port 7654 There is no method to specify or provide on the command line the password in a non-interactive manner for ssh authentication using a OpenSSH built-in mechanism.</description>
+    </item>
+    
+    <item>
+      <title>Streaming statistics</title>
+      <link>https://ruivieira.dev/streaming-statistics.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/streaming-statistics.html</guid>
+      <description>Situations where streaming statistics are useful:
+ Unknown number of observations Online streaming data Dataset too big for local processing  For the remainder, let&amp;rsquo;s consider a set of observations \(y_i\), weights \(w_i\), such that
+\[ y_1,\dots,y_i \in \mathbb{R} \\ w_1,\dots,w_i\quad w_i \geq 0 \]
+Mean and variances A naive approach to calculating a weighted streaming mean, \(\widehat{\mu}\) and unbiased streaming variance, \widehat{\mathbb{V}}, would be to calculate:
+\begin{align*} \widehat{\mu}&amp;amp;=\frac{T^{(n)}}{S^{(n)}} \\ \widehat{\mathbb{V}}&amp;amp;=\frac{n}{(n-1)S^{(n)}}\left(U^{(n)}-S^{(n)}\widehat{\mu}^2\right) \end{align*}</description>
     </item>
     
     <item>
@@ -1036,9 +1079,8 @@ Monospaced fonts The Monoid font has a post to explain some design decisions1.
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/workflow.html</guid>
-      <description>Workflow Optimise PNGs To optimise an entired folder of PNGs, you could use optipng. Install it on macOS using
-$ brew install optipng and then apply it recusively with
-$ find . -name &amp;#34;*.png&amp;#34; -exec optipng -o7 {} \; </description>
+      <description>Backup External media Since I switch OSes frequently1 having a minimum-hassle filesystem for my external drives would be very convenient. exFAT2 seems to me like the best solution. In fact, exFAT is the default FS for SD cards and USB flash drives with more than 32Gb. So perhaps, if have a large-ish USB pen or an external drive, chances are you don&amp;rsquo;t even need to reformat it.
+Workflow Optimise PNGs To optimise an entired folder of PNGs, you could use optipng.</description>
     </item>
     
     <item>

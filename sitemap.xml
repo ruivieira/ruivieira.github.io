@@ -71,13 +71,19 @@
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/doom-emacs.html</loc>
-    <lastmod>2021-11-25T22:32:40+00:00</lastmod>
+    <lastmod>2021-12-18T21:49:03+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/dunn-index.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
   </url><url>
+    <loc>https://ruivieira.dev/elisp.html</loc>
+    <lastmod>2021-12-20T16:14:21+00:00</lastmod>
+  </url><url>
     <loc>https://ruivieira.dev/emacs.html</loc>
-    <lastmod>2021-12-09T10:26:23+00:00</lastmod>
+    <lastmod>2021-12-20T16:14:21+00:00</lastmod>
+  </url><url>
+    <loc>https://ruivieira.dev/emacs-quarkus.html</loc>
+    <lastmod>2021-12-18T21:49:03+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/error-metrics.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
@@ -197,13 +203,13 @@
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/posts.html</loc>
-    <lastmod>2021-12-09T11:03:26+00:00</lastmod>
+    <lastmod>2021-12-20T16:14:35+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/project-euler-in-elisp.html</loc>
     <lastmod>2021-11-11T13:13:38+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/python.html</loc>
-    <lastmod>2021-11-26T10:00:48+00:00</lastmod>
+    <lastmod>2021-12-12T22:38:46+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/python-environments.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>
@@ -219,6 +225,9 @@
   </url><url>
     <loc>https://ruivieira.dev/python-pweave.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
+  </url><url>
+    <loc>https://ruivieira.dev/quarkus.html</loc>
+    <lastmod>2021-12-18T21:48:42+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/reading-list.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
@@ -257,6 +266,9 @@
     <loc>https://ruivieira.dev/ssh.html</loc>
     <lastmod>2021-11-25T08:28:11+00:00</lastmod>
   </url><url>
+    <loc>https://ruivieira.dev/streaming-statistics.html</loc>
+    <lastmod>2021-12-20T16:14:21+00:00</lastmod>
+  </url><url>
     <loc>https://ruivieira.dev/synthetic-data-generation.html</loc>
     <lastmod>2021-12-09T11:03:26+00:00</lastmod>
   </url><url>
@@ -278,7 +290,7 @@
     <loc>https://ruivieira.dev/tags.html</loc>
   </url><url>
     <loc>https://ruivieira.dev/tikz.html</loc>
-    <lastmod>2021-12-09T10:26:23+00:00</lastmod>
+    <lastmod>2021-12-12T22:38:46+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/transformation-functions.html</loc>
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
@@ -296,7 +308,7 @@
     <lastmod>2021-12-03T18:27:37+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/workflow.html</loc>
-    <lastmod>2021-12-03T18:27:37+00:00</lastmod>
+    <lastmod>2021-12-20T16:14:35+00:00</lastmod>
   </url><url>
     <loc>https://ruivieira.dev/xgboost.html</loc>
     <lastmod>2021-12-07T21:49:31+00:00</lastmod>

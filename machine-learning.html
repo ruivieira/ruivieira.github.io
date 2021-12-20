@@ -17,7 +17,7 @@
   <meta name="googlebot" content="index,follow,snippet,archive">
   <meta property="og:title" content="Machine learning" />
 <meta property="og:description" content="Notes on machine learning.
-Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian copulas, Synthetic data with SDV and CTGAN and Synthetic data with SDV and CopulaGAN.  Explainability Clustering  K-means clustering  Fairness  Fairness in machine learning Model fairness  Metrics  Error metrics Distance metrics  Optimisation  Gradient-free optimisation  RNN  LSTM  Frameworks  Cookiecutter Data Science Scikit-learn  " />
+Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian copulas, Synthetic data with SDV and CTGAN and Synthetic data with SDV and CopulaGAN.  Explainability Clustering  K-means clustering  Fairness  Fairness in machine learning Model fairness  Metrics  Error metrics Distance metrics  Optimisation  Gradient-free optimisation  RNN  LSTM  Statistics  Streaming statistics  Frameworks  Cookiecutter Data Science Scikit-learn  " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/machine-learning.html" /><meta property="article:section" content="posts" />
 
@@ -27,7 +27,7 @@ Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian cop
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Machine learning"/>
 <meta name="twitter:description" content="Notes on machine learning.
-Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian copulas, Synthetic data with SDV and CTGAN and Synthetic data with SDV and CopulaGAN.  Explainability Clustering  K-means clustering  Fairness  Fairness in machine learning Model fairness  Metrics  Error metrics Distance metrics  Optimisation  Gradient-free optimisation  RNN  LSTM  Frameworks  Cookiecutter Data Science Scikit-learn  "/>
+Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian copulas, Synthetic data with SDV and CTGAN and Synthetic data with SDV and CopulaGAN.  Explainability Clustering  K-means clustering  Fairness  Fairness in machine learning Model fairness  Metrics  Error metrics Distance metrics  Optimisation  Gradient-free optimisation  RNN  LSTM  Statistics  Streaming statistics  Frameworks  Cookiecutter Data Science Scikit-learn  "/>
 
   
   
@@ -151,7 +151,7 @@ Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian cop
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmachine-learning.html&name=Machine%20learning&description=Notes%20on%20machine%20learning.%0aTopics%20Synthetic%20data%20Generation%20%20Using%20Synthetic%20data%20with%20SDV%20and%20Gaussian%20copulas%2c%20Synthetic%20data%20with%20SDV%20and%20CTGAN%20and%20Synthetic%20data%20with%20SDV%20and%20CopulaGAN.%20%20Explainability%20Clustering%20%20K-means%20clustering%20%20Fairness%20%20Fairness%20in%20machine%20learning%20Model%20fairness%20%20Metrics%20%20Error%20metrics%20Distance%20metrics%20%20Optimisation%20%20Gradient-free%20optimisation%20%20RNN%20%20LSTM%20%20Frameworks%20%20Cookiecutter%20Data%20Science%20Scikit-learn%20%20" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmachine-learning.html&name=Machine%20learning&description=Notes%20on%20machine%20learning.%0aTopics%20Synthetic%20data%20Generation%20%20Using%20Synthetic%20data%20with%20SDV%20and%20Gaussian%20copulas%2c%20Synthetic%20data%20with%20SDV%20and%20CTGAN%20and%20Synthetic%20data%20with%20SDV%20and%20CopulaGAN.%20%20Explainability%20Clustering%20%20K-means%20clustering%20%20Fairness%20%20Fairness%20in%20machine%20learning%20Model%20fairness%20%20Metrics%20%20Error%20metrics%20Distance%20metrics%20%20Optimisation%20%20Gradient-free%20optimisation%20%20RNN%20%20LSTM%20%20Statistics%20%20Streaming%20statistics%20%20Frameworks%20%20Cookiecutter%20Data%20Science%20Scikit-learn%20%20" aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
@@ -178,6 +178,7 @@ Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian cop
         <li><a href="#metrics">Metrics</a></li>
         <li><a href="#optimisation">Optimisation</a></li>
         <li><a href="#rnn">RNN</a></li>
+        <li><a href="#statistics">Statistics</a></li>
       </ul>
     </li>
     <li><a href="#frameworks">Frameworks</a></li>
@@ -243,6 +244,10 @@ Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian cop
 <ul>
 <li><a href="/lstm.html">LSTM</a></li>
 </ul>
+<h3 id="statistics">Statistics</h3>
+<ul>
+<li><a href="/streaming-statistics.html">Streaming statistics</a></li>
+</ul>
 <h2 id="frameworks">Frameworks</h2>
 <ul>
 <li>Cookiecutter Data Science</li>
@@ -290,6 +295,7 @@ Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian cop
         <li><a href="#metrics">Metrics</a></li>
         <li><a href="#optimisation">Optimisation</a></li>
         <li><a href="#rnn">RNN</a></li>
+        <li><a href="#statistics">Statistics</a></li>
       </ul>
     </li>
     <li><a href="#frameworks">Frameworks</a></li>
@@ -342,7 +348,7 @@ Topics Synthetic data Generation  Using Synthetic data with SDV and Gaussian cop
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmachine-learning.html&name=Machine%20learning&description=Notes%20on%20machine%20learning.%0aTopics%20Synthetic%20data%20Generation%20%20Using%20Synthetic%20data%20with%20SDV%20and%20Gaussian%20copulas%2c%20Synthetic%20data%20with%20SDV%20and%20CTGAN%20and%20Synthetic%20data%20with%20SDV%20and%20CopulaGAN.%20%20Explainability%20Clustering%20%20K-means%20clustering%20%20Fairness%20%20Fairness%20in%20machine%20learning%20Model%20fairness%20%20Metrics%20%20Error%20metrics%20Distance%20metrics%20%20Optimisation%20%20Gradient-free%20optimisation%20%20RNN%20%20LSTM%20%20Frameworks%20%20Cookiecutter%20Data%20Science%20Scikit-learn%20%20" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmachine-learning.html&name=Machine%20learning&description=Notes%20on%20machine%20learning.%0aTopics%20Synthetic%20data%20Generation%20%20Using%20Synthetic%20data%20with%20SDV%20and%20Gaussian%20copulas%2c%20Synthetic%20data%20with%20SDV%20and%20CTGAN%20and%20Synthetic%20data%20with%20SDV%20and%20CopulaGAN.%20%20Explainability%20Clustering%20%20K-means%20clustering%20%20Fairness%20%20Fairness%20in%20machine%20learning%20Model%20fairness%20%20Metrics%20%20Error%20metrics%20Distance%20metrics%20%20Optimisation%20%20Gradient-free%20optimisation%20%20RNN%20%20LSTM%20%20Statistics%20%20Streaming%20statistics%20%20Frameworks%20%20Cookiecutter%20Data%20Science%20Scikit-learn%20%20" aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>

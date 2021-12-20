@@ -20,7 +20,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/emacs.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-09T10:26:23+00:00" />
+<meta property="article:modified_time" content="2021-12-20T16:14:21+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -76,14 +76,14 @@
       <ul>
         
         <li>
-          <a class="icon" href=" https://ruivieira.dev/error-metrics.html" aria-label="Previous">
+          <a class="icon" href=" https://ruivieira.dev/emacs-quarkus.html" aria-label="Previous">
             <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
           </a>
         </li>
         
         
         <li>
-          <a class="icon" href="https://ruivieira.dev/dunn-index.html" aria-label="Next">
+          <a class="icon" href="https://ruivieira.dev/elisp.html" aria-label="Next">
             <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
           </a>
         </li>
@@ -178,12 +178,21 @@
     <li><a href="#configuration">Configuration</a>
       <ul>
         <li><a href="#completion">Completion</a></li>
-        <li><a href="#icon">Icon</a></li>
+        <li><a href="#the-important-stuff">The important stuff?</a></li>
       </ul>
     </li>
-    <li><a href="#elisp">ELISP</a></li>
+    <li><a href="#elisp">Elisp</a></li>
   </ul>
 </nav>
+      
+      <h4>Related</h4>
+      
+      <nav>
+      <ul>
+      
+      
+        <li class="header-post toc"><a href="https://ruivieira.dev/emacs-quarkus.html">Emacs Quarkus</a></li>
+      
       
       </ul>
     </nav>
@@ -202,8 +211,8 @@
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-09 10:26:23 &#43;0000 GMT" itemprop="datePublished">2021-12-09</time>
-          <span class="commit-hash">(f1ca7e3)</span>
+          Updated <time datetime="2021-12-20 16:14:21 &#43;0000 GMT" itemprop="datePublished">2021-12-20</time>
+          <span class="commit-hash">(36696b5)</span>
         </div>
         
         
@@ -223,38 +232,47 @@ Recently, I have also migrated to the <a href="https://mail.gnu.org/archive/html
 <h3 id="macos">macOS</h3>
 <p>Many people swear by <code>emacs-mac</code> as the gold standard for macOS Emacs distributions.
 To install it, using <code>homebrew</code> simply run</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">$ brew tap railwaycat/emacsmacport
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew tap railwaycat/emacsmacport
 $ brew install --cask emacs-mac-spacemacs-icon
-</code></pre><p>Alternatively, you can choose whatever icon you want from <a href="https://github.com/railwaycat/homebrew-emacsmacport/wiki/Icons">here</a>.
+</code></pre></div><p>Alternatively, you can choose whatever icon you want from <a href="https://github.com/railwaycat/homebrew-emacsmacport/wiki/Icons">here</a>.
 A good alternative is for instance <code>--with-emacs-big-sur-icon</code>. On Linux you can use my <a href="#icon">icon</a>, if you wish.</p>
 <p>However, <code>emacs-mac</code> is, at the time of writing, targetting Emacs 27. If you want to use Emacs 28 (and don&rsquo;t want to build it from source)
 a good option if <code>emacs-plus</code>. To install it use:</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">$ brew install emacs-plus@28 --with-native-comp --with-modern-doom3-icon
-</code></pre><h3 id="fedora">Fedora</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew install emacs-plus@28 --with-native-comp --with-modern-doom3-icon
+</code></pre></div><h3 id="fedora">Fedora</h3>
 <p>At the time of writing<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, Fedora only supports, officially, Emacs 27. If you want to try Emacs 28 (and the native compilation feature)
 you need to install it using</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo dnf copr <span style="color:#999">enable</span> deathwish/emacs-pgtk-nativecomp
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dnf copr <span style="color:#999">enable</span> deathwish/emacs-pgtk-nativecomp
 </code></pre></div><p>and then (if Emacs is already present)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo dnf upgrade emacs
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dnf upgrade emacs
 </code></pre></div><p>otherwise run</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">$sudo dnf install emacs
-</code></pre><h3 id="ubuntu">Ubuntu</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dnf install emacs
+</code></pre></div><h3 id="ubuntu">Ubuntu</h3>
 <p>For Ubuntu (and other Linux distros, including <a href="#fedora">Fedora</a>) an option is to use the <a href="https://snapcraft.io/store">Snap store</a>.
 The <a href="https://snapcraft.io/emacs">available Snap</a> can install Emacs 28 with <strong>native compilation enabled</strong>. To use it, simply run</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">$ sudo snap install emacs --edge --classic
-</code></pre><h2 id="configuration">Configuration</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo snap install emacs --edge --classic
+</code></pre></div><h2 id="configuration">Configuration</h2>
 <ul>
 <li><a href="/doom-emacs.html">Annotated DOOM Emacs config</a></li>
 </ul>
 <h3 id="completion">Completion</h3>
 <p>I recently move from <code>helm</code><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> to <code>ivy</code>. The main reason is that apparently <code>helm</code> development has stalled.</p>
-<h3 id="icon">Icon</h3>
+<h3 id="the-important-stuff">The important stuff?</h3>
+<h4 id="icon">Icon</h4>
 <p>I&rsquo;ve also made a vaporwave Emacs icon which you can find in <a href="https://github.com/ruivieira/emacs-vaporwave-icon">here.</a></p>
 <figure><img src="/ox-hugo/Emacs.png"/>
 </figure>
 
-<h2 id="elisp">ELISP</h2>
-<p>YOU can check my solutions for the Euler project in Elisp: <a href="/project-euler-in-elisp.html">Project Euler in Elisp</a></p>
+<h4 id="cursor">Cursor</h4>
+<p>A cursor should blink, in my opinion.
+For a history of the blinking cursor see <a href="https://www.inverse.com/innovation/blinking-cursor-history">The Forgotten History of the Blinking Cursor</a>.
+You can instruct Emacs to blink it with the appropriate mode<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">blink-cursor-mode</span> <span style="color:#099">1</span>)
+</code></pre></div><h2 id="elisp">Elisp</h2>
+<ul>
+<li>The main page for <a href="/elisp.html">Elisp</a></li>
+<li>You can check my solutions for the Euler project in Elisp: <a href="/project-euler-in-elisp.html">Project Euler in Elisp</a></li>
+</ul>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -263,6 +281,9 @@ The <a href="https://snapcraft.io/emacs">available Snap</a> can install Emacs 28
 </li>
 <li id="fn:2" role="doc-endnote">
 <p>The main <code>Helm</code> maintainer is Thierry Volpiatto.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://www.emacswiki.org/emacs/NonBlinkingCursor">https://www.emacswiki.org/emacs/NonBlinkingCursor</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -310,10 +331,10 @@ The <a href="https://snapcraft.io/emacs">available Snap</a> can install Emacs 28
     <li><a href="#configuration">Configuration</a>
       <ul>
         <li><a href="#completion">Completion</a></li>
-        <li><a href="#icon">Icon</a></li>
+        <li><a href="#the-important-stuff">The important stuff?</a></li>
       </ul>
     </li>
-    <li><a href="#elisp">ELISP</a></li>
+    <li><a href="#elisp">Elisp</a></li>
   </ul>
 </nav>
     </div>

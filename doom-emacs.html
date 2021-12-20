@@ -16,26 +16,24 @@
   <meta name="robots" content="all,follow">
   <meta name="googlebot" content="index,follow,snippet,archive">
   <meta property="og:title" content="DOOM Emacs" />
-<meta property="og:description" content="This an annotated version of my DOOM Emacs configuration.
+<meta property="og:description" content="This an annotated version of my DOOM Emacs configuration. The source files can be found on Github or Sourcehut.
 Languages Python Black formatter To allow formatting of Python blocks in org-mode and elsewhere, add python-black 1 to packages.el.
 (package! python-black) Then we configure it with
 (use-package! python-black :after python :hook (python-mode . python-black-on-save-mode-enable-dwim)) We should install black-machiatto 2 to allow formatting of partial regions.
-Go The following modules must be enabled in init.el:
- (go &#43;lsp) in the lang section lsp in the tools section snippets in the editor section  gopls should be installed." />
+Go The following modules must be enabled in init." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/doom-emacs.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-11-25T22:32:40+00:00" />
+<meta property="article:modified_time" content="2021-12-18T21:49:03+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="DOOM Emacs"/>
-<meta name="twitter:description" content="This an annotated version of my DOOM Emacs configuration.
+<meta name="twitter:description" content="This an annotated version of my DOOM Emacs configuration. The source files can be found on Github or Sourcehut.
 Languages Python Black formatter To allow formatting of Python blocks in org-mode and elsewhere, add python-black 1 to packages.el.
 (package! python-black) Then we configure it with
 (use-package! python-black :after python :hook (python-mode . python-black-on-save-mode-enable-dwim)) We should install black-machiatto 2 to allow formatting of partial regions.
-Go The following modules must be enabled in init.el:
- (go &#43;lsp) in the lang section lsp in the tools section snippets in the editor section  gopls should be installed."/>
+Go The following modules must be enabled in init."/>
 
   
   
@@ -159,7 +157,7 @@ Go The following modules must be enabled in init.el:
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdoom-emacs.html&name=DOOM%20Emacs&description=This%20an%20annotated%20version%20of%20my%20DOOM%20Emacs%20configuration.%0aLanguages%20Python%20Black%20formatter%20To%20allow%20formatting%20of%20Python%20blocks%20in%20org-mode%20and%20elsewhere%2c%20add%20python-black%c2%a01%20to%20packages.el.%0a%28package%21%20python-black%29%20Then%20we%20configure%20it%20with%0a%28use-package%21%20python-black%20%3aafter%20python%20%3ahook%20%28python-mode%20.%20python-black-on-save-mode-enable-dwim%29%29%20We%20should%20install%20black-machiatto%c2%a02%20to%20allow%20formatting%20of%20partial%20regions.%0aGo%20The%20following%20modules%20must%20be%20enabled%20in%20init.el%3a%0a%20%28go%20%2blsp%29%20in%20the%20lang%20section%20lsp%20in%20the%20tools%20section%20snippets%20in%20the%20editor%20section%20%20gopls%20should%20be%20installed." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdoom-emacs.html&name=DOOM%20Emacs&description=This%20an%20annotated%20version%20of%20my%20DOOM%20Emacs%20configuration.%20The%20source%20files%20can%20be%20found%20on%20Github%20or%20Sourcehut.%0aLanguages%20Python%20Black%20formatter%20To%20allow%20formatting%20of%20Python%20blocks%20in%20org-mode%20and%20elsewhere%2c%20add%20python-black%c2%a01%20to%20packages.el.%0a%28package%21%20python-black%29%20Then%20we%20configure%20it%20with%0a%28use-package%21%20python-black%20%3aafter%20python%20%3ahook%20%28python-mode%20.%20python-black-on-save-mode-enable-dwim%29%29%20We%20should%20install%20black-machiatto%c2%a02%20to%20allow%20formatting%20of%20partial%20regions.%0aGo%20The%20following%20modules%20must%20be%20enabled%20in%20init." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
@@ -188,6 +186,11 @@ Go The following modules must be enabled in init.el:
         <li><a href="#prettify-symbols">Prettify symbols</a></li>
       </ul>
     </li>
+    <li><a href="#tools">Tools</a>
+      <ul>
+        <li><a href="#vterm">vterm</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       
@@ -195,6 +198,9 @@ Go The following modules must be enabled in init.el:
       
       <nav>
       <ul>
+      
+      
+        <li class="header-post toc"><a href="https://ruivieira.dev/elisp.html">Elisp</a></li>
       
       
         <li class="header-post toc"><a href="https://ruivieira.dev/emacs.html">Emacs</a></li>
@@ -217,8 +223,8 @@ Go The following modules must be enabled in init.el:
         
         <div class="postdate">
           
-          Updated <time datetime="2021-11-25 22:32:40 &#43;0000 GMT" itemprop="datePublished">2021-11-25</time>
-          <span class="commit-hash">(fa4e25a)</span>
+          Updated <time datetime="2021-12-18 21:49:03 &#43;0000 GMT" itemprop="datePublished">2021-12-18</time>
+          <span class="commit-hash">(8c43e26)</span>
         </div>
         
         
@@ -230,7 +236,8 @@ Go The following modules must be enabled in init.el:
   
     
     <div class="content" itemprop="articleBody">
-      <p>This an annotated version of my DOOM Emacs configuration.</p>
+      <p>This an annotated version of my DOOM Emacs configuration.
+The source files can be found on <a href="https://github.com/ruivieira/.doom.d">Github</a> or <a href="https://git.sr.ht/~ruivieira/.doom.d">Sourcehut</a>.</p>
 <h2 id="languages">Languages</h2>
 <h3 id="python">Python</h3>
 <h4 id="black-formatter">Black formatter</h4>
@@ -271,6 +278,21 @@ To register the <code>prettify</code> list with each mode we use</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">add-hook</span> <span style="color:#b84">&#39;org-mode-hook</span> <span style="color:#b84">&#39;my/pretty-symbols</span>)
 </code></pre></div><p>Or we can register the <code>prettify-symbols-mode</code> as a global mode</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">global-prettify-symbols-mode</span> <span style="color:#099">+1</span>)
+</code></pre></div><h2 id="tools">Tools</h2>
+<h3 id="vterm">vterm</h3>
+<p>To use <code>vterm</code> as the Emacs shell, the respective section in <code>init.el</code> should be selected:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">doom!</span>
+ <span style="color:#999">:term</span>
+ <span style="color:#998;font-style:italic">;;eshell            ; the elisp shell that works everywhere</span>
+ <span style="color:#998;font-style:italic">;;shell             ; simple shell REPL for Emacs</span>
+ <span style="color:#998;font-style:italic">;;term              ; basic terminal emulator for Emacs</span>
+ <span style="color:#008080">vterm</span>             <span style="color:#998;font-style:italic">; the best terminal emulation in Emacs</span>
+)
+</code></pre></div><p>We also need to install <code>libvterm</code>, with in macOS can be done with</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">brew install libvterm
+</code></pre></div><p>and in Linux with</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt-get install -y libvterm-dev <span style="color:#998;font-style:italic"># Ubuntu</span>
+$ sudo dnf -y install libvterm <span style="color:#998;font-style:italic"># Fedora</span>
 </code></pre></div><section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -332,6 +354,11 @@ To register the <code>prettify</code> list with each mode we use</p>
         <li><a href="#prettify-symbols">Prettify symbols</a></li>
       </ul>
     </li>
+    <li><a href="#tools">Tools</a>
+      <ul>
+        <li><a href="#vterm">vterm</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
     </div>
@@ -381,7 +408,7 @@ To register the <code>prettify</code> list with each mode we use</p>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdoom-emacs.html&name=DOOM%20Emacs&description=This%20an%20annotated%20version%20of%20my%20DOOM%20Emacs%20configuration.%0aLanguages%20Python%20Black%20formatter%20To%20allow%20formatting%20of%20Python%20blocks%20in%20org-mode%20and%20elsewhere%2c%20add%20python-black%c2%a01%20to%20packages.el.%0a%28package%21%20python-black%29%20Then%20we%20configure%20it%20with%0a%28use-package%21%20python-black%20%3aafter%20python%20%3ahook%20%28python-mode%20.%20python-black-on-save-mode-enable-dwim%29%29%20We%20should%20install%20black-machiatto%c2%a02%20to%20allow%20formatting%20of%20partial%20regions.%0aGo%20The%20following%20modules%20must%20be%20enabled%20in%20init.el%3a%0a%20%28go%20%2blsp%29%20in%20the%20lang%20section%20lsp%20in%20the%20tools%20section%20snippets%20in%20the%20editor%20section%20%20gopls%20should%20be%20installed." aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdoom-emacs.html&name=DOOM%20Emacs&description=This%20an%20annotated%20version%20of%20my%20DOOM%20Emacs%20configuration.%20The%20source%20files%20can%20be%20found%20on%20Github%20or%20Sourcehut.%0aLanguages%20Python%20Black%20formatter%20To%20allow%20formatting%20of%20Python%20blocks%20in%20org-mode%20and%20elsewhere%2c%20add%20python-black%c2%a01%20to%20packages.el.%0a%28package%21%20python-black%29%20Then%20we%20configure%20it%20with%0a%28use-package%21%20python-black%20%3aafter%20python%20%3ahook%20%28python-mode%20.%20python-black-on-save-mode-enable-dwim%29%29%20We%20should%20install%20black-machiatto%c2%a02%20to%20allow%20formatting%20of%20partial%20regions.%0aGo%20The%20following%20modules%20must%20be%20enabled%20in%20init." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>
