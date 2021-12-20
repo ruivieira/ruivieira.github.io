@@ -904,10 +904,10 @@ echo -en &amp;#34;\e[?25h&amp;#34; </description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/site-details.html</guid>
-      <description>Assets This site&amp;rsquo;s CSS size is 5.2Kb. This, however, does not include the following dependencies:
- LaTeX processor (KaTeX) custom monospaced font (Jetbrains Mono) custom serif font (iA Quattro)  The minimal CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
+      <description>Assets This site&amp;rsquo;s CSS size is 84.1Kb. This, however, includes the following dependencies:
+ LaTeX processor (MathJax) custom monospaced font (Jetbrains Mono) custom serif font (IBM Plex Serif)  The base CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
 The CSS evolution (size, number of rules, etc) can be tracked over at Project Wallace.
-The site is generated from a set of Markdown files using a Python pre-processor, which mainly performs the following tasks:</description>
+The site is generated from a set of org-mode files using Emacs, which mainly performs the following tasks:</description>
     </item>
     
     <item>

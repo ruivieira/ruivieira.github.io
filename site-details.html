@@ -2,6 +2,7 @@
 <html lang="en-uk">
 <head>
   <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
   <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
@@ -16,22 +17,22 @@
   <meta name="robots" content="all,follow">
   <meta name="googlebot" content="index,follow,snippet,archive">
   <meta property="og:title" content="Site details" />
-<meta property="og:description" content="Assets This site&rsquo;s CSS size is 5.2Kb. This, however, does not include the following dependencies:
- LaTeX processor (KaTeX) custom monospaced font (Jetbrains Mono) custom serif font (iA Quattro)  The minimal CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
+<meta property="og:description" content="Assets This site&rsquo;s CSS size is 84.1Kb. This, however, includes the following dependencies:
+ LaTeX processor (MathJax) custom monospaced font (Jetbrains Mono) custom serif font (IBM Plex Serif)  The base CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
 The CSS evolution (size, number of rules, etc) can be tracked over at Project Wallace.
-The site is generated from a set of Markdown files using a Python pre-processor, which mainly performs the following tasks:" />
+The site is generated from a set of org-mode files using Emacs, which mainly performs the following tasks:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/site-details.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-11-28T15:21:54+00:00" />
+<meta property="article:modified_time" content="2021-12-20T23:38:16+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Site details"/>
-<meta name="twitter:description" content="Assets This site&rsquo;s CSS size is 5.2Kb. This, however, does not include the following dependencies:
- LaTeX processor (KaTeX) custom monospaced font (Jetbrains Mono) custom serif font (iA Quattro)  The minimal CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
+<meta name="twitter:description" content="Assets This site&rsquo;s CSS size is 84.1Kb. This, however, includes the following dependencies:
+ LaTeX processor (MathJax) custom monospaced font (Jetbrains Mono) custom serif font (IBM Plex Serif)  The base CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
 The CSS evolution (size, number of rules, etc) can be tracked over at Project Wallace.
-The site is generated from a set of Markdown files using a Python pre-processor, which mainly performs the following tasks:"/>
+The site is generated from a set of org-mode files using Emacs, which mainly performs the following tasks:"/>
 
   
   
@@ -155,7 +156,7 @@ The site is generated from a set of Markdown files using a Python pre-processor,
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsite-details.html&name=Site%20details&description=Assets%20This%20site%26rsquo%3bs%20CSS%20size%20is%205.2Kb.%20This%2c%20however%2c%20does%20not%20include%20the%20following%20dependencies%3a%0a%20LaTeX%20processor%20%28KaTeX%29%20custom%20monospaced%20font%20%28Jetbrains%20Mono%29%20custom%20serif%20font%20%28iA%20Quattro%29%20%20The%20minimal%20CSS%20is%20heavily%20inspired%20by%2058%20bytes%20of%20css%20to%20look%20great%20nearly%20everywhere.%0aThe%20CSS%20evolution%20%28size%2c%20number%20of%20rules%2c%20etc%29%20can%20be%20tracked%20over%20at%20Project%20Wallace.%0aThe%20site%20is%20generated%20from%20a%20set%20of%20Markdown%20files%20using%20a%20Python%20pre-processor%2c%20which%20mainly%20performs%20the%20following%20tasks%3a" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsite-details.html&name=Site%20details&description=Assets%20This%20site%26rsquo%3bs%20CSS%20size%20is%2084.1Kb.%20This%2c%20however%2c%20includes%20the%20following%20dependencies%3a%0a%20LaTeX%20processor%20%28MathJax%29%20custom%20monospaced%20font%20%28Jetbrains%20Mono%29%20custom%20serif%20font%20%28IBM%20Plex%20Serif%29%20%20The%20base%20CSS%20is%20heavily%20inspired%20by%2058%20bytes%20of%20css%20to%20look%20great%20nearly%20everywhere.%0aThe%20CSS%20evolution%20%28size%2c%20number%20of%20rules%2c%20etc%29%20can%20be%20tracked%20over%20at%20Project%20Wallace.%0aThe%20site%20is%20generated%20from%20a%20set%20of%20org-mode%20files%20using%20Emacs%2c%20which%20mainly%20performs%20the%20following%20tasks%3a" aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
@@ -175,6 +176,7 @@ The site is generated from a set of Markdown files using a Python pre-processor,
   <ul>
     <li><a href="#assets">Assets</a></li>
     <li><a href="#search">Search</a></li>
+    <li><a href="#deep-linking">Deep linking</a></li>
     <li><a href="#privacy">Privacy</a></li>
     <li><a href="#javascript">Javascript</a></li>
     <li><a href="#text-mode">Text mode</a></li>
@@ -208,8 +210,8 @@ The site is generated from a set of Markdown files using a Python pre-processor,
         
         <div class="postdate">
           
-          Updated <time datetime="2021-11-28 15:21:54 &#43;0000 GMT" itemprop="datePublished">2021-11-28</time>
-          <span class="commit-hash">(0467b09)</span>
+          Updated <time datetime="2021-12-20 23:38:16 &#43;0000 GMT" itemprop="datePublished">2021-12-20</time>
+          <span class="commit-hash">(0b2b58d)</span>
         </div>
         
         
@@ -222,20 +224,20 @@ The site is generated from a set of Markdown files using a Python pre-processor,
     
     <div class="content" itemprop="articleBody">
       <h2 id="assets">Assets</h2>
-<p>This site&rsquo;s CSS size is 5.2Kb.
-This, however, does not include the following dependencies:</p>
+<p>This site&rsquo;s CSS size is 84.1Kb.
+This, however, includes the following dependencies:</p>
 <ul>
-<li>LaTeX processor (<a href="https://katex.org/">KaTeX</a>)</li>
+<li>LaTeX processor (<a href="https://www.mathjax.org/">MathJax</a>)</li>
 <li>custom monospaced font (<a href="https://github.com/JetBrains/JetBrainsMono">Jetbrains Mono</a>)</li>
-<li>custom serif font (<a href="https://github.com/iaolo/iA-Fonts">iA Quattro</a>)</li>
+<li>custom serif font (<a href="https://github.com/IBM/plex">IBM Plex Serif</a>)</li>
 </ul>
-<p>The minimal CSS is heavily inspired by <a href="https://jrl.ninja/etc/1/">58 bytes of css to look great nearly everywhere</a>.</p>
+<p>The base CSS is heavily inspired by <a href="https://jrl.ninja/etc/1/">58 bytes of css to look great nearly everywhere</a>.</p>
 <p>The CSS evolution (size, number of rules, <em>etc</em>) can be tracked over at <a href="https://www.projectwallace.com/~ruivieira/ruivieiradev/branding?range=3m">Project Wallace</a>.</p>
-<p>The site is generated from a set of Markdown files using a <a href="/python.html">Python</a> pre-processor, which mainly performs the following tasks:</p>
+<p>The site is generated from a set of <code>org-mode</code> files using <a href="/emacs.html">Emacs</a>, which mainly performs the following tasks:</p>
 <ul>
 <li>Gather backlinks to each page</li>
 <li>Build the client-side search index</li>
-<li>convert the Markdown to HTML<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>convert the <code>org-mode</code> files to HTML<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
 </ul>
 <h2 id="search">Search</h2>
 <p>The site is searchable from <a href="/search.html">here</a>.
@@ -246,6 +248,9 @@ The search page also allows for query string searches using the <code>q</code> k
 <p>Highlighting of terms is also possible just adding the query parameter <code>?h=...</code> to <strong>any page</strong>. For instance, to highlight the term <code>privacy</code> on this page, simply go to</p>
 <pre tabindex="0"><code class="language-nil" data-lang="nil">/site-details.html?h=privacy
 </code></pre><p>or click <a href="/site-details.html?h=privacy">here</a>.</p>
+<h2 id="deep-linking">Deep linking</h2>
+<p>This site implements &ldquo;deep links&rdquo;. This means that any section of text selected will generate a new URL which links directly to it. This link can
+be bookmarked or shared. Please keep in mind that this intented for transitory linking, since long-term structure of the page is not guaranteed.</p>
 <h2 id="privacy">Privacy</h2>
 <p>No cookies are used on this site.</p>
 <p>All site traffic statistics are captured using <a href="https://www.goatcounter.com/">GoatCounter</a>. Goatcounter is an open-source, privacy-friendly analytics site, which <strong>doesn&rsquo;t use cookies</strong> and collects minimal information, just enough to produce a few useful summaries. In line with the desire for total transparency for all visitors, I&rsquo;ve made the realtime stats dashboard for this site <strong>public</strong> and available at <a href="https://ruivieira-dev.goatcounter.com/?hl-period=year">https://ruivieira-dev.goatcounter.com/</a>. You can see for yourself which data is collected.</p>
@@ -256,7 +261,8 @@ The search page also allows for query string searches using the <code>q</code> k
 <p>All pages <strong>will work</strong> the same with or without Javascript, except the following:</p>
 <ul>
 <li>The <a href="/graph.html">link graph page</a></li>
-<li>The <a href="/search.html">search page</a></li>
+<li>The <a href="#search">search page</a></li>
+<li><a href="#deep-linking">Deep linking</a></li>
 </ul>
 <p>So if you want to disable Javascript for this site, please do! It won&rsquo;t affect any of the content.</p>
 <h2 id="text-mode">Text mode</h2>
@@ -313,6 +319,7 @@ The search page also allows for query string searches using the <code>q</code> k
   <ul>
     <li><a href="#assets">Assets</a></li>
     <li><a href="#search">Search</a></li>
+    <li><a href="#deep-linking">Deep linking</a></li>
     <li><a href="#privacy">Privacy</a></li>
     <li><a href="#javascript">Javascript</a></li>
     <li><a href="#text-mode">Text mode</a></li>
@@ -366,7 +373,7 @@ The search page also allows for query string searches using the <code>q</code> k
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsite-details.html&name=Site%20details&description=Assets%20This%20site%26rsquo%3bs%20CSS%20size%20is%205.2Kb.%20This%2c%20however%2c%20does%20not%20include%20the%20following%20dependencies%3a%0a%20LaTeX%20processor%20%28KaTeX%29%20custom%20monospaced%20font%20%28Jetbrains%20Mono%29%20custom%20serif%20font%20%28iA%20Quattro%29%20%20The%20minimal%20CSS%20is%20heavily%20inspired%20by%2058%20bytes%20of%20css%20to%20look%20great%20nearly%20everywhere.%0aThe%20CSS%20evolution%20%28size%2c%20number%20of%20rules%2c%20etc%29%20can%20be%20tracked%20over%20at%20Project%20Wallace.%0aThe%20site%20is%20generated%20from%20a%20set%20of%20Markdown%20files%20using%20a%20Python%20pre-processor%2c%20which%20mainly%20performs%20the%20following%20tasks%3a" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsite-details.html&name=Site%20details&description=Assets%20This%20site%26rsquo%3bs%20CSS%20size%20is%2084.1Kb.%20This%2c%20however%2c%20includes%20the%20following%20dependencies%3a%0a%20LaTeX%20processor%20%28MathJax%29%20custom%20monospaced%20font%20%28Jetbrains%20Mono%29%20custom%20serif%20font%20%28IBM%20Plex%20Serif%29%20%20The%20base%20CSS%20is%20heavily%20inspired%20by%2058%20bytes%20of%20css%20to%20look%20great%20nearly%20everywhere.%0aThe%20CSS%20evolution%20%28size%2c%20number%20of%20rules%2c%20etc%29%20can%20be%20tracked%20over%20at%20Project%20Wallace.%0aThe%20site%20is%20generated%20from%20a%20set%20of%20org-mode%20files%20using%20Emacs%2c%20which%20mainly%20performs%20the%20following%20tasks%3a" aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>
