@@ -25,7 +25,7 @@ Go The following modules must be enabled in init." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/doom-emacs.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-20T22:50:15+00:00" />
+<meta property="article:modified_time" content="2021-12-23T18:29:53+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -185,6 +185,8 @@ Go The following modules must be enabled in init."/>
     <li><a href="#ui">UI</a>
       <ul>
         <li><a href="#prettify-symbols">Prettify symbols</a></li>
+        <li><a href="#beacon">Beacon</a></li>
+        <li><a href="#focus">Focus</a></li>
       </ul>
     </li>
     <li><a href="#tools">Tools</a>
@@ -224,8 +226,8 @@ Go The following modules must be enabled in init."/>
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-20 22:50:15 &#43;0000 GMT" itemprop="datePublished">2021-12-20</time>
-          <span class="commit-hash">(70db90f)</span>
+          Updated <time datetime="2021-12-23 18:29:53 &#43;0000 GMT" itemprop="datePublished">2021-12-23</time>
+          <span class="commit-hash">(a9662b0)</span>
         </div>
         
         
@@ -279,9 +281,26 @@ To register the <code>prettify</code> list with each mode we use</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">add-hook</span> <span style="color:#b84">&#39;org-mode-hook</span> <span style="color:#b84">&#39;my/pretty-symbols</span>)
 </code></pre></div><p>Or we can register the <code>prettify-symbols-mode</code> as a global mode</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">global-prettify-symbols-mode</span> <span style="color:#099">+1</span>)
-</code></pre></div><h2 id="tools">Tools</h2>
+</code></pre></div><h3 id="beacon">Beacon</h3>
+<p>Beacon highlights the current cursor line after major movements. Especially useful for HDPi screens.
+Add it on <code>packages.el</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  (<span style="color:#008080">package!</span> <span style="color:#008080">beacon</span>)
+</code></pre></div><p>And enable the global minor-mode on <code>config.el</code> with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  <span style="color:#998;font-style:italic">;; global beacon minor-mode</span>
+  (<span style="color:#008080">use-package!</span> <span style="color:#008080">beacon</span>)
+  (<span style="color:#008080">after!</span> <span style="color:#008080">beacon</span> (<span style="color:#008080">beacon-mode</span> <span style="color:#099">1</span>))
+</code></pre></div><h3 id="focus">Focus</h3>
+<p>This mode relies on the <a href="https://github.com/larstvei/Focus">Focus</a> package that dims regions not on &hellip; focus.
+Since the package is on <code>MELPA</code>, it can be installed by adding to <code>packages.el</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  (<span style="color:#008080">package!</span> <span style="color:#008080">focus</span>)
+</code></pre></div><p>Next, require it from <code>config.el</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  (<span style="color:#008080">use-package!</span> <span style="color:#008080">focus</span>)
+</code></pre></div><p>And call it by setting the mode with <kbd>M-x</kbd> <code>focus-mode</code>.</p>
+<h2 id="tools">Tools</h2>
 <h3 id="vterm">vterm</h3>
-<p>To use <code>vterm</code> as the Emacs shell, the respective section in <code>init.el</code> should be selected:</p>
+<p>An interesting talk on the advantages of using <code>vterm</code> as the default Emacs terminal emulator can be found
+can found at <em>EmacsConf 2021</em> &ldquo;<a href="https://emacsconf.org/2020/talks/30/">A Tour of vterm</a>&rdquo;.
+To use <code>vterm</code> as the Emacs shell, the respective section in <code>init.el</code> should be selected:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">doom!</span>
  <span style="color:#999">:term</span>
  <span style="color:#998;font-style:italic">;;eshell            ; the elisp shell that works everywhere</span>
@@ -353,6 +372,8 @@ $ sudo dnf -y install libvterm <span style="color:#998;font-style:italic"># Fedo
     <li><a href="#ui">UI</a>
       <ul>
         <li><a href="#prettify-symbols">Prettify symbols</a></li>
+        <li><a href="#beacon">Beacon</a></li>
+        <li><a href="#focus">Focus</a></li>
       </ul>
     </li>
     <li><a href="#tools">Tools</a>

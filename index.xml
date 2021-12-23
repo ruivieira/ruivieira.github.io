@@ -71,6 +71,15 @@ As we can see from the plot below, the number of yearly disasters ranges from 0 
     </item>
     
     <item>
+      <title>Bots</title>
+      <link>https://ruivieira.dev/bots.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/bots.html</guid>
+      <description>ArXivist  A bot which periodically toots a paper published on ArXiV. The main Mastodon page of the bot can be found at https://botsin.space/@arxivstats. The current queue can be found at https://w6118k.deta.dev/</description>
+    </item>
+    
+    <item>
       <title>Brutalist web design</title>
       <link>https://ruivieira.dev/brutalist-web-design.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
