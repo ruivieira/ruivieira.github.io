@@ -17,6 +17,18 @@ I was having something of a framework fatigue after switching between a few stat
     </item>
     
     <item>
+      <title>58 bytes of CSS to look great nearly everywhere</title>
+      <link>https://ruivieira.dev/58-bytes-of-css-to-look-great-nearly-everywhere.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/58-bytes-of-css-to-look-great-nearly-everywhere.html</guid>
+      <description>The original page seems to have disappeared from the Internet1 (see: link rot), so the original contents are kept here.
+When making this website, I wanted a simple, reasonable way to make it look good on most displays. Not counting any minimization techniques, the following 58 bytes worked well for me:
+main { max-width: 38rem; padding: 2rem; margin: auto; } Let&amp;rsquo;s break this down.
+  max-width: 38rem It appears that the default font size for most browsers is 16px, so 38rem is 608px.</description>
+    </item>
+    
+    <item>
       <title>A Gibbs Sampler in Crystal</title>
       <link>https://ruivieira.dev/a-gibbs-sampler-in-crystal.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
