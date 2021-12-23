@@ -128,6 +128,18 @@ cookiecutter https://github.com/drivendata/cookiecutter-data-science For the rem
     </item>
     
     <item>
+      <title>Correlation matrix</title>
+      <link>https://ruivieira.dev/correlation-matrix.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/correlation-matrix.html</guid>
+      <description>Similarity Let&amp;rsquo;s create two datasets, \(\mu_1\) and \(\mu_2\) such that
+\[ \mu_i = \{x_1,\dots,x_n\} \sim \{\mathcal{U}_1(-1,1),\dots,\mathcal{U}_n(-1,1)\} \]
+We will use \(N=100\) observations for a vector sized \(n=10\).
+import numpy as np import pandas as pd import scipy.stats as stats from scipy.spatial.distance import squareform n = 10 N = 100 np.random.seed(0) mu_1 = np.random.normal(loc=0, scale=1, size=(N, n)) mu_2 = np.random.normal(loc=0, scale=1, size=(N, n)) We now add some noise, \(\epsilon=0.6\), to \(\mu_2\) such that</description>
+    </item>
+    
+    <item>
       <title>Counterfactual Fairness</title>
       <link>https://ruivieira.dev/counterfactual-fairness.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -448,6 +460,20 @@ import numpy as np import matplotlib.pyplot as plt from plotutils import * x = n
     </item>
     
     <item>
+      <title>HTML</title>
+      <link>https://ruivieira.dev/html.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/html.html</guid>
+      <description>HTML Tricks Meters A meter element is availble natively for HTML.
+&amp;lt;label for=&amp;#34;value1&amp;#34;&amp;gt;Low&amp;lt;/label&amp;gt; &amp;lt;meter id=&amp;#34;value1&amp;#34; min=&amp;#34;0&amp;#34; max=&amp;#34;100&amp;#34; low=&amp;#34;30&amp;#34; high=&amp;#34;75&amp;#34; optimum=&amp;#34;80&amp;#34; value=&amp;#34;25&amp;#34;&amp;gt;&amp;lt;/meter&amp;gt; &amp;lt;label for=&amp;#34;value2&amp;#34;&amp;gt;Medium&amp;lt;/label&amp;gt; &amp;lt;meter id=&amp;#34;value2&amp;#34; min=&amp;#34;0&amp;#34; max=&amp;#34;100&amp;#34; low=&amp;#34;30&amp;#34; high=&amp;#34;75&amp;#34; optimum=&amp;#34;80&amp;#34; value=&amp;#34;50&amp;#34;&amp;gt;&amp;lt;/meter&amp;gt; &amp;lt;label for=&amp;#34;value3&amp;#34;&amp;gt;High&amp;lt;/label&amp;gt; &amp;lt;meter id=&amp;#34;value3&amp;#34; min=&amp;#34;0&amp;#34; max=&amp;#34;100&amp;#34; low=&amp;#34;30&amp;#34; high=&amp;#34;75&amp;#34; optimum=&amp;#34;80&amp;#34; value=&amp;#34;80&amp;#34;&amp;gt;&amp;lt;/meter&amp;gt; Low 
+Medium 
+High 
+Ordered list start Change the starting point of an ordered list.
+&amp;lt;ol start=&amp;#34;11&amp;#34;&amp;gt; &amp;lt;li&amp;gt;Eleven&amp;lt;/li&amp;gt; &amp;lt;li&amp;gt;Twelve&amp;lt;/li&amp;gt; &amp;lt;li&amp;gt;Thirteen&amp;lt;/li&amp;gt; &amp;lt;li&amp;gt;Fourteen&amp;lt;/li&amp;gt; &amp;lt;/ol&amp;gt; Eleven Twelve Thirteen Fourteen  HTML Native Search &amp;lt;div class=&amp;#34;wrapper&amp;#34;&amp;gt; &amp;lt;h1&amp;gt;HTML native search&amp;lt;/h1&amp;gt; &amp;lt;input list=&amp;#34;items&amp;#34;&amp;gt; &amp;lt;datalist id=&amp;#34;items&amp;#34;&amp;gt; &amp;lt;option value=&amp;#34;Rui&amp;#34;&amp;gt; &amp;lt;option value=&amp;#34;Vieira&amp;#34;&amp;gt; &amp;lt;option value=&amp;#34;ruivieira.</description>
+    </item>
+    
+    <item>
       <title>Hugo</title>
       <link>https://ruivieira.dev/hugo.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -646,16 +672,8 @@ However, it is not desirable that individual DTs get too large with too many spl
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ruivieira.dev/optaplanner.html</guid>
-      <description>```java %%loadFromPOM  org.optaplanner optaplanner-core 8.3.0.Final  ```
-Define the Lesson:
-```java import java.time.DayOfWeek; import java.time.LocalTime;
-import org.optaplanner.core.api.domain.lookup.PlanningId;
-public class Person {
-@PlanningId private Long id;
-private double height; private double weight;
-// No-arg constructor required for Hibernate public Timeslot() { }
-public Timeslot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) { this.dayOfWeek = dayOfWeek; this.startTime = startTime; this.endTime = endTime; }
-public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.</description>
+      <description>Define the Lesson:
+import java.time.DayOfWeek; import java.time.LocalTime; import org.optaplanner.core.api.domain.lookup.PlanningId; public class Timeslot { @PlanningId private Long id; private double height; private double weight; // No-arg constructor required for Hibernate public Timeslot() { } public Timeslot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) { this.dayOfWeek = dayOfWeek; this.startTime = startTime; this.endTime = endTime; } public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.plusMinutes(50)); this.id = id; } @Override public String toString() { return dayOfWeek + &amp;quot; &amp;quot; + startTime; } // ************************************************************************ // Getters and setters // ************************************************************************ public Long getId() { return id; } public DayOfWeek getDayOfWeek() { return dayOfWeek; } public LocalTime getStartTime() { return startTime; } public LocalTime getEndTime() { return endTime; } } import org.</description>
     </item>
     
     <item>
@@ -908,6 +926,18 @@ echo -en &amp;#34;\e[?25h&amp;#34; </description>
  LaTeX processor (MathJax) custom monospaced font (Jetbrains Mono) custom serif font (IBM Plex Serif)  The base CSS is heavily inspired by 58 bytes of css to look great nearly everywhere.
 The CSS evolution (size, number of rules, etc) can be tracked over at Project Wallace.
 The site is generated from a set of org-mode files using Emacs, which mainly performs the following tasks:</description>
+    </item>
+    
+    <item>
+      <title>Spearman correlation</title>
+      <link>https://ruivieira.dev/spearman-correlation.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ruivieira.dev/spearman-correlation.html</guid>
+      <description>Spearman rank correlation The Spearman correlation coefficient (or Spearman&amp;rsquo;s \(\rho\)) measures rank correlation between two variables.
+Assuming monotonicity, the Spearman&amp;rsquo;s \(\rho\) will take values between \(-1\) and \(1\), representing completely opposite or identical ranks, respectively1.
+Due to the dependance on ranks, the Spearman&amp;rsquo;s \(\rho\) is used for ordinal value, although discrete and continous values are possible.
+If we consider a dataset of size \(n\), and \(X_i, Y_i\) as the scores, we can then calculate the ranks as \(\operatorname{R}({X_i}), \operatorname{R}({Y_i})\), and \(\rho\) as</description>
     </item>
     
     <item>

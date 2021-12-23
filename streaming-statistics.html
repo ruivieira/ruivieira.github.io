@@ -25,7 +25,7 @@ Mean and variances A naive approach to calculating a weighted streaming mean, \(
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/streaming-statistics.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-20T22:50:15+00:00" />
+<meta property="article:modified_time" content="2021-12-22T10:43:29+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -41,7 +41,7 @@ Mean and variances A naive approach to calculating a weighted streaming mean, \(
     
   
   
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.11452b79971f363af7cee81005cd790dc0a7c965142f8adb59e36437063f2d447687b3711ada73b6a88b3b41a41508a42a384d9620740b48cefa0ea9f5e49459.css" integrity="sha512-EUUreZcfNjr3zugQBc15DcCnyWUUL4rbWeNkNwY/LUR2h7NxGtpztqiLO0GkFQikKjhNliB0C0jO&#43;g6p9eSUWQ=="> 
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.a79457dee09605722c187170e1f001057207e2c93fc96404bb2a6c4cb05cd5f21213b095a3d9073117560bf616c0b96c897a1b862847d6a669e830262706cc68.css" integrity="sha512-p5RX3uCWBXIsGHFw4fABBXIH4sk/yWQEuypsTLBc1fISE7CVo9kHMRdWC/YWwLlsiXobhihH1qZp6DAmJwbMaA=="> 
 
   
   
@@ -206,8 +206,8 @@ Mean and variances A naive approach to calculating a weighted streaming mean, \(
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-20 22:50:15 &#43;0000 GMT" itemprop="datePublished">2021-12-20</time>
-          <span class="commit-hash">(70db90f)</span>
+          Updated <time datetime="2021-12-22 10:43:29 &#43;0000 GMT" itemprop="datePublished">2021-12-22</time>
+          <span class="commit-hash">(81314c6)</span>
         </div>
         
         
@@ -246,7 +246,7 @@ T^{(i+1)}&amp;=T^{(i)}+w_i y_i\\
 U^{(i+1)}&amp;=U^{(i)}+w_i y^2_i
 \end{align*}</p>
 <p>This calculation however does not hold for large \(n\) values.</p>
-<p>An alternative calculation was suggested by West, where we calculate:</p>
+<p>An alternative calculation was suggested by West<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, where we calculate:</p>
 <p>\begin{align*}
 \widehat{\mu}&amp;=\frac{\sum_i w_i y_i}{\sum_i w_i} \\
 \widehat{\mathbb{V}}&amp;=\frac{\sum_i w_i(X_i-\mu)^2}{\frac{n-1}{n}\sum_i w_i}
@@ -300,6 +300,14 @@ for y in Y:
 </code></pre><figure><img src="/ox-hugo/streaming-statistics-online.png"/>
 </figure>
 
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>&lt;&amp;west1979updating&gt; West, D. (1979). Updating mean and variance estimates: an improved method. Communications of the ACM, 22(9), 532–535.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 
     </div>
   </article>
