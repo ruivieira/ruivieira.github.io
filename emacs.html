@@ -21,7 +21,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruivieira.dev/emacs.html" /><meta property="article:section" content="posts" />
 
-<meta property="article:modified_time" content="2021-12-20T23:38:16+00:00" />
+<meta property="article:modified_time" content="2021-12-27T18:05:27+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -33,7 +33,7 @@
     
   
   
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.0295a2382869e2c78b17be4ef0566875b1a184c5d0d4d204aac2ad9600924b1124a3f8fb585d7e3e4a199cac790fd50423904f8b19636e0ae06610f386b71484.css" integrity="sha512-ApWiOChp4seLF75O8FZodbGhhMXQ1NIEqsKtlgCSSxEko/j7WF1&#43;PkoZnKx5D9UEI5BPixljbgrgZhDzhrcUhA=="> 
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css" integrity="sha512-gddvl/HWPqZo4ioTYypc&#43;71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="> 
 
   
   
@@ -174,6 +174,7 @@
         <li><a href="#macos">macOS</a></li>
         <li><a href="#fedora">Fedora</a></li>
         <li><a href="#ubuntu">Ubuntu</a></li>
+        <li><a href="#from-source">From source</a></li>
       </ul>
     </li>
     <li><a href="#configuration">Configuration</a>
@@ -215,8 +216,8 @@
         
         <div class="postdate">
           
-          Updated <time datetime="2021-12-20 23:38:16 &#43;0000 GMT" itemprop="datePublished">2021-12-20</time>
-          <span class="commit-hash">(0b2b58d)</span>
+          Updated <time datetime="2021-12-27 18:05:27 &#43;0000 GMT" itemprop="datePublished">2021-12-27</time>
+          <span class="commit-hash">(05b5109)</span>
         </div>
         
         
@@ -255,12 +256,67 @@ you need to install it using</p>
 <p>For Ubuntu (and other Linux distros, including <a href="#fedora">Fedora</a>) an option is to use the <a href="https://snapcraft.io/store">Snap store</a>.
 The <a href="https://snapcraft.io/emacs">available Snap</a> can install Emacs 28 with <strong>native compilation enabled</strong>. To use it, simply run</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo snap install emacs --edge --classic
+</code></pre></div><h3 id="from-source">From source</h3>
+<p>In December 2021 the <code>pgtk</code> branch of Emacs was merged into master<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.
+Among other features this adds full Wayland support and better font rendering for the Emacs GUI.
+This version can be compiled from source with just a few simple steps.</p>
+<h4 id="dependencies">Dependencies</h4>
+<p>To build this version in Linux (I&rsquo;m assuming Ubuntu and variants) you will need the following dependencies:</p>
+<ul>
+<li><code>autoconf</code></li>
+<li><code>build-essential</code>, provides <code>GCC</code>, <code>make</code>, <code>libc</code>, <em>etc</em>.</li>
+<li><code>libgtk-3-dev</code>, Gnome dependencies</li>
+<li><code>libgnutls28-dev</code>, provides <code>libgnutls28</code></li>
+<li><code>libtiff5-dev</code>, <code>libgif-dev</code>, <code>libjpeg-dev</code>, <code>libpng-dev</code> and <code>libxpm-dev</code> provide image support</li>
+<li><code>libncurses-dev</code>, provides terminal support</li>
+<li><code>texinfo</code>, for <code>Info</code> documentation</li>
+</ul>
+<p>I also wanted to include Emacs' native JSON support and Elisp native compilation, so will additionally need:</p>
+<ul>
+<li><code>libjansson4</code>, <code>libjansson-dev</code>, provides native JSON support</li>
+<li><code>libgccjit0</code>, <code>libgccjit-10-dev</code>, <code>gcc-10</code> and <code>g++-10</code></li>
+</ul>
+<p>A one-liner to install all dependencies is:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt update
+$ sudo apt install build-essential libgtk-3-dev libgnutls28-dev <span style="color:#b84">\
+</span><span style="color:#b84"></span>  libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev <span style="color:#b84">\
+</span><span style="color:#b84"></span>  libncurses-dev texinfo <span style="color:#b84">\
+</span><span style="color:#b84"></span>  libjansson4 libjansson-dev <span style="color:#b84">\
+</span><span style="color:#b84"></span>  libgccjit0 libgccjit-10-dev gcc-10 g++-10
+</code></pre></div><h4 id="building">Building</h4>
+<p>We can then clone the Emacs repo and run <code>autogen</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt update
+$ git clone git://git.sv.gnu.org/emacs.git
+$ <span style="color:#999">cd</span> emacs
+$ ./autogen.sh
+</code></pre></div><p>To use native Elisp compilation we will use <code>gcc-10</code>, so before starting the build run:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> $ <span style="color:#999">export</span> <span style="color:#008080">CC</span><span style="font-weight:bold">=</span>/usr/bin/gcc-10 <span style="color:#008080">CXX</span><span style="font-weight:bold">=</span>/usr/bin/gcc-10
+</code></pre></div><p>Emacs supports <code>--with-xxx</code> to enable support for feature <code>xxx</code>, which in our case will be:</p>
+<ul>
+<li><code>--with-pgtk</code>, native GTK support</li>
+<li><code>--with-json</code>, native JSON support</li>
+<li><code>--with-native-compilation</code>, native compilation support</li>
+</ul>
+<p>So we can run the configure script with</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ./configure --with-native-compilation --with-json --with-pgtk
+</code></pre></div><p>We can now start the build and installation (you can choose the approriate number for your machine for the parallel run, in this case `8`):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ make -j8
+$ sudo make install
+</code></pre></div><p>If everything completes successfully you should have <code>emacs</code> 29 available in <code>/usr/local/bin</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ emacs --version
+
+GNU Emacs 29.0.50
+Copyright <span style="font-weight:bold">(</span>C<span style="font-weight:bold">)</span> <span style="color:#099">2021</span> Free Software Foundation, Inc.
+GNU Emacs comes with ABSOLUTELY NO WARRANTY.
+You may redistribute copies of GNU Emacs
+under the terms of the GNU General Public License.
+For more information about these matters, see the file named COPYING.
 </code></pre></div><h2 id="configuration">Configuration</h2>
 <ul>
 <li><a href="/doom-emacs.html">Annotated DOOM Emacs config</a></li>
 </ul>
 <h3 id="completion">Completion</h3>
-<p>I recently move from <code>helm</code><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> to <code>ivy</code>. The main reason is that apparently <code>helm</code> development has stalled.</p>
+<p>I recently move from <code>helm</code><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> to <code>ivy</code>. The main reason is that apparently <code>helm</code> development has stalled.</p>
 <h3 id="the-important-stuff">The important stuff?</h3>
 <h4 id="icon">Icon</h4>
 <p>I&rsquo;ve also made a vaporwave Emacs icon which you can find in <a href="https://github.com/ruivieira/emacs-vaporwave-icon">here.</a></p>
@@ -270,7 +326,7 @@ The <a href="https://snapcraft.io/emacs">available Snap</a> can install Emacs 28
 <h4 id="cursor">Cursor</h4>
 <p>A cursor should blink, in my opinion.
 For a history of the blinking cursor see <a href="https://www.inverse.com/innovation/blinking-cursor-history">The Forgotten History of the Blinking Cursor</a>.
-You can instruct Emacs to blink it with the appropriate mode<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+You can instruct Emacs to blink it with the appropriate mode<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">blink-cursor-mode</span> <span style="color:#099">1</span>)
 </code></pre></div><h2 id="elisp">Elisp</h2>
 <ul>
@@ -284,10 +340,13 @@ You can instruct Emacs to blink it with the appropriate mode<sup id="fnref:3"><a
 <p>Fedora 32/33.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p>The main <code>Helm</code> maintainer is Thierry Volpiatto.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://mail.gnu.org/archive/html/emacs-devel/2021-12/msg01732.html">https://mail.gnu.org/archive/html/emacs-devel/2021-12/msg01732.html</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://www.emacswiki.org/emacs/NonBlinkingCursor">https://www.emacswiki.org/emacs/NonBlinkingCursor</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>The main <code>Helm</code> maintainer is Thierry Volpiatto.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://www.emacswiki.org/emacs/NonBlinkingCursor">https://www.emacswiki.org/emacs/NonBlinkingCursor</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -330,6 +389,7 @@ You can instruct Emacs to blink it with the appropriate mode<sup id="fnref:3"><a
         <li><a href="#macos">macOS</a></li>
         <li><a href="#fedora">Fedora</a></li>
         <li><a href="#ubuntu">Ubuntu</a></li>
+        <li><a href="#from-source">From source</a></li>
       </ul>
     </li>
     <li><a href="#configuration">Configuration</a>
