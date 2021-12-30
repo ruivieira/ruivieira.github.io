@@ -1,607 +1,481 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Go | Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/go.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Go" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Go | Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/go.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Go">
 <meta property="og:description" content="Some notes regarding the Go language. Some topics have graduated to their own page:
  Go resource bundling Go filesystem operations  Setup First things first. How to install Go in Fedora. You can either use dnf directly and simply run
-$ sudo dnf install golang-bin This might not install the latest and greatest. If you want to use the most recent version, download it directly from https://golang.org/doc/install#install. If applicable, delete any previous /usr/local/go directory with" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/go.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Go"/>
-<meta name="twitter:description" content="Some notes regarding the Go language. Some topics have graduated to their own page:
+$ sudo dnf install golang-bin This might not install the latest and greatest. If you want to use the most recent version, download it directly from https://golang.org/doc/install#install. If applicable, delete any previous /usr/local/go directory with">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/go.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Go">
+<meta name=twitter:description content="Some notes regarding the Go language. Some topics have graduated to their own page:
  Go resource bundling Go filesystem operations  Setup First things first. How to install Go in Fedora. You can either use dnf directly and simply run
-$ sudo dnf install golang-bin This might not install the latest and greatest. If you want to use the most recent version, download it directly from https://golang.org/doc/install#install. If applicable, delete any previous /usr/local/go directory with"/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css" integrity="sha512-gddvl/HWPqZo4ioTYypc&#43;71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+$ sudo dnf install golang-bin This might not install the latest and greatest. If you want to use the most recent version, download it directly from https://golang.org/doc/install#install. If applicable, delete any previous /usr/local/go directory with">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css integrity="sha512-gddvl/HWPqZo4ioTYypc+71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/go-filesystem-operations.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/git.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo.html&text=Go" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo.html&is_video=false&description=Go" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Go&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo.html&name=Go&description=Some%20notes%20regarding%20the%20Go%20language.%20Some%20topics%20have%20graduated%20to%20their%20own%20page%3a%0a%20Go%20resource%20bundling%20Go%20filesystem%20operations%20%20Setup%20First%20things%20first.%20How%20to%20install%20Go%20in%20Fedora.%20You%20can%20either%20use%20dnf%20directly%20and%20simply%20run%0a%24%20sudo%20dnf%20install%20golang-bin%20This%20might%20not%20install%20the%20latest%20and%20greatest.%20If%20you%20want%20to%20use%20the%20most%20recent%20version%2c%20download%20it%20directly%20from%20https%3a%2f%2fgolang.org%2fdoc%2finstall%23install.%20If%20applicable%2c%20delete%20any%20previous%20%2fusr%2flocal%2fgo%20directory%20with" aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo.html&t=Go" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#setup">Setup</a></li>
-    <li><a href="#language-design">Language design</a>
-      <ul>
-        <li><a href="#go-doesn-t-have-sets">Go doesn&rsquo;t have sets</a></li>
-        <li><a href="#ci">CI</a></li>
-        <li><a href="#containers">Containers</a></li>
-        <li><a href="#reference">Reference</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/go-filesystem-operations.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/git.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo.html&text=Go" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo.html&is_video=false&description=Go" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Go&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo.html&name=Go&description=Some%20notes%20regarding%20the%20Go%20language.%20Some%20topics%20have%20graduated%20to%20their%20own%20page%3a%0a%20Go%20resource%20bundling%20Go%20filesystem%20operations%20%20Setup%20First%20things%20first.%20How%20to%20install%20Go%20in%20Fedora.%20You%20can%20either%20use%20dnf%20directly%20and%20simply%20run%0a%24%20sudo%20dnf%20install%20golang-bin%20This%20might%20not%20install%20the%20latest%20and%20greatest.%20If%20you%20want%20to%20use%20the%20most%20recent%20version%2c%20download%20it%20directly%20from%20https%3a%2f%2fgolang.org%2fdoc%2finstall%23install.%20If%20applicable%2c%20delete%20any%20previous%20%2fusr%2flocal%2fgo%20directory%20with" aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo.html&t=Go" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Go
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <p>Some notes regarding the <a href="https://golang.org/">Go</a> language.
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#setup>Setup</a></li>
+<li><a href=#language-design>Language design</a>
+<ul>
+<li><a href=#go-doesn-t-have-sets>Go doesn&rsquo;t have sets</a></li>
+<li><a href=#ci>CI</a></li>
+<li><a href=#containers>Containers</a></li>
+<li><a href=#reference>Reference</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Go
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2021-12-07 21:49:31 +0000 GMT" itemprop=datePublished>2021-12-07</time>
+<span class=commit-hash>(186a405)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<p>Some notes regarding the <a href=https://golang.org/>Go</a> language.
 Some topics have graduated to their own page:</p>
 <ul>
-<li><a href="/go-resource-bundling.html">Go resource bundling</a></li>
-<li><a href="/go-filesystem-operations.html">Go filesystem operations</a></li>
+<li><a href=/go-resource-bundling.html>Go resource bundling</a></li>
+<li><a href=/go-filesystem-operations.html>Go filesystem operations</a></li>
 </ul>
-<h2 id="setup">Setup</h2>
+<h2 id=setup>Setup</h2>
 <p>First things first. How to install Go in Fedora.
 You can either use <code>dnf</code> directly and simply run</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">   $ sudo dnf install golang-bin
-</code></pre></div><p>This might not install the latest and greatest. If you want to use the most recent version, download it directly from <a href="https://golang.org/doc/install#install">https://golang.org/doc/install#install</a>.
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>   $ sudo dnf install golang-bin
+</code></pre></div><p>This might not install the latest and greatest. If you want to use the most recent version, download it directly from <a href=https://golang.org/doc/install#install>https://golang.org/doc/install#install</a>.
 If applicable, delete any previous <code>/usr/local/go</code> directory with</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">   $ sudo rm -rf /usr/local/go
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>   $ sudo rm -rf /usr/local/go
 </code></pre></div><p>Next, extract the archive file with</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">   $ sudo tar -C /usr/local -xzf /home/foo/tmp/go-<span style="color:#008080">$VERSION</span>.linux-amd64.tar.gz
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>   $ sudo tar -C /usr/local -xzf /home/foo/tmp/go-<span style=color:teal>$VERSION</span>.linux-amd64.tar.gz
 </code></pre></div><p>And add <code>/usr/local/go/bin</code> to the <code>$PATH</code>.</p>
-<h2 id="language-design">Language design</h2>
-<h3 id="go-doesn-t-have-sets">Go doesn&rsquo;t have sets</h3>
-<p>The Go language, notoriously, does not have<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> some common data structures like sets. There are two main reasons for that:</p>
+<h2 id=language-design>Language design</h2>
+<h3 id=go-doesn-t-have-sets>Go doesn&rsquo;t have sets</h3>
+<p>The Go language, notoriously, does not have<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> some common data structures like sets. There are two main reasons for that:</p>
 <ol>
-<li>Go does not have generics<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>Go does not have generics<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></li>
 <li>Go relies on you writing your own data structures, generally</li>
 </ol>
-<p>Go lacks generics, which prevent writing a &hellip; well, generic and efficient set implementation.
+<p>Go lacks generics, which prevent writing a &mldr; well, generic and efficient set implementation.
 Also, writing your own (non-generic) set with <code>map~s is quite straight-forward. The usual structure for a type ~T</code> is <code>map[T]bool</code>, where the key is the element and the value is just a placeholder. For instance, for a <code>int</code> set, we can add elements:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    s <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>: <span style="font-weight:bold">true</span>, <span style="color:#099">3</span>: <span style="font-weight:bold">true</span>}
-    s[<span style="color:#099">1</span>] = <span style="font-weight:bold">true</span> <span style="color:#998;font-style:italic">// already presenvar t
-</span><span style="color:#998;font-style:italic"></span>    s[<span style="color:#099">2</span>] = <span style="font-weight:bold">true</span> <span style="color:#998;font-style:italic">// adds new element
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    s <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{<span style=color:#099>1</span>: <span style=font-weight:700>true</span>, <span style=color:#099>3</span>: <span style=font-weight:700>true</span>}
+    s[<span style=color:#099>1</span>] = <span style=font-weight:700>true</span> <span style=color:#998;font-style:italic>// already presenvar t
+</span><span style=color:#998;font-style:italic></span>    s[<span style=color:#099>2</span>] = <span style=font-weight:700>true</span> <span style=color:#998;font-style:italic>// adds new element
 </span></code></pre></div><p>Some other techniques for maps replacing sets:</p>
-<h4 id="set-union">Set union</h4>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">set_1 <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>:<span style="font-weight:bold">true</span>, <span style="color:#099">2</span>:<span style="font-weight:bold">true</span>, <span style="color:#099">3</span>:<span style="font-weight:bold">false</span>}
-set_2 <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>:<span style="font-weight:bold">false</span>, <span style="color:#099">2</span>:<span style="font-weight:bold">false</span>, <span style="color:#099">4</span>:<span style="font-weight:bold">false</span>}
-set_union <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{}
+<h4 id=set-union>Set union</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>set_1 <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{<span style=color:#099>1</span>:<span style=font-weight:700>true</span>, <span style=color:#099>2</span>:<span style=font-weight:700>true</span>, <span style=color:#099>3</span>:<span style=font-weight:700>false</span>}
+set_2 <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{<span style=color:#099>1</span>:<span style=font-weight:700>false</span>, <span style=color:#099>2</span>:<span style=font-weight:700>false</span>, <span style=color:#099>4</span>:<span style=font-weight:700>false</span>}
+set_union <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{}
 
-<span style="font-weight:bold">for</span> k, _ <span style="font-weight:bold">:=</span> <span style="font-weight:bold">range</span> set_1{
-    set_union[k] = <span style="font-weight:bold">true</span>
+<span style=font-weight:700>for</span> k, _ <span style=font-weight:700>:=</span> <span style=font-weight:700>range</span> set_1{
+    set_union[k] = <span style=font-weight:700>true</span>
 }
-<span style="font-weight:bold">for</span> k, _ <span style="font-weight:bold">:=</span> <span style="font-weight:bold">range</span> set_2{
-    set_union[k] = <span style="font-weight:bold">true</span>
+<span style=font-weight:700>for</span> k, _ <span style=font-weight:700>:=</span> <span style=font-weight:700>range</span> set_2{
+    set_union[k] = <span style=font-weight:700>true</span>
 }
-fmt.<span style="color:#900;font-weight:bold">Println</span>(set_union)
-</code></pre></div><h4 id="set-intersection">Set intersection</h4>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">set_1 <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>:<span style="font-weight:bold">true</span>, <span style="color:#099">2</span>:<span style="font-weight:bold">true</span>, <span style="color:#099">3</span>:<span style="font-weight:bold">false</span>}
-set_2 <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>:<span style="font-weight:bold">false</span>, <span style="color:#099">2</span>:<span style="font-weight:bold">false</span>, <span style="color:#099">4</span>:<span style="font-weight:bold">false</span>}
-set_intersection <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{}
-<span style="font-weight:bold">for</span> k,_ <span style="font-weight:bold">:=</span> <span style="font-weight:bold">range</span> set_1 {
-  <span style="font-weight:bold">if</span> set_2[k] {
-    set_intersection[k] = <span style="font-weight:bold">true</span>
+fmt.<span style=color:#900;font-weight:700>Println</span>(set_union)
+</code></pre></div><h4 id=set-intersection>Set intersection</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>set_1 <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{<span style=color:#099>1</span>:<span style=font-weight:700>true</span>, <span style=color:#099>2</span>:<span style=font-weight:700>true</span>, <span style=color:#099>3</span>:<span style=font-weight:700>false</span>}
+set_2 <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{<span style=color:#099>1</span>:<span style=font-weight:700>false</span>, <span style=color:#099>2</span>:<span style=font-weight:700>false</span>, <span style=color:#099>4</span>:<span style=font-weight:700>false</span>}
+set_intersection <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{}
+<span style=font-weight:700>for</span> k,_ <span style=font-weight:700>:=</span> <span style=font-weight:700>range</span> set_1 {
+  <span style=font-weight:700>if</span> set_2[k] {
+    set_intersection[k] = <span style=font-weight:700>true</span>
   }
 }
-fmt.<span style="color:#900;font-weight:bold">Println</span>(set_intersection)
-</code></pre></div><h4 id="set-to-array">Set to array</h4>
+fmt.<span style=color:#900;font-weight:700>Println</span>(set_intersection)
+</code></pre></div><h4 id=set-to-array>Set to array</h4>
 <p>To convert a (map) set to an array:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">array <span style="font-weight:bold">:=</span> <span style="color:#999">make</span>([]<span style="color:#458;font-weight:bold">int</span>, <span style="color:#099">0</span>)
-set_1 <span style="font-weight:bold">:=</span> <span style="font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">int</span>]<span style="color:#458;font-weight:bold">bool</span>{<span style="color:#099">1</span>:<span style="font-weight:bold">true</span>, <span style="color:#099">2</span>:<span style="font-weight:bold">true</span>, <span style="color:#099">3</span>:<span style="font-weight:bold">false</span>}
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>array <span style=font-weight:700>:=</span> <span style=color:#999>make</span>([]<span style=color:#458;font-weight:700>int</span>, <span style=color:#099>0</span>)
+set_1 <span style=font-weight:700>:=</span> <span style=font-weight:700>map</span>[<span style=color:#458;font-weight:700>int</span>]<span style=color:#458;font-weight:700>bool</span>{<span style=color:#099>1</span>:<span style=font-weight:700>true</span>, <span style=color:#099>2</span>:<span style=font-weight:700>true</span>, <span style=color:#099>3</span>:<span style=font-weight:700>false</span>}
 
-<span style="font-weight:bold">for</span> k <span style="font-weight:bold">:=</span> <span style="font-weight:bold">range</span> set_1 {
-   array = <span style="color:#999">append</span>(array, k)
+<span style=font-weight:700>for</span> k <span style=font-weight:700>:=</span> <span style=font-weight:700>range</span> set_1 {
+   array = <span style=color:#999>append</span>(array, k)
 }
-fmt.<span style="color:#900;font-weight:bold">Println</span>(array)
-</code></pre></div><h3 id="ci">CI</h3>
-<h4 id="github">GitHub</h4>
-<p>A potential workflow for GitHub is to use <a href="https://github.com/mvdan/github-actions-golang">GitHub Actions for Go</a>.
-An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href="#testing-in-go">Testing in Go</a>) and <code>go vet</code> is:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000080">on</span>:<span style="color:#bbb"> </span>[push, pull_request\]<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>Test<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">jobs</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">test</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">strategy</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">matrix</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">go-version</span>:<span style="color:#bbb"> </span>[<span style="color:#099">1.14</span>.x, 1.15.x]<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">os</span>:<span style="color:#bbb"> </span>[ubuntu-latest]<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">runs-on</span>:<span style="color:#bbb"> </span>${{ matrix.os }}<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">steps</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>Install Go<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">uses</span>:<span style="color:#bbb"> </span>actions/setup-go@v2<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">with</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">go-version</span>:<span style="color:#bbb"> </span>${{ matrix.go-version }}<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>Checkout code<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">uses</span>:<span style="color:#bbb"> </span>actions/checkout@v2<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>Test<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">run</span>:<span style="color:#bbb"> </span>go test ./...<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>Vet<span style="color:#bbb">
-</span><span style="color:#bbb">	  </span><span style="color:#000080">run</span>:<span style="color:#bbb"> </span>go vet ./...<span style="color:#bbb">
-</span></code></pre></div><h3 id="containers">Containers</h3>
-<h4 id="minimal-example">Minimal example</h4>
-<p>A minimal example of a Go <a href="/containers.html">container</a> configuration for a web server running on port <code>8080</code>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#998;font-style:italic"># Start from the latest golang base image</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">FROM</span><span style="color:#b84"> golang:latest</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Add Maintainer Info</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">LABEL</span> <span style="color:#008080">maintainer</span><span style="font-weight:bold">=</span><span style="color:#b84">&#34;Rui Vieira&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Set the Current Working Directory inside the container</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">WORKDIR</span><span style="color:#b84"> /app</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Copy go mod and sum files</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">COPY</span> go.mod go.sum ./<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">RUN</span> go mod download<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Copy the source from the current directory to the Working Directory inside the container</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">COPY</span> . .<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Build the Go app</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">RUN</span> go build -o main .<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Expose port 8080 to the outside world</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">EXPOSE</span><span style="color:#b84"> 8080</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic"># Command to run the executable</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="font-weight:bold">CMD</span> [<span style="color:#b84">&#34;./main&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><h3 id="reference">Reference</h3>
-<h4 id="conversions">Conversions</h4>
-<!--list-separator-->
+fmt.<span style=color:#900;font-weight:700>Println</span>(array)
+</code></pre></div><h3 id=ci>CI</h3>
+<h4 id=github>GitHub</h4>
+<p>A potential workflow for GitHub is to use <a href=https://github.com/mvdan/github-actions-golang>GitHub Actions for Go</a>.
+An example workflow file, <code>.github/workflows/test.yml</code>, which runs <code>go test</code> (see <a href=#testing-in-go>Testing in Go</a>) and <code>go vet</code> is:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:navy>on</span>:<span style=color:#bbb> </span>[push, pull_request\]<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:navy>name</span>:<span style=color:#bbb> </span>Test<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:navy>jobs</span>:<span style=color:#bbb>
+</span><span style=color:#bbb>  </span><span style=color:navy>test</span>:<span style=color:#bbb>
+</span><span style=color:#bbb>    </span><span style=color:navy>strategy</span>:<span style=color:#bbb>
+</span><span style=color:#bbb>      </span><span style=color:navy>matrix</span>:<span style=color:#bbb>
+</span><span style=color:#bbb>        </span><span style=color:navy>go-version</span>:<span style=color:#bbb> </span>[<span style=color:#099>1.14</span>.x, 1.15.x]<span style=color:#bbb>
+</span><span style=color:#bbb>        </span><span style=color:navy>os</span>:<span style=color:#bbb> </span>[ubuntu-latest]<span style=color:#bbb>
+</span><span style=color:#bbb>    </span><span style=color:navy>runs-on</span>:<span style=color:#bbb> </span>${{ matrix.os }}<span style=color:#bbb>
+</span><span style=color:#bbb>    </span><span style=color:navy>steps</span>:<span style=color:#bbb>
+</span><span style=color:#bbb>    </span>- <span style=color:navy>name</span>:<span style=color:#bbb> </span>Install Go<span style=color:#bbb>
+</span><span style=color:#bbb>      </span><span style=color:navy>uses</span>:<span style=color:#bbb> </span>actions/setup-go@v2<span style=color:#bbb>
+</span><span style=color:#bbb>      </span><span style=color:navy>with</span>:<span style=color:#bbb>
+</span><span style=color:#bbb>        </span><span style=color:navy>go-version</span>:<span style=color:#bbb> </span>${{ matrix.go-version }}<span style=color:#bbb>
+</span><span style=color:#bbb>    </span>- <span style=color:navy>name</span>:<span style=color:#bbb> </span>Checkout code<span style=color:#bbb>
+</span><span style=color:#bbb>      </span><span style=color:navy>uses</span>:<span style=color:#bbb> </span>actions/checkout@v2<span style=color:#bbb>
+</span><span style=color:#bbb>    </span>- <span style=color:navy>name</span>:<span style=color:#bbb> </span>Test<span style=color:#bbb>
+</span><span style=color:#bbb>      </span><span style=color:navy>run</span>:<span style=color:#bbb> </span>go test ./...<span style=color:#bbb>
+</span><span style=color:#bbb>	</span>- <span style=color:navy>name</span>:<span style=color:#bbb> </span>Vet<span style=color:#bbb>
+</span><span style=color:#bbb>	  </span><span style=color:navy>run</span>:<span style=color:#bbb> </span>go vet ./...<span style=color:#bbb>
+</span></code></pre></div><h3 id=containers>Containers</h3>
+<h4 id=minimal-example>Minimal example</h4>
+<p>A minimal example of a Go <a href=/containers.html>container</a> configuration for a web server running on port <code>8080</code>:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-dockerfile data-lang=dockerfile><span style=color:#998;font-style:italic># Start from the latest golang base image</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>FROM</span><span style=color:#b84> golang:latest</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Add Maintainer Info</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>LABEL</span> <span style=color:teal>maintainer</span><span style=font-weight:700>=</span><span style=color:#b84>&#34;Rui Vieira&#34;</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Set the Current Working Directory inside the container</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>WORKDIR</span><span style=color:#b84> /app</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Copy go mod and sum files</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>COPY</span> go.mod go.sum ./<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>RUN</span> go mod download<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Copy the source from the current directory to the Working Directory inside the container</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>COPY</span> . .<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Build the Go app</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>RUN</span> go build -o main .<span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Expose port 8080 to the outside world</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>EXPOSE</span><span style=color:#b84> 8080</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=color:#998;font-style:italic># Command to run the executable</span><span style=color:#a61717;background-color:#e3d2d2>
+</span><span style=color:#a61717;background-color:#e3d2d2></span><span style=font-weight:700>CMD</span> [<span style=color:#b84>&#34;./main&#34;</span>]<span style=color:#a61717;background-color:#e3d2d2>
+</span></code></pre></div><h3 id=reference>Reference</h3>
+<h4 id=conversions>Conversions</h4>
 <ul>
 <li>
 <p>How to convert a <code>string</code> to <code>byte</code> array?</p>
 <p>The conversion is simple:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">     b <span style="font-weight:bold">:=</span> []<span style="color:#999">byte</span>(<span style="color:#b84">&#34;This is a string&#34;</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>     b <span style=font-weight:700>:=</span> []<span style=color:#999>byte</span>(<span style=color:#b84>&#34;This is a string&#34;</span>)
 </code></pre></div></li>
 </ul>
-<h4 id="collections">Collections</h4>
-<!--list-separator-->
+<h4 id=collections>Collections</h4>
 <ul>
 <li>
 <p>Sort map keys alphabetically</p>
 <p>If a <code>map</code> contains <code>string</code> keys, <em>i.e.</em> <code>var myMap map[string]T</code>, we must sort the map keys independently. For instance:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">keys <span style="font-weight:bold">:=</span> <span style="color:#999">make</span>([]<span style="color:#458;font-weight:bold">string</span>, <span style="color:#099">0</span>)
-<span style="font-weight:bold">for</span> k, _ <span style="font-weight:bold">:=</span> <span style="font-weight:bold">range</span> myMap {
-    keys = <span style="color:#999">append</span>(keys, k)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>keys <span style=font-weight:700>:=</span> <span style=color:#999>make</span>([]<span style=color:#458;font-weight:700>string</span>, <span style=color:#099>0</span>)
+<span style=font-weight:700>for</span> k, _ <span style=font-weight:700>:=</span> <span style=font-weight:700>range</span> myMap {
+    keys = <span style=color:#999>append</span>(keys, k)
 }
-sort.<span style="color:#900;font-weight:bold">Strings</span>(keys)
-<span style="font-weight:bold">for</span> _, k <span style="font-weight:bold">:=</span> <span style="font-weight:bold">range</span> keys {
-    fmt.<span style="color:#900;font-weight:bold">Println</span>(k, myMap[k])
+sort.<span style=color:#900;font-weight:700>Strings</span>(keys)
+<span style=font-weight:700>for</span> _, k <span style=font-weight:700>:=</span> <span style=font-weight:700>range</span> keys {
+    fmt.<span style=color:#900;font-weight:700>Println</span>(k, myMap[k])
 }
 </code></pre></div></li>
 </ul>
-<!--list-separator-->
 <ul>
 <li>
 <p>Check for element</p>
 <p>If we consider a collection, say, <code>[]string collection</code>, the way to check for an element already present is, for instance:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="font-weight:bold">func</span> <span style="color:#900;font-weight:bold">existsIn</span>(needle <span style="color:#458;font-weight:bold">string</span>, haystack []<span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">bool</span> {
-    <span style="font-weight:bold">for</span> _, element <span style="font-weight:bold">:=</span> <span style="font-weight:bold">range</span> haystack {
-        <span style="font-weight:bold">if</span> element <span style="font-weight:bold">==</span> needle {
-            <span style="font-weight:bold">return</span> <span style="font-weight:bold">true</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=font-weight:700>func</span> <span style=color:#900;font-weight:700>existsIn</span>(needle <span style=color:#458;font-weight:700>string</span>, haystack []<span style=color:#458;font-weight:700>string</span>) <span style=color:#458;font-weight:700>bool</span> {
+    <span style=font-weight:700>for</span> _, element <span style=font-weight:700>:=</span> <span style=font-weight:700>range</span> haystack {
+        <span style=font-weight:700>if</span> element <span style=font-weight:700>==</span> needle {
+            <span style=font-weight:700>return</span> <span style=font-weight:700>true</span>
         }
     }
-    <span style="font-weight:bold">return</span> <span style="font-weight:bold">false</span>
+    <span style=font-weight:700>return</span> <span style=font-weight:700>false</span>
 }
 </code></pre></div></li>
 </ul>
-<h4 id="templates">Templates</h4>
-<!--list-separator-->
+<h4 id=templates>Templates</h4>
 <ul>
 <li>
 <p>Check if variable empty</p>
 <p>In a Go template you check if a variable is empty by doing:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{{if .Items}}
-&lt;<span style="color:#000080">ul</span>&gt;
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>{{if .Items}}
+&lt;<span style=color:navy>ul</span>&gt;
   {{range .Items}}
-    &lt;<span style="color:#000080">li</span>&gt;{{.Name}}&lt;/<span style="color:#000080">li</span>&gt;
+    &lt;<span style=color:navy>li</span>&gt;{{.Name}}&lt;/<span style=color:navy>li</span>&gt;
   {{end}}
-&lt;/<span style="color:#000080">ul</span>&gt;
+&lt;/<span style=color:navy>ul</span>&gt;
 {{end}}
 </code></pre></div></li>
 </ul>
-<!--list-separator-->
 <ul>
 <li>
 <p>Looping over a map</p>
 <p>Looping over the map <code>var data map[string]bool</code> in a Go template:</p>
-<pre tabindex="0"><code class="language-nil" data-lang="nil">{{range $index, $element := .}}
+<pre tabindex=0><code class=language-nil data-lang=nil>{{range $index, $element := .}}
     {{$index}}: {{$element}}
 {{end}}
 </code></pre></li>
 </ul>
-<h4 id="processes">Processes</h4>
-<!--list-separator-->
+<h4 id=processes>Processes</h4>
 <ul>
 <li>
 <p>Executing external processes</p>
 <p>Executing an external process and directing input and output to <code>Stdout</code> and <code>Stderr</code>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"> cmd <span style="font-weight:bold">:=</span> exec.<span style="color:#900;font-weight:bold">Command</span>(<span style="color:#b84">&#34;ls&#34;</span>, <span style="color:#b84">&#34;-1ao&#34;</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go> cmd <span style=font-weight:700>:=</span> exec.<span style=color:#900;font-weight:700>Command</span>(<span style=color:#b84>&#34;ls&#34;</span>, <span style=color:#b84>&#34;-1ao&#34;</span>)
  cmd.Stdout = os.Stdout
  cmd.Stderr = os.Stderr
- err <span style="font-weight:bold">:=</span> cmd.<span style="color:#900;font-weight:bold">Run</span>()
- <span style="font-weight:bold">if</span> err <span style="font-weight:bold">!=</span> <span style="font-weight:bold">nil</span> {
-	log.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#b84">&#34;cmd.Run() failed with %s\\n&#34;</span>, err)
+ err <span style=font-weight:700>:=</span> cmd.<span style=color:#900;font-weight:700>Run</span>()
+ <span style=font-weight:700>if</span> err <span style=font-weight:700>!=</span> <span style=font-weight:700>nil</span> {
+	log.<span style=color:#900;font-weight:700>Fatalf</span>(<span style=color:#b84>&#34;cmd.Run() failed with %s\\n&#34;</span>, err)
  }
 </code></pre></div></li>
 </ul>
-<h4 id="testing-in-go">Testing in Go</h4>
+<h4 id=testing-in-go>Testing in Go</h4>
 <p>Place the tests in your place of choosing, but keep the package declaration. Test functions should be parameterised as <code>(t *testing.T)</code> and start with the prefix <code>Test</code>, for instance:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="font-weight:bold">package</span> main
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=font-weight:700>package</span> main
 
-<span style="font-weight:bold">func</span> <span style="color:#900;font-weight:bold">TestFoo</span>(t <span style="font-weight:bold">*</span>testing.T) {
-	value <span style="font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">Foo</span>(<span style="color:#099">5</span>, <span style="color:#099">5</span>)
-	<span style="color:#998;font-style:italic">// ... assertions
+<span style=font-weight:700>func</span> <span style=color:#900;font-weight:700>TestFoo</span>(t <span style=font-weight:700>*</span>testing.T) {
+	value <span style=font-weight:700>:=</span> <span style=color:#900;font-weight:700>Foo</span>(<span style=color:#099>5</span>, <span style=color:#099>5</span>)
+	<span style=color:#998;font-style:italic>// ... assertions
 </span></code></pre></div><p>The test files themselves must have the suffix <code>*_test.go</code>.
 Call the tests with <code>go test</code>.</p>
-<h4 id="output">Output</h4>
-<!--list-separator-->
+<h4 id=output>Output</h4>
 <ul>
 <li>
 <p>Printing struct keys</p>
-<p>To print a <code>struct</code> along with its keys, we can use the <code>Printf</code> switch as in the <a href="https://golang.org/pkg/fmt/#hdr-Printing">official documentation</a>. That is,</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">fmt.<span style="color:#900;font-weight:bold">Printf</span>(<span style="color:#b84">&#34;%+v\n&#34;</span>, myStruct)
+<p>To print a <code>struct</code> along with its keys, we can use the <code>Printf</code> switch as in the <a href=https://golang.org/pkg/fmt/#hdr-Printing>official documentation</a>. That is,</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>fmt.<span style=color:#900;font-weight:700>Printf</span>(<span style=color:#b84>&#34;%+v\n&#34;</span>, myStruct)
 </code></pre></div></li>
 </ul>
-<h4 id="date-and-time">Date and time</h4>
-<!--list-separator-->
+<h4 id=date-and-time>Date and time</h4>
 <ul>
 <li>
 <p>Check if a date is empty</p>
 <p>If a date is unassigned, the <code>.IsZero()</code> method can be used to check it</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">a <span style="font-weight:bold">:=</span> time.Time{}
-a.<span style="color:#900;font-weight:bold">IsZero</span>() <span style="color:#998;font-style:italic">// This will be true
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>a <span style=font-weight:700>:=</span> time.Time{}
+a.<span style=color:#900;font-weight:700>IsZero</span>() <span style=color:#998;font-style:italic>// This will be true
 </span></code></pre></div></li>
 </ul>
-<section class="footnotes" role="doc-endnotes">
+<section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>As of the time of writing, that is Go 1.15.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:1 role=doc-endnote>
+<p>As of the time of writing, that is Go 1.15.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#setup">Setup</a></li>
-    <li><a href="#language-design">Language design</a>
-      <ul>
-        <li><a href="#go-doesn-t-have-sets">Go doesn&rsquo;t have sets</a></li>
-        <li><a href="#ci">CI</a></li>
-        <li><a href="#containers">Containers</a></li>
-        <li><a href="#reference">Reference</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo.html&text=Go" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo.html&is_video=false&description=Go" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Go&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo.html&name=Go&description=Some%20notes%20regarding%20the%20Go%20language.%20Some%20topics%20have%20graduated%20to%20their%20own%20page%3a%0a%20Go%20resource%20bundling%20Go%20filesystem%20operations%20%20Setup%20First%20things%20first.%20How%20to%20install%20Go%20in%20Fedora.%20You%20can%20either%20use%20dnf%20directly%20and%20simply%20run%0a%24%20sudo%20dnf%20install%20golang-bin%20This%20might%20not%20install%20the%20latest%20and%20greatest.%20If%20you%20want%20to%20use%20the%20most%20recent%20version%2c%20download%20it%20directly%20from%20https%3a%2f%2fgolang.org%2fdoc%2finstall%23install.%20If%20applicable%2c%20delete%20any%20previous%20%2fusr%2flocal%2fgo%20directory%20with" aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo.html&t=Go" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2021  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#setup>Setup</a></li>
+<li><a href=#language-design>Language design</a>
+<ul>
+<li><a href=#go-doesn-t-have-sets>Go doesn&rsquo;t have sets</a></li>
+<li><a href=#ci>CI</a></li>
+<li><a href=#containers>Containers</a></li>
+<li><a href=#reference>Reference</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo.html&text=Go" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo.html&is_video=false&description=Go" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Go&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo.html&title=Go" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo.html&name=Go&description=Some%20notes%20regarding%20the%20Go%20language.%20Some%20topics%20have%20graduated%20to%20their%20own%20page%3a%0a%20Go%20resource%20bundling%20Go%20filesystem%20operations%20%20Setup%20First%20things%20first.%20How%20to%20install%20Go%20in%20Fedora.%20You%20can%20either%20use%20dnf%20directly%20and%20simply%20run%0a%24%20sudo%20dnf%20install%20golang-bin%20This%20might%20not%20install%20the%20latest%20and%20greatest.%20If%20you%20want%20to%20use%20the%20most%20recent%20version%2c%20download%20it%20directly%20from%20https%3a%2f%2fgolang.org%2fdoc%2finstall%23install.%20If%20applicable%2c%20delete%20any%20previous%20%2fusr%2flocal%2fgo%20directory%20with" aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo.html&t=Go" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2021 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

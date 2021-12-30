@@ -1,207 +1,149 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Optaplanner | Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/optaplanner.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Optaplanner" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Optaplanner | Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/optaplanner.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Optaplanner">
 <meta property="og:description" content="Define the Lesson:
-import java.time.DayOfWeek; import java.time.LocalTime; import org.optaplanner.core.api.domain.lookup.PlanningId; public class Timeslot { @PlanningId private Long id; private double height; private double weight; // No-arg constructor required for Hibernate public Timeslot() { } public Timeslot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) { this.dayOfWeek = dayOfWeek; this.startTime = startTime; this.endTime = endTime; } public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.plusMinutes(50)); this.id = id; } @Override public String toString() { return dayOfWeek &#43; &quot; &quot; &#43; startTime; } // ************************************************************************ // Getters and setters // ************************************************************************ public Long getId() { return id; } public DayOfWeek getDayOfWeek() { return dayOfWeek; } public LocalTime getStartTime() { return startTime; } public LocalTime getEndTime() { return endTime; } } import org." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/optaplanner.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2021-12-23T00:13:59+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Optaplanner"/>
-<meta name="twitter:description" content="Define the Lesson:
-import java.time.DayOfWeek; import java.time.LocalTime; import org.optaplanner.core.api.domain.lookup.PlanningId; public class Timeslot { @PlanningId private Long id; private double height; private double weight; // No-arg constructor required for Hibernate public Timeslot() { } public Timeslot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) { this.dayOfWeek = dayOfWeek; this.startTime = startTime; this.endTime = endTime; } public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.plusMinutes(50)); this.id = id; } @Override public String toString() { return dayOfWeek &#43; &quot; &quot; &#43; startTime; } // ************************************************************************ // Getters and setters // ************************************************************************ public Long getId() { return id; } public DayOfWeek getDayOfWeek() { return dayOfWeek; } public LocalTime getStartTime() { return startTime; } public LocalTime getEndTime() { return endTime; } } import org."/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css" integrity="sha512-gddvl/HWPqZo4ioTYypc&#43;71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+import java.time.DayOfWeek; import java.time.LocalTime; import org.optaplanner.core.api.domain.lookup.PlanningId; public class Timeslot { @PlanningId private Long id; private double height; private double weight; // No-arg constructor required for Hibernate public Timeslot() { } public Timeslot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) { this.dayOfWeek = dayOfWeek; this.startTime = startTime; this.endTime = endTime; } public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.plusMinutes(50)); this.id = id; } @Override public String toString() { return dayOfWeek + &#34; &#34; + startTime; } // ************************************************************************ // Getters and setters // ************************************************************************ public Long getId() { return id; } public DayOfWeek getDayOfWeek() { return dayOfWeek; } public LocalTime getStartTime() { return startTime; } public LocalTime getEndTime() { return endTime; } } import org.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/optaplanner.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2021-12-23T00:13:59+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Optaplanner">
+<meta name=twitter:description content="Define the Lesson:
+import java.time.DayOfWeek; import java.time.LocalTime; import org.optaplanner.core.api.domain.lookup.PlanningId; public class Timeslot { @PlanningId private Long id; private double height; private double weight; // No-arg constructor required for Hibernate public Timeslot() { } public Timeslot(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) { this.dayOfWeek = dayOfWeek; this.startTime = startTime; this.endTime = endTime; } public Timeslot(long id, DayOfWeek dayOfWeek, LocalTime startTime) { this(dayOfWeek, startTime, startTime.plusMinutes(50)); this.id = id; } @Override public String toString() { return dayOfWeek + &#34; &#34; + startTime; } // ************************************************************************ // Getters and setters // ************************************************************************ public Long getId() { return id; } public DayOfWeek getDayOfWeek() { return dayOfWeek; } public LocalTime getStartTime() { return startTime; } public LocalTime getEndTime() { return endTime; } } import org.">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css integrity="sha512-gddvl/HWPqZo4ioTYypc+71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/optimising-random-forest-hyperparamaters.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/oob-score-in-random-forests.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&text=Optaplanner" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&is_video=false&description=Optaplanner" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Optaplanner&body=Check out this article: https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&name=Optaplanner&description=Define%20the%20Lesson%3a%0aimport%20java.time.DayOfWeek%3b%20import%20java.time.LocalTime%3b%20import%20org.optaplanner.core.api.domain.lookup.PlanningId%3b%20public%20class%20Timeslot%20%7b%20%40PlanningId%20private%20Long%20id%3b%20private%20double%20height%3b%20private%20double%20weight%3b%20%2f%2f%20No-arg%20constructor%20required%20for%20Hibernate%20public%20Timeslot%28%29%20%7b%20%7d%20public%20Timeslot%28DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%2c%20LocalTime%20endTime%29%20%7b%20this.dayOfWeek%20%3d%20dayOfWeek%3b%20this.startTime%20%3d%20startTime%3b%20this.endTime%20%3d%20endTime%3b%20%7d%20public%20Timeslot%28long%20id%2c%20DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%29%20%7b%20this%28dayOfWeek%2c%20startTime%2c%20startTime.plusMinutes%2850%29%29%3b%20this.id%20%3d%20id%3b%20%7d%20%40Override%20public%20String%20toString%28%29%20%7b%20return%20dayOfWeek%20%2b%20%26quot%3b%20%26quot%3b%20%2b%20startTime%3b%20%7d%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20%2f%2f%20Getters%20and%20setters%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20public%20Long%20getId%28%29%20%7b%20return%20id%3b%20%7d%20public%20DayOfWeek%20getDayOfWeek%28%29%20%7b%20return%20dayOfWeek%3b%20%7d%20public%20LocalTime%20getStartTime%28%29%20%7b%20return%20startTime%3b%20%7d%20public%20LocalTime%20getEndTime%28%29%20%7b%20return%20endTime%3b%20%7d%20%7d%20import%20org." aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html&t=Optaplanner" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents"></nav>
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/optimising-random-forest-hyperparamaters.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/oob-score-in-random-forests.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&text=Optaplanner" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&is_video=false&description=Optaplanner" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Optaplanner&body=Check out this article: https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&name=Optaplanner&description=Define%20the%20Lesson%3a%0aimport%20java.time.DayOfWeek%3b%20import%20java.time.LocalTime%3b%20import%20org.optaplanner.core.api.domain.lookup.PlanningId%3b%20public%20class%20Timeslot%20%7b%20%40PlanningId%20private%20Long%20id%3b%20private%20double%20height%3b%20private%20double%20weight%3b%20%2f%2f%20No-arg%20constructor%20required%20for%20Hibernate%20public%20Timeslot%28%29%20%7b%20%7d%20public%20Timeslot%28DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%2c%20LocalTime%20endTime%29%20%7b%20this.dayOfWeek%20%3d%20dayOfWeek%3b%20this.startTime%20%3d%20startTime%3b%20this.endTime%20%3d%20endTime%3b%20%7d%20public%20Timeslot%28long%20id%2c%20DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%29%20%7b%20this%28dayOfWeek%2c%20startTime%2c%20startTime.plusMinutes%2850%29%29%3b%20this.id%20%3d%20id%3b%20%7d%20%40Override%20public%20String%20toString%28%29%20%7b%20return%20dayOfWeek%20%2b%20%26quot%3b%20%26quot%3b%20%2b%20startTime%3b%20%7d%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20%2f%2f%20Getters%20and%20setters%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20public%20Long%20getId%28%29%20%7b%20return%20id%3b%20%7d%20public%20DayOfWeek%20getDayOfWeek%28%29%20%7b%20return%20dayOfWeek%3b%20%7d%20public%20LocalTime%20getStartTime%28%29%20%7b%20return%20startTime%3b%20%7d%20public%20LocalTime%20getEndTime%28%29%20%7b%20return%20endTime%3b%20%7d%20%7d%20import%20org." aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html&t=Optaplanner" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Optaplanner
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2021-12-23 00:13:59 &#43;0000 GMT" itemprop="datePublished">2021-12-23</time>
-          <span class="commit-hash">(a05b851)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <p>Define the Lesson:</p>
-<pre tabindex="0"><code class="language-jupyter-java" data-lang="jupyter-java">import java.time.DayOfWeek;
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents></nav>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Optaplanner
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2021-12-23 00:13:59 +0000 GMT" itemprop=datePublished>2021-12-23</time>
+<span class=commit-hash>(a05b851)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<p>Define the Lesson:</p>
+<pre tabindex=0><code class=language-jupyter-java data-lang=jupyter-java>import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import org.optaplanner.core.api.domain.lookup.PlanningId;
@@ -255,7 +197,7 @@ public class Timeslot {
     }
 
 }
-</code></pre><pre tabindex="0"><code class="language-jupyter-java" data-lang="jupyter-java">import org.optaplanner.core.api.domain.lookup.PlanningId;
+</code></pre><pre tabindex=0><code class=language-jupyter-java data-lang=jupyter-java>import org.optaplanner.core.api.domain.lookup.PlanningId;
 
 public class Room {
 
@@ -296,7 +238,7 @@ public class Room {
 
 }
 
-</code></pre><pre tabindex="0"><code class="language-jupyter-java" data-lang="jupyter-java">import org.optaplanner.core.api.domain.entity.PlanningEntity;
+</code></pre><pre tabindex=0><code class=language-jupyter-java data-lang=jupyter-java>import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
@@ -376,159 +318,100 @@ public class Lesson {
 
 }
 </code></pre>
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents"></nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&text=Optaplanner" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&is_video=false&description=Optaplanner" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Optaplanner&body=Check out this article: https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&name=Optaplanner&description=Define%20the%20Lesson%3a%0aimport%20java.time.DayOfWeek%3b%20import%20java.time.LocalTime%3b%20import%20org.optaplanner.core.api.domain.lookup.PlanningId%3b%20public%20class%20Timeslot%20%7b%20%40PlanningId%20private%20Long%20id%3b%20private%20double%20height%3b%20private%20double%20weight%3b%20%2f%2f%20No-arg%20constructor%20required%20for%20Hibernate%20public%20Timeslot%28%29%20%7b%20%7d%20public%20Timeslot%28DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%2c%20LocalTime%20endTime%29%20%7b%20this.dayOfWeek%20%3d%20dayOfWeek%3b%20this.startTime%20%3d%20startTime%3b%20this.endTime%20%3d%20endTime%3b%20%7d%20public%20Timeslot%28long%20id%2c%20DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%29%20%7b%20this%28dayOfWeek%2c%20startTime%2c%20startTime.plusMinutes%2850%29%29%3b%20this.id%20%3d%20id%3b%20%7d%20%40Override%20public%20String%20toString%28%29%20%7b%20return%20dayOfWeek%20%2b%20%26quot%3b%20%26quot%3b%20%2b%20startTime%3b%20%7d%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20%2f%2f%20Getters%20and%20setters%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20public%20Long%20getId%28%29%20%7b%20return%20id%3b%20%7d%20public%20DayOfWeek%20getDayOfWeek%28%29%20%7b%20return%20dayOfWeek%3b%20%7d%20public%20LocalTime%20getStartTime%28%29%20%7b%20return%20startTime%3b%20%7d%20public%20LocalTime%20getEndTime%28%29%20%7b%20return%20endTime%3b%20%7d%20%7d%20import%20org." aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html&t=Optaplanner" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2021  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents></nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&text=Optaplanner" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&is_video=false&description=Optaplanner" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Optaplanner&body=Check out this article: https%3a%2f%2fruivieira.dev%2foptaplanner.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&title=Optaplanner" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2foptaplanner.html&name=Optaplanner&description=Define%20the%20Lesson%3a%0aimport%20java.time.DayOfWeek%3b%20import%20java.time.LocalTime%3b%20import%20org.optaplanner.core.api.domain.lookup.PlanningId%3b%20public%20class%20Timeslot%20%7b%20%40PlanningId%20private%20Long%20id%3b%20private%20double%20height%3b%20private%20double%20weight%3b%20%2f%2f%20No-arg%20constructor%20required%20for%20Hibernate%20public%20Timeslot%28%29%20%7b%20%7d%20public%20Timeslot%28DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%2c%20LocalTime%20endTime%29%20%7b%20this.dayOfWeek%20%3d%20dayOfWeek%3b%20this.startTime%20%3d%20startTime%3b%20this.endTime%20%3d%20endTime%3b%20%7d%20public%20Timeslot%28long%20id%2c%20DayOfWeek%20dayOfWeek%2c%20LocalTime%20startTime%29%20%7b%20this%28dayOfWeek%2c%20startTime%2c%20startTime.plusMinutes%2850%29%29%3b%20this.id%20%3d%20id%3b%20%7d%20%40Override%20public%20String%20toString%28%29%20%7b%20return%20dayOfWeek%20%2b%20%26quot%3b%20%26quot%3b%20%2b%20startTime%3b%20%7d%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20%2f%2f%20Getters%20and%20setters%20%2f%2f%20%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%2a%20public%20Long%20getId%28%29%20%7b%20return%20id%3b%20%7d%20public%20DayOfWeek%20getDayOfWeek%28%29%20%7b%20return%20dayOfWeek%3b%20%7d%20public%20LocalTime%20getStartTime%28%29%20%7b%20return%20startTime%3b%20%7d%20public%20LocalTime%20getEndTime%28%29%20%7b%20return%20endTime%3b%20%7d%20%7d%20import%20org." aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2foptaplanner.html&t=Optaplanner" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2021 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

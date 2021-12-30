@@ -1,266 +1,201 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Emacs | Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/emacs.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Emacs" />
-<meta property="og:description" content="Notes on Emacs My current flavour/distribution of Emacs is DOOM Emacs spacemacs DOOM Emacs. DOOM Emacs is my preferred configuration framework at the moment. I have used Spacemacs for a long time, but the performance increase by switching to DOOM Emacs is simply to great to be ignored. Recently, I have also migrated to the Emacs 28 branch which includes Elisp native compilation. It is a thing of beauty in terms of speed." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/emacs.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2021-12-27T18:05:27+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Emacs"/>
-<meta name="twitter:description" content="Notes on Emacs My current flavour/distribution of Emacs is DOOM Emacs spacemacs DOOM Emacs. DOOM Emacs is my preferred configuration framework at the moment. I have used Spacemacs for a long time, but the performance increase by switching to DOOM Emacs is simply to great to be ignored. Recently, I have also migrated to the Emacs 28 branch which includes Elisp native compilation. It is a thing of beauty in terms of speed."/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css" integrity="sha512-gddvl/HWPqZo4ioTYypc&#43;71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Emacs | Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/emacs.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Emacs">
+<meta property="og:description" content="Notes on Emacs My current flavour/distribution of Emacs is DOOM Emacs spacemacs DOOM Emacs. DOOM Emacs is my preferred configuration framework at the moment. I have used Spacemacs for a long time, but the performance increase by switching to DOOM Emacs is simply to great to be ignored. Recently, I have also migrated to the Emacs 28 branch which includes Elisp native compilation. It is a thing of beauty in terms of speed.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/emacs.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2021-12-27T18:05:27+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Emacs">
+<meta name=twitter:description content="Notes on Emacs My current flavour/distribution of Emacs is DOOM Emacs spacemacs DOOM Emacs. DOOM Emacs is my preferred configuration framework at the moment. I have used Spacemacs for a long time, but the performance increase by switching to DOOM Emacs is simply to great to be ignored. Recently, I have also migrated to the Emacs 28 branch which includes Elisp native compilation. It is a thing of beauty in terms of speed.">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css integrity="sha512-gddvl/HWPqZo4ioTYypc+71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/emacs-quarkus.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/elisp.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2femacs.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2femacs.html&text=Emacs" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2femacs.html&is_video=false&description=Emacs" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Emacs&body=Check out this article: https%3a%2f%2fruivieira.dev%2femacs.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2femacs.html&name=Emacs&description=Notes%20on%20Emacs%20My%20current%20flavour%2fdistribution%20of%20Emacs%20is%20DOOM%20Emacs%20spacemacs%20DOOM%20Emacs.%20DOOM%20Emacs%20is%20my%20preferred%20configuration%20framework%20at%20the%20moment.%20I%20have%20used%20Spacemacs%20for%20a%20long%20time%2c%20but%20the%20performance%20increase%20by%20switching%20to%20DOOM%20Emacs%20is%20simply%20to%20great%20to%20be%20ignored.%20Recently%2c%20I%20have%20also%20migrated%20to%20the%20Emacs%2028%20branch%20which%20includes%20Elisp%20native%20compilation.%20It%20is%20a%20thing%20of%20beauty%20in%20terms%20of%20speed." aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2femacs.html&t=Emacs" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#notes-on-emacs">Notes on Emacs</a></li>
-    <li><a href="#installation">Installation</a>
-      <ul>
-        <li><a href="#macos">macOS</a></li>
-        <li><a href="#fedora">Fedora</a></li>
-        <li><a href="#ubuntu">Ubuntu</a></li>
-        <li><a href="#from-source">From source</a></li>
-      </ul>
-    </li>
-    <li><a href="#configuration">Configuration</a>
-      <ul>
-        <li><a href="#completion">Completion</a></li>
-        <li><a href="#the-important-stuff">The important stuff?</a></li>
-      </ul>
-    </li>
-    <li><a href="#elisp">Elisp</a></li>
-  </ul>
-</nav>
-      
-      <h4>Related</h4>
-      
-      <nav>
-      <ul>
-      
-      
-        <li class="header-post toc"><a href="https://ruivieira.dev/emacs-quarkus.html">Emacs Quarkus</a></li>
-      
-      
-        <li class="header-post toc"><a href="https://ruivieira.dev/site-details.html">Site details</a></li>
-      
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/emacs-quarkus.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/elisp.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2femacs.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2femacs.html&text=Emacs" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2femacs.html&is_video=false&description=Emacs" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Emacs&body=Check out this article: https%3a%2f%2fruivieira.dev%2femacs.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2femacs.html&name=Emacs&description=Notes%20on%20Emacs%20My%20current%20flavour%2fdistribution%20of%20Emacs%20is%20DOOM%20Emacs%20spacemacs%20DOOM%20Emacs.%20DOOM%20Emacs%20is%20my%20preferred%20configuration%20framework%20at%20the%20moment.%20I%20have%20used%20Spacemacs%20for%20a%20long%20time%2c%20but%20the%20performance%20increase%20by%20switching%20to%20DOOM%20Emacs%20is%20simply%20to%20great%20to%20be%20ignored.%20Recently%2c%20I%20have%20also%20migrated%20to%20the%20Emacs%2028%20branch%20which%20includes%20Elisp%20native%20compilation.%20It%20is%20a%20thing%20of%20beauty%20in%20terms%20of%20speed." aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2femacs.html&t=Emacs" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Emacs
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2021-12-27 18:05:27 &#43;0000 GMT" itemprop="datePublished">2021-12-27</time>
-          <span class="commit-hash">(05b5109)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <h2 id="notes-on-emacs">Notes on Emacs</h2>
-<p>My current flavour/distribution of Emacs is <del><a href="https://github.com/hlissner/doom-emacs">DOOM Emacs</a></del> <del><a href="https://www.spacemacs.org/">spacemacs</a></del> <a href="https://github.com/hlissner/doom-emacs">DOOM Emacs</a>.
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#notes-on-emacs>Notes on Emacs</a></li>
+<li><a href=#installation>Installation</a>
+<ul>
+<li><a href=#macos>macOS</a></li>
+<li><a href=#fedora>Fedora</a></li>
+<li><a href=#ubuntu>Ubuntu</a></li>
+<li><a href=#from-source>From source</a></li>
+</ul>
+</li>
+<li><a href=#configuration>Configuration</a>
+<ul>
+<li><a href=#completion>Completion</a></li>
+<li><a href=#the-important-stuff>The important stuff?</a></li>
+</ul>
+</li>
+<li><a href=#elisp>Elisp</a></li>
+</ul>
+</nav>
+<h4>Related</h4>
+<nav>
+<ul>
+<li class="header-post toc"><a href=https://ruivieira.dev/emacs-quarkus.html>Emacs Quarkus</a></li>
+<li class="header-post toc"><a href=https://ruivieira.dev/site-details.html>Site details</a></li>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Emacs
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2021-12-27 18:05:27 +0000 GMT" itemprop=datePublished>2021-12-27</time>
+<span class=commit-hash>(05b5109)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<h2 id=notes-on-emacs>Notes on Emacs</h2>
+<p>My current flavour/distribution of Emacs is <del><a href=https://github.com/hlissner/doom-emacs>DOOM Emacs</a></del> <del><a href=https://www.spacemacs.org/>spacemacs</a></del> <a href=https://github.com/hlissner/doom-emacs>DOOM Emacs</a>.
 DOOM Emacs is my preferred configuration framework at the moment. I have used Spacemacs for a long time, but the performance increase by switching to DOOM Emacs is simply to great to be ignored.
-Recently, I have also migrated to the <a href="https://mail.gnu.org/archive/html/emacs-devel/2021-09/msg02290.html">Emacs 28 branch</a> which includes Elisp <a href="https://www.emacswiki.org/emacs/GccEmacs">native compilation</a>. It is a thing of beauty in terms of speed.</p>
-<h2 id="installation">Installation</h2>
-<h3 id="macos">macOS</h3>
+Recently, I have also migrated to the <a href=https://mail.gnu.org/archive/html/emacs-devel/2021-09/msg02290.html>Emacs 28 branch</a> which includes Elisp <a href=https://www.emacswiki.org/emacs/GccEmacs>native compilation</a>. It is a thing of beauty in terms of speed.</p>
+<h2 id=installation>Installation</h2>
+<h3 id=macos>macOS</h3>
 <p>Many people swear by <code>emacs-mac</code> as the gold standard for macOS Emacs distributions.
 To install it, using <code>homebrew</code> simply run</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew tap railwaycat/emacsmacport
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ brew tap railwaycat/emacsmacport
 $ brew install --cask emacs-mac-spacemacs-icon
-</code></pre></div><p>Alternatively, you can choose whatever icon you want from <a href="https://github.com/railwaycat/homebrew-emacsmacport/wiki/Icons">here</a>.
-A good alternative is for instance <code>--with-emacs-big-sur-icon</code>. On Linux you can use my <a href="#icon">icon</a>, if you wish.</p>
+</code></pre></div><p>Alternatively, you can choose whatever icon you want from <a href=https://github.com/railwaycat/homebrew-emacsmacport/wiki/Icons>here</a>.
+A good alternative is for instance <code>--with-emacs-big-sur-icon</code>. On Linux you can use my <a href=#icon>icon</a>, if you wish.</p>
 <p>However, <code>emacs-mac</code> is, at the time of writing, targetting Emacs 27. If you want to use Emacs 28 (and don&rsquo;t want to build it from source)
 a good option if <code>emacs-plus</code>. To install it use:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew install emacs-plus@28 --with-native-comp --with-modern-doom3-icon
-</code></pre></div><h3 id="fedora">Fedora</h3>
-<p>At the time of writing<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, Fedora only supports, officially, Emacs 27. If you want to try Emacs 28 (and the native compilation feature)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ brew install emacs-plus@28 --with-native-comp --with-modern-doom3-icon
+</code></pre></div><h3 id=fedora>Fedora</h3>
+<p>At the time of writing<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>, Fedora only supports, officially, Emacs 27. If you want to try Emacs 28 (and the native compilation feature)
 you need to install it using</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dnf copr <span style="color:#999">enable</span> deathwish/emacs-pgtk-nativecomp
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ sudo dnf copr <span style=color:#999>enable</span> deathwish/emacs-pgtk-nativecomp
 </code></pre></div><p>and then (if Emacs is already present)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dnf upgrade emacs
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ sudo dnf upgrade emacs
 </code></pre></div><p>otherwise run</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo dnf install emacs
-</code></pre></div><h3 id="ubuntu">Ubuntu</h3>
-<p>For Ubuntu (and other Linux distros, including <a href="#fedora">Fedora</a>) an option is to use the <a href="https://snapcraft.io/store">Snap store</a>.
-The <a href="https://snapcraft.io/emacs">available Snap</a> can install Emacs 28 with <strong>native compilation enabled</strong>. To use it, simply run</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo snap install emacs --edge --classic
-</code></pre></div><h3 id="from-source">From source</h3>
-<p>In December 2021 the <code>pgtk</code> branch of Emacs was merged into master<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ sudo dnf install emacs
+</code></pre></div><h3 id=ubuntu>Ubuntu</h3>
+<p>For Ubuntu (and other Linux distros, including <a href=#fedora>Fedora</a>) an option is to use the <a href=https://snapcraft.io/store>Snap store</a>.
+The <a href=https://snapcraft.io/emacs>available Snap</a> can install Emacs 28 with <strong>native compilation enabled</strong>. To use it, simply run</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ sudo snap install emacs --edge --classic
+</code></pre></div><h3 id=from-source>From source</h3>
+<p>In December 2021 the <code>pgtk</code> branch of Emacs was merged into master<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>.
 Among other features this adds full Wayland support and better font rendering for the Emacs GUI.
 This version can be compiled from source with just a few simple steps.</p>
-<h4 id="dependencies">Dependencies</h4>
+<h4 id=dependencies>Dependencies</h4>
 <p>To build this version in Linux (I&rsquo;m assuming Ubuntu and variants) you will need the following dependencies:</p>
 <ul>
 <li><code>autoconf</code></li>
@@ -277,20 +212,20 @@ This version can be compiled from source with just a few simple steps.</p>
 <li><code>libgccjit0</code>, <code>libgccjit-10-dev</code>, <code>gcc-10</code> and <code>g++-10</code></li>
 </ul>
 <p>A one-liner to install all dependencies is:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt update
-$ sudo apt install build-essential libgtk-3-dev libgnutls28-dev <span style="color:#b84">\
-</span><span style="color:#b84"></span>  libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev <span style="color:#b84">\
-</span><span style="color:#b84"></span>  libncurses-dev texinfo <span style="color:#b84">\
-</span><span style="color:#b84"></span>  libjansson4 libjansson-dev <span style="color:#b84">\
-</span><span style="color:#b84"></span>  libgccjit0 libgccjit-10-dev gcc-10 g++-10
-</code></pre></div><h4 id="building">Building</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ sudo apt update
+$ sudo apt install build-essential libgtk-3-dev libgnutls28-dev <span style=color:#b84>\
+</span><span style=color:#b84></span>  libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev <span style=color:#b84>\
+</span><span style=color:#b84></span>  libncurses-dev texinfo <span style=color:#b84>\
+</span><span style=color:#b84></span>  libjansson4 libjansson-dev <span style=color:#b84>\
+</span><span style=color:#b84></span>  libgccjit0 libgccjit-10-dev gcc-10 g++-10
+</code></pre></div><h4 id=building>Building</h4>
 <p>We can then clone the Emacs repo and run <code>autogen</code>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo apt update
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ sudo apt update
 $ git clone git://git.sv.gnu.org/emacs.git
-$ <span style="color:#999">cd</span> emacs
+$ <span style=color:#999>cd</span> emacs
 $ ./autogen.sh
 </code></pre></div><p>To use native Elisp compilation we will use <code>gcc-10</code>, so before starting the build run:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> $ <span style="color:#999">export</span> <span style="color:#008080">CC</span><span style="font-weight:bold">=</span>/usr/bin/gcc-10 <span style="color:#008080">CXX</span><span style="font-weight:bold">=</span>/usr/bin/gcc-10
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell> $ <span style=color:#999>export</span> <span style=color:teal>CC</span><span style=font-weight:700>=</span>/usr/bin/gcc-10 <span style=color:teal>CXX</span><span style=font-weight:700>=</span>/usr/bin/gcc-10
 </code></pre></div><p>Emacs supports <code>--with-xxx</code> to enable support for feature <code>xxx</code>, which in our case will be:</p>
 <ul>
 <li><code>--with-pgtk</code>, native GTK support</li>
@@ -298,231 +233,170 @@ $ ./autogen.sh
 <li><code>--with-native-compilation</code>, native compilation support</li>
 </ul>
 <p>So we can run the configure script with</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ./configure --with-native-compilation --with-json --with-pgtk
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ ./configure --with-native-compilation --with-json --with-pgtk
 </code></pre></div><p>We can now start the build and installation (you can choose the approriate number for your machine for the parallel run, in this case `8`):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ make -j8
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ make -j8
 $ sudo make install
 </code></pre></div><p>If everything completes successfully you should have <code>emacs</code> 29 available in <code>/usr/local/bin</code></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ emacs --version
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ emacs --version
 
 GNU Emacs 29.0.50
-Copyright <span style="font-weight:bold">(</span>C<span style="font-weight:bold">)</span> <span style="color:#099">2021</span> Free Software Foundation, Inc.
+Copyright <span style=font-weight:700>(</span>C<span style=font-weight:700>)</span> <span style=color:#099>2021</span> Free Software Foundation, Inc.
 GNU Emacs comes with ABSOLUTELY NO WARRANTY.
 You may redistribute copies of GNU Emacs
 under the terms of the GNU General Public License.
 For more information about these matters, see the file named COPYING.
-</code></pre></div><h2 id="configuration">Configuration</h2>
+</code></pre></div><h2 id=configuration>Configuration</h2>
 <ul>
-<li><a href="/doom-emacs.html">Annotated DOOM Emacs config</a></li>
+<li><a href=/doom-emacs.html>Annotated DOOM Emacs config</a></li>
 </ul>
-<h3 id="completion">Completion</h3>
-<p>I recently move from <code>helm</code><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> to <code>ivy</code>. The main reason is that apparently <code>helm</code> development has stalled.</p>
-<h3 id="the-important-stuff">The important stuff?</h3>
-<h4 id="icon">Icon</h4>
-<p>I&rsquo;ve also made a vaporwave Emacs icon which you can find in <a href="https://github.com/ruivieira/emacs-vaporwave-icon">here.</a></p>
-<figure><img src="/ox-hugo/Emacs.png"/>
+<h3 id=completion>Completion</h3>
+<p>I recently move from <code>helm</code><sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup> to <code>ivy</code>. The main reason is that apparently <code>helm</code> development has stalled.</p>
+<h3 id=the-important-stuff>The important stuff?</h3>
+<h4 id=icon>Icon</h4>
+<p>I&rsquo;ve also made a vaporwave Emacs icon which you can find in <a href=https://github.com/ruivieira/emacs-vaporwave-icon>here.</a></p>
+<figure><img src=/ox-hugo/Emacs.png>
 </figure>
-
-<h4 id="cursor">Cursor</h4>
+<h4 id=cursor>Cursor</h4>
 <p>A cursor should blink, in my opinion.
-For a history of the blinking cursor see <a href="https://www.inverse.com/innovation/blinking-cursor-history">The Forgotten History of the Blinking Cursor</a>.
-You can instruct Emacs to blink it with the appropriate mode<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#008080">blink-cursor-mode</span> <span style="color:#099">1</span>)
-</code></pre></div><h2 id="elisp">Elisp</h2>
+For a history of the blinking cursor see <a href=https://www.inverse.com/innovation/blinking-cursor-history>The Forgotten History of the Blinking Cursor</a>.
+You can instruct Emacs to blink it with the appropriate mode<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup>.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:teal>blink-cursor-mode</span> <span style=color:#099>1</span>)
+</code></pre></div><h2 id=elisp>Elisp</h2>
 <ul>
-<li>The main page for <a href="/elisp.html">Elisp</a></li>
-<li>You can check my solutions for the Euler project in Elisp: <a href="/project-euler-in-elisp.html">Project Euler in Elisp</a></li>
+<li>The main page for <a href=/elisp.html>Elisp</a></li>
+<li>You can check my solutions for the Euler project in Elisp: <a href=/project-euler-in-elisp.html>Project Euler in Elisp</a></li>
 </ul>
-<section class="footnotes" role="doc-endnotes">
+<section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>Fedora 32/33.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:1 role=doc-endnote>
+<p>Fedora 32/33.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
-<p><a href="https://mail.gnu.org/archive/html/emacs-devel/2021-12/msg01732.html">https://mail.gnu.org/archive/html/emacs-devel/2021-12/msg01732.html</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:2 role=doc-endnote>
+<p><a href=https://mail.gnu.org/archive/html/emacs-devel/2021-12/msg01732.html>https://mail.gnu.org/archive/html/emacs-devel/2021-12/msg01732.html</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:3" role="doc-endnote">
-<p>The main <code>Helm</code> maintainer is Thierry Volpiatto.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:3 role=doc-endnote>
+<p>The main <code>Helm</code> maintainer is Thierry Volpiatto.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:4" role="doc-endnote">
-<p><a href="https://www.emacswiki.org/emacs/NonBlinkingCursor">https://www.emacswiki.org/emacs/NonBlinkingCursor</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:4 role=doc-endnote>
+<p><a href=https://www.emacswiki.org/emacs/NonBlinkingCursor>https://www.emacswiki.org/emacs/NonBlinkingCursor</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#notes-on-emacs">Notes on Emacs</a></li>
-    <li><a href="#installation">Installation</a>
-      <ul>
-        <li><a href="#macos">macOS</a></li>
-        <li><a href="#fedora">Fedora</a></li>
-        <li><a href="#ubuntu">Ubuntu</a></li>
-        <li><a href="#from-source">From source</a></li>
-      </ul>
-    </li>
-    <li><a href="#configuration">Configuration</a>
-      <ul>
-        <li><a href="#completion">Completion</a></li>
-        <li><a href="#the-important-stuff">The important stuff?</a></li>
-      </ul>
-    </li>
-    <li><a href="#elisp">Elisp</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2femacs.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2femacs.html&text=Emacs" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2femacs.html&is_video=false&description=Emacs" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Emacs&body=Check out this article: https%3a%2f%2fruivieira.dev%2femacs.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2femacs.html&name=Emacs&description=Notes%20on%20Emacs%20My%20current%20flavour%2fdistribution%20of%20Emacs%20is%20DOOM%20Emacs%20spacemacs%20DOOM%20Emacs.%20DOOM%20Emacs%20is%20my%20preferred%20configuration%20framework%20at%20the%20moment.%20I%20have%20used%20Spacemacs%20for%20a%20long%20time%2c%20but%20the%20performance%20increase%20by%20switching%20to%20DOOM%20Emacs%20is%20simply%20to%20great%20to%20be%20ignored.%20Recently%2c%20I%20have%20also%20migrated%20to%20the%20Emacs%2028%20branch%20which%20includes%20Elisp%20native%20compilation.%20It%20is%20a%20thing%20of%20beauty%20in%20terms%20of%20speed." aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2femacs.html&t=Emacs" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2021  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#notes-on-emacs>Notes on Emacs</a></li>
+<li><a href=#installation>Installation</a>
+<ul>
+<li><a href=#macos>macOS</a></li>
+<li><a href=#fedora>Fedora</a></li>
+<li><a href=#ubuntu>Ubuntu</a></li>
+<li><a href=#from-source>From source</a></li>
+</ul>
+</li>
+<li><a href=#configuration>Configuration</a>
+<ul>
+<li><a href=#completion>Completion</a></li>
+<li><a href=#the-important-stuff>The important stuff?</a></li>
+</ul>
+</li>
+<li><a href=#elisp>Elisp</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2femacs.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2femacs.html&text=Emacs" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2femacs.html&is_video=false&description=Emacs" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Emacs&body=Check out this article: https%3a%2f%2fruivieira.dev%2femacs.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2femacs.html&title=Emacs" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2femacs.html&name=Emacs&description=Notes%20on%20Emacs%20My%20current%20flavour%2fdistribution%20of%20Emacs%20is%20DOOM%20Emacs%20spacemacs%20DOOM%20Emacs.%20DOOM%20Emacs%20is%20my%20preferred%20configuration%20framework%20at%20the%20moment.%20I%20have%20used%20Spacemacs%20for%20a%20long%20time%2c%20but%20the%20performance%20increase%20by%20switching%20to%20DOOM%20Emacs%20is%20simply%20to%20great%20to%20be%20ignored.%20Recently%2c%20I%20have%20also%20migrated%20to%20the%20Emacs%2028%20branch%20which%20includes%20Elisp%20native%20compilation.%20It%20is%20a%20thing%20of%20beauty%20in%20terms%20of%20speed." aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2femacs.html&t=Emacs" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2021 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

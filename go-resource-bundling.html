@@ -1,421 +1,299 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Go resource bundling | Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/go-resource-bundling.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Go resource bundling" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Go resource bundling | Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/go-resource-bundling.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Go resource bundling">
 <meta property="og:description" content="Notes on the installation and usage of pkger.
 Installation done with
 go get github.com/markbates/pkger/cmd/pkger pkger works by bundling the resources with a code-generated pkg.go. The configuration of assets to be bundled is done by reflection at compile time and not direct configuration. This is done by replacing standard Go file operations with pkger proxy ones, such as:
-type Pkger interface { Parse(p string) (Path, error) Current() (here.Info, error) Info(p string) (here." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/go-resource-bundling.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Go resource bundling"/>
-<meta name="twitter:description" content="Notes on the installation and usage of pkger.
+type Pkger interface { Parse(p string) (Path, error) Current() (here.Info, error) Info(p string) (here.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/go-resource-bundling.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Go resource bundling">
+<meta name=twitter:description content="Notes on the installation and usage of pkger.
 Installation done with
 go get github.com/markbates/pkger/cmd/pkger pkger works by bundling the resources with a code-generated pkg.go. The configuration of assets to be bundled is done by reflection at compile time and not direct configuration. This is done by replacing standard Go file operations with pkger proxy ones, such as:
-type Pkger interface { Parse(p string) (Path, error) Current() (here.Info, error) Info(p string) (here."/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css" integrity="sha512-gddvl/HWPqZo4ioTYypc&#43;71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+type Pkger interface { Parse(p string) (Path, error) Current() (here.Info, error) Info(p string) (here.">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.81d76f97f1d63ea668e22a13632a5cfbbd43142a9208c4566d1597a64704aaa16c8f2a14c4dab63bb8c022067c4029c947b262541e0491fa4bd959cc000123cf.css integrity="sha512-gddvl/HWPqZo4ioTYypc+71DFCqSCMRWbRWXpkcEqqFsjyoUxNq2O7jAIgZ8QCnJR7JiVB4EkfpL2VnMAAEjzw=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/gower-distance.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/go-filesystem-operations.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&text=Go%20resource%20bundling" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&is_video=false&description=Go%20resource%20bundling" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Go%20resource%20bundling&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&name=Go%20resource%20bundling&description=Notes%20on%20the%20installation%20and%20usage%20of%20pkger.%0aInstallation%20done%20with%0ago%20get%20github.com%2fmarkbates%2fpkger%2fcmd%2fpkger%20pkger%20works%20by%20bundling%20the%20resources%20with%20a%20code-generated%20pkg.go.%20The%20configuration%20of%20assets%20to%20be%20bundled%20is%20done%20by%20reflection%20at%20compile%20time%20and%20not%20direct%20configuration.%20This%20is%20done%20by%20replacing%20standard%20Go%20file%20operations%20with%20pkger%20proxy%20ones%2c%20such%20as%3a%0atype%20Pkger%20interface%20%7b%20Parse%28p%20string%29%20%28Path%2c%20error%29%20Current%28%29%20%28here.Info%2c%20error%29%20Info%28p%20string%29%20%28here." aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&t=Go%20resource%20bundling" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#example">Example</a></li>
-  </ul>
-</nav>
-      
-      <h4>Related</h4>
-      
-      <nav>
-      <ul>
-      
-      
-        <li class="header-post toc"><a href="https://ruivieira.dev/go.html">Go</a></li>
-      
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/gower-distance.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/go-filesystem-operations.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&text=Go%20resource%20bundling" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&is_video=false&description=Go%20resource%20bundling" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Go%20resource%20bundling&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&name=Go%20resource%20bundling&description=Notes%20on%20the%20installation%20and%20usage%20of%20pkger.%0aInstallation%20done%20with%0ago%20get%20github.com%2fmarkbates%2fpkger%2fcmd%2fpkger%20pkger%20works%20by%20bundling%20the%20resources%20with%20a%20code-generated%20pkg.go.%20The%20configuration%20of%20assets%20to%20be%20bundled%20is%20done%20by%20reflection%20at%20compile%20time%20and%20not%20direct%20configuration.%20This%20is%20done%20by%20replacing%20standard%20Go%20file%20operations%20with%20pkger%20proxy%20ones%2c%20such%20as%3a%0atype%20Pkger%20interface%20%7b%20Parse%28p%20string%29%20%28Path%2c%20error%29%20Current%28%29%20%28here.Info%2c%20error%29%20Info%28p%20string%29%20%28here." aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&t=Go%20resource%20bundling" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Go resource bundling
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <p>Notes on the installation and usage of <a href="https://github.com/markbates/pkger">pkger</a>.</p>
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#example>Example</a></li>
+</ul>
+</nav>
+<h4>Related</h4>
+<nav>
+<ul>
+<li class="header-post toc"><a href=https://ruivieira.dev/go.html>Go</a></li>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Go resource bundling
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2021-12-07 21:49:31 +0000 GMT" itemprop=datePublished>2021-12-07</time>
+<span class=commit-hash>(186a405)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<p>Notes on the installation and usage of <a href=https://github.com/markbates/pkger>pkger</a>.</p>
 <p>Installation done with</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">go get github.com/markbates/pkger/cmd/pkger
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>go get github.com/markbates/pkger/cmd/pkger
 </code></pre></div><p><code>pkger</code> works by bundling the resources with a code-generated <code>pkg.go</code>. The configuration of assets to be bundled is done by reflection at compile time and not direct configuration.
 This is done by replacing standard Go file operations with <code>pkger</code> proxy ones, such as:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="font-weight:bold">type</span> Pkger <span style="font-weight:bold">interface</span> {
-  <span style="color:#900;font-weight:bold">Parse</span>(p <span style="color:#458;font-weight:bold">string</span>) (Path, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Current</span>() (here.Info, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Info</span>(p <span style="color:#458;font-weight:bold">string</span>) (here.Info, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Create</span>(name <span style="color:#458;font-weight:bold">string</span>) (File, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">MkdirAll</span>(p <span style="color:#458;font-weight:bold">string</span>, perm os.FileMode) <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">Open</span>(name <span style="color:#458;font-weight:bold">string</span>) (File, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Stat</span>(name <span style="color:#458;font-weight:bold">string</span>) (os.FileInfo, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Walk</span>(p <span style="color:#458;font-weight:bold">string</span>, wf filepath.WalkFunc) <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">Remove</span>(name <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">RemoveAll</span>(path <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">error</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=font-weight:700>type</span> Pkger <span style=font-weight:700>interface</span> {
+  <span style=color:#900;font-weight:700>Parse</span>(p <span style=color:#458;font-weight:700>string</span>) (Path, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Current</span>() (here.Info, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Info</span>(p <span style=color:#458;font-weight:700>string</span>) (here.Info, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Create</span>(name <span style=color:#458;font-weight:700>string</span>) (File, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>MkdirAll</span>(p <span style=color:#458;font-weight:700>string</span>, perm os.FileMode) <span style=color:#458;font-weight:700>error</span>
+  <span style=color:#900;font-weight:700>Open</span>(name <span style=color:#458;font-weight:700>string</span>) (File, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Stat</span>(name <span style=color:#458;font-weight:700>string</span>) (os.FileInfo, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Walk</span>(p <span style=color:#458;font-weight:700>string</span>, wf filepath.WalkFunc) <span style=color:#458;font-weight:700>error</span>
+  <span style=color:#900;font-weight:700>Remove</span>(name <span style=color:#458;font-weight:700>string</span>) <span style=color:#458;font-weight:700>error</span>
+  <span style=color:#900;font-weight:700>RemoveAll</span>(path <span style=color:#458;font-weight:700>string</span>) <span style=color:#458;font-weight:700>error</span>
 }
-<span style="font-weight:bold">type</span> File <span style="font-weight:bold">interface</span> {
-  <span style="color:#900;font-weight:bold">Close</span>() <span style="color:#458;font-weight:bold">error</span>
-  <span style="color:#900;font-weight:bold">Info</span>() here.Info
-  <span style="color:#900;font-weight:bold">Name</span>() <span style="color:#458;font-weight:bold">string</span>
-  <span style="color:#900;font-weight:bold">Open</span>(name <span style="color:#458;font-weight:bold">string</span>) (http.File, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Path</span>() Path
-  <span style="color:#900;font-weight:bold">Read</span>(p []<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Readdir</span>(count <span style="color:#458;font-weight:bold">int</span>) ([]os.FileInfo, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Seek</span>(offset <span style="color:#458;font-weight:bold">int64</span>, whence <span style="color:#458;font-weight:bold">int</span>) (<span style="color:#458;font-weight:bold">int64</span>, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Stat</span>() (os.FileInfo, <span style="color:#458;font-weight:bold">error</span>)
-  <span style="color:#900;font-weight:bold">Write</span>(b []<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>)
+<span style=font-weight:700>type</span> File <span style=font-weight:700>interface</span> {
+  <span style=color:#900;font-weight:700>Close</span>() <span style=color:#458;font-weight:700>error</span>
+  <span style=color:#900;font-weight:700>Info</span>() here.Info
+  <span style=color:#900;font-weight:700>Name</span>() <span style=color:#458;font-weight:700>string</span>
+  <span style=color:#900;font-weight:700>Open</span>(name <span style=color:#458;font-weight:700>string</span>) (http.File, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Path</span>() Path
+  <span style=color:#900;font-weight:700>Read</span>(p []<span style=color:#458;font-weight:700>byte</span>) (<span style=color:#458;font-weight:700>int</span>, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Readdir</span>(count <span style=color:#458;font-weight:700>int</span>) ([]os.FileInfo, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Seek</span>(offset <span style=color:#458;font-weight:700>int64</span>, whence <span style=color:#458;font-weight:700>int</span>) (<span style=color:#458;font-weight:700>int64</span>, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Stat</span>() (os.FileInfo, <span style=color:#458;font-weight:700>error</span>)
+  <span style=color:#900;font-weight:700>Write</span>(b []<span style=color:#458;font-weight:700>byte</span>) (<span style=color:#458;font-weight:700>int</span>, <span style=color:#458;font-weight:700>error</span>)
 }
-</code></pre></div><h2 id="example">Example</h2>
+</code></pre></div><h2 id=example>Example</h2>
 <p>Bundling a Go template file.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">tmplFile, _ <span style="font-weight:bold">:=</span> pkger.<span style="color:#900;font-weight:bold">Open</span>(<span style="color:#b84">&#34;/templates/page.tmpl&#34;</span>)
-tmplBytes, _ <span style="font-weight:bold">:=</span> ioutil.<span style="color:#900;font-weight:bold">ReadAll</span>(tmplFile)
-tmplString <span style="font-weight:bold">:=</span> <span style="color:#999">string</span>(tmplBytes)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>tmplFile, _ <span style=font-weight:700>:=</span> pkger.<span style=color:#900;font-weight:700>Open</span>(<span style=color:#b84>&#34;/templates/page.tmpl&#34;</span>)
+tmplBytes, _ <span style=font-weight:700>:=</span> ioutil.<span style=color:#900;font-weight:700>ReadAll</span>(tmplFile)
+tmplString <span style=font-weight:700>:=</span> <span style=color:#999>string</span>(tmplBytes)
 
-tpl, err <span style="font-weight:bold">:=</span> template.<span style="color:#900;font-weight:bold">New</span>(<span style="color:#b84">&#34;page&#34;</span>).<span style="color:#900;font-weight:bold">Parse</span>(tmplString)
-_ = tpl.<span style="color:#900;font-weight:bold">Execute</span>(f, <span style="font-weight:bold">...</span>)
+tpl, err <span style=font-weight:700>:=</span> template.<span style=color:#900;font-weight:700>New</span>(<span style=color:#b84>&#34;page&#34;</span>).<span style=color:#900;font-weight:700>Parse</span>(tmplString)
+_ = tpl.<span style=color:#900;font-weight:700>Execute</span>(f, <span style=font-weight:700>...</span>)
 </code></pre></div><p>The bundling is simply done by running</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">pkger
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>pkger
 </code></pre></div><p>and building as usual</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="font-weight:bold">go</span> build
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=font-weight:700>go</span> build
 </code></pre></div>
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#example">Example</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&text=Go%20resource%20bundling" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&is_video=false&description=Go%20resource%20bundling" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Go%20resource%20bundling&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&name=Go%20resource%20bundling&description=Notes%20on%20the%20installation%20and%20usage%20of%20pkger.%0aInstallation%20done%20with%0ago%20get%20github.com%2fmarkbates%2fpkger%2fcmd%2fpkger%20pkger%20works%20by%20bundling%20the%20resources%20with%20a%20code-generated%20pkg.go.%20The%20configuration%20of%20assets%20to%20be%20bundled%20is%20done%20by%20reflection%20at%20compile%20time%20and%20not%20direct%20configuration.%20This%20is%20done%20by%20replacing%20standard%20Go%20file%20operations%20with%20pkger%20proxy%20ones%2c%20such%20as%3a%0atype%20Pkger%20interface%20%7b%20Parse%28p%20string%29%20%28Path%2c%20error%29%20Current%28%29%20%28here.Info%2c%20error%29%20Info%28p%20string%29%20%28here." aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&t=Go%20resource%20bundling" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2021  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#example>Example</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&text=Go%20resource%20bundling" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&is_video=false&description=Go%20resource%20bundling" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Go%20resource%20bundling&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&title=Go%20resource%20bundling" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&name=Go%20resource%20bundling&description=Notes%20on%20the%20installation%20and%20usage%20of%20pkger.%0aInstallation%20done%20with%0ago%20get%20github.com%2fmarkbates%2fpkger%2fcmd%2fpkger%20pkger%20works%20by%20bundling%20the%20resources%20with%20a%20code-generated%20pkg.go.%20The%20configuration%20of%20assets%20to%20be%20bundled%20is%20done%20by%20reflection%20at%20compile%20time%20and%20not%20direct%20configuration.%20This%20is%20done%20by%20replacing%20standard%20Go%20file%20operations%20with%20pkger%20proxy%20ones%2c%20such%20as%3a%0atype%20Pkger%20interface%20%7b%20Parse%28p%20string%29%20%28Path%2c%20error%29%20Current%28%29%20%28here.Info%2c%20error%29%20Info%28p%20string%29%20%28here." aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgo-resource-bundling.html&t=Go%20resource%20bundling" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2021 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>
