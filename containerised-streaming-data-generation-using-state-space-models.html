@@ -18,7 +18,7 @@
 <meta property="og:description" content="To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as Apache Kafka and Apache Spark and deployment in a cloud environment like OpenShift with tools such as oshinko.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2021-11-28T15:21:54+00:00">
+<meta property="article:modified_time" content="2022-01-02T18:02:33+00:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Containerised Streaming Data Generation using State-Space Models">
 <meta name=twitter:description content="To prototype and test almost any application some type of input data is needed. Getting the right data can be difficult for several reasons, including strict licenses, a considerable amount of data engineering to shape the data to our requirements and the setup of dedicated data producers. Additionally, in modern applications, we are often interested in realtime/streaming and distributed processing of data with platforms such as Apache Kafka and Apache Spark and deployment in a cloud environment like OpenShift with tools such as oshinko.">
@@ -159,8 +159,8 @@ Containerised Streaming Data Generation using State-Space Models
 </h1>
 <div class=meta>
 <div class=postdate>
-Updated <time datetime="2021-11-28 15:21:54 +0000 GMT" itemprop=datePublished>2021-11-28</time>
-<span class=commit-hash>(0467b09)</span>
+Updated <time datetime="2022-01-02 18:02:33 +0000 GMT" itemprop=datePublished>2022-01-02</time>
+<span class=commit-hash>(99b8c96)</span>
 </div>
 </div>
 </header>
@@ -195,7 +195,7 @@ Y_t|\theta_t,\Phi \sim E\left(\eta_t,\Phi\right) \\
 <h2 id=structure>Structure</h2>
 <p>The fundamental way in which <code>timeseries-mock</code> works is by specifying the underlying structure and observational model in a YAML configuration file. In the following sections we will look at the options available in terms of structural and observational components and look at how to represent them. As we&rsquo;ve seen from (5), the structure will allows us to define the underlying patterns of the state evolution \(\lbrace \theta_1, \theta_2, \cdots, \theta_t\rbrace\). One of the advantages of DGLMs is the ability to compose several simpler components into a single complex structure. We will then look at some of these &ldquo;fundamental&rdquo; components.</p>
 <h3 id=mean>Mean</h3>
-<p>An underlying mean component will represent a random-walk scalar state which can be specified in the configuration file by</p>
+<p>An underlying mean component will represent a <a href=/random-walk.html>random walk</a> scalar state which can be specified in the configuration file by</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:navy>structure</span>:<span style=color:#bbb>
 </span><span style=color:#bbb>  </span>- <span style=color:navy>type</span>:<span style=color:#bbb> </span>mean<span style=color:#bbb>
 </span><span style=color:#bbb>    </span><span style=color:navy>start</span>:<span style=color:#bbb> </span><span style=color:#099>0.0</span><span style=color:#bbb>
@@ -390,7 +390,7 @@ We assume we want to simulate a stream of per-day stock prices for 3 different c
 </figure>
 <p>To generate the fake HTTP log we will make the following assumptions:</p>
 <ul>
-<li>We will have a request type (<code>GET</code>, <code>POST</code>, <code>PUT</code>) which will vary following a random walk</li>
+<li>We will have a request type (<code>GET</code>, <code>POST</code>, <code>PUT</code>) which will vary following a <a href=/random-walk.html>random walk</a></li>
 <li>A set of visited pages which, for illustration purposes, will be limited to (<code>/site/page.htm</code>, <code>/site/index.htm</code> and <code>/internal/example.htm</code>). We also want that the URLs visited follow a seasonal pattern.</li>
 <li>An IP address in the IPv4 format (<strong>i.e.</strong> <code>0-255.0-255.0-255.0-255</code>)</li>
 </ul>
