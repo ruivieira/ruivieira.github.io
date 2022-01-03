@@ -105,7 +105,7 @@ import pandas as pd data = pd.read_csv(&#34;data/credit-bias-train.zip&#34;) dat
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fxgboost.html&name=XGBoost&description=Introduction%20Example%20Training%20XGBoost%20with%20the%20credit-bias%20dataset.%0aimport%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26quot%3bdata%2fcredit-bias-train.zip%26quot%3b%29%20data.head%28%29%20NewCreditCustomer%20Amount%20Interest%20LoanDuration%20Education%20%5c%200%20False%202125.0%2020.97%2060%204.0%201%20False%203000.0%2017.12%2060%205.0%202%20True%209100.0%2013.67%2060%204.0%203%20True%20635.0%2042.66%2060%202.0%204%20False%205000.0%2024.52%2060%204.0%20NrOfDependants%20EmploymentDurationCurrentEmployer%20%5c%200%200.0%206.0%201%200.0%206.0%202%201.0%203.0%203%200.0%201.0%204%201.0%205.0%20IncomeFromPrincipalEmployer%20IncomeFromPension%20IncomeFromFamilyAllowance%20%5c%200%200." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fxgboost.html&name=XGBoost&description=Introduction%20Example%20Training%20XGBoost%20with%20the%20credit-bias%20dataset.%0aimport%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26%2334%3bdata%2fcredit-bias-train.zip%26%2334%3b%29%20data.head%28%29%20NewCreditCustomer%20Amount%20Interest%20LoanDuration%20Education%20%5c%200%20False%202125.0%2020.97%2060%204.0%201%20False%203000.0%2017.12%2060%205.0%202%20True%209100.0%2013.67%2060%204.0%203%20True%20635.0%2042.66%2060%202.0%204%20False%205000.0%2024.52%2060%204.0%20NrOfDependants%20EmploymentDurationCurrentEmployer%20%5c%200%200.0%206.0%201%200.0%206.0%202%201.0%203.0%203%200.0%201.0%204%201.0%205.0%20IncomeFromPrincipalEmployer%20IncomeFromPension%20IncomeFromFamilyAllowance%20%5c%200%200." aria-label=Tumblr>
 <i class="fab fa-tumblr" aria-hidden=true></i>
 </a>
 </li>
@@ -147,11 +147,11 @@ Updated <time datetime="2021-12-07 21:49:31 +0000 GMT" itemprop=datePublished>20
 <h2 id=introduction>Introduction</h2>
 <h2 id=example>Example</h2>
 <p>Training XGBoost with the credit-bias dataset.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pandas as pd
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-data = pd.read_csv(&quot;data/credit-bias-train.zip&quot;)
-data.head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   NewCreditCustomer  Amount  Interest  LoanDuration  Education  \
+data <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>read_csv(<span style=color:#b84>&#34;data/credit-bias-train.zip&#34;</span>)
+data<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   NewCreditCustomer  Amount  Interest  LoanDuration  Education  \
 0              False  2125.0     20.97            60        4.0
 1              False  3000.0     17.12            60        5.0
 2               True  9100.0     13.67            60        4.0
@@ -187,41 +187,41 @@ data.head()
 4      1          0        0              0
 
 [5 rows x 40 columns]
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>X_df = data.drop('PaidLoan', axis=1)
-y_df = data['PaidLoan']
-y_df.describe()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>count     58003
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X_df <span style=font-weight:700>=</span> data<span style=font-weight:700>.</span>drop(<span style=color:#b84>&#39;PaidLoan&#39;</span>, axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+y_df <span style=font-weight:700>=</span> data[<span style=color:#b84>&#39;PaidLoan&#39;</span>]
+y_df<span style=font-weight:700>.</span>describe()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>count     58003
 unique        2
 top        True
 freq      29219
 Name: PaidLoan, dtype: object
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.model_selection import train_test_split
-train_x, test_x, train_y, test_y = train_test_split(X_df, y_df, test_size=0.25, random_state=42)
-</code></pre><p>Runs a grid search to find the tuning parameters that maxisimise the area under the curve (AUC) train_x is the training data frame with loan details and train_y is the default target column for training The method returns the best parameters and corresponding AUC score.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.model_selection import GridSearchCV
-from xgboost.sklearn import XGBClassifier
-from typing import Tuple
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.model_selection</span> <span style=font-weight:700>import</span> train_test_split
+train_x, test_x, train_y, test_y <span style=font-weight:700>=</span> train_test_split(X_df, y_df, test_size<span style=font-weight:700>=</span><span style=color:#099>0.25</span>, random_state<span style=font-weight:700>=</span><span style=color:#099>42</span>)
+</code></pre></div><p>Runs a grid search to find the tuning parameters that maxisimise the area under the curve (AUC) train_x is the training data frame with loan details and train_y is the default target column for training The method returns the best parameters and corresponding AUC score.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.model_selection</span> <span style=font-weight:700>import</span> GridSearchCV
+<span style=font-weight:700>from</span> <span style=color:#555>xgboost.sklearn</span> <span style=font-weight:700>import</span> XGBClassifier
+<span style=font-weight:700>from</span> <span style=color:#555>typing</span> <span style=font-weight:700>import</span> Tuple
 
-def find_best_xgboost_model(train_x: pd.DataFrame, train_y: pd.Series) -&gt; Tuple[dict, float]:
-    scale_pos_weight = (len(train_y) - train_y.sum()) / train_y.sum()
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>find_best_xgboost_model</span>(train_x: pd<span style=font-weight:700>.</span>DataFrame, train_y: pd<span style=font-weight:700>.</span>Series) <span style=font-weight:700>-&gt;</span> Tuple[<span style=color:#999>dict</span>, <span style=color:#999>float</span>]:
+    scale_pos_weight <span style=font-weight:700>=</span> (<span style=color:#999>len</span>(train_y) <span style=font-weight:700>-</span> train_y<span style=font-weight:700>.</span>sum()) <span style=font-weight:700>/</span> train_y<span style=font-weight:700>.</span>sum()
 
-    param_test = {
-            'max_depth': [1, 2, 4, 8],
-            'learning_rate': [0.05, 0.06, 0.07],
-            'n_estimators': [10, 100, 200]
+    param_test <span style=font-weight:700>=</span> {
+            <span style=color:#b84>&#39;max_depth&#39;</span>: [<span style=color:#099>1</span>, <span style=color:#099>2</span>, <span style=color:#099>4</span>, <span style=color:#099>8</span>],
+            <span style=color:#b84>&#39;learning_rate&#39;</span>: [<span style=color:#099>0.05</span>, <span style=color:#099>0.06</span>, <span style=color:#099>0.07</span>],
+            <span style=color:#b84>&#39;n_estimators&#39;</span>: [<span style=color:#099>10</span>, <span style=color:#099>100</span>, <span style=color:#099>200</span>]
         }
 
-    gsearch = GridSearchCV(estimator=XGBClassifier(
-        objective='binary:logistic',
-        scale_pos_weight=scale_pos_weight,
-        seed=27),
-        param_grid=param_test, scoring='roc_auc', n_jobs=-1, cv=8)
+    gsearch <span style=font-weight:700>=</span> GridSearchCV(estimator<span style=font-weight:700>=</span>XGBClassifier(
+        objective<span style=font-weight:700>=</span><span style=color:#b84>&#39;binary:logistic&#39;</span>,
+        scale_pos_weight<span style=font-weight:700>=</span>scale_pos_weight,
+        seed<span style=font-weight:700>=</span><span style=color:#099>27</span>),
+        param_grid<span style=font-weight:700>=</span>param_test, scoring<span style=font-weight:700>=</span><span style=color:#b84>&#39;roc_auc&#39;</span>, n_jobs<span style=font-weight:700>=-</span><span style=color:#099>1</span>, cv<span style=font-weight:700>=</span><span style=color:#099>8</span>)
 
-    gsearch.fit(train_x, train_y)
+    gsearch<span style=font-weight:700>.</span>fit(train_x, train_y)
 
-    return gsearch.best_params_, gsearch.best_score_
-best_params, best_score = find_best_xgboost_model(train_x, train_y)
-</code></pre><p>Using the xgboost model parameters, it predicts the probabilities of defaulting.</p>
+    <span style=font-weight:700>return</span> gsearch<span style=font-weight:700>.</span>best_params_, gsearch<span style=font-weight:700>.</span>best_score_
+best_params, best_score <span style=font-weight:700>=</span> find_best_xgboost_model(train_x, train_y)
+</code></pre></div><p>Using the xgboost model parameters, it predicts the probabilities of defaulting.</p>
 <ul>
 <li><code>best_params_</code>, best tuning parameters</li>
 <li><code>train_x</code>, training dataframe with loan details</li>
@@ -230,61 +230,61 @@ best_params, best_score = find_best_xgboost_model(train_x, train_y)
 <li><code>test_y</code>, default target column for testing</li>
 </ul>
 <p>The result is a series of probabilities whether loan entry will default or not and corresponding model&rsquo;s AUC score</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.metrics import roc_auc_score
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.metrics</span> <span style=font-weight:700>import</span> roc_auc_score
 
-def xgboost_predict(best_params_: dict, train_x: pd.DataFrame, train_y: pd.Series, test_x: pd.DataFrame,
-                    test_y: pd.Series) -&gt; Tuple[list, float]:
-    scale_pos_weight = (len(train_y) - train_y.sum()) / train_y.sum()
-    xgb_model = XGBClassifier(objective='binary:logistic',
-                              scale_pos_weight=scale_pos_weight,
-                              seed=27,
-                              max_depth=best_params_['max_depth'],
-                              learning_rate=best_params_['learning_rate'],
-                              n_estimators=best_params_['n_estimators']
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>xgboost_predict</span>(best_params_: <span style=color:#999>dict</span>, train_x: pd<span style=font-weight:700>.</span>DataFrame, train_y: pd<span style=font-weight:700>.</span>Series, test_x: pd<span style=font-weight:700>.</span>DataFrame,
+                    test_y: pd<span style=font-weight:700>.</span>Series) <span style=font-weight:700>-&gt;</span> Tuple[<span style=color:#999>list</span>, <span style=color:#999>float</span>]:
+    scale_pos_weight <span style=font-weight:700>=</span> (<span style=color:#999>len</span>(train_y) <span style=font-weight:700>-</span> train_y<span style=font-weight:700>.</span>sum()) <span style=font-weight:700>/</span> train_y<span style=font-weight:700>.</span>sum()
+    xgb_model <span style=font-weight:700>=</span> XGBClassifier(objective<span style=font-weight:700>=</span><span style=color:#b84>&#39;binary:logistic&#39;</span>,
+                              scale_pos_weight<span style=font-weight:700>=</span>scale_pos_weight,
+                              seed<span style=font-weight:700>=</span><span style=color:#099>27</span>,
+                              max_depth<span style=font-weight:700>=</span>best_params_[<span style=color:#b84>&#39;max_depth&#39;</span>],
+                              learning_rate<span style=font-weight:700>=</span>best_params_[<span style=color:#b84>&#39;learning_rate&#39;</span>],
+                              n_estimators<span style=font-weight:700>=</span>best_params_[<span style=color:#b84>&#39;n_estimators&#39;</span>]
                               )
 
-    xgb_model.fit(train_x, train_y)
-    predicted_probabilities_ = xgb_model.predict_proba(test_x)[:, 1]
-    auc_ = roc_auc_score(test_y, predicted_probabilities_)
+    xgb_model<span style=font-weight:700>.</span>fit(train_x, train_y)
+    predicted_probabilities_ <span style=font-weight:700>=</span> xgb_model<span style=font-weight:700>.</span>predict_proba(test_x)[:, <span style=color:#099>1</span>]
+    auc_ <span style=font-weight:700>=</span> roc_auc_score(test_y, predicted_probabilities_)
 
-    return predicted_probabilities_, auc_
-predicted_probabilities, auc = xgboost_predict(best_params, train_x, train_y, test_x, test_y)
-print(&quot;AUC: {}&quot;.format(auc))
-</code></pre><p>Filters the original loan dataframe to just include the loans from the test dataframe and then it adds the predicted probabilities.</p>
+    <span style=font-weight:700>return</span> predicted_probabilities_, auc_
+predicted_probabilities, auc <span style=font-weight:700>=</span> xgboost_predict(best_params, train_x, train_y, test_x, test_y)
+<span style=color:#999>print</span>(<span style=color:#b84>&#34;AUC: </span><span style=color:#b84>{}</span><span style=color:#b84>&#34;</span><span style=font-weight:700>.</span>format(auc))
+</code></pre></div><p>Filters the original loan dataframe to just include the loans from the test dataframe and then it adds the predicted probabilities.</p>
 <ul>
 <li><code>loans_df_</code>, original loan dataframe</li>
 <li><code>test_index</code>, indices from the test dataframes</li>
 <li><code>predicted_probabilities_</code>, the probabilities forecasted by the XGBoost model</li>
 </ul>
 <p>Returns the loans dataframe with predictions</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-def prepare_test_with_predictions(loans_df_: pd.DataFrame, test_index: pd.Index, predicted_probabilities_: np.array)\
-        -&gt;pd.DataFrame:
-    loan_test_df = loans_df_.loc[test_index]
-    loan_test_df['predicted_probabilities'] = predicted_probabilities_
-    return loan_test_df
-loans_with_predictions_df = prepare_test_with_predictions(data, test_x.index, predicted_probabilities)
-loans_with_predictions_df.head()
-</code></pre><h2 id=visualisation>Visualisation</h2>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import seaborn as sns
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>prepare_test_with_predictions</span>(loans_df_: pd<span style=font-weight:700>.</span>DataFrame, test_index: pd<span style=font-weight:700>.</span>Index, predicted_probabilities_: np<span style=font-weight:700>.</span>array)\
+        <span style=font-weight:700>-&gt;</span>pd<span style=font-weight:700>.</span>DataFrame:
+    loan_test_df <span style=font-weight:700>=</span> loans_df_<span style=font-weight:700>.</span>loc[test_index]
+    loan_test_df[<span style=color:#b84>&#39;predicted_probabilities&#39;</span>] <span style=font-weight:700>=</span> predicted_probabilities_
+    <span style=font-weight:700>return</span> loan_test_df
+loans_with_predictions_df <span style=font-weight:700>=</span> prepare_test_with_predictions(data, test_x<span style=font-weight:700>.</span>index, predicted_probabilities)
+loans_with_predictions_df<span style=font-weight:700>.</span>head()
+</code></pre></div><h2 id=visualisation>Visualisation</h2>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>seaborn</span> <span style=font-weight:700>as</span> <span style=color:#555>sns</span>
 
-sns.histplot(loans_with_predictions_df['predicted_probabilities'], stat='density')
-</code></pre><h2 id=roc-and-auc>ROC and AUC</h2>
+sns<span style=font-weight:700>.</span>histplot(loans_with_predictions_df[<span style=color:#b84>&#39;predicted_probabilities&#39;</span>], stat<span style=font-weight:700>=</span><span style=color:#b84>&#39;density&#39;</span>)
+</code></pre></div><h2 id=roc-and-auc>ROC and AUC</h2>
 <p>Based on actuals and predicted values, it calculates their false positive rate (fpr), the true positive rate (tpr). It also returns the corresponding thresholds used as well as the value for the area under the curve.</p>
 <p>actuals, series of actual values indicating whether the loan defaulted or not
 predicted_probabilities, series of predicted probabilities of the loan defaulting
 Return a unique series of false and true positive rates with corresponding series of thresholds and value for total area under the curve.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.metrics import roc_curve, auc
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.metrics</span> <span style=font-weight:700>import</span> roc_curve, auc
 
-def get_roc_auc_data(actuals: pd.Series, predicted_probabilities: pd.Series) -&gt; \
-        Tuple[np.array, np.array, np.array, float]:
-    fpr, tpr, thresholds = roc_curve(actuals, predicted_probabilities, pos_label=1)
-    auc_score = auc(fpr, tpr)
-    return fpr, tpr, thresholds, auc_score
-fpr, tpr, thresholds, auc_score = get_roc_auc_data(loans_with_predictions_df['PaidLoan'], loans_with_predictions_df['predicted_probabilities'])
-sns.lineplot(fpr)
-</code></pre>
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>get_roc_auc_data</span>(actuals: pd<span style=font-weight:700>.</span>Series, predicted_probabilities: pd<span style=font-weight:700>.</span>Series) <span style=font-weight:700>-&gt;</span> \
+        Tuple[np<span style=font-weight:700>.</span>array, np<span style=font-weight:700>.</span>array, np<span style=font-weight:700>.</span>array, <span style=color:#999>float</span>]:
+    fpr, tpr, thresholds <span style=font-weight:700>=</span> roc_curve(actuals, predicted_probabilities, pos_label<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+    auc_score <span style=font-weight:700>=</span> auc(fpr, tpr)
+    <span style=font-weight:700>return</span> fpr, tpr, thresholds, auc_score
+fpr, tpr, thresholds, auc_score <span style=font-weight:700>=</span> get_roc_auc_data(loans_with_predictions_df[<span style=color:#b84>&#39;PaidLoan&#39;</span>], loans_with_predictions_df[<span style=color:#b84>&#39;predicted_probabilities&#39;</span>])
+sns<span style=font-weight:700>.</span>lineplot(fpr)
+</code></pre></div>
 </div>
 </article>
 <div id=footer-post-container>
@@ -344,7 +344,7 @@ sns.lineplot(fpr)
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fxgboost.html&name=XGBoost&description=Introduction%20Example%20Training%20XGBoost%20with%20the%20credit-bias%20dataset.%0aimport%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26quot%3bdata%2fcredit-bias-train.zip%26quot%3b%29%20data.head%28%29%20NewCreditCustomer%20Amount%20Interest%20LoanDuration%20Education%20%5c%200%20False%202125.0%2020.97%2060%204.0%201%20False%203000.0%2017.12%2060%205.0%202%20True%209100.0%2013.67%2060%204.0%203%20True%20635.0%2042.66%2060%202.0%204%20False%205000.0%2024.52%2060%204.0%20NrOfDependants%20EmploymentDurationCurrentEmployer%20%5c%200%200.0%206.0%201%200.0%206.0%202%201.0%203.0%203%200.0%201.0%204%201.0%205.0%20IncomeFromPrincipalEmployer%20IncomeFromPension%20IncomeFromFamilyAllowance%20%5c%200%200." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fxgboost.html&name=XGBoost&description=Introduction%20Example%20Training%20XGBoost%20with%20the%20credit-bias%20dataset.%0aimport%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26%2334%3bdata%2fcredit-bias-train.zip%26%2334%3b%29%20data.head%28%29%20NewCreditCustomer%20Amount%20Interest%20LoanDuration%20Education%20%5c%200%20False%202125.0%2020.97%2060%204.0%201%20False%203000.0%2017.12%2060%205.0%202%20True%209100.0%2013.67%2060%204.0%203%20True%20635.0%2042.66%2060%202.0%204%20False%205000.0%2024.52%2060%204.0%20NrOfDependants%20EmploymentDurationCurrentEmployer%20%5c%200%200.0%206.0%201%200.0%206.0%202%201.0%203.0%203%200.0%201.0%204%201.0%205.0%20IncomeFromPrincipalEmployer%20IncomeFromPension%20IncomeFromFamilyAllowance%20%5c%200%200." aria-label=Tumblr>
 <i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
 </a>
 </li>

@@ -175,14 +175,14 @@ X_t&=X_{t−1}+\epsilon_t
 \end{align*}</p>
 <p>Where \(t=1,2,\dots\) and \(\epsilon_t\) is a series of <em>i.i.d.</em> \(\mathcal{N}(0,1)\) random variables.</p>
 <p>Let&rsquo;s illustrate a simple univariate Gaussian random walk in <a href=/python.html>Python</a>, by plotting 1000 realisations.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-N = 1000
-np.random.seed(23)
-realisations = []
-for i in range(N):
-    realisations.append(np.cumsum(np.random.normal(size=100)))
-</code></pre><figure><img src=/ox-hugo/rw-uni-gaussian.png>
+N <span style=font-weight:700>=</span> <span style=color:#099>1000</span>
+np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>seed(<span style=color:#099>23</span>)
+realisations <span style=font-weight:700>=</span> []
+<span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N):
+    realisations<span style=font-weight:700>.</span>append(np<span style=font-weight:700>.</span>cumsum(np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>normal(size<span style=font-weight:700>=</span><span style=color:#099>100</span>)))
+</code></pre></div><figure><img src=/ox-hugo/rw-uni-gaussian.png>
 </figure>
 </div>
 </article>

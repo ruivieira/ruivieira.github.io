@@ -175,13 +175,13 @@ Updated <time datetime="2021-12-09 11:03:26 +0000 GMT" itemprop=datePublished>20
 <h2 id=data>Data</h2>
 <p>To understand how we can optimise the hyperparameters in a random forest model, we will use [Scikit-learn|scikit-learn&rsquo;s]] <code>RandomForestClassifier</code> and a subset of <em>Titanic</em><sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> dataset.</p>
 <p>First, we will import the features and labels using [Pandas]].</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pandas as pd
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-train_features = pd.read_csv(&quot;data/svm-hyperparameters-train-features.csv&quot;)
-train_label = pd.read_csv(&quot;data/svm-hyperparameters-train-label.csv&quot;)
-</code></pre><p>Let&rsquo;s look at a random sample of entries from this dataset, both for features and labels.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>train_features.sample(10)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>     Pclass  Sex    Age  SibSp  Parch   Fare
+train_features <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>read_csv(<span style=color:#b84>&#34;data/svm-hyperparameters-train-features.csv&#34;</span>)
+train_label <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>read_csv(<span style=color:#b84>&#34;data/svm-hyperparameters-train-label.csv&#34;</span>)
+</code></pre></div><p>Let&rsquo;s look at a random sample of entries from this dataset, both for features and labels.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>train_features<span style=font-weight:700>.</span>sample(<span style=color:#099>10</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>     Pclass  Sex    Age  SibSp  Parch   Fare
 753       3    1 23.000      0      0  7.896
 454       3    1 30.000      0      0  8.050
 554       3    0 22.000      0      0  7.775
@@ -201,8 +201,8 @@ train_label = pd.read_csv(&quot;data/svm-hyperparameters-train-label.csv&quot;)
 <li><code>Parch</code>, number of parents/children aboard</li>
 <li><code>Fare</code>, passenger fare</li>
 </ul>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>train_label.sample(10)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>     Survived
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>train_label<span style=font-weight:700>.</span>sample(<span style=color:#099>10</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>     Survived
 557         0
 145         0
 380         1
@@ -215,10 +215,10 @@ train_label = pd.read_csv(&quot;data/svm-hyperparameters-train-label.csv&quot;)
 604         1
 </code></pre></div><p>The outcome label indicates whether a passenger survived the disaster.</p>
 <p>As part of the typical initial steps for model training, we will prepare the data by splitting it into a training and testing subset.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.model_selection import train_test_split
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.model_selection</span> <span style=font-weight:700>import</span> train_test_split
 
-X_train, X_test, y_train, y_test = train_test_split(train_features, train_label, test_size=0.33, random_state=23)
-</code></pre><h2 id=naive-model>Naive model</h2>
+X_train, X_test, y_train, y_test <span style=font-weight:700>=</span> train_test_split(train_features, train_label, test_size<span style=font-weight:700>=</span><span style=color:#099>0.33</span>, random_state<span style=font-weight:700>=</span><span style=color:#099>23</span>)
+</code></pre></div><h2 id=naive-model>Naive model</h2>
 <p>First we will train a &ldquo;naive&rdquo; model, that is a model using the defaults provided by <code>RandomForestClassifier</code><sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>. These defaults are:</p>
 <ul>
 <li><code>n_estimators = 10</code></li>
@@ -240,45 +240,45 @@ X_train, X_test, y_train, y_test = train_test_split(train_features, train_label,
 <li><code>class_weight=None</code></li>
 </ul>
 <p>We will instantiate a random forest classifier:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.ensemble import RandomForestClassifier
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.ensemble</span> <span style=font-weight:700>import</span> RandomForestClassifier
 
-rf = RandomForestClassifier()
-</code></pre><p>And training it using the <code>X_train</code> and <code>y_train</code> subsets using the appropriate <code>fit</code> method<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>true_labels = train_label.values.ravel()
+rf <span style=font-weight:700>=</span> RandomForestClassifier()
+</code></pre></div><p>And training it using the <code>X_train</code> and <code>y_train</code> subsets using the appropriate <code>fit</code> method<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>true_labels <span style=font-weight:700>=</span> train_label<span style=font-weight:700>.</span>values<span style=font-weight:700>.</span>ravel()
 
-rf.fit(X_train, y_train.values.ravel())
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>RandomForestClassifier()
+rf<span style=font-weight:700>.</span>fit(X_train, y_train<span style=font-weight:700>.</span>values<span style=font-weight:700>.</span>ravel())
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>RandomForestClassifier()
 </code></pre></div><p>We can now evaluate trained naive model&rsquo;s score.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.metrics import precision_score
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.metrics</span> <span style=font-weight:700>import</span> precision_score
 
-predicted_labels = rf.predict(X_test)
+predicted_labels <span style=font-weight:700>=</span> rf<span style=font-weight:700>.</span>predict(X_test)
 
 precision_score(y_test, predicted_labels)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.7383177570093458
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.7383177570093458
 </code></pre></div><h2 id=hyperparameter-search>Hyperparameter search</h2>
 <p>A simple example of a generic hyperparameter search using the <a href=https://scikit-learn.org/stable/modules/generated/sklearn.model%5Fselection.GridSearchCV.html><code>GridSearchCV</code></a> method in <code>scikit-learn</code>. The score used to measure the &ldquo;best&rdquo; model is the <code>mean_test_score</code>, but other metrics could be used, such as the [OOB score in random forests|Out-of-bag (OOB)]] error.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>parameters = {
-    &quot;n_estimators&quot;:[5,10,50,100,250],
-    &quot;max_depth&quot;:[2,4,8,16,32,None]
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>parameters <span style=font-weight:700>=</span> {
+    <span style=color:#b84>&#34;n_estimators&#34;</span>:[<span style=color:#099>5</span>,<span style=color:#099>10</span>,<span style=color:#099>50</span>,<span style=color:#099>100</span>,<span style=color:#099>250</span>],
+    <span style=color:#b84>&#34;max_depth&#34;</span>:[<span style=color:#099>2</span>,<span style=color:#099>4</span>,<span style=color:#099>8</span>,<span style=color:#099>16</span>,<span style=color:#099>32</span>,<span style=font-weight:700>None</span>]
 
 }
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>rfc = RandomForestClassifier()
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.model_selection import GridSearchCV
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>cv = GridSearchCV(rfc,parameters,cv=5)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5, estimator=RandomForestClassifier(),
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>rfc <span style=font-weight:700>=</span> RandomForestClassifier()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.model_selection</span> <span style=font-weight:700>import</span> GridSearchCV
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>cv <span style=font-weight:700>=</span> GridSearchCV(rfc,parameters,cv<span style=font-weight:700>=</span><span style=color:#099>5</span>)
+cv<span style=font-weight:700>.</span>fit(X_train, y_train<span style=font-weight:700>.</span>values<span style=font-weight:700>.</span>ravel())
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5, estimator=RandomForestClassifier(),
              param_grid={&#39;max_depth&#39;: [2, 4, 8, 16, 32, None],
                          &#39;n_estimators&#39;: [5, 10, 50, 100, 250]})
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def display(results):
-    print(f'Best parameters are: {results.best_params_}')
-    print(&quot;\n&quot;)
-    mean_score = results.cv_results_['mean_test_score']
-    std_score = results.cv_results_['std_test_score']
-    params = results.cv_results_['params']
-    for mean,std,params in zip(mean_score,std_score,params):
-        print(f'{round(mean,3)} + or -{round(std,3)} for the {params}')
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>display(cv)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Best parameters are: {&#39;max_depth&#39;: 16, &#39;n_estimators&#39;: 250}
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>display</span>(results):
+    <span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#39;Best parameters are: </span><span style=color:#b84>{</span>results<span style=font-weight:700>.</span>best_params_<span style=color:#b84>}</span><span style=color:#b84>&#39;</span>)
+    <span style=color:#999>print</span>(<span style=color:#b84>&#34;</span><span style=color:#b84>\n</span><span style=color:#b84>&#34;</span>)
+    mean_score <span style=font-weight:700>=</span> results<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;mean_test_score&#39;</span>]
+    std_score <span style=font-weight:700>=</span> results<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;std_test_score&#39;</span>]
+    params <span style=font-weight:700>=</span> results<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;params&#39;</span>]
+    <span style=font-weight:700>for</span> mean,std,params <span style=font-weight:700>in</span> <span style=color:#999>zip</span>(mean_score,std_score,params):
+        <span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#39;</span><span style=color:#b84>{</span><span style=color:#999>round</span>(mean,<span style=color:#099>3</span>)<span style=color:#b84>}</span><span style=color:#b84> + or -</span><span style=color:#b84>{</span><span style=color:#999>round</span>(std,<span style=color:#099>3</span>)<span style=color:#b84>}</span><span style=color:#b84> for the </span><span style=color:#b84>{</span>params<span style=color:#b84>}</span><span style=color:#b84>&#39;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>display(cv)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Best parameters are: {&#39;max_depth&#39;: 16, &#39;n_estimators&#39;: 250}
 
 
 0.765 + or -0.025 for the {&#39;max_depth&#39;: 2, &#39;n_estimators&#39;: 5}
@@ -315,15 +315,15 @@ cv.fit(X_train, y_train.values.ravel())
 <h3 id=number-of-decision-trees>Number of decision trees</h3>
 <p>This is specified using the <code>n_estimators</code> hyper-parameter on the random forest initialisation.</p>
 <p>Typically, a higher number of trees will lead to greater accuracy at the expense of model size and training time.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>cv = GridSearchCV(rfc,{&quot;n_estimators&quot;:[2, 4, 8, 16, 32, 64, 128, 256, 512]},cv=5)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5, estimator=RandomForestClassifier(),
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>cv <span style=font-weight:700>=</span> GridSearchCV(rfc,{<span style=color:#b84>&#34;n_estimators&#34;</span>:[<span style=color:#099>2</span>, <span style=color:#099>4</span>, <span style=color:#099>8</span>, <span style=color:#099>16</span>, <span style=color:#099>32</span>, <span style=color:#099>64</span>, <span style=color:#099>128</span>, <span style=color:#099>256</span>, <span style=color:#099>512</span>]},cv<span style=font-weight:700>=</span><span style=color:#099>5</span>)
+cv<span style=font-weight:700>.</span>fit(X_train, y_train<span style=font-weight:700>.</span>values<span style=font-weight:700>.</span>ravel())
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5, estimator=RandomForestClassifier(),
              param_grid={&#39;n_estimators&#39;: [2, 4, 8, 16, 32, 64, 128, 256, 512]})
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>results = pd.DataFrame({&quot;n_estimators&quot;: [param[&quot;n_estimators&quot;] for param in cv.cv_results_['params']],
-             &quot;mean_score&quot;: list(cv.cv_results_['mean_test_score']),
-             &quot;std_score&quot;: cv.cv_results_['std_test_score']})
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>results <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame({<span style=color:#b84>&#34;n_estimators&#34;</span>: [param[<span style=color:#b84>&#34;n_estimators&#34;</span>] <span style=font-weight:700>for</span> param <span style=font-weight:700>in</span> cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;params&#39;</span>]],
+             <span style=color:#b84>&#34;mean_score&#34;</span>: <span style=color:#999>list</span>(cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;mean_test_score&#39;</span>]),
+             <span style=color:#b84>&#34;std_score&#34;</span>: cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;std_test_score&#39;</span>]})
 results
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   n_estimators  mean_score  std_score
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   n_estimators  mean_score  std_score
 0             2       0.753      0.016
 1             4       0.790      0.024
 2             8       0.804      0.016
@@ -333,14 +333,14 @@ results
 6           128       0.805      0.023
 7           256       0.810      0.023
 8           512       0.810      0.018
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from plotnine import *
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
 (
-     ggplot(results) + geom_boxplot(aes(x='factor(n_estimators)', y='mean_score')) +
-    geom_errorbar(aes(x='factor(n_estimators)', ymin='mean_score - std_score', ymax='mean_score + std_score')) +
-    theme_classic() + xlab('Number of trees') + ylab('Mean score')
+     ggplot(results) <span style=font-weight:700>+</span> geom_boxplot(aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;factor(n_estimators)&#39;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#39;mean_score&#39;</span>)) <span style=font-weight:700>+</span>
+    geom_errorbar(aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;factor(n_estimators)&#39;</span>, ymin<span style=font-weight:700>=</span><span style=color:#b84>&#39;mean_score - std_score&#39;</span>, ymax<span style=font-weight:700>=</span><span style=color:#b84>&#39;mean_score + std_score&#39;</span>)) <span style=font-weight:700>+</span>
+    theme_classic() <span style=font-weight:700>+</span> xlab(<span style=color:#b84>&#39;Number of trees&#39;</span>) <span style=font-weight:700>+</span> ylab(<span style=color:#b84>&#39;Mean score&#39;</span>)
 )
-</code></pre><figure><img src=/ox-hugo/846935f104a5b9268b67ffdc459d9d7559ca0572.png>
+</code></pre></div><figure><img src=/ox-hugo/846935f104a5b9268b67ffdc459d9d7559ca0572.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337725832)&gt;
 </code></pre></div><h3 id=the-split-criteria>The split criteria</h3>
@@ -353,17 +353,17 @@ Therefore, the choice of splitting algorithm is crucial for the random forest&rs
 </ul>
 <p>If we were dealing with a random forest for regression, other methods (such as [Error metrics|MSE]]) would be a possible choice.
 We will now compare both split algorithms as specified above, in training a random forest with our data:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>rfc = RandomForestClassifier(n_estimators=256)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>rfc <span style=font-weight:700>=</span> RandomForestClassifier(n_estimators<span style=font-weight:700>=</span><span style=color:#099>256</span>)
 
-cv = GridSearchCV(rfc,{&quot;criterion&quot;: [&quot;gini&quot;, &quot;entropy&quot;]},cv=5)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5, estimator=RandomForestClassifier(n_estimators=256),
+cv <span style=font-weight:700>=</span> GridSearchCV(rfc,{<span style=color:#b84>&#34;criterion&#34;</span>: [<span style=color:#b84>&#34;gini&#34;</span>, <span style=color:#b84>&#34;entropy&#34;</span>]},cv<span style=font-weight:700>=</span><span style=color:#099>5</span>)
+cv<span style=font-weight:700>.</span>fit(X_train, y_train<span style=font-weight:700>.</span>values<span style=font-weight:700>.</span>ravel())
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5, estimator=RandomForestClassifier(n_estimators=256),
              param_grid={&#39;criterion&#39;: [&#39;gini&#39;, &#39;entropy&#39;]})
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>results = pd.DataFrame({&quot;criterion&quot;: [param[&quot;criterion&quot;] for param in cv.cv_results_['params']],
-             &quot;mean_score&quot;: list(cv.cv_results_['mean_test_score']),
-             &quot;std_score&quot;: cv.cv_results_['std_test_score']})
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>results <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame({<span style=color:#b84>&#34;criterion&#34;</span>: [param[<span style=color:#b84>&#34;criterion&#34;</span>] <span style=font-weight:700>for</span> param <span style=font-weight:700>in</span> cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;params&#39;</span>]],
+             <span style=color:#b84>&#34;mean_score&#34;</span>: <span style=color:#999>list</span>(cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;mean_test_score&#39;</span>]),
+             <span style=color:#b84>&#34;std_score&#34;</span>: cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;std_test_score&#39;</span>]})
 results
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  criterion  mean_score  std_score
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  criterion  mean_score  std_score
 0      gini       0.812      0.021
 1   entropy       0.809      0.023
 </code></pre></div><h3 id=maximum-depth-of-individual-trees>Maximum depth of individual trees</h3>
@@ -371,54 +371,54 @@ results
 Although this is a problem for decision trees, it is not necessarily a problem for the ensemble, the random forest.
 Although the key is to strike a balance between trees that aren&rsquo;t too large or too short, there&rsquo;s no universal heuristic to determine the size.
 Let&rsquo;s try a few option for maximum depth:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>rfc = RandomForestClassifier(n_estimators=256,
-                           criterion=&quot;entropy&quot;)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>rfc <span style=font-weight:700>=</span> RandomForestClassifier(n_estimators<span style=font-weight:700>=</span><span style=color:#099>256</span>,
+                           criterion<span style=font-weight:700>=</span><span style=color:#b84>&#34;entropy&#34;</span>)
 
-cv = GridSearchCV(rfc,{'max_depth': [2, 4, 8, 16, 32, None]},cv=5)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5,
+cv <span style=font-weight:700>=</span> GridSearchCV(rfc,{<span style=color:#b84>&#39;max_depth&#39;</span>: [<span style=color:#099>2</span>, <span style=color:#099>4</span>, <span style=color:#099>8</span>, <span style=color:#099>16</span>, <span style=color:#099>32</span>, <span style=font-weight:700>None</span>]},cv<span style=font-weight:700>=</span><span style=color:#099>5</span>)
+cv<span style=font-weight:700>.</span>fit(X_train, y_train<span style=font-weight:700>.</span>values<span style=font-weight:700>.</span>ravel())
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5,
              estimator=RandomForestClassifier(criterion=&#39;entropy&#39;,
                                               n_estimators=256),
              param_grid={&#39;max_depth&#39;: [2, 4, 8, 16, 32, None]})
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>results = pd.DataFrame({&quot;max_depth&quot;: [param[&quot;max_depth&quot;] for param in cv.cv_results_['params']],
-             &quot;mean_score&quot;: list(cv.cv_results_['mean_test_score']),
-             &quot;std_score&quot;: cv.cv_results_['std_test_score']})
-results = results.dropna()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>results <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame({<span style=color:#b84>&#34;max_depth&#34;</span>: [param[<span style=color:#b84>&#34;max_depth&#34;</span>] <span style=font-weight:700>for</span> param <span style=font-weight:700>in</span> cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;params&#39;</span>]],
+             <span style=color:#b84>&#34;mean_score&#34;</span>: <span style=color:#999>list</span>(cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;mean_test_score&#39;</span>]),
+             <span style=color:#b84>&#34;std_score&#34;</span>: cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;std_test_score&#39;</span>]})
+results <span style=font-weight:700>=</span> results<span style=font-weight:700>.</span>dropna()
 results
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   max_depth  mean_score  std_score
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   max_depth  mean_score  std_score
 0      2.000       0.779      0.030
 1      4.000       0.812      0.021
 2      8.000       0.810      0.019
 3     16.000       0.810      0.020
 4     32.000       0.802      0.024
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from plotnine import *
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
 (
-     ggplot(results) + geom_boxplot(aes(x='factor(max_depth)', y='mean_score')) +
-    theme_classic() + xlab('Max tree depth') + ylab('Mean score')
+     ggplot(results) <span style=font-weight:700>+</span> geom_boxplot(aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;factor(max_depth)&#39;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#39;mean_score&#39;</span>)) <span style=font-weight:700>+</span>
+    theme_classic() <span style=font-weight:700>+</span> xlab(<span style=color:#b84>&#39;Max tree depth&#39;</span>) <span style=font-weight:700>+</span> ylab(<span style=color:#b84>&#39;Mean score&#39;</span>)
 )
-</code></pre><figure><img src=/ox-hugo/e149d88c07b14dcbec14636e31f25714143efa81.png>
+</code></pre></div><figure><img src=/ox-hugo/e149d88c07b14dcbec14636e31f25714143efa81.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (338114832)&gt;
 </code></pre></div><h3 id=maximum-number-of-leaf-nodes>Maximum number of leaf nodes</h3>
 <p>This hyperparameter can be of importance to other topics, such as [Explainability]].</p>
 <p>It is specified in <code>scikit-learn</code> using the <code>max_leaf_nodes</code> parameter. Let&rsquo;s try a few different values:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>rfc = RandomForestClassifier(n_estimators=256,
-                           criterion=&quot;entropy&quot;,
-                            max_depth=8)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>rfc <span style=font-weight:700>=</span> RandomForestClassifier(n_estimators<span style=font-weight:700>=</span><span style=color:#099>256</span>,
+                           criterion<span style=font-weight:700>=</span><span style=color:#b84>&#34;entropy&#34;</span>,
+                            max_depth<span style=font-weight:700>=</span><span style=color:#099>8</span>)
 
-cv = GridSearchCV(rfc,{'max_leaf_nodes': [2**i for i in range(1, 8)]},cv=5)
-cv.fit(X_train, y_train.values.ravel())
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5,
+cv <span style=font-weight:700>=</span> GridSearchCV(rfc,{<span style=color:#b84>&#39;max_leaf_nodes&#39;</span>: [<span style=color:#099>2</span><span style=font-weight:700>**</span>i <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>1</span>, <span style=color:#099>8</span>)]},cv<span style=font-weight:700>=</span><span style=color:#099>5</span>)
+cv<span style=font-weight:700>.</span>fit(X_train, y_train<span style=font-weight:700>.</span>values<span style=font-weight:700>.</span>ravel())
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>GridSearchCV(cv=5,
              estimator=RandomForestClassifier(criterion=&#39;entropy&#39;, max_depth=8,
                                               n_estimators=256),
              param_grid={&#39;max_leaf_nodes&#39;: [2, 4, 8, 16, 32, 64, 128]})
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>results = pd.DataFrame({&quot;max_leaf_nodes&quot;: [param[&quot;max_leaf_nodes&quot;] for param in cv.cv_results_['params']],
-             &quot;mean_score&quot;: list(cv.cv_results_['mean_test_score']),
-             &quot;std_score&quot;: cv.cv_results_['std_test_score']})
-results = results.dropna()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>results <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame({<span style=color:#b84>&#34;max_leaf_nodes&#34;</span>: [param[<span style=color:#b84>&#34;max_leaf_nodes&#34;</span>] <span style=font-weight:700>for</span> param <span style=font-weight:700>in</span> cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;params&#39;</span>]],
+             <span style=color:#b84>&#34;mean_score&#34;</span>: <span style=color:#999>list</span>(cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;mean_test_score&#39;</span>]),
+             <span style=color:#b84>&#34;std_score&#34;</span>: cv<span style=font-weight:700>.</span>cv_results_[<span style=color:#b84>&#39;std_test_score&#39;</span>]})
+results <span style=font-weight:700>=</span> results<span style=font-weight:700>.</span>dropna()
 results
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   max_leaf_nodes  mean_score  std_score
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   max_leaf_nodes  mean_score  std_score
 0               2       0.765      0.019
 1               4       0.777      0.029
 2               8       0.819      0.027
@@ -426,14 +426,14 @@ results
 4              32       0.822      0.019
 5              64       0.815      0.014
 6             128       0.814      0.013
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from plotnine import *
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
 (
-     ggplot(results) + geom_boxplot(aes(x='factor(max_leaf_nodes)', y='mean_score')) +
-    geom_errorbar(aes(x='factor(max_leaf_nodes)', ymin='mean_score - std_score', ymax='mean_score + std_score')) +
-    theme_classic() + xlab('Maximum leaf nodes') + ylab('Mean score')
+     ggplot(results) <span style=font-weight:700>+</span> geom_boxplot(aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;factor(max_leaf_nodes)&#39;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#39;mean_score&#39;</span>)) <span style=font-weight:700>+</span>
+    geom_errorbar(aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;factor(max_leaf_nodes)&#39;</span>, ymin<span style=font-weight:700>=</span><span style=color:#b84>&#39;mean_score - std_score&#39;</span>, ymax<span style=font-weight:700>=</span><span style=color:#b84>&#39;mean_score + std_score&#39;</span>)) <span style=font-weight:700>+</span>
+    theme_classic() <span style=font-weight:700>+</span> xlab(<span style=color:#b84>&#39;Maximum leaf nodes&#39;</span>) <span style=font-weight:700>+</span> ylab(<span style=color:#b84>&#39;Mean score&#39;</span>)
 )
-</code></pre><figure><img src=/ox-hugo/dddb466a94666b81d5ee906c2cc785c3dd0f96a3.png>
+</code></pre></div><figure><img src=/ox-hugo/dddb466a94666b81d5ee906c2cc785c3dd0f96a3.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337576795)&gt;
 </code></pre></div><h3 id=random-features-per-split>Random features per split</h3>

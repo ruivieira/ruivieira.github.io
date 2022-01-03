@@ -191,104 +191,104 @@ The proposal consists of <a href=https://www.python.org/dev/peps/pep-0634/>PEP63
 </code></pre></div><p>We will encounter the error</p>
 <pre tabindex=0><code class=language-nil data-lang=nil>   ImportError: attempted relative import with no known parent package
 </code></pre><p>A possible solution is to include the following in your module&rsquo;s <code>__init__.py</code>:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>   import os, sys
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>   <span style=font-weight:700>import</span> <span style=color:#555>os</span><span style=font-weight:700>,</span> <span style=color:#555>sys</span>
 
-   sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-</code></pre><h3 id=ternary-operator>Ternary operator</h3>
+   sys<span style=font-weight:700>.</span>path<span style=font-weight:700>.</span>append(os<span style=font-weight:700>.</span>path<span style=font-weight:700>.</span>dirname(os<span style=font-weight:700>.</span>path<span style=font-weight:700>.</span>realpath(__file__)))
+</code></pre></div><h3 id=ternary-operator>Ternary operator</h3>
 <p>Ternary operators help reduce the amount of very small <code>if-else</code> blocks.
 Python does not have a ternary operator <a href=https://en.wikipedia.org/wiki/%3F:#C>like</a> <a href=https://en.wikipedia.org/wiki/%3F:#JavaScript>other</a> <a href=https://en.wikipedia.org/wiki/%3F:#Ruby>languages</a>. However, conditionals can be used to the same effect:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>     y = 7
-     x = 0 if (y == 1) else 1
-     print(x)
-</code></pre><h3 id=for-dot-dot-dot-else>for &mldr; else</h3>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>     y <span style=font-weight:700>=</span> <span style=color:#099>7</span>
+     x <span style=font-weight:700>=</span> <span style=color:#099>0</span> <span style=font-weight:700>if</span> (y <span style=font-weight:700>==</span> <span style=color:#099>1</span>) <span style=font-weight:700>else</span> <span style=color:#099>1</span>
+     <span style=color:#999>print</span>(x)
+</code></pre></div><h3 id=for-dot-dot-dot-else>for &mldr; else</h3>
 <p><code>for-else</code> blocks allow to capture if a condition was met inside a <code>for-loop</code>. For instance, consider the following <code>for-loop</code>:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>   locations = ['a', 'b', 'c', 'd', 'f']
-   treasure = False
-   for location in locations:
-       if location == 'x':
-           treasure = True
-           break
-   if not treasure:
-       print(&quot;X marks the spot, but not found&quot;)
-</code></pre><p>We can simplify the above logic using a <code>for-else</code> loop:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>   for location in locations:
-       if location == 'x':
-           break
-   else:
-       print(&quot;X marks the spot, but not found&quot;)
-</code></pre><h3 id=boolean-unravelling>Boolean unravelling</h3>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>   locations <span style=font-weight:700>=</span> [<span style=color:#b84>&#39;a&#39;</span>, <span style=color:#b84>&#39;b&#39;</span>, <span style=color:#b84>&#39;c&#39;</span>, <span style=color:#b84>&#39;d&#39;</span>, <span style=color:#b84>&#39;f&#39;</span>]
+   treasure <span style=font-weight:700>=</span> <span style=font-weight:700>False</span>
+   <span style=font-weight:700>for</span> location <span style=font-weight:700>in</span> locations:
+       <span style=font-weight:700>if</span> location <span style=font-weight:700>==</span> <span style=color:#b84>&#39;x&#39;</span>:
+           treasure <span style=font-weight:700>=</span> <span style=font-weight:700>True</span>
+           <span style=font-weight:700>break</span>
+   <span style=font-weight:700>if</span> <span style=font-weight:700>not</span> treasure:
+       <span style=color:#999>print</span>(<span style=color:#b84>&#34;X marks the spot, but not found&#34;</span>)
+</code></pre></div><p>We can simplify the above logic using a <code>for-else</code> loop:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>   <span style=font-weight:700>for</span> location <span style=font-weight:700>in</span> locations:
+       <span style=font-weight:700>if</span> location <span style=font-weight:700>==</span> <span style=color:#b84>&#39;x&#39;</span>:
+           <span style=font-weight:700>break</span>
+   <span style=font-weight:700>else</span>:
+       <span style=color:#999>print</span>(<span style=color:#b84>&#34;X marks the spot, but not found&#34;</span>)
+</code></pre></div><h3 id=boolean-unravelling>Boolean unravelling</h3>
 <h4 id=and>and</h4>
 <p>unravelling the <code>and</code> boolean operator.
 The operation can be rewritten as the function <code>u_and</code>:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    def u_and(a, b):
-      result = a
-      if a:
-        result = b
-      return result
-</code></pre><p>For instance:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    a = True ; b = None
-    print(a and b, u_and(a, b))
-    a = True ; b = True
-    print(a and b, u_and(a, b))
-    a = False ; b = True
-    print(a and b, u_and(a, b))
-</code></pre><h4 id=or>or</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>u_and</span>(a, b):
+      result <span style=font-weight:700>=</span> a
+      <span style=font-weight:700>if</span> a:
+        result <span style=font-weight:700>=</span> b
+      <span style=font-weight:700>return</span> result
+</code></pre></div><p>For instance:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    a <span style=font-weight:700>=</span> <span style=font-weight:700>True</span> ; b <span style=font-weight:700>=</span> <span style=font-weight:700>None</span>
+    <span style=color:#999>print</span>(a <span style=font-weight:700>and</span> b, u_and(a, b))
+    a <span style=font-weight:700>=</span> <span style=font-weight:700>True</span> ; b <span style=font-weight:700>=</span> <span style=font-weight:700>True</span>
+    <span style=color:#999>print</span>(a <span style=font-weight:700>and</span> b, u_and(a, b))
+    a <span style=font-weight:700>=</span> <span style=font-weight:700>False</span> ; b <span style=font-weight:700>=</span> <span style=font-weight:700>True</span>
+    <span style=color:#999>print</span>(a <span style=font-weight:700>and</span> b, u_and(a, b))
+</code></pre></div><h4 id=or>or</h4>
 <p>On the other hand, `or` cand be unravelled as:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    def u_or(a, b):
-      result = a
-      if not a:
-        result = b
-      return result
-</code></pre><p>As an example:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    a = True ; b = None
-    print(a or b, u_or(a, b))
-    a = True ; b = True
-    print(a or b, u_or(a, b))
-    a = False ; b = True
-    print(a or b, u_or(a, b))
-</code></pre><h3 id=the-many-faces-of-print>The many faces of `print`</h3>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>u_or</span>(a, b):
+      result <span style=font-weight:700>=</span> a
+      <span style=font-weight:700>if</span> <span style=font-weight:700>not</span> a:
+        result <span style=font-weight:700>=</span> b
+      <span style=font-weight:700>return</span> result
+</code></pre></div><p>As an example:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    a <span style=font-weight:700>=</span> <span style=font-weight:700>True</span> ; b <span style=font-weight:700>=</span> <span style=font-weight:700>None</span>
+    <span style=color:#999>print</span>(a <span style=font-weight:700>or</span> b, u_or(a, b))
+    a <span style=font-weight:700>=</span> <span style=font-weight:700>True</span> ; b <span style=font-weight:700>=</span> <span style=font-weight:700>True</span>
+    <span style=color:#999>print</span>(a <span style=font-weight:700>or</span> b, u_or(a, b))
+    a <span style=font-weight:700>=</span> <span style=font-weight:700>False</span> ; b <span style=font-weight:700>=</span> <span style=font-weight:700>True</span>
+    <span style=color:#999>print</span>(a <span style=font-weight:700>or</span> b, u_or(a, b))
+</code></pre></div><h3 id=the-many-faces-of-print>The many faces of `print`</h3>
 <h4 id=concatenating-arguments>Concatenating arguments</h4>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    var1 = &quot;Foo&quot;
-    var2 = &quot;Bar&quot;
-    print(&quot;I am &quot;, var1, &quot; not &quot;, var2)
-</code></pre><p>It is also possible to use separators by using the `sep` argument:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    var1 = &quot;Foo&quot;
-    var2 = &quot;Bar&quot;
-    print(&quot;I am&quot;, var1, &quot;not&quot;, var2, sep=&quot;!&quot;)
-</code></pre><h4 id=string-termination>String termination</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    var1 <span style=font-weight:700>=</span> <span style=color:#b84>&#34;Foo&#34;</span>
+    var2 <span style=font-weight:700>=</span> <span style=color:#b84>&#34;Bar&#34;</span>
+    <span style=color:#999>print</span>(<span style=color:#b84>&#34;I am &#34;</span>, var1, <span style=color:#b84>&#34; not &#34;</span>, var2)
+</code></pre></div><p>It is also possible to use separators by using the `sep` argument:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    var1 <span style=font-weight:700>=</span> <span style=color:#b84>&#34;Foo&#34;</span>
+    var2 <span style=font-weight:700>=</span> <span style=color:#b84>&#34;Bar&#34;</span>
+    <span style=color:#999>print</span>(<span style=color:#b84>&#34;I am&#34;</span>, var1, <span style=color:#b84>&#34;not&#34;</span>, var2, sep<span style=font-weight:700>=</span><span style=color:#b84>&#34;!&#34;</span>)
+</code></pre></div><h4 id=string-termination>String termination</h4>
 <p>The `end` argument allows to specify the suffix of the whole string.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    print(&quot;This is on radio&quot;, end=&quot; (over)&quot;)
-</code></pre><p>This is on radio (over)</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    <span style=color:#999>print</span>(<span style=color:#b84>&#34;This is on radio&#34;</span>, end<span style=font-weight:700>=</span><span style=color:#b84>&#34; (over)&#34;</span>)
+</code></pre></div><p>This is on radio (over)</p>
 <h3 id=filesystem-operations>Filesystem operations</h3>
 <h4 id=get-home-directory>Get home directory</h4>
 <p>For Python +3.5:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>    from pathlib import Path
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>    <span style=font-weight:700>from</span> <span style=color:#555>pathlib</span> <span style=font-weight:700>import</span> Path
 
-    home = str(Path.home())
-</code></pre><h4 id=list-files-recursively>List files recursively</h4>
+    home <span style=font-weight:700>=</span> <span style=color:#999>str</span>(Path<span style=font-weight:700>.</span>home())
+</code></pre></div><h4 id=list-files-recursively>List files recursively</h4>
 <p>For Python +3.5, use <code>glob</code>:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>
-import glob
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>
+<span style=font-weight:700>import</span> <span style=color:#555>glob</span>
 
-# root_dir with trailing slash (i.e. /root/dir/)
-root_dir = &quot;./tmp&quot;
-for filename in glob.iglob(root_dir + '**/*.md', recursive=True):
-     print(filename)
-</code></pre><h3 id=date-operations>Date operations</h3>
+<span style=color:#998;font-style:italic># root_dir with trailing slash (i.e. /root/dir/)</span>
+root_dir <span style=font-weight:700>=</span> <span style=color:#b84>&#34;./tmp&#34;</span>
+<span style=font-weight:700>for</span> filename <span style=font-weight:700>in</span> glob<span style=font-weight:700>.</span>iglob(root_dir <span style=font-weight:700>+</span> <span style=color:#b84>&#39;**/*.md&#39;</span>, recursive<span style=font-weight:700>=</span><span style=font-weight:700>True</span>):
+     <span style=color:#999>print</span>(filename)
+</code></pre></div><h3 id=date-operations>Date operations</h3>
 <h4 id=offset-aware-operations>Offset-aware operations</h4>
 <p>Let&rsquo;s say you have a date without timezone (_offset naive_), for instance:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from datetime import datetime, timezone
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>datetime</span> <span style=font-weight:700>import</span> datetime, timezone
 
-ts = datetime.now().replace(tzinfo=None)
-print(ts)
-</code></pre><p>And you want to calculate the \(\delta\) with a <code>datetime</code> which <span class=underline>has</span> a time (_offset aware_). We&rsquo;ll get an error.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>delta = datetime.now(timezone.utc) - ts
-</code></pre><p>The solution is to add a timezone to the <span class=underline>offset naive</span> date. For instance:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ts = datetime.now(timezone.utc)
+ts <span style=font-weight:700>=</span> datetime<span style=font-weight:700>.</span>now()<span style=font-weight:700>.</span>replace(tzinfo<span style=font-weight:700>=</span><span style=font-weight:700>None</span>)
+<span style=color:#999>print</span>(ts)
+</code></pre></div><p>And you want to calculate the \(\delta\) with a <code>datetime</code> which <span class=underline>has</span> a time (_offset aware_). We&rsquo;ll get an error.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>delta <span style=font-weight:700>=</span> datetime<span style=font-weight:700>.</span>now(timezone<span style=font-weight:700>.</span>utc) <span style=font-weight:700>-</span> ts
+</code></pre></div><p>The solution is to add a timezone to the <span class=underline>offset naive</span> date. For instance:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ts <span style=font-weight:700>=</span> datetime<span style=font-weight:700>.</span>now(timezone<span style=font-weight:700>.</span>utc)
 
-delta = datetime.now(timezone.utc) - ts
-print(delta)
-</code></pre>
+delta <span style=font-weight:700>=</span> datetime<span style=font-weight:700>.</span>now(timezone<span style=font-weight:700>.</span>utc) <span style=font-weight:700>-</span> ts
+<span style=color:#999>print</span>(delta)
+</code></pre></div>
 </div>
 </article>
 <div id=footer-post-container>

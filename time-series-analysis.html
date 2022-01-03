@@ -110,7 +110,7 @@ import numpy as np import pandas as pd N = 10000 step_set = [-1, 0, 1] origin = 
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftime-series-analysis.html&name=Time-series%20analysis&description=Peaks%20and%20troughs%20Let%26rsquo%3bs%20start%20by%20creating%20a%20random%20walk.%0aimport%20numpy%20as%20np%20import%20pandas%20as%20pd%20N%20%3d%2010000%20step_set%20%3d%20%5b-1%2c%200%2c%201%5d%20origin%20%3d%20np.zeros%28%281%2c%201%29%29%20step_shape%20%3d%20%28N%2c%201%29%20steps%20%3d%20np.random.choice%28a%3dstep_set%2c%20size%3dstep_shape%29%20path%20%3d%20np.concatenate%28%5borigin%2c%20steps%5d%29.cumsum%280%29%20df%20%3d%20pd.DataFrame%28path%2c%20columns%20%3d%5b%27y%27%5d%29%20df.head%28%29%20%20from%20scipy.signal%20import%20find_peaks%20subset%20%3d%20df.head%28100%29%20peaks%20%3d%20find_peaks%28subset%5b%26quot%3by%26quot%3b%5d%29%20troughs%20%3d%20find_peaks%28-subset%5b%26quot%3by%26quot%3b%5d%29%20peaks%20%26lt%3bAxesSubplot%3axlabel%3d%26%2339%3bindex%26%2339%3b%2c%20ylabel%3d%26%2339%3by%26%2339%3b%26gt%3b%20%20Autocorrelation%20Pandas%20provides%20an%20autocorrelation1%20plot%20function." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftime-series-analysis.html&name=Time-series%20analysis&description=Peaks%20and%20troughs%20Let%26rsquo%3bs%20start%20by%20creating%20a%20random%20walk.%0aimport%20numpy%20as%20np%20import%20pandas%20as%20pd%20N%20%3d%2010000%20step_set%20%3d%20%5b-1%2c%200%2c%201%5d%20origin%20%3d%20np.zeros%28%281%2c%201%29%29%20step_shape%20%3d%20%28N%2c%201%29%20steps%20%3d%20np.random.choice%28a%3dstep_set%2c%20size%3dstep_shape%29%20path%20%3d%20np.concatenate%28%5borigin%2c%20steps%5d%29.cumsum%280%29%20df%20%3d%20pd.DataFrame%28path%2c%20columns%20%3d%5b%26%2339%3by%26%2339%3b%5d%29%20df.head%28%29%20%20from%20scipy.signal%20import%20find_peaks%20subset%20%3d%20df.head%28100%29%20peaks%20%3d%20find_peaks%28subset%5b%26%2334%3by%26%2334%3b%5d%29%20troughs%20%3d%20find_peaks%28-subset%5b%26%2334%3by%26%2334%3b%5d%29%20peaks%20%26lt%3bAxesSubplot%3axlabel%3d%26%2339%3bindex%26%2339%3b%2c%20ylabel%3d%26%2339%3by%26%2339%3b%26gt%3b%20%20Autocorrelation%20Pandas%20provides%20an%20autocorrelation1%20plot%20function." aria-label=Tumblr>
 <i class="fab fa-tumblr" aria-hidden=true></i>
 </a>
 </li>
@@ -154,44 +154,44 @@ Updated <time datetime="2021-12-30 23:45:55 +0000 GMT" itemprop=datePublished>20
 <div class=content itemprop=articleBody>
 <h2 id=peaks-and-troughs>Peaks and troughs</h2>
 <p>Let&rsquo;s start by creating a random walk.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
-import pandas as pd
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
+<span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-N = 10000
-step_set = [-1, 0, 1]
-origin = np.zeros((1, 1))
-step_shape = (N, 1)
-steps = np.random.choice(a=step_set, size=step_shape)
-path = np.concatenate([origin, steps]).cumsum(0)
-df = pd.DataFrame(path,
-               columns =['y'])
-df.head()
-</code></pre><figure><img src=/ox-hugo/ts-analysis-rw.png>
+N <span style=font-weight:700>=</span> <span style=color:#099>10000</span>
+step_set <span style=font-weight:700>=</span> [<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>0</span>, <span style=color:#099>1</span>]
+origin <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>zeros((<span style=color:#099>1</span>, <span style=color:#099>1</span>))
+step_shape <span style=font-weight:700>=</span> (N, <span style=color:#099>1</span>)
+steps <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>choice(a<span style=font-weight:700>=</span>step_set, size<span style=font-weight:700>=</span>step_shape)
+path <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>concatenate([origin, steps])<span style=font-weight:700>.</span>cumsum(<span style=color:#099>0</span>)
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(path,
+               columns <span style=font-weight:700>=</span>[<span style=color:#b84>&#39;y&#39;</span>])
+df<span style=font-weight:700>.</span>head()
+</code></pre></div><figure><img src=/ox-hugo/ts-analysis-rw.png>
 </figure>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from scipy.signal import find_peaks
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>scipy.signal</span> <span style=font-weight:700>import</span> find_peaks
 
-subset = df.head(100)
+subset <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>head(<span style=color:#099>100</span>)
 
-peaks = find_peaks(subset[&quot;y&quot;])
-troughs = find_peaks(-subset[&quot;y&quot;])
+peaks <span style=font-weight:700>=</span> find_peaks(subset[<span style=color:#b84>&#34;y&#34;</span>])
+troughs <span style=font-weight:700>=</span> find_peaks(<span style=font-weight:700>-</span>subset[<span style=color:#b84>&#34;y&#34;</span>])
 peaks
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;AxesSubplot:xlabel=&#39;index&#39;, ylabel=&#39;y&#39;&gt;
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;AxesSubplot:xlabel=&#39;index&#39;, ylabel=&#39;y&#39;&gt;
 </code></pre></div><figure><img src=/ox-hugo/ts-analysis-peaks-troughs.png>
 </figure>
 <h2 id=autocorrelation>Autocorrelation</h2>
 <p>Pandas provides an autocorrelation<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> plot function.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>figure(figsize=(14, 7), dpi=80)
-pd.plotting.autocorrelation_plot(df[&quot;y&quot;])
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;AxesSubplot:xlabel=&#39;Lag&#39;, ylabel=&#39;Autocorrelation&#39;&gt;
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>figure(figsize<span style=font-weight:700>=</span>(<span style=color:#099>14</span>, <span style=color:#099>7</span>), dpi<span style=font-weight:700>=</span><span style=color:#099>80</span>)
+pd<span style=font-weight:700>.</span>plotting<span style=font-weight:700>.</span>autocorrelation_plot(df[<span style=color:#b84>&#34;y&#34;</span>])
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;AxesSubplot:xlabel=&#39;Lag&#39;, ylabel=&#39;Autocorrelation&#39;&gt;
 </code></pre></div><figure><img src=/ox-hugo/ts-analysis-ac.png>
 </figure>
 <h2 id=differencing>Differencing</h2>
 <p>Calculating the difference between \(x_t\) and \(x_{t-1}\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>stationary = df['y'].diff()
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>figure(figsize=(14, 7), dpi=80)
-plt.plot(stationary)
-plt.show()
-</code></pre><figure><img src=/ox-hugo/ts-analysis-diff.png>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>stationary <span style=font-weight:700>=</span> df[<span style=color:#b84>&#39;y&#39;</span>]<span style=font-weight:700>.</span>diff()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>figure(figsize<span style=font-weight:700>=</span>(<span style=color:#099>14</span>, <span style=color:#099>7</span>), dpi<span style=font-weight:700>=</span><span style=color:#099>80</span>)
+plt<span style=font-weight:700>.</span>plot(stationary)
+plt<span style=font-weight:700>.</span>show()
+</code></pre></div><figure><img src=/ox-hugo/ts-analysis-diff.png>
 </figure>
 <section class=footnotes role=doc-endnotes>
 <hr>
@@ -259,7 +259,7 @@ plt.show()
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftime-series-analysis.html&name=Time-series%20analysis&description=Peaks%20and%20troughs%20Let%26rsquo%3bs%20start%20by%20creating%20a%20random%20walk.%0aimport%20numpy%20as%20np%20import%20pandas%20as%20pd%20N%20%3d%2010000%20step_set%20%3d%20%5b-1%2c%200%2c%201%5d%20origin%20%3d%20np.zeros%28%281%2c%201%29%29%20step_shape%20%3d%20%28N%2c%201%29%20steps%20%3d%20np.random.choice%28a%3dstep_set%2c%20size%3dstep_shape%29%20path%20%3d%20np.concatenate%28%5borigin%2c%20steps%5d%29.cumsum%280%29%20df%20%3d%20pd.DataFrame%28path%2c%20columns%20%3d%5b%27y%27%5d%29%20df.head%28%29%20%20from%20scipy.signal%20import%20find_peaks%20subset%20%3d%20df.head%28100%29%20peaks%20%3d%20find_peaks%28subset%5b%26quot%3by%26quot%3b%5d%29%20troughs%20%3d%20find_peaks%28-subset%5b%26quot%3by%26quot%3b%5d%29%20peaks%20%26lt%3bAxesSubplot%3axlabel%3d%26%2339%3bindex%26%2339%3b%2c%20ylabel%3d%26%2339%3by%26%2339%3b%26gt%3b%20%20Autocorrelation%20Pandas%20provides%20an%20autocorrelation1%20plot%20function." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2ftime-series-analysis.html&name=Time-series%20analysis&description=Peaks%20and%20troughs%20Let%26rsquo%3bs%20start%20by%20creating%20a%20random%20walk.%0aimport%20numpy%20as%20np%20import%20pandas%20as%20pd%20N%20%3d%2010000%20step_set%20%3d%20%5b-1%2c%200%2c%201%5d%20origin%20%3d%20np.zeros%28%281%2c%201%29%29%20step_shape%20%3d%20%28N%2c%201%29%20steps%20%3d%20np.random.choice%28a%3dstep_set%2c%20size%3dstep_shape%29%20path%20%3d%20np.concatenate%28%5borigin%2c%20steps%5d%29.cumsum%280%29%20df%20%3d%20pd.DataFrame%28path%2c%20columns%20%3d%5b%26%2339%3by%26%2339%3b%5d%29%20df.head%28%29%20%20from%20scipy.signal%20import%20find_peaks%20subset%20%3d%20df.head%28100%29%20peaks%20%3d%20find_peaks%28subset%5b%26%2334%3by%26%2334%3b%5d%29%20troughs%20%3d%20find_peaks%28-subset%5b%26%2334%3by%26%2334%3b%5d%29%20peaks%20%26lt%3bAxesSubplot%3axlabel%3d%26%2339%3bindex%26%2339%3b%2c%20ylabel%3d%26%2339%3by%26%2339%3b%26gt%3b%20%20Autocorrelation%20Pandas%20provides%20an%20autocorrelation1%20plot%20function." aria-label=Tumblr>
 <i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
 </a>
 </li>

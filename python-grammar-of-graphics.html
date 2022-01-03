@@ -108,7 +108,7 @@
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-grammar-of-graphics.html&name=Python%20grammar%20of%20graphics&description=import%20pandas%20as%20pd%20mpg%20%3d%20pd.read_csv%28%26quot%3bdata%2fmpg.csv%26quot%3b%29%20mpg.head%28%29%20mpg%20cylinders%20displacement%20horsepower%20weight%20acceleration%20model_year%20origin%20name%200%2018.000%208%20307.000%20130%203504%2012.000%2070%201%20chevrolet%20chevelle%20malibu%201%2015.000%208%20350.000%20165%203693%2011.500%2070%201%20buick%20skylark%20320%202%2018.000%208%20318.000%20150%203436%2011.000%2070%201%20plymouth%20satellite%203%2016.000%208%20304.000%20150%203433%2012.000%2070%201%20amc%20rebel%20sst%204%2017.000%208%20302.000%20140%203449%2010." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-grammar-of-graphics.html&name=Python%20grammar%20of%20graphics&description=import%20pandas%20as%20pd%20mpg%20%3d%20pd.read_csv%28%26%2334%3bdata%2fmpg.csv%26%2334%3b%29%20mpg.head%28%29%20mpg%20cylinders%20displacement%20horsepower%20weight%20acceleration%20model_year%20origin%20name%200%2018.000%208%20307.000%20130%203504%2012.000%2070%201%20chevrolet%20chevelle%20malibu%201%2015.000%208%20350.000%20165%203693%2011.500%2070%201%20buick%20skylark%20320%202%2018.000%208%20318.000%20150%203436%2011.000%2070%201%20plymouth%20satellite%203%2016.000%208%20304.000%20150%203433%2012.000%2070%201%20amc%20rebel%20sst%204%2017.000%208%20302.000%20140%203449%2010." aria-label=Tumblr>
 <i class="fab fa-tumblr" aria-hidden=true></i>
 </a>
 </li>
@@ -140,72 +140,72 @@ Updated <time datetime="2021-12-09 11:03:26 +0000 GMT" itemprop=datePublished>20
 </div>
 </header>
 <div class=content itemprop=articleBody>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pandas as pd
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-mpg = pd.read_csv(&quot;data/mpg.csv&quot;)
+mpg <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>read_csv(<span style=color:#b84>&#34;data/mpg.csv&#34;</span>)
 
-mpg.head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>     mpg  cylinders  displacement horsepower  weight  acceleration  model_year  origin                       name
+mpg<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>     mpg  cylinders  displacement horsepower  weight  acceleration  model_year  origin                       name
 0 18.000          8       307.000        130    3504        12.000          70       1  chevrolet chevelle malibu
 1 15.000          8       350.000        165    3693        11.500          70       1          buick skylark 320
 2 18.000          8       318.000        150    3436        11.000          70       1         plymouth satellite
 3 16.000          8       304.000        150    3433        12.000          70       1              amc rebel sst
 4 17.000          8       302.000        140    3449        10.500          70       1                ford torino
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from plotnine import *
-from plotnine.data import *
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine.data</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
-ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/3543e94cdf8a10e4e1a082295cf059578f8e9770.png>
+ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/3543e94cdf8a10e4e1a082295cf059578f8e9770.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337986928)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;, color=&quot;class&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/32463628f6e1312b5706a4e85dfc4449b8dffbe7.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>, color<span style=font-weight:700>=</span><span style=color:#b84>&#34;class&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/32463628f6e1312b5706a4e85dfc4449b8dffbe7.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337543711)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;, size=&quot;class&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/0ed278f3a297b1c68ae5792e4e35ea563c388f78.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>, size<span style=font-weight:700>=</span><span style=color:#b84>&#34;class&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/0ed278f3a297b1c68ae5792e4e35ea563c388f78.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337640355)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python># Left
-ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;, alpha=&quot;manufacturer&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/d92b9b83f942958538f5aba298b91ced10a7fb18.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#998;font-style:italic># Left</span>
+ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>, alpha<span style=font-weight:700>=</span><span style=color:#b84>&#34;manufacturer&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/d92b9b83f942958538f5aba298b91ced10a7fb18.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337826997)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python># Right
-ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;, shape=&quot;manufacturer&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/3a840b98f03596bc3dd8f77de979e6b838de519f.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#998;font-style:italic># Right</span>
+ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>, shape<span style=font-weight:700>=</span><span style=color:#b84>&#34;manufacturer&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/3a840b98f03596bc3dd8f77de979e6b838de519f.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337589245)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;), color=&quot;blue&quot;) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/a449eb4fba9d4b9dd1c5c3b8eefa6cba10d8a116.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>), color<span style=font-weight:700>=</span><span style=color:#b84>&#34;blue&#34;</span>) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/a449eb4fba9d4b9dd1c5c3b8eefa6cba10d8a116.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (338617082)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=mpg) +\
-geom_smooth(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/729f39cf7e2cf1a7d454d37c5120c7de27b98765.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_smooth(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/729f39cf7e2cf1a7d454d37c5120c7de27b98765.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (332495029)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=mpg) +\
-geom_smooth(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;, linetype=&quot;drv&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/b6f9193a96262a1bd6377c4963212f4e850395e3.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_smooth(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>, linetype<span style=font-weight:700>=</span><span style=color:#b84>&#34;drv&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/b6f9193a96262a1bd6377c4963212f4e850395e3.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337513662)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=mpg) +\
-geom_point(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;)) +\
-geom_smooth(mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;)) + theme_classic()
-</code></pre><figure><img src=/ox-hugo/8519ee8a92f92b9e5d7a3f1fcf01924bc380ed28.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>mpg) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>)) <span style=font-weight:700>+</span>\
+geom_smooth(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>)) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/8519ee8a92f92b9e5d7a3f1fcf01924bc380ed28.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (332499978)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=mpg, mapping=aes(x=&quot;displ&quot;, y=&quot;hwy&quot;)) +\
-geom_point(mapping=aes(color=&quot;class&quot;)) +\
-geom_smooth() + theme_classic()
-</code></pre><figure><img src=/ox-hugo/96d5cf90e0626de52d17aad5cce51355492d3e69.png>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>mpg, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;displ&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;hwy&#34;</span>)) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(color<span style=font-weight:700>=</span><span style=color:#b84>&#34;class&#34;</span>)) <span style=font-weight:700>+</span>\
+geom_smooth() <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=/ox-hugo/96d5cf90e0626de52d17aad5cce51355492d3e69.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (337996743)&gt;
 </code></pre></div>
@@ -261,7 +261,7 @@ geom_smooth() + theme_classic()
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-grammar-of-graphics.html&name=Python%20grammar%20of%20graphics&description=import%20pandas%20as%20pd%20mpg%20%3d%20pd.read_csv%28%26quot%3bdata%2fmpg.csv%26quot%3b%29%20mpg.head%28%29%20mpg%20cylinders%20displacement%20horsepower%20weight%20acceleration%20model_year%20origin%20name%200%2018.000%208%20307.000%20130%203504%2012.000%2070%201%20chevrolet%20chevelle%20malibu%201%2015.000%208%20350.000%20165%203693%2011.500%2070%201%20buick%20skylark%20320%202%2018.000%208%20318.000%20150%203436%2011.000%2070%201%20plymouth%20satellite%203%2016.000%208%20304.000%20150%203433%2012.000%2070%201%20amc%20rebel%20sst%204%2017.000%208%20302.000%20140%203449%2010." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-grammar-of-graphics.html&name=Python%20grammar%20of%20graphics&description=import%20pandas%20as%20pd%20mpg%20%3d%20pd.read_csv%28%26%2334%3bdata%2fmpg.csv%26%2334%3b%29%20mpg.head%28%29%20mpg%20cylinders%20displacement%20horsepower%20weight%20acceleration%20model_year%20origin%20name%200%2018.000%208%20307.000%20130%203504%2012.000%2070%201%20chevrolet%20chevelle%20malibu%201%2015.000%208%20350.000%20165%203693%2011.500%2070%201%20buick%20skylark%20320%202%2018.000%208%20318.000%20150%203436%2011.000%2070%201%20plymouth%20satellite%203%2016.000%208%20304.000%20150%203433%2012.000%2070%201%20amc%20rebel%20sst%204%2017.000%208%20302.000%20140%203449%2010." aria-label=Tumblr>
 <i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
 </a>
 </li>

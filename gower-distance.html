@@ -203,16 +203,16 @@ d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}.
 <p>This will take values of \(1\) for the furthest points and \(0\) for the same points.</p>
 <h2 id=example>Example</h2>
 <p>Here we will use the special case when no missing values exist. A test dataset can be:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pandas as pd
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-df = pd.DataFrame({
-    &quot;Sex1&quot;: ['M', 'M', 'F', 'F', 'F', 'M', 'M', 'F', 'F', 'F'],
-    &quot;Sex2&quot;: ['M', 'M', 'F', 'F', 'F', 'F', 'F', 'M', 'M', 'M'],
-    &quot;Age1&quot;: [15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
-    &quot;Age2&quot;: [15, 36, 58, 78, 100, 15, 36, 58, 78, 100]
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame({
+    <span style=color:#b84>&#34;Sex1&#34;</span>: [<span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>],
+    <span style=color:#b84>&#34;Sex2&#34;</span>: [<span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>],
+    <span style=color:#b84>&#34;Age1&#34;</span>: [<span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>],
+    <span style=color:#b84>&#34;Age2&#34;</span>: [<span style=color:#099>15</span>, <span style=color:#099>36</span>, <span style=color:#099>58</span>, <span style=color:#099>78</span>, <span style=color:#099>100</span>, <span style=color:#099>15</span>, <span style=color:#099>36</span>, <span style=color:#099>58</span>, <span style=color:#099>78</span>, <span style=color:#099>100</span>]
 })
 df
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2
 0    M    M    15    15
 1    M    M    15    36
 2    F    F    15    58
@@ -224,15 +224,15 @@ df
 8    F    M    15    78
 9    F    M    15   100
 </code></pre></div><p>For the numerical variable (age) we can define the range as \(R_{\text{age}}=\left(\max{\text{age}}-\min{\text{age}}\right)\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>age_min = df[[&quot;Age1&quot;, &quot;Age2&quot;]].min().min()
-age_max = df[[&quot;Age1&quot;, &quot;Age2&quot;]].max().max()
-R_age = age_max - age_min
-</code></pre><p>We can now calculate the score for each numerical field</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def s_numeric(x1, x2, R):
-    return 1 - abs(x1-x2)/R
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df['s_age'] = df.apply(lambda x: s_numeric(x['Age1'], x['Age2'], R_age), axis=1)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>age_min <span style=font-weight:700>=</span> df[[<span style=color:#b84>&#34;Age1&#34;</span>, <span style=color:#b84>&#34;Age2&#34;</span>]]<span style=font-weight:700>.</span>min()<span style=font-weight:700>.</span>min()
+age_max <span style=font-weight:700>=</span> df[[<span style=color:#b84>&#34;Age1&#34;</span>, <span style=color:#b84>&#34;Age2&#34;</span>]]<span style=font-weight:700>.</span>max()<span style=font-weight:700>.</span>max()
+R_age <span style=font-weight:700>=</span> age_max <span style=font-weight:700>-</span> age_min
+</code></pre></div><p>We can now calculate the score for each numerical field</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>s_numeric</span>(x1, x2, R):
+    <span style=font-weight:700>return</span> <span style=color:#099>1</span> <span style=font-weight:700>-</span> <span style=color:#999>abs</span>(x1<span style=font-weight:700>-</span>x2)<span style=font-weight:700>/</span>R
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df[<span style=color:#b84>&#39;s_age&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: s_numeric(x[<span style=color:#b84>&#39;Age1&#39;</span>], x[<span style=color:#b84>&#39;Age2&#39;</span>], R_age), axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 df
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age
 0    M    M    15    15  1.000
 1    M    M    15    36  0.753
 2    F    F    15    58  0.494
@@ -244,11 +244,11 @@ df
 8    F    M    15    78  0.259
 9    F    M    15   100  0.000
 </code></pre></div><p>For categorical variables we can define the following score function:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def s_categorical(x1, x2):
-    return 1 if x1==x2 else 0
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df['s_sex'] = df.apply(lambda x: s_categorical(x['Sex1'], x['Sex2']), axis=1)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>s_categorical</span>(x1, x2):
+    <span style=font-weight:700>return</span> <span style=color:#099>1</span> <span style=font-weight:700>if</span> x1<span style=font-weight:700>==</span>x2 <span style=font-weight:700>else</span> <span style=color:#099>0</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df[<span style=color:#b84>&#39;s_sex&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: s_categorical(x[<span style=color:#b84>&#39;Sex1&#39;</span>], x[<span style=color:#b84>&#39;Sex2&#39;</span>]), axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 df
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age  s_sex
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age  s_sex
 0    M    M    15    15  1.000      1
 1    M    M    15    36  0.753      1
 2    F    F    15    58  0.494      1
@@ -260,12 +260,12 @@ df
 8    F    M    15    78  0.259      0
 9    F    M    15   100  0.000      0
 </code></pre></div><p>We can now calculate the final score using</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import math
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>math</span>
 
-df['s'] = df.apply(lambda x: (x['s_age'] + x['s_sex'])/2.0, axis=1)
-df['d'] = df.apply(lambda x: math.sqrt(1.0 - x['s']), axis=1)
+df[<span style=color:#b84>&#39;s&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: (x[<span style=color:#b84>&#39;s_age&#39;</span>] <span style=font-weight:700>+</span> x[<span style=color:#b84>&#39;s_sex&#39;</span>])<span style=font-weight:700>/</span><span style=color:#099>2.0</span>, axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+df[<span style=color:#b84>&#39;d&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: math<span style=font-weight:700>.</span>sqrt(<span style=color:#099>1.0</span> <span style=font-weight:700>-</span> x[<span style=color:#b84>&#39;s&#39;</span>]), axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 df
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age  s_sex     s     d
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age  s_sex     s     d
 0    M    M    15    15  1.000      1 1.000 0.000
 1    M    M    15    36  0.753      1 0.876 0.351
 2    F    F    15    58  0.494      1 0.747 0.503
@@ -281,31 +281,31 @@ df
 <p>Let&rsquo;s visualise how the choice of range can affect the scoring, if can set it arbitrarily.
 First let&rsquo;s pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 <p>We will vary the bounds from a \(15\leq x_{min}&lt;30\) and \(35&lt; x_{max} \leq 100\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def score(x1, x2, R):
-    s_0 = 1-abs(x1[0]-x2[0])/R
-    s_1 = 1 if x1[1]==x2[1] else 0
-    return (s_0 + s_1)/2.0
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>score</span>(x1, x2, R):
+    s_0 <span style=font-weight:700>=</span> <span style=color:#099>1</span><span style=font-weight:700>-</span><span style=color:#999>abs</span>(x1[<span style=color:#099>0</span>]<span style=font-weight:700>-</span>x2[<span style=color:#099>0</span>])<span style=font-weight:700>/</span>R
+    s_1 <span style=font-weight:700>=</span> <span style=color:#099>1</span> <span style=font-weight:700>if</span> x1[<span style=color:#099>1</span>]<span style=font-weight:700>==</span>x2[<span style=color:#099>1</span>] <span style=font-weight:700>else</span> <span style=color:#099>0</span>
+    <span style=font-weight:700>return</span> (s_0 <span style=font-weight:700>+</span> s_1)<span style=font-weight:700>/</span><span style=color:#099>2.0</span>
 
-def distance(s):
-    return math.sqrt(1.0-s)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>distance</span>(s):
+    <span style=font-weight:700>return</span> math<span style=font-weight:700>.</span>sqrt(<span style=color:#099>1.0</span><span style=font-weight:700>-</span>s)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-x1 = (30, 'M')
-x2 = (35, 'F')
-bmin = np.linspace(15, 30, num=1000)
-bmax = np.linspace(36, 100, num=1000)
-scores_min = [distance(score(x1, x2, 100-bm)) for bm in bmin]
-scores_max = [distance(score(x1, x2, bm-15)) for bm in bmax]
-</code></pre><figure><img src=/ox-hugo/gower-1.png>
+x1 <span style=font-weight:700>=</span> (<span style=color:#099>30</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>35</span>, <span style=color:#b84>&#39;F&#39;</span>)
+bmin <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>15</span>, <span style=color:#099>30</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>)
+bmax <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>36</span>, <span style=color:#099>100</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>)
+scores_min <span style=font-weight:700>=</span> [distance(score(x1, x2, <span style=color:#099>100</span><span style=font-weight:700>-</span>bm)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmin]
+scores_max <span style=font-weight:700>=</span> [distance(score(x1, x2, bm<span style=font-weight:700>-</span><span style=color:#099>15</span>)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmax]
+</code></pre></div><figure><img src=/ox-hugo/gower-1.png>
 </figure>
 <p>Let&rsquo;s try with more separated points</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>x1 = (16, 'M')
-x2 = (90, 'F')
-bmin = np.linspace(15, 16, num=1000, endpoint=False)
-bmax = np.linspace(91, 100, num=1000)
-scores_min = [distance(score(x1, x2, 100-bm)) for bm in bmin]
-scores_max = [distance(score(x1, x2, bm-16)) for bm in bmax]
-</code></pre><figure><img src=/ox-hugo/gower-2.png>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x1 <span style=font-weight:700>=</span> (<span style=color:#099>16</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>90</span>, <span style=color:#b84>&#39;F&#39;</span>)
+bmin <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>15</span>, <span style=color:#099>16</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>, endpoint<span style=font-weight:700>=</span><span style=font-weight:700>False</span>)
+bmax <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>91</span>, <span style=color:#099>100</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>)
+scores_min <span style=font-weight:700>=</span> [distance(score(x1, x2, <span style=color:#099>100</span><span style=font-weight:700>-</span>bm)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmin]
+scores_max <span style=font-weight:700>=</span> [distance(score(x1, x2, bm<span style=font-weight:700>-</span><span style=color:#099>16</span>)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmax]
+</code></pre></div><figure><img src=/ox-hugo/gower-2.png>
 </figure>
 <h3 id=varying-range-directly>Varying range directly</h3>
 <p>We will now try to see how the distance between two point comparisons (very close, very far) changes when varying the range directly.
@@ -316,24 +316,24 @@ The range will vary between</p>
 \]</p>
 <p>We are also interested on the weight the categorical variable will have on the final distance with varying bounds, so we will also calculate them for an alternative \(x_2'=(1001, M)\) anf \(x_2'=(50000, M)\).</p>
 <p>For the first set of points we will have:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>x1 = (1000.0, 'M')
-x2 = (1001.0, 'F')
-MAX_RANGE = 100000
-R = np.linspace(max(x1[0], x2[0])-min(x1[0], x2[0]), MAX_RANGE, num=100000)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x1 <span style=font-weight:700>=</span> (<span style=color:#099>1000.0</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>1001.0</span>, <span style=color:#b84>&#39;F&#39;</span>)
+MAX_RANGE <span style=font-weight:700>=</span> <span style=color:#099>100000</span>
+R <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#999>max</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>])<span style=font-weight:700>-</span><span style=color:#999>min</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>]), MAX_RANGE, num<span style=font-weight:700>=</span><span style=color:#099>100000</span>)
 
-distances_M = [distance(score(x1, x2, i)) for i in R]
-distances_F = [distance(score(x1, (x2[0], 'M'), i)) for i in R]
-</code></pre><figure><img src=/ox-hugo/gower-3.png>
+distances_M <span style=font-weight:700>=</span> [distance(score(x1, x2, i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+distances_F <span style=font-weight:700>=</span> [distance(score(x1, (x2[<span style=color:#099>0</span>], <span style=color:#b84>&#39;M&#39;</span>), i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+</code></pre></div><figure><img src=/ox-hugo/gower-3.png>
 </figure>
 <p>And for far away points we will have:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>x1 = (500.0, 'M')
-x2 = (50000.0, 'F')
-MAX_RANGE = 100000
-R = np.linspace(max(x1[0], x2[0])-min(x1[0], x2[0]), MAX_RANGE, num=100000)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x1 <span style=font-weight:700>=</span> (<span style=color:#099>500.0</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>50000.0</span>, <span style=color:#b84>&#39;F&#39;</span>)
+MAX_RANGE <span style=font-weight:700>=</span> <span style=color:#099>100000</span>
+R <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#999>max</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>])<span style=font-weight:700>-</span><span style=color:#999>min</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>]), MAX_RANGE, num<span style=font-weight:700>=</span><span style=color:#099>100000</span>)
 
-distances_M = [distance(score(x1, x2, i)) for i in R]
-distances_F = [distance(score(x1, (x2[0], 'M'), i)) for i in R]
-</code></pre><figure><img src=/ox-hugo/gower-4.png>
+distances_M <span style=font-weight:700>=</span> [distance(score(x1, x2, i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+distances_F <span style=font-weight:700>=</span> [distance(score(x1, (x2[<span style=color:#099>0</span>], <span style=color:#b84>&#39;M&#39;</span>), i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+</code></pre></div><figure><img src=/ox-hugo/gower-4.png>
 </figure>
 <h2 id=categorical-impact>Categorical impact</h2>
 <p>Predictably, in the scenario where we calculate the mean of the Gower distances, for a point \(x\) with \(p\) features, \(x=(x_{1},\dots,x_{p})\), the contribution to the final distance of a categorial variable will be either \(0\) or \(1/p\), regardless of the range.</p>
@@ -344,21 +344,21 @@ distances_F = [distance(score(x1, (x2[0], 'M'), i)) for i in R]
 f_u(x) = \frac{x}{||x||}
 \]</p>
 <p>We will visualise how a difference varying from \(-1000 \leq \delta \leq 1000\) varies with the \(f_u(\delta)\) transformation.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def f_unit(x):
-    return np.exp(x)/(np.exp(x)+1.0)
-def ilogit(eta):
-    return 1.0 - 1.0/(np.exp(eta)+1)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>f_unit</span>(x):
+    <span style=font-weight:700>return</span> np<span style=font-weight:700>.</span>exp(x)<span style=font-weight:700>/</span>(np<span style=font-weight:700>.</span>exp(x)<span style=font-weight:700>+</span><span style=color:#099>1.0</span>)
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>ilogit</span>(eta):
+    <span style=font-weight:700>return</span> <span style=color:#099>1.0</span> <span style=font-weight:700>-</span> <span style=color:#099>1.0</span><span style=font-weight:700>/</span>(np<span style=font-weight:700>.</span>exp(eta)<span style=font-weight:700>+</span><span style=color:#099>1</span>)
 
-delta = np.linspace(-10, 10, num=20000)
-transformed = [ilogit(abs(x)) for x in delta]
+delta <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=font-weight:700>-</span><span style=color:#099>10</span>, <span style=color:#099>10</span>, num<span style=font-weight:700>=</span><span style=color:#099>20000</span>)
+transformed <span style=font-weight:700>=</span> [ilogit(<span style=color:#999>abs</span>(x)) <span style=font-weight:700>for</span> x <span style=font-weight:700>in</span> delta]
 
-ax = sns.scatterplot(delta, transformed)
-ax.set(xlabel=&quot;Range&quot;, ylabel=&quot;Distance&quot;,
-      title=&quot;Gower distance\nfor varying range (far away points)&quot;)
-# ax.set(ylim=(0, 1), xscale=&quot;log&quot;)
-plt.show()
+ax <span style=font-weight:700>=</span> sns<span style=font-weight:700>.</span>scatterplot(delta, transformed)
+ax<span style=font-weight:700>.</span>set(xlabel<span style=font-weight:700>=</span><span style=color:#b84>&#34;Range&#34;</span>, ylabel<span style=font-weight:700>=</span><span style=color:#b84>&#34;Distance&#34;</span>,
+      title<span style=font-weight:700>=</span><span style=color:#b84>&#34;Gower distance</span><span style=color:#b84>\n</span><span style=color:#b84>for varying range (far away points)&#34;</span>)
+<span style=color:#998;font-style:italic># ax.set(ylim=(0, 1), xscale=&#34;log&#34;)</span>
+plt<span style=font-weight:700>.</span>show()
 transformed
-</code></pre><figure><img src=/ox-hugo/gower-5.png>
+</code></pre></div><figure><img src=/ox-hugo/gower-5.png>
 </figure>
 <table>
 <thead>

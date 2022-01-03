@@ -112,7 +112,7 @@ import numpy as np import matplotlib.pyplot as plt from plotutils import * x = n
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fhill-climbing-optimisation.html&name=Hill-climbing%20optimisation&description=Global%20maximum%20Let%26rsquo%3bs%20try%20it%20with%20the%20function%0a%5c%5b%20f%28x%2cy%29%20%3d%20e%5e%7b-%5cleft%28x%5e2%2by%5e2%5cright%29%7d%20%5c%5d%0aimport%20numpy%20as%20np%20import%20matplotlib.pyplot%20as%20plt%20from%20plotutils%20import%20%2a%20x%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20y%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20X%2c%20Y%20%3d%20np.meshgrid%28x%2c%20y%29%20Z%20%3d%20np.exp%28-%28X%20%2a%2a%202%20%2b%20Y%20%2a%2a%202%29%29%20fig%2c%20ax%20%3d%20plt.subplots%281%2c%201%29%20cp%20%3d%20ax.contourf%28X%2c%20Y%2c%20Z%2c%20cmap%3dcmaps%5b1%5d%29%20ax.set_title%28%26quot%3bf%28x%2cy%29%26quot%3b%29%20ax.set_xlabel%28%26quot%3bx%26quot%3b%29%20ax.set_ylabel%28%26quot%3by%26quot%3b%29%20plt.show%28%29%20from%20gradient_free_optimizers%20import%20HillClimbingOptimizer%20search_space%20%3d%20%7b%20%26quot%3bx%26quot%3b%3a%20x%2c%20%26quot%3by%26quot%3b%3a%20y%2c%20%7d%20opt%20%3d%20HillClimbingOptimizer%28search_space%29%20def%20f%28pos%29%3a%20x%20%3d%20pos%5b%26quot%3bx%26quot%3b%5d%20y%20%3d%20pos%5b%26quot%3by%26quot%3b%5d%20z%20%3d%20np." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fhill-climbing-optimisation.html&name=Hill-climbing%20optimisation&description=Global%20maximum%20Let%26rsquo%3bs%20try%20it%20with%20the%20function%0a%5c%5b%20f%28x%2cy%29%20%3d%20e%5e%7b-%5cleft%28x%5e2%2by%5e2%5cright%29%7d%20%5c%5d%0aimport%20numpy%20as%20np%20import%20matplotlib.pyplot%20as%20plt%20from%20plotutils%20import%20%2a%20x%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20y%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20X%2c%20Y%20%3d%20np.meshgrid%28x%2c%20y%29%20Z%20%3d%20np.exp%28-%28X%20%2a%2a%202%20%2b%20Y%20%2a%2a%202%29%29%20fig%2c%20ax%20%3d%20plt.subplots%281%2c%201%29%20cp%20%3d%20ax.contourf%28X%2c%20Y%2c%20Z%2c%20cmap%3dcmaps%5b1%5d%29%20ax.set_title%28%26%2334%3bf%28x%2cy%29%26%2334%3b%29%20ax.set_xlabel%28%26%2334%3bx%26%2334%3b%29%20ax.set_ylabel%28%26%2334%3by%26%2334%3b%29%20plt.show%28%29%20from%20gradient_free_optimizers%20import%20HillClimbingOptimizer%20search_space%20%3d%20%7b%20%26%2334%3bx%26%2334%3b%3a%20x%2c%20%26%2334%3by%26%2334%3b%3a%20y%2c%20%7d%20opt%20%3d%20HillClimbingOptimizer%28search_space%29%20def%20f%28pos%29%3a%20x%20%3d%20pos%5b%26%2334%3bx%26%2334%3b%5d%20y%20%3d%20pos%5b%26%2334%3by%26%2334%3b%5d%20z%20%3d%20np." aria-label=Tumblr>
 <i class="fab fa-tumblr" aria-hidden=true></i>
 </a>
 </li>
@@ -158,70 +158,70 @@ Updated <time datetime="2021-12-07 21:49:31 +0000 GMT" itemprop=datePublished>20
 <p>\[
 f(x,y) = e^{-\left(x^2+y^2\right)}
 \]</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
-import matplotlib.pyplot as plt
-from plotutils import *
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
+<span style=font-weight:700>import</span> <span style=color:#555>matplotlib.pyplot</span> <span style=font-weight:700>as</span> <span style=color:#555>plt</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotutils</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
-x = np.linspace(-2.0, 2.0, 1000)
-y = np.linspace(-2.0, 2.0, 1000)
-X, Y = np.meshgrid(x, y)
+x <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=font-weight:700>-</span><span style=color:#099>2.0</span>, <span style=color:#099>2.0</span>, <span style=color:#099>1000</span>)
+y <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=font-weight:700>-</span><span style=color:#099>2.0</span>, <span style=color:#099>2.0</span>, <span style=color:#099>1000</span>)
+X, Y <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>meshgrid(x, y)
 
-Z = np.exp(-(X ** 2 + Y ** 2))
+Z <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>exp(<span style=font-weight:700>-</span>(X <span style=font-weight:700>**</span> <span style=color:#099>2</span> <span style=font-weight:700>+</span> Y <span style=font-weight:700>**</span> <span style=color:#099>2</span>))
 
-fig, ax = plt.subplots(1, 1)
-cp = ax.contourf(X, Y, Z, cmap=cmaps[1])
+fig, ax <span style=font-weight:700>=</span> plt<span style=font-weight:700>.</span>subplots(<span style=color:#099>1</span>, <span style=color:#099>1</span>)
+cp <span style=font-weight:700>=</span> ax<span style=font-weight:700>.</span>contourf(X, Y, Z, cmap<span style=font-weight:700>=</span>cmaps[<span style=color:#099>1</span>])
 
-ax.set_title(&quot;f(x,y)&quot;)
-ax.set_xlabel(&quot;x&quot;)
-ax.set_ylabel(&quot;y&quot;)
-plt.show()
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from gradient_free_optimizers import HillClimbingOptimizer
+ax<span style=font-weight:700>.</span>set_title(<span style=color:#b84>&#34;f(x,y)&#34;</span>)
+ax<span style=font-weight:700>.</span>set_xlabel(<span style=color:#b84>&#34;x&#34;</span>)
+ax<span style=font-weight:700>.</span>set_ylabel(<span style=color:#b84>&#34;y&#34;</span>)
+plt<span style=font-weight:700>.</span>show()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>gradient_free_optimizers</span> <span style=font-weight:700>import</span> HillClimbingOptimizer
 
-search_space = {
-    &quot;x&quot;: x,
-    &quot;y&quot;: y,
+search_space <span style=font-weight:700>=</span> {
+    <span style=color:#b84>&#34;x&#34;</span>: x,
+    <span style=color:#b84>&#34;y&#34;</span>: y,
 }
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>opt = HillClimbingOptimizer(search_space)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def f(pos):
-    x = pos[&quot;x&quot;]
-    y = pos[&quot;y&quot;]
-    z = np.exp(-(x**2 + y**2))
-    return z
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>result = opt.search(f,
-                    n_iter=30000,
-                    verbosity=['print_times'],
-                    random_state=23)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>opt.results
-</code></pre><h2 id=local-maximum>Local maximum</h2>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>opt <span style=font-weight:700>=</span> HillClimbingOptimizer(search_space)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>f</span>(pos):
+    x <span style=font-weight:700>=</span> pos[<span style=color:#b84>&#34;x&#34;</span>]
+    y <span style=font-weight:700>=</span> pos[<span style=color:#b84>&#34;y&#34;</span>]
+    z <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>exp(<span style=font-weight:700>-</span>(x<span style=font-weight:700>**</span><span style=color:#099>2</span> <span style=font-weight:700>+</span> y<span style=font-weight:700>**</span><span style=color:#099>2</span>))
+    <span style=font-weight:700>return</span> z
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>result <span style=font-weight:700>=</span> opt<span style=font-weight:700>.</span>search(f,
+                    n_iter<span style=font-weight:700>=</span><span style=color:#099>30000</span>,
+                    verbosity<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;print_times&#39;</span>],
+                    random_state<span style=font-weight:700>=</span><span style=color:#099>23</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>opt<span style=font-weight:700>.</span>results
+</code></pre></div><h2 id=local-maximum>Local maximum</h2>
 <p>Let&rsquo;s try it with the function</p>
 <p>\[
 f(x,y) = e^{-\left(x^2+y^2\right)}+2e^{-\left((x-1.7)^2+(y-1.7)^2\right)}
 \]</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>x = np.linspace(-1.0, 3.0, 1000)
-y = np.linspace(-1.0, 3.0, 1000)
-X, Y = np.meshgrid(x, y)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=font-weight:700>-</span><span style=color:#099>1.0</span>, <span style=color:#099>3.0</span>, <span style=color:#099>1000</span>)
+y <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=font-weight:700>-</span><span style=color:#099>1.0</span>, <span style=color:#099>3.0</span>, <span style=color:#099>1000</span>)
+X, Y <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>meshgrid(x, y)
 
-Z = np.exp(-(X**2 + Y**2))+2*np.exp(-((X-1.7)**2+(Y-1.7)**2))
+Z <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>exp(<span style=font-weight:700>-</span>(X<span style=font-weight:700>**</span><span style=color:#099>2</span> <span style=font-weight:700>+</span> Y<span style=font-weight:700>**</span><span style=color:#099>2</span>))<span style=font-weight:700>+</span><span style=color:#099>2</span><span style=font-weight:700>*</span>np<span style=font-weight:700>.</span>exp(<span style=font-weight:700>-</span>((X<span style=font-weight:700>-</span><span style=color:#099>1.7</span>)<span style=font-weight:700>**</span><span style=color:#099>2</span><span style=font-weight:700>+</span>(Y<span style=font-weight:700>-</span><span style=color:#099>1.7</span>)<span style=font-weight:700>**</span><span style=color:#099>2</span>))
 
-fig,ax=plt.subplots(1,1)
-cp = ax.contourf(X, Y, Z, cmap=cmaps[1])
+fig,ax<span style=font-weight:700>=</span>plt<span style=font-weight:700>.</span>subplots(<span style=color:#099>1</span>,<span style=color:#099>1</span>)
+cp <span style=font-weight:700>=</span> ax<span style=font-weight:700>.</span>contourf(X, Y, Z, cmap<span style=font-weight:700>=</span>cmaps[<span style=color:#099>1</span>])
 
-ax.set_title('f(x,y)')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-plt.show()
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>opt = HillClimbingOptimizer(search_space)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def f(pos):
-    x = pos[&quot;x&quot;]
-    y = pos[&quot;y&quot;]
-    z = np.exp(-(x**2 + y**2))+2*np.exp(-((x-1.7)**2+(y-1.7)**2))
-    return z
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>result = opt.search(f,
-                    n_iter=30000,
-                    verbosity=['print_times'],
-                    random_state=23)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>opt.results
-</code></pre>
+ax<span style=font-weight:700>.</span>set_title(<span style=color:#b84>&#39;f(x,y)&#39;</span>)
+ax<span style=font-weight:700>.</span>set_xlabel(<span style=color:#b84>&#39;x&#39;</span>)
+ax<span style=font-weight:700>.</span>set_ylabel(<span style=color:#b84>&#39;y&#39;</span>)
+plt<span style=font-weight:700>.</span>show()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>opt <span style=font-weight:700>=</span> HillClimbingOptimizer(search_space)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>f</span>(pos):
+    x <span style=font-weight:700>=</span> pos[<span style=color:#b84>&#34;x&#34;</span>]
+    y <span style=font-weight:700>=</span> pos[<span style=color:#b84>&#34;y&#34;</span>]
+    z <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>exp(<span style=font-weight:700>-</span>(x<span style=font-weight:700>**</span><span style=color:#099>2</span> <span style=font-weight:700>+</span> y<span style=font-weight:700>**</span><span style=color:#099>2</span>))<span style=font-weight:700>+</span><span style=color:#099>2</span><span style=font-weight:700>*</span>np<span style=font-weight:700>.</span>exp(<span style=font-weight:700>-</span>((x<span style=font-weight:700>-</span><span style=color:#099>1.7</span>)<span style=font-weight:700>**</span><span style=color:#099>2</span><span style=font-weight:700>+</span>(y<span style=font-weight:700>-</span><span style=color:#099>1.7</span>)<span style=font-weight:700>**</span><span style=color:#099>2</span>))
+    <span style=font-weight:700>return</span> z
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>result <span style=font-weight:700>=</span> opt<span style=font-weight:700>.</span>search(f,
+                    n_iter<span style=font-weight:700>=</span><span style=color:#099>30000</span>,
+                    verbosity<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;print_times&#39;</span>],
+                    random_state<span style=font-weight:700>=</span><span style=color:#099>23</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>opt<span style=font-weight:700>.</span>results
+</code></pre></div>
 </div>
 </article>
 <div id=footer-post-container>
@@ -279,7 +279,7 @@ plt.show()
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fhill-climbing-optimisation.html&name=Hill-climbing%20optimisation&description=Global%20maximum%20Let%26rsquo%3bs%20try%20it%20with%20the%20function%0a%5c%5b%20f%28x%2cy%29%20%3d%20e%5e%7b-%5cleft%28x%5e2%2by%5e2%5cright%29%7d%20%5c%5d%0aimport%20numpy%20as%20np%20import%20matplotlib.pyplot%20as%20plt%20from%20plotutils%20import%20%2a%20x%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20y%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20X%2c%20Y%20%3d%20np.meshgrid%28x%2c%20y%29%20Z%20%3d%20np.exp%28-%28X%20%2a%2a%202%20%2b%20Y%20%2a%2a%202%29%29%20fig%2c%20ax%20%3d%20plt.subplots%281%2c%201%29%20cp%20%3d%20ax.contourf%28X%2c%20Y%2c%20Z%2c%20cmap%3dcmaps%5b1%5d%29%20ax.set_title%28%26quot%3bf%28x%2cy%29%26quot%3b%29%20ax.set_xlabel%28%26quot%3bx%26quot%3b%29%20ax.set_ylabel%28%26quot%3by%26quot%3b%29%20plt.show%28%29%20from%20gradient_free_optimizers%20import%20HillClimbingOptimizer%20search_space%20%3d%20%7b%20%26quot%3bx%26quot%3b%3a%20x%2c%20%26quot%3by%26quot%3b%3a%20y%2c%20%7d%20opt%20%3d%20HillClimbingOptimizer%28search_space%29%20def%20f%28pos%29%3a%20x%20%3d%20pos%5b%26quot%3bx%26quot%3b%5d%20y%20%3d%20pos%5b%26quot%3by%26quot%3b%5d%20z%20%3d%20np." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fhill-climbing-optimisation.html&name=Hill-climbing%20optimisation&description=Global%20maximum%20Let%26rsquo%3bs%20try%20it%20with%20the%20function%0a%5c%5b%20f%28x%2cy%29%20%3d%20e%5e%7b-%5cleft%28x%5e2%2by%5e2%5cright%29%7d%20%5c%5d%0aimport%20numpy%20as%20np%20import%20matplotlib.pyplot%20as%20plt%20from%20plotutils%20import%20%2a%20x%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20y%20%3d%20np.linspace%28-2.0%2c%202.0%2c%201000%29%20X%2c%20Y%20%3d%20np.meshgrid%28x%2c%20y%29%20Z%20%3d%20np.exp%28-%28X%20%2a%2a%202%20%2b%20Y%20%2a%2a%202%29%29%20fig%2c%20ax%20%3d%20plt.subplots%281%2c%201%29%20cp%20%3d%20ax.contourf%28X%2c%20Y%2c%20Z%2c%20cmap%3dcmaps%5b1%5d%29%20ax.set_title%28%26%2334%3bf%28x%2cy%29%26%2334%3b%29%20ax.set_xlabel%28%26%2334%3bx%26%2334%3b%29%20ax.set_ylabel%28%26%2334%3by%26%2334%3b%29%20plt.show%28%29%20from%20gradient_free_optimizers%20import%20HillClimbingOptimizer%20search_space%20%3d%20%7b%20%26%2334%3bx%26%2334%3b%3a%20x%2c%20%26%2334%3by%26%2334%3b%3a%20y%2c%20%7d%20opt%20%3d%20HillClimbingOptimizer%28search_space%29%20def%20f%28pos%29%3a%20x%20%3d%20pos%5b%26%2334%3bx%26%2334%3b%5d%20y%20%3d%20pos%5b%26%2334%3by%26%2334%3b%5d%20z%20%3d%20np." aria-label=Tumblr>
 <i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
 </a>
 </li>

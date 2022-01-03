@@ -160,34 +160,34 @@ Updated <time datetime="2021-12-23 00:13:59 +0000 GMT" itemprop=datePublished>20
 \mu_i = \{x_1,\dots,x_n\} \sim \{\mathcal{U}_1(-1,1),\dots,\mathcal{U}_n(-1,1)\}
 \]</p>
 <p>We will use \(N=100\) observations for a vector sized \(n=10\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
-import pandas as pd
-import scipy.stats as stats
-from scipy.spatial.distance import squareform
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
+<span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
+<span style=font-weight:700>import</span> <span style=color:#555>scipy.stats</span> <span style=font-weight:700>as</span> <span style=color:#555>stats</span>
+<span style=font-weight:700>from</span> <span style=color:#555>scipy.spatial.distance</span> <span style=font-weight:700>import</span> squareform
 
-n = 10
-N = 100
+n <span style=font-weight:700>=</span> <span style=color:#099>10</span>
+N <span style=font-weight:700>=</span> <span style=color:#099>100</span>
 
-np.random.seed(0)
-mu_1 = np.random.normal(loc=0, scale=1, size=(N, n))
-mu_2 = np.random.normal(loc=0, scale=1, size=(N, n))
-</code></pre><p>We now add some noise, \(\epsilon=0.6\), to \(\mu_2\) such that</p>
+np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>seed(<span style=color:#099>0</span>)
+mu_1 <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>normal(loc<span style=font-weight:700>=</span><span style=color:#099>0</span>, scale<span style=font-weight:700>=</span><span style=color:#099>1</span>, size<span style=font-weight:700>=</span>(N, n))
+mu_2 <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>normal(loc<span style=font-weight:700>=</span><span style=color:#099>0</span>, scale<span style=font-weight:700>=</span><span style=color:#099>1</span>, size<span style=font-weight:700>=</span>(N, n))
+</code></pre></div><p>We now add some noise, \(\epsilon=0.6\), to \(\mu_2\) such that</p>
 <p>\[
 \mu_2 = \epsilon \mu_2 + (1-\epsilon)*\mu_1
 \]</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>epsilon = 0.6
-mu_2 = epsilon*mu_2 + (1-epsilon)*mu_1
-</code></pre><p>We use Pandas to calculate the correlation matrix:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>C1 = pd.DataFrame(mu_1).corr()
-C2 = pd.DataFrame(mu_2).corr()
-</code></pre><p>And we plot the correlation matrices.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>epsilon <span style=font-weight:700>=</span> <span style=color:#099>0.6</span>
+mu_2 <span style=font-weight:700>=</span> epsilon<span style=font-weight:700>*</span>mu_2 <span style=font-weight:700>+</span> (<span style=color:#099>1</span><span style=font-weight:700>-</span>epsilon)<span style=font-weight:700>*</span>mu_1
+</code></pre></div><p>We use Pandas to calculate the correlation matrix:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>C1 <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(mu_1)<span style=font-weight:700>.</span>corr()
+C2 <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(mu_2)<span style=font-weight:700>.</span>corr()
+</code></pre></div><p>And we plot the correlation matrices.</p>
 <figure><img src=/ox-hugo/correlation-matrix-plot.png>
 </figure>
 <h3 id=spearman-correlation>Spearman correlation</h3>
 <p>Calculate similarity using <a href="/spearman-correlation.html#Spearman rank correlation">Spearman correlation</a> between the top triangle of the covariance matrices \(C_1\) and \(C_2\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>indices = np.triu_indices(C1.shape[0], k=1)
-print(C1[indices])
-</code></pre>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>indices <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>triu_indices(C1<span style=font-weight:700>.</span>shape[<span style=color:#099>0</span>], k<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+<span style=color:#999>print</span>(C1[indices])
+</code></pre></div>
 </div>
 </article>
 <div id=footer-post-container>

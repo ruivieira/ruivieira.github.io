@@ -199,47 +199,47 @@ DI( C)=\frac{\min_{c_k \in C}{\delta(c_k, c_l)}}{\max_{c_k\in C}\Delta(c_k)}
 Let&rsquo;s simulate some data and apply the Dunn index from scratch.
 First, we will create a compact and well-separated dataset using the <a href=https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make%5C%5Fblobs.html>make_blobs</a> method in <code>scikit-learn</code>.
 We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with three clusters.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.datasets import make_blobs
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.datasets</span> <span style=font-weight:700>import</span> make_blobs
 
-X, y = make_blobs(n_samples=1000,
-                  centers=3,
-                  n_features=2,
-                  random_state=23)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pandas as pd
-from plotnine import *
-from plotnine.data import *
-from plotutils import *
+X, y <span style=font-weight:700>=</span> make_blobs(n_samples<span style=font-weight:700>=</span><span style=color:#099>1000</span>,
+                  centers<span style=font-weight:700>=</span><span style=color:#099>3</span>,
+                  n_features<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+                  random_state<span style=font-weight:700>=</span><span style=color:#099>23</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine.data</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotutils</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
-data = pd.DataFrame(X, columns=[&quot;x1&quot;, &quot;x2&quot;])
-data[&quot;y&quot;] = y
-data[&quot;y&quot;] = data.y.astype('category')
+data <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(X, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#34;x1&#34;</span>, <span style=color:#b84>&#34;x2&#34;</span>])
+data[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> y
+data[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data<span style=font-weight:700>.</span>y<span style=font-weight:700>.</span>astype(<span style=color:#b84>&#39;category&#39;</span>)
 
-ggplot(data=data) + \
-    geom_point(mapping=aes(x=&quot;x1&quot;, y=&quot;x2&quot;, colour=&quot;y&quot;)) + \
-    scale_color_manual(values=[colours[0], colours[1], colours[2]]) + \
+ggplot(data<span style=font-weight:700>=</span>data) <span style=font-weight:700>+</span> \
+    geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;x1&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;x2&#34;</span>, colour<span style=font-weight:700>=</span><span style=color:#b84>&#34;y&#34;</span>)) <span style=font-weight:700>+</span> \
+    scale_color_manual(values<span style=font-weight:700>=</span>[colours[<span style=color:#099>0</span>], colours[<span style=color:#099>1</span>], colours[<span style=color:#099>2</span>]]) <span style=font-weight:700>+</span> \
     theme_classic()
-</code></pre><p>We now cluster the data[^2] and we will have, as expected three distinct clusters, plotted below.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn import cluster
+</code></pre></div><p>We now cluster the data[^2] and we will have, as expected three distinct clusters, plotted below.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn</span> <span style=font-weight:700>import</span> cluster
 
-k_means = cluster.KMeans(n_clusters=3)
-k_means.fit(data)
-y_pred = k_means.predict(data)
+k_means <span style=font-weight:700>=</span> cluster<span style=font-weight:700>.</span>KMeans(n_clusters<span style=font-weight:700>=</span><span style=color:#099>3</span>)
+k_means<span style=font-weight:700>.</span>fit(data)
+y_pred <span style=font-weight:700>=</span> k_means<span style=font-weight:700>.</span>predict(data)
 
-prediction = pd.concat([data, pd.DataFrame(y_pred, columns=['pred'])], axis = 1)
+prediction <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>concat([data, pd<span style=font-weight:700>.</span>DataFrame(y_pred, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;pred&#39;</span>])], axis <span style=font-weight:700>=</span> <span style=color:#099>1</span>)
 
-clus0 = prediction.loc[prediction.pred == 0]
-clus1 = prediction.loc[prediction.pred == 1]
-clus2 = prediction.loc[prediction.pred == 2]
-k_list = [clus0.values, clus1.values,clus2.values]
-</code></pre><p>Let&rsquo;s focus now on two of these cluster, let&rsquo;s call them \(c_k\) and \(c_l\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ck = k_list[0]
-cl = k_list[1]
-</code></pre><p>We know we have to calculate the distance between the points in \(c_k\) and \(c_l\). We know that the `len(ck)=len(cl)=333` we create</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
+clus0 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>0</span>]
+clus1 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>1</span>]
+clus2 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>2</span>]
+k_list <span style=font-weight:700>=</span> [clus0<span style=font-weight:700>.</span>values, clus1<span style=font-weight:700>.</span>values,clus2<span style=font-weight:700>.</span>values]
+</code></pre></div><p>Let&rsquo;s focus now on two of these cluster, let&rsquo;s call them \(c_k\) and \(c_l\).</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ck <span style=font-weight:700>=</span> k_list[<span style=color:#099>0</span>]
+cl <span style=font-weight:700>=</span> k_list[<span style=color:#099>1</span>]
+</code></pre></div><p>We know we have to calculate the distance between the points in \(c_k\) and \(c_l\). We know that the `len(ck)=len(cl)=333` we create</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-values = np.ones([len(ck), len(cl)])
+values <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>ones([<span style=color:#999>len</span>(ck), <span style=color:#999>len</span>(cl)])
 values
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[1., 1., 1., ..., 1., 1., 1.],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[1., 1., 1., ..., 1., 1., 1.],
        [1., 1., 1., ..., 1., 1., 1.],
        [1., 1., 1., ..., 1., 1., 1.],
        ...,
@@ -247,79 +247,79 @@ values
        [1., 1., 1., ..., 1., 1., 1.],
        [1., 1., 1., ..., 1., 1., 1.]])
 </code></pre></div><p>For each pair of points, we then get the norm of \(x_i-x_j\). For instance, for \(i=0\in c_k\) and \(i=1\in c_l\), we would have:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>values[0, 1] = np.linalg.norm(ck[0]-cl[1])
-print(ck[0], cl[1])
-print(values[0, 1])
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>[-5.37039106  3.47555168  2.          0.        ] [ 5.46312794 -3.08938807  1.          1.        ]
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>values[<span style=color:#099>0</span>, <span style=color:#099>1</span>] <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linalg<span style=font-weight:700>.</span>norm(ck[<span style=color:#099>0</span>]<span style=font-weight:700>-</span>cl[<span style=color:#099>1</span>])
+<span style=color:#999>print</span>(ck[<span style=color:#099>0</span>], cl[<span style=color:#099>1</span>])
+<span style=color:#999>print</span>(values[<span style=color:#099>0</span>, <span style=color:#099>1</span>])
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>[-5.37039106  3.47555168  2.          0.        ] [ 5.46312794 -3.08938807  1.          1.        ]
 12.746119711608184
 </code></pre></div><p>The calculation of \(\delta(c_k, c_l)\) between two clusters \(c_k\) and \(c_l\) will be defined as follows:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-def δ(ck, cl):
-    values = np.ones([len(ck), len(cl)])
-    for i in range(0, len(ck)):
-        for j in range(0, len(cl)):
-            values[i, j] = np.linalg.norm(ck[i]-cl[j])
-    return np.min(values)
-</code></pre><p>So, for our two clusters above, \(\delta(c_k, c_l)\) will be:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>δ(ck, cl)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>8.13474311744193
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>δ</span>(ck, cl):
+    values <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>ones([<span style=color:#999>len</span>(ck), <span style=color:#999>len</span>(cl)])
+    <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(ck)):
+        <span style=font-weight:700>for</span> j <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(cl)):
+            values[i, j] <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linalg<span style=font-weight:700>.</span>norm(ck[i]<span style=font-weight:700>-</span>cl[j])
+    <span style=font-weight:700>return</span> np<span style=font-weight:700>.</span>min(values)
+</code></pre></div><p>So, for our two clusters above, \(\delta(c_k, c_l)\) will be:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>δ(ck, cl)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>8.13474311744193
 </code></pre></div><p>Within a single cluster \(c_k\), we can calculate \(\Delta(c_k)\) similarly as:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def Δ(ci):
-    values = np.zeros([len(ci), len(ci)])
-    for i in range(0, len(ci)):
-        for j in range(0, len(ci)):
-            values[i, j] = np.linalg.norm(ci[i]-ci[j])
-    return np.max(values)
-</code></pre><p>So, for instance, for our \(c_k\) and \(c_l\) we would have:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>print(Δ(ck))
-print(Δ(cl))
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>6.726025773561468
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>Δ</span>(ci):
+    values <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>zeros([<span style=color:#999>len</span>(ci), <span style=color:#999>len</span>(ci)])
+    <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(ci)):
+        <span style=font-weight:700>for</span> j <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(ci)):
+            values[i, j] <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linalg<span style=font-weight:700>.</span>norm(ci[i]<span style=font-weight:700>-</span>ci[j])
+    <span style=font-weight:700>return</span> np<span style=font-weight:700>.</span>max(values)
+</code></pre></div><p>So, for instance, for our \(c_k\) and \(c_l\) we would have:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#999>print</span>(Δ(ck))
+<span style=color:#999>print</span>(Δ(cl))
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>6.726025773561468
 6.173844284636552
 </code></pre></div><p>We can now define the <strong>Dunn index</strong> as</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def dunn(k_list):
-    δs = np.ones([len(k_list), len(k_list)])
-    Δs = np.zeros([len(k_list), 1])
-    l_range = list(range(0, len(k_list)))
-    for k in l_range:
-        for l in (l_range[0:k]+l_range[k+1:]):
-            δs[k, l] = δ(k_list[k], k_list[l])
-            Δs[k] = Δ(k_list[k])
-            di = np.min(δs)/np.max(Δs)
-    return di
-</code></pre><p>and calculate the <strong>Dunn index</strong> for our clustered values list as</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>dunn(k_list)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.14867620697065728
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>dunn</span>(k_list):
+    δs <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>ones([<span style=color:#999>len</span>(k_list), <span style=color:#999>len</span>(k_list)])
+    Δs <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>zeros([<span style=color:#999>len</span>(k_list), <span style=color:#099>1</span>])
+    l_range <span style=font-weight:700>=</span> <span style=color:#999>list</span>(<span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(k_list)))
+    <span style=font-weight:700>for</span> k <span style=font-weight:700>in</span> l_range:
+        <span style=font-weight:700>for</span> l <span style=font-weight:700>in</span> (l_range[<span style=color:#099>0</span>:k]<span style=font-weight:700>+</span>l_range[k<span style=font-weight:700>+</span><span style=color:#099>1</span>:]):
+            δs[k, l] <span style=font-weight:700>=</span> δ(k_list[k], k_list[l])
+            Δs[k] <span style=font-weight:700>=</span> Δ(k_list[k])
+            di <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>min(δs)<span style=font-weight:700>/</span>np<span style=font-weight:700>.</span>max(Δs)
+    <span style=font-weight:700>return</span> di
+</code></pre></div><p>and calculate the <strong>Dunn index</strong> for our clustered values list as</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dunn(k_list)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.14867620697065728
 </code></pre></div><p>Intuitively, we can expect a dataset with less well-defined clusters to have a lower <strong>Dunn index</strong>. Let&rsquo;s try it.
 We first generate the new dataset.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>X, y = make_blobs(n_samples=1000,
-                  centers=3,
-                  n_features=2,
-                  cluster_std=10.0,
-                  random_state=24)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X, y <span style=font-weight:700>=</span> make_blobs(n_samples<span style=font-weight:700>=</span><span style=color:#099>1000</span>,
+                  centers<span style=font-weight:700>=</span><span style=color:#099>3</span>,
+                  n_features<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+                  cluster_std<span style=font-weight:700>=</span><span style=color:#099>10.0</span>,
+                  random_state<span style=font-weight:700>=</span><span style=color:#099>24</span>)
 
-df = pd.DataFrame(X, columns=['A', 'B'])
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(X, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;A&#39;</span>, <span style=color:#b84>&#39;B&#39;</span>])
 
-k_means = cluster.KMeans(n_clusters=3)
-k_means.fit(df)
+k_means <span style=font-weight:700>=</span> cluster<span style=font-weight:700>.</span>KMeans(n_clusters<span style=font-weight:700>=</span><span style=color:#099>3</span>)
+k_means<span style=font-weight:700>.</span>fit(df)
 
-#K-means training
-y_pred = k_means.predict(df)
+<span style=color:#998;font-style:italic>#K-means training</span>
+y_pred <span style=font-weight:700>=</span> k_means<span style=font-weight:700>.</span>predict(df)
 
-prediction = pd.concat([df,pd.DataFrame(y_pred, columns=['pred'])], axis = 1)
-prediction[&quot;pred&quot;] = prediction.pred.astype('category')
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(data=prediction) +\
-geom_point(mapping=aes(x=&quot;A&quot;, y=&quot;B&quot;, colour=&quot;pred&quot;)) + \
-scale_color_manual(values=[colours[0], colours[1], colours[2]]) + theme_classic()
-</code></pre><figure><img src=./.ob-jupyter/144ccb9ee25c619a88afebae6bb845a962b06eae.png>
+prediction <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>concat([df,pd<span style=font-weight:700>.</span>DataFrame(y_pred, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;pred&#39;</span>])], axis <span style=font-weight:700>=</span> <span style=color:#099>1</span>)
+prediction[<span style=color:#b84>&#34;pred&#34;</span>] <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>pred<span style=font-weight:700>.</span>astype(<span style=color:#b84>&#39;category&#39;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>prediction) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;A&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;B&#34;</span>, colour<span style=font-weight:700>=</span><span style=color:#b84>&#34;pred&#34;</span>)) <span style=font-weight:700>+</span> \
+scale_color_manual(values<span style=font-weight:700>=</span>[colours[<span style=color:#099>0</span>], colours[<span style=color:#099>1</span>], colours[<span style=color:#099>2</span>]]) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=./.ob-jupyter/144ccb9ee25c619a88afebae6bb845a962b06eae.png>
 </figure>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (317671277)&gt;
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>clus0 = prediction.loc[prediction.pred == 0]
-clus1 = prediction.loc[prediction.pred == 1]
-clus2 = prediction.loc[prediction.pred == 2]
-k_list = [clus0.values, clus1.values,clus2.values]
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>dunn(k_list)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.019563892388205984
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>clus0 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>0</span>]
+clus1 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>1</span>]
+clus2 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>2</span>]
+k_list <span style=font-weight:700>=</span> [clus0<span style=font-weight:700>.</span>values, clus1<span style=font-weight:700>.</span>values,clus2<span style=font-weight:700>.</span>values]
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dunn(k_list)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.019563892388205984
 </code></pre></div>
 </div>
 </article>

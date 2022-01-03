@@ -189,51 +189,51 @@ U^{(i+1)}&=U^{(i)}+w_i y^2_i
 \widehat{\mathbb{V}}&=\frac{\sum_i w_i(X_i-\mu)^2}{\frac{n-1}{n}\sum_i w_i}
 \end{align*}</p>
 <p>Let&rsquo;s look at an example in <a href=/python.html>Python</a>.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-mu = 10.0
-sigma = 20.0
-N = 100_000
+mu <span style=font-weight:700>=</span> <span style=color:#099>10.0</span>
+sigma <span style=font-weight:700>=</span> <span style=color:#099>20.0</span>
+N <span style=font-weight:700>=</span> <span style=color:#099>100_000</span>
 
-Y = np.random.normal(loc=mu, scale=sigma, size=N)
-</code></pre><figure><img src=/ox-hugo/streaming-statistics-histogram.png>
+Y <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>normal(loc<span style=font-weight:700>=</span>mu, scale<span style=font-weight:700>=</span>sigma, size<span style=font-weight:700>=</span>N)
+</code></pre></div><figure><img src=/ox-hugo/streaming-statistics-histogram.png>
 </figure>
 <p>As expected, the mean and variance when calculated in &ldquo;batch&rdquo; mode should be equivalent to the original values \(\mu\) and \(\sigma\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>print(f&quot;mean: {np.mean(Y)}&quot;)
-print(f&quot;std: {np.std(Y)}&quot;)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>mean: 10.101511575087532
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;mean: </span><span style=color:#b84>{</span>np<span style=font-weight:700>.</span>mean(Y)<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+<span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;std: </span><span style=color:#b84>{</span>np<span style=font-weight:700>.</span>std(Y)<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>mean: 10.101511575087532
 std: 20.008596944491394
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>class StreamingStatistcs:
-    def __init__(self):
-        self.sum = 0.0
-        self.mean = 0.0
-        self.t = 0
-        self.n = 0
-        self.var = None
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>StreamingStatistcs</span>:
+    <span style=font-weight:700>def</span> __init__(self):
+        self<span style=font-weight:700>.</span>sum <span style=font-weight:700>=</span> <span style=color:#099>0.0</span>
+        self<span style=font-weight:700>.</span>mean <span style=font-weight:700>=</span> <span style=color:#099>0.0</span>
+        self<span style=font-weight:700>.</span>t <span style=font-weight:700>=</span> <span style=color:#099>0</span>
+        self<span style=font-weight:700>.</span>n <span style=font-weight:700>=</span> <span style=color:#099>0</span>
+        self<span style=font-weight:700>.</span>var <span style=font-weight:700>=</span> <span style=font-weight:700>None</span>
 
-    def calculate(self, y, w):
-        q = y - self.mean
-        tmp_sum = self.sum + w
-        r = q*w / tmp_sum
+    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>calculate</span>(self, y, w):
+        q <span style=font-weight:700>=</span> y <span style=font-weight:700>-</span> self<span style=font-weight:700>.</span>mean
+        tmp_sum <span style=font-weight:700>=</span> self<span style=font-weight:700>.</span>sum <span style=font-weight:700>+</span> w
+        r <span style=font-weight:700>=</span> q<span style=font-weight:700>*</span>w <span style=font-weight:700>/</span> tmp_sum
 
-        self.mean += r
-        self.t += q*r*self.sum
-        self.sum = tmp_sum
-        self.n += 1
-        if (self.sum == 0.0 or self.n &lt; 2):
-            self.var = 0
-        else:
-            self.var = (self.t*self.n)/(self.sum*(self.n-1))
-        return (self.mean, self.var)
+        self<span style=font-weight:700>.</span>mean <span style=font-weight:700>+=</span> r
+        self<span style=font-weight:700>.</span>t <span style=font-weight:700>+=</span> q<span style=font-weight:700>*</span>r<span style=font-weight:700>*</span>self<span style=font-weight:700>.</span>sum
+        self<span style=font-weight:700>.</span>sum <span style=font-weight:700>=</span> tmp_sum
+        self<span style=font-weight:700>.</span>n <span style=font-weight:700>+=</span> <span style=color:#099>1</span>
+        <span style=font-weight:700>if</span> (self<span style=font-weight:700>.</span>sum <span style=font-weight:700>==</span> <span style=color:#099>0.0</span> <span style=font-weight:700>or</span> self<span style=font-weight:700>.</span>n <span style=font-weight:700>&lt;</span> <span style=color:#099>2</span>):
+            self<span style=font-weight:700>.</span>var <span style=font-weight:700>=</span> <span style=color:#099>0</span>
+        <span style=font-weight:700>else</span>:
+            self<span style=font-weight:700>.</span>var <span style=font-weight:700>=</span> (self<span style=font-weight:700>.</span>t<span style=font-weight:700>*</span>self<span style=font-weight:700>.</span>n)<span style=font-weight:700>/</span>(self<span style=font-weight:700>.</span>sum<span style=font-weight:700>*</span>(self<span style=font-weight:700>.</span>n<span style=font-weight:700>-</span><span style=color:#099>1</span>))
+        <span style=font-weight:700>return</span> (self<span style=font-weight:700>.</span>mean, self<span style=font-weight:700>.</span>var)
 
-means = []
-vars = []
-st = StreamingStatistcs()
-for y in Y:
-    m, v = st.calculate(y, 1.0)
-    means.append(m)
-    vars.append(np.sqrt(v))
-</code></pre><figure><img src=/ox-hugo/streaming-statistics-online.png>
+means <span style=font-weight:700>=</span> []
+<span style=color:#999>vars</span> <span style=font-weight:700>=</span> []
+st <span style=font-weight:700>=</span> StreamingStatistcs()
+<span style=font-weight:700>for</span> y <span style=font-weight:700>in</span> Y:
+    m, v <span style=font-weight:700>=</span> st<span style=font-weight:700>.</span>calculate(y, <span style=color:#099>1.0</span>)
+    means<span style=font-weight:700>.</span>append(m)
+    <span style=color:#999>vars</span><span style=font-weight:700>.</span>append(np<span style=font-weight:700>.</span>sqrt(v))
+</code></pre></div><figure><img src=/ox-hugo/streaming-statistics-online.png>
 </figure>
 <section class=footnotes role=doc-endnotes>
 <hr>

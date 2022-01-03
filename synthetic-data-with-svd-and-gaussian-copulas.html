@@ -108,7 +108,7 @@
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsynthetic-data-with-svd-and-gaussian-copulas.html&name=Synthetic%20data%20with%20SVD%20and%20Gaussian%20copulas&description=import%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26quot%3bdata%2fsvm-hyperparameters-train-features.csv%26quot%3b%29%20data.head%28%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%200%203%201%2022.0%201%200%207.2500%201%201%200%2038.0%201%200%2071.2833%202%203%200%2026.0%200%200%207.9250%203%201%200%2035.0%201%200%2053.1000%204%203%201%2035.0%200%200%208.0500%20data.describe%28include%3d%26quot%3ball%26quot%3b%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%20count%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20mean%202.308642%200.647587%2029.758889%200.523008%200.381594%2032.204208%20std%200." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsynthetic-data-with-svd-and-gaussian-copulas.html&name=Synthetic%20data%20with%20SVD%20and%20Gaussian%20copulas&description=import%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26%2334%3bdata%2fsvm-hyperparameters-train-features.csv%26%2334%3b%29%20data.head%28%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%200%203%201%2022.0%201%200%207.2500%201%201%200%2038.0%201%200%2071.2833%202%203%200%2026.0%200%200%207.9250%203%201%200%2035.0%201%200%2053.1000%204%203%201%2035.0%200%200%208.0500%20data.describe%28include%3d%26%2334%3ball%26%2334%3b%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%20count%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20mean%202.308642%200.647587%2029.758889%200.523008%200.381594%2032.204208%20std%200." aria-label=Tumblr>
 <i class="fab fa-tumblr" aria-hidden=true></i>
 </a>
 </li>
@@ -140,18 +140,18 @@ Updated <time datetime="2021-12-07 21:49:31 +0000 GMT" itemprop=datePublished>20
 </div>
 </header>
 <div class=content itemprop=articleBody>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pandas as pd
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-data = pd.read_csv(&quot;data/svm-hyperparameters-train-features.csv&quot;)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data.head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Pclass  Sex   Age  SibSp  Parch     Fare
+data <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>read_csv(<span style=color:#b84>&#34;data/svm-hyperparameters-train-features.csv&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Pclass  Sex   Age  SibSp  Parch     Fare
 0       3    1  22.0      1      0   7.2500
 1       1    0  38.0      1      0  71.2833
 2       3    0  26.0      0      0   7.9250
 3       1    0  35.0      1      0  53.1000
 4       3    1  35.0      0      0   8.0500
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data.describe(include=&quot;all&quot;)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>           Pclass         Sex         Age       SibSp       Parch        Fare
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data<span style=font-weight:700>.</span>describe(include<span style=font-weight:700>=</span><span style=color:#b84>&#34;all&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>           Pclass         Sex         Age       SibSp       Parch        Fare
 count  891.000000  891.000000  891.000000  891.000000  891.000000  891.000000
 mean     2.308642    0.647587   29.758889    0.523008    0.381594   32.204208
 std      0.836071    0.477990   13.002570    1.102743    0.806057   49.693429
@@ -160,149 +160,149 @@ min      1.000000    0.000000    0.420000    0.000000    0.000000    0.000000
 50%      3.000000    1.000000   30.000000    0.000000    0.000000   14.454200
 75%      3.000000    1.000000   35.000000    1.000000    0.000000   31.000000
 max      3.000000    1.000000   80.000000    8.000000    6.000000  512.329200
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sdv.tabular import GaussianCopula
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>---------------------------------------------------------------------------
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sdv.tabular</span> <span style=font-weight:700>import</span> GaussianCopula
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>---------------------------------------------------------------------------
 ModuleNotFoundError                       Traceback (most recent call last)
 /var/folders/c2/9d2fsqt57t10zn1f2ylp1jxw0000gn/T/ipykernel_62349/3994888440.py in &lt;module&gt;
 ----&gt; 1 from sdv.tabular import GaussianCopula
 
 ModuleNotFoundError: No module named &#39;sdv&#39;
 </code></pre></div><p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>model = GaussianCopula()
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>model <span style=font-weight:700>=</span> GaussianCopula()
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>model.fit(data)
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>model<span style=font-weight:700>.</span>fit(data)
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>N_SAMPLES = 1000
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>N_SAMPLES <span style=font-weight:700>=</span> <span style=color:#099>1000</span>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>new_df = model.sample(N_SAMPLES)
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>new_df <span style=font-weight:700>=</span> model<span style=font-weight:700>.</span>sample(N_SAMPLES)
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>new_df.head()
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>new_df<span style=font-weight:700>.</span>head()
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>new_df.describe()
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>new_df<span style=font-weight:700>.</span>describe()
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from plotnine import *
-from plotnine.data import *
-from plotutils import *
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine.data</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotutils</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
-ggplot() + geom_histogram(data=data, mapping=aes(x='Pclass'), fill=colours[0], bins=3, alpha=0.3) + \
-geom_histogram(data=new_df, mapping=aes(x='Pclass'), fill=colours[1], bins=3, alpha=0.3) + \
+ggplot() <span style=font-weight:700>+</span> geom_histogram(data<span style=font-weight:700>=</span>data, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Pclass&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], bins<span style=font-weight:700>=</span><span style=color:#099>3</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
+geom_histogram(data<span style=font-weight:700>=</span>new_df, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Pclass&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], bins<span style=font-weight:700>=</span><span style=color:#099>3</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot() + geom_histogram(data=data, mapping=aes(x='Sex'), fill=colours[0], bins=6, alpha=0.3) + \
-geom_histogram(data=new_df, mapping=aes(x='Sex'), fill=colours[1], bins=6, alpha=0.3) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot() <span style=font-weight:700>+</span> geom_histogram(data<span style=font-weight:700>=</span>data, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Sex&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], bins<span style=font-weight:700>=</span><span style=color:#099>6</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
+geom_histogram(data<span style=font-weight:700>=</span>new_df, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Sex&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], bins<span style=font-weight:700>=</span><span style=color:#099>6</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(mapping=aes(x='Age')) + \
-geom_density(data=data, fill=colours[0], alpha=0.2) + \
-geom_density(data=new_df, fill=colours[1], alpha=0.2) + \
-geom_vline(xintercept=data.Age.mean(), linetype='dotted', colour=colours[0]) + \
-geom_vline(xintercept=new_df.Age.mean(), linetype='dotted', colour=colours[1]) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Age&#39;</span>)) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>data, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>new_df, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>data<span style=font-weight:700>.</span>Age<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>]) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>new_df<span style=font-weight:700>.</span>Age<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>]) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(mapping=aes(x='Fare')) + \
-geom_density(data=data, fill=colours[0], alpha=0.2) + \
-geom_density(data=new_df, fill=colours[1], alpha=0.2) + \
-geom_vline(xintercept=data.Fare.mean(), linetype='dotted', colour=colours[0]) + \
-geom_vline(xintercept=new_df.Fare.mean(), linetype='dotted', colour=colours[1]) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Fare&#39;</span>)) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>data, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>new_df, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>data<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>]) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>new_df<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>]) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>model = GaussianCopula(
-    field_transformers={
-        'Pclass': 'categorical',
-        'Sex': 'categorical',
-        'Age': 'float',
-        'SibSp': 'boolean',
-        'Parch': 'integer',
-        'Fare': 'float'
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>model <span style=font-weight:700>=</span> GaussianCopula(
+    field_transformers<span style=font-weight:700>=</span>{
+        <span style=color:#b84>&#39;Pclass&#39;</span>: <span style=color:#b84>&#39;categorical&#39;</span>,
+        <span style=color:#b84>&#39;Sex&#39;</span>: <span style=color:#b84>&#39;categorical&#39;</span>,
+        <span style=color:#b84>&#39;Age&#39;</span>: <span style=color:#b84>&#39;float&#39;</span>,
+        <span style=color:#b84>&#39;SibSp&#39;</span>: <span style=color:#b84>&#39;boolean&#39;</span>,
+        <span style=color:#b84>&#39;Parch&#39;</span>: <span style=color:#b84>&#39;integer&#39;</span>,
+        <span style=color:#b84>&#39;Fare&#39;</span>: <span style=color:#b84>&#39;float&#39;</span>
     }
 )
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>model.fit(data)
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>model<span style=font-weight:700>.</span>fit(data)
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>new_df = model.sample(N_SAMPLES)
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>new_df <span style=font-weight:700>=</span> model<span style=font-weight:700>.</span>sample(N_SAMPLES)
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>new_df.head()
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>new_df<span style=font-weight:700>.</span>head()
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot() + geom_histogram(data=data, mapping=aes(x='Pclass'), fill=colours[0], bins=3, alpha=0.3) + \
-geom_histogram(data=new_df, mapping=aes(x='Pclass'), fill=colours[1], bins=3, alpha=0.3) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot() <span style=font-weight:700>+</span> geom_histogram(data<span style=font-weight:700>=</span>data, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Pclass&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], bins<span style=font-weight:700>=</span><span style=color:#099>3</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
+geom_histogram(data<span style=font-weight:700>=</span>new_df, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Pclass&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], bins<span style=font-weight:700>=</span><span style=color:#099>3</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot() + geom_histogram(data=data, mapping=aes(x='Sex'), fill=colours[0], bins=6, alpha=0.3) + \
-geom_histogram(data=new_df, mapping=aes(x='Sex'), fill=colours[1], bins=6, alpha=0.3) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot() <span style=font-weight:700>+</span> geom_histogram(data<span style=font-weight:700>=</span>data, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Sex&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], bins<span style=font-weight:700>=</span><span style=color:#099>6</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
+geom_histogram(data<span style=font-weight:700>=</span>new_df, mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Sex&#39;</span>), fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], bins<span style=font-weight:700>=</span><span style=color:#099>6</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>0.3</span>) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(mapping=aes(x='Age')) + \
-geom_density(data=data, fill=colours[0], alpha=0.2) + \
-geom_density(data=new_df, fill=colours[1], alpha=0.2) + \
-geom_vline(xintercept=data.Age.mean(), linetype='dotted', colour=colours[0]) + \
-geom_vline(xintercept=new_df.Age.mean(), linetype='dotted', colour=colours[1]) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Age&#39;</span>)) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>data, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>new_df, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>data<span style=font-weight:700>.</span>Age<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>]) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>new_df<span style=font-weight:700>.</span>Age<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>]) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(mapping=aes(x='Fare')) + \
-geom_density(data=data, fill=colours[0], alpha=0.2) + \
-geom_density(data=new_df, fill=colours[1], alpha=0.2) + \
-geom_vline(xintercept=data.Fare.mean(), linetype='dotted', colour=colours[0]) + \
-geom_vline(xintercept=new_df.Fare.mean(), linetype='dotted', colour=colours[1]) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Fare&#39;</span>)) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>data, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>new_df, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>data<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>]) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>new_df<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>]) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data.Fare.describe()
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>describe()
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>distributions = model.get_distributions()
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>distributions <span style=font-weight:700>=</span> model<span style=font-weight:700>.</span>get_distributions()
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>distributions
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>distributions
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>model = GaussianCopula(
-    field_transformers={
-        'Pclass': 'categorical',
-        'Sex': 'categorical',
-        'Age': 'float',
-        'SibSp': 'boolean',
-        'Parch': 'integer',
-        'Fare': 'float'
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>model <span style=font-weight:700>=</span> GaussianCopula(
+    field_transformers<span style=font-weight:700>=</span>{
+        <span style=color:#b84>&#39;Pclass&#39;</span>: <span style=color:#b84>&#39;categorical&#39;</span>,
+        <span style=color:#b84>&#39;Sex&#39;</span>: <span style=color:#b84>&#39;categorical&#39;</span>,
+        <span style=color:#b84>&#39;Age&#39;</span>: <span style=color:#b84>&#39;float&#39;</span>,
+        <span style=color:#b84>&#39;SibSp&#39;</span>: <span style=color:#b84>&#39;boolean&#39;</span>,
+        <span style=color:#b84>&#39;Parch&#39;</span>: <span style=color:#b84>&#39;integer&#39;</span>,
+        <span style=color:#b84>&#39;Fare&#39;</span>: <span style=color:#b84>&#39;float&#39;</span>
     },
-    field_distributions={
-        'Fare': 'truncated_gaussian'
+    field_distributions<span style=font-weight:700>=</span>{
+        <span style=color:#b84>&#39;Fare&#39;</span>: <span style=color:#b84>&#39;truncated_gaussian&#39;</span>
     }
 )
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>model.fit(data)
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>model<span style=font-weight:700>.</span>fit(data)
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>new_df = model.sample(N_SAMPLES)
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>new_df <span style=font-weight:700>=</span> model<span style=font-weight:700>.</span>sample(N_SAMPLES)
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>new_df.Fare.describe()
-</code></pre><p>```</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>new_df<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>describe()
+</code></pre></div><p>```</p>
 <p>```python</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ggplot(mapping=aes(x='Fare')) + \
-geom_density(data=data, fill=colours[0], alpha=0.2) + \
-geom_density(data=new_df, fill=colours[1], alpha=0.2) + \
-geom_vline(xintercept=data.Fare.mean(), linetype='dotted', colour=colours[0]) + \
-geom_vline(xintercept=new_df.Fare.mean(), linetype='dotted', colour=colours[1]) + \
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#39;Fare&#39;</span>)) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>data, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_density(data<span style=font-weight:700>=</span>new_df, fill<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], alpha<span style=font-weight:700>=</span><span style=color:#099>0.2</span>) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>data<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>]) <span style=font-weight:700>+</span> \
+geom_vline(xintercept<span style=font-weight:700>=</span>new_df<span style=font-weight:700>.</span>Fare<span style=font-weight:700>.</span>mean(), linetype<span style=font-weight:700>=</span><span style=color:#b84>&#39;dotted&#39;</span>, colour<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>]) <span style=font-weight:700>+</span> \
 theme_classic()
-</code></pre><p>```</p>
+</code></pre></div><p>```</p>
 <p>```python</p>
 <p>```</p>
 </div>
@@ -357,7 +357,7 @@ theme_classic()
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsynthetic-data-with-svd-and-gaussian-copulas.html&name=Synthetic%20data%20with%20SVD%20and%20Gaussian%20copulas&description=import%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26quot%3bdata%2fsvm-hyperparameters-train-features.csv%26quot%3b%29%20data.head%28%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%200%203%201%2022.0%201%200%207.2500%201%201%200%2038.0%201%200%2071.2833%202%203%200%2026.0%200%200%207.9250%203%201%200%2035.0%201%200%2053.1000%204%203%201%2035.0%200%200%208.0500%20data.describe%28include%3d%26quot%3ball%26quot%3b%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%20count%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20mean%202.308642%200.647587%2029.758889%200.523008%200.381594%2032.204208%20std%200." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fsynthetic-data-with-svd-and-gaussian-copulas.html&name=Synthetic%20data%20with%20SVD%20and%20Gaussian%20copulas&description=import%20pandas%20as%20pd%20data%20%3d%20pd.read_csv%28%26%2334%3bdata%2fsvm-hyperparameters-train-features.csv%26%2334%3b%29%20data.head%28%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%200%203%201%2022.0%201%200%207.2500%201%201%200%2038.0%201%200%2071.2833%202%203%200%2026.0%200%200%207.9250%203%201%200%2035.0%201%200%2053.1000%204%203%201%2035.0%200%200%208.0500%20data.describe%28include%3d%26%2334%3ball%26%2334%3b%29%20Pclass%20Sex%20Age%20SibSp%20Parch%20Fare%20count%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20891.000000%20mean%202.308642%200.647587%2029.758889%200.523008%200.381594%2032.204208%20std%200." aria-label=Tumblr>
 <i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
 </a>
 </li>

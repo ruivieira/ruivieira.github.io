@@ -161,72 +161,72 @@ Python does allow for functionality to be added to classes after their declarati
 <p>I will show a quick and general overview of the methods that Python puts at our disposal for dynamic runtime object manipulation, but for a more in-depth please consult the official <a href=https://docs.python.org/3/>Python documentation</a>.</p>
 <h2 id=bound-and-unbound-methods>Bound and unbound methods</h2>
 <p>Let&rsquo;s first look at bound methods. If we assume a class called <code>Class</code> and an instance <code>instance</code>, with an instance method <code>bound</code> and class method <code>unbound</code> such that</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>class Class:
-    def bound(self):
-        return &quot;I'm a bound method&quot;
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Class</span>:
+    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>bound</span>(self):
+        <span style=font-weight:700>return</span> <span style=color:#b84>&#34;I&#39;m a bound method&#34;</span>
 
     @staticmethod
-    def unbound():
-        return &quot;I'm an unbound method&quot;
+    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>unbound</span>():
+        <span style=font-weight:700>return</span> <span style=color:#b84>&#34;I&#39;m an unbound method&#34;</span>
 
 
-instance = Class()
-</code></pre><p>Then <code>foo</code> is a bound method and <code>bar</code> is an unbound method.
+instance <span style=font-weight:700>=</span> Class()
+</code></pre></div><p>Then <code>foo</code> is a bound method and <code>bar</code> is an unbound method.
 This definition, in practice, can be exemplified by the standard way of calling <code>.foo()</code>, which is</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>instance.bound()
-</code></pre><p>which in turn is equivalent to</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>Class.bound(instance)
-</code></pre><p>The standard way of calling <code>unbound</code> is , similarly</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>instance.unbound()
-</code></pre><p>This, however, is equivalent to</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>Class.unbound()
-</code></pre><p>In the unbound case, we can see there&rsquo;s no need to pass the class instance. <code>unbound</code> is <strong>not bound</strong> to the class instance.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>instance<span style=font-weight:700>.</span>bound()
+</code></pre></div><p>which in turn is equivalent to</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>bound(instance)
+</code></pre></div><p>The standard way of calling <code>unbound</code> is , similarly</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>instance<span style=font-weight:700>.</span>unbound()
+</code></pre></div><p>This, however, is equivalent to</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>unbound()
+</code></pre></div><p>In the unbound case, we can see there&rsquo;s no need to pass the class instance. <code>unbound</code> is <strong>not bound</strong> to the class instance.</p>
 <p>As mentioned before, Python allow us to change the class attributes at runtime. If we consider a method such as</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def newBound(self):
-    return &quot;I'm a (new!) bound method&quot;
-</code></pre><p>we can then add it to the class, even after declaring it. For instance:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python> Class.newBound = newBound
- instance = Class()
- instance.newBound() # Class.newBound(instance)
-</code></pre><p>It is interesting to note that any type of function definition will work, since functions are first class objects in Python. As such, if the method can be written as a single statement, a <code>lambda</code> could also be used, <em>i.e.</em></p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>Class.newBound = lambda self: &quot;I'm a lambda&quot;
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>newBound</span>(self):
+    <span style=font-weight:700>return</span> <span style=color:#b84>&#34;I&#39;m a (new!) bound method&#34;</span>
+</code></pre></div><p>we can then add it to the class, even after declaring it. For instance:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python> Class<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> newBound
+ instance <span style=font-weight:700>=</span> Class()
+ instance<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># Class.newBound(instance)</span>
+</code></pre></div><p>It is interesting to note that any type of function definition will work, since functions are first class objects in Python. As such, if the method can be written as a single statement, a <code>lambda</code> could also be used, <em>i.e.</em></p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#b84>&#34;I&#39;m a lambda&#34;</span>
 
-instance.newBound()
-</code></pre><p>A limitation of the &ldquo;monkey patching&rdquo; method, is that attributes can only be changed at the class definition level.
+instance<span style=font-weight:700>.</span>newBound()
+</code></pre></div><p>A limitation of the &ldquo;monkey patching&rdquo; method, is that attributes can only be changed at the class definition level.
 As an example, although possible, it is not trivial to add the <code>.newBound()</code> method to <code>instance</code>.</p>
 <p>A solution is to either call the descriptor methods (which allow for instance attribute manipulation), or declare the instance attribute as a `MethodType`.</p>
 <p>To illustrate this in our case:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import types
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>types</span>
 
-instance.newBound = types.MethodType(newBound, instance)
+instance<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> types<span style=font-weight:700>.</span>MethodType(newBound, instance)
 
-instance.newBound() # Prints &quot;I'm a lambda&quot;
-</code></pre><p>This method is precisely, as mentioned, to change attributes for a specific instance, so in this case, if we try to access the bound method from another instance `anotherInstance`, it would fail</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>anotherInstance = Class()
-anotherInstance.newBound() # fails with AttributeError
-</code></pre><h2 id=abstract-classes>Abstract classes</h2>
+instance<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># Prints &#34;I&#39;m a lambda&#34;</span>
+</code></pre></div><p>This method is precisely, as mentioned, to change attributes for a specific instance, so in this case, if we try to access the bound method from another instance `anotherInstance`, it would fail</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>anotherInstance <span style=font-weight:700>=</span> Class()
+anotherInstance<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># fails with AttributeError</span>
+</code></pre></div><h2 id=abstract-classes>Abstract classes</h2>
 <p>Python supports abstract classes, <em>i.e.</em> the definition of &ldquo;blueprint&rdquo; classes for which we delegate the concrete implementation of abstract methods to subclasses.
 In Python 3.x this is done via the <code>@abstractmethod</code> annotation. If we declare a class such as</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from abc import ABC, abstractmethod
-class AbstractClass(ABC):
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>abc</span> <span style=font-weight:700>import</span> ABC, abstractmethod
+<span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>AbstractClass</span>(ABC):
 	@abstractmethod
-	def abstractMethod(self):
-		pass
-</code></pre><p>we can then implement <code>abstractMethod</code> in all of <code>AbstractClass</code>&rsquo;s subclasses:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>class ConcreteClass(AbstractClass):
-	def abstractMethod(self):
-		print(&quot;Concrete class abstract method&quot;)
-</code></pre><p>We could, obviously, do this in Python <strong>without</strong> abstract classes, but this mechanism allows for a greater safety, since implementation of abstract methods is mandatory in this case.
+	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>abstractMethod</span>(self):
+		<span style=font-weight:700>pass</span>
+</code></pre></div><p>we can then implement <code>abstractMethod</code> in all of <code>AbstractClass</code>&rsquo;s subclasses:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ConcreteClass</span>(AbstractClass):
+	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>abstractMethod</span>(self):
+		<span style=color:#999>print</span>(<span style=color:#b84>&#34;Concrete class abstract method&#34;</span>)
+</code></pre></div><p>We could, obviously, do this in Python <strong>without</strong> abstract classes, but this mechanism allows for a greater safety, since implementation of abstract methods is mandatory in this case.
 With regular classes, not implementing <code>abstractMethod</code> would simply assume we were using the parent&rsquo;s definition.</p>
 <p>Unfortunately, monkey patching of abstract methods is not supported in Python. We <strong>could</strong> monkey patch the concrete class:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ConcreteClass.newBound = lambda self: print(&quot;New 'child' bound&quot;)
-c = ConcreteClass()
-c.newBound() # prints &quot;New 'child' bound&quot;
-</code></pre><p>And we could even add a new bound method to the superclass, which will be available to all subclasses:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python> AbstractClass.newBound = lambda self: print(&quot;New 'parent' bound&quot;)
- c = ConcreteClass()
- c.newBound() # prints &quot;New 'parent' bound&quot;
-</code></pre><p>However, we can&rsquo;t add abstract methods with monkey patching.
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ConcreteClass<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New &#39;child&#39; bound&#34;</span>)
+c <span style=font-weight:700>=</span> ConcreteClass()
+c<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># prints &#34;New &#39;child&#39; bound&#34;</span>
+</code></pre></div><p>And we could even add a new bound method to the superclass, which will be available to all subclasses:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python> AbstractClass<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New &#39;parent&#39; bound&#34;</span>)
+ c <span style=font-weight:700>=</span> ConcreteClass()
+ c<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># prints &#34;New &#39;parent&#39; bound&#34;</span>
+</code></pre></div><p>However, we can&rsquo;t add abstract methods with monkey patching.
 This is <a href=https://docs.python.org/3/library/abc.html#abc.abstractmethod>a documented exception</a> of this functionality with the specific warning that</p>
 <blockquote>
 <p>Dynamically adding abstract methods to a class, or attempting to modify the abstraction status of a method or class once it is created, are not supported.
@@ -234,19 +234,19 @@ The <code>abstractmethod()</code> only affects subclasses derived using regular 
 </blockquote>
 <h2 id=private-methods>Private methods</h2>
 <p>We can dynamically add and replace inner methods, such as:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>class Class:
-	def _inner(self):
-		print(&quot;Inner bound&quot;)
-	def __private(self):
-		print(&quot;Private bound&quot;)
-	def callNewPrivate(self):
-		self.__newPrivate()
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Class</span>:
+	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_inner</span>(self):
+		<span style=color:#999>print</span>(<span style=color:#b84>&#34;Inner bound&#34;</span>)
+	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>__private</span>(self):
+		<span style=color:#999>print</span>(<span style=color:#b84>&#34;Private bound&#34;</span>)
+	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>callNewPrivate</span>(self):
+		self<span style=font-weight:700>.</span>__newPrivate()
 
-Class._newInner = lambda self: print(&quot;New inner bound&quot;)
-c = Class()
-c._inner() # prints &quot;Inner bound&quot;
-c._newInner() # prints &quot;New inner bound&quot;
-</code></pre><p>However, private methods behave differently.
+Class<span style=font-weight:700>.</span>_newInner <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New inner bound&#34;</span>)
+c <span style=font-weight:700>=</span> Class()
+c<span style=font-weight:700>.</span>_inner() <span style=color:#998;font-style:italic># prints &#34;Inner bound&#34;</span>
+c<span style=font-weight:700>.</span>_newInner() <span style=color:#998;font-style:italic># prints &#34;New inner bound&#34;</span>
+</code></pre></div><p>However, private methods behave differently.
 Python enforces name mangling for private methods. As specified in the documentation:</p>
 <blockquote>
 <p>Since there is a valid use-case for class-private members (namely to avoid name clashes of names with names defined by subclasses),
@@ -256,21 +256,21 @@ where classname is the current class name with leading underscore(s) stripped.
 This mangling is done without regard to the syntactic position of the identifier, as long as it occurs within the definition of a class.</p>
 </blockquote>
 <p>We can then still access the private methods (although we probably shouldn&rsquo;t), but monkey patching won&rsquo;t work as before due to the above.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>c._Class__private() # Private bound
-Class.__newPrivate = lambda self: print(&quot;New private bound&quot;)
-c = Class()
-c._Class__newPrivate() # fails with AttributeError
-</code></pre><p>We have defined a new method called <code>__newPrivate()</code> but interestingly, this method is <strong>not</strong> private.
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>c<span style=font-weight:700>.</span>_Class__private() <span style=color:#998;font-style:italic># Private bound</span>
+Class<span style=font-weight:700>.</span>__newPrivate <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New private bound&#34;</span>)
+c <span style=font-weight:700>=</span> Class()
+c<span style=font-weight:700>.</span>_Class__newPrivate() <span style=color:#998;font-style:italic># fails with AttributeError</span>
+</code></pre></div><p>We have defined a new method called <code>__newPrivate()</code> but interestingly, this method is <strong>not</strong> private.
 We can see this by calling it directly (which is allowed) and by calling the new &ldquo;private&rdquo; method from inside the class as <code>self.__newPrivate()</code>:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>c.__newPrivate() # prints &quot;New private bound&quot;
-c.callNewPrivate()
-# fails with AttributeError (can't find _Class_NewPrivate)
-</code></pre><p>It is possible to perform some OOP abuse and declare the private method by mangling the name ourselves. In this case we could then do:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>Class._Class__newPrivate = lambda self: print(&quot;New private bound&quot;)
-c = Class()
-c._Class__newPrivate() # prints &quot;New private bound&quot;
-c.callNewPrivate() # prints &quot;New private bound&quot;
-</code></pre><h2 id=builtins>Builtins</h2>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>c<span style=font-weight:700>.</span>__newPrivate() <span style=color:#998;font-style:italic># prints &#34;New private bound&#34;</span>
+c<span style=font-weight:700>.</span>callNewPrivate()
+<span style=color:#998;font-style:italic># fails with AttributeError (can&#39;t find _Class_NewPrivate)</span>
+</code></pre></div><p>It is possible to perform some OOP abuse and declare the private method by mangling the name ourselves. In this case we could then do:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>_Class__newPrivate <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New private bound&#34;</span>)
+c <span style=font-weight:700>=</span> Class()
+c<span style=font-weight:700>.</span>_Class__newPrivate() <span style=color:#998;font-style:italic># prints &#34;New private bound&#34;</span>
+c<span style=font-weight:700>.</span>callNewPrivate() <span style=color:#998;font-style:italic># prints &#34;New private bound&#34;</span>
+</code></pre></div><h2 id=builtins>Builtins</h2>
 <p>Is it possible to monkey patch builtin classes in Python, <em>e.g.</em> <code>int</code> or <code>float</code>?
 In short, yes, it is.</p>
 <p>Although the usefulness is arguable and I <strong>strongly</strong> urge not to do this in any production scenario, we&rsquo;ll look at how to achieve this, for the sake of completeness.
@@ -278,46 +278,46 @@ A very interesting and educational read is available from the <a href=https://gi
 <p>Primitive (or <strong>builtin</strong>) classes in Python are typically written in C and as such some of these meta-programming facilities require jumping through extra hoops (as well as being a Very Bad Idea™).
 Let&rsquo;s first look at the integer class representation, <code>int</code>.</p>
 <p>A <code>int</code> doesn&rsquo;t allow bound methods to be added dynamically as previously. For instance:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>p = 5
-type(p) # int
-</code></pre><p>We can try to add a method to <code>int</code> to square the value of the instance:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>int.square = lambda self: self ** 2
-</code></pre><p>This fails with the error <code>TypeError: can't set attributes of built-in/extension type 'int'</code>.
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>p <span style=font-weight:700>=</span> <span style=color:#099>5</span>
+<span style=color:#999>type</span>(p) <span style=color:#998;font-style:italic># int</span>
+</code></pre></div><p>We can try to add a method to <code>int</code> to square the value of the instance:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#999>int</span><span style=font-weight:700>.</span>square <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: self <span style=font-weight:700>**</span> <span style=color:#099>2</span>
+</code></pre></div><p>This fails with the error <code>TypeError: can't set attributes of built-in/extension type 'int'</code>.
 The solution (as presented in Forbidden Fruit) is to first create classes to hold the <code>ctype</code> information of a builtin (C) class.
 We subclass <code>ctypes</code> Python representation of a C <code>struct</code> in native byte order and hold the <code>signed int</code> size and pointer to <code>PyObject</code>.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import ctypes
-class PyObject(ctypes.Structure):
-	pass
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>ctypes</span>
+<span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>PyObject</span>(ctypes<span style=font-weight:700>.</span>Structure):
+	<span style=font-weight:700>pass</span>
 
-PyObject.fields = [
-	('ob_refcnt', ctypes.c_int),
-	('ob_type', ctypes.POINTER(PyObject)),
+PyObject<span style=font-weight:700>.</span>fields <span style=font-weight:700>=</span> [
+	(<span style=color:#b84>&#39;ob_refcnt&#39;</span>, ctypes<span style=font-weight:700>.</span>c_int),
+	(<span style=color:#b84>&#39;ob_type&#39;</span>, ctypes<span style=font-weight:700>.</span>POINTER(PyObject)),
 ]
-</code></pre><p>Next we create a holder for Python objects slots, containing a reference to the <code>ctype</code> structure:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>class SlotsProxy(PyObject):
-	_fields_ = [('dict', ctypes.POINTER(PyObject))]
-</code></pre><p>The final step is extract the `PyProxyDict` from the object referenced by the pointer.
+</code></pre></div><p>Next we create a holder for Python objects slots, containing a reference to the <code>ctype</code> structure:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>SlotsProxy</span>(PyObject):
+	_fields_ <span style=font-weight:700>=</span> [(<span style=color:#b84>&#39;dict&#39;</span>, ctypes<span style=font-weight:700>.</span>POINTER(PyObject))]
+</code></pre></div><p>The final step is extract the `PyProxyDict` from the object referenced by the pointer.
 Ideally, we should get the builtin&rsquo;s namespace so we can freely set attributes as we did previously. A helper function to retrieve the builtins (mutable) namespace can then be:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def patch(klass):
-	name = klass.__name__
-	target = klass.__dict__
-	proxy_dict = SlotsProxy.from_address(id(target))
-	namespace = {}
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>patch</span>(klass):
+	name <span style=font-weight:700>=</span> klass<span style=font-weight:700>.</span>__name__
+	target <span style=font-weight:700>=</span> klass<span style=font-weight:700>.</span>__dict__
+	proxy_dict <span style=font-weight:700>=</span> SlotsProxy<span style=font-weight:700>.</span>from_address(<span style=color:#999>id</span>(target))
+	namespace <span style=font-weight:700>=</span> {}
 
-	ctypes.pythonapi.PyDict_SetItem(
-		ctypes.py_object(namespace),
-		ctypes.py_object(name),
-		proxy_dict.dict,
+	ctypes<span style=font-weight:700>.</span>pythonapi<span style=font-weight:700>.</span>PyDict_SetItem(
+		ctypes<span style=font-weight:700>.</span>py_object(namespace),
+		ctypes<span style=font-weight:700>.</span>py_object(name),
+		proxy_dict<span style=font-weight:700>.</span>dict,
 	)
-	return namespace[name]
-</code></pre><p>We can now easily patch builtin classes. Let&rsquo;s try to add the square method again by first retrieving the namespace (stored below in `d`) and setting it directly</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>d = patch(int)
-d[&quot;square&quot;] = lambda self: self ** 2
+	<span style=font-weight:700>return</span> namespace[name]
+</code></pre></div><p>We can now easily patch builtin classes. Let&rsquo;s try to add the square method again by first retrieving the namespace (stored below in `d`) and setting it directly</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>d <span style=font-weight:700>=</span> patch(<span style=color:#999>int</span>)
+d[<span style=color:#b84>&#34;square&#34;</span>] <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: self <span style=font-weight:700>**</span> <span style=color:#099>2</span>
 
-p.square() # 25
-</code></pre><p>All future instance of <code>int</code> will also contain the square method now:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>(2 + p).square() # 49
-</code></pre><h2 id=conclusion>Conclusion</h2>
+p<span style=font-weight:700>.</span>square() <span style=color:#998;font-style:italic># 25</span>
+</code></pre></div><p>All future instance of <code>int</code> will also contain the square method now:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>(<span style=color:#099>2</span> <span style=font-weight:700>+</span> p)<span style=font-weight:700>.</span>square() <span style=color:#998;font-style:italic># 49</span>
+</code></pre></div><h2 id=conclusion>Conclusion</h2>
 <p>&ldquo;Monkey patching&rdquo; is usually, and rightly so, considered a code smell, due to the increased indirection and potential source of unwanted surprises.
 However, having the ability to &ldquo;monkey patch&rdquo; classes in Python allows us to write Jupyter notebooks in a more literate, fluid way rather than presenting the user with a &ldquo;wall of code&rdquo;.
 Thank you for reading. If you have any comments or suggestions please drop me a message on <a href=https://mastodon.technology/@ruivieira>Mastodon</a>.</p>

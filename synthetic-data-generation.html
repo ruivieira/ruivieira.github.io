@@ -198,41 +198,41 @@ Updated <time datetime="2021-12-30 23:45:55 +0000 GMT" itemprop=datePublished>20
 <p>What does a regression consist of?</p>
 <p>For this section we will mainly use <code>scikit-learn</code>&rsquo;s <a href=https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make%5Fregression.html><code>make_regression</code></a> method.</p>
 <p>For reproducibility, we will set a <code>random_state</code>.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import warnings
-warnings.filterwarnings('ignore')
-warnings.simplefilter('ignore')
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>warnings</span>
+warnings<span style=font-weight:700>.</span>filterwarnings(<span style=color:#b84>&#39;ignore&#39;</span>)
+warnings<span style=font-weight:700>.</span>simplefilter(<span style=color:#b84>&#39;ignore&#39;</span>)
 
-random_state = 23
-</code></pre><p>We will create a dataset using <code>make_regression</code>&rsquo;s random linear regression model with input features \(x=(f_1,f_2,f_3,f_4)\) and an output \(y\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import matplotlib.pyplot as plt
-from plotnine import *
-from plotnine.data import *
-import numpy as np
-import pandas as pd
-from sklearn.datasets import make_regression
-from scipy.stats import linregress
+random_state <span style=font-weight:700>=</span> <span style=color:#099>23</span>
+</code></pre></div><p>We will create a dataset using <code>make_regression</code>&rsquo;s random linear regression model with input features \(x=(f_1,f_2,f_3,f_4)\) and an output \(y\).</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>matplotlib.pyplot</span> <span style=font-weight:700>as</span> <span style=color:#555>plt</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine.data</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
+<span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
+<span style=font-weight:700>from</span> <span style=color:#555>sklearn.datasets</span> <span style=font-weight:700>import</span> make_regression
+<span style=font-weight:700>from</span> <span style=color:#555>scipy.stats</span> <span style=font-weight:700>import</span> linregress
 
-N_FEATURES = 4
-N_TARGETS = 1
-N_SAMPLES = 100
+N_FEATURES <span style=font-weight:700>=</span> <span style=color:#099>4</span>
+N_TARGETS <span style=font-weight:700>=</span> <span style=color:#099>1</span>
+N_SAMPLES <span style=font-weight:700>=</span> <span style=color:#099>100</span>
 
-dataset = make_regression(
-    n_samples=N_SAMPLES,
-    n_features=N_FEATURES,
-    n_informative=2,
-    n_targets=N_TARGETS,
-    bias=0.0,
-    effective_rank=None,
-    tail_strength=0.5,
-    noise=0.0,
-    shuffle=True,
-    coef=False,
-    random_state=random_state,
+dataset <span style=font-weight:700>=</span> make_regression(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES,
+    n_features<span style=font-weight:700>=</span>N_FEATURES,
+    n_informative<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+    n_targets<span style=font-weight:700>=</span>N_TARGETS,
+    bias<span style=font-weight:700>=</span><span style=color:#099>0.0</span>,
+    effective_rank<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
+    tail_strength<span style=font-weight:700>=</span><span style=color:#099>0.5</span>,
+    noise<span style=font-weight:700>=</span><span style=color:#099>0.0</span>,
+    shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    coef<span style=font-weight:700>=</span><span style=font-weight:700>False</span>,
+    random_state<span style=font-weight:700>=</span>random_state,
 )
 
-print(dataset[0][:10])
-print(dataset[1][:10])
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>[[ 0.87305874 -1.63096187  0.52538404 -0.19035824]
+<span style=color:#999>print</span>(dataset[<span style=color:#099>0</span>][:<span style=color:#099>10</span>])
+<span style=color:#999>print</span>(dataset[<span style=color:#099>1</span>][:<span style=color:#099>10</span>])
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>[[ 0.87305874 -1.63096187  0.52538404 -0.19035824]
  [ 1.00698671  0.79834941 -0.04057655 -0.31358605]
  [-0.61464273  1.65110321  0.75791487 -0.0039844 ]
  [-1.08536678  1.82337823  0.4612592  -1.72325306]
@@ -245,12 +245,12 @@ print(dataset[1][:10])
 [  20.00449025  -30.41054677   52.65371365 -119.26376184   33.78805456
   -78.12189078  -88.41673748 -177.21674804  -90.13920313 -197.90799195]
 </code></pre></div><p>Let&rsquo;s turn this dataset into a Pandas <code>DataFrame</code>:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df = pd.DataFrame(data=dataset[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data<span style=font-weight:700>=</span>dataset[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N_FEATURES)])
 
-df[&quot;y&quot;] = dataset[1]
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> dataset[<span style=color:#099>1</span>]
 
-df.head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>         f1        f2        f3        f4           y
+df<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>         f1        f2        f3        f4           y
 0  0.873059 -1.630962  0.525384 -0.190358   20.004490
 1  1.006987  0.798349 -0.040577 -0.313586  -30.410547
 2 -0.614643  1.651103  0.757915 -0.003984   52.653714
@@ -261,95 +261,95 @@ df.head()
 </figure>
 <h3 id=changing-the-gaussian-noise-level>Changing the Gaussian noise level</h3>
 <p>The <code>noise</code> parameter in <code>make_regression</code> allows to adjust the scale of the data&rsquo;s gaussian centered noise.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>dataset = make_regression(
-    n_samples=N_SAMPLES,
-    n_features=N_FEATURES,
-    n_informative=2,
-    n_targets=N_TARGETS,
-    bias=0.0,
-    effective_rank=None,
-    tail_strength=0.5,
-    noise=2.0,
-    shuffle=True,
-    coef=False,
-    random_state=random_state,
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dataset <span style=font-weight:700>=</span> make_regression(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES,
+    n_features<span style=font-weight:700>=</span>N_FEATURES,
+    n_informative<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+    n_targets<span style=font-weight:700>=</span>N_TARGETS,
+    bias<span style=font-weight:700>=</span><span style=color:#099>0.0</span>,
+    effective_rank<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
+    tail_strength<span style=font-weight:700>=</span><span style=color:#099>0.5</span>,
+    noise<span style=font-weight:700>=</span><span style=color:#099>2.0</span>,
+    shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    coef<span style=font-weight:700>=</span><span style=font-weight:700>False</span>,
+    random_state<span style=font-weight:700>=</span>random_state,
 )
 
-df = pd.DataFrame(data=dataset[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data<span style=font-weight:700>=</span>dataset[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N_FEATURES)])
 
-df[&quot;y&quot;] = dataset[1]
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> dataset[<span style=color:#099>1</span>]
 
 plot_regression(df, N_FEATURES)
-</code></pre><figure><img src=/ox-hugo/c43ea461e138673b560e61689c82725622f7131e.png>
+</code></pre></div><figure><img src=/ox-hugo/c43ea461e138673b560e61689c82725622f7131e.png>
 </figure>
 <h3 id=visualising-increasing-noise>Visualising increasing noise</h3>
 <p>Let&rsquo;s increase the noise by \(10^i\), for \(i=1, 2, 3\) and see what the data looks like.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df = pd.DataFrame(data=np.zeros((N_SAMPLES, 1)))
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data<span style=font-weight:700>=</span>np<span style=font-weight:700>.</span>zeros((N_SAMPLES, <span style=color:#099>1</span>)))
 
-def create_noisy_data(noise):
-    return make_regression(
-        n_samples=N_SAMPLES,
-        n_features=1,
-        n_informative=1,
-        n_targets=1,
-        bias=0.0,
-        effective_rank=None,
-        tail_strength=0.5,
-        noise=noise,
-        shuffle=True,
-        coef=False,
-        random_state=random_state,
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>create_noisy_data</span>(noise):
+    <span style=font-weight:700>return</span> make_regression(
+        n_samples<span style=font-weight:700>=</span>N_SAMPLES,
+        n_features<span style=font-weight:700>=</span><span style=color:#099>1</span>,
+        n_informative<span style=font-weight:700>=</span><span style=color:#099>1</span>,
+        n_targets<span style=font-weight:700>=</span><span style=color:#099>1</span>,
+        bias<span style=font-weight:700>=</span><span style=color:#099>0.0</span>,
+        effective_rank<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
+        tail_strength<span style=font-weight:700>=</span><span style=color:#099>0.5</span>,
+        noise<span style=font-weight:700>=</span>noise,
+        shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+        coef<span style=font-weight:700>=</span><span style=font-weight:700>False</span>,
+        random_state<span style=font-weight:700>=</span>random_state,
     )
 
 
-for i in range(3):
-    data = create_noisy_data(10 ** i)
+<span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>3</span>):
+    data <span style=font-weight:700>=</span> create_noisy_data(<span style=color:#099>10</span> <span style=font-weight:700>**</span> i)
 
-    df[f&quot;f{i+1}&quot;] = data[0]
-    df[f&quot;y{i+1}&quot;] = data[1]
+    df[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>0</span>]
+    df[<span style=color:#b84>f</span><span style=color:#b84>&#34;y</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
 
-for i in range(3):
-    fit = np.polyfit(df[f&quot;f{i+1}&quot;], df[f&quot;y{i+1}&quot;], 1)
-    fit_fn = np.poly1d(fit)
-    plt.subplot(1, 3, i + 1)
-    plt.scatter(df[f&quot;f{i+1}&quot;], df[f&quot;y{i+1}&quot;], s=30, c=colours[1], edgecolor=edges[1])
-    plt.plot(
-        df[f&quot;f{i+1}&quot;],
-        fit_fn(df[f&quot;f{i+1}&quot;]),
-        ls=&quot;--&quot;,
-        color=colours[0],
-        lw=1,
+<span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>3</span>):
+    fit <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>polyfit(df[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>], df[<span style=color:#b84>f</span><span style=color:#b84>&#34;y</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>], <span style=color:#099>1</span>)
+    fit_fn <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>poly1d(fit)
+    plt<span style=font-weight:700>.</span>subplot(<span style=color:#099>1</span>, <span style=color:#099>3</span>, i <span style=font-weight:700>+</span> <span style=color:#099>1</span>)
+    plt<span style=font-weight:700>.</span>scatter(df[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>], df[<span style=color:#b84>f</span><span style=color:#b84>&#34;y</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>], s<span style=font-weight:700>=</span><span style=color:#099>30</span>, c<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], edgecolor<span style=font-weight:700>=</span>edges[<span style=color:#099>1</span>])
+    plt<span style=font-weight:700>.</span>plot(
+        df[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>],
+        fit_fn(df[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>]),
+        ls<span style=font-weight:700>=</span><span style=color:#b84>&#34;--&#34;</span>,
+        color<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>],
+        lw<span style=font-weight:700>=</span><span style=color:#099>1</span>,
     )
-    plt.xlabel(f&quot;f{i+1}&quot;)
-    plt.ylabel(f&quot;y{i+1}&quot;)
-</code></pre><figure><img src=/ox-hugo/afa0dd25d8e8d738dafff65ba37122b723fa6845.png>
+    plt<span style=font-weight:700>.</span>xlabel(<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+    plt<span style=font-weight:700>.</span>ylabel(<span style=color:#b84>f</span><span style=color:#b84>&#34;y</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+</code></pre></div><figure><img src=/ox-hugo/afa0dd25d8e8d738dafff65ba37122b723fa6845.png>
 </figure>
 <h2 id=classification-data>Classification data</h2>
 <p>To generate data for classification we will use the <a href=https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make%5Fclassification.html><code>make_classification</code></a> method.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.datasets import make_classification
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.datasets</span> <span style=font-weight:700>import</span> make_classification
 
-N = 4
-data = make_classification(
-    n_samples=N_SAMPLES,
-    n_features=N,
-    n_informative=4,
-    n_redundant=0,
-    n_repeated=0,
-    n_classes=2,
-    n_clusters_per_class=1,
-    weights=None,
-    flip_y=0.01,
-    class_sep=1.0,
-    hypercube=True,
-    shift=0.0,
-    scale=1.0,
-    shuffle=True,
-    random_state=random_state,
+N <span style=font-weight:700>=</span> <span style=color:#099>4</span>
+data <span style=font-weight:700>=</span> make_classification(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES,
+    n_features<span style=font-weight:700>=</span>N,
+    n_informative<span style=font-weight:700>=</span><span style=color:#099>4</span>,
+    n_redundant<span style=font-weight:700>=</span><span style=color:#099>0</span>,
+    n_repeated<span style=font-weight:700>=</span><span style=color:#099>0</span>,
+    n_classes<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+    n_clusters_per_class<span style=font-weight:700>=</span><span style=color:#099>1</span>,
+    weights<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
+    flip_y<span style=font-weight:700>=</span><span style=color:#099>0.01</span>,
+    class_sep<span style=font-weight:700>=</span><span style=color:#099>1.0</span>,
+    hypercube<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    shift<span style=font-weight:700>=</span><span style=color:#099>0.0</span>,
+    scale<span style=font-weight:700>=</span><span style=color:#099>1.0</span>,
+    shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    random_state<span style=font-weight:700>=</span>random_state,
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N)])
-df[&quot;y&quot;] = data[1]
-df.head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>      f1     f2     f3     f4  y
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+df<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>      f1     f2     f3     f4  y
 0 -3.216 -0.416 -1.295 -1.882  0
 1 -1.426 -1.257 -1.734 -1.804  0
 2  2.798 -3.010 -1.085 -3.134  1
@@ -360,30 +360,30 @@ df.head()
 <h3 id=cluster-separation>Cluster separation</h3>
 <p>According to the docs<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>, <code>class_sep</code> is the factor multiplying the hypercube size.</p>
 <p>Larger values spread out the clusters/classes and make the classification task easier.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>N_FEATURES = 4
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>N_FEATURES <span style=font-weight:700>=</span> <span style=color:#099>4</span>
 
-data = make_classification(
-    n_samples=N_SAMPLES,
-    n_features=N_FEATURES,
-    n_informative=4,
-    n_redundant=0,
-    n_repeated=0,
-    n_classes=2,
-    n_clusters_per_class=1,
-    weights=None,
-    flip_y=0.01,
-    class_sep=3.0,
-    hypercube=True,
-    shift=0.0,
-    scale=1.0,
-    shuffle=True,
-    random_state=None,
+data <span style=font-weight:700>=</span> make_classification(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES,
+    n_features<span style=font-weight:700>=</span>N_FEATURES,
+    n_informative<span style=font-weight:700>=</span><span style=color:#099>4</span>,
+    n_redundant<span style=font-weight:700>=</span><span style=color:#099>0</span>,
+    n_repeated<span style=font-weight:700>=</span><span style=color:#099>0</span>,
+    n_classes<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+    n_clusters_per_class<span style=font-weight:700>=</span><span style=color:#099>1</span>,
+    weights<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
+    flip_y<span style=font-weight:700>=</span><span style=color:#099>0.01</span>,
+    class_sep<span style=font-weight:700>=</span><span style=color:#099>3.0</span>,
+    hypercube<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    shift<span style=font-weight:700>=</span><span style=color:#099>0.0</span>,
+    scale<span style=font-weight:700>=</span><span style=color:#099>1.0</span>,
+    shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    random_state<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
 )
 
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N_FEATURES)])
 
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=./.ob-jupyter/5f22e4a6a797e5f32ac787e3e781a056d7bd866a.png>
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=./.ob-jupyter/5f22e4a6a797e5f32ac787e3e781a056d7bd866a.png>
 </figure>
 <p>We can make the cluster separability more difficult, by decreasing the value of <code>class_sep</code>.</p>
 <figure><img src=./.ob-jupyter/7a257f49eae0901c0cb03f51ec20c7483601f681.png>
@@ -399,110 +399,110 @@ df[&quot;y&quot;] = data[1]
 To do so, we simple pass the parameter value as an array.
 For instance, to</p>
 <h2 id=separability>Separability</h2>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.datasets import make_blobs
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.datasets</span> <span style=font-weight:700>import</span> make_blobs
 
-N_FEATURE = 4
+N_FEATURE <span style=font-weight:700>=</span> <span style=color:#099>4</span>
 
-data = make_blobs(
-    n_samples=60,
-    n_features=N_FEATURE,
-    centers=3,
-    cluster_std=1.0,
-    center_box=(-5.0, 5.0),
-    shuffle=True,
-    random_state=None,
+data <span style=font-weight:700>=</span> make_blobs(
+    n_samples<span style=font-weight:700>=</span><span style=color:#099>60</span>,
+    n_features<span style=font-weight:700>=</span>N_FEATURE,
+    centers<span style=font-weight:700>=</span><span style=color:#099>3</span>,
+    cluster_std<span style=font-weight:700>=</span><span style=color:#099>1.0</span>,
+    center_box<span style=font-weight:700>=</span>(<span style=font-weight:700>-</span><span style=color:#099>5.0</span>, <span style=color:#099>5.0</span>),
+    shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    random_state<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURE)])
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=./.ob-jupyter/6043355483e50017b34e04e98d6268efe0d0543a.png>
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N_FEATURE)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=./.ob-jupyter/6043355483e50017b34e04e98d6268efe0d0543a.png>
 </figure>
 <p>To make a cluster more separable we can change <code>cluster_std</code>.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data = make_blobs(
-    n_samples=60,
-    n_features=N_FEATURES,
-    centers=3,
-    cluster_std=0.3,
-    center_box=(-5.0, 5.0),
-    shuffle=True,
-    random_state=None,
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data <span style=font-weight:700>=</span> make_blobs(
+    n_samples<span style=font-weight:700>=</span><span style=color:#099>60</span>,
+    n_features<span style=font-weight:700>=</span>N_FEATURES,
+    centers<span style=font-weight:700>=</span><span style=color:#099>3</span>,
+    cluster_std<span style=font-weight:700>=</span><span style=color:#099>0.3</span>,
+    center_box<span style=font-weight:700>=</span>(<span style=font-weight:700>-</span><span style=color:#099>5.0</span>, <span style=color:#099>5.0</span>),
+    shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    random_state<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=./.ob-jupyter/2e1a17c5b537fa4028f9827ba8c6ce1beb2a37f3.png>
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N_FEATURES)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=./.ob-jupyter/2e1a17c5b537fa4028f9827ba8c6ce1beb2a37f3.png>
 </figure>
 <p>By decreasing <code>cluster_std</code> we make them less separable.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data = make_blobs(
-    n_samples=60,
-    n_features=N_FEATURES,
-    centers=3,
-    cluster_std=2.5,
-    center_box=(-5.0, 5.0),
-    shuffle=True,
-    random_state=None,
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data <span style=font-weight:700>=</span> make_blobs(
+    n_samples<span style=font-weight:700>=</span><span style=color:#099>60</span>,
+    n_features<span style=font-weight:700>=</span>N_FEATURES,
+    centers<span style=font-weight:700>=</span><span style=color:#099>3</span>,
+    cluster_std<span style=font-weight:700>=</span><span style=color:#099>2.5</span>,
+    center_box<span style=font-weight:700>=</span>(<span style=font-weight:700>-</span><span style=color:#099>5.0</span>, <span style=color:#099>5.0</span>),
+    shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>,
+    random_state<span style=font-weight:700>=</span><span style=font-weight:700>None</span>,
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(N_FEATURES)])
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=./.ob-jupyter/dc6674d3345ac16d721fa01f4d0c5a3f45a07b99.png>
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N_FEATURES)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=./.ob-jupyter/dc6674d3345ac16d721fa01f4d0c5a3f45a07b99.png>
 </figure>
 <h3 id=anisotropic-data>Anisotropic data</h3>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data = make_blobs(n_samples=50, n_features=2, centers=3, cluster_std=1.5)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>transformation = [[0.5, -0.5], [-0.4, 0.8]]
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data_0 = np.dot(data[0], transformation)
-df = pd.DataFrame(data_0, columns=[f&quot;f{i}&quot; for i in range(1, 3)])
-df[&quot;y&quot;] = data[1]
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>plt.scatter(
-    df[&quot;f1&quot;],
-    df[&quot;f2&quot;],
-    c=df[&quot;y&quot;].apply(lambda y: colours[y]),
-    s=50,
-    edgecolors=df[&quot;y&quot;].apply(lambda y: edges[y]),
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data <span style=font-weight:700>=</span> make_blobs(n_samples<span style=font-weight:700>=</span><span style=color:#099>50</span>, n_features<span style=font-weight:700>=</span><span style=color:#099>2</span>, centers<span style=font-weight:700>=</span><span style=color:#099>3</span>, cluster_std<span style=font-weight:700>=</span><span style=color:#099>1.5</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>transformation <span style=font-weight:700>=</span> [[<span style=color:#099>0.5</span>, <span style=font-weight:700>-</span><span style=color:#099>0.5</span>], [<span style=font-weight:700>-</span><span style=color:#099>0.4</span>, <span style=color:#099>0.8</span>]]
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data_0 <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>dot(data[<span style=color:#099>0</span>], transformation)
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data_0, columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>1</span>, <span style=color:#099>3</span>)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plt<span style=font-weight:700>.</span>scatter(
+    df[<span style=color:#b84>&#34;f1&#34;</span>],
+    df[<span style=color:#b84>&#34;f2&#34;</span>],
+    c<span style=font-weight:700>=</span>df[<span style=color:#b84>&#34;y&#34;</span>]<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> y: colours[y]),
+    s<span style=font-weight:700>=</span><span style=color:#099>50</span>,
+    edgecolors<span style=font-weight:700>=</span>df[<span style=color:#b84>&#34;y&#34;</span>]<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> y: edges[y]),
 )
-plt.xlabel(&quot;f1&quot;)
-plt.ylabel(&quot;f2&quot;)
-plt.show()
+plt<span style=font-weight:700>.</span>xlabel(<span style=color:#b84>&#34;f1&#34;</span>)
+plt<span style=font-weight:700>.</span>ylabel(<span style=color:#b84>&#34;f2&#34;</span>)
+plt<span style=font-weight:700>.</span>show()
 
-</code></pre><figure><img src=./.ob-jupyter/e34914d3eb500c6d558b1174289cda7ef2d7143f.png>
+</code></pre></div><figure><img src=./.ob-jupyter/e34914d3eb500c6d558b1174289cda7ef2d7143f.png>
 </figure>
 <h2 id=concentric-clusters>Concentric clusters</h2>
 <p>Sometimes we might be interested in creating a non-separable cluster.
 The simples way is to create concentric clusters with the <code>make_circles</code> method.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.datasets import make_circles
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.datasets</span> <span style=font-weight:700>import</span> make_circles
 
-data = make_circles(
-    n_samples=N_SAMPLES, shuffle=True, noise=None, random_state=random_state, factor=0.6
+data <span style=font-weight:700>=</span> make_circles(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES, shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>, noise<span style=font-weight:700>=</span><span style=font-weight:700>None</span>, random_state<span style=font-weight:700>=</span>random_state, factor<span style=font-weight:700>=</span><span style=color:#099>0.6</span>
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(2)])
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=/ox-hugo/27c5fe282b017fd1e9dee6e5ab7d84df340f1a79.png>
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>2</span>)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=/ox-hugo/27c5fe282b017fd1e9dee6e5ab7d84df340f1a79.png>
 </figure>
 <h3 id=adding-noise>Adding noise</h3>
 <p>The <code>noise</code> parameter allows to create a concentric noisy dataset.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data = make_circles(
-    n_samples=N_SAMPLES, shuffle=True, noise=0.15, random_state=random_state, factor=0.6
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data <span style=font-weight:700>=</span> make_circles(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES, shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>, noise<span style=font-weight:700>=</span><span style=color:#099>0.15</span>, random_state<span style=font-weight:700>=</span>random_state, factor<span style=font-weight:700>=</span><span style=color:#099>0.6</span>
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(2)])
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=/ox-hugo/b7956bc68cd720a50fac0b088adf054450ec2c29.png>
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>2</span>)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=/ox-hugo/b7956bc68cd720a50fac0b088adf054450ec2c29.png>
 </figure>
 <h2 id=moon-clusters>Moon clusters</h2>
 <p>A shape that can be useful to other methods (such as <a href=/counterfactuals.html>Counterfactuals</a>, for instance) is the one generated by the <code>make_moons</code> method.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.datasets import make_moons
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.datasets</span> <span style=font-weight:700>import</span> make_moons
 
-data = make_moons(
-    n_samples=N_SAMPLES, shuffle=True, noise=None, random_state=random_state
+data <span style=font-weight:700>=</span> make_moons(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES, shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>, noise<span style=font-weight:700>=</span><span style=font-weight:700>None</span>, random_state<span style=font-weight:700>=</span>random_state
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(2)])
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=/ox-hugo/497792b8fb3c2d58aa6a91f24cc82971681425f7.png>
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>2</span>)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=/ox-hugo/497792b8fb3c2d58aa6a91f24cc82971681425f7.png>
 </figure>
 <h3 id=adding-noise>Adding noise</h3>
 <p>As usual, the <code>noise</code> parameter allows to control the noise.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>data = make_moons(
-    n_samples=N_SAMPLES, shuffle=True, noise=0.1, random_state=random_state
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>data <span style=font-weight:700>=</span> make_moons(
+    n_samples<span style=font-weight:700>=</span>N_SAMPLES, shuffle<span style=font-weight:700>=</span><span style=font-weight:700>True</span>, noise<span style=font-weight:700>=</span><span style=color:#099>0.1</span>, random_state<span style=font-weight:700>=</span>random_state
 )
-df = pd.DataFrame(data[0], columns=[f&quot;f{i+1}&quot; for i in range(2)])
-df[&quot;y&quot;] = data[1]
-</code></pre><figure><img src=/ox-hugo/bc793fde95a56e4650c06af0340d804cfa68c0b2.png>
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(data[<span style=color:#099>0</span>], columns<span style=font-weight:700>=</span>[<span style=color:#b84>f</span><span style=color:#b84>&#34;f</span><span style=color:#b84>{</span>i<span style=font-weight:700>+</span><span style=color:#099>1</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span> <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>2</span>)])
+df[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data[<span style=color:#099>1</span>]
+</code></pre></div><figure><img src=/ox-hugo/bc793fde95a56e4650c06af0340d804cfa68c0b2.png>
 </figure>
 <h2 id=time-series-data>Time-series data</h2>
 <h3 id=random-walk>Random walk</h3>

@@ -182,14 +182,14 @@ Given this data, a school may wish to predict if an applicant will have a high `
 also like to make sure these predictions are not biased by an individual’s race and sex.
 However, the <code>LSAT</code>, <code>GPA</code>, and <code>FYA</code> scores, may be biased due to social factors.</p>
 <p>We start by importing the data into a [Pandas]] <code>DataFrame</code>.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import warnings
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>warnings</span>
 
-warnings.filterwarnings(&quot;ignore&quot;)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pandas as pd
+warnings<span style=font-weight:700>.</span>filterwarnings(<span style=color:#b84>&#34;ignore&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-df = pd.read_csv(&quot;data/law_data.csv&quot;, index_col=0)
-df.head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>       race  sex  LSAT  UGPA region_first  ZFYA  sander_index  first_pf
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>read_csv(<span style=color:#b84>&#34;data/law_data.csv&#34;</span>, index_col<span style=font-weight:700>=</span><span style=color:#099>0</span>)
+df<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>       race  sex  LSAT  UGPA region_first  ZFYA  sander_index  first_pf
 0     White    1  39.0   3.1           GL -0.98      0.782738       1.0
 1     White    1  36.0   3.0           GL  0.09      0.735714       1.0
 2     White    2  30.0   3.1           MS -0.35      0.670238       1.0
@@ -197,50 +197,50 @@ df.head()
 6     White    1  37.0   3.4           GL -1.26      0.786310       1.0
 </code></pre></div><h3 id=pre-processing>Pre-processing</h3>
 <p>We now pre-process the data. We start by creating categorical &ldquo;dummy&rdquo; variables according to the <code>race</code> variable.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df = pd.get_dummies(df, columns=[&quot;race&quot;], prefix=&quot;&quot;, prefix_sep=&quot;&quot;)
-df.iloc[:, : 7].head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   sex  LSAT  UGPA region_first  ZFYA  sander_index  first_pf
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>get_dummies(df, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#34;race&#34;</span>], prefix<span style=font-weight:700>=</span><span style=color:#b84>&#34;&#34;</span>, prefix_sep<span style=font-weight:700>=</span><span style=color:#b84>&#34;&#34;</span>)
+df<span style=font-weight:700>.</span>iloc[:, : <span style=color:#099>7</span>]<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   sex  LSAT  UGPA region_first  ZFYA  sander_index  first_pf
 0    1  39.0   3.1           GL -0.98      0.782738       1.0
 1    1  36.0   3.0           GL  0.09      0.735714       1.0
 2    2  30.0   3.1           MS -0.35      0.670238       1.0
 5    2  39.0   2.2           NE  0.58      0.697024       1.0
 6    1  37.0   3.4           GL -1.26      0.786310       1.0
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df.iloc[:, 7 :].head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Amerindian  Asian  Black  Hispanic  Mexican  Other  Puertorican  White
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df<span style=font-weight:700>.</span>iloc[:, <span style=color:#099>7</span> :]<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Amerindian  Asian  Black  Hispanic  Mexican  Other  Puertorican  White
 0           0      0      0         0        0      0            0      1
 1           0      0      0         0        0      0            0      1
 2           0      0      0         0        0      0            0      1
 5           0      0      0         1        0      0            0      0
 6           0      0      0         0        0      0            0      1
 </code></pre></div><p>We also want to expand the `sex` variable into `male`/`female` categorical variables and remove the original.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df[&quot;male&quot;] = df[&quot;sex&quot;].map(lambda x: 1 if x == 2 else 0)
-df[&quot;female&quot;] = df[&quot;sex&quot;].map(lambda x: 1 if x == 1 else 0)
-df = df.drop(axis=1, columns=[&quot;sex&quot;])
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df.iloc[:, 0:7].head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   LSAT  UGPA region_first  ZFYA  sander_index  first_pf  Amerindian
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df[<span style=color:#b84>&#34;male&#34;</span>] <span style=font-weight:700>=</span> df[<span style=color:#b84>&#34;sex&#34;</span>]<span style=font-weight:700>.</span>map(<span style=font-weight:700>lambda</span> x: <span style=color:#099>1</span> <span style=font-weight:700>if</span> x <span style=font-weight:700>==</span> <span style=color:#099>2</span> <span style=font-weight:700>else</span> <span style=color:#099>0</span>)
+df[<span style=color:#b84>&#34;female&#34;</span>] <span style=font-weight:700>=</span> df[<span style=color:#b84>&#34;sex&#34;</span>]<span style=font-weight:700>.</span>map(<span style=font-weight:700>lambda</span> x: <span style=color:#099>1</span> <span style=font-weight:700>if</span> x <span style=font-weight:700>==</span> <span style=color:#099>1</span> <span style=font-weight:700>else</span> <span style=color:#099>0</span>)
+df <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>drop(axis<span style=font-weight:700>=</span><span style=color:#099>1</span>, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#34;sex&#34;</span>])
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df<span style=font-weight:700>.</span>iloc[:, <span style=color:#099>0</span>:<span style=color:#099>7</span>]<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   LSAT  UGPA region_first  ZFYA  sander_index  first_pf  Amerindian
 0  39.0   3.1           GL -0.98      0.782738       1.0           0
 1  36.0   3.0           GL  0.09      0.735714       1.0           0
 2  30.0   3.1           MS -0.35      0.670238       1.0           0
 5  39.0   2.2           NE  0.58      0.697024       1.0           0
 6  37.0   3.4           GL -1.26      0.786310       1.0           0
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df.iloc[:, 7:].head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Asian  Black  Hispanic  Mexican  Other  Puertorican  White  male  female
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df<span style=font-weight:700>.</span>iloc[:, <span style=color:#099>7</span>:]<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Asian  Black  Hispanic  Mexican  Other  Puertorican  White  male  female
 0      0      0         0        0      0            0      1     0       1
 1      0      0         0        0      0            0      1     0       1
 2      0      0         0        0      0            0      1     1       0
 5      0      0         1        0      0            0      0     1       0
 6      0      0         0        0      0            0      1     0       1
 </code></pre></div><p>We will also convert the entrance exam scores (<code>LSAT</code>) to a discrete variable.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df[&quot;LSAT&quot;] = df[&quot;LSAT&quot;].astype(int)
-df.iloc[:, :6].head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   LSAT  UGPA region_first  ZFYA  sander_index  first_pf
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df[<span style=color:#b84>&#34;LSAT&#34;</span>] <span style=font-weight:700>=</span> df[<span style=color:#b84>&#34;LSAT&#34;</span>]<span style=font-weight:700>.</span>astype(<span style=color:#999>int</span>)
+df<span style=font-weight:700>.</span>iloc[:, :<span style=color:#099>6</span>]<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   LSAT  UGPA region_first  ZFYA  sander_index  first_pf
 0    39   3.1           GL -0.98      0.782738       1.0
 1    36   3.0           GL  0.09      0.735714       1.0
 2    30   3.1           MS -0.35      0.670238       1.0
 5    39   2.2           NE  0.58      0.697024       1.0
 6    37   3.4           GL -1.26      0.786310       1.0
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df.iloc[:, 6:].head()
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Amerindian  Asian  Black  Hispanic  Mexican  Other  Puertorican  White  \
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df<span style=font-weight:700>.</span>iloc[:, <span style=color:#099>6</span>:]<span style=font-weight:700>.</span>head()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   Amerindian  Asian  Black  Hispanic  Mexican  Other  Puertorican  White  \
 0           0      0      0         0        0      0            0      1
 1           0      0      0         0        0      0            0      1
 2           0      0      0         0        0      0            0      1
@@ -257,25 +257,25 @@ df.iloc[:, :6].head()
 <p><em>Counterfactual fairness</em> enforces that a distribution over possible predictions for an individual should
 remain unchanged in a world where an individual’s protected attributes \(A\) had been different in a causal sense.
 Let&rsquo;s start by defining the <em>protected attributes</em>. Obvious candidates are the different categorical variables for ethnicity (<code>Asian</code>, <code>White</code>, <code>Black</code>, <em>etc</em>) and gender (<code>male</code>, <code>female</code>).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>A = [
-    &quot;Amerindian&quot;,
-    &quot;Asian&quot;,
-    &quot;Black&quot;,
-    &quot;Hispanic&quot;,
-    &quot;Mexican&quot;,
-    &quot;Other&quot;,
-    &quot;Puertorican&quot;,
-    &quot;White&quot;,
-    &quot;male&quot;,
-    &quot;female&quot;,
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>A <span style=font-weight:700>=</span> [
+    <span style=color:#b84>&#34;Amerindian&#34;</span>,
+    <span style=color:#b84>&#34;Asian&#34;</span>,
+    <span style=color:#b84>&#34;Black&#34;</span>,
+    <span style=color:#b84>&#34;Hispanic&#34;</span>,
+    <span style=color:#b84>&#34;Mexican&#34;</span>,
+    <span style=color:#b84>&#34;Other&#34;</span>,
+    <span style=color:#b84>&#34;Puertorican&#34;</span>,
+    <span style=color:#b84>&#34;White&#34;</span>,
+    <span style=color:#b84>&#34;male&#34;</span>,
+    <span style=color:#b84>&#34;female&#34;</span>,
 ]
-</code></pre><h3 id=training-and-testing-subsets>Training and testing subsets</h3>
+</code></pre></div><h3 id=training-and-testing-subsets>Training and testing subsets</h3>
 <p>We will now divide the dataset into training and testing subsets.
 We will use the same ratio as in <sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>, that is 20%.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.model_selection import train_test_split
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.model_selection</span> <span style=font-weight:700>import</span> train_test_split
 
-df_train, df_test = train_test_split(df, random_state=23, test_size=0.2);
-</code></pre><h2 id=models>Models</h2>
+df_train, df_test <span style=font-weight:700>=</span> train_test_split(df, random_state<span style=font-weight:700>=</span><span style=color:#099>23</span>, test_size<span style=font-weight:700>=</span><span style=color:#099>0.2</span>);
+</code></pre></div><h2 id=models>Models</h2>
 <h3 id=unfair-model>Unfair model</h3>
 <p>As detailed in <sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>, the concept of counterfactual fairness holds
 under three levels of assumptions of increasing strength.</p>
@@ -292,21 +292,21 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <p>Let&rsquo;s proceed with calculating the <strong>Full</strong> model.</p>
 <h3 id=full-model>Full model</h3>
 <p>As mentioned previously, the full model will be a simple linear regression in order to predict <code>ZFYA</code> using all of the variables.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.linear_model import LinearRegression
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.linear_model</span> <span style=font-weight:700>import</span> LinearRegression
 
-linreg_unfair = LinearRegression()
-</code></pre><p>The inputs will then be the totality of the variabes (protected variables \(A\), as well as `UGPA` and `LSAT`).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import numpy as np
+linreg_unfair <span style=font-weight:700>=</span> LinearRegression()
+</code></pre></div><p>The inputs will then be the totality of the variabes (protected variables \(A\), as well as `UGPA` and `LSAT`).</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-X = np.hstack(
+X <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
     (
         df_train[A],
-        np.array(df_train[&quot;UGPA&quot;]).reshape(-1, 1),
-        np.array(df_train[&quot;LSAT&quot;]).reshape(-1, 1),
+        np<span style=font-weight:700>.</span>array(df_train[<span style=color:#b84>&#34;UGPA&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
+        np<span style=font-weight:700>.</span>array(df_train[<span style=color:#b84>&#34;LSAT&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
     )
 )
-print(X)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>[[ 0.   0.   0.  ...  1.   3.1 39. ]
+<span style=color:#999>print</span>(X)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>[[ 0.   0.   0.  ...  1.   3.1 39. ]
  [ 0.   0.   0.  ...  1.   3.5 36. ]
  [ 0.   0.   0.  ...  1.   3.9 46. ]
  ...
@@ -314,9 +314,9 @@ print(X)
  [ 0.   0.   0.  ...  0.   2.9 31. ]
  [ 0.   0.   0.  ...  0.   3.6 39. ]]
 </code></pre></div><p>As for our target, we are trying to predict `ZFYA` (first year average grade).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>y = df_train[&quot;ZFYA&quot;]
-y[:10]
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>10454    0.56
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>y <span style=font-weight:700>=</span> df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>]
+y[:<span style=color:#099>10</span>]
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>10454    0.56
 14108    0.60
 20624   -0.14
 8316     0.20
@@ -328,48 +328,48 @@ y[:10]
 26884    0.48
 Name: ZFYA, dtype: float64
 </code></pre></div><p>We fit the model:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>linreg_unfair = linreg_unfair.fit(X, y)
-</code></pre><p>And perform some predictions on the test subset.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>X_test = np.hstack(
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>linreg_unfair <span style=font-weight:700>=</span> linreg_unfair<span style=font-weight:700>.</span>fit(X, y)
+</code></pre></div><p>And perform some predictions on the test subset.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X_test <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
     (
         df_test[A],
-        np.array(df_test[&quot;UGPA&quot;]).reshape(-1, 1),
-        np.array(df_test[&quot;LSAT&quot;]).reshape(-1, 1),
+        np<span style=font-weight:700>.</span>array(df_test[<span style=color:#b84>&#34;UGPA&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
+        np<span style=font-weight:700>.</span>array(df_test[<span style=color:#b84>&#34;LSAT&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
     )
 )
 X_test
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 0. ,  0. ,  0. , ...,  0. ,  3.4, 32. ],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 0. ,  0. ,  0. , ...,  0. ,  3.4, 32. ],
        [ 0. ,  0. ,  0. , ...,  1. ,  3.5, 41. ],
        [ 0. ,  0. ,  0. , ...,  1. ,  3.9, 42. ],
        ...,
        [ 0. ,  0. ,  0. , ...,  0. ,  2.3, 28. ],
        [ 0. ,  0. ,  0. , ...,  0. ,  3.3, 36. ],
        [ 0. ,  0. ,  0. , ...,  0. ,  2.9, 37. ]])
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>predictions_unfair = linreg_unfair.predict(X_test)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>predictions_unfair <span style=font-weight:700>=</span> linreg_unfair<span style=font-weight:700>.</span>predict(X_test)
 predictions_unfair
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([ 0.08676147,  0.34942627,  0.4609375 , ..., -0.25949097,
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([ 0.08676147,  0.34942627,  0.4609375 , ..., -0.25949097,
         0.19308472,  0.14471436])
 </code></pre></div><p>We will also calculate the <em>unfair model</em> score for future use.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>score_unfair = linreg_unfair.score(X_test, df_test[&quot;ZFYA&quot;])
-print(score_unfair)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.12701634112845117
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from sklearn.metrics import mean_squared_error
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>score_unfair <span style=font-weight:700>=</span> linreg_unfair<span style=font-weight:700>.</span>score(X_test, df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>])
+<span style=color:#999>print</span>(score_unfair)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.12701634112845117
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.metrics</span> <span style=font-weight:700>import</span> mean_squared_error
 
-RMSE_unfair = np.sqrt(mean_squared_error(df_test[&quot;ZFYA&quot;], predictions_unfair))
-print(RMSE_unfair)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.8666709890234552
+RMSE_unfair <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>sqrt(mean_squared_error(df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>], predictions_unfair))
+<span style=color:#999>print</span>(RMSE_unfair)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.8666709890234552
 </code></pre></div><h3 id=fairness-through-unawareness--ftu>Fairness through unawareness (FTU)</h3>
 <p>As also mentioned in <sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>, the second baseline we will use is an <strong><strong>Unaware</strong></strong> model (FTU), which will be trained will all the variables, except the protected attributes \(A\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>linreg_ftu = LinearRegression()
-</code></pre><p>We will create the inputs as previously, but without using the protected attributes, \(A\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>X_ftu = np.hstack(
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>linreg_ftu <span style=font-weight:700>=</span> LinearRegression()
+</code></pre></div><p>We will create the inputs as previously, but without using the protected attributes, \(A\).</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X_ftu <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
     (
-        np.array(df_train[&quot;UGPA&quot;]).reshape(-1, 1),
-        np.array(df_train[&quot;LSAT&quot;]).reshape(-1, 1),
+        np<span style=font-weight:700>.</span>array(df_train[<span style=color:#b84>&#34;UGPA&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
+        np<span style=font-weight:700>.</span>array(df_train[<span style=color:#b84>&#34;LSAT&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
     )
 )
 X_ftu
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 3.1, 39. ],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 3.1, 39. ],
        [ 3.5, 36. ],
        [ 3.9, 46. ],
        ...,
@@ -377,30 +377,30 @@ X_ftu
        [ 2.9, 31. ],
        [ 3.6, 39. ]])
 </code></pre></div><p>And we fit the model:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>linreg_ftu = linreg_ftu.fit(X_ftu, y)
-</code></pre><p>Again, let&rsquo;s perform some predictions on the test subset.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>X_ftu_test = np.hstack(
-    (np.array(df_test[&quot;UGPA&quot;]).reshape(-1, 1), np.array(df_test[&quot;LSAT&quot;]).reshape(-1, 1))
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>linreg_ftu <span style=font-weight:700>=</span> linreg_ftu<span style=font-weight:700>.</span>fit(X_ftu, y)
+</code></pre></div><p>Again, let&rsquo;s perform some predictions on the test subset.</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X_ftu_test <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
+    (np<span style=font-weight:700>.</span>array(df_test[<span style=color:#b84>&#34;UGPA&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>), np<span style=font-weight:700>.</span>array(df_test[<span style=color:#b84>&#34;LSAT&#34;</span>])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>))
 )
 X_ftu_test
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 3.4, 32. ],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 3.4, 32. ],
        [ 3.5, 41. ],
        [ 3.9, 42. ],
        ...,
        [ 2.3, 28. ],
        [ 3.3, 36. ],
        [ 2.9, 37. ]])
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>predictions_ftu = linreg_ftu.predict(X_ftu_test)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>predictions_ftu <span style=font-weight:700>=</span> linreg_ftu<span style=font-weight:700>.</span>predict(X_ftu_test)
 predictions_ftu
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([-0.06909331,  0.35516229,  0.50304555, ..., -0.53109868,
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([-0.06909331,  0.35516229,  0.50304555, ..., -0.53109868,
         0.08204563,  0.0226846 ])
 </code></pre></div><p>As previously, let&rsquo;s calculate this model&rsquo;s score.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>ftu_score = linreg_ftu.score(X_ftu_test, df_test[&quot;ZFYA&quot;])
-print(ftu_score)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.0917442226187073
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>RMSE_ftu = np.sqrt(mean_squared_error(df_test[&quot;ZFYA&quot;], predictions_ftu))
-print(RMSE_ftu)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.8840061503773576
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ftu_score <span style=font-weight:700>=</span> linreg_ftu<span style=font-weight:700>.</span>score(X_ftu_test, df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>])
+<span style=color:#999>print</span>(ftu_score)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.0917442226187073
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>RMSE_ftu <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>sqrt(mean_squared_error(df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>], predictions_ftu))
+<span style=color:#999>print</span>(RMSE_ftu)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.8840061503773576
 </code></pre></div><h3 id=latent-variable-model>Latent variable model</h3>
 <p>Still according to <sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>, a <strong><strong>Level 2</strong></strong> approach will model latent ‘fair’ variables which are parents of observed variables.</p>
 <p>If we consider a predictor parameterised by \(\theta\), such as:</p>
@@ -433,63 +433,63 @@ GPA_0 &\sim \mathcal{N}(0, 1) \\
 LSAT_0 &\sim \mathcal{N}(0, 1) \\
 GPA_0 &\sim \mathcal{N}(0, 1)
 \end{aligned}</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import pymc3 as pm
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pymc3</span> <span style=font-weight:700>as</span> <span style=color:#555>pm</span>
 
-K = len(A)
+K <span style=font-weight:700>=</span> <span style=color:#999>len</span>(A)
 
 
-def MCMC(data, samples=1000):
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>MCMC</span>(data, samples<span style=font-weight:700>=</span><span style=color:#099>1000</span>):
 
-    N = len(data)
-    a = np.array(data[A])
+    N <span style=font-weight:700>=</span> <span style=color:#999>len</span>(data)
+    a <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>array(data[A])
 
-    model = pm.Model()
+    model <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Model()
 
-    with model:
-        # Priors
-        k = pm.Normal(&quot;k&quot;, mu=0, sigma=1, shape=(1, N))
-        gpa0 = pm.Normal(&quot;gpa0&quot;, mu=0, sigma=1)
-        lsat0 = pm.Normal(&quot;lsat0&quot;, mu=0, sigma=1)
-        w_k_gpa = pm.Normal(&quot;w_k_gpa&quot;, mu=0, sigma=1)
-        w_k_lsat = pm.Normal(&quot;w_k_lsat&quot;, mu=0, sigma=1)
-        w_k_zfya = pm.Normal(&quot;w_k_zfya&quot;, mu=0, sigma=1)
+    <span style=font-weight:700>with</span> model:
+        <span style=color:#998;font-style:italic># Priors</span>
+        k <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;k&#34;</span>, mu<span style=font-weight:700>=</span><span style=color:#099>0</span>, sigma<span style=font-weight:700>=</span><span style=color:#099>1</span>, shape<span style=font-weight:700>=</span>(<span style=color:#099>1</span>, N))
+        gpa0 <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;gpa0&#34;</span>, mu<span style=font-weight:700>=</span><span style=color:#099>0</span>, sigma<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+        lsat0 <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;lsat0&#34;</span>, mu<span style=font-weight:700>=</span><span style=color:#099>0</span>, sigma<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+        w_k_gpa <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;w_k_gpa&#34;</span>, mu<span style=font-weight:700>=</span><span style=color:#099>0</span>, sigma<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+        w_k_lsat <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;w_k_lsat&#34;</span>, mu<span style=font-weight:700>=</span><span style=color:#099>0</span>, sigma<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+        w_k_zfya <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;w_k_zfya&#34;</span>, mu<span style=font-weight:700>=</span><span style=color:#099>0</span>, sigma<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 
-        w_a_gpa = pm.Normal(&quot;w_a_gpa&quot;, mu=np.zeros(K), sigma=np.ones(K), shape=K)
-        w_a_lsat = pm.Normal(&quot;w_a_lsat&quot;, mu=np.zeros(K), sigma=np.ones(K), shape=K)
-        w_a_zfya = pm.Normal(&quot;w_a_zfya&quot;, mu=np.zeros(K), sigma=np.ones(K), shape=K)
+        w_a_gpa <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;w_a_gpa&#34;</span>, mu<span style=font-weight:700>=</span>np<span style=font-weight:700>.</span>zeros(K), sigma<span style=font-weight:700>=</span>np<span style=font-weight:700>.</span>ones(K), shape<span style=font-weight:700>=</span>K)
+        w_a_lsat <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;w_a_lsat&#34;</span>, mu<span style=font-weight:700>=</span>np<span style=font-weight:700>.</span>zeros(K), sigma<span style=font-weight:700>=</span>np<span style=font-weight:700>.</span>ones(K), shape<span style=font-weight:700>=</span>K)
+        w_a_zfya <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(<span style=color:#b84>&#34;w_a_zfya&#34;</span>, mu<span style=font-weight:700>=</span>np<span style=font-weight:700>.</span>zeros(K), sigma<span style=font-weight:700>=</span>np<span style=font-weight:700>.</span>ones(K), shape<span style=font-weight:700>=</span>K)
 
-        sigma_gpa_2 = pm.InverseGamma(&quot;sigma_gpa_2&quot;, alpha=1, beta=1)
+        sigma_gpa_2 <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>InverseGamma(<span style=color:#b84>&#34;sigma_gpa_2&#34;</span>, alpha<span style=font-weight:700>=</span><span style=color:#099>1</span>, beta<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 
-        mu = gpa0 + (w_k_gpa * k) + pm.math.dot(a, w_a_gpa)
+        mu <span style=font-weight:700>=</span> gpa0 <span style=font-weight:700>+</span> (w_k_gpa <span style=font-weight:700>*</span> k) <span style=font-weight:700>+</span> pm<span style=font-weight:700>.</span>math<span style=font-weight:700>.</span>dot(a, w_a_gpa)
 
-        # Observed data
-        gpa = pm.Normal(
-            &quot;gpa&quot;,
-            mu=mu,
-            sigma=pm.math.sqrt(sigma_gpa_2),
-            observed=list(data[&quot;UGPA&quot;]),
-            shape=(1, N),
+        <span style=color:#998;font-style:italic># Observed data</span>
+        gpa <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(
+            <span style=color:#b84>&#34;gpa&#34;</span>,
+            mu<span style=font-weight:700>=</span>mu,
+            sigma<span style=font-weight:700>=</span>pm<span style=font-weight:700>.</span>math<span style=font-weight:700>.</span>sqrt(sigma_gpa_2),
+            observed<span style=font-weight:700>=</span><span style=color:#999>list</span>(data[<span style=color:#b84>&#34;UGPA&#34;</span>]),
+            shape<span style=font-weight:700>=</span>(<span style=color:#099>1</span>, N),
         )
-        lsat = pm.Poisson(
-            &quot;lsat&quot;,
-            pm.math.exp(lsat0 + w_k_lsat * k + pm.math.dot(a, w_a_lsat)),
-            observed=list(data[&quot;LSAT&quot;]),
-            shape=(1, N),
+        lsat <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Poisson(
+            <span style=color:#b84>&#34;lsat&#34;</span>,
+            pm<span style=font-weight:700>.</span>math<span style=font-weight:700>.</span>exp(lsat0 <span style=font-weight:700>+</span> w_k_lsat <span style=font-weight:700>*</span> k <span style=font-weight:700>+</span> pm<span style=font-weight:700>.</span>math<span style=font-weight:700>.</span>dot(a, w_a_lsat)),
+            observed<span style=font-weight:700>=</span><span style=color:#999>list</span>(data[<span style=color:#b84>&#34;LSAT&#34;</span>]),
+            shape<span style=font-weight:700>=</span>(<span style=color:#099>1</span>, N),
         )
-        zfya = pm.Normal(
-            &quot;zfya&quot;,
-            mu=w_k_zfya * k + pm.math.dot(a, w_a_zfya),
-            sigma=1,
-            observed=list(data[&quot;ZFYA&quot;]),
-            shape=(1, N),
+        zfya <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Normal(
+            <span style=color:#b84>&#34;zfya&#34;</span>,
+            mu<span style=font-weight:700>=</span>w_k_zfya <span style=font-weight:700>*</span> k <span style=font-weight:700>+</span> pm<span style=font-weight:700>.</span>math<span style=font-weight:700>.</span>dot(a, w_a_zfya),
+            sigma<span style=font-weight:700>=</span><span style=color:#099>1</span>,
+            observed<span style=font-weight:700>=</span><span style=color:#999>list</span>(data[<span style=color:#b84>&#34;ZFYA&#34;</span>]),
+            shape<span style=font-weight:700>=</span>(<span style=color:#099>1</span>, N),
         )
 
-        step = pm.Metropolis()
-        trace = pm.sample(samples, step, progressbar = False)
+        step <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>Metropolis()
+        trace <span style=font-weight:700>=</span> pm<span style=font-weight:700>.</span>sample(samples, step, progressbar <span style=font-weight:700>=</span> <span style=font-weight:700>False</span>)
 
-    return trace
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>train_estimates = MCMC(df_train)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Multiprocess sampling (4 chains in 4 jobs)
+    <span style=font-weight:700>return</span> trace
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>train_estimates <span style=font-weight:700>=</span> MCMC(df_train)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Multiprocess sampling (4 chains in 4 jobs)
 CompoundStep
 &gt;Metropolis: [sigma_gpa_2]
 &gt;Metropolis: [w_a_zfya]
@@ -513,22 +513,22 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.
 The estimated number of effective samples is smaller than 200 for some parameters.
 </code></pre></div><p>Let&rsquo;s plot a single trace for \(k^{(i)}\).</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import matplotlib.pyplot as plt
-import seaborn as sns
-from plotutils import *
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>matplotlib.pyplot</span> <span style=font-weight:700>as</span> <span style=color:#555>plt</span>
+<span style=font-weight:700>import</span> <span style=color:#555>seaborn</span> <span style=font-weight:700>as</span> <span style=color:#555>sns</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotutils</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
-# Thin the samples before plotting
-k_trace = train_estimates[&quot;k&quot;][:, 0].reshape(-1, 1)[0::100]
-plt.subplot(1, 2, 1)
-plt.hist(k_trace, color=colours[0], bins=100)
-plt.subplot(1, 2, 2)
-plt.scatter(range(len(k_trace)), k_trace, s=1, c=colours[0])
-plt.show()
-</code></pre><figure><img src=/ox-hugo/70405364f6b478b4fb212a0c3f658be9738e8156.png>
+<span style=color:#998;font-style:italic># Thin the samples before plotting</span>
+k_trace <span style=font-weight:700>=</span> train_estimates[<span style=color:#b84>&#34;k&#34;</span>][:, <span style=color:#099>0</span>]<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>)[<span style=color:#099>0</span>::<span style=color:#099>100</span>]
+plt<span style=font-weight:700>.</span>subplot(<span style=color:#099>1</span>, <span style=color:#099>2</span>, <span style=color:#099>1</span>)
+plt<span style=font-weight:700>.</span>hist(k_trace, color<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], bins<span style=font-weight:700>=</span><span style=color:#099>100</span>)
+plt<span style=font-weight:700>.</span>subplot(<span style=color:#099>1</span>, <span style=color:#099>2</span>, <span style=color:#099>2</span>)
+plt<span style=font-weight:700>.</span>scatter(<span style=color:#999>range</span>(<span style=color:#999>len</span>(k_trace)), k_trace, s<span style=font-weight:700>=</span><span style=color:#099>1</span>, c<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>])
+plt<span style=font-weight:700>.</span>show()
+</code></pre></div><figure><img src=/ox-hugo/70405364f6b478b4fb212a0c3f658be9738e8156.png>
 </figure>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>train_k = np.mean(train_estimates[&quot;k&quot;], axis=0).reshape(-1, 1)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>train_k <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>mean(train_estimates[<span style=color:#b84>&#34;k&#34;</span>], axis<span style=font-weight:700>=</span><span style=color:#099>0</span>)<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>)
 train_k
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[-0.00531227],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[-0.00531227],
        [-0.13776645],
        [-0.02434896],
        ...,
@@ -536,8 +536,8 @@ train_k
        [-0.2767904 ],
        [-0.15568193]])
 </code></pre></div><p>We can now estimate \(k\) using the test data:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>test_map_estimates = MCMC(df_test)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Multiprocess sampling (4 chains in 4 jobs)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>test_map_estimates <span style=font-weight:700>=</span> MCMC(df_test)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Multiprocess sampling (4 chains in 4 jobs)
 CompoundStep
 &gt;Metropolis: [sigma_gpa_2]
 &gt;Metropolis: [w_a_zfya]
@@ -563,9 +563,9 @@ The estimated number of effective samples is smaller than 200 for some parameter
 </code></pre></div><p>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 35 seconds.
 The rhat statistic is larger than 1.4 for some parameters. The sampler did not converge.
 The estimated number of effective samples is smaller than 200 for some parameters.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>test_k = np.mean(test_map_estimates[&quot;k&quot;], axis=0).reshape(-1, 1)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>test_k <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>mean(test_map_estimates[<span style=color:#b84>&#34;k&#34;</span>], axis<span style=font-weight:700>=</span><span style=color:#099>0</span>)<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>)
 test_k
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 0.36632736],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[ 0.36632736],
        [ 0.09415253],
        [ 0.03452081],
        ...,
@@ -573,18 +573,18 @@ test_k
        [-0.09991792],
        [ 0.19771541]])
 </code></pre></div><p>We now build the Level 2 predictor, using \(k\) as the input.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>linreg_latent = LinearRegression()
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>linreg_latent = linreg_latent.fit(train_k, df_train[&quot;ZFYA&quot;])
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>predictions_latent = linreg_latent.predict(test_k)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>linreg_latent <span style=font-weight:700>=</span> LinearRegression()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>linreg_latent <span style=font-weight:700>=</span> linreg_latent<span style=font-weight:700>.</span>fit(train_k, df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>])
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>predictions_latent <span style=font-weight:700>=</span> linreg_latent<span style=font-weight:700>.</span>predict(test_k)
 predictions_latent
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([0.18043648, 0.1160878 , 0.10198943, ..., 0.09494268, 0.07020488,
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([0.18043648, 0.1160878 , 0.10198943, ..., 0.09494268, 0.07020488,
        0.14057256])
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>latent_score = linreg_latent.score(test_k, df_test[&quot;ZFYA&quot;])
-print(latent_score)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.0027649341873033917
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>RMSE_latent = np.sqrt(mean_squared_error(df_test[&quot;ZFYA&quot;], predictions_latent))
-print(RMSE_latent)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.9262963924423802
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>latent_score <span style=font-weight:700>=</span> linreg_latent<span style=font-weight:700>.</span>score(test_k, df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>])
+<span style=color:#999>print</span>(latent_score)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.0027649341873033917
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>RMSE_latent <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>sqrt(mean_squared_error(df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>], predictions_latent))
+<span style=color:#999>print</span>(RMSE_latent)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.9262963924423802
 </code></pre></div><h3 id=additive-error-model>Additive error model</h3>
 <p>Finally, in <strong><strong>Level 3</strong></strong>, we model `GPA`, `LSAT`, and `FYA` as continuous variables with additive error terms
 independent of race and sex<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>.</p>
@@ -598,21 +598,21 @@ FYA &= b_{FYA} + w^R_{FYA}R + w^S_{FYA}S + \epsilon_{FYA} , \epsilon_{FYA} \sim 
 predict `GPA` and `LSAT`. We then compute the residuals of each model (_e.g._, \(\epsilon_{GPA} =GPA−\hat{Y}_{GPA}(R, S)\)).
 We use these residual estimates of \(\epsilon_{GPA}, \epsilon_{LSAT}\) to predict \(FYA\). In [^Kusner2017] this is called <span class=underline>Fair Add</span>.</p>
 <p>Since the process is similar for the individual predictions for `GPA` and `LSAT`, we will write a method to avoid repetion.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>def calculate_epsilon(data, var_name, protected_attr):
-    X = data[protected_attr]
-    y = data[var_name]
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>calculate_epsilon</span>(data, var_name, protected_attr):
+    X <span style=font-weight:700>=</span> data[protected_attr]
+    y <span style=font-weight:700>=</span> data[var_name]
 
-    linreg = LinearRegression()
-    linreg = linreg.fit(X, y)
+    linreg <span style=font-weight:700>=</span> LinearRegression()
+    linreg <span style=font-weight:700>=</span> linreg<span style=font-weight:700>.</span>fit(X, y)
 
-    predictions = linreg.predict(X)
+    predictions <span style=font-weight:700>=</span> linreg<span style=font-weight:700>.</span>predict(X)
 
-    return data[var_name] - predictions
-</code></pre><p>Let&rsquo;s apply it to each variable, individually.
+    <span style=font-weight:700>return</span> data[var_name] <span style=font-weight:700>-</span> predictions
+</code></pre></div><p>Let&rsquo;s apply it to each variable, individually.
 First we calculate \(\epsilon_{GPA}\):</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>epsilons_gpa = calculate_epsilon(df, &quot;UGPA&quot;, A)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>epsilons_gpa <span style=font-weight:700>=</span> calculate_epsilon(df, <span style=color:#b84>&#34;UGPA&#34;</span>, A)
 epsilons_gpa
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0       -0.242
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0       -0.242
 1       -0.342
 2       -0.100
 5       -0.873
@@ -625,9 +625,9 @@ epsilons_gpa
 27476   -0.100
 Name: UGPA, Length: 21791, dtype: float64
 </code></pre></div><p>Next, we calculate \(\epsilon_{LSAT}\):</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>epsilons_LSAT = calculate_epsilon(df, &quot;LSAT&quot;, A)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>epsilons_LSAT <span style=font-weight:700>=</span> calculate_epsilon(df, <span style=color:#b84>&#34;LSAT&#34;</span>, A)
 epsilons_LSAT
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0        1.789
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0        1.789
 1       -1.211
 2       -7.689
 5        5.055
@@ -640,152 +640,152 @@ epsilons_LSAT
 27476   -9.689
 Name: LSAT, Length: 21791, dtype: float64
 </code></pre></div><p>Let&rsquo;s visualise the \(\epsilon\) distribution quickly:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import matplotlib.pyplot as plt
-import seaborn as sns
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>matplotlib.pyplot</span> <span style=font-weight:700>as</span> <span style=color:#555>plt</span>
+<span style=font-weight:700>import</span> <span style=color:#555>seaborn</span> <span style=font-weight:700>as</span> <span style=color:#555>sns</span>
 
-plt.subplot(1, 2, 1)
-plt.hist(epsilons_gpa, color=colours[0], bins=100)
-plt.title(&quot;$\epsilon_{GPA}$&quot;)
-plt.xlabel(&quot;$\epsilon_{GPA}$&quot;)
+plt<span style=font-weight:700>.</span>subplot(<span style=color:#099>1</span>, <span style=color:#099>2</span>, <span style=color:#099>1</span>)
+plt<span style=font-weight:700>.</span>hist(epsilons_gpa, color<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], bins<span style=font-weight:700>=</span><span style=color:#099>100</span>)
+plt<span style=font-weight:700>.</span>title(<span style=color:#b84>&#34;$\epsilon_</span><span style=color:#b84>{GPA}</span><span style=color:#b84>$&#34;</span>)
+plt<span style=font-weight:700>.</span>xlabel(<span style=color:#b84>&#34;$\epsilon_</span><span style=color:#b84>{GPA}</span><span style=color:#b84>$&#34;</span>)
 
-plt.subplot(1, 2, 2)
-plt.hist(epsilons_LSAT, color=colours[1], bins=100)
-plt.title(&quot;$\epsilon_{LSAT}$&quot;)
-plt.xlabel(&quot;$\epsilon_{LSAT}$&quot;)
-plt.show()
-</code></pre><figure><img src=/ox-hugo/1fbff0daab700f9804c68166ea84bef906ac3f93.png>
+plt<span style=font-weight:700>.</span>subplot(<span style=color:#099>1</span>, <span style=color:#099>2</span>, <span style=color:#099>2</span>)
+plt<span style=font-weight:700>.</span>hist(epsilons_LSAT, color<span style=font-weight:700>=</span>colours[<span style=color:#099>1</span>], bins<span style=font-weight:700>=</span><span style=color:#099>100</span>)
+plt<span style=font-weight:700>.</span>title(<span style=color:#b84>&#34;$\epsilon_</span><span style=color:#b84>{LSAT}</span><span style=color:#b84>$&#34;</span>)
+plt<span style=font-weight:700>.</span>xlabel(<span style=color:#b84>&#34;$\epsilon_</span><span style=color:#b84>{LSAT}</span><span style=color:#b84>$&#34;</span>)
+plt<span style=font-weight:700>.</span>show()
+</code></pre></div><figure><img src=/ox-hugo/1fbff0daab700f9804c68166ea84bef906ac3f93.png>
 </figure>
 <p>We finally use the calculated \(\epsilon\) to train a model in order to predict `FYA`.
 We start by getting the subset of the \(\epsilon\) which match the training indices.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>X = np.hstack(
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
     (
-        np.array(epsilons_gpa[df_train.index]).reshape(-1, 1),
-        np.array(epsilons_LSAT[df_train.index]).reshape(-1, 1),
+        np<span style=font-weight:700>.</span>array(epsilons_gpa[df_train<span style=font-weight:700>.</span>index])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
+        np<span style=font-weight:700>.</span>array(epsilons_LSAT[df_train<span style=font-weight:700>.</span>index])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
     )
 )
 X
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[-0.24179687,  1.7890625 ],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[-0.24179687,  1.7890625 ],
        [ 0.15820312, -1.2109375 ],
        [ 0.55820312,  8.7890625 ],
        ...,
        [-0.44179688, -4.2109375 ],
        [-0.25087891, -4.7265625 ],
        [ 0.39980469,  1.31054688]])
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>linreg_fair_add = LinearRegression()
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>linreg_fair_add <span style=font-weight:700>=</span> LinearRegression()
 
-linreg_fair_add = linreg_fair_add.fit(
+linreg_fair_add <span style=font-weight:700>=</span> linreg_fair_add<span style=font-weight:700>.</span>fit(
     X,
-    df_train[&quot;ZFYA&quot;],
+    df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
 )
-</code></pre><p>We now use this model to calculate the predictions</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>X_test = np.hstack(
+</code></pre></div><p>We now use this model to calculate the predictions</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X_test <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
     (
-        np.array(epsilons_gpa[df_test.index]).reshape(-1, 1),
-        np.array(epsilons_LSAT[df_test.index]).reshape(-1, 1),
+        np<span style=font-weight:700>.</span>array(epsilons_gpa[df_test<span style=font-weight:700>.</span>index])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
+        np<span style=font-weight:700>.</span>array(epsilons_LSAT[df_test<span style=font-weight:700>.</span>index])<span style=font-weight:700>.</span>reshape(<span style=font-weight:700>-</span><span style=color:#099>1</span>, <span style=color:#099>1</span>),
     )
 )
 
-predictions_fair_add = linreg_fair_add.predict(X_test)
+predictions_fair_add <span style=font-weight:700>=</span> linreg_fair_add<span style=font-weight:700>.</span>predict(X_test)
 predictions_fair_add
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([-0.04394693,  0.24454891,  0.35558793, ..., -0.38844376,
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([-0.04394693,  0.24454891,  0.35558793, ..., -0.38844376,
         0.06136776,  0.01295201])
 </code></pre></div><p>And as previously, we calculate the model&rsquo;s score:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>fair_add_score = linreg_fair_add.score(X_test, df_test[&quot;ZFYA&quot;])
-print(fair_add_score)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.04475841449183948
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>RMSE_fair_add = np.sqrt(mean_squared_error(df_test[&quot;ZFYA&quot;], predictions_fair_add))
-print(RMSE_fair_add)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.9065835039365202
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>fair_add_score <span style=font-weight:700>=</span> linreg_fair_add<span style=font-weight:700>.</span>score(X_test, df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>])
+<span style=color:#999>print</span>(fair_add_score)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.04475841449183948
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>RMSE_fair_add <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>sqrt(mean_squared_error(df_test[<span style=color:#b84>&#34;ZFYA&#34;</span>], predictions_fair_add))
+<span style=color:#999>print</span>(RMSE_fair_add)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.9065835039365202
 </code></pre></div><h3 id=comparison>Comparison</h3>
 <p>The scores, so far, are:</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>print(f&quot;Unfair score:\t{score_unfair}&quot;)
-print(f&quot;FTU score:\t{ftu_score}&quot;)
-print(f&quot;L2 score:\t{latent_score}&quot;)
-print(f&quot;Fair add score:\t{fair_add_score}&quot;)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Unfair score:	0.12701634112845117
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;Unfair score:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>score_unfair<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+<span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;FTU score:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>ftu_score<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+<span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;L2 score:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>latent_score<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+<span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;Fair add score:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>fair_add_score<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Unfair score:	0.12701634112845117
 FTU score:	0.0917442226187073
 L2 score:	0.0027649341873033917
 Fair add score:	0.04475841449183948
-</code></pre></div><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>print(f&quot;Unfair RMSE:\t{RMSE_unfair}&quot;)
-print(f&quot;FTU RMSE:\t{RMSE_ftu}&quot;)
-print(f&quot;L2 RMSE:\t{RMSE_latent}&quot;)
-print(f&quot;Fair add RMSE:\t{RMSE_fair_add}&quot;)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Unfair RMSE:	0.8666709890234552
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;Unfair RMSE:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>RMSE_unfair<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+<span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;FTU RMSE:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>RMSE_ftu<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+<span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;L2 RMSE:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>RMSE_latent<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+<span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;Fair add RMSE:</span><span style=color:#b84>\t</span><span style=color:#b84>{</span>RMSE_fair_add<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Unfair RMSE:	0.8666709890234552
 FTU RMSE:	0.8840061503773576
 L2 RMSE:	0.9262963924423802
 Fair add RMSE:	0.9065835039365202
 </code></pre></div><h2 id=measuring-counterfactual-fairness>Measuring counterfactual fairness</h2>
 <p>First, we will measure two quantities, the <strong><strong>Statistical Parity Difference</strong></strong> (SPD)<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup> and <strong><strong>Disparate impact</strong></strong> (DI)<sup id=fnref:5><a href=#fn:5 class=footnote-ref role=doc-noteref>5</a></sup>.</p>
 <h3 id=statistical-parity-difference-disparate-impact>Statistical Parity Difference / Disparate Impact</h3>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>from fairlearn.metrics import demographic_parity_difference, demographic_parity_ratio
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>fairlearn.metrics</span> <span style=font-weight:700>import</span> demographic_parity_difference, demographic_parity_ratio
 
-parities = []
-impacts = []
+parities <span style=font-weight:700>=</span> []
+impacts <span style=font-weight:700>=</span> []
 
-for a in A:
-    parity = demographic_parity_difference(df_train[&quot;ZFYA&quot;], df_train[&quot;ZFYA&quot;],
-                                                sensitive_features = df_train[a])
-    di = demographic_parity_ratio(df_train[&quot;ZFYA&quot;], df_train[&quot;ZFYA&quot;],
-                                                sensitive_features = df_train[a])
-    parities.append(parity)
-    impacts.append(di)
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>df_parities = pd.DataFrame({'protected':A,'parity':parities,'impact':impacts})
-</code></pre><pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>import matplotlib.pyplot as plt
-from plotutils import *
+<span style=font-weight:700>for</span> a <span style=font-weight:700>in</span> A:
+    parity <span style=font-weight:700>=</span> demographic_parity_difference(df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>], df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
+                                                sensitive_features <span style=font-weight:700>=</span> df_train[a])
+    di <span style=font-weight:700>=</span> demographic_parity_ratio(df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>], df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
+                                                sensitive_features <span style=font-weight:700>=</span> df_train[a])
+    parities<span style=font-weight:700>.</span>append(parity)
+    impacts<span style=font-weight:700>.</span>append(di)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df_parities <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame({<span style=color:#b84>&#39;protected&#39;</span>:A,<span style=color:#b84>&#39;parity&#39;</span>:parities,<span style=color:#b84>&#39;impact&#39;</span>:impacts})
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>matplotlib.pyplot</span> <span style=font-weight:700>as</span> <span style=color:#555>plt</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotutils</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
-fig = plt.figure()
+fig <span style=font-weight:700>=</span> plt<span style=font-weight:700>.</span>figure()
 
-ax = fig.add_subplot(111)
-ax2 = ax.twinx()
+ax <span style=font-weight:700>=</span> fig<span style=font-weight:700>.</span>add_subplot(<span style=color:#099>111</span>)
+ax2 <span style=font-weight:700>=</span> ax<span style=font-weight:700>.</span>twinx()
 
-fig.suptitle('Statistical Parity Difference and Disparate Impact')
+fig<span style=font-weight:700>.</span>suptitle(<span style=color:#b84>&#39;Statistical Parity Difference and Disparate Impact&#39;</span>)
 
-width = 0.4
-df_parities.plot(x ='protected', y = 'parity', kind = 'bar', ax = ax, width = width,
-       position=1, color=colours[0], legend=False)
+width <span style=font-weight:700>=</span> <span style=color:#099>0.4</span>
+df_parities<span style=font-weight:700>.</span>plot(x <span style=font-weight:700>=</span><span style=color:#b84>&#39;protected&#39;</span>, y <span style=font-weight:700>=</span> <span style=color:#b84>&#39;parity&#39;</span>, kind <span style=font-weight:700>=</span> <span style=color:#b84>&#39;bar&#39;</span>, ax <span style=font-weight:700>=</span> ax, width <span style=font-weight:700>=</span> width,
+       position<span style=font-weight:700>=</span><span style=color:#099>1</span>, color<span style=font-weight:700>=</span>colours[<span style=color:#099>0</span>], legend<span style=font-weight:700>=</span><span style=font-weight:700>False</span>)
 
-df_parities.plot(x ='protected', y = 'impact', kind = 'bar', ax = ax2, width = width,
-       position = 0, color = colours[1], legend = False)
+df_parities<span style=font-weight:700>.</span>plot(x <span style=font-weight:700>=</span><span style=color:#b84>&#39;protected&#39;</span>, y <span style=font-weight:700>=</span> <span style=color:#b84>&#39;impact&#39;</span>, kind <span style=font-weight:700>=</span> <span style=color:#b84>&#39;bar&#39;</span>, ax <span style=font-weight:700>=</span> ax2, width <span style=font-weight:700>=</span> width,
+       position <span style=font-weight:700>=</span> <span style=color:#099>0</span>, color <span style=font-weight:700>=</span> colours[<span style=color:#099>1</span>], legend <span style=font-weight:700>=</span> <span style=font-weight:700>False</span>)
 
-ax.axhline(y = 0.1, linestyle = 'dashed', alpha = 0.7, color = colours[0])
-ax2.axhline(y = 0.55, linestyle = 'dashed', alpha = 0.7, color = colours[1])
-
-
-patches, labels = ax.get_legend_handles_labels()
-ax.legend(patches, ['Stat Parity Diff'], loc = 'upper left')
-
-patches, labels = ax2.get_legend_handles_labels()
-ax2.legend(patches, ['Disparate Impact'], loc = 'upper right')
+ax<span style=font-weight:700>.</span>axhline(y <span style=font-weight:700>=</span> <span style=color:#099>0.1</span>, linestyle <span style=font-weight:700>=</span> <span style=color:#b84>&#39;dashed&#39;</span>, alpha <span style=font-weight:700>=</span> <span style=color:#099>0.7</span>, color <span style=font-weight:700>=</span> colours[<span style=color:#099>0</span>])
+ax2<span style=font-weight:700>.</span>axhline(y <span style=font-weight:700>=</span> <span style=color:#099>0.55</span>, linestyle <span style=font-weight:700>=</span> <span style=color:#b84>&#39;dashed&#39;</span>, alpha <span style=font-weight:700>=</span> <span style=color:#099>0.7</span>, color <span style=font-weight:700>=</span> colours[<span style=color:#099>1</span>])
 
 
+patches, labels <span style=font-weight:700>=</span> ax<span style=font-weight:700>.</span>get_legend_handles_labels()
+ax<span style=font-weight:700>.</span>legend(patches, [<span style=color:#b84>&#39;Stat Parity Diff&#39;</span>], loc <span style=font-weight:700>=</span> <span style=color:#b84>&#39;upper left&#39;</span>)
 
-labels = [item.get_text() for item in ax.get_xticklabels()]
+patches, labels <span style=font-weight:700>=</span> ax2<span style=font-weight:700>.</span>get_legend_handles_labels()
+ax2<span style=font-weight:700>.</span>legend(patches, [<span style=color:#b84>&#39;Disparate Impact&#39;</span>], loc <span style=font-weight:700>=</span> <span style=color:#b84>&#39;upper right&#39;</span>)
 
-for i in range(len(A)):
-    labels[i] = A[i]
 
-ax.set_xticklabels(labels)
-ax.set_xlabel('Protected Features')
 
-ax.set_ylabel('Statistical Parity Difference')
-ax2.set_ylabel('Disparate Impact')
+labels <span style=font-weight:700>=</span> [item<span style=font-weight:700>.</span>get_text() <span style=font-weight:700>for</span> item <span style=font-weight:700>in</span> ax<span style=font-weight:700>.</span>get_xticklabels()]
 
-plt.show()
-</code></pre><figure><img src=/ox-hugo/938fda75bc5f941252060110b289058e5d383f09.png>
+<span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#999>len</span>(A)):
+    labels[i] <span style=font-weight:700>=</span> A[i]
+
+ax<span style=font-weight:700>.</span>set_xticklabels(labels)
+ax<span style=font-weight:700>.</span>set_xlabel(<span style=color:#b84>&#39;Protected Features&#39;</span>)
+
+ax<span style=font-weight:700>.</span>set_ylabel(<span style=color:#b84>&#39;Statistical Parity Difference&#39;</span>)
+ax2<span style=font-weight:700>.</span>set_ylabel(<span style=color:#b84>&#39;Disparate Impact&#39;</span>)
+
+plt<span style=font-weight:700>.</span>show()
+</code></pre></div><figure><img src=/ox-hugo/938fda75bc5f941252060110b289058e5d383f09.png>
 </figure>
 <h3 id=finding-sensitive-features>Finding sensitive features</h3>
 <p>Typically a \(SPD > 0.1\) and a \(DI &lt; 0.9\) might indicate discrimination on those features.
 All <span class=underline>protected attributes</span> fail the SPD test and, in our dataset, we have two features (`Hispanic` and `Mexican`) which clearly fail the DI test.</p>
-<pre tabindex=0><code class=language-jupyter-python data-lang=jupyter-python>for a in [&quot;Mexican&quot;, &quot;Hispanic&quot;]:
-    spd = demographic_parity_difference(y_true=df_train[&quot;ZFYA&quot;],
-                                        y_pred=df_train[&quot;ZFYA&quot;],
-                                        sensitive_features = df_train[a])
-    print(f&quot;SPD({a}) = {spd}&quot;)
-    di = demographic_parity_ratio(y_true=df_train[&quot;ZFYA&quot;],
-                                  y_pred=df_train[&quot;ZFYA&quot;],
-                                  sensitive_features = df_train[a])
-    print(f&quot;DI({a}) = {di}&quot;)
-</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>SPD(Mexican) = 0.0014017257538768636
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>for</span> a <span style=font-weight:700>in</span> [<span style=color:#b84>&#34;Mexican&#34;</span>, <span style=color:#b84>&#34;Hispanic&#34;</span>]:
+    spd <span style=font-weight:700>=</span> demographic_parity_difference(y_true<span style=font-weight:700>=</span>df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
+                                        y_pred<span style=font-weight:700>=</span>df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
+                                        sensitive_features <span style=font-weight:700>=</span> df_train[a])
+    <span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;SPD(</span><span style=color:#b84>{</span>a<span style=color:#b84>}</span><span style=color:#b84>) = </span><span style=color:#b84>{</span>spd<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+    di <span style=font-weight:700>=</span> demographic_parity_ratio(y_true<span style=font-weight:700>=</span>df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
+                                  y_pred<span style=font-weight:700>=</span>df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
+                                  sensitive_features <span style=font-weight:700>=</span> df_train[a])
+    <span style=color:#999>print</span>(<span style=color:#b84>f</span><span style=color:#b84>&#34;DI(</span><span style=color:#b84>{</span>a<span style=color:#b84>}</span><span style=color:#b84>) = </span><span style=color:#b84>{</span>di<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>SPD(Mexican) = 0.0014017257538768636
 DI(Mexican) = 0.5556529360210342
 SPD(Hispanic) = 0.003272247102713093
 DI(Hispanic) = 0.34227833235466826
