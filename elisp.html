@@ -15,18 +15,18 @@
 <meta name=robots content="all,follow">
 <meta name=googlebot content="index,follow,snippet,archive">
 <meta property="og:title" content="Elisp">
-<meta property="og:description" content="Tips Execute command in shell buffer comint-send-string is the function we&rsquo;re looking for.1
-It takes a PROCESS and a STRING. You can get the process from the shell buffer, and conveniently the shell function returns the buffer, so you can streamline it all into something like:
-(defun my-server () &#34;SSH to my.server.com in `shell'buffer.&#34; (interactive) (comint-send-string (get-buffer-process (shell)) &#34;ssh my.server.com\n&#34;)) Where the (shell) call will take care of creating the shell buffer and/or process if necessary.">
+<meta property="og:description" content="Elisp is the programming language used to program and configure Emacs.
+Some Elisp topics:
+ Elisp snippets  ">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ruivieira.dev/elisp.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2021-12-20T16:14:21+00:00">
+<meta property="article:modified_time" content="2022-01-04T18:10:52+00:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Elisp">
-<meta name=twitter:description content="Tips Execute command in shell buffer comint-send-string is the function we&rsquo;re looking for.1
-It takes a PROCESS and a STRING. You can get the process from the shell buffer, and conveniently the shell function returns the buffer, so you can streamline it all into something like:
-(defun my-server () &#34;SSH to my.server.com in `shell'buffer.&#34; (interactive) (comint-send-string (get-buffer-process (shell)) &#34;ssh my.server.com\n&#34;)) Where the (shell) call will take care of creating the shell buffer and/or process if necessary.">
-<link rel=stylesheet href=https://ruivieira.dev/css/styles.3d7750bfcbd6415fc559e8b473cc667405f171ec5fc7554bbe57d5015b6d9eca198dd402a0527d1b7d3cbf1dcfb233b6cf0312cb17ea5047db374138083fffa7.css integrity="sha512-PXdQv8vWQV/FWei0c8xmdAXxcexfx1VLvlfVAVttnsoZjdQCoFJ9G308vx3PsjO2zwMSyxfqUEfbN0E4CD//pw=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<meta name=twitter:description content="Elisp is the programming language used to program and configure Emacs.
+Some Elisp topics:
+ Elisp snippets  ">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
 <script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
 <link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
@@ -48,7 +48,7 @@ It takes a PROCESS and a STRING. You can get the process from the shell buffer, 
 <span id=actions>
 <ul>
 <li>
-<a class=icon href=https://ruivieira.dev/emacs.html aria-label=Previous>
+<a class=icon href=https://ruivieira.dev/elisp-snippets.html aria-label=Previous>
 <i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
 </a>
 </li>
@@ -112,7 +112,7 @@ It takes a PROCESS and a STRING. You can get the process from the shell buffer, 
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp.html&name=Elisp&description=Tips%20Execute%20command%20in%20shell%20buffer%20comint-send-string%20is%20the%20function%20we%26rsquo%3bre%20looking%20for.1%0aIt%20takes%20a%20PROCESS%20and%20a%20STRING.%20You%20can%20get%20the%20process%20from%20the%20shell%20buffer%2c%20and%20conveniently%20the%20shell%20function%20returns%20the%20buffer%2c%20so%20you%20can%20streamline%20it%20all%20into%20something%20like%3a%0a%28defun%20my-server%20%28%29%20%26%2334%3bSSH%20to%20my.server.com%20in%20%60shell%26%2339%3bbuffer.%26%2334%3b%20%28interactive%29%20%28comint-send-string%20%28get-buffer-process%20%28shell%29%29%20%26%2334%3bssh%20my.server.com%5cn%26%2334%3b%29%29%20Where%20the%20%28shell%29%20call%20will%20take%20care%20of%20creating%20the%20shell%20buffer%20and%2for%20process%20if%20necessary." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp.html&name=Elisp&description=Elisp%20is%20the%20programming%20language%20used%20to%20program%20and%20configure%20Emacs.%0aSome%20Elisp%20topics%3a%0a%20Elisp%20snippets%20%20" aria-label=Tumblr>
 <i class="fab fa-tumblr" aria-hidden=true></i>
 </a>
 </li>
@@ -125,22 +125,7 @@ It takes a PROCESS and a STRING. You can get the process from the shell buffer, 
 </div>
 <div id=toc>
 <h4>Contents</h4>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#tips>Tips</a>
-<ul>
-<li><a href=#execute-command-in-shell-buffer>Execute command in shell buffer</a></li>
-<li><a href=#free-variables>Free variables</a></li>
-</ul>
-</li>
-<li><a href=#reference>Reference</a>
-<ul>
-<li><a href=#defcustom><code>defcustom</code></a></li>
-</ul>
-</li>
-<li><a href=#sqlite>SQLite</a></li>
-</ul>
-</nav>
+<nav id=TableOfContents></nav>
 <h4>Related</h4>
 <nav>
 <ul>
@@ -157,65 +142,17 @@ Elisp
 </h1>
 <div class=meta>
 <div class=postdate>
-Updated <time datetime="2021-12-20 16:14:21 +0000 GMT" itemprop=datePublished>2021-12-20</time>
-<span class=commit-hash>(36696b5)</span>
+Updated <time datetime="2022-01-04 18:10:52 +0000 GMT" itemprop=datePublished>2022-01-04</time>
+<span class=commit-hash>(f740ede)</span>
 </div>
 </div>
 </header>
 <div class=content itemprop=articleBody>
-<h2 id=tips>Tips</h2>
-<h3 id=execute-command-in-shell-buffer>Execute command in shell buffer</h3>
-<p><code>comint-send-string</code> is the function we&rsquo;re looking for.<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p>
-<p>It takes a <code>PROCESS</code> and a <code>STRING</code>.
-You can get the process from the shell buffer, and conveniently the shell function returns the buffer, so you can streamline it all into something like:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:#999>defun</span> <span style=color:teal>my-server</span> ()
-  <span style=color:#b84>&#34;SSH to my.server.com in </span><span style=color:#b84>`shell&#39;</span><span style=color:#b84> buffer.&#34;</span>
-  (<span style=color:#999>interactive</span>)
-  (<span style=color:teal>comint-send-string</span>
-   (<span style=color:#900;font-weight:700>get-buffer-process</span> (<span style=color:teal>shell</span>))
-   <span style=color:#b84>&#34;ssh my.server.com\n&#34;</span>))
-</code></pre></div><p>Where the (shell) call will take care of creating the shell buffer and/or process if necessary.<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup></p>
-<h3 id=free-variables>Free variables</h3>
-<p>In some situations, for instance when setting a variable in a <a href=/doom-emacs.html>DOOM Emacs</a> like</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:#999>setq</span> <span style=color:teal>my/variable</span> <span style=color:#b84>&#34;value&#34;</span>)
-</code></pre></div><p>You might get the warning</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Warning: assignment to free variable `er/try-expand-list&#39;
-</code></pre></div><p>This is because <code>set</code> and <code>setq</code> do not declare lexical variables<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>.
-The solution is to use<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup></p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:#999>defvar</span> <span style=color:teal>my/variable</span> <span style=color:#b84>&#34;value&#34;</span>)
-</code></pre></div><h2 id=reference>Reference</h2>
-<h3 id=defcustom><code>defcustom</code></h3>
-<p>You can specify variables using <code>defcustom</code> so that you and others can then use Emacs’s <code>customize</code> feature to set their values. (You cannot use <code>customize</code> to write function definitions; but you can write <code>defuns</code> in your <code>.emacs</code> file. Indeed, you can write any Lisp expression in your <code>.emacs</code> file.)<sup id=fnref:5><a href=#fn:5 class=footnote-ref role=doc-noteref>5</a></sup></p>
-<h2 id=sqlite>SQLite</h2>
-<p>Emacs provides functionality to interact with SQLite databases. For these examples we will use the <a href=https://github.com/skeeto/emacsql>emacSQL</a> package.
-To open a database file <code>/tmp/foo.sqlite</code> we issue:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>  (<span style=color:#999>defvar</span> <span style=color:teal>db</span> (<span style=color:teal>emacsql-sqlite</span> <span style=color:#b84>&#34;~/tmp/foo.sqlite&#34;</span>))
-</code></pre></div><p>We can then issue <code>SELECT</code> statements with</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>  <span style=color:#998;font-style:italic>;; Query the database for results:</span>
-  (<span style=color:teal>emacsql</span> <span style=color:teal>db</span> [<span style=color:#999>:select</span> [<span style=color:teal>name</span> <span style=color:teal>id</span>]
-             <span style=color:#999>:from</span> <span style=color:teal>people</span>
-             <span style=color:#999>:where</span> (<span style=color:#900;font-weight:700>&gt;</span> <span style=color:teal>salary</span> <span style=color:#099>62000</span>)])
-  <span style=color:#998;font-style:italic>;; =&gt; ((&#34;Susan&#34; 1001))</span>
-</code></pre></div><section class=footnotes role=doc-endnotes>
-<hr>
-<ol>
-<li id=fn:1 role=doc-endnote>
-<p>shell is built on top of the comint library.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-<li id=fn:2 role=doc-endnote>
-<p>n.b. if there&rsquo;s an existing one, shell will re-use that.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-<li id=fn:3 role=doc-endnote>
-<p>Only <code>let</code> does.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-<li id=fn:4 role=doc-endnote>
-<p>But not quote the symbol.&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-<li id=fn:5 role=doc-endnote>
-<p>The docs for <code>defcustom</code>: <a href=https://www.gnu.org/software/emacs/manual/html%5Fnode/eintr/defcustom.html>https://www.gnu.org/software/emacs/manual/html%5Fnode/eintr/defcustom.html</a>&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
+<p>Elisp is the programming language used to program and configure Emacs.</p>
+<p>Some Elisp topics:</p>
+<ul>
+<li><a href=/elisp-snippets.html>Elisp snippets</a></li>
+</ul>
 </div>
 </article>
 <div id=footer-post-container>
@@ -228,22 +165,7 @@ To open a database file <code>/tmp/foo.sqlite</code> we issue:</p>
 </ul>
 </div>
 <div id=toc-footer style=display:none>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#tips>Tips</a>
-<ul>
-<li><a href=#execute-command-in-shell-buffer>Execute command in shell buffer</a></li>
-<li><a href=#free-variables>Free variables</a></li>
-</ul>
-</li>
-<li><a href=#reference>Reference</a>
-<ul>
-<li><a href=#defcustom><code>defcustom</code></a></li>
-</ul>
-</li>
-<li><a href=#sqlite>SQLite</a></li>
-</ul>
-</nav>
+<nav id=TableOfContents></nav>
 </div>
 <div id=share-footer style=display:none>
 <ul>
@@ -283,7 +205,7 @@ To open a database file <code>/tmp/foo.sqlite</code> we issue:</p>
 </a>
 </li>
 <li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp.html&name=Elisp&description=Tips%20Execute%20command%20in%20shell%20buffer%20comint-send-string%20is%20the%20function%20we%26rsquo%3bre%20looking%20for.1%0aIt%20takes%20a%20PROCESS%20and%20a%20STRING.%20You%20can%20get%20the%20process%20from%20the%20shell%20buffer%2c%20and%20conveniently%20the%20shell%20function%20returns%20the%20buffer%2c%20so%20you%20can%20streamline%20it%20all%20into%20something%20like%3a%0a%28defun%20my-server%20%28%29%20%26%2334%3bSSH%20to%20my.server.com%20in%20%60shell%26%2339%3bbuffer.%26%2334%3b%20%28interactive%29%20%28comint-send-string%20%28get-buffer-process%20%28shell%29%29%20%26%2334%3bssh%20my.server.com%5cn%26%2334%3b%29%29%20Where%20the%20%28shell%29%20call%20will%20take%20care%20of%20creating%20the%20shell%20buffer%20and%2for%20process%20if%20necessary." aria-label=Tumblr>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp.html&name=Elisp&description=Elisp%20is%20the%20programming%20language%20used%20to%20program%20and%20configure%20Emacs.%0aSome%20Elisp%20topics%3a%0a%20Elisp%20snippets%20%20" aria-label=Tumblr>
 <i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
 </a>
 </li>
