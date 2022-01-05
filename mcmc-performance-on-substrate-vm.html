@@ -1,157 +1,215 @@
-<!doctype html><html lang=en-uk>
+<!DOCTYPE html>
+<html lang="en-uk">
 <head>
-<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
-<script type=module src=/js/deeplinks/deeplinks.js></script>
-<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=stylesheet href=/css/kbd.css type=text/css>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<title> MCMC performance on substrate VM | Rui Vieira</title>
-<link rel=canonical href=https://ruivieira.dev/mcmc-performance-on-substrate-vm.html>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="all,follow">
-<meta name=googlebot content="index,follow,snippet,archive">
-<meta property="og:title" content="MCMC performance on substrate VM">
+  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
+  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> MCMC performance on substrate VM · Rui Vieira</title>
+  <link rel = 'canonical' href = 'https://ruivieira.dev/mcmc-performance-on-substrate-vm.html'>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="MCMC performance on substrate VM" />
 <meta property="og:description" content="Recently I&rsquo;ve been following (but not very closely, I admit) the development of the GraalVM project. The project has many interesting goals (such as Project Metropolis, increased JIT performance and others).
-However, having dabbled with projects such as Scala native and Kotlin native, one of the aspects of GraalVM that caught my attention was the SubstrateVM, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://ruivieira.dev/mcmc-performance-on-substrate-vm.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2021-11-25T08:28:11+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="MCMC performance on substrate VM">
-<meta name=twitter:description content="Recently I&rsquo;ve been following (but not very closely, I admit) the development of the GraalVM project. The project has many interesting goals (such as Project Metropolis, increased JIT performance and others).
-However, having dabbled with projects such as Scala native and Kotlin native, one of the aspects of GraalVM that caught my attention was the SubstrateVM, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.">
-<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
-<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
-<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
+However, having dabbled with projects such as Scala native and Kotlin native, one of the aspects of GraalVM that caught my attention was the SubstrateVM, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ruivieira.dev/mcmc-performance-on-substrate-vm.html" /><meta property="article:section" content="posts" />
+
+<meta property="article:modified_time" content="2021-11-25T08:28:11+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MCMC performance on substrate VM"/>
+<meta name="twitter:description" content="Recently I&rsquo;ve been following (but not very closely, I admit) the development of the GraalVM project. The project has many interesting goals (such as Project Metropolis, increased JIT performance and others).
+However, having dabbled with projects such as Scala native and Kotlin native, one of the aspects of GraalVM that caught my attention was the SubstrateVM, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
+
+  
+  
+  
+  
 </head>
+
 <body class="max-width mx-auto px3 ltr">
-<div class="content index py4">
-<div id=header-post>
-<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-<span id=menu>
-<span id=nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://ruivieira.dev/model-fairness.html" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://ruivieira.dev/mcmc-notifications.html" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&text=MCMC%20performance%20on%20substrate%20VM" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&is_video=false&description=MCMC%20performance%20on%20substrate%20VM" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=MCMC%20performance%20on%20substrate%20VM&body=Check out this article: https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&name=MCMC%20performance%20on%20substrate%20VM&description=Recently%20I%26rsquo%3bve%20been%20following%20%28but%20not%20very%20closely%2c%20I%20admit%29%20the%20development%20of%20the%20GraalVM%20project.%20The%20project%20has%20many%20interesting%20goals%20%28such%20as%20Project%20Metropolis%2c%20increased%20JIT%20performance%20and%20others%29.%0aHowever%2c%20having%20dabbled%20with%20projects%20such%20as%20Scala%20native%20and%20Kotlin%20native%2c%20one%20of%20the%20aspects%20of%20GraalVM%20that%20caught%20my%20attention%20was%20the%20SubstrateVM%2c%20which%20allegedly%20allows%20for%20a%20simple%2c%20straight-forward%20compilation%20of%20any%20Java%20bytecode%20into%20a%20native%20binary." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&t=MCMC%20performance%20on%20substrate%20VM" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
 </ul>
-</span>
-<br>
-<span id=actions>
-<ul>
-<li>
-<a class=icon href=https://ruivieira.dev/model-fairness.html aria-label=Previous>
-<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=https://ruivieira.dev/mcmc-notifications.html aria-label=Next>
-<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# aria-label=Share>
-<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
-</a>
-</li>
-</ul>
-<span id=i-prev class=info style=display:none>Previous post</span>
-<span id=i-next class=info style=display:none>Next post</span>
-<span id=i-top class=info style=display:none>Back to top</span>
-<span id=i-share class=info style=display:none>Share post</span>
-</span>
-<br>
-<div id=share style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label=Facebook>
-<i class="fab fa-facebook" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&text=MCMC%20performance%20on%20substrate%20VM" aria-label=Twitter>
-<i class="fab fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label=Linkedin>
-<i class="fab fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&is_video=false&description=MCMC%20performance%20on%20substrate%20VM" aria-label=Pinterest>
-<i class="fab fa-pinterest" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=MCMC%20performance%20on%20substrate%20VM&body=Check out this article: https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label=Email>
-<i class="fas fa-envelope" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label=Pocket>
-<i class="fab fa-get-pocket" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label=reddit>
-<i class="fab fa-reddit" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&name=MCMC%20performance%20on%20substrate%20VM&description=Recently%20I%26rsquo%3bve%20been%20following%20%28but%20not%20very%20closely%2c%20I%20admit%29%20the%20development%20of%20the%20GraalVM%20project.%20The%20project%20has%20many%20interesting%20goals%20%28such%20as%20Project%20Metropolis%2c%20increased%20JIT%20performance%20and%20others%29.%0aHowever%2c%20having%20dabbled%20with%20projects%20such%20as%20Scala%20native%20and%20Kotlin%20native%2c%20one%20of%20the%20aspects%20of%20GraalVM%20that%20caught%20my%20attention%20was%20the%20SubstrateVM%2c%20which%20allegedly%20allows%20for%20a%20simple%2c%20straight-forward%20compilation%20of%20any%20Java%20bytecode%20into%20a%20native%20binary." aria-label=Tumblr>
-<i class="fab fa-tumblr" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&t=MCMC%20performance%20on%20substrate%20VM" aria-label="Hacker News">
-<i class="fab fa-hacker-news" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div>
-<div id=toc>
-<h4>Contents</h4>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#binomial-beta-case>Binomial-Beta case</a></li>
-<li><a href=#another-bivariate-case>Another bivariate case</a></li>
-</ul>
+
+    </div>
+    
+    
+    <div id="toc">
+      <h4>Contents</h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#binomial-beta-case">Binomial-Beta case</a></li>
+    <li><a href="#another-bivariate-case">Another bivariate case</a></li>
+  </ul>
 </nav>
-</ul>
-</nav>
+      
+      </ul>
+    </nav>
+    </div>
+    
+  </span>
 </div>
-</span>
-</div>
-<article class=post itemscope itemtype=http://schema.org/BlogPosting>
-<header>
-<h1 class=posttitle itemprop="name headline">
-MCMC performance on substrate VM
-</h1>
-<div class=meta>
-<div class=postdate>
-Updated <time datetime="2021-11-25 08:28:11 +0000 GMT" itemprop=datePublished>2021-11-25</time>
-<span class=commit-hash>(2caaeb5)</span>
-</div>
-</div>
-</header>
-<div class=content itemprop=articleBody>
-<p>Recently I&rsquo;ve been following (but not very closely, I admit) the development of the <a href=https://www.graalvm.org/>GraalVM</a> project. The project has many interesting goals (such as <a href=http://openjdk.java.net/projects/metropolis/>Project Metropolis</a>, increased JIT performance and others).</p>
-<p>However, having dabbled with projects such as <a href=https://github.com/scala-native/scala-native>Scala native</a> and <a href=https://kotlinlang.org/docs/reference/native-overview.html>Kotlin native</a>, one of the aspects of GraalVM that caught my attention was the <a href=https://github.com/oracle/graal/tree/master/substratevm>SubstrateVM</a>, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</p>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        MCMC performance on substrate VM
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          Updated <time datetime="2021-11-25 08:28:11 &#43;0000 GMT" itemprop="datePublished">2021-11-25</time>
+          <span class="commit-hash">(2caaeb5)</span>
+        </div>
+        
+        
+        
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Recently I&rsquo;ve been following (but not very closely, I admit) the development of the <a href="https://www.graalvm.org/">GraalVM</a> project. The project has many interesting goals (such as <a href="http://openjdk.java.net/projects/metropolis/">Project Metropolis</a>, increased JIT performance and others).</p>
+<p>However, having dabbled with projects such as <a href="https://github.com/scala-native/scala-native">Scala native</a> and <a href="https://kotlinlang.org/docs/reference/native-overview.html">Kotlin native</a>, one of the aspects of GraalVM that caught my attention was the <a href="https://github.com/oracle/graal/tree/master/substratevm">SubstrateVM</a>, which allegedly allows for a simple, straight-forward compilation of any Java bytecode into a native binary.</p>
 <p>I specifically wanted to compare the performance and memory consumption of simple scientific computing tasks when using the JVM and native executables.
 To do this, I picked two simple numerical simulations in the form of toy Gibbs samplers, in order to keep the cores busy for a while.</p>
-<h2 id=binomial-beta-case>Binomial-Beta case</h2>
+<h2 id="binomial-beta-case">Binomial-Beta case</h2>
 <p>The first problem chosen was the one of sampling from a Beta-Binomial distribution where we have</p>
 <p>\[
 X \sim \text{Binom}\left(n,\theta\right) \\\\
@@ -169,24 +227,25 @@ p(x,\theta) = \begin{pmatrix} n \\\ x \end{pmatrix} \theta^x \left(1-\theta\righ
 <p>\[
 p\left(x\right)=\begin{pmatrix} n \\\ x \end{pmatrix}\frac{\Gamma\left(a+b\right)}{\Gamma(a)\Gamma(b)}\frac{\Gamma\left(a+b\right)\Gamma\left(b+n-x\right)}{\Gamma\left(a+b+n\right)},\qquad x=0,1,\cdots,n.
 \]</p>
-<p>The code for this simulation is available <a href=https://github.com/ruivieira/benchmark-gibbs>here</a>.</p>
+<p>The code for this simulation is available <a href="https://github.com/ruivieira/benchmark-gibbs">here</a>.</p>
 <p>The project is setup so that Maven produces an assembly Jar file, since I&rsquo;ve found that to be the easier artifact we can offer to the GraalVM&rsquo;s native compiler. To enable assembly Jars we add the <code>maven-assembly-plugin</code> to <code>pom.xml</code> and specify a main class. The assembly can then be produced simply by executing</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>mvn package
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mvn package
 </code></pre></div><p>An assembly Jar should be available in the <code>target</code> folder and named <code>benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar</code>.
 Both the Jar and the native executable allow to specify how many iterations the Gibbs sampler should run for (as well as the thinning factor). If nothing is specified, the default will be used, which is \(50000\) iterations thinned by \(100\).</p>
 <p>This particular Gibbs sampler was implemented in two variants. One variant stores the samples draws of \(x\) and \(\theta\) in arrays <code>double[]</code> while the other one simply calculates the Gibbs steps by using the previous value, that is \(x_i=f(x_{i-1},\theta_{i-1})\) and then discarding the previous values. The latter has a constant memory cost in \(\mathcal{O}(1)\) in terms of number of iterations, while the former clearly doesn&rsquo;t.</p>
 <p>We can them proceed with the first test, first benchmarking it under the JVM by running (for both sample history variants):</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store <span style=color:#099>50000</span> <span style=color:#099>100</span>
-$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore <span style=color:#099>50000</span> <span style=color:#099>100</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar store <span style="color:#099">50000</span> <span style="color:#099">100</span>
+$ /usr/bin/time -v java -jar target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar nostore <span style="color:#099">50000</span> <span style="color:#099">100</span>
 </code></pre></div><p>(It is important to note that the <code>time</code> command is the executable under <code>/usr/bin</code> and not your shell&rsquo;s builtin.)
 The next step is to build the native image using GraalVM&rsquo;s compiler. This is also quite straight-forward and simply a matter of calling:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:teal>$GRAALVM_BIN</span>/native-image target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#008080">$GRAALVM_BIN</span>/native-image target/benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies.jar
 </code></pre></div><p>where <code>$GRAALVM_BIN</code> is simply the location where you installed the GraalVM binaries. If the compilation is successful, you should see some information about the compilation steps, such as parsing, inlining, compiling and writing the image. Finally, if using the default, you should have a native executable available in your current directory. Again, the benchmark command is similar to the JVM step, that is:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies store <span style=color:#099>50000</span> <span style=color:#099>100</span>
-$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore <span style=color:#099>50000</span> <span style=color:#099>100</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies store <span style="color:#099">50000</span> <span style="color:#099">100</span>
+$ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore <span style="color:#099">50000</span> <span style="color:#099">100</span>
 </code></pre></div><p>The results from the runs which saved the sampling history on both platforms (JVM and native) were consistent as we can see from the plots below:</p>
-<figure><img src=/ox-hugo/gibbs_jvm_native.png>
+<figure><img src="/ox-hugo/gibbs_jvm_native.png"/>
 </figure>
+
 <p>The (peak) memory consumption and execution time for each version is presented in the table below:</p>
 <table>
 <thead>
@@ -219,8 +278,8 @@ $ /usr/bin/time -v ./benchmark-gibbs-1.0-SNAPSHOT-jar-with-dependencies nostore 
 </tr>
 </tbody>
 </table>
-<h2 id=another-bivariate-case>Another bivariate case</h2>
-<p>The second problem chosen is another bivariate model, <a href=/a-gibbs-sampler-in-crystal.html>a Gibbs sampler</a> in this blog.
+<h2 id="another-bivariate-case">Another bivariate case</h2>
+<p>The second problem chosen is another bivariate model, <a href="/a-gibbs-sampler-in-crystal.html">a Gibbs sampler</a> in this blog.
 The code is included in the same repositoty as the Beta-Binomial case and the setup for the benchmarks is similar. The only step needed to run this example is to change the main class in the assemply plugin section of the <code>pom.xml</code> from <code>BinomialBet~a to ~Bivariate</code>. The benchmark results are in the table below:</p>
 <table>
 <thead>
@@ -243,107 +302,167 @@ The code is included in the same repositoty as the Beta-Binomial case and the se
 </tr>
 </tbody>
 </table>
-<p>Now, in this case, the results are much more interesting. The JVM version outperforms the native version in <strong>both</strong> execution time and memory consumption. I don&rsquo;t have an explanation for this, but if you think you have (or have any other questions) please let me know on <a href=https://mastodon.social/@ruivieira>Mastodon</a> or <a href=https://twitter.com/ruimvieira>Twitter</a>.</p>
+<p>Now, in this case, the results are much more interesting. The JVM version outperforms the native version in <strong>both</strong> execution time and memory consumption. I don&rsquo;t have an explanation for this, but if you think you have (or have any other questions) please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
 <p>Thanks for reading!</p>
-</div>
-</article>
-<div id=footer-post-container>
-<div id=footer-post>
-<div id=nav-footer style=display:none>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</div>
-<div id=toc-footer style=display:none>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#binomial-beta-case>Binomial-Beta case</a></li>
-<li><a href=#another-bivariate-case>Another bivariate case</a></li>
-</ul>
+
+    </div>
+  </article>
+
+
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/map/">All pages</a></li>
+         
+          <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#binomial-beta-case">Binomial-Beta case</a></li>
+    <li><a href="#another-bivariate-case">Another bivariate case</a></li>
+  </ul>
 </nav>
-</div>
-<div id=share-footer style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label=Facebook>
-<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&text=MCMC%20performance%20on%20substrate%20VM" aria-label=Twitter>
-<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label=Linkedin>
-<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&is_video=false&description=MCMC%20performance%20on%20substrate%20VM" aria-label=Pinterest>
-<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=MCMC%20performance%20on%20substrate%20VM&body=Check out this article: https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label=Email>
-<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label=Pocket>
-<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label=reddit>
-<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&name=MCMC%20performance%20on%20substrate%20VM&description=Recently%20I%26rsquo%3bve%20been%20following%20%28but%20not%20very%20closely%2c%20I%20admit%29%20the%20development%20of%20the%20GraalVM%20project.%20The%20project%20has%20many%20interesting%20goals%20%28such%20as%20Project%20Metropolis%2c%20increased%20JIT%20performance%20and%20others%29.%0aHowever%2c%20having%20dabbled%20with%20projects%20such%20as%20Scala%20native%20and%20Kotlin%20native%2c%20one%20of%20the%20aspects%20of%20GraalVM%20that%20caught%20my%20attention%20was%20the%20SubstrateVM%2c%20which%20allegedly%20allows%20for%20a%20simple%2c%20straight-forward%20compilation%20of%20any%20Java%20bytecode%20into%20a%20native%20binary." aria-label=Tumblr>
-<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&t=MCMC%20performance%20on%20substrate%20VM" aria-label="Hacker News">
-<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
-</a>
-</li>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&text=MCMC%20performance%20on%20substrate%20VM" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&is_video=false&description=MCMC%20performance%20on%20substrate%20VM" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=MCMC%20performance%20on%20substrate%20VM&body=Check out this article: https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&title=MCMC%20performance%20on%20substrate%20VM" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&name=MCMC%20performance%20on%20substrate%20VM&description=Recently%20I%26rsquo%3bve%20been%20following%20%28but%20not%20very%20closely%2c%20I%20admit%29%20the%20development%20of%20the%20GraalVM%20project.%20The%20project%20has%20many%20interesting%20goals%20%28such%20as%20Project%20Metropolis%2c%20increased%20JIT%20performance%20and%20others%29.%0aHowever%2c%20having%20dabbled%20with%20projects%20such%20as%20Scala%20native%20and%20Kotlin%20native%2c%20one%20of%20the%20aspects%20of%20GraalVM%20that%20caught%20my%20attention%20was%20the%20SubstrateVM%2c%20which%20allegedly%20allows%20for%20a%20simple%2c%20straight-forward%20compilation%20of%20any%20Java%20bytecode%20into%20a%20native%20binary." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fmcmc-performance-on-substrate-vm.html&t=MCMC%20performance%20on%20substrate%20VM" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
 </ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
 </div>
-<div id=actions-footer>
-<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
-<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
-<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
-<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
-<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
-<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
-<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
-</div>
-</div>
-</div>
-<footer id=footer>
-<div class=footer-left>
-Copyright &copy; 2022 Rui Vieira
-</div>
-<div class=footer-right>
-<nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</nav>
-</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2022  Rui Vieira 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</div>
+
+
+  </div>
 </body>
-<link rel=stylesheet href=/css/fa.min.css>
+
+<link rel="stylesheet" href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+
+
+
+  
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
 </html>

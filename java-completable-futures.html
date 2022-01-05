@@ -1,314 +1,437 @@
-<!doctype html><html lang=en-uk>
+<!DOCTYPE html>
+<html lang="en-uk">
 <head>
-<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
-<script type=module src=/js/deeplinks/deeplinks.js></script>
-<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=stylesheet href=/css/kbd.css type=text/css>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<title> Java Completable Futures | Rui Vieira</title>
-<link rel=canonical href=https://ruivieira.dev/java-completable-futures.html>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="all,follow">
-<meta name=googlebot content="index,follow,snippet,archive">
-<meta property="og:title" content="Java Completable Futures">
-<meta property="og:description" content="Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> &#34;Hello&#34;); CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> &#34;Beautiful&#34;); CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> &#34;World&#34;); CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture<String> result = combinedFuture.thenApply(v -> future1.join() + future2.join() + future3.join()); System.out.println(result.get()); } HelloBeautifulWorld Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\).">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://ruivieira.dev/java-completable-futures.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2021-12-09T11:03:26+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Java Completable Futures">
-<meta name=twitter:description content="Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> &#34;Hello&#34;); CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> &#34;Beautiful&#34;); CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> &#34;World&#34;); CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture<String> result = combinedFuture.thenApply(v -> future1.join() + future2.join() + future3.join()); System.out.println(result.get()); } HelloBeautifulWorld Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\).">
-<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
-<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
-<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
+  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
+  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Java Completable Futures · Rui Vieira</title>
+  <link rel = 'canonical' href = 'https://ruivieira.dev/java-completable-futures.html'>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Java Completable Futures" />
+<meta property="og:description" content="Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture&lt;String&gt; future1 = CompletableFuture.supplyAsync(() -&gt; &#34;Hello&#34;); CompletableFuture&lt;String&gt; future2 = CompletableFuture.supplyAsync(() -&gt; &#34;Beautiful&#34;); CompletableFuture&lt;String&gt; future3 = CompletableFuture.supplyAsync(() -&gt; &#34;World&#34;); CompletableFuture&lt;Void&gt; combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture&lt;String&gt; result = combinedFuture.thenApply(v -&gt; future1.join() &#43; future2.join() &#43; future3.join()); System.out.println(result.get()); } HelloBeautifulWorld Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ruivieira.dev/java-completable-futures.html" /><meta property="article:section" content="posts" />
+
+<meta property="article:modified_time" content="2021-12-09T11:03:26+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java Completable Futures"/>
+<meta name="twitter:description" content="Running in parallel import java.util.concurrent.CompletableFuture; import java.lang.InterruptedException; import java.util.concurrent.ExecutionException; public static void main(String[] args) throws InterruptedException, ExecutionException { CompletableFuture&lt;String&gt; future1 = CompletableFuture.supplyAsync(() -&gt; &#34;Hello&#34;); CompletableFuture&lt;String&gt; future2 = CompletableFuture.supplyAsync(() -&gt; &#34;Beautiful&#34;); CompletableFuture&lt;String&gt; future3 = CompletableFuture.supplyAsync(() -&gt; &#34;World&#34;); CompletableFuture&lt;Void&gt; combinedFuture = CompletableFuture.allOf(future1, future2, future3); CompletableFuture&lt;String&gt; result = combinedFuture.thenApply(v -&gt; future1.join() &#43; future2.join() &#43; future3.join()); System.out.println(result.get()); } HelloBeautifulWorld Waiting for all Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\)."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
+
+  
+  
+  
+  
 </head>
+
 <body class="max-width mx-auto px3 ltr">
-<div class="content index py4">
-<div id=header-post>
-<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-<span id=menu>
-<span id=nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</span>
-<br>
-<span id=actions>
-<ul>
-<li>
-<a class=icon href=https://ruivieira.dev/java-consumer.html aria-label=Previous>
-<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=https://ruivieira.dev/java-build-systems.html aria-label=Next>
-<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# aria-label=Share>
-<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
-</a>
-</li>
-</ul>
-<span id=i-prev class=info style=display:none>Previous post</span>
-<span id=i-next class=info style=display:none>Next post</span>
-<span id=i-top class=info style=display:none>Back to top</span>
-<span id=i-share class=info style=display:none>Share post</span>
-</span>
-<br>
-<div id=share style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label=Facebook>
-<i class="fab fa-facebook" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label=Twitter>
-<i class="fab fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label=Linkedin>
-<i class="fab fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label=Pinterest>
-<i class="fab fa-pinterest" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label=Email>
-<i class="fas fa-envelope" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label=Pocket>
-<i class="fab fa-get-pocket" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label=reddit>
-<i class="fab fa-reddit" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20HelloBeautifulWorld%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label=Tumblr>
-<i class="fab fa-tumblr" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
-<i class="fab fa-hacker-news" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div>
-<div id=toc>
-<h4>Contents</h4>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#running-in-parallel>Running in parallel</a></li>
-<li><a href=#waiting-for-all>Waiting for all</a></li>
-</ul>
-</nav>
-<h4>Related</h4>
-<nav>
-<ul>
-<li class="header-post toc"><a href=https://ruivieira.dev/java.html>Java</a></li>
-</ul>
-</nav>
-</div>
-</span>
-</div>
-<article class=post itemscope itemtype=http://schema.org/BlogPosting>
-<header>
-<h1 class=posttitle itemprop="name headline">
-Java Completable Futures
-</h1>
-<div class=meta>
-<div class=postdate>
-Updated <time datetime="2021-12-09 11:03:26 +0000 GMT" itemprop=datePublished>2021-12-09</time>
-<span class=commit-hash>(7744337)</span>
-</div>
-</div>
-</header>
-<div class=content itemprop=articleBody>
-<h2 id=running-in-parallel>Running in parallel</h2>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=font-weight:700>import</span> <span style=color:#555>java.util.concurrent.CompletableFuture</span><span style=font-weight:700>;</span>
-<span style=font-weight:700>import</span> <span style=color:#555>java.lang.InterruptedException</span><span style=font-weight:700>;</span>
-<span style=font-weight:700>import</span> <span style=color:#555>java.util.concurrent.ExecutionException</span><span style=font-weight:700>;</span>
+  <div class="content index py4">
 
-<span style=font-weight:700>public</span> <span style=font-weight:700>static</span> <span style=color:#458;font-weight:700>void</span> <span style=color:#900;font-weight:700>main</span><span style=font-weight:700>(</span>String<span style=font-weight:700>[]</span> args<span style=font-weight:700>)</span> <span style=font-weight:700>throws</span> InterruptedException<span style=font-weight:700>,</span> ExecutionException <span style=font-weight:700>{</span>
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> future1 <span style=font-weight:700>=</span> CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>supplyAsync</span><span style=font-weight:700>(()</span> <span style=font-weight:700>-&gt;</span> <span style=color:#b84>&#34;Hello&#34;</span><span style=font-weight:700>);</span>
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> future2 <span style=font-weight:700>=</span> CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>supplyAsync</span><span style=font-weight:700>(()</span> <span style=font-weight:700>-&gt;</span> <span style=color:#b84>&#34;Beautiful&#34;</span><span style=font-weight:700>);</span>
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> future3 <span style=font-weight:700>=</span> CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>supplyAsync</span><span style=font-weight:700>(()</span> <span style=font-weight:700>-&gt;</span> <span style=color:#b84>&#34;World&#34;</span><span style=font-weight:700>);</span>
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://ruivieira.dev/java-consumer.html" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://ruivieira.dev/java-build-systems.html" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20HelloBeautifulWorld%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
 
-    CompletableFuture<span style=font-weight:700>&lt;</span>Void<span style=font-weight:700>&gt;</span> combinedFuture <span style=font-weight:700>=</span> CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>allOf</span><span style=font-weight:700>(</span>future1<span style=font-weight:700>,</span> future2<span style=font-weight:700>,</span> future3<span style=font-weight:700>);</span>
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> result <span style=font-weight:700>=</span> combinedFuture<span style=font-weight:700>.</span><span style=color:teal>thenApply</span><span style=font-weight:700>(</span>v <span style=font-weight:700>-&gt;</span> future1<span style=font-weight:700>.</span><span style=color:teal>join</span><span style=font-weight:700>()</span> <span style=font-weight:700>+</span> future2<span style=font-weight:700>.</span><span style=color:teal>join</span><span style=font-weight:700>()</span> <span style=font-weight:700>+</span> future3<span style=font-weight:700>.</span><span style=color:teal>join</span><span style=font-weight:700>());</span>
-    System<span style=font-weight:700>.</span><span style=color:teal>out</span><span style=font-weight:700>.</span><span style=color:teal>println</span><span style=font-weight:700>(</span>result<span style=font-weight:700>.</span><span style=color:teal>get</span><span style=font-weight:700>());</span>
-<span style=font-weight:700>}</span>
-</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>HelloBeautifulWorld
-</code></pre></div><h2 id=waiting-for-all>Waiting for all</h2>
+    </div>
+    
+    
+    <div id="toc">
+      <h4>Contents</h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#running-in-parallel">Running in parallel</a></li>
+    <li><a href="#waiting-for-all">Waiting for all</a></li>
+  </ul>
+</nav>
+      
+      <h4>Related</h4>
+      
+      <nav>
+      <ul>
+      
+      
+        <li class="header-post toc"><a href="https://ruivieira.dev/java.html">Java</a></li>
+      
+      
+      </ul>
+    </nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Java Completable Futures
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          Updated <time datetime="2021-12-09 11:03:26 &#43;0000 GMT" itemprop="datePublished">2021-12-09</time>
+          <span class="commit-hash">(7744337)</span>
+        </div>
+        
+        
+        
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <h2 id="running-in-parallel">Running in parallel</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="font-weight:bold">import</span> <span style="color:#555">java.util.concurrent.CompletableFuture</span><span style="font-weight:bold">;</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">java.lang.InterruptedException</span><span style="font-weight:bold">;</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">java.util.concurrent.ExecutionException</span><span style="font-weight:bold">;</span>
+
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">main</span><span style="font-weight:bold">(</span>String<span style="font-weight:bold">[]</span> args<span style="font-weight:bold">)</span> <span style="font-weight:bold">throws</span> InterruptedException<span style="font-weight:bold">,</span> ExecutionException <span style="font-weight:bold">{</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> future1 <span style="font-weight:bold">=</span> CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">supplyAsync</span><span style="font-weight:bold">(()</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#b84">&#34;Hello&#34;</span><span style="font-weight:bold">);</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> future2 <span style="font-weight:bold">=</span> CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">supplyAsync</span><span style="font-weight:bold">(()</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#b84">&#34;Beautiful&#34;</span><span style="font-weight:bold">);</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> future3 <span style="font-weight:bold">=</span> CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">supplyAsync</span><span style="font-weight:bold">(()</span> <span style="font-weight:bold">-&gt;</span> <span style="color:#b84">&#34;World&#34;</span><span style="font-weight:bold">);</span>
+
+    CompletableFuture<span style="font-weight:bold">&lt;</span>Void<span style="font-weight:bold">&gt;</span> combinedFuture <span style="font-weight:bold">=</span> CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">allOf</span><span style="font-weight:bold">(</span>future1<span style="font-weight:bold">,</span> future2<span style="font-weight:bold">,</span> future3<span style="font-weight:bold">);</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> result <span style="font-weight:bold">=</span> combinedFuture<span style="font-weight:bold">.</span><span style="color:#008080">thenApply</span><span style="font-weight:bold">(</span>v <span style="font-weight:bold">-&gt;</span> future1<span style="font-weight:bold">.</span><span style="color:#008080">join</span><span style="font-weight:bold">()</span> <span style="font-weight:bold">+</span> future2<span style="font-weight:bold">.</span><span style="color:#008080">join</span><span style="font-weight:bold">()</span> <span style="font-weight:bold">+</span> future3<span style="font-weight:bold">.</span><span style="color:#008080">join</span><span style="font-weight:bold">());</span>
+    System<span style="font-weight:bold">.</span><span style="color:#008080">out</span><span style="font-weight:bold">.</span><span style="color:#008080">println</span><span style="font-weight:bold">(</span>result<span style="font-weight:bold">.</span><span style="color:#008080">get</span><span style="font-weight:bold">());</span>
+<span style="font-weight:bold">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">HelloBeautifulWorld
+</code></pre></div><h2 id="waiting-for-all">Waiting for all</h2>
 <p>Lets assume we have a completable future, \(f\). This future, in turn, create \(N\) additional completable futures, \(f_1, f_2, \dots, f_N\).
 How can we set \(f\) to complete only when <em>all</em> \(f_1, f_2, \dots, f_N\) are also completed?</p>
-<p>The answer is to use a combination of <code>allOf</code><sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> with <code>thenRun</code><sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>. According to the documentation, <code>allOf</code> returns a new <code>CompletableFuture</code> that is completed when all of the given <code>CompletableFutures</code> complete. In turn, <code>thenRun</code> will execute the given action.
+<p>The answer is to use a combination of <code>allOf</code><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> with <code>thenRun</code><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. According to the documentation, <code>allOf</code> returns a new <code>CompletableFuture</code> that is completed when all of the given <code>CompletableFutures</code> complete. In turn, <code>thenRun</code> will execute the given action.
 Let&rsquo;s look at an example:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=font-weight:700>import</span> <span style=color:#555>java.util.concurrent.CompletableFuture</span><span style=font-weight:700>;</span>
-<span style=font-weight:700>import</span> <span style=color:#555>java.util.concurrent.ExecutorService</span><span style=font-weight:700>;</span>
-<span style=font-weight:700>import</span> <span style=color:#555>java.util.concurrent.Executors</span><span style=font-weight:700>;</span>
-<span style=font-weight:700>import</span> <span style=color:#555>java.lang.InterruptedException</span><span style=font-weight:700>;</span>
-<span style=font-weight:700>import</span> <span style=color:#555>java.util.concurrent.ExecutionException</span><span style=font-weight:700>;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="font-weight:bold">import</span> <span style="color:#555">java.util.concurrent.CompletableFuture</span><span style="font-weight:bold">;</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">java.util.concurrent.ExecutorService</span><span style="font-weight:bold">;</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">java.util.concurrent.Executors</span><span style="font-weight:bold">;</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">java.lang.InterruptedException</span><span style="font-weight:bold">;</span>
+<span style="font-weight:bold">import</span> <span style="color:#555">java.util.concurrent.ExecutionException</span><span style="font-weight:bold">;</span>
 
-<span style=font-weight:700>public</span> <span style=font-weight:700>static</span> <span style=color:#458;font-weight:700>void</span> <span style=color:#900;font-weight:700>main</span><span style=font-weight:700>(</span>String<span style=font-weight:700>[]</span> args<span style=font-weight:700>)</span> <span style=font-weight:700>throws</span> InterruptedException<span style=font-weight:700>,</span> ExecutionException <span style=font-weight:700>{</span>
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> f <span style=font-weight:700>=</span> <span style=font-weight:700>new</span> CompletableFuture<span style=font-weight:700>&lt;&gt;();</span>
+<span style="font-weight:bold">public</span> <span style="font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">main</span><span style="font-weight:bold">(</span>String<span style="font-weight:bold">[]</span> args<span style="font-weight:bold">)</span> <span style="font-weight:bold">throws</span> InterruptedException<span style="font-weight:bold">,</span> ExecutionException <span style="font-weight:bold">{</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> f <span style="font-weight:bold">=</span> <span style="font-weight:bold">new</span> CompletableFuture<span style="font-weight:bold">&lt;&gt;();</span>
 
-    <span style=color:#458;font-weight:700>int</span> N <span style=font-weight:700>=</span> 10<span style=font-weight:700>;</span>
+    <span style="color:#458;font-weight:bold">int</span> N <span style="font-weight:bold">=</span> 10<span style="font-weight:bold">;</span>
 
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> f1 <span style=font-weight:700>=</span> CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>completedFuture</span><span style=font-weight:700>(</span><span style=color:#b84>&#34;f1&#34;</span><span style=font-weight:700>);</span>
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> f2 <span style=font-weight:700>=</span> CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>completedFuture</span><span style=font-weight:700>(</span><span style=color:#b84>&#34;f2&#34;</span><span style=font-weight:700>);</span>
-    CompletableFuture<span style=font-weight:700>&lt;</span>String<span style=font-weight:700>&gt;</span> f3 <span style=font-weight:700>=</span> CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>completedFuture</span><span style=font-weight:700>(</span><span style=color:#b84>&#34;f3&#34;</span><span style=font-weight:700>);</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> f1 <span style="font-weight:bold">=</span> CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">completedFuture</span><span style="font-weight:bold">(</span><span style="color:#b84">&#34;f1&#34;</span><span style="font-weight:bold">);</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> f2 <span style="font-weight:bold">=</span> CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">completedFuture</span><span style="font-weight:bold">(</span><span style="color:#b84">&#34;f2&#34;</span><span style="font-weight:bold">);</span>
+    CompletableFuture<span style="font-weight:bold">&lt;</span>String<span style="font-weight:bold">&gt;</span> f3 <span style="font-weight:bold">=</span> CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">completedFuture</span><span style="font-weight:bold">(</span><span style="color:#b84">&#34;f3&#34;</span><span style="font-weight:bold">);</span>
 
-    ExecutorService executor <span style=font-weight:700>=</span> Executors<span style=font-weight:700>.</span><span style=color:teal>newSingleThreadExecutor</span><span style=font-weight:700>();</span>
+    ExecutorService executor <span style="font-weight:bold">=</span> Executors<span style="font-weight:bold">.</span><span style="color:#008080">newSingleThreadExecutor</span><span style="font-weight:bold">();</span>
 
-    executor<span style=font-weight:700>.</span><span style=color:teal>submit</span><span style=font-weight:700>(()</span> <span style=font-weight:700>-&gt;</span> <span style=font-weight:700>{</span>
-            CompletableFuture<span style=font-weight:700>.</span><span style=color:teal>allOf</span><span style=font-weight:700>(</span>f1<span style=font-weight:700>,</span> f2<span style=font-weight:700>,</span> f3<span style=font-weight:700>).</span><span style=color:teal>thenRun</span><span style=font-weight:700>(()</span> <span style=font-weight:700>-&gt;</span> f<span style=font-weight:700>.</span><span style=color:teal>complete</span><span style=font-weight:700>(</span><span style=color:#b84>&#34;f1,f2,f3 completed.\nProceed to finish f.&#34;</span><span style=font-weight:700>));</span>
-    <span style=font-weight:700>});</span>
+    executor<span style="font-weight:bold">.</span><span style="color:#008080">submit</span><span style="font-weight:bold">(()</span> <span style="font-weight:bold">-&gt;</span> <span style="font-weight:bold">{</span>
+            CompletableFuture<span style="font-weight:bold">.</span><span style="color:#008080">allOf</span><span style="font-weight:bold">(</span>f1<span style="font-weight:bold">,</span> f2<span style="font-weight:bold">,</span> f3<span style="font-weight:bold">).</span><span style="color:#008080">thenRun</span><span style="font-weight:bold">(()</span> <span style="font-weight:bold">-&gt;</span> f<span style="font-weight:bold">.</span><span style="color:#008080">complete</span><span style="font-weight:bold">(</span><span style="color:#b84">&#34;f1,f2,f3 completed.\nProceed to finish f.&#34;</span><span style="font-weight:bold">));</span>
+    <span style="font-weight:bold">});</span>
 
-        f<span style=font-weight:700>.</span><span style=color:teal>thenAccept</span><span style=font-weight:700>(</span>v <span style=font-weight:700>-&gt;</span> <span style=font-weight:700>{</span>
-                System<span style=font-weight:700>.</span><span style=color:teal>out</span><span style=font-weight:700>.</span><span style=color:teal>println</span><span style=font-weight:700>(</span>v<span style=font-weight:700>);</span>
-            <span style=font-weight:700>});</span>
+        f<span style="font-weight:bold">.</span><span style="color:#008080">thenAccept</span><span style="font-weight:bold">(</span>v <span style="font-weight:bold">-&gt;</span> <span style="font-weight:bold">{</span>
+                System<span style="font-weight:bold">.</span><span style="color:#008080">out</span><span style="font-weight:bold">.</span><span style="color:#008080">println</span><span style="font-weight:bold">(</span>v<span style="font-weight:bold">);</span>
+            <span style="font-weight:bold">});</span>
 
-    Thread<span style=font-weight:700>.</span><span style=color:teal>sleep</span><span style=font-weight:700>(</span>100<span style=font-weight:700>);</span>
-    executor<span style=font-weight:700>.</span><span style=color:teal>shutdown</span><span style=font-weight:700>();</span>
-<span style=font-weight:700>}</span>
-</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>f1,f2,f3 completed.
+    Thread<span style="font-weight:bold">.</span><span style="color:#008080">sleep</span><span style="font-weight:bold">(</span>100<span style="font-weight:bold">);</span>
+    executor<span style="font-weight:bold">.</span><span style="color:#008080">shutdown</span><span style="font-weight:bold">();</span>
+<span style="font-weight:bold">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">f1,f2,f3 completed.
 Proceed to finish f.
-</code></pre></div><section class=footnotes role=doc-endnotes>
+</code></pre></div><section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id=fn:1 role=doc-endnote>
-<p><a href=https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture>https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture">https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id=fn:2 role=doc-endnote>
-<p><a href=https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#thenRun-java.lang.Runnable>https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#thenRun-java.lang.Runnable</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#thenRun-java.lang.Runnable">https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#thenRun-java.lang.Runnable</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-</div>
-</article>
-<div id=footer-post-container>
-<div id=footer-post>
-<div id=nav-footer style=display:none>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</div>
-<div id=toc-footer style=display:none>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#running-in-parallel>Running in parallel</a></li>
-<li><a href=#waiting-for-all>Waiting for all</a></li>
-</ul>
+
+    </div>
+  </article>
+
+
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/map/">All pages</a></li>
+         
+          <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#running-in-parallel">Running in parallel</a></li>
+    <li><a href="#waiting-for-all">Waiting for all</a></li>
+  </ul>
 </nav>
-</div>
-<div id=share-footer style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label=Facebook>
-<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label=Twitter>
-<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label=Linkedin>
-<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label=Pinterest>
-<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label=Email>
-<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label=Pocket>
-<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label=reddit>
-<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20HelloBeautifulWorld%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label=Tumblr>
-<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
-<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
-</a>
-</li>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&text=Java%20Completable%20Futures" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&is_video=false&description=Java%20Completable%20Futures" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Java%20Completable%20Futures&body=Check out this article: https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&title=Java%20Completable%20Futures" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&name=Java%20Completable%20Futures&description=Running%20in%20parallel%20import%20java.util.concurrent.CompletableFuture%3b%20import%20java.lang.InterruptedException%3b%20import%20java.util.concurrent.ExecutionException%3b%20public%20static%20void%20main%28String%5b%5d%20args%29%20throws%20InterruptedException%2c%20ExecutionException%20%7b%20CompletableFuture%26lt%3bString%26gt%3b%20future1%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bHello%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future2%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bBeautiful%26%2334%3b%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20future3%20%3d%20CompletableFuture.supplyAsync%28%28%29%20-%26gt%3b%20%26%2334%3bWorld%26%2334%3b%29%3b%20CompletableFuture%26lt%3bVoid%26gt%3b%20combinedFuture%20%3d%20CompletableFuture.allOf%28future1%2c%20future2%2c%20future3%29%3b%20CompletableFuture%26lt%3bString%26gt%3b%20result%20%3d%20combinedFuture.thenApply%28v%20-%26gt%3b%20future1.join%28%29%20%2b%20future2.join%28%29%20%2b%20future3.join%28%29%29%3b%20System.out.println%28result.get%28%29%29%3b%20%7d%20HelloBeautifulWorld%20Waiting%20for%20all%20Lets%20assume%20we%20have%20a%20completable%20future%2c%20%5c%28f%5c%29.%20This%20future%2c%20in%20turn%2c%20create%20%5c%28N%5c%29%20additional%20completable%20futures%2c%20%5c%28f_1%2c%20f_2%2c%20%5cdots%2c%20f_N%5c%29." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fjava-completable-futures.html&t=Java%20Completable%20Futures" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
 </ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
 </div>
-<div id=actions-footer>
-<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
-<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
-<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
-<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
-<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
-<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
-<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
-</div>
-</div>
-</div>
-<footer id=footer>
-<div class=footer-left>
-Copyright &copy; 2022 Rui Vieira
-</div>
-<div class=footer-right>
-<nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</nav>
-</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2022  Rui Vieira 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</div>
+
+
+  </div>
 </body>
-<link rel=stylesheet href=/css/fa.min.css>
+
+<link rel="stylesheet" href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+
+
+
+  
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
 </html>

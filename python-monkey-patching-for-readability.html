@@ -1,251 +1,309 @@
-<!doctype html><html lang=en-uk>
+<!DOCTYPE html>
+<html lang="en-uk">
 <head>
-<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
-<script type=module src=/js/deeplinks/deeplinks.js></script>
-<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=stylesheet href=/css/kbd.css type=text/css>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<title> Python monkey patching (for readability) | Rui Vieira</title>
-<link rel=canonical href=https://ruivieira.dev/python-monkey-patching-for-readability.html>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="all,follow">
-<meta name=googlebot content="index,follow,snippet,archive">
-<meta property="og:title" content="Python monkey patching (for readability)">
+  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
+  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Python monkey patching (for readability) · Rui Vieira</title>
+  <link rel = 'canonical' href = 'https://ruivieira.dev/python-monkey-patching-for-readability.html'>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Python monkey patching (for readability)" />
 <meta property="og:description" content="When preparing a Jupyter notebook for a workshop on recommendation engines which I&rsquo;ve presented with a colleague, I was faced with the following problem:
  &ldquo;How to break a large class definition into several cells so it can be presented step-by-step.&rdquo;
- Having the ability to declare a rather complex (and large) Python class in separate cells has several advantages, the obvious one being the ability to fully document each method&rsquo;s functionality with Markdown, rather than comments.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://ruivieira.dev/python-monkey-patching-for-readability.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Python monkey patching (for readability)">
-<meta name=twitter:description content="When preparing a Jupyter notebook for a workshop on recommendation engines which I&rsquo;ve presented with a colleague, I was faced with the following problem:
+ Having the ability to declare a rather complex (and large) Python class in separate cells has several advantages, the obvious one being the ability to fully document each method&rsquo;s functionality with Markdown, rather than comments." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ruivieira.dev/python-monkey-patching-for-readability.html" /><meta property="article:section" content="posts" />
+
+<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python monkey patching (for readability)"/>
+<meta name="twitter:description" content="When preparing a Jupyter notebook for a workshop on recommendation engines which I&rsquo;ve presented with a colleague, I was faced with the following problem:
  &ldquo;How to break a large class definition into several cells so it can be presented step-by-step.&rdquo;
- Having the ability to declare a rather complex (and large) Python class in separate cells has several advantages, the obvious one being the ability to fully document each method&rsquo;s functionality with Markdown, rather than comments.">
-<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
-<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
-<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
+ Having the ability to declare a rather complex (and large) Python class in separate cells has several advantages, the obvious one being the ability to fully document each method&rsquo;s functionality with Markdown, rather than comments."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
+
+  
+  
+  
+  
 </head>
+
 <body class="max-width mx-auto px3 ltr">
-<div class="content index py4">
-<div id=header-post>
-<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-<span id=menu>
-<span id=nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://ruivieira.dev/python-pandas.html" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://ruivieira.dev/python-grammar-of-graphics.html" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&text=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&is_video=false&description=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Python%20monkey%20patching%20%28for%20readability%29&body=Check out this article: https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&name=Python%20monkey%20patching%20%28for%20readability%29&description=When%20preparing%20a%20Jupyter%20notebook%20for%20a%20workshop%20on%20recommendation%20engines%20which%20I%26rsquo%3bve%20presented%20with%20a%20colleague%2c%20I%20was%20faced%20with%20the%20following%20problem%3a%0a%20%26ldquo%3bHow%20to%20break%20a%20large%20class%20definition%20into%20several%20cells%20so%20it%20can%20be%20presented%20step-by-step.%26rdquo%3b%0a%20Having%20the%20ability%20to%20declare%20a%20rather%20complex%20%28and%20large%29%20Python%20class%20in%20separate%20cells%20has%20several%20advantages%2c%20the%20obvious%20one%20being%20the%20ability%20to%20fully%20document%20each%20method%26rsquo%3bs%20functionality%20with%20Markdown%2c%20rather%20than%20comments." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&t=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
 </ul>
-</span>
-<br>
-<span id=actions>
-<ul>
-<li>
-<a class=icon href=https://ruivieira.dev/python-pandas.html aria-label=Previous>
-<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=https://ruivieira.dev/python-grammar-of-graphics.html aria-label=Next>
-<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# aria-label=Share>
-<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
-</a>
-</li>
-</ul>
-<span id=i-prev class=info style=display:none>Previous post</span>
-<span id=i-next class=info style=display:none>Next post</span>
-<span id=i-top class=info style=display:none>Back to top</span>
-<span id=i-share class=info style=display:none>Share post</span>
-</span>
-<br>
-<div id=share style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label=Facebook>
-<i class="fab fa-facebook" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&text=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Twitter>
-<i class="fab fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Linkedin>
-<i class="fab fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&is_video=false&description=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Pinterest>
-<i class="fab fa-pinterest" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Python%20monkey%20patching%20%28for%20readability%29&body=Check out this article: https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label=Email>
-<i class="fas fa-envelope" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Pocket>
-<i class="fab fa-get-pocket" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label=reddit>
-<i class="fab fa-reddit" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&name=Python%20monkey%20patching%20%28for%20readability%29&description=When%20preparing%20a%20Jupyter%20notebook%20for%20a%20workshop%20on%20recommendation%20engines%20which%20I%26rsquo%3bve%20presented%20with%20a%20colleague%2c%20I%20was%20faced%20with%20the%20following%20problem%3a%0a%20%26ldquo%3bHow%20to%20break%20a%20large%20class%20definition%20into%20several%20cells%20so%20it%20can%20be%20presented%20step-by-step.%26rdquo%3b%0a%20Having%20the%20ability%20to%20declare%20a%20rather%20complex%20%28and%20large%29%20Python%20class%20in%20separate%20cells%20has%20several%20advantages%2c%20the%20obvious%20one%20being%20the%20ability%20to%20fully%20document%20each%20method%26rsquo%3bs%20functionality%20with%20Markdown%2c%20rather%20than%20comments." aria-label=Tumblr>
-<i class="fab fa-tumblr" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&t=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Hacker News">
-<i class="fab fa-hacker-news" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div>
-<div id=toc>
-<h4>Contents</h4>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#bound-and-unbound-methods>Bound and unbound methods</a></li>
-<li><a href=#abstract-classes>Abstract classes</a></li>
-<li><a href=#private-methods>Private methods</a></li>
-<li><a href=#builtins>Builtins</a></li>
-<li><a href=#conclusion>Conclusion</a></li>
-</ul>
+
+    </div>
+    
+    
+    <div id="toc">
+      <h4>Contents</h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#bound-and-unbound-methods">Bound and unbound methods</a></li>
+    <li><a href="#abstract-classes">Abstract classes</a></li>
+    <li><a href="#private-methods">Private methods</a></li>
+    <li><a href="#builtins">Builtins</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
 </nav>
-</ul>
-</nav>
+      
+      </ul>
+    </nav>
+    </div>
+    
+  </span>
 </div>
-</span>
-</div>
-<article class=post itemscope itemtype=http://schema.org/BlogPosting>
-<header>
-<h1 class=posttitle itemprop="name headline">
-Python monkey patching (for readability)
-</h1>
-<div class=meta>
-<div class=postdate>
-Updated <time datetime="2022-01-03 21:56:06 +0000 GMT" itemprop=datePublished>2022-01-03</time>
-<span class=commit-hash>(261c776)</span>
-</div>
-</div>
-</header>
-<div class=content itemprop=articleBody>
-<p>When preparing a <a href=https://jupyter.org/>Jupyter</a> notebook for a workshop on recommendation engines which I&rsquo;ve presented with a colleague, I was faced with the following problem:</p>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Python monkey patching (for readability)
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          Updated <time datetime="2022-01-03 21:56:06 &#43;0000 GMT" itemprop="datePublished">2022-01-03</time>
+          <span class="commit-hash">(261c776)</span>
+        </div>
+        
+        
+        
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>When preparing a <a href="https://jupyter.org/">Jupyter</a> notebook for a workshop on recommendation engines which I&rsquo;ve presented with a colleague, I was faced with the following problem:</p>
 <blockquote>
 <p>&ldquo;How to break a large class definition into several cells so it can be presented step-by-step.&rdquo;</p>
 </blockquote>
-<p>Having the ability to declare a rather complex (and large) <a href=/python.html>Python</a> class in separate cells has several advantages, the obvious one being the ability to fully document each method&rsquo;s functionality with Markdown, rather than comments.
+<p>Having the ability to declare a rather complex (and large) <a href="/python.html">Python</a> class in separate cells has several advantages, the obvious one being the ability to fully document each method&rsquo;s functionality with Markdown, rather than comments.
 Python does allow for functionality to be added to classes after their declaration via the assignment of methods through attributes. This is commonly known as &ldquo;monkey patching&rdquo; and hinges on the concepts of <strong>bound</strong> and <strong>unbound</strong> methods.</p>
-<p>I will show a quick and general overview of the methods that Python puts at our disposal for dynamic runtime object manipulation, but for a more in-depth please consult the official <a href=https://docs.python.org/3/>Python documentation</a>.</p>
-<h2 id=bound-and-unbound-methods>Bound and unbound methods</h2>
+<p>I will show a quick and general overview of the methods that Python puts at our disposal for dynamic runtime object manipulation, but for a more in-depth please consult the official <a href="https://docs.python.org/3/">Python documentation</a>.</p>
+<h2 id="bound-and-unbound-methods">Bound and unbound methods</h2>
 <p>Let&rsquo;s first look at bound methods. If we assume a class called <code>Class</code> and an instance <code>instance</code>, with an instance method <code>bound</code> and class method <code>unbound</code> such that</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Class</span>:
-    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>bound</span>(self):
-        <span style=font-weight:700>return</span> <span style=color:#b84>&#34;I&#39;m a bound method&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Class</span>:
+    <span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">bound</span>(self):
+        <span style="font-weight:bold">return</span> <span style="color:#b84">&#34;I&#39;m a bound method&#34;</span>
 
     @staticmethod
-    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>unbound</span>():
-        <span style=font-weight:700>return</span> <span style=color:#b84>&#34;I&#39;m an unbound method&#34;</span>
+    <span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">unbound</span>():
+        <span style="font-weight:bold">return</span> <span style="color:#b84">&#34;I&#39;m an unbound method&#34;</span>
 
 
-instance <span style=font-weight:700>=</span> Class()
+instance <span style="font-weight:bold">=</span> Class()
 </code></pre></div><p>Then <code>foo</code> is a bound method and <code>bar</code> is an unbound method.
 This definition, in practice, can be exemplified by the standard way of calling <code>.foo()</code>, which is</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>instance<span style=font-weight:700>.</span>bound()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">instance<span style="font-weight:bold">.</span>bound()
 </code></pre></div><p>which in turn is equivalent to</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>bound(instance)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Class<span style="font-weight:bold">.</span>bound(instance)
 </code></pre></div><p>The standard way of calling <code>unbound</code> is , similarly</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>instance<span style=font-weight:700>.</span>unbound()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">instance<span style="font-weight:bold">.</span>unbound()
 </code></pre></div><p>This, however, is equivalent to</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>unbound()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Class<span style="font-weight:bold">.</span>unbound()
 </code></pre></div><p>In the unbound case, we can see there&rsquo;s no need to pass the class instance. <code>unbound</code> is <strong>not bound</strong> to the class instance.</p>
 <p>As mentioned before, Python allow us to change the class attributes at runtime. If we consider a method such as</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>newBound</span>(self):
-    <span style=font-weight:700>return</span> <span style=color:#b84>&#34;I&#39;m a (new!) bound method&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">newBound</span>(self):
+    <span style="font-weight:bold">return</span> <span style="color:#b84">&#34;I&#39;m a (new!) bound method&#34;</span>
 </code></pre></div><p>we can then add it to the class, even after declaring it. For instance:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python> Class<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> newBound
- instance <span style=font-weight:700>=</span> Class()
- instance<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># Class.newBound(instance)</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> Class<span style="font-weight:bold">.</span>newBound <span style="font-weight:bold">=</span> newBound
+ instance <span style="font-weight:bold">=</span> Class()
+ instance<span style="font-weight:bold">.</span>newBound() <span style="color:#998;font-style:italic"># Class.newBound(instance)</span>
 </code></pre></div><p>It is interesting to note that any type of function definition will work, since functions are first class objects in Python. As such, if the method can be written as a single statement, a <code>lambda</code> could also be used, <em>i.e.</em></p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#b84>&#34;I&#39;m a lambda&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Class<span style="font-weight:bold">.</span>newBound <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: <span style="color:#b84">&#34;I&#39;m a lambda&#34;</span>
 
-instance<span style=font-weight:700>.</span>newBound()
+instance<span style="font-weight:bold">.</span>newBound()
 </code></pre></div><p>A limitation of the &ldquo;monkey patching&rdquo; method, is that attributes can only be changed at the class definition level.
 As an example, although possible, it is not trivial to add the <code>.newBound()</code> method to <code>instance</code>.</p>
 <p>A solution is to either call the descriptor methods (which allow for instance attribute manipulation), or declare the instance attribute as a `MethodType`.</p>
 <p>To illustrate this in our case:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>types</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">types</span>
 
-instance<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> types<span style=font-weight:700>.</span>MethodType(newBound, instance)
+instance<span style="font-weight:bold">.</span>newBound <span style="font-weight:bold">=</span> types<span style="font-weight:bold">.</span>MethodType(newBound, instance)
 
-instance<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># Prints &#34;I&#39;m a lambda&#34;</span>
+instance<span style="font-weight:bold">.</span>newBound() <span style="color:#998;font-style:italic"># Prints &#34;I&#39;m a lambda&#34;</span>
 </code></pre></div><p>This method is precisely, as mentioned, to change attributes for a specific instance, so in this case, if we try to access the bound method from another instance `anotherInstance`, it would fail</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>anotherInstance <span style=font-weight:700>=</span> Class()
-anotherInstance<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># fails with AttributeError</span>
-</code></pre></div><h2 id=abstract-classes>Abstract classes</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">anotherInstance <span style="font-weight:bold">=</span> Class()
+anotherInstance<span style="font-weight:bold">.</span>newBound() <span style="color:#998;font-style:italic"># fails with AttributeError</span>
+</code></pre></div><h2 id="abstract-classes">Abstract classes</h2>
 <p>Python supports abstract classes, <em>i.e.</em> the definition of &ldquo;blueprint&rdquo; classes for which we delegate the concrete implementation of abstract methods to subclasses.
 In Python 3.x this is done via the <code>@abstractmethod</code> annotation. If we declare a class such as</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>abc</span> <span style=font-weight:700>import</span> ABC, abstractmethod
-<span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>AbstractClass</span>(ABC):
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">from</span> <span style="color:#555">abc</span> <span style="font-weight:bold">import</span> ABC, abstractmethod
+<span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AbstractClass</span>(ABC):
 	@abstractmethod
-	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>abstractMethod</span>(self):
-		<span style=font-weight:700>pass</span>
+	<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">abstractMethod</span>(self):
+		<span style="font-weight:bold">pass</span>
 </code></pre></div><p>we can then implement <code>abstractMethod</code> in all of <code>AbstractClass</code>&rsquo;s subclasses:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ConcreteClass</span>(AbstractClass):
-	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>abstractMethod</span>(self):
-		<span style=color:#999>print</span>(<span style=color:#b84>&#34;Concrete class abstract method&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ConcreteClass</span>(AbstractClass):
+	<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">abstractMethod</span>(self):
+		<span style="color:#999">print</span>(<span style="color:#b84">&#34;Concrete class abstract method&#34;</span>)
 </code></pre></div><p>We could, obviously, do this in Python <strong>without</strong> abstract classes, but this mechanism allows for a greater safety, since implementation of abstract methods is mandatory in this case.
 With regular classes, not implementing <code>abstractMethod</code> would simply assume we were using the parent&rsquo;s definition.</p>
 <p>Unfortunately, monkey patching of abstract methods is not supported in Python. We <strong>could</strong> monkey patch the concrete class:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ConcreteClass<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New &#39;child&#39; bound&#34;</span>)
-c <span style=font-weight:700>=</span> ConcreteClass()
-c<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># prints &#34;New &#39;child&#39; bound&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ConcreteClass<span style="font-weight:bold">.</span>newBound <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: <span style="color:#999">print</span>(<span style="color:#b84">&#34;New &#39;child&#39; bound&#34;</span>)
+c <span style="font-weight:bold">=</span> ConcreteClass()
+c<span style="font-weight:bold">.</span>newBound() <span style="color:#998;font-style:italic"># prints &#34;New &#39;child&#39; bound&#34;</span>
 </code></pre></div><p>And we could even add a new bound method to the superclass, which will be available to all subclasses:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python> AbstractClass<span style=font-weight:700>.</span>newBound <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New &#39;parent&#39; bound&#34;</span>)
- c <span style=font-weight:700>=</span> ConcreteClass()
- c<span style=font-weight:700>.</span>newBound() <span style=color:#998;font-style:italic># prints &#34;New &#39;parent&#39; bound&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> AbstractClass<span style="font-weight:bold">.</span>newBound <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: <span style="color:#999">print</span>(<span style="color:#b84">&#34;New &#39;parent&#39; bound&#34;</span>)
+ c <span style="font-weight:bold">=</span> ConcreteClass()
+ c<span style="font-weight:bold">.</span>newBound() <span style="color:#998;font-style:italic"># prints &#34;New &#39;parent&#39; bound&#34;</span>
 </code></pre></div><p>However, we can&rsquo;t add abstract methods with monkey patching.
-This is <a href=https://docs.python.org/3/library/abc.html#abc.abstractmethod>a documented exception</a> of this functionality with the specific warning that</p>
+This is <a href="https://docs.python.org/3/library/abc.html#abc.abstractmethod">a documented exception</a> of this functionality with the specific warning that</p>
 <blockquote>
 <p>Dynamically adding abstract methods to a class, or attempting to modify the abstraction status of a method or class once it is created, are not supported.
 The <code>abstractmethod()</code> only affects subclasses derived using regular inheritance; &ldquo;virtual subclasses&rdquo; registered with the <code>ABC</code>&rsquo;s <code>register()</code> method are not affected.</p>
 </blockquote>
-<h2 id=private-methods>Private methods</h2>
+<h2 id="private-methods">Private methods</h2>
 <p>We can dynamically add and replace inner methods, such as:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Class</span>:
-	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_inner</span>(self):
-		<span style=color:#999>print</span>(<span style=color:#b84>&#34;Inner bound&#34;</span>)
-	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>__private</span>(self):
-		<span style=color:#999>print</span>(<span style=color:#b84>&#34;Private bound&#34;</span>)
-	<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>callNewPrivate</span>(self):
-		self<span style=font-weight:700>.</span>__newPrivate()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Class</span>:
+	<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">_inner</span>(self):
+		<span style="color:#999">print</span>(<span style="color:#b84">&#34;Inner bound&#34;</span>)
+	<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">__private</span>(self):
+		<span style="color:#999">print</span>(<span style="color:#b84">&#34;Private bound&#34;</span>)
+	<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">callNewPrivate</span>(self):
+		self<span style="font-weight:bold">.</span>__newPrivate()
 
-Class<span style=font-weight:700>.</span>_newInner <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New inner bound&#34;</span>)
-c <span style=font-weight:700>=</span> Class()
-c<span style=font-weight:700>.</span>_inner() <span style=color:#998;font-style:italic># prints &#34;Inner bound&#34;</span>
-c<span style=font-weight:700>.</span>_newInner() <span style=color:#998;font-style:italic># prints &#34;New inner bound&#34;</span>
+Class<span style="font-weight:bold">.</span>_newInner <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: <span style="color:#999">print</span>(<span style="color:#b84">&#34;New inner bound&#34;</span>)
+c <span style="font-weight:bold">=</span> Class()
+c<span style="font-weight:bold">.</span>_inner() <span style="color:#998;font-style:italic"># prints &#34;Inner bound&#34;</span>
+c<span style="font-weight:bold">.</span>_newInner() <span style="color:#998;font-style:italic"># prints &#34;New inner bound&#34;</span>
 </code></pre></div><p>However, private methods behave differently.
 Python enforces name mangling for private methods. As specified in the documentation:</p>
 <blockquote>
@@ -256,173 +314,233 @@ where classname is the current class name with leading underscore(s) stripped.
 This mangling is done without regard to the syntactic position of the identifier, as long as it occurs within the definition of a class.</p>
 </blockquote>
 <p>We can then still access the private methods (although we probably shouldn&rsquo;t), but monkey patching won&rsquo;t work as before due to the above.</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>c<span style=font-weight:700>.</span>_Class__private() <span style=color:#998;font-style:italic># Private bound</span>
-Class<span style=font-weight:700>.</span>__newPrivate <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New private bound&#34;</span>)
-c <span style=font-weight:700>=</span> Class()
-c<span style=font-weight:700>.</span>_Class__newPrivate() <span style=color:#998;font-style:italic># fails with AttributeError</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">c<span style="font-weight:bold">.</span>_Class__private() <span style="color:#998;font-style:italic"># Private bound</span>
+Class<span style="font-weight:bold">.</span>__newPrivate <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: <span style="color:#999">print</span>(<span style="color:#b84">&#34;New private bound&#34;</span>)
+c <span style="font-weight:bold">=</span> Class()
+c<span style="font-weight:bold">.</span>_Class__newPrivate() <span style="color:#998;font-style:italic"># fails with AttributeError</span>
 </code></pre></div><p>We have defined a new method called <code>__newPrivate()</code> but interestingly, this method is <strong>not</strong> private.
 We can see this by calling it directly (which is allowed) and by calling the new &ldquo;private&rdquo; method from inside the class as <code>self.__newPrivate()</code>:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>c<span style=font-weight:700>.</span>__newPrivate() <span style=color:#998;font-style:italic># prints &#34;New private bound&#34;</span>
-c<span style=font-weight:700>.</span>callNewPrivate()
-<span style=color:#998;font-style:italic># fails with AttributeError (can&#39;t find _Class_NewPrivate)</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">c<span style="font-weight:bold">.</span>__newPrivate() <span style="color:#998;font-style:italic"># prints &#34;New private bound&#34;</span>
+c<span style="font-weight:bold">.</span>callNewPrivate()
+<span style="color:#998;font-style:italic"># fails with AttributeError (can&#39;t find _Class_NewPrivate)</span>
 </code></pre></div><p>It is possible to perform some OOP abuse and declare the private method by mangling the name ourselves. In this case we could then do:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>Class<span style=font-weight:700>.</span>_Class__newPrivate <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: <span style=color:#999>print</span>(<span style=color:#b84>&#34;New private bound&#34;</span>)
-c <span style=font-weight:700>=</span> Class()
-c<span style=font-weight:700>.</span>_Class__newPrivate() <span style=color:#998;font-style:italic># prints &#34;New private bound&#34;</span>
-c<span style=font-weight:700>.</span>callNewPrivate() <span style=color:#998;font-style:italic># prints &#34;New private bound&#34;</span>
-</code></pre></div><h2 id=builtins>Builtins</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Class<span style="font-weight:bold">.</span>_Class__newPrivate <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: <span style="color:#999">print</span>(<span style="color:#b84">&#34;New private bound&#34;</span>)
+c <span style="font-weight:bold">=</span> Class()
+c<span style="font-weight:bold">.</span>_Class__newPrivate() <span style="color:#998;font-style:italic"># prints &#34;New private bound&#34;</span>
+c<span style="font-weight:bold">.</span>callNewPrivate() <span style="color:#998;font-style:italic"># prints &#34;New private bound&#34;</span>
+</code></pre></div><h2 id="builtins">Builtins</h2>
 <p>Is it possible to monkey patch builtin classes in Python, <em>e.g.</em> <code>int</code> or <code>float</code>?
 In short, yes, it is.</p>
 <p>Although the usefulness is arguable and I <strong>strongly</strong> urge not to do this in any production scenario, we&rsquo;ll look at how to achieve this, for the sake of completeness.
-A very interesting and educational read is available from the <a href=https://github.com/clarete/forbiddenfruit>Forbidden Fruit</a> Python module.</p>
+A very interesting and educational read is available from the <a href="https://github.com/clarete/forbiddenfruit">Forbidden Fruit</a> Python module.</p>
 <p>Primitive (or <strong>builtin</strong>) classes in Python are typically written in C and as such some of these meta-programming facilities require jumping through extra hoops (as well as being a Very Bad Idea™).
 Let&rsquo;s first look at the integer class representation, <code>int</code>.</p>
 <p>A <code>int</code> doesn&rsquo;t allow bound methods to be added dynamically as previously. For instance:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>p <span style=font-weight:700>=</span> <span style=color:#099>5</span>
-<span style=color:#999>type</span>(p) <span style=color:#998;font-style:italic># int</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">p <span style="font-weight:bold">=</span> <span style="color:#099">5</span>
+<span style="color:#999">type</span>(p) <span style="color:#998;font-style:italic"># int</span>
 </code></pre></div><p>We can try to add a method to <code>int</code> to square the value of the instance:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#999>int</span><span style=font-weight:700>.</span>square <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: self <span style=font-weight:700>**</span> <span style=color:#099>2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#999">int</span><span style="font-weight:bold">.</span>square <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: self <span style="font-weight:bold">**</span> <span style="color:#099">2</span>
 </code></pre></div><p>This fails with the error <code>TypeError: can't set attributes of built-in/extension type 'int'</code>.
 The solution (as presented in Forbidden Fruit) is to first create classes to hold the <code>ctype</code> information of a builtin (C) class.
 We subclass <code>ctypes</code> Python representation of a C <code>struct</code> in native byte order and hold the <code>signed int</code> size and pointer to <code>PyObject</code>.</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>ctypes</span>
-<span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>PyObject</span>(ctypes<span style=font-weight:700>.</span>Structure):
-	<span style=font-weight:700>pass</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">ctypes</span>
+<span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PyObject</span>(ctypes<span style="font-weight:bold">.</span>Structure):
+	<span style="font-weight:bold">pass</span>
 
-PyObject<span style=font-weight:700>.</span>fields <span style=font-weight:700>=</span> [
-	(<span style=color:#b84>&#39;ob_refcnt&#39;</span>, ctypes<span style=font-weight:700>.</span>c_int),
-	(<span style=color:#b84>&#39;ob_type&#39;</span>, ctypes<span style=font-weight:700>.</span>POINTER(PyObject)),
+PyObject<span style="font-weight:bold">.</span>fields <span style="font-weight:bold">=</span> [
+	(<span style="color:#b84">&#39;ob_refcnt&#39;</span>, ctypes<span style="font-weight:bold">.</span>c_int),
+	(<span style="color:#b84">&#39;ob_type&#39;</span>, ctypes<span style="font-weight:bold">.</span>POINTER(PyObject)),
 ]
 </code></pre></div><p>Next we create a holder for Python objects slots, containing a reference to the <code>ctype</code> structure:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>SlotsProxy</span>(PyObject):
-	_fields_ <span style=font-weight:700>=</span> [(<span style=color:#b84>&#39;dict&#39;</span>, ctypes<span style=font-weight:700>.</span>POINTER(PyObject))]
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SlotsProxy</span>(PyObject):
+	_fields_ <span style="font-weight:bold">=</span> [(<span style="color:#b84">&#39;dict&#39;</span>, ctypes<span style="font-weight:bold">.</span>POINTER(PyObject))]
 </code></pre></div><p>The final step is extract the `PyProxyDict` from the object referenced by the pointer.
 Ideally, we should get the builtin&rsquo;s namespace so we can freely set attributes as we did previously. A helper function to retrieve the builtins (mutable) namespace can then be:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>patch</span>(klass):
-	name <span style=font-weight:700>=</span> klass<span style=font-weight:700>.</span>__name__
-	target <span style=font-weight:700>=</span> klass<span style=font-weight:700>.</span>__dict__
-	proxy_dict <span style=font-weight:700>=</span> SlotsProxy<span style=font-weight:700>.</span>from_address(<span style=color:#999>id</span>(target))
-	namespace <span style=font-weight:700>=</span> {}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">patch</span>(klass):
+	name <span style="font-weight:bold">=</span> klass<span style="font-weight:bold">.</span>__name__
+	target <span style="font-weight:bold">=</span> klass<span style="font-weight:bold">.</span>__dict__
+	proxy_dict <span style="font-weight:bold">=</span> SlotsProxy<span style="font-weight:bold">.</span>from_address(<span style="color:#999">id</span>(target))
+	namespace <span style="font-weight:bold">=</span> {}
 
-	ctypes<span style=font-weight:700>.</span>pythonapi<span style=font-weight:700>.</span>PyDict_SetItem(
-		ctypes<span style=font-weight:700>.</span>py_object(namespace),
-		ctypes<span style=font-weight:700>.</span>py_object(name),
-		proxy_dict<span style=font-weight:700>.</span>dict,
+	ctypes<span style="font-weight:bold">.</span>pythonapi<span style="font-weight:bold">.</span>PyDict_SetItem(
+		ctypes<span style="font-weight:bold">.</span>py_object(namespace),
+		ctypes<span style="font-weight:bold">.</span>py_object(name),
+		proxy_dict<span style="font-weight:bold">.</span>dict,
 	)
-	<span style=font-weight:700>return</span> namespace[name]
+	<span style="font-weight:bold">return</span> namespace[name]
 </code></pre></div><p>We can now easily patch builtin classes. Let&rsquo;s try to add the square method again by first retrieving the namespace (stored below in `d`) and setting it directly</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>d <span style=font-weight:700>=</span> patch(<span style=color:#999>int</span>)
-d[<span style=color:#b84>&#34;square&#34;</span>] <span style=font-weight:700>=</span> <span style=font-weight:700>lambda</span> self: self <span style=font-weight:700>**</span> <span style=color:#099>2</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">d <span style="font-weight:bold">=</span> patch(<span style="color:#999">int</span>)
+d[<span style="color:#b84">&#34;square&#34;</span>] <span style="font-weight:bold">=</span> <span style="font-weight:bold">lambda</span> self: self <span style="font-weight:bold">**</span> <span style="color:#099">2</span>
 
-p<span style=font-weight:700>.</span>square() <span style=color:#998;font-style:italic># 25</span>
+p<span style="font-weight:bold">.</span>square() <span style="color:#998;font-style:italic"># 25</span>
 </code></pre></div><p>All future instance of <code>int</code> will also contain the square method now:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>(<span style=color:#099>2</span> <span style=font-weight:700>+</span> p)<span style=font-weight:700>.</span>square() <span style=color:#998;font-style:italic># 49</span>
-</code></pre></div><h2 id=conclusion>Conclusion</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#099">2</span> <span style="font-weight:bold">+</span> p)<span style="font-weight:bold">.</span>square() <span style="color:#998;font-style:italic"># 49</span>
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>&ldquo;Monkey patching&rdquo; is usually, and rightly so, considered a code smell, due to the increased indirection and potential source of unwanted surprises.
 However, having the ability to &ldquo;monkey patch&rdquo; classes in Python allows us to write Jupyter notebooks in a more literate, fluid way rather than presenting the user with a &ldquo;wall of code&rdquo;.
-Thank you for reading. If you have any comments or suggestions please drop me a message on <a href=https://mastodon.technology/@ruivieira>Mastodon</a>.</p>
-</div>
-</article>
-<div id=footer-post-container>
-<div id=footer-post>
-<div id=nav-footer style=display:none>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</div>
-<div id=toc-footer style=display:none>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#bound-and-unbound-methods>Bound and unbound methods</a></li>
-<li><a href=#abstract-classes>Abstract classes</a></li>
-<li><a href=#private-methods>Private methods</a></li>
-<li><a href=#builtins>Builtins</a></li>
-<li><a href=#conclusion>Conclusion</a></li>
-</ul>
+Thank you for reading. If you have any comments or suggestions please drop me a message on <a href="https://mastodon.technology/@ruivieira">Mastodon</a>.</p>
+
+    </div>
+  </article>
+
+
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/map/">All pages</a></li>
+         
+          <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#bound-and-unbound-methods">Bound and unbound methods</a></li>
+    <li><a href="#abstract-classes">Abstract classes</a></li>
+    <li><a href="#private-methods">Private methods</a></li>
+    <li><a href="#builtins">Builtins</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
 </nav>
-</div>
-<div id=share-footer style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label=Facebook>
-<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&text=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Twitter>
-<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Linkedin>
-<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&is_video=false&description=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Pinterest>
-<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Python%20monkey%20patching%20%28for%20readability%29&body=Check out this article: https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label=Email>
-<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label=Pocket>
-<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label=reddit>
-<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&name=Python%20monkey%20patching%20%28for%20readability%29&description=When%20preparing%20a%20Jupyter%20notebook%20for%20a%20workshop%20on%20recommendation%20engines%20which%20I%26rsquo%3bve%20presented%20with%20a%20colleague%2c%20I%20was%20faced%20with%20the%20following%20problem%3a%0a%20%26ldquo%3bHow%20to%20break%20a%20large%20class%20definition%20into%20several%20cells%20so%20it%20can%20be%20presented%20step-by-step.%26rdquo%3b%0a%20Having%20the%20ability%20to%20declare%20a%20rather%20complex%20%28and%20large%29%20Python%20class%20in%20separate%20cells%20has%20several%20advantages%2c%20the%20obvious%20one%20being%20the%20ability%20to%20fully%20document%20each%20method%26rsquo%3bs%20functionality%20with%20Markdown%2c%20rather%20than%20comments." aria-label=Tumblr>
-<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&t=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Hacker News">
-<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
-</a>
-</li>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&text=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&is_video=false&description=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Python%20monkey%20patching%20%28for%20readability%29&body=Check out this article: https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&title=Python%20monkey%20patching%20%28for%20readability%29" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&name=Python%20monkey%20patching%20%28for%20readability%29&description=When%20preparing%20a%20Jupyter%20notebook%20for%20a%20workshop%20on%20recommendation%20engines%20which%20I%26rsquo%3bve%20presented%20with%20a%20colleague%2c%20I%20was%20faced%20with%20the%20following%20problem%3a%0a%20%26ldquo%3bHow%20to%20break%20a%20large%20class%20definition%20into%20several%20cells%20so%20it%20can%20be%20presented%20step-by-step.%26rdquo%3b%0a%20Having%20the%20ability%20to%20declare%20a%20rather%20complex%20%28and%20large%29%20Python%20class%20in%20separate%20cells%20has%20several%20advantages%2c%20the%20obvious%20one%20being%20the%20ability%20to%20fully%20document%20each%20method%26rsquo%3bs%20functionality%20with%20Markdown%2c%20rather%20than%20comments." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fpython-monkey-patching-for-readability.html&t=Python%20monkey%20patching%20%28for%20readability%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
 </ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
 </div>
-<div id=actions-footer>
-<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
-<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
-<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
-<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
-<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
-<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
-<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
-</div>
-</div>
-</div>
-<footer id=footer>
-<div class=footer-left>
-Copyright &copy; 2022 Rui Vieira
-</div>
-<div class=footer-right>
-<nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</nav>
-</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2022  Rui Vieira 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</div>
+
+
+  </div>
 </body>
-<link rel=stylesheet href=/css/fa.min.css>
+
+<link rel="stylesheet" href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+
+
+
+  
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
 </html>

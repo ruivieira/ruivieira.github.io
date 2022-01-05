@@ -20,7 +20,17 @@ function showDateDelta() {
     const date = new Date(value.attributes['datetime'].value.substring(0, 10));
     const now = Date.now();
     const delta = calculateDaysDiff(date, now);
-    $(value).text(`${delta} days ago`)
+    switch (delta) {
+      case 0:
+        stamp = "today"
+        break;
+      case 1:
+        stamp = "yesterday";
+        break;
+      default:
+        stamp = `${delta} days ago`
+    }
+    $(value).text(stamp)
   })
 }
 

@@ -1,164 +1,222 @@
-<!doctype html><html lang=en-uk>
+<!DOCTYPE html>
+<html lang="en-uk">
 <head>
-<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
-<script type=module src=/js/deeplinks/deeplinks.js></script>
-<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=stylesheet href=/css/kbd.css type=text/css>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<title> Counterfactual Fairness in Java | Rui Vieira</title>
-<link rel=canonical href=https://ruivieira.dev/counterfactual-fairness-in-java.html>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="all,follow">
-<meta name=googlebot content="index,follow,snippet,archive">
-<meta property="og:title" content="Counterfactual Fairness in Java">
+  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
+  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Counterfactual Fairness in Java · Rui Vieira</title>
+  <link rel = 'canonical' href = 'https://ruivieira.dev/counterfactual-fairness-in-java.html'>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Counterfactual Fairness in Java" />
 <meta property="og:description" content="Here we will look at how to build a counterfactually fair model, as detailed in Counterfactual Fairness, specifically the &ldquo;Fair Add&rdquo; model.
 This implementation will rely mostly on Apache Commons Math1 linear regression implementations, namely the Ordinary Least Squares (OLS) regression2. We start then by adding the relevant Maven dependencies:
 ```xml  org.apache.commons commons-math3 3.6.1  ```
-Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://ruivieira.dev/counterfactual-fairness-in-java.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2021-12-03T18:27:37+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Counterfactual Fairness in Java">
-<meta name=twitter:description content="Here we will look at how to build a counterfactually fair model, as detailed in Counterfactual Fairness, specifically the &ldquo;Fair Add&rdquo; model.
+Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ruivieira.dev/counterfactual-fairness-in-java.html" /><meta property="article:section" content="posts" />
+
+<meta property="article:modified_time" content="2021-12-03T18:27:37+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Counterfactual Fairness in Java"/>
+<meta name="twitter:description" content="Here we will look at how to build a counterfactually fair model, as detailed in Counterfactual Fairness, specifically the &ldquo;Fair Add&rdquo; model.
 This implementation will rely mostly on Apache Commons Math1 linear regression implementations, namely the Ordinary Least Squares (OLS) regression2. We start then by adding the relevant Maven dependencies:
 ```xml  org.apache.commons commons-math3 3.6.1  ```
-Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features.">
-<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
-<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
-<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
+Data will be passed as a `RealMatrix`3. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
+
+  
+  
+  
+  
 </head>
+
 <body class="max-width mx-auto px3 ltr">
-<div class="content index py4">
-<div id=header-post>
-<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-<span id=menu>
-<span id=nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://ruivieira.dev/counterfactuals.html" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://ruivieira.dev/counterfactual-fairness.html" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&text=Counterfactual%20Fairness%20in%20Java" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&is_video=false&description=Counterfactual%20Fairness%20in%20Java" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Counterfactual%20Fairness%20in%20Java&body=Check out this article: https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20%20org.apache.commons%20commons-math3%203.6.1%20%20%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&t=Counterfactual%20Fairness%20in%20Java" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
 </ul>
-</span>
-<br>
-<span id=actions>
-<ul>
-<li>
-<a class=icon href=https://ruivieira.dev/counterfactuals.html aria-label=Previous>
-<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=https://ruivieira.dev/counterfactual-fairness.html aria-label=Next>
-<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# aria-label=Share>
-<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
-</a>
-</li>
-</ul>
-<span id=i-prev class=info style=display:none>Previous post</span>
-<span id=i-next class=info style=display:none>Next post</span>
-<span id=i-top class=info style=display:none>Back to top</span>
-<span id=i-share class=info style=display:none>Share post</span>
-</span>
-<br>
-<div id=share style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label=Facebook>
-<i class="fab fa-facebook" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&text=Counterfactual%20Fairness%20in%20Java" aria-label=Twitter>
-<i class="fab fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label=Linkedin>
-<i class="fab fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&is_video=false&description=Counterfactual%20Fairness%20in%20Java" aria-label=Pinterest>
-<i class="fab fa-pinterest" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Counterfactual%20Fairness%20in%20Java&body=Check out this article: https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label=Email>
-<i class="fas fa-envelope" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label=Pocket>
-<i class="fab fa-get-pocket" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label=reddit>
-<i class="fab fa-reddit" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20%20org.apache.commons%20commons-math3%203.6.1%20%20%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label=Tumblr>
-<i class="fab fa-tumblr" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&t=Counterfactual%20Fairness%20in%20Java" aria-label="Hacker News">
-<i class="fab fa-hacker-news" aria-hidden=true></i>
-</a>
-</li>
-</ul>
+
+    </div>
+    
+    
+    <div id="toc">
+      <h4>Contents</h4>
+      <nav id="TableOfContents"></nav>
+      
+      </ul>
+    </nav>
+    </div>
+    
+  </span>
 </div>
-<div id=toc>
-<h4>Contents</h4>
-<nav id=TableOfContents></nav>
-</ul>
-</nav>
-</div>
-</span>
-</div>
-<article class=post itemscope itemtype=http://schema.org/BlogPosting>
-<header>
-<h1 class=posttitle itemprop="name headline">
-Counterfactual Fairness in Java
-</h1>
-<div class=meta>
-<div class=postdate>
-Updated <time datetime="2021-12-03 18:27:37 +0000 GMT" itemprop=datePublished>2021-12-03</time>
-<span class=commit-hash>(216cf4c)</span>
-</div>
-</div>
-</header>
-<div class=content itemprop=articleBody>
-<p>Here we will look at how to build a counterfactually fair model, as detailed in <a href=/counterfactual-fairness.html>Counterfactual Fairness</a>, specifically the &ldquo;Fair Add&rdquo; model.</p>
-<p>This implementation will rely mostly on Apache Commons Math<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> linear regression implementations, namely the Ordinary Least Squares (OLS) regression<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>. We start then by adding the relevant Maven dependencies:</p>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Counterfactual Fairness in Java
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          Updated <time datetime="2021-12-03 18:27:37 &#43;0000 GMT" itemprop="datePublished">2021-12-03</time>
+          <span class="commit-hash">(216cf4c)</span>
+        </div>
+        
+        
+        
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Here we will look at how to build a counterfactually fair model, as detailed in <a href="/counterfactual-fairness.html">Counterfactual Fairness</a>, specifically the &ldquo;Fair Add&rdquo; model.</p>
+<p>This implementation will rely mostly on Apache Commons Math<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> linear regression implementations, namely the Ordinary Least Squares (OLS) regression<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. We start then by adding the relevant Maven dependencies:</p>
 <p>```xml
 <dependency>
-<groupid>org.apache.commons</groupid>
-<artifactid>commons-math3</artifactid>
+<groupId>org.apache.commons</groupId>
+<artifactId>commons-math3</artifactId>
 <version>3.6.1</version>
 </dependency>
 ```</p>
-<p>Data will be passed as a `RealMatrix`<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features.</p>
+<p>Data will be passed as a `RealMatrix`<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. This matrix will have dimensions \(N\times f\), where \(N\) is the number of observations and \(f\) is the number of features.</p>
 <p>We can instatiate the model using</p>
 <p>```java
-// RealMatrix data = &mldr;
+// RealMatrix data = &hellip;
 final CounterfactuallyFairModel model = new CounterfactuallyFairModel(data);
 ```</p>
 <p>We will then need the following information:</p>
@@ -167,7 +225,7 @@ final CounterfactuallyFairModel model = new CounterfactuallyFairModel(data);
 <li>The variable indices, `variableIndices`</li>
 <li>The target variable index, `targetIndex`</li>
 </ul>
-<p>Assuming that we have the same variables as in the <a href=/counterfactual-fairness.html>counterfactual fairness example</a>, let&rsquo;s say that the protected attributes have in the `data` matrix, column numbers `5, 6, 7, 8, 9, 10, 11, 12, 13, 14` and the model variables (`LSAT` and `UGPA`) have indices `1, 0` and the target (`ZFYA`) has index `2`. We then calculate the counterfactually fair model using:</p>
+<p>Assuming that we have the same variables as in the <a href="/counterfactual-fairness.html">counterfactual fairness example</a>, let&rsquo;s say that the protected attributes have in the `data` matrix, column numbers `5, 6, 7, 8, 9, 10, 11, 12, 13, 14` and the model variables (`LSAT` and `UGPA`) have indices `1, 0` and the target (`ZFYA`) has index `2`. We then calculate the counterfactually fair model using:</p>
 <p>```java
 model.calculate(new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
 new int[]{1, 0}, 2);
@@ -192,12 +250,12 @@ regression.newSampleData(this.data.getColumn(targetIndex),
 </code></pre>
 <p>}
 ```</p>
-<p>As in <a href=/counterfactual-fairness.html>counterfactual Fairness</a> , we calculate a regression model to predict each of the variable (`LSAT` and `UGPA`) using the protected variables. The resulting residuals, \(\epsilon_{LSAT}\) and \(\epsilon_{UGPA}\) will in turn be used to calculate another regression model in order to predict the target variable `ZFYA`.</p>
+<p>As in <a href="/counterfactual-fairness.html">counterfactual Fairness</a> , we calculate a regression model to predict each of the variable (`LSAT` and `UGPA`) using the protected variables. The resulting residuals, \(\epsilon_{LSAT}\) and \(\epsilon_{UGPA}\) will in turn be used to calculate another regression model in order to predict the target variable `ZFYA`.</p>
 <p>The residuals are calculated using the `calculateEpsilon` method, which consists of:</p>
 <p>```java
 public RealVector calculateEpsilon(int[] protectedIndices, int targetIndex) {
 int[] protectedRows = new int[this.data.getRowDimension()];
-Arrays.setAll(protectedRows, i -> i);
+Arrays.setAll(protectedRows, i -&gt; i);
 final RealMatrix _x = this.data.getSubMatrix(protectedRows,
 protectedIndices);
 final RealVector _y = this.data.getSubMatrix(protectedRows,
@@ -210,114 +268,174 @@ return new ArrayRealVector(regression.estimateResiduals());
 <p>}
 ```</p>
 <p>Which simply calculates a regression model for the variables using the protected attributes and returning a `RealVector` with the residual \(\epsilon\).</p>
-<section class=footnotes role=doc-endnotes>
+<section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id=fn:1 role=doc-endnote>
-<p><a href=https://commons.apache.org/proper/commons-math/><a href=https://commons.apache.org/proper/commons-math/>https://commons.apache.org/proper/commons-math/</a></a>.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://commons.apache.org/proper/commons-math/"><a href="https://commons.apache.org/proper/commons-math/">https://commons.apache.org/proper/commons-math/</a></a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id=fn:2 role=doc-endnote>
-<p><a href=https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html><a href=https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html>https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html</a></a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html"><a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html">https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html</a></a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id=fn:3 role=doc-endnote>
-<p><a href=https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/linear/RealMatrix.html><a href=https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/linear/RealMatrix.html>https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/linear/RealMatrix.html</a></a>&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/linear/RealMatrix.html"><a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/linear/RealMatrix.html">https://commons.apache.org/proper/commons-math/javadocs/api-3.6/org/apache/commons/math3/linear/RealMatrix.html</a></a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-</div>
-</article>
-<div id=footer-post-container>
-<div id=footer-post>
-<div id=nav-footer style=display:none>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
+
+    </div>
+  </article>
+
+
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/map/">All pages</a></li>
+         
+          <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents"></nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&text=Counterfactual%20Fairness%20in%20Java" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&is_video=false&description=Counterfactual%20Fairness%20in%20Java" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Counterfactual%20Fairness%20in%20Java&body=Check out this article: https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20%20org.apache.commons%20commons-math3%203.6.1%20%20%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&t=Counterfactual%20Fairness%20in%20Java" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
 </ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
 </div>
-<div id=toc-footer style=display:none>
-<nav id=TableOfContents></nav>
-</div>
-<div id=share-footer style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label=Facebook>
-<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&text=Counterfactual%20Fairness%20in%20Java" aria-label=Twitter>
-<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label=Linkedin>
-<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&is_video=false&description=Counterfactual%20Fairness%20in%20Java" aria-label=Pinterest>
-<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Counterfactual%20Fairness%20in%20Java&body=Check out this article: https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html" aria-label=Email>
-<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label=Pocket>
-<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&title=Counterfactual%20Fairness%20in%20Java" aria-label=reddit>
-<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&name=Counterfactual%20Fairness%20in%20Java&description=Here%20we%20will%20look%20at%20how%20to%20build%20a%20counterfactually%20fair%20model%2c%20as%20detailed%20in%20Counterfactual%20Fairness%2c%20specifically%20the%20%26ldquo%3bFair%20Add%26rdquo%3b%20model.%0aThis%20implementation%20will%20rely%20mostly%20on%20Apache%20Commons%20Math1%20linear%20regression%20implementations%2c%20namely%20the%20Ordinary%20Least%20Squares%20%28OLS%29%20regression2.%20We%20start%20then%20by%20adding%20the%20relevant%20Maven%20dependencies%3a%0a%60%60%60xml%20%20org.apache.commons%20commons-math3%203.6.1%20%20%60%60%60%0aData%20will%20be%20passed%20as%20a%20%60RealMatrix%603.%20This%20matrix%20will%20have%20dimensions%20%5c%28N%5ctimes%20f%5c%29%2c%20where%20%5c%28N%5c%29%20is%20the%20number%20of%20observations%20and%20%5c%28f%5c%29%20is%20the%20number%20of%20features." aria-label=Tumblr>
-<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fcounterfactual-fairness-in-java.html&t=Counterfactual%20Fairness%20in%20Java" aria-label="Hacker News">
-<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div>
-<div id=actions-footer>
-<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
-<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
-<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
-<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
-<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
-<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
-<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
-</div>
-</div>
-</div>
-<footer id=footer>
-<div class=footer-left>
-Copyright &copy; 2022 Rui Vieira
-</div>
-<div class=footer-right>
-<nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</nav>
-</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2022  Rui Vieira 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/map/">All pages</a></li>
+         
+        <li><a href="/search.html">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</div>
+
+
+  </div>
 </body>
-<link rel=stylesheet href=/css/fa.min.css>
+
+<link rel="stylesheet" href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+
+
+
+  
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
 </html>
