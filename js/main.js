@@ -2,7 +2,7 @@
  * Sets up Justified Gallery.
  */
 if (!!$.prototype.justifiedGallery) {
-  var options = {
+  const options = {
     rowHeight: 140,
     margins: 4,
     lastRow: "justify"
@@ -10,8 +10,23 @@ if (!!$.prototype.justifiedGallery) {
   $(".article-gallery").justifiedGallery(options);
 }
 
+function calculateDaysDiff(firstDate, secondDate) {
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  return Math.round(Math.abs((firstDate - secondDate) / oneDay));
+}
+
+function showDateDelta() {
+  $("time").each((_, value) => {
+    const date = new Date(value.attributes['datetime'].value.substring(0, 10));
+    const now = Date.now();
+    const delta = calculateDaysDiff(date, now);
+    $(value).text(`${delta} days ago`)
+  })
+}
+
 $(document).ready(function() {
 
+  showDateDelta();
   /**
    * Shows the responsive navigation menu on mobile.
    */
@@ -110,4 +125,5 @@ $(document).ready(function() {
       });
     }
   }
+
 });
