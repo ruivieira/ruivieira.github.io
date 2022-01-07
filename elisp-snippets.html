@@ -1,465 +1,342 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Elisp snippets · Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/elisp-snippets.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Elisp snippets" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Elisp snippets · Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/elisp-snippets.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Elisp snippets">
 <meta property="og:description" content="Snippets Execute command in shell buffer comint-send-string is the function we&rsquo;re looking for.1
 It takes a PROCESS and a STRING. You can get the process from the shell buffer, and conveniently the shell function returns the buffer, so you can streamline it all into something like:
-(defun my-server () &#34;SSH to my.server.com in `shell&#39;buffer.&#34; (interactive) (comint-send-string (get-buffer-process (shell)) &#34;ssh my.server.com\n&#34;)) Where the (shell) call will take care of creating the shell buffer and/or process if necessary." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/elisp-snippets.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2022-01-04T18:10:52+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Elisp snippets"/>
-<meta name="twitter:description" content="Snippets Execute command in shell buffer comint-send-string is the function we&rsquo;re looking for.1
+(defun my-server () &#34;SSH to my.server.com in `shell'buffer.&#34; (interactive) (comint-send-string (get-buffer-process (shell)) &#34;ssh my.server.com\n&#34;)) Where the (shell) call will take care of creating the shell buffer and/or process if necessary.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/elisp-snippets.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2022-01-04T18:10:52+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Elisp snippets">
+<meta name=twitter:description content="Snippets Execute command in shell buffer comint-send-string is the function we&rsquo;re looking for.1
 It takes a PROCESS and a STRING. You can get the process from the shell buffer, and conveniently the shell function returns the buffer, so you can streamline it all into something like:
-(defun my-server () &#34;SSH to my.server.com in `shell&#39;buffer.&#34; (interactive) (comint-send-string (get-buffer-process (shell)) &#34;ssh my.server.com\n&#34;)) Where the (shell) call will take care of creating the shell buffer and/or process if necessary."/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+(defun my-server () &#34;SSH to my.server.com in `shell'buffer.&#34; (interactive) (comint-send-string (get-buffer-process (shell)) &#34;ssh my.server.com\n&#34;)) Where the (shell) call will take care of creating the shell buffer and/or process if necessary.">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/emacs.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/elisp.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&text=Elisp%20snippets" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&is_video=false&description=Elisp%20snippets" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Elisp%20snippets&body=Check out this article: https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&name=Elisp%20snippets&description=Snippets%20Execute%20command%20in%20shell%20buffer%20comint-send-string%20is%20the%20function%20we%26rsquo%3bre%20looking%20for.1%0aIt%20takes%20a%20PROCESS%20and%20a%20STRING.%20You%20can%20get%20the%20process%20from%20the%20shell%20buffer%2c%20and%20conveniently%20the%20shell%20function%20returns%20the%20buffer%2c%20so%20you%20can%20streamline%20it%20all%20into%20something%20like%3a%0a%28defun%20my-server%20%28%29%20%26%2334%3bSSH%20to%20my.server.com%20in%20%60shell%26%2339%3bbuffer.%26%2334%3b%20%28interactive%29%20%28comint-send-string%20%28get-buffer-process%20%28shell%29%29%20%26%2334%3bssh%20my.server.com%5cn%26%2334%3b%29%29%20Where%20the%20%28shell%29%20call%20will%20take%20care%20of%20creating%20the%20shell%20buffer%20and%2for%20process%20if%20necessary." aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&t=Elisp%20snippets" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#snippets">Snippets</a>
-      <ul>
-        <li><a href="#execute-command-in-shell-buffer">Execute command in shell buffer</a></li>
-        <li><a href="#free-variables">Free variables</a></li>
-        <li><a href="#lists-to-arrays">Lists to arrays</a></li>
-      </ul>
-    </li>
-    <li><a href="#reference">Reference</a>
-      <ul>
-        <li><a href="#defcustom"><code>defcustom</code></a></li>
-      </ul>
-    </li>
-    <li><a href="#sqlite">SQLite</a></li>
-  </ul>
-</nav>
-      
-      <h4>Related</h4>
-      
-      <nav>
-      <ul>
-      
-      
-        <li class="header-post toc"><a href="https://ruivieira.dev/elisp.html">Elisp</a></li>
-      
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/emacs.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/elisp.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&text=Elisp%20snippets" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&is_video=false&description=Elisp%20snippets" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Elisp%20snippets&body=Check out this article: https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&name=Elisp%20snippets&description=Snippets%20Execute%20command%20in%20shell%20buffer%20comint-send-string%20is%20the%20function%20we%26rsquo%3bre%20looking%20for.1%0aIt%20takes%20a%20PROCESS%20and%20a%20STRING.%20You%20can%20get%20the%20process%20from%20the%20shell%20buffer%2c%20and%20conveniently%20the%20shell%20function%20returns%20the%20buffer%2c%20so%20you%20can%20streamline%20it%20all%20into%20something%20like%3a%0a%28defun%20my-server%20%28%29%20%26%2334%3bSSH%20to%20my.server.com%20in%20%60shell%26%2339%3bbuffer.%26%2334%3b%20%28interactive%29%20%28comint-send-string%20%28get-buffer-process%20%28shell%29%29%20%26%2334%3bssh%20my.server.com%5cn%26%2334%3b%29%29%20Where%20the%20%28shell%29%20call%20will%20take%20care%20of%20creating%20the%20shell%20buffer%20and%2for%20process%20if%20necessary." aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&t=Elisp%20snippets" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Elisp snippets
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2022-01-04 18:10:52 &#43;0000 GMT" itemprop="datePublished">2022-01-04</time>
-          <span class="commit-hash">(f740ede)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <h2 id="snippets">Snippets</h2>
-<h3 id="execute-command-in-shell-buffer">Execute command in shell buffer</h3>
-<p><code>comint-send-string</code> is the function we&rsquo;re looking for.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#snippets>Snippets</a>
+<ul>
+<li><a href=#execute-command-in-shell-buffer>Execute command in shell buffer</a></li>
+<li><a href=#free-variables>Free variables</a></li>
+<li><a href=#lists-to-arrays>Lists to arrays</a></li>
+</ul>
+</li>
+<li><a href=#reference>Reference</a>
+<ul>
+<li><a href=#defcustom><code>defcustom</code></a></li>
+</ul>
+</li>
+<li><a href=#sqlite>SQLite</a></li>
+</ul>
+</nav>
+<h4>Related</h4>
+<nav>
+<ul>
+<li class="header-post toc"><a href=https://ruivieira.dev/elisp.html>Elisp</a></li>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Elisp snippets
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2022-01-04 18:10:52 +0000 GMT" itemprop=datePublished>2022-01-04</time>
+<span class=commit-hash>(f740ede)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<h2 id=snippets>Snippets</h2>
+<h3 id=execute-command-in-shell-buffer>Execute command in shell buffer</h3>
+<p><code>comint-send-string</code> is the function we&rsquo;re looking for.<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p>
 <p>It takes a <code>PROCESS</code> and a <code>STRING</code>.
 You can get the process from the shell buffer, and conveniently the shell function returns the buffer, so you can streamline it all into something like:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#999">defun</span> <span style="color:#008080">my-server</span> ()
-  <span style="color:#b84">&#34;SSH to my.server.com in </span><span style="color:#b84">`shell&#39;</span><span style="color:#b84"> buffer.&#34;</span>
-  (<span style="color:#999">interactive</span>)
-  (<span style="color:#008080">comint-send-string</span>
-   (<span style="color:#900;font-weight:bold">get-buffer-process</span> (<span style="color:#008080">shell</span>))
-   <span style="color:#b84">&#34;ssh my.server.com\n&#34;</span>))
-</code></pre></div><p>Where the (shell) call will take care of creating the shell buffer and/or process if necessary.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
-<h3 id="free-variables">Free variables</h3>
-<p>In some situations, for instance when setting a variable in a <a href="/doom-emacs.html">DOOM Emacs</a> like</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#999">setq</span> <span style="color:#008080">my/variable</span> <span style="color:#b84">&#34;value&#34;</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:#999>defun</span> <span style=color:teal>my-server</span> ()
+  <span style=color:#b84>&#34;SSH to my.server.com in </span><span style=color:#b84>`shell&#39;</span><span style=color:#b84> buffer.&#34;</span>
+  (<span style=color:#999>interactive</span>)
+  (<span style=color:teal>comint-send-string</span>
+   (<span style=color:#900;font-weight:700>get-buffer-process</span> (<span style=color:teal>shell</span>))
+   <span style=color:#b84>&#34;ssh my.server.com\n&#34;</span>))
+</code></pre></div><p>Where the (shell) call will take care of creating the shell buffer and/or process if necessary.<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup></p>
+<h3 id=free-variables>Free variables</h3>
+<p>In some situations, for instance when setting a variable in a <a href=/doom-emacs.html>DOOM Emacs</a> like</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:#999>setq</span> <span style=color:teal>my/variable</span> <span style=color:#b84>&#34;value&#34;</span>)
 </code></pre></div><p>You might get the warning</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Warning: assignment to free variable `er/try-expand-list&#39;
-</code></pre></div><p>This is because <code>set</code> and <code>setq</code> do not declare lexical variables<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.
-The solution is to use<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#999">defvar</span> <span style="color:#008080">my/variable</span> <span style="color:#b84">&#34;value&#34;</span>)
-</code></pre></div><h3 id="lists-to-arrays">Lists to arrays</h3>
-<h4 id="list-of-lists">List of lists</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>Warning: assignment to free variable `er/try-expand-list&#39;
+</code></pre></div><p>This is because <code>set</code> and <code>setq</code> do not declare lexical variables<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>.
+The solution is to use<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup></p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:#999>defvar</span> <span style=color:teal>my/variable</span> <span style=color:#b84>&#34;value&#34;</span>)
+</code></pre></div><h3 id=lists-to-arrays>Lists to arrays</h3>
+<h4 id=list-of-lists>List of lists</h4>
 <p>To convert a list of lists, <em>e.g.</em></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  (<span style="color:#999">defvar</span> <span style="color:#008080">mylist</span> ((<span style="color:#b84">&#34;1&#34;</span> <span style="color:#b84">&#34;a&#34;</span>) (<span style="color:#b84">&#34;2&#34;</span> <span style="color:#b84">&#34;b&#34;</span>) (<span style="color:#b84">&#34;3&#34;</span> <span style="color:#b84">&#34;c&#34;</span>)))
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>  (<span style=color:#999>defvar</span> <span style=color:teal>mylist</span> ((<span style=color:#b84>&#34;1&#34;</span> <span style=color:#b84>&#34;a&#34;</span>) (<span style=color:#b84>&#34;2&#34;</span> <span style=color:#b84>&#34;b&#34;</span>) (<span style=color:#b84>&#34;3&#34;</span> <span style=color:#b84>&#34;c&#34;</span>)))
 </code></pre></div><p>The method to convert a <em>single element</em> from the list is</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  (<span style="color:#999">require</span> <span style="color:#b84">&#39;cl</span>)
-  (<span style="color:#008080">coerce</span> (<span style="color:#900;font-weight:bold">nth</span> <span style="color:#099">0</span> <span style="color:#008080">mylist</span>) <span style="color:#b84">&#39;vector</span>)
-  <span style="color:#998;font-style:italic">;; [&#34;1&#34; &#34;a&#34;]</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>  (<span style=color:#999>require</span> <span style=color:#b84>&#39;cl</span>)
+  (<span style=color:teal>coerce</span> (<span style=color:#900;font-weight:700>nth</span> <span style=color:#099>0</span> <span style=color:teal>mylist</span>) <span style=color:#b84>&#39;vector</span>)
+  <span style=color:#998;font-style:italic>;; [&#34;1&#34; &#34;a&#34;]</span>
 </code></pre></div><p>We now just need to map this for all the list</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  (<span style="color:#900;font-weight:bold">mapcar</span> (<span style="color:#999">lambda</span> (<span style="color:#008080">arg</span>) (<span style="color:#008080">coerce</span> <span style="color:#008080">arg</span> <span style="color:#b84">&#39;vector</span>)) <span style="color:#008080">mylist</span>)
-</code></pre></div><h2 id="reference">Reference</h2>
-<h3 id="defcustom"><code>defcustom</code></h3>
-<p>You can specify variables using <code>defcustom</code> so that you and others can then use Emacs’s <code>customize</code> feature to set their values. (You cannot use <code>customize</code> to write function definitions; but you can write <code>defuns</code> in your <code>.emacs</code> file. Indeed, you can write any Lisp expression in your <code>.emacs</code> file.)<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
-<h2 id="sqlite">SQLite</h2>
-<p>Emacs provides functionality to interact with SQLite databases. For these examples we will use the <a href="https://github.com/skeeto/emacsql">emacSQL</a> package.
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>  (<span style=color:#900;font-weight:700>mapcar</span> (<span style=color:#999>lambda</span> (<span style=color:teal>arg</span>) (<span style=color:teal>coerce</span> <span style=color:teal>arg</span> <span style=color:#b84>&#39;vector</span>)) <span style=color:teal>mylist</span>)
+</code></pre></div><h2 id=reference>Reference</h2>
+<h3 id=defcustom><code>defcustom</code></h3>
+<p>You can specify variables using <code>defcustom</code> so that you and others can then use Emacs’s <code>customize</code> feature to set their values. (You cannot use <code>customize</code> to write function definitions; but you can write <code>defuns</code> in your <code>.emacs</code> file. Indeed, you can write any Lisp expression in your <code>.emacs</code> file.)<sup id=fnref:5><a href=#fn:5 class=footnote-ref role=doc-noteref>5</a></sup></p>
+<h2 id=sqlite>SQLite</h2>
+<p>Emacs provides functionality to interact with SQLite databases. For these examples we will use the <a href=https://github.com/skeeto/emacsql>emacSQL</a> package.
 To open a database file <code>/tmp/foo.sqlite</code> we issue:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  (<span style="color:#999">defvar</span> <span style="color:#008080">db</span> (<span style="color:#008080">emacsql-sqlite</span> <span style="color:#b84">&#34;~/tmp/foo.sqlite&#34;</span>))
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>  (<span style=color:#999>defvar</span> <span style=color:teal>db</span> (<span style=color:teal>emacsql-sqlite</span> <span style=color:#b84>&#34;~/tmp/foo.sqlite&#34;</span>))
 </code></pre></div><p>We can then issue <code>SELECT</code> statements with</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">  <span style="color:#998;font-style:italic">;; Query the database for results:</span>
-  (<span style="color:#008080">emacsql</span> <span style="color:#008080">db</span> [<span style="color:#999">:select</span> [<span style="color:#008080">name</span> <span style="color:#008080">id</span>]
-             <span style="color:#999">:from</span> <span style="color:#008080">people</span>
-             <span style="color:#999">:where</span> (<span style="color:#900;font-weight:bold">&gt;</span> <span style="color:#008080">salary</span> <span style="color:#099">62000</span>)])
-  <span style="color:#998;font-style:italic">;; =&gt; ((&#34;Susan&#34; 1001))</span>
-</code></pre></div><section class="footnotes" role="doc-endnotes">
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>  <span style=color:#998;font-style:italic>;; Query the database for results:</span>
+  (<span style=color:teal>emacsql</span> <span style=color:teal>db</span> [<span style=color:#999>:select</span> [<span style=color:teal>name</span> <span style=color:teal>id</span>]
+             <span style=color:#999>:from</span> <span style=color:teal>people</span>
+             <span style=color:#999>:where</span> (<span style=color:#900;font-weight:700>&gt;</span> <span style=color:teal>salary</span> <span style=color:#099>62000</span>)])
+  <span style=color:#998;font-style:italic>;; =&gt; ((&#34;Susan&#34; 1001))</span>
+</code></pre></div><section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>shell is built on top of the comint library.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:1 role=doc-endnote>
+<p>shell is built on top of the comint library.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
-<p>n.b. if there&rsquo;s an existing one, shell will re-use that.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:2 role=doc-endnote>
+<p>n.b. if there&rsquo;s an existing one, shell will re-use that.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:3" role="doc-endnote">
-<p>Only <code>let</code> does.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:3 role=doc-endnote>
+<p>Only <code>let</code> does.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:4" role="doc-endnote">
-<p>But not quote the symbol.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:4 role=doc-endnote>
+<p>But not quote the symbol.&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:5" role="doc-endnote">
-<p>The docs for <code>defcustom</code>: <a href="https://www.gnu.org/software/emacs/manual/html%5Fnode/eintr/defcustom.html">https://www.gnu.org/software/emacs/manual/html%5Fnode/eintr/defcustom.html</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:5 role=doc-endnote>
+<p>The docs for <code>defcustom</code>: <a href=https://www.gnu.org/software/emacs/manual/html%5Fnode/eintr/defcustom.html>https://www.gnu.org/software/emacs/manual/html%5Fnode/eintr/defcustom.html</a>&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#snippets">Snippets</a>
-      <ul>
-        <li><a href="#execute-command-in-shell-buffer">Execute command in shell buffer</a></li>
-        <li><a href="#free-variables">Free variables</a></li>
-        <li><a href="#lists-to-arrays">Lists to arrays</a></li>
-      </ul>
-    </li>
-    <li><a href="#reference">Reference</a>
-      <ul>
-        <li><a href="#defcustom"><code>defcustom</code></a></li>
-      </ul>
-    </li>
-    <li><a href="#sqlite">SQLite</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&text=Elisp%20snippets" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&is_video=false&description=Elisp%20snippets" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Elisp%20snippets&body=Check out this article: https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&name=Elisp%20snippets&description=Snippets%20Execute%20command%20in%20shell%20buffer%20comint-send-string%20is%20the%20function%20we%26rsquo%3bre%20looking%20for.1%0aIt%20takes%20a%20PROCESS%20and%20a%20STRING.%20You%20can%20get%20the%20process%20from%20the%20shell%20buffer%2c%20and%20conveniently%20the%20shell%20function%20returns%20the%20buffer%2c%20so%20you%20can%20streamline%20it%20all%20into%20something%20like%3a%0a%28defun%20my-server%20%28%29%20%26%2334%3bSSH%20to%20my.server.com%20in%20%60shell%26%2339%3bbuffer.%26%2334%3b%20%28interactive%29%20%28comint-send-string%20%28get-buffer-process%20%28shell%29%29%20%26%2334%3bssh%20my.server.com%5cn%26%2334%3b%29%29%20Where%20the%20%28shell%29%20call%20will%20take%20care%20of%20creating%20the%20shell%20buffer%20and%2for%20process%20if%20necessary." aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&t=Elisp%20snippets" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2022  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#snippets>Snippets</a>
+<ul>
+<li><a href=#execute-command-in-shell-buffer>Execute command in shell buffer</a></li>
+<li><a href=#free-variables>Free variables</a></li>
+<li><a href=#lists-to-arrays>Lists to arrays</a></li>
+</ul>
+</li>
+<li><a href=#reference>Reference</a>
+<ul>
+<li><a href=#defcustom><code>defcustom</code></a></li>
+</ul>
+</li>
+<li><a href=#sqlite>SQLite</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&text=Elisp%20snippets" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&is_video=false&description=Elisp%20snippets" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Elisp%20snippets&body=Check out this article: https%3a%2f%2fruivieira.dev%2felisp-snippets.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&title=Elisp%20snippets" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&name=Elisp%20snippets&description=Snippets%20Execute%20command%20in%20shell%20buffer%20comint-send-string%20is%20the%20function%20we%26rsquo%3bre%20looking%20for.1%0aIt%20takes%20a%20PROCESS%20and%20a%20STRING.%20You%20can%20get%20the%20process%20from%20the%20shell%20buffer%2c%20and%20conveniently%20the%20shell%20function%20returns%20the%20buffer%2c%20so%20you%20can%20streamline%20it%20all%20into%20something%20like%3a%0a%28defun%20my-server%20%28%29%20%26%2334%3bSSH%20to%20my.server.com%20in%20%60shell%26%2339%3bbuffer.%26%2334%3b%20%28interactive%29%20%28comint-send-string%20%28get-buffer-process%20%28shell%29%29%20%26%2334%3bssh%20my.server.com%5cn%26%2334%3b%29%29%20Where%20the%20%28shell%29%20call%20will%20take%20care%20of%20creating%20the%20shell%20buffer%20and%2for%20process%20if%20necessary." aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2felisp-snippets.html&t=Elisp%20snippets" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2022 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

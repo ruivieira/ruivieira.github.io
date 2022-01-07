@@ -1,225 +1,162 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Dunn index · Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/dunn-index.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Dunn index" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Dunn index · Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/dunn-index.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Dunn index">
 <meta property="og:description" content="There are several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the Dunn index, Davis-Bouldin index and Silhoutte index.
 But before we start, let&rsquo;s introduce some concepts.
 We are interested in clustering algorithms for a dataset \(\mathcal{D}\) with \(N\) elements in a $n$-dimensional real space, that is:
 \[ \mathcal{D} = {x_1, x_2, \ldots, x_N} \in \mathbb{R}^p \]
-The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint groups from \(\mathcal{D}\) \(C={c_1, c_2, \ldots, c_k}\), such that:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/dunn-index.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Dunn index"/>
-<meta name="twitter:description" content="There are several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the Dunn index, Davis-Bouldin index and Silhoutte index.
+The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint groups from \(\mathcal{D}\) \(C={c_1, c_2, \ldots, c_k}\), such that:">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/dunn-index.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Dunn index">
+<meta name=twitter:description content="There are several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the Dunn index, Davis-Bouldin index and Silhoutte index.
 But before we start, let&rsquo;s introduce some concepts.
 We are interested in clustering algorithms for a dataset \(\mathcal{D}\) with \(N\) elements in a $n$-dimensional real space, that is:
 \[ \mathcal{D} = {x_1, x_2, \ldots, x_N} \in \mathbb{R}^p \]
-The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint groups from \(\mathcal{D}\) \(C={c_1, c_2, \ldots, c_k}\), such that:"/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+The clustering algorithm will create a set \(C\) of \(K\) distinct disjoint groups from \(\mathcal{D}\) \(C={c_1, c_2, \ldots, c_k}\), such that:">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/elisp.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/doom-emacs.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&text=Dunn%20index" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&is_video=false&description=Dunn%20index" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Dunn%20index&body=Check out this article: https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&name=Dunn%20index&description=There%20are%20several%20ways%20to%20measure%20the%20robustness%20of%20a%20clustering%20algorithm.%20Three%20commonly%20used%20metrics%20are%20the%20Dunn%20index%2c%20Davis-Bouldin%20index%20and%20Silhoutte%20index.%0aBut%20before%20we%20start%2c%20let%26rsquo%3bs%20introduce%20some%20concepts.%0aWe%20are%20interested%20in%20clustering%20algorithms%20for%20a%20dataset%20%5c%28%5cmathcal%7bD%7d%5c%29%20with%20%5c%28N%5c%29%20elements%20in%20a%20%24n%24-dimensional%20real%20space%2c%20that%20is%3a%0a%5c%5b%20%5cmathcal%7bD%7d%20%3d%20%7bx_1%2c%20x_2%2c%20%5cldots%2c%20x_N%7d%20%5cin%20%5cmathbb%7bR%7d%5ep%20%5c%5d%0aThe%20clustering%20algorithm%20will%20create%20a%20set%20%5c%28C%5c%29%20of%20%5c%28K%5c%29%20distinct%20disjoint%20groups%20from%20%5c%28%5cmathcal%7bD%7d%5c%29%20%5c%28C%3d%7bc_1%2c%20c_2%2c%20%5cldots%2c%20c_k%7d%5c%29%2c%20such%20that%3a" aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html&t=Dunn%20index" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#dunn-index">Dunn index</a></li>
-  </ul>
-</nav>
-      
-      <h4>Related</h4>
-      
-      <nav>
-      <ul>
-      
-      
-        <li class="header-post toc"><a href="https://ruivieira.dev/distance-metrics.html">Distance metrics</a></li>
-      
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/elisp.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/doom-emacs.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&text=Dunn%20index" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&is_video=false&description=Dunn%20index" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Dunn%20index&body=Check out this article: https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&name=Dunn%20index&description=There%20are%20several%20ways%20to%20measure%20the%20robustness%20of%20a%20clustering%20algorithm.%20Three%20commonly%20used%20metrics%20are%20the%20Dunn%20index%2c%20Davis-Bouldin%20index%20and%20Silhoutte%20index.%0aBut%20before%20we%20start%2c%20let%26rsquo%3bs%20introduce%20some%20concepts.%0aWe%20are%20interested%20in%20clustering%20algorithms%20for%20a%20dataset%20%5c%28%5cmathcal%7bD%7d%5c%29%20with%20%5c%28N%5c%29%20elements%20in%20a%20%24n%24-dimensional%20real%20space%2c%20that%20is%3a%0a%5c%5b%20%5cmathcal%7bD%7d%20%3d%20%7bx_1%2c%20x_2%2c%20%5cldots%2c%20x_N%7d%20%5cin%20%5cmathbb%7bR%7d%5ep%20%5c%5d%0aThe%20clustering%20algorithm%20will%20create%20a%20set%20%5c%28C%5c%29%20of%20%5c%28K%5c%29%20distinct%20disjoint%20groups%20from%20%5c%28%5cmathcal%7bD%7d%5c%29%20%5c%28C%3d%7bc_1%2c%20c_2%2c%20%5cldots%2c%20c_k%7d%5c%29%2c%20such%20that%3a" aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html&t=Dunn%20index" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Dunn index
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2022-01-03 21:56:06 &#43;0000 GMT" itemprop="datePublished">2022-01-03</time>
-          <span class="commit-hash">(261c776)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <p>There are several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the <strong><strong>Dunn index</strong></strong>, <strong><strong>Davis-Bouldin index</strong></strong> and <strong><strong>Silhoutte index</strong></strong>.</p>
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#dunn-index>Dunn index</a></li>
+</ul>
+</nav>
+<h4>Related</h4>
+<nav>
+<ul>
+<li class="header-post toc"><a href=https://ruivieira.dev/distance-metrics.html>Distance metrics</a></li>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Dunn index
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2022-01-03 21:56:06 +0000 GMT" itemprop=datePublished>2022-01-03</time>
+<span class=commit-hash>(261c776)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<p>There are several ways to measure the robustness of a clustering algorithm. Three commonly used metrics are the <strong><strong>Dunn index</strong></strong>, <strong><strong>Davis-Bouldin index</strong></strong> and <strong><strong>Silhoutte index</strong></strong>.</p>
 <p>But before we start, let&rsquo;s introduce some concepts.</p>
 <p>We are interested in clustering algorithms for a dataset \(\mathcal{D}\) with \(N\) elements in a $n$-dimensional real space, that is:</p>
 <p>\[
@@ -238,14 +175,14 @@ c_k \cap c_l \neq \emptyset \forall k\neq l
 <p>\[
 \bar{\mathcal{D}}=\frac{1}{N}\sum_{x_i \in X}x_i
 \]</p>
-<h2 id="dunn-index">Dunn index</h2>
+<h2 id=dunn-index>Dunn index</h2>
 <p>The <strong><strong>Dunn index</strong></strong> aims at quantifying the compactness and variance of the clustering.
 A cluster is considered <strong><strong>compact</strong></strong> if there is small variance between members of the cluster.
 This can be calculated using \(\Delta(c_k)\), where</p>
 <p>\[
 \Delta(c_k) = \max_{x_i, x_j \in c_k}{d_e(x_i, x_j)}
 \]</p>
-<p>and \(d_e\) is the <a href="/distance-metrics.html">Euclidean distance</a> defined as:</p>
+<p>and \(d_e\) is the <a href=/distance-metrics.html>Euclidean distance</a> defined as:</p>
 <p>\[
 d_e=\sqrt{\sum_{j=1}^p (x_{ij}-x_{kj})^2}.
 \]</p>
@@ -260,49 +197,49 @@ DI( C)=\frac{\min_{c_k \in C}{\delta(c_k, c_l)}}{\max_{c_k\in C}\Delta(c_k)}
 <p>A higher <strong>Dunn Index</strong> will indicate compact, well-separated clusters, while a lower index will indicate less compact or less well-separated clusters.</p>
 <p>We can now try to calculate the metric for the dataset we&rsquo;ve created previously.
 Let&rsquo;s simulate some data and apply the Dunn index from scratch.
-First, we will create a compact and well-separated dataset using the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make%5C%5Fblobs.html">make_blobs</a> method in <code>scikit-learn</code>.
+First, we will create a compact and well-separated dataset using the <a href=https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make%5C%5Fblobs.html>make_blobs</a> method in <code>scikit-learn</code>.
 We will create a dataset of \(\mathbb{R}^2\) data (for easier plotting), with three clusters.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">from</span> <span style="color:#555">sklearn.datasets</span> <span style="font-weight:bold">import</span> make_blobs
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.datasets</span> <span style=font-weight:700>import</span> make_blobs
 
-X, y <span style="font-weight:bold">=</span> make_blobs(n_samples<span style="font-weight:bold">=</span><span style="color:#099">1000</span>,
-                  centers<span style="font-weight:bold">=</span><span style="color:#099">3</span>,
-                  n_features<span style="font-weight:bold">=</span><span style="color:#099">2</span>,
-                  random_state<span style="font-weight:bold">=</span><span style="color:#099">23</span>)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">pandas</span> <span style="font-weight:bold">as</span> <span style="color:#555">pd</span>
-<span style="font-weight:bold">from</span> <span style="color:#555">plotnine</span> <span style="font-weight:bold">import</span> <span style="font-weight:bold">*</span>
-<span style="font-weight:bold">from</span> <span style="color:#555">plotnine.data</span> <span style="font-weight:bold">import</span> <span style="font-weight:bold">*</span>
-<span style="font-weight:bold">from</span> <span style="color:#555">plotutils</span> <span style="font-weight:bold">import</span> <span style="font-weight:bold">*</span>
+X, y <span style=font-weight:700>=</span> make_blobs(n_samples<span style=font-weight:700>=</span><span style=color:#099>1000</span>,
+                  centers<span style=font-weight:700>=</span><span style=color:#099>3</span>,
+                  n_features<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+                  random_state<span style=font-weight:700>=</span><span style=color:#099>23</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotnine.data</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
+<span style=font-weight:700>from</span> <span style=color:#555>plotutils</span> <span style=font-weight:700>import</span> <span style=font-weight:700>*</span>
 
-data <span style="font-weight:bold">=</span> pd<span style="font-weight:bold">.</span>DataFrame(X, columns<span style="font-weight:bold">=</span>[<span style="color:#b84">&#34;x1&#34;</span>, <span style="color:#b84">&#34;x2&#34;</span>])
-data[<span style="color:#b84">&#34;y&#34;</span>] <span style="font-weight:bold">=</span> y
-data[<span style="color:#b84">&#34;y&#34;</span>] <span style="font-weight:bold">=</span> data<span style="font-weight:bold">.</span>y<span style="font-weight:bold">.</span>astype(<span style="color:#b84">&#39;category&#39;</span>)
+data <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(X, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#34;x1&#34;</span>, <span style=color:#b84>&#34;x2&#34;</span>])
+data[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> y
+data[<span style=color:#b84>&#34;y&#34;</span>] <span style=font-weight:700>=</span> data<span style=font-weight:700>.</span>y<span style=font-weight:700>.</span>astype(<span style=color:#b84>&#39;category&#39;</span>)
 
-ggplot(data<span style="font-weight:bold">=</span>data) <span style="font-weight:bold">+</span> \
-    geom_point(mapping<span style="font-weight:bold">=</span>aes(x<span style="font-weight:bold">=</span><span style="color:#b84">&#34;x1&#34;</span>, y<span style="font-weight:bold">=</span><span style="color:#b84">&#34;x2&#34;</span>, colour<span style="font-weight:bold">=</span><span style="color:#b84">&#34;y&#34;</span>)) <span style="font-weight:bold">+</span> \
-    scale_color_manual(values<span style="font-weight:bold">=</span>[colours[<span style="color:#099">0</span>], colours[<span style="color:#099">1</span>], colours[<span style="color:#099">2</span>]]) <span style="font-weight:bold">+</span> \
+ggplot(data<span style=font-weight:700>=</span>data) <span style=font-weight:700>+</span> \
+    geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;x1&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;x2&#34;</span>, colour<span style=font-weight:700>=</span><span style=color:#b84>&#34;y&#34;</span>)) <span style=font-weight:700>+</span> \
+    scale_color_manual(values<span style=font-weight:700>=</span>[colours[<span style=color:#099>0</span>], colours[<span style=color:#099>1</span>], colours[<span style=color:#099>2</span>]]) <span style=font-weight:700>+</span> \
     theme_classic()
 </code></pre></div><p>We now cluster the data[^2] and we will have, as expected three distinct clusters, plotted below.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">from</span> <span style="color:#555">sklearn</span> <span style="font-weight:bold">import</span> cluster
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn</span> <span style=font-weight:700>import</span> cluster
 
-k_means <span style="font-weight:bold">=</span> cluster<span style="font-weight:bold">.</span>KMeans(n_clusters<span style="font-weight:bold">=</span><span style="color:#099">3</span>)
-k_means<span style="font-weight:bold">.</span>fit(data)
-y_pred <span style="font-weight:bold">=</span> k_means<span style="font-weight:bold">.</span>predict(data)
+k_means <span style=font-weight:700>=</span> cluster<span style=font-weight:700>.</span>KMeans(n_clusters<span style=font-weight:700>=</span><span style=color:#099>3</span>)
+k_means<span style=font-weight:700>.</span>fit(data)
+y_pred <span style=font-weight:700>=</span> k_means<span style=font-weight:700>.</span>predict(data)
 
-prediction <span style="font-weight:bold">=</span> pd<span style="font-weight:bold">.</span>concat([data, pd<span style="font-weight:bold">.</span>DataFrame(y_pred, columns<span style="font-weight:bold">=</span>[<span style="color:#b84">&#39;pred&#39;</span>])], axis <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)
+prediction <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>concat([data, pd<span style=font-weight:700>.</span>DataFrame(y_pred, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;pred&#39;</span>])], axis <span style=font-weight:700>=</span> <span style=color:#099>1</span>)
 
-clus0 <span style="font-weight:bold">=</span> prediction<span style="font-weight:bold">.</span>loc[prediction<span style="font-weight:bold">.</span>pred <span style="font-weight:bold">==</span> <span style="color:#099">0</span>]
-clus1 <span style="font-weight:bold">=</span> prediction<span style="font-weight:bold">.</span>loc[prediction<span style="font-weight:bold">.</span>pred <span style="font-weight:bold">==</span> <span style="color:#099">1</span>]
-clus2 <span style="font-weight:bold">=</span> prediction<span style="font-weight:bold">.</span>loc[prediction<span style="font-weight:bold">.</span>pred <span style="font-weight:bold">==</span> <span style="color:#099">2</span>]
-k_list <span style="font-weight:bold">=</span> [clus0<span style="font-weight:bold">.</span>values, clus1<span style="font-weight:bold">.</span>values,clus2<span style="font-weight:bold">.</span>values]
+clus0 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>0</span>]
+clus1 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>1</span>]
+clus2 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>2</span>]
+k_list <span style=font-weight:700>=</span> [clus0<span style=font-weight:700>.</span>values, clus1<span style=font-weight:700>.</span>values,clus2<span style=font-weight:700>.</span>values]
 </code></pre></div><p>Let&rsquo;s focus now on two of these cluster, let&rsquo;s call them \(c_k\) and \(c_l\).</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ck <span style="font-weight:bold">=</span> k_list[<span style="color:#099">0</span>]
-cl <span style="font-weight:bold">=</span> k_list[<span style="color:#099">1</span>]
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ck <span style=font-weight:700>=</span> k_list[<span style=color:#099>0</span>]
+cl <span style=font-weight:700>=</span> k_list[<span style=color:#099>1</span>]
 </code></pre></div><p>We know we have to calculate the distance between the points in \(c_k\) and \(c_l\). We know that the `len(ck)=len(cl)=333` we create</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="font-weight:bold">as</span> <span style="color:#555">np</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-values <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>ones([<span style="color:#999">len</span>(ck), <span style="color:#999">len</span>(cl)])
+values <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>ones([<span style=color:#999>len</span>(ck), <span style=color:#999>len</span>(cl)])
 values
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">array([[1., 1., 1., ..., 1., 1., 1.],
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>array([[1., 1., 1., ..., 1., 1., 1.],
        [1., 1., 1., ..., 1., 1., 1.],
        [1., 1., 1., ..., 1., 1., 1.],
        ...,
@@ -310,238 +247,178 @@ values
        [1., 1., 1., ..., 1., 1., 1.],
        [1., 1., 1., ..., 1., 1., 1.]])
 </code></pre></div><p>For each pair of points, we then get the norm of \(x_i-x_j\). For instance, for \(i=0\in c_k\) and \(i=1\in c_l\), we would have:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">values[<span style="color:#099">0</span>, <span style="color:#099">1</span>] <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linalg<span style="font-weight:bold">.</span>norm(ck[<span style="color:#099">0</span>]<span style="font-weight:bold">-</span>cl[<span style="color:#099">1</span>])
-<span style="color:#999">print</span>(ck[<span style="color:#099">0</span>], cl[<span style="color:#099">1</span>])
-<span style="color:#999">print</span>(values[<span style="color:#099">0</span>, <span style="color:#099">1</span>])
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[-5.37039106  3.47555168  2.          0.        ] [ 5.46312794 -3.08938807  1.          1.        ]
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>values[<span style=color:#099>0</span>, <span style=color:#099>1</span>] <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linalg<span style=font-weight:700>.</span>norm(ck[<span style=color:#099>0</span>]<span style=font-weight:700>-</span>cl[<span style=color:#099>1</span>])
+<span style=color:#999>print</span>(ck[<span style=color:#099>0</span>], cl[<span style=color:#099>1</span>])
+<span style=color:#999>print</span>(values[<span style=color:#099>0</span>, <span style=color:#099>1</span>])
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>[-5.37039106  3.47555168  2.          0.        ] [ 5.46312794 -3.08938807  1.          1.        ]
 12.746119711608184
 </code></pre></div><p>The calculation of \(\delta(c_k, c_l)\) between two clusters \(c_k\) and \(c_l\) will be defined as follows:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="font-weight:bold">as</span> <span style="color:#555">np</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">δ</span>(ck, cl):
-    values <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>ones([<span style="color:#999">len</span>(ck), <span style="color:#999">len</span>(cl)])
-    <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#099">0</span>, <span style="color:#999">len</span>(ck)):
-        <span style="font-weight:bold">for</span> j <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#099">0</span>, <span style="color:#999">len</span>(cl)):
-            values[i, j] <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linalg<span style="font-weight:bold">.</span>norm(ck[i]<span style="font-weight:bold">-</span>cl[j])
-    <span style="font-weight:bold">return</span> np<span style="font-weight:bold">.</span>min(values)
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>δ</span>(ck, cl):
+    values <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>ones([<span style=color:#999>len</span>(ck), <span style=color:#999>len</span>(cl)])
+    <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(ck)):
+        <span style=font-weight:700>for</span> j <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(cl)):
+            values[i, j] <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linalg<span style=font-weight:700>.</span>norm(ck[i]<span style=font-weight:700>-</span>cl[j])
+    <span style=font-weight:700>return</span> np<span style=font-weight:700>.</span>min(values)
 </code></pre></div><p>So, for our two clusters above, \(\delta(c_k, c_l)\) will be:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">δ(ck, cl)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">8.13474311744193
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>δ(ck, cl)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>8.13474311744193
 </code></pre></div><p>Within a single cluster \(c_k\), we can calculate \(\Delta(c_k)\) similarly as:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">Δ</span>(ci):
-    values <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>zeros([<span style="color:#999">len</span>(ci), <span style="color:#999">len</span>(ci)])
-    <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#099">0</span>, <span style="color:#999">len</span>(ci)):
-        <span style="font-weight:bold">for</span> j <span style="font-weight:bold">in</span> <span style="color:#999">range</span>(<span style="color:#099">0</span>, <span style="color:#999">len</span>(ci)):
-            values[i, j] <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linalg<span style="font-weight:bold">.</span>norm(ci[i]<span style="font-weight:bold">-</span>ci[j])
-    <span style="font-weight:bold">return</span> np<span style="font-weight:bold">.</span>max(values)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>Δ</span>(ci):
+    values <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>zeros([<span style=color:#999>len</span>(ci), <span style=color:#999>len</span>(ci)])
+    <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(ci)):
+        <span style=font-weight:700>for</span> j <span style=font-weight:700>in</span> <span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(ci)):
+            values[i, j] <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linalg<span style=font-weight:700>.</span>norm(ci[i]<span style=font-weight:700>-</span>ci[j])
+    <span style=font-weight:700>return</span> np<span style=font-weight:700>.</span>max(values)
 </code></pre></div><p>So, for instance, for our \(c_k\) and \(c_l\) we would have:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#999">print</span>(Δ(ck))
-<span style="color:#999">print</span>(Δ(cl))
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">6.726025773561468
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#999>print</span>(Δ(ck))
+<span style=color:#999>print</span>(Δ(cl))
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>6.726025773561468
 6.173844284636552
 </code></pre></div><p>We can now define the <strong>Dunn index</strong> as</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">dunn</span>(k_list):
-    δs <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>ones([<span style="color:#999">len</span>(k_list), <span style="color:#999">len</span>(k_list)])
-    Δs <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>zeros([<span style="color:#999">len</span>(k_list), <span style="color:#099">1</span>])
-    l_range <span style="font-weight:bold">=</span> <span style="color:#999">list</span>(<span style="color:#999">range</span>(<span style="color:#099">0</span>, <span style="color:#999">len</span>(k_list)))
-    <span style="font-weight:bold">for</span> k <span style="font-weight:bold">in</span> l_range:
-        <span style="font-weight:bold">for</span> l <span style="font-weight:bold">in</span> (l_range[<span style="color:#099">0</span>:k]<span style="font-weight:bold">+</span>l_range[k<span style="font-weight:bold">+</span><span style="color:#099">1</span>:]):
-            δs[k, l] <span style="font-weight:bold">=</span> δ(k_list[k], k_list[l])
-            Δs[k] <span style="font-weight:bold">=</span> Δ(k_list[k])
-            di <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>min(δs)<span style="font-weight:bold">/</span>np<span style="font-weight:bold">.</span>max(Δs)
-    <span style="font-weight:bold">return</span> di
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>dunn</span>(k_list):
+    δs <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>ones([<span style=color:#999>len</span>(k_list), <span style=color:#999>len</span>(k_list)])
+    Δs <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>zeros([<span style=color:#999>len</span>(k_list), <span style=color:#099>1</span>])
+    l_range <span style=font-weight:700>=</span> <span style=color:#999>list</span>(<span style=color:#999>range</span>(<span style=color:#099>0</span>, <span style=color:#999>len</span>(k_list)))
+    <span style=font-weight:700>for</span> k <span style=font-weight:700>in</span> l_range:
+        <span style=font-weight:700>for</span> l <span style=font-weight:700>in</span> (l_range[<span style=color:#099>0</span>:k]<span style=font-weight:700>+</span>l_range[k<span style=font-weight:700>+</span><span style=color:#099>1</span>:]):
+            δs[k, l] <span style=font-weight:700>=</span> δ(k_list[k], k_list[l])
+            Δs[k] <span style=font-weight:700>=</span> Δ(k_list[k])
+            di <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>min(δs)<span style=font-weight:700>/</span>np<span style=font-weight:700>.</span>max(Δs)
+    <span style=font-weight:700>return</span> di
 </code></pre></div><p>and calculate the <strong>Dunn index</strong> for our clustered values list as</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dunn(k_list)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">0.14867620697065728
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dunn(k_list)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.14867620697065728
 </code></pre></div><p>Intuitively, we can expect a dataset with less well-defined clusters to have a lower <strong>Dunn index</strong>. Let&rsquo;s try it.
 We first generate the new dataset.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">X, y <span style="font-weight:bold">=</span> make_blobs(n_samples<span style="font-weight:bold">=</span><span style="color:#099">1000</span>,
-                  centers<span style="font-weight:bold">=</span><span style="color:#099">3</span>,
-                  n_features<span style="font-weight:bold">=</span><span style="color:#099">2</span>,
-                  cluster_std<span style="font-weight:bold">=</span><span style="color:#099">10.0</span>,
-                  random_state<span style="font-weight:bold">=</span><span style="color:#099">24</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X, y <span style=font-weight:700>=</span> make_blobs(n_samples<span style=font-weight:700>=</span><span style=color:#099>1000</span>,
+                  centers<span style=font-weight:700>=</span><span style=color:#099>3</span>,
+                  n_features<span style=font-weight:700>=</span><span style=color:#099>2</span>,
+                  cluster_std<span style=font-weight:700>=</span><span style=color:#099>10.0</span>,
+                  random_state<span style=font-weight:700>=</span><span style=color:#099>24</span>)
 
-df <span style="font-weight:bold">=</span> pd<span style="font-weight:bold">.</span>DataFrame(X, columns<span style="font-weight:bold">=</span>[<span style="color:#b84">&#39;A&#39;</span>, <span style="color:#b84">&#39;B&#39;</span>])
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame(X, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;A&#39;</span>, <span style=color:#b84>&#39;B&#39;</span>])
 
-k_means <span style="font-weight:bold">=</span> cluster<span style="font-weight:bold">.</span>KMeans(n_clusters<span style="font-weight:bold">=</span><span style="color:#099">3</span>)
-k_means<span style="font-weight:bold">.</span>fit(df)
+k_means <span style=font-weight:700>=</span> cluster<span style=font-weight:700>.</span>KMeans(n_clusters<span style=font-weight:700>=</span><span style=color:#099>3</span>)
+k_means<span style=font-weight:700>.</span>fit(df)
 
-<span style="color:#998;font-style:italic">#K-means training</span>
-y_pred <span style="font-weight:bold">=</span> k_means<span style="font-weight:bold">.</span>predict(df)
+<span style=color:#998;font-style:italic>#K-means training</span>
+y_pred <span style=font-weight:700>=</span> k_means<span style=font-weight:700>.</span>predict(df)
 
-prediction <span style="font-weight:bold">=</span> pd<span style="font-weight:bold">.</span>concat([df,pd<span style="font-weight:bold">.</span>DataFrame(y_pred, columns<span style="font-weight:bold">=</span>[<span style="color:#b84">&#39;pred&#39;</span>])], axis <span style="font-weight:bold">=</span> <span style="color:#099">1</span>)
-prediction[<span style="color:#b84">&#34;pred&#34;</span>] <span style="font-weight:bold">=</span> prediction<span style="font-weight:bold">.</span>pred<span style="font-weight:bold">.</span>astype(<span style="color:#b84">&#39;category&#39;</span>)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ggplot(data<span style="font-weight:bold">=</span>prediction) <span style="font-weight:bold">+</span>\
-geom_point(mapping<span style="font-weight:bold">=</span>aes(x<span style="font-weight:bold">=</span><span style="color:#b84">&#34;A&#34;</span>, y<span style="font-weight:bold">=</span><span style="color:#b84">&#34;B&#34;</span>, colour<span style="font-weight:bold">=</span><span style="color:#b84">&#34;pred&#34;</span>)) <span style="font-weight:bold">+</span> \
-scale_color_manual(values<span style="font-weight:bold">=</span>[colours[<span style="color:#099">0</span>], colours[<span style="color:#099">1</span>], colours[<span style="color:#099">2</span>]]) <span style="font-weight:bold">+</span> theme_classic()
-</code></pre></div><figure><img src="./.ob-jupyter/144ccb9ee25c619a88afebae6bb845a962b06eae.png"/>
+prediction <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>concat([df,pd<span style=font-weight:700>.</span>DataFrame(y_pred, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#39;pred&#39;</span>])], axis <span style=font-weight:700>=</span> <span style=color:#099>1</span>)
+prediction[<span style=color:#b84>&#34;pred&#34;</span>] <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>pred<span style=font-weight:700>.</span>astype(<span style=color:#b84>&#39;category&#39;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>ggplot(data<span style=font-weight:700>=</span>prediction) <span style=font-weight:700>+</span>\
+geom_point(mapping<span style=font-weight:700>=</span>aes(x<span style=font-weight:700>=</span><span style=color:#b84>&#34;A&#34;</span>, y<span style=font-weight:700>=</span><span style=color:#b84>&#34;B&#34;</span>, colour<span style=font-weight:700>=</span><span style=color:#b84>&#34;pred&#34;</span>)) <span style=font-weight:700>+</span> \
+scale_color_manual(values<span style=font-weight:700>=</span>[colours[<span style=color:#099>0</span>], colours[<span style=color:#099>1</span>], colours[<span style=color:#099>2</span>]]) <span style=font-weight:700>+</span> theme_classic()
+</code></pre></div><figure><img src=./.ob-jupyter/144ccb9ee25c619a88afebae6bb845a962b06eae.png>
 </figure>
-
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&lt;ggplot: (317671277)&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">clus0 <span style="font-weight:bold">=</span> prediction<span style="font-weight:bold">.</span>loc[prediction<span style="font-weight:bold">.</span>pred <span style="font-weight:bold">==</span> <span style="color:#099">0</span>]
-clus1 <span style="font-weight:bold">=</span> prediction<span style="font-weight:bold">.</span>loc[prediction<span style="font-weight:bold">.</span>pred <span style="font-weight:bold">==</span> <span style="color:#099">1</span>]
-clus2 <span style="font-weight:bold">=</span> prediction<span style="font-weight:bold">.</span>loc[prediction<span style="font-weight:bold">.</span>pred <span style="font-weight:bold">==</span> <span style="color:#099">2</span>]
-k_list <span style="font-weight:bold">=</span> [clus0<span style="font-weight:bold">.</span>values, clus1<span style="font-weight:bold">.</span>values,clus2<span style="font-weight:bold">.</span>values]
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dunn(k_list)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">0.019563892388205984
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;ggplot: (317671277)&gt;
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>clus0 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>0</span>]
+clus1 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>1</span>]
+clus2 <span style=font-weight:700>=</span> prediction<span style=font-weight:700>.</span>loc[prediction<span style=font-weight:700>.</span>pred <span style=font-weight:700>==</span> <span style=color:#099>2</span>]
+k_list <span style=font-weight:700>=</span> [clus0<span style=font-weight:700>.</span>values, clus1<span style=font-weight:700>.</span>values,clus2<span style=font-weight:700>.</span>values]
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dunn(k_list)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.019563892388205984
 </code></pre></div>
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#dunn-index">Dunn index</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&text=Dunn%20index" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&is_video=false&description=Dunn%20index" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Dunn%20index&body=Check out this article: https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&name=Dunn%20index&description=There%20are%20several%20ways%20to%20measure%20the%20robustness%20of%20a%20clustering%20algorithm.%20Three%20commonly%20used%20metrics%20are%20the%20Dunn%20index%2c%20Davis-Bouldin%20index%20and%20Silhoutte%20index.%0aBut%20before%20we%20start%2c%20let%26rsquo%3bs%20introduce%20some%20concepts.%0aWe%20are%20interested%20in%20clustering%20algorithms%20for%20a%20dataset%20%5c%28%5cmathcal%7bD%7d%5c%29%20with%20%5c%28N%5c%29%20elements%20in%20a%20%24n%24-dimensional%20real%20space%2c%20that%20is%3a%0a%5c%5b%20%5cmathcal%7bD%7d%20%3d%20%7bx_1%2c%20x_2%2c%20%5cldots%2c%20x_N%7d%20%5cin%20%5cmathbb%7bR%7d%5ep%20%5c%5d%0aThe%20clustering%20algorithm%20will%20create%20a%20set%20%5c%28C%5c%29%20of%20%5c%28K%5c%29%20distinct%20disjoint%20groups%20from%20%5c%28%5cmathcal%7bD%7d%5c%29%20%5c%28C%3d%7bc_1%2c%20c_2%2c%20%5cldots%2c%20c_k%7d%5c%29%2c%20such%20that%3a" aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html&t=Dunn%20index" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2022  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#dunn-index>Dunn index</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&text=Dunn%20index" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&is_video=false&description=Dunn%20index" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Dunn%20index&body=Check out this article: https%3a%2f%2fruivieira.dev%2fdunn-index.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&title=Dunn%20index" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fdunn-index.html&name=Dunn%20index&description=There%20are%20several%20ways%20to%20measure%20the%20robustness%20of%20a%20clustering%20algorithm.%20Three%20commonly%20used%20metrics%20are%20the%20Dunn%20index%2c%20Davis-Bouldin%20index%20and%20Silhoutte%20index.%0aBut%20before%20we%20start%2c%20let%26rsquo%3bs%20introduce%20some%20concepts.%0aWe%20are%20interested%20in%20clustering%20algorithms%20for%20a%20dataset%20%5c%28%5cmathcal%7bD%7d%5c%29%20with%20%5c%28N%5c%29%20elements%20in%20a%20%24n%24-dimensional%20real%20space%2c%20that%20is%3a%0a%5c%5b%20%5cmathcal%7bD%7d%20%3d%20%7bx_1%2c%20x_2%2c%20%5cldots%2c%20x_N%7d%20%5cin%20%5cmathbb%7bR%7d%5ep%20%5c%5d%0aThe%20clustering%20algorithm%20will%20create%20a%20set%20%5c%28C%5c%29%20of%20%5c%28K%5c%29%20distinct%20disjoint%20groups%20from%20%5c%28%5cmathcal%7bD%7d%5c%29%20%5c%28C%3d%7bc_1%2c%20c_2%2c%20%5cldots%2c%20c_k%7d%5c%29%2c%20such%20that%3a" aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fdunn-index.html&t=Dunn%20index" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2022 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

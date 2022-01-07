@@ -1,216 +1,158 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Spearman correlation · Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/spearman-correlation.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Spearman correlation" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Spearman correlation · Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/spearman-correlation.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Spearman correlation">
 <meta property="og:description" content="Spearman rank correlation The Spearman correlation coefficient (or Spearman&rsquo;s \(\rho\)) measures rank correlation between two variables.
 Assuming monotonicity, the Spearman&rsquo;s \(\rho\) will take values between \(-1\) and \(1\), representing completely opposite or identical ranks, respectively1.
 Due to the dependance on ranks, the Spearman&rsquo;s \(\rho\) is used for ordinal value, although discrete and continous values are possible.
-If we consider a dataset of size \(n\), and \(X_i, Y_i\) as the scores, we can then calculate the ranks as \(\operatorname{R}({X_i}), \operatorname{R}({Y_i})\), and \(\rho\) as" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/spearman-correlation.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2021-12-23T00:13:59+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Spearman correlation"/>
-<meta name="twitter:description" content="Spearman rank correlation The Spearman correlation coefficient (or Spearman&rsquo;s \(\rho\)) measures rank correlation between two variables.
+If we consider a dataset of size \(n\), and \(X_i, Y_i\) as the scores, we can then calculate the ranks as \(\operatorname{R}({X_i}), \operatorname{R}({Y_i})\), and \(\rho\) as">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/spearman-correlation.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2021-12-23T00:13:59+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Spearman correlation">
+<meta name=twitter:description content="Spearman rank correlation The Spearman correlation coefficient (or Spearman&rsquo;s \(\rho\)) measures rank correlation between two variables.
 Assuming monotonicity, the Spearman&rsquo;s \(\rho\) will take values between \(-1\) and \(1\), representing completely opposite or identical ranks, respectively1.
 Due to the dependance on ranks, the Spearman&rsquo;s \(\rho\) is used for ordinal value, although discrete and continous values are possible.
-If we consider a dataset of size \(n\), and \(X_i, Y_i\) as the scores, we can then calculate the ranks as \(\operatorname{R}({X_i}), \operatorname{R}({Y_i})\), and \(\rho\) as"/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+If we consider a dataset of size \(n\), and \(X_i, Y_i\) as the scores, we can then calculate the ranks as \(\operatorname{R}({X_i}), \operatorname{R}({Y_i})\), and \(\rho\) as">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/ssh.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/site-details.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&text=Spearman%20correlation" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&is_video=false&description=Spearman%20correlation" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Spearman%20correlation&body=Check out this article: https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&name=Spearman%20correlation&description=Spearman%20rank%20correlation%20The%20Spearman%20correlation%20coefficient%20%28or%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%29%20measures%20rank%20correlation%20between%20two%20variables.%0aAssuming%20monotonicity%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20will%20take%20values%20between%20%5c%28-1%5c%29%20and%20%5c%281%5c%29%2c%20representing%20completely%20opposite%20or%20identical%20ranks%2c%20respectively1.%0aDue%20to%20the%20dependance%20on%20ranks%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20is%20used%20for%20ordinal%20value%2c%20although%20discrete%20and%20continous%20values%20are%20possible.%0aIf%20we%20consider%20a%20dataset%20of%20size%20%5c%28n%5c%29%2c%20and%20%5c%28X_i%2c%20Y_i%5c%29%20as%20the%20scores%2c%20we%20can%20then%20calculate%20the%20ranks%20as%20%5c%28%5coperatorname%7bR%7d%28%7bX_i%7d%29%2c%20%5coperatorname%7bR%7d%28%7bY_i%7d%29%5c%29%2c%20and%20%5c%28%5crho%5c%29%20as" aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&t=Spearman%20correlation" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#spearman-rank-correlation">Spearman rank correlation</a></li>
-  </ul>
-</nav>
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/ssh.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/site-details.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&text=Spearman%20correlation" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&is_video=false&description=Spearman%20correlation" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Spearman%20correlation&body=Check out this article: https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&name=Spearman%20correlation&description=Spearman%20rank%20correlation%20The%20Spearman%20correlation%20coefficient%20%28or%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%29%20measures%20rank%20correlation%20between%20two%20variables.%0aAssuming%20monotonicity%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20will%20take%20values%20between%20%5c%28-1%5c%29%20and%20%5c%281%5c%29%2c%20representing%20completely%20opposite%20or%20identical%20ranks%2c%20respectively1.%0aDue%20to%20the%20dependance%20on%20ranks%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20is%20used%20for%20ordinal%20value%2c%20although%20discrete%20and%20continous%20values%20are%20possible.%0aIf%20we%20consider%20a%20dataset%20of%20size%20%5c%28n%5c%29%2c%20and%20%5c%28X_i%2c%20Y_i%5c%29%20as%20the%20scores%2c%20we%20can%20then%20calculate%20the%20ranks%20as%20%5c%28%5coperatorname%7bR%7d%28%7bX_i%7d%29%2c%20%5coperatorname%7bR%7d%28%7bY_i%7d%29%5c%29%2c%20and%20%5c%28%5crho%5c%29%20as" aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&t=Spearman%20correlation" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Spearman correlation
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2021-12-23 00:13:59 &#43;0000 GMT" itemprop="datePublished">2021-12-23</time>
-          <span class="commit-hash">(a05b851)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <h2 id="spearman-rank-correlation">Spearman rank correlation</h2>
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#spearman-rank-correlation>Spearman rank correlation</a></li>
+</ul>
+</nav>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Spearman correlation
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2021-12-23 00:13:59 +0000 GMT" itemprop=datePublished>2021-12-23</time>
+<span class=commit-hash>(a05b851)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<h2 id=spearman-rank-correlation>Spearman rank correlation</h2>
 <p>The Spearman correlation coefficient (or Spearman&rsquo;s \(\rho\)) measures rank correlation between two variables.</p>
-<p>Assuming monotonicity, the Spearman&rsquo;s \(\rho\) will take values between \(-1\) and \(1\), representing completely opposite or identical ranks, respectively<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>Assuming monotonicity, the Spearman&rsquo;s \(\rho\) will take values between \(-1\) and \(1\), representing completely opposite or identical ranks, respectively<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>.</p>
 <p>Due to the dependance on ranks, the Spearman&rsquo;s \(\rho\) is used for ordinal value, although discrete and continous values are possible.</p>
 <p>If we consider a dataset of size \(n\), and \(X_i, Y_i\) as the scores, we can
 then calculate the ranks as \(\operatorname{R}({X_i}), \operatorname{R}({Y_i})\), and \(\rho\) as</p>
@@ -223,172 +165,112 @@ r_s = \rho_{\operatorname{R}(X),\operatorname{R}(Y)} = \frac{\operatorname{cov}(
 r_s = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)},
 \]</p>
 <p>where \(d_i = \operatorname{R}(X_i) - \operatorname{R}(Y_i)\) is the difference between the two ranks of each observation, \(n\) is the number of observations.</p>
-<section class="footnotes" role="doc-endnotes">
+<section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>Assuming no repeated ranks.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:1 role=doc-endnote>
+<p>Assuming no repeated ranks.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#spearman-rank-correlation">Spearman rank correlation</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&text=Spearman%20correlation" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&is_video=false&description=Spearman%20correlation" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Spearman%20correlation&body=Check out this article: https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&name=Spearman%20correlation&description=Spearman%20rank%20correlation%20The%20Spearman%20correlation%20coefficient%20%28or%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%29%20measures%20rank%20correlation%20between%20two%20variables.%0aAssuming%20monotonicity%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20will%20take%20values%20between%20%5c%28-1%5c%29%20and%20%5c%281%5c%29%2c%20representing%20completely%20opposite%20or%20identical%20ranks%2c%20respectively1.%0aDue%20to%20the%20dependance%20on%20ranks%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20is%20used%20for%20ordinal%20value%2c%20although%20discrete%20and%20continous%20values%20are%20possible.%0aIf%20we%20consider%20a%20dataset%20of%20size%20%5c%28n%5c%29%2c%20and%20%5c%28X_i%2c%20Y_i%5c%29%20as%20the%20scores%2c%20we%20can%20then%20calculate%20the%20ranks%20as%20%5c%28%5coperatorname%7bR%7d%28%7bX_i%7d%29%2c%20%5coperatorname%7bR%7d%28%7bY_i%7d%29%5c%29%2c%20and%20%5c%28%5crho%5c%29%20as" aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&t=Spearman%20correlation" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2022  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#spearman-rank-correlation>Spearman rank correlation</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&text=Spearman%20correlation" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&is_video=false&description=Spearman%20correlation" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Spearman%20correlation&body=Check out this article: https%3a%2f%2fruivieira.dev%2fspearman-correlation.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&title=Spearman%20correlation" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&name=Spearman%20correlation&description=Spearman%20rank%20correlation%20The%20Spearman%20correlation%20coefficient%20%28or%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%29%20measures%20rank%20correlation%20between%20two%20variables.%0aAssuming%20monotonicity%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20will%20take%20values%20between%20%5c%28-1%5c%29%20and%20%5c%281%5c%29%2c%20representing%20completely%20opposite%20or%20identical%20ranks%2c%20respectively1.%0aDue%20to%20the%20dependance%20on%20ranks%2c%20the%20Spearman%26rsquo%3bs%20%5c%28%5crho%5c%29%20is%20used%20for%20ordinal%20value%2c%20although%20discrete%20and%20continous%20values%20are%20possible.%0aIf%20we%20consider%20a%20dataset%20of%20size%20%5c%28n%5c%29%2c%20and%20%5c%28X_i%2c%20Y_i%5c%29%20as%20the%20scores%2c%20we%20can%20then%20calculate%20the%20ranks%20as%20%5c%28%5coperatorname%7bR%7d%28%7bX_i%7d%29%2c%20%5coperatorname%7bR%7d%28%7bY_i%7d%29%5c%29%2c%20and%20%5c%28%5crho%5c%29%20as" aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fspearman-correlation.html&t=Spearman%20correlation" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2022 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

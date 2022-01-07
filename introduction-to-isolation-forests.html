@@ -1,228 +1,169 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Introduction to Isolation Forests · Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/introduction-to-isolation-forests.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Introduction to Isolation Forests" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Introduction to Isolation Forests · Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/introduction-to-isolation-forests.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Introduction to Isolation Forests">
 <meta property="og:description" content="Isolation Forests (IFs), presented in Liu1 et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of Isolation Trees (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.
-ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the Binary Search Tree (BSTs)." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/introduction-to-isolation-forests.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Introduction to Isolation Forests"/>
-<meta name="twitter:description" content="Isolation Forests (IFs), presented in Liu1 et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of Isolation Trees (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.
-ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the Binary Search Tree (BSTs)."/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the Binary Search Tree (BSTs).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/introduction-to-isolation-forests.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Introduction to Isolation Forests">
+<meta name=twitter:description content="Isolation Forests (IFs), presented in Liu1 et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of Isolation Trees (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.
+ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the Binary Search Tree (BSTs).">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/java.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&text=Introduction%20to%20Isolation%20Forests" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&is_video=false&description=Introduction%20to%20Isolation%20Forests" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Introduction%20to%20Isolation%20Forests&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&name=Introduction%20to%20Isolation%20Forests&description=Isolation%20Forests%20%28IFs%29%2c%20presented%20in%20Liu1%20et.%20al%20%282012%29%2c%20are%20a%20popular%20algorithm%20used%20for%20outlier%20classification.%20In%20a%20very%20simplified%20way%2c%20the%20method%20consists%20of%20building%20an%20ensemble%20of%20Isolation%20Trees%20%28ITs%29%20for%20a%20given%20data%20set%20and%20observations%20are%20deemed%20anomalies%20if%20they%20have%20short%20adjusted%20average%20path%20lengths%20on%20the%20ITs.%0aITs%2c%20which%20will%20be%20covered%20shortly%2c%20have%20several%20properties%20in%20common%20with%20a%20fundamental%20data%20structure%3a%20the%20Binary%20Search%20Tree%20%28BSTs%29." aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&t=Introduction%20to%20Isolation%20Forests" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#isolation-trees">Isolation Trees</a></li>
-    <li><a href="#parameters">Parameters</a></li>
-  </ul>
-</nav>
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/java.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&text=Introduction%20to%20Isolation%20Forests" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&is_video=false&description=Introduction%20to%20Isolation%20Forests" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Introduction%20to%20Isolation%20Forests&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&name=Introduction%20to%20Isolation%20Forests&description=Isolation%20Forests%20%28IFs%29%2c%20presented%20in%20Liu1%20et.%20al%20%282012%29%2c%20are%20a%20popular%20algorithm%20used%20for%20outlier%20classification.%20In%20a%20very%20simplified%20way%2c%20the%20method%20consists%20of%20building%20an%20ensemble%20of%20Isolation%20Trees%20%28ITs%29%20for%20a%20given%20data%20set%20and%20observations%20are%20deemed%20anomalies%20if%20they%20have%20short%20adjusted%20average%20path%20lengths%20on%20the%20ITs.%0aITs%2c%20which%20will%20be%20covered%20shortly%2c%20have%20several%20properties%20in%20common%20with%20a%20fundamental%20data%20structure%3a%20the%20Binary%20Search%20Tree%20%28BSTs%29." aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&t=Introduction%20to%20Isolation%20Forests" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Introduction to Isolation Forests
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <p><strong>Isolation Forests</strong> (IFs), presented in Liu<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#isolation-trees>Isolation Trees</a></li>
+<li><a href=#parameters>Parameters</a></li>
+</ul>
+</nav>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Introduction to Isolation Forests
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2021-12-07 21:49:31 +0000 GMT" itemprop=datePublished>2021-12-07</time>
+<span class=commit-hash>(186a405)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<p><strong>Isolation Forests</strong> (IFs), presented in Liu<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> et. al (2012), are a popular algorithm used for outlier classification. In a very simplified way, the method consists of building an ensemble of
 <strong>Isolation Trees</strong> (ITs) for a given data set and observations are deemed anomalies if they have short adjusted average path lengths on the ITs.</p>
-<p>ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the <a href="https://en.wikipedia.org/wiki/Binary%5Fsearch%5Ftree">Binary Search Tree</a> (BSTs). In a very simplified way, BSTs are a special instance of tree structures where keys are kept in such an order that a node search is performed by iteratively (or recursively) choosing a left or right branch based on a quantitative comparison (<em>e.g.</em> lesser or greater). Node insertion is performed by doing a tree search, using the method described previously, until reaching an <strong>external node</strong>, where the new node will be inserted. This allows for efficient node searches since, on average, half the tree will not be visited. To illustrate this assume the values \(x=[1, 10, 2, 4, 3, 5, 26, 9, 7, 54]\) and the respective insertion on a BST. The intermediate steps would then be as shown below.</p>
-<p><img src="/ox-hugo/bst_steps.png" alt="">)</p>
+<p>ITs, which will be covered shortly, have several properties in common with a fundamental data structure: the <a href=https://en.wikipedia.org/wiki/Binary%5Fsearch%5Ftree>Binary Search Tree</a> (BSTs). In a very simplified way, BSTs are a special instance of tree structures where keys are kept in such an order that a node search is performed by iteratively (or recursively) choosing a left or right branch based on a quantitative comparison (<em>e.g.</em> lesser or greater). Node insertion is performed by doing a tree search, using the method described previously, until reaching an <strong>external node</strong>, where the new node will be inserted. This allows for efficient node searches since, on average, half the tree will not be visited. To illustrate this assume the values \(x=[1, 10, 2, 4, 3, 5, 26, 9, 7, 54]\) and the respective insertion on a BST. The intermediate steps would then be as shown below.</p>
+<p><img src=/ox-hugo/bst_steps.png alt>)</p>
 <p>One of the properties of BSTs is that, with randomly generated data, the path between the root node and the outliers will typically be shorter. We can see from the illustration below that, with our example data, the path length for (say) 7 is twice the length than for the suspicious value of 54. This property will play an important role in the IF algorithm, as we will see further on.</p>
-<figure><img src="/ox-hugo/bst_path_length.png"/>
+<figure><img src=/ox-hugo/bst_path_length.png>
 </figure>
-
-<h2 id="isolation-trees">Isolation Trees</h2>
+<h2 id=isolation-trees>Isolation Trees</h2>
 <p>Since ITs are the fundamental component of IFs, we will start by describing their building process. We start by defining \(t\) as the number of trees in the IF, \(\mathcal{D}\) as the training data (contained in an $n$-dimensional feature space, \(\mathcal{D} \subset \mathbb{R}^n\)) and \(\psi\) as the subsampling size. The building of a IT consists then in recursively partitioning the data \(\mathcal{D}\) by sampling (without replacement) a subsample \(\mathcal{D}^{\prime}\) of size \(\psi\). We then build an isolation tree \(\mathcal{T}^{\prime}\) with this subsample (in order to later add it to the isolation forest \(\mathcal{F}\)) and the process is repeated \(t\) times.</p>
-<p>To build an isolation tree \(\mathcal{T}^{\prime}\) from the subsample we proceed as follows: if the data subsample \(\mathcal{D}^{\prime}\) is indivisible, a tree is returned containing a single <strong>external node</strong> corresponding to the feature dimensions, \(n\).  If it can be divided, a series of steps must be performed. Namely, if we consider \(Q = \lbrace q_1,\dots,q_n\rbrace\) as the list of features in \(\mathcal{D}^{\prime}\), we select a random feature \(q \in Q\) and a random <strong>split point</strong> \(p\) such that</p>
+<p>To build an isolation tree \(\mathcal{T}^{\prime}\) from the subsample we proceed as follows: if the data subsample \(\mathcal{D}^{\prime}\) is indivisible, a tree is returned containing a single <strong>external node</strong> corresponding to the feature dimensions, \(n\). If it can be divided, a series of steps must be performed. Namely, if we consider \(Q = \lbrace q_1,\dots,q_n\rbrace\) as the list of features in \(\mathcal{D}^{\prime}\), we select a random feature \(q \in Q\) and a random <strong>split point</strong> \(p\) such that</p>
 <p>\[
 \min(q) &lt; p &lt; \max(q), \qquad q \in Q.
 \]</p>
 <p>Based on the cut-off point \(p\), we filter the features into a BST’s left and right nodes according to</p>
 <p>\[
-\mathcal{D}_l := \lbrace \mathcal{D}^{\prime} : q \in Q,  q&lt;p\rbrace \\
-\mathcal{D}_r := \lbrace \mathcal{D}^{\prime} : q \in Q,  q \geq p\rbrace,
+\mathcal{D}_l := \lbrace \mathcal{D}^{\prime} : q \in Q, q&lt;p\rbrace \\
+\mathcal{D}_r := \lbrace \mathcal{D}^{\prime} : q \in Q, q \geq p\rbrace,
 \]</p>
 <p>and return an <strong>internal node</strong> having an isolation tree with left and right nodes as respectively \(\mathcal{D}_l\) and \(\mathcal{D}_r\).</p>
 <p>To illustrate this (and the general method of identifying anomalies in a two dimensional feature space, \(x\in\mathbb{R}^2\)) we will look at some simulated data and its processing. We start by simulating two clusters of data from a multivariate normal distribution, one centred in \(x_a=[-10, 10]\) and another centred in \(x_b=[10, 10]\), with a variance of \(\Sigma=\text{diag}(2, 2)\), that is</p>
@@ -231,14 +172,13 @@ X_a \sim \mathcal{N}\left([-10, -10], \text{diag}(2, 2)\right) \\
 X_b \sim \mathcal{N}\left([10, 10], \text{diag}(2, 2)\right).
 \]</p>
 <p>The particular realisation of this simulation looks like this:</p>
-<figure><img src="/ox-hugo/data.png"/>
+<figure><img src=/ox-hugo/data.png>
 </figure>
-
 <p>Below we illustrate the building of a <strong>single</strong> IT (given the data), illustrating the feature split point \(p\) and respective division of the feature list into <strong>left</strong> or <strong>right</strong> IT nodes. The process is conducted recursively until the feature list is no longer divisible. As mentioned previously, this process, the creation of an IT, is repeated \(t\) times in order to create the IF.</p>
 <p>
-  <video width="100%" autoplay>
-    <source src="./images/isolationforests/split.mp4" type="video/mp4">
-  </video>
+<video width=100% autoplay>
+<source src=./images/isolationforests/split.mp4 type=video/mp4>
+</video>
 </p>
 <p>In order to perform anomaly detection (<strong>e.g.</strong> observation scoring) we will then use the IT equivalent of the BST unsuccessful search heuristics. An external node termination in an IT is equivalent to a BST unsuccessful search. Given an observation \(x\), our goal is then to calculate the score for this observation, given our defined subsampling size, that is, \(s(x,\psi)\).</p>
 <p>This technique amounts to partitioning the feature space randomly until feature points are “isolated”. Intuitively, points in high density regions will need more partitioning steps, whereas anomalies (by definition away from high density regions) will need fewer splits. Since the building of the ITs is performed in a randomised fashion and using a subsample of the data, this density predictor can be average over a number of ITs, the <strong>Isolation Forest</strong>.</p>
@@ -246,7 +186,7 @@ X_b \sim \mathcal{N}\left([10, 10], \text{diag}(2, 2)\right).
 However, as pointed in Liu[^Liu] <strong>et. al</strong> (2012), a problem with calculating this is that maximum possible height of each \(\mathcal{T}_n\) grows as \(\mathcal{O}(\log(\psi))\). To compare \(h(x)\) given different subsampling sizes, a normalisation factor, \(c(\psi)\) must be established. This can be calculated by</p>
 <p>\[
 c(\psi) = \begin{cases}
-2H(\psi-1)-2\frac{\psi-1}{n},\text{if}\ \psi &gt;2,\\
+2H(\psi-1)-2\frac{\psi-1}{n},\text{if}\ \psi >2,\\
 1, \text{if}\ \psi=2,\\
 0, \text{otherwise},
 \end{cases}
@@ -265,187 +205,124 @@ e+c(\mathcal{T_{n,s}}) \text{if}\ \mathcal{T} \text{is a terminal node or}\ e \g
 s(x,\psi) = 2^{-\frac{\text{E}[h(x)]}{c(\psi)}}
 \]</p>
 <p>with \(\text{E}[h(x)]\) being the average \(h(x)\) for a collection of ITs.</p>
-<h2 id="parameters">Parameters</h2>
-<p>As mentioned in Liu<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <strong>et. al</strong> (2012), the empirical subsampling size \(\psi=2^8\) is typically enough to perform anomaly detection in a wide range of data. Regarding the number of trees, \(t\) no considerable accuracy gain is usually observed with \(t&gt;100\). In the plots below, we can see the score calculation for two point in our data, namely an outlier (\(x_o=[3.10, -12.69])\) and a normal observation (\(x_n=[8.65, 9.71]\)) with a varying number of trees and \(\psi=2^8\) (<strong>left</strong>) and a varying subsample size and \(t=100\) (<strong>right</strong>). We can see that the score value stabilised quite early on when using \(\psi=2^8\) and that very low subsampling sizes can lead to problems when classifying anomalies.</p>
-<figure><img src="/ox-hugo/avg_score.png"/>
+<h2 id=parameters>Parameters</h2>
+<p>As mentioned in Liu<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> <strong>et. al</strong> (2012), the empirical subsampling size \(\psi=2^8\) is typically enough to perform anomaly detection in a wide range of data. Regarding the number of trees, \(t\) no considerable accuracy gain is usually observed with \(t>100\). In the plots below, we can see the score calculation for two point in our data, namely an outlier (\(x_o=[3.10, -12.69])\) and a normal observation (\(x_n=[8.65, 9.71]\)) with a varying number of trees and \(\psi=2^8\) (<strong>left</strong>) and a varying subsample size and \(t=100\) (<strong>right</strong>). We can see that the score value stabilised quite early on when using \(\psi=2^8\) and that very low subsampling sizes can lead to problems when classifying anomalies.</p>
+<figure><img src=/ox-hugo/avg_score.png>
 </figure>
-
 <p>Now that we know how to implement an IF algorithm and calculate an anomaly score, we will try to visualise the anomaly score distribution in the vicinity of the simulated data. To do so, we simply create a two dimensional lattice enclosing our data an iteratively calculate \(s(\cdot, \psi)\). The result is show below:</p>
-<figure><img src="/ox-hugo/score_field.png"/>
+<figure><img src=/ox-hugo/score_field.png>
 </figure>
-
 <p>The above steps fully define a naive isolation forest algorithm, which when applied to the previously simulated data, result in 88% of the anomalies being correctly identified.</p>
-<figure><img src="/ox-hugo/detection.png"/>
+<figure><img src=/ox-hugo/detection.png>
 </figure>
-
-<p>Thanks for reading! If you have any questions or comments, please let me know on <a href="https://mastodon.social/@ruivieira">Mastodon</a> or <a href="https://twitter.com/ruimvieira">Twitter</a>.</p>
-<section class="footnotes" role="doc-endnotes">
+<p>Thanks for reading! If you have any questions or comments, please let me know on <a href=https://mastodon.social/@ruivieira>Mastodon</a> or <a href=https://twitter.com/ruimvieira>Twitter</a>.</p>
+<section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p><liu2012isolation> Liu, F. T., Ting, K. M., &amp; Zhou, Z. (2012). Isolation-based anomaly detection. ACM Transactions on Knowledge Discovery from Data (TKDD), 6(1), 1–39.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:1 role=doc-endnote>
+<p><liu2012isolation> Liu, F. T., Ting, K. M., & Zhou, Z. (2012). Isolation-based anomaly detection. ACM Transactions on Knowledge Discovery from Data (TKDD), 6(1), 1–39.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#isolation-trees">Isolation Trees</a></li>
-    <li><a href="#parameters">Parameters</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&text=Introduction%20to%20Isolation%20Forests" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&is_video=false&description=Introduction%20to%20Isolation%20Forests" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Introduction%20to%20Isolation%20Forests&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&name=Introduction%20to%20Isolation%20Forests&description=Isolation%20Forests%20%28IFs%29%2c%20presented%20in%20Liu1%20et.%20al%20%282012%29%2c%20are%20a%20popular%20algorithm%20used%20for%20outlier%20classification.%20In%20a%20very%20simplified%20way%2c%20the%20method%20consists%20of%20building%20an%20ensemble%20of%20Isolation%20Trees%20%28ITs%29%20for%20a%20given%20data%20set%20and%20observations%20are%20deemed%20anomalies%20if%20they%20have%20short%20adjusted%20average%20path%20lengths%20on%20the%20ITs.%0aITs%2c%20which%20will%20be%20covered%20shortly%2c%20have%20several%20properties%20in%20common%20with%20a%20fundamental%20data%20structure%3a%20the%20Binary%20Search%20Tree%20%28BSTs%29." aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&t=Introduction%20to%20Isolation%20Forests" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2022  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#isolation-trees>Isolation Trees</a></li>
+<li><a href=#parameters>Parameters</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&text=Introduction%20to%20Isolation%20Forests" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&is_video=false&description=Introduction%20to%20Isolation%20Forests" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Introduction%20to%20Isolation%20Forests&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&title=Introduction%20to%20Isolation%20Forests" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&name=Introduction%20to%20Isolation%20Forests&description=Isolation%20Forests%20%28IFs%29%2c%20presented%20in%20Liu1%20et.%20al%20%282012%29%2c%20are%20a%20popular%20algorithm%20used%20for%20outlier%20classification.%20In%20a%20very%20simplified%20way%2c%20the%20method%20consists%20of%20building%20an%20ensemble%20of%20Isolation%20Trees%20%28ITs%29%20for%20a%20given%20data%20set%20and%20observations%20are%20deemed%20anomalies%20if%20they%20have%20short%20adjusted%20average%20path%20lengths%20on%20the%20ITs.%0aITs%2c%20which%20will%20be%20covered%20shortly%2c%20have%20several%20properties%20in%20common%20with%20a%20fundamental%20data%20structure%3a%20the%20Binary%20Search%20Tree%20%28BSTs%29." aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-isolation-forests.html&t=Introduction%20to%20Isolation%20Forests" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2022 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

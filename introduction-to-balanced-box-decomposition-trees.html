@@ -1,274 +1,216 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Introduction to Balanced Box-Decomposition Trees · Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Introduction to Balanced Box-Decomposition Trees" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Introduction to Balanced Box-Decomposition Trees · Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Introduction to Balanced Box-Decomposition Trees">
 <meta property="og:description" content="Stardate 96893.29.
-You are the USS Euler&rsquo;s Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that both Emacs and Vim should be installed in all computers." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Introduction to Balanced Box-Decomposition Trees"/>
-<meta name="twitter:description" content="Stardate 96893.29.
-You are the USS Euler&rsquo;s Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that both Emacs and Vim should be installed in all computers."/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+You are the USS Euler&rsquo;s Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that both Emacs and Vim should be installed in all computers.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/introduction-to-balanced-box-decomposition-trees.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2021-12-07T21:49:31+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Introduction to Balanced Box-Decomposition Trees">
+<meta name=twitter:description content="Stardate 96893.29.
+You are the USS Euler&rsquo;s Science Officer at a moment when the computer graphical displays and voice systems went down. You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart. You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that both Emacs and Vim should be installed in all computers.">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/introduction-to-isolation-forests.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/hugo.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&text=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&is_video=false&description=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&name=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&description=Stardate%2096893.29.%0aYou%20are%20the%20USS%20Euler%26rsquo%3bs%20Science%20Officer%20at%20a%20moment%20when%20the%20computer%20graphical%20displays%20and%20voice%20systems%20went%20down.%20You%20only%20have%20enough%20deuterium%20for%20a%20short%20travel%20and%20need%20to%20find%20the%20nearest%20star%20system.%20This%20is%20not%20a%20simple%20matter%20of%20looking%20at%20a%20chart.%20You%20have%20multiple%20dimensions%20in%20which%20you%20can%20travel.%20In%20a%20bid%20for%20galactic%20peace%2c%20the%20Federation%20mandated%20that%20both%20Emacs%20and%20Vim%20should%20be%20installed%20in%20all%20computers." aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&t=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#space-decomposition">Space decomposition</a></li>
-    <li><a href="#tree-querying">Tree querying</a></li>
-    <li><a href="#filtering-and-nn">Filtering and <span class="underline">k</span>-NN</a></li>
-  </ul>
-</nav>
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/introduction-to-isolation-forests.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/hugo.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&text=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&is_video=false&description=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&name=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&description=Stardate%2096893.29.%0aYou%20are%20the%20USS%20Euler%26rsquo%3bs%20Science%20Officer%20at%20a%20moment%20when%20the%20computer%20graphical%20displays%20and%20voice%20systems%20went%20down.%20You%20only%20have%20enough%20deuterium%20for%20a%20short%20travel%20and%20need%20to%20find%20the%20nearest%20star%20system.%20This%20is%20not%20a%20simple%20matter%20of%20looking%20at%20a%20chart.%20You%20have%20multiple%20dimensions%20in%20which%20you%20can%20travel.%20In%20a%20bid%20for%20galactic%20peace%2c%20the%20Federation%20mandated%20that%20both%20Emacs%20and%20Vim%20should%20be%20installed%20in%20all%20computers." aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&t=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Introduction to Balanced Box-Decomposition Trees
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2021-12-07 21:49:31 &#43;0000 GMT" itemprop="datePublished">2021-12-07</time>
-          <span class="commit-hash">(186a405)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <p>Stardate 96893.29.</p>
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#space-decomposition>Space decomposition</a></li>
+<li><a href=#tree-querying>Tree querying</a></li>
+<li><a href=#filtering-and-nn>Filtering and <span class=underline>k</span>-NN</a></li>
+</ul>
+</nav>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Introduction to Balanced Box-Decomposition Trees
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2021-12-07 21:49:31 +0000 GMT" itemprop=datePublished>2021-12-07</time>
+<span class=commit-hash>(186a405)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<p>Stardate 96893.29.</p>
 <p>You are the USS Euler&rsquo;s Science Officer at a moment when the computer graphical displays and voice systems went down.
 You only have enough deuterium for a short travel and need to find the nearest star system. This is not a simple matter of looking at a chart.
 You have multiple dimensions in which you can travel. In a bid for galactic peace, the Federation mandated that <em>both</em> Emacs and Vim should be installed in all computers.
 You open your favourite editor and, fortunately, know exactly how to formulate the solution to your problem: <strong><strong>a $d$-dimensional nearest neighbour algorithm</strong></strong>.</p>
-<p>Given a dataset \(\mathcal{D}\) of \(n\) points in a space \(X\) we want to be able to tell which are the <span class="underline">closest</span> point to a query point \(q \in X\), preferably in a way which is computationally cheaper than <span class="underline">brute force</span> methods (_e.g._ iterating through all of the points) which typically solve this problem in \(\mathcal{O}(dn)\) [^arya1998].</p>
-<p>\(X\) could have \(d\) dimensions (that is \(\mathcal{D} \subset X : \mathbb{R}^d\)) and we define <span class="underline">closest</span> using<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> Minkowski distance metrics, that is:</p>
-<h2 id="space-decomposition">Space decomposition</h2>
-<p>BBD trees belong to the category of hierarchical space decomposition trees. In BBD trees, specifically, space is divided in $d$-dimensional rectangles and <span class="underline">cells</span>. Cells can either represent another $d$-dimensional rectangle or the intersection of two rectangles (one, the <span class="underline">outer box</span> fully enclosing the other, the <span class="underline">inner box</span>). Another important distinction of BBD trees is that rectangle&rsquo;s <span class="underline">size</span> (in this context, the largest length in all of the \(d\) dimensions) is bounded by a constant value.
-The space decomposition must follow an additional rule which is boxes must be <span class="underline">sticky</span>. If we consider a inner box \([x_{inner}, y_{inner}]\) contained in a outer box \([x_{outer}, y_{outer}]\), such that</p>
+<p>Given a dataset \(\mathcal{D}\) of \(n\) points in a space \(X\) we want to be able to tell which are the <span class=underline>closest</span> point to a query point \(q \in X\), preferably in a way which is computationally cheaper than <span class=underline>brute force</span> methods (_e.g._ iterating through all of the points) which typically solve this problem in \(\mathcal{O}(dn)\) [^arya1998].</p>
+<p>\(X\) could have \(d\) dimensions (that is \(\mathcal{D} \subset X : \mathbb{R}^d\)) and we define <span class=underline>closest</span> using<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> Minkowski distance metrics, that is:</p>
+<h2 id=space-decomposition>Space decomposition</h2>
+<p>BBD trees belong to the category of hierarchical space decomposition trees. In BBD trees, specifically, space is divided in $d$-dimensional rectangles and <span class=underline>cells</span>. Cells can either represent another $d$-dimensional rectangle or the intersection of two rectangles (one, the <span class=underline>outer box</span> fully enclosing the other, the <span class=underline>inner box</span>). Another important distinction of BBD trees is that rectangle&rsquo;s <span class=underline>size</span> (in this context, the largest length in all of the \(d\) dimensions) is bounded by a constant value.
+The space decomposition must follow an additional rule which is boxes must be <span class=underline>sticky</span>. If we consider a inner box \([x_{inner}, y_{inner}]\) contained in a outer box \([x_{outer}, y_{outer}]\), such that</p>
 <p>\[
 [x_{inner}, y_{inner}] \subseteq [x_{outer}, y_{outer}],
 \]</p>
-<p>then, considering \(w = y_{inner} - x_{inner}\), the box is considered <span class="underline">sticky</span> if either</p>
+<p>then, considering \(w = y_{inner} - x_{inner}\), the box is considered <span class=underline>sticky</span> if either</p>
 <p>$$</p>
 <p>\begin{aligned}
-x_{inner}-x_{outer} = 0 &amp;\lor x_{inner}-x_{outer} \nleq w \\
-y_{outer}-y_{inner} = 0 &amp;\lor y_{outer}-y_{inner} \nleq w.
+x_{inner}-x_{outer} = 0 &\lor x_{inner}-x_{outer} \nleq w \\
+y_{outer}-y_{inner} = 0 &\lor y_{outer}-y_{inner} \nleq w.
 \end{aligned}</p>
 <p>$$</p>
 <p>An illustration of the stickiness concept can viewed in the diagram below.</p>
-<p><img src="/ox-hugo/sticky.png" alt="">
+<p><img src=/ox-hugo/sticky.png alt>
 <strong><strong>Figure 2.</strong></strong> Visualisation of the &ldquo;stickiness&rdquo; criteria for \(\mathbb{R}^2\) rectangles.</p>
-<p>Stickiness provides some important geometric properties to the space decomposition which will be discussed further on. The actual process of space decomposition will produce a tree of nodes, each with an associated $d$-dimensional rectangle enclosing a set of points. Each node will be further decomposed into children nodes, containing a region of space with a subset of the parent&rsquo;s data points. If a node has no children it will be called a <span class="underline">leaf</span> node. The division process can occur either by means of:</p>
+<p>Stickiness provides some important geometric properties to the space decomposition which will be discussed further on. The actual process of space decomposition will produce a tree of nodes, each with an associated $d$-dimensional rectangle enclosing a set of points. Each node will be further decomposed into children nodes, containing a region of space with a subset of the parent&rsquo;s data points. If a node has no children it will be called a <span class=underline>leaf</span> node. The division process can occur either by means of:</p>
 <ul>
-<li>a <span class="underline">fair split</span>, this is done by partitioning the space with an hyperplane, resulting in a <span class="underline">low</span> and <span class="underline">high</span> children nodes</li>
-<li>a <span class="underline">shrink</span>, splitting the box into a inner box (the <span class="underline">inner</span> child) and a outer box (the <span class="underline">outer</span> child).</li>
+<li>a <span class=underline>fair split</span>, this is done by partitioning the space with an hyperplane, resulting in a <span class=underline>low</span> and <span class=underline>high</span> children nodes</li>
+<li>a <span class=underline>shrink</span>, splitting the box into a inner box (the <span class=underline>inner</span> child) and a outer box (the <span class=underline>outer</span> child).</li>
 </ul>
-<p><img src="/ox-hugo/split.png" alt="">
+<p><img src=/ox-hugo/split.png alt>
 <strong><strong>Figure 3.</strong></strong> &ldquo;Fair split&rdquo; and &ldquo;shrinking&rdquo; division strategies example in \(\mathbb{R}^2\) with respective high/low and outer/inner children.</p>
-<p>The initial node of the tree, the <span class="underline">root node</span>, will include all the dataset points, \(\mathcal{D}\). In the Figure 4 we can see a representation of the root node for the dataset presented above. We can see the node boundaries in dashed red lines as well as the node&rsquo;s center, marked as \(\mu_{root}\).</p>
-<p><img src="/ox-hugo/root_node.png" alt="">
+<p>The initial node of the tree, the <span class=underline>root node</span>, will include all the dataset points, \(\mathcal{D}\). In the Figure 4 we can see a representation of the root node for the dataset presented above. We can see the node boundaries in dashed red lines as well as the node&rsquo;s center, marked as \(\mu_{root}\).</p>
+<p><img src=/ox-hugo/root_node.png alt>
 <strong><strong>Figure 4.</strong></strong> Associated cell for the BBD-tree root node for the example dataset. Node boundaries in red and node centre labelled as \(\mu_{root}\).</p>
-<p>The actual method to calculate the division can either be based on the <span class="underline">midpoint algorithm</span> or the <span class="underline">middle interval algorithm</span>. The method used for these examples is the latter, for which more details can be found in [^kosaraju1995]. The next step is to divide the space according to the previously mentioned rules. As an example, we can see the root node&rsquo;s respective children in Figure 5.</p>
-<p><img src="/ox-hugo/root_children.png" alt="">
+<p>The actual method to calculate the division can either be based on the <span class=underline>midpoint algorithm</span> or the <span class=underline>middle interval algorithm</span>. The method used for these examples is the latter, for which more details can be found in [^kosaraju1995]. The next step is to divide the space according to the previously mentioned rules. As an example, we can see the root node&rsquo;s respective children in Figure 5.</p>
+<p><img src=/ox-hugo/root_children.png alt>
 <strong><strong>Figure 5.</strong></strong> BBD-tree root node&rsquo;s lower (_left_) and upper (_right_) children. Node boundaries in red and centres labelled with a red cross.</p>
 <p>This process is repeated until the child nodes are leaves and cannot be divided anymore.
 To better visualise the construction process it would be helpful to have a larger tree, so we will now consider still the 2-dimensional case, but now with a larger dataset (Figure 6), consisting of 2000 samples in total, each half from a bivariate Gaussian distribution:</p>
 <p>$$</p>
 <p>\begin{aligned}
-\text{X}_1 &amp;\sim \mathcal{N}([0,0], \mathbf{I}) \\
-\text{X}_2 &amp;\sim \mathcal{N}([3, 3], \mathbf{I}). \\
+\text{X}_1 &\sim \mathcal{N}([0,0], \mathbf{I}) \\
+\text{X}_2 &\sim \mathcal{N}([3, 3], \mathbf{I}). \\
 \end{aligned}</p>
 <p>$$</p>
-<p><img src="/ox-hugo/gaussian_data.png" alt="">
+<p><img src=/ox-hugo/gaussian_data.png alt>
 <strong><strong>Figure 6.</strong></strong> Larger example dataset in \(\mathbb{R}^2\) consisting of a realisation of \(n=2000\) from two bivariate Gaussian distributions centred in \(\mu_1=(0,0)\) and \(\mu_2=(3,3)\) and with \(\Sigma=\mathbf{I}\).</p>
-<p>With this larger dataset, we have enough points to illustrate the tree node building. This time, we will start from the root node and always follow either the &ldquo;lower&rdquo; nodes or the &ldquo;upper&rdquo; nodes (as show in Figure 7). We can clearly see the cells getting smaller, until finally we have a single point included (_i.e._ a <span class="underline">leaf</span> node).</p>
-<p><img src="/ox-hugo/gaussian_boxes.gif" alt="">
+<p>With this larger dataset, we have enough points to illustrate the tree node building. This time, we will start from the root node and always follow either the &ldquo;lower&rdquo; nodes or the &ldquo;upper&rdquo; nodes (as show in Figure 7). We can clearly see the cells getting smaller, until finally we have a single point included (_i.e._ a <span class=underline>leaf</span> node).</p>
+<p><img src=/ox-hugo/gaussian_boxes.gif alt>
 <strong><strong>Figure 7.</strong></strong> BBD-tree node building process for the bivariate dataset. On the left we traverse the upper tree nodes and on the right the lower tree nodes.</p>
-<p>This division process illustrates an important property of BBD-trees. Although other space decomposition algorithms (such as <span class="underline">kd</span>-trees) display a geometric reduction of number of points enclosed in each <span class="underline">cell</span>, methods such as the BBD-tree, which impose constraints on the cell&rsquo;s size aspect ratio as stated before, display not only a geometric reduction in the number of points, but also in the cell&rsquo;s size as well. The construction cost of a BBD-tree is \(\mathcal{O}(dn \log n)\) and the tree itself will have \(\mathcal{O}(n)\) nodes and \(\mathcal{O}(\log n)\) height.</p>
-<h2 id="tree-querying">Tree querying</h2>
+<p>This division process illustrates an important property of BBD-trees. Although other space decomposition algorithms (such as <span class=underline>kd</span>-trees) display a geometric reduction of number of points enclosed in each <span class=underline>cell</span>, methods such as the BBD-tree, which impose constraints on the cell&rsquo;s size aspect ratio as stated before, display not only a geometric reduction in the number of points, but also in the cell&rsquo;s size as well. The construction cost of a BBD-tree is \(\mathcal{O}(dn \log n)\) and the tree itself will have \(\mathcal{O}(n)\) nodes and \(\mathcal{O}(\log n)\) height.</p>
+<h2 id=tree-querying>Tree querying</h2>
 <p>Now that we have successfully constructed a BBD-tree, we want to actually find the (approximate) nearest neighbour of an arbitrary query point \(q\) (Figure 8).</p>
-<p><img src="/ox-hugo/gaussian_query_point.png" alt="">
+<p><img src=/ox-hugo/gaussian_query_point.png alt>
 <strong><strong>Figure 8.</strong></strong> Query point \(q\) (red) for the bivariate dataset.</p>
 <p>The first step consists in descending the tree in order to locate the smallest cell containing the query point \(q\). This process is illustrated for the bivariate data in Figure 9.</p>
-<p><img src="/ox-hugo/gaussian_query.gif" alt="">
+<p><img src=/ox-hugo/gaussian_query.gif alt>
 <strong><strong>Figure 9.</strong></strong> BBD-tree descent to locate the smallest cell containing \(q\) (red).</p>
-<p>Once the cell has been located, we proceed to enumerate all the <span class="underline">leaf</span> nodes contained by it and calculate our distance metric \(L_2\) in this case) between the query point \(q\) and the leaf nodes, eventually declaring the point with the smallest \(L_2\) as the aproximate NN. BBD-trees provide strong guarantees that the ANN will be located within this cell and not in a neighbouring cell. In Figure 10 we zoomed in the smallest cell containing \(q\) and show the associated calculated \(L_2\) distance for each node.</p>
-<p><img src="/ox-hugo/gaussian_dist.gif" alt="">
+<p>Once the cell has been located, we proceed to enumerate all the <span class=underline>leaf</span> nodes contained by it and calculate our distance metric \(L_2\) in this case) between the query point \(q\) and the leaf nodes, eventually declaring the point with the smallest \(L_2\) as the aproximate NN. BBD-trees provide strong guarantees that the ANN will be located within this cell and not in a neighbouring cell. In Figure 10 we zoomed in the smallest cell containing \(q\) and show the associated calculated \(L_2\) distance for each node.</p>
+<p><img src=/ox-hugo/gaussian_dist.gif alt>
 <strong><strong>Figure 10.</strong></strong> \(L_2\) distance between leaf nodes and the query point \(q\) inside the smallest cell containing \(q\).</p>
-<p>An important property of BBD-trees is that the tree structure does not need to be recalculated if we change either \(\epsilon\) or if we decide to use another \(L_m\) distance metric [^arya1998]. The query time for a point \(q\) in a BBD-tree is \(\mathcal{O}(\log n)\). For comparison, if you recall, the query time for a <span class="underline">brute force</span> method is typically \(\mathcal{O}(dn)\).</p>
-<h2 id="filtering-and-nn">Filtering and <span class="underline">k</span>-NN</h2>
-<p>Great. Now that you solved the USS Euler&rsquo;s problem, you want to make a suggestion to the federation. Where to place several star-bases and how to divide the system&rsquo;s coverage between them. An immediate generalisation of this method is easily applicable to the problem of clustering. Note that, at the moment, we are not concerned with determining the &ldquo;best&rdquo; clusters for our data[^2]. Given a set of points \(Z = \{z_1, z_2, \dots, z_n\}\), we are concerned now in partitioning the data in clusters centred in each of the \(Z\) points. A way of looking at this, is that we are building, for each point \(z_n\) a Voronoi cell \(V(z_n)\). This is achieved by a method called <span class="underline">filtering</span>. Filtering, in general terms, works by walking the tree with the list of <span class="underline">candidate centres</span> (\(Z\)) and pruning points from the candidate list as we move down. We will denote an arbitrary node as \(n\), \(z^{\star}_w\) and \(n_w\) respectively as the candidate and the node weight, \(z^{\star}_n\) and \(n_n\) as the candidate and node count. The algorithm steps, as detailed in <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, are detailed below:</p>
+<p>An important property of BBD-trees is that the tree structure does not need to be recalculated if we change either \(\epsilon\) or if we decide to use another \(L_m\) distance metric [^arya1998]. The query time for a point \(q\) in a BBD-tree is \(\mathcal{O}(\log n)\). For comparison, if you recall, the query time for a <span class=underline>brute force</span> method is typically \(\mathcal{O}(dn)\).</p>
+<h2 id=filtering-and-nn>Filtering and <span class=underline>k</span>-NN</h2>
+<p>Great. Now that you solved the USS Euler&rsquo;s problem, you want to make a suggestion to the federation. Where to place several star-bases and how to divide the system&rsquo;s coverage between them. An immediate generalisation of this method is easily applicable to the problem of clustering. Note that, at the moment, we are not concerned with determining the &ldquo;best&rdquo; clusters for our data[^2]. Given a set of points \(Z = \{z_1, z_2, \dots, z_n\}\), we are concerned now in partitioning the data in clusters centred in each of the \(Z\) points. A way of looking at this, is that we are building, for each point \(z_n\) a Voronoi cell \(V(z_n)\). This is achieved by a method called <span class=underline>filtering</span>. Filtering, in general terms, works by walking the tree with the list of <span class=underline>candidate centres</span> (\(Z\)) and pruning points from the candidate list as we move down. We will denote an arbitrary node as \(n\), \(z^{\star}_w\) and \(n_w\) respectively as the candidate and the node weight, \(z^{\star}_n\) and \(n_n\) as the candidate and node count. The algorithm steps, as detailed in <sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>, are detailed below:</p>
 <p>Filter(\(n\), \(Z\)) {
 \(\qquad C \leftarrow n.cell\)
 \(\qquad\) <strong><strong>if</strong></strong> (\(n\) is a leaf) {
@@ -290,187 +232,127 @@ $\qquad\qquad\qquad$Filter(\(n_{right}, Z\))
 \(\qquad\qquad\)}
 }</p>
 <p>To illustrate the assignment of data points to the centres, we will consider the previous bivariate Gaussian data along with two centres, \(z_1 = \{0,0\}\) and \(z_2 = \{3, 3\}\). Figure 11 shows the process of splitting the dataset \(\mathcal{D}\) into two clusters, namely the subsets of data points closer to \(z_1\) or \(z_2\).</p>
-<p><img src="/ox-hugo/gaussian_filtering.gif" alt="">
+<p><img src=/ox-hugo/gaussian_filtering.gif alt>
 <strong><strong>Figure 11.</strong></strong> Assignment of points in \(\mathcal{D}\) to \(Z\). Data points coloured according to the assigned center. Lines represent the distance from the cells midpoint to \(Z\).</p>
 <p>We can see in Figure 12 the final cluster assignment of the data points. With a \(\mathbb{R}^2\) dataset and only two centres the organisation of points follows a simple perpendicular bisection of the segment connecting the centres, as expected.</p>
-<p><img src="/ox-hugo/gaussian_filtering_clusters.png" alt="">
+<p><img src=/ox-hugo/gaussian_filtering_clusters.png alt>
 <strong><strong>Figure 12.</strong></strong> Final \(\mathcal{D}\) point assignment to clusters centred in \(z_1\) and \(z_2\).</p>
 <p>In Figure 13 we can see more clearly the dataset clusters changing when center \(z_1\) is moving around the plane. BBD-trees can play an important role in improving $k$-means performance, as described in [^kanungo2002].</p>
-<p><img src="/ox-hugo/gaussian_clustering_dynamic.gif" alt="">
+<p><img src=/ox-hugo/gaussian_clustering_dynamic.gif alt>
 <strong><strong>Figure 13.</strong></strong> Dynamic assignment of points to a cluster using a BBD-tree.</p>
-<p>This concludes a (short) introduction to BBD-trees, I hope you enjoyed it. If you have any comments or suggestions, please let me know at <a href="https://mastodon.technology/@ruivieira">Mastodon</a>.</p>
-<p>[fn2] This would be a <span class="underline">k</span>-means problem. I intend to write a blog post on <span class="underline">k</span>-means clustering (and the role BBD-trees can play) in the future.</p>
-<section class="footnotes" role="doc-endnotes">
+<p>This concludes a (short) introduction to BBD-trees, I hope you enjoyed it. If you have any comments or suggestions, please let me know at <a href=https://mastodon.technology/@ruivieira>Mastodon</a>.</p>
+<p>[fn2] This would be a <span class=underline>k</span>-means problem. I intend to write a blog post on <span class=underline>k</span>-means clustering (and the role BBD-trees can play) in the future.</p>
+<section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>The \(L_m\) distance may be pre-computed in this method to avoid recalculation for each query. \[ L_m = \left(\sum_{i=1}^d |p_i - q_i|^m\right)^{\frac{1}{m}},\qquad p,q \in X : \mathbb{R}^d. \] A potential solution for this problem would be to use <span class="underline">kd</span>-trees, which for low dimension scenarios provide \(\mathcal{O}(\log n)\) query times [^friedman1977]. However, as the number of dimensions increase (as quickly as \(d&gt;2\)) the query times also increase as \(2^d\). The case can be made then for <span class="underline">approximate</span> nearest neighbour (NN) algorithms and that&rsquo;s precisely what we will discuss here, namely the <span class="underline">Balanced Box-Decomposition Tree</span> (BBD, [^arya1998]). The definition of <span class="underline">approximate</span> NN for a query point \(q\) can be given as \[ \text{dist}(p, q) \leq (1+\epsilon)\text{dist}(p^{\star},q),\qquad \epsilon &gt; 0, \] where \(p\) is the <span class="underline">approximate</span> NN and \(p^{\star}\) is the <span class="underline">true</span> NN. Let&rsquo;s consider, for the sake of visualisation, a small two dimensional dataset \(\mathcal{D} \to \mathbb{R}^2\) as shown in Figure 1. <img src="/ox-hugo/small_data.png" alt=""> <strong><strong>Figure 1.</strong></strong> A small test dataset in \(\mathbb{R}^2, n=7\).&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:1 role=doc-endnote>
+<p>The \(L_m\) distance may be pre-computed in this method to avoid recalculation for each query. \[ L_m = \left(\sum_{i=1}^d |p_i - q_i|^m\right)^{\frac{1}{m}},\qquad p,q \in X : \mathbb{R}^d. \] A potential solution for this problem would be to use <span class=underline>kd</span>-trees, which for low dimension scenarios provide \(\mathcal{O}(\log n)\) query times [^friedman1977]. However, as the number of dimensions increase (as quickly as \(d>2\)) the query times also increase as \(2^d\). The case can be made then for <span class=underline>approximate</span> nearest neighbour (NN) algorithms and that&rsquo;s precisely what we will discuss here, namely the <span class=underline>Balanced Box-Decomposition Tree</span> (BBD, [^arya1998]). The definition of <span class=underline>approximate</span> NN for a query point \(q\) can be given as \[ \text{dist}(p, q) \leq (1+\epsilon)\text{dist}(p^{\star},q),\qquad \epsilon > 0, \] where \(p\) is the <span class=underline>approximate</span> NN and \(p^{\star}\) is the <span class=underline>true</span> NN. Let&rsquo;s consider, for the sake of visualisation, a small two dimensional dataset \(\mathcal{D} \to \mathbb{R}^2\) as shown in Figure 1. <img src=/ox-hugo/small_data.png alt> <strong><strong>Figure 1.</strong></strong> A small test dataset in \(\mathbb{R}^2, n=7\).&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
-<p>: Kanungo, T., Mount, D. M., Netanyahu, N. S., Piatko, C. D., Silverman, R., &amp; Wu, A. Y. (2002). An efficient k-means clustering algorithms: Analysis and implementation. <span class="underline">IEEE Transactions on Pattern Analysis and Machine Intelligence</span>, _24_(7), 881–892. <a href="https://doi.org/10.1109/TPAMI.2002.1017616">https://doi.org/10.1109/TPAMI.2002.1017616</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:2 role=doc-endnote>
+<p>: Kanungo, T., Mount, D. M., Netanyahu, N. S., Piatko, C. D., Silverman, R., & Wu, A. Y. (2002). An efficient k-means clustering algorithms: Analysis and implementation. <span class=underline>IEEE Transactions on Pattern Analysis and Machine Intelligence</span>, _24_(7), 881–892. <a href=https://doi.org/10.1109/TPAMI.2002.1017616>https://doi.org/10.1109/TPAMI.2002.1017616</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#space-decomposition">Space decomposition</a></li>
-    <li><a href="#tree-querying">Tree querying</a></li>
-    <li><a href="#filtering-and-nn">Filtering and <span class="underline">k</span>-NN</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&text=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&is_video=false&description=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&name=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&description=Stardate%2096893.29.%0aYou%20are%20the%20USS%20Euler%26rsquo%3bs%20Science%20Officer%20at%20a%20moment%20when%20the%20computer%20graphical%20displays%20and%20voice%20systems%20went%20down.%20You%20only%20have%20enough%20deuterium%20for%20a%20short%20travel%20and%20need%20to%20find%20the%20nearest%20star%20system.%20This%20is%20not%20a%20simple%20matter%20of%20looking%20at%20a%20chart.%20You%20have%20multiple%20dimensions%20in%20which%20you%20can%20travel.%20In%20a%20bid%20for%20galactic%20peace%2c%20the%20Federation%20mandated%20that%20both%20Emacs%20and%20Vim%20should%20be%20installed%20in%20all%20computers." aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&t=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2022  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#space-decomposition>Space decomposition</a></li>
+<li><a href=#tree-querying>Tree querying</a></li>
+<li><a href=#filtering-and-nn>Filtering and <span class=underline>k</span>-NN</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&text=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&is_video=false&description=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&body=Check out this article: https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&title=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&name=Introduction%20to%20Balanced%20Box-Decomposition%20Trees&description=Stardate%2096893.29.%0aYou%20are%20the%20USS%20Euler%26rsquo%3bs%20Science%20Officer%20at%20a%20moment%20when%20the%20computer%20graphical%20displays%20and%20voice%20systems%20went%20down.%20You%20only%20have%20enough%20deuterium%20for%20a%20short%20travel%20and%20need%20to%20find%20the%20nearest%20star%20system.%20This%20is%20not%20a%20simple%20matter%20of%20looking%20at%20a%20chart.%20You%20have%20multiple%20dimensions%20in%20which%20you%20can%20travel.%20In%20a%20bid%20for%20galactic%20peace%2c%20the%20Federation%20mandated%20that%20both%20Emacs%20and%20Vim%20should%20be%20installed%20in%20all%20computers." aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fintroduction-to-balanced-box-decomposition-trees.html&t=Introduction%20to%20Balanced%20Box-Decomposition%20Trees" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2022 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>

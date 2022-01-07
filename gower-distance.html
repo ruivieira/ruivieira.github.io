@@ -1,260 +1,195 @@
-<!DOCTYPE html>
-<html lang="en-uk">
+<!doctype html><html lang=en-uk>
 <head>
-  <script data-goatcounter="https://ruivieira-dev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script type="module" src="/js/deeplinks/deeplinks.js"></script>
-  <link rel="preload" href="/lib/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/kbd.css" type="text/css">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Gower distance · Rui Vieira</title>
-  <link rel = 'canonical' href = 'https://ruivieira.dev/gower-distance.html'>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all,follow">
-  <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Gower distance" />
+<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<script type=module src=/js/deeplinks/deeplinks.js></script>
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
+<link rel=stylesheet href=/css/kbd.css type=text/css>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> Gower distance · Rui Vieira</title>
+<link rel=canonical href=https://ruivieira.dev/gower-distance.html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="all,follow">
+<meta name=googlebot content="index,follow,snippet,archive">
+<meta property="og:title" content="Gower distance">
 <meta property="og:description" content="For features \(x_i=\{x_{i1},\dots,x_{ip}\}\) and \(x_j=\{x_{j1},\dots,x_{jp}\}\), the Gower similarity matrix 1 can be defined as
 \[ S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}. \]
 For each feature \(k=1,\dots,p\) a score \(s_{ijk}\) is calculated. A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\) depending on whether the variables \(x_i\) and \(x_j\) can be compared or not (e.g. if they have different types).
-A special case2 for when no missing values exist can be formulated as the mean of the Gower similarity scores, that is:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruivieira.dev/gower-distance.html" /><meta property="article:section" content="posts" />
-
-<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00" />
-
-
-  <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Gower distance"/>
-<meta name="twitter:description" content="For features \(x_i=\{x_{i1},\dots,x_{ip}\}\) and \(x_j=\{x_{j1},\dots,x_{jp}\}\), the Gower similarity matrix 1 can be defined as
+A special case2 for when no missing values exist can be formulated as the mean of the Gower similarity scores, that is:">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ruivieira.dev/gower-distance.html"><meta property="article:section" content="posts">
+<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Gower distance">
+<meta name=twitter:description content="For features \(x_i=\{x_{i1},\dots,x_{ip}\}\) and \(x_j=\{x_{j1},\dots,x_{jp}\}\), the Gower similarity matrix 1 can be defined as
 \[ S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}. \]
 For each feature \(k=1,\dots,p\) a score \(s_{ijk}\) is calculated. A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\) depending on whether the variables \(x_i\) and \(x_j\) can be compared or not (e.g. if they have different types).
-A special case2 for when no missing values exist can be formulated as the mean of the Gower similarity scores, that is:"/>
-
-  
-  
-    
-  
-  
-  <link rel="stylesheet" href="https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css" integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="> 
-
-  
-  
-  
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  
-
-  
-<link rel="icon" type="image/png" href="https://ruivieira.dev/images/favicon.ico" />
-
-  
-  
-  
-  
+A special case2 for when no missing values exist can be formulated as the mean of the Gower similarity scores, that is:">
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
+<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
-
 <body class="max-width mx-auto px3 ltr">
-  <div class="content index py4">
-
-  <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li>
-          <a class="icon" href=" https://ruivieira.dev/gpg.html" aria-label="Previous">
-            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
-          </a>
-        </li>
-        
-        
-        <li>
-          <a class="icon" href="https://ruivieira.dev/go-resource-bundling.html" aria-label="Next">
-            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
-          </a>
-        </li>
-        
-        <li>
-          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
-          </a>
-        </li>
-        <li>
-          <a class="icon" href="#" aria-label="Share">
-            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
-          </a>
-        </li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label="Facebook">
-      <i class="fab fa-facebook " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&text=Gower%20distance" aria-label="Twitter">
-      <i class="fab fa-twitter " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label="Linkedin">
-      <i class="fab fa-linkedin " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&is_video=false&description=Gower%20distance" aria-label="Pinterest">
-      <i class="fab fa-pinterest " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Gower%20distance&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label="Email">
-      <i class="fas fa-envelope " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label="Pocket">
-      <i class="fab fa-get-pocket " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label="reddit">
-      <i class="fab fa-reddit " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&name=Gower%20distance&description=For%20features%20%5c%28x_i%3d%5c%7bx_%7bi1%7d%2c%5cdots%2cx_%7bip%7d%5c%7d%5c%29%20and%20%5c%28x_j%3d%5c%7bx_%7bj1%7d%2c%5cdots%2cx_%7bjp%7d%5c%7d%5c%29%2c%20the%20Gower%20similarity%20matrix%c2%a01%20can%20be%20defined%20as%0a%5c%5b%20S_%7b%5ctext%7bGower%7d%7d%28x_i%2c%20x_j%29%20%3d%20%5cfrac%7b%5csum_%7bk%3d1%7d%5ep%20s_%7bijk%7d%5cdelta_%7bijk%7d%7d%7b%5csum_%7bk%3d1%7d%5ep%20%5cdelta_%7bijk%7d%7d.%20%5c%5d%0aFor%20each%20feature%20%5c%28k%3d1%2c%5cdots%2cp%5c%29%20a%20score%20%5c%28s_%7bijk%7d%5c%29%20is%20calculated.%20A%20quantity%20%5c%28%5cdelta_%7bijk%7d%5c%29%20is%20also%20calculated%20having%20possible%20values%20%5c%28%5c%7b0%2c1%5c%7d%5c%29%20depending%20on%20whether%20the%20variables%20%5c%28x_i%5c%29%20and%20%5c%28x_j%5c%29%20can%20be%20compared%20or%20not%20%28e.g.%20if%20they%20have%20different%20types%29.%0aA%20special%20case2%20for%20when%20no%20missing%20values%20exist%20can%20be%20formulated%20as%20the%20mean%20of%20the%20Gower%20similarity%20scores%2c%20that%20is%3a" aria-label="Tumblr">
-      <i class="fab fa-tumblr " aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html&t=Gower%20distance" aria-label="Hacker News">
-      <i class="fab fa-hacker-news " aria-hidden="true"></i>
-    </a>
-  </li>
+<div class="content index py4">
+<div id=header-post>
+<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
+<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu>
+<span id=nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
 </ul>
-
-    </div>
-    
-    
-    <div id="toc">
-      <h4>Contents</h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#scoring">Scoring</a>
-      <ul>
-        <li><a href="#numerical-variables">Numerical variables</a></li>
-        <li><a href="#categorical-variables">Categorical variables</a></li>
-      </ul>
-    </li>
-    <li><a href="#example">Example</a></li>
-    <li><a href="#range-impact">Range impact</a>
-      <ul>
-        <li><a href="#varying-bounds">Varying bounds</a></li>
-        <li><a href="#varying-range-directly">Varying range directly</a></li>
-      </ul>
-    </li>
-    <li><a href="#categorical-impact">Categorical impact</a></li>
-    <li><a href="#missing-range">Missing range</a></li>
-  </ul>
-</nav>
-      
-      <h4>Related</h4>
-      
-      <nav>
-      <ul>
-      
-      
-        <li class="header-post toc"><a href="https://ruivieira.dev/counterfactuals-with-constraint-solvers.html">Counterfactuals with Constraint Solvers</a></li>
-      
-      
-        <li class="header-post toc"><a href="https://ruivieira.dev/distance-metrics.html">Distance metrics</a></li>
-      
-      
-      </ul>
-    </nav>
-    </div>
-    
-  </span>
+</span>
+<br>
+<span id=actions>
+<ul>
+<li>
+<a class=icon href=https://ruivieira.dev/gpg.html aria-label=Previous>
+<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=https://ruivieira.dev/go-resource-bundling.html aria-label=Next>
+<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
+</a>
+</li>
+<li>
+<a class=icon href=# aria-label=Share>
+<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
+</a>
+</li>
+</ul>
+<span id=i-prev class=info style=display:none>Previous post</span>
+<span id=i-next class=info style=display:none>Next post</span>
+<span id=i-top class=info style=display:none>Back to top</span>
+<span id=i-share class=info style=display:none>Share post</span>
+</span>
+<br>
+<div id=share style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label=Facebook>
+<i class="fab fa-facebook" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&text=Gower%20distance" aria-label=Twitter>
+<i class="fab fa-twitter" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label=Linkedin>
+<i class="fab fa-linkedin" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&is_video=false&description=Gower%20distance" aria-label=Pinterest>
+<i class="fab fa-pinterest" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Gower%20distance&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label=Email>
+<i class="fas fa-envelope" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label=Pocket>
+<i class="fab fa-get-pocket" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label=reddit>
+<i class="fab fa-reddit" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&name=Gower%20distance&description=For%20features%20%5c%28x_i%3d%5c%7bx_%7bi1%7d%2c%5cdots%2cx_%7bip%7d%5c%7d%5c%29%20and%20%5c%28x_j%3d%5c%7bx_%7bj1%7d%2c%5cdots%2cx_%7bjp%7d%5c%7d%5c%29%2c%20the%20Gower%20similarity%20matrix%c2%a01%20can%20be%20defined%20as%0a%5c%5b%20S_%7b%5ctext%7bGower%7d%7d%28x_i%2c%20x_j%29%20%3d%20%5cfrac%7b%5csum_%7bk%3d1%7d%5ep%20s_%7bijk%7d%5cdelta_%7bijk%7d%7d%7b%5csum_%7bk%3d1%7d%5ep%20%5cdelta_%7bijk%7d%7d.%20%5c%5d%0aFor%20each%20feature%20%5c%28k%3d1%2c%5cdots%2cp%5c%29%20a%20score%20%5c%28s_%7bijk%7d%5c%29%20is%20calculated.%20A%20quantity%20%5c%28%5cdelta_%7bijk%7d%5c%29%20is%20also%20calculated%20having%20possible%20values%20%5c%28%5c%7b0%2c1%5c%7d%5c%29%20depending%20on%20whether%20the%20variables%20%5c%28x_i%5c%29%20and%20%5c%28x_j%5c%29%20can%20be%20compared%20or%20not%20%28e.g.%20if%20they%20have%20different%20types%29.%0aA%20special%20case2%20for%20when%20no%20missing%20values%20exist%20can%20be%20formulated%20as%20the%20mean%20of%20the%20Gower%20similarity%20scores%2c%20that%20is%3a" aria-label=Tumblr>
+<i class="fab fa-tumblr" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html&t=Gower%20distance" aria-label="Hacker News">
+<i class="fab fa-hacker-news" aria-hidden=true></i>
+</a>
+</li>
+</ul>
 </div>
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <header>
-      <h1 class="posttitle" itemprop="name headline">
-        Gower distance
-      </h1>
-      <div class="meta">
-        
-        <div class="postdate">
-          
-          Updated <time datetime="2022-01-03 21:56:06 &#43;0000 GMT" itemprop="datePublished">2022-01-03</time>
-          <span class="commit-hash">(261c776)</span>
-        </div>
-        
-        
-        
-        
-      </div>
-    </header>
-
-  
-    
-    <div class="content" itemprop="articleBody">
-      <p>For features \(x_i=\{x_{i1},\dots,x_{ip}\}\) and \(x_j=\{x_{j1},\dots,x_{jp}\}\), the Gower similarity matrix <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> can be defined as</p>
+<div id=toc>
+<h4>Contents</h4>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#scoring>Scoring</a>
+<ul>
+<li><a href=#numerical-variables>Numerical variables</a></li>
+<li><a href=#categorical-variables>Categorical variables</a></li>
+</ul>
+</li>
+<li><a href=#example>Example</a></li>
+<li><a href=#range-impact>Range impact</a>
+<ul>
+<li><a href=#varying-bounds>Varying bounds</a></li>
+<li><a href=#varying-range-directly>Varying range directly</a></li>
+</ul>
+</li>
+<li><a href=#categorical-impact>Categorical impact</a></li>
+<li><a href=#missing-range>Missing range</a></li>
+</ul>
+</nav>
+<h4>Related</h4>
+<nav>
+<ul>
+<li class="header-post toc"><a href=https://ruivieira.dev/counterfactuals-with-constraint-solvers.html>Counterfactuals with Constraint Solvers</a></li>
+<li class="header-post toc"><a href=https://ruivieira.dev/distance-metrics.html>Distance metrics</a></li>
+</ul>
+</nav>
+</div>
+</span>
+</div>
+<article class=post itemscope itemtype=http://schema.org/BlogPosting>
+<header>
+<h1 class=posttitle itemprop="name headline">
+Gower distance
+</h1>
+<div class=meta>
+<div class=postdate>
+Updated <time datetime="2022-01-03 21:56:06 +0000 GMT" itemprop=datePublished>2022-01-03</time>
+<span class=commit-hash>(261c776)</span>
+</div>
+</div>
+</header>
+<div class=content itemprop=articleBody>
+<p>For features \(x_i=\{x_{i1},\dots,x_{ip}\}\) and \(x_j=\{x_{j1},\dots,x_{jp}\}\), the Gower similarity matrix <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> can be defined as</p>
 <p>\[
 S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}\delta_{ijk}}{\sum_{k=1}^p \delta_{ijk}}.
 \]</p>
 <p>For each feature \(k=1,\dots,p\) a score \(s_{ijk}\) is calculated.
 A quantity \(\delta_{ijk}\) is also calculated having possible values \(\{0,1\}\) depending on whether the variables \(x_i\) and \(x_j\) can be compared or not (<em>e.g.</em> if they have different types).</p>
-<p>A special case<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> for when <strong>no missing values exist</strong> can be formulated as the mean of the Gower similarity scores, that is:</p>
+<p>A special case<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup> for when <strong>no missing values exist</strong> can be formulated as the mean of the Gower similarity scores, that is:</p>
 <p>\[
 S_{\text{Gower}}(x_i, x_j) = \frac{\sum_{k=1}^p s_{ijk}}{p}.
 \]</p>
 <p>The score \(s_{ijk}\) calculation will depend on the type of variable and below we will see some examples.</p>
 <p>This similarity score will take values between \(0 \leq s_{ijk} \leq 1\) with \(0\) representing maximum similarity and \(1\) no similarity.</p>
-<h2 id="scoring">Scoring</h2>
-<h3 id="numerical-variables">Numerical variables</h3>
+<h2 id=scoring>Scoring</h2>
+<h3 id=numerical-variables>Numerical variables</h3>
 <p>For numerical variables the score can be calculated as</p>
 <p>\[
 s_{ijk} = 1 - \frac{|x_{ik}-x_{jk}|}{R_k}.
 \]</p>
-<p>This is simply a <a href="/distance-metrics.html">L1</a> distance between the two values normalised by a quantity \(R_k\).
+<p>This is simply a <a href=/distance-metrics.html>L1</a> distance between the two values normalised by a quantity \(R_k\).
 The quantity \(R_k\) refers to the range of feature (population <em>or</em> sample).</p>
-<h3 id="categorical-variables">Categorical variables</h3>
+<h3 id=categorical-variables>Categorical variables</h3>
 <p>For categorical variables we will use following score:</p>
 <p>\[
 s_{ijk} = 1\{x_{ik}=x_{jk}\}
@@ -266,18 +201,18 @@ In order to turn this value into a <em>distance metric</em> we can convert it us
 d_{\text{Gower}} = \sqrt{1-S_{\text{Gower}}}.
 \]</p>
 <p>This will take values of \(1\) for the furthest points and \(0\) for the same points.</p>
-<h2 id="example">Example</h2>
+<h2 id=example>Example</h2>
 <p>Here we will use the special case when no missing values exist. A test dataset can be:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">pandas</span> <span style="font-weight:bold">as</span> <span style="color:#555">pd</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 
-df <span style="font-weight:bold">=</span> pd<span style="font-weight:bold">.</span>DataFrame({
-    <span style="color:#b84">&#34;Sex1&#34;</span>: [<span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>],
-    <span style="color:#b84">&#34;Sex2&#34;</span>: [<span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;F&#39;</span>, <span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;M&#39;</span>, <span style="color:#b84">&#39;M&#39;</span>],
-    <span style="color:#b84">&#34;Age1&#34;</span>: [<span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>, <span style="color:#099">15</span>],
-    <span style="color:#b84">&#34;Age2&#34;</span>: [<span style="color:#099">15</span>, <span style="color:#099">36</span>, <span style="color:#099">58</span>, <span style="color:#099">78</span>, <span style="color:#099">100</span>, <span style="color:#099">15</span>, <span style="color:#099">36</span>, <span style="color:#099">58</span>, <span style="color:#099">78</span>, <span style="color:#099">100</span>]
+df <span style=font-weight:700>=</span> pd<span style=font-weight:700>.</span>DataFrame({
+    <span style=color:#b84>&#34;Sex1&#34;</span>: [<span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>],
+    <span style=color:#b84>&#34;Sex2&#34;</span>: [<span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;F&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>, <span style=color:#b84>&#39;M&#39;</span>],
+    <span style=color:#b84>&#34;Age1&#34;</span>: [<span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>, <span style=color:#099>15</span>],
+    <span style=color:#b84>&#34;Age2&#34;</span>: [<span style=color:#099>15</span>, <span style=color:#099>36</span>, <span style=color:#099>58</span>, <span style=color:#099>78</span>, <span style=color:#099>100</span>, <span style=color:#099>15</span>, <span style=color:#099>36</span>, <span style=color:#099>58</span>, <span style=color:#099>78</span>, <span style=color:#099>100</span>]
 })
 df
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2
 0    M    M    15    15
 1    M    M    15    36
 2    F    F    15    58
@@ -289,15 +224,15 @@ df
 8    F    M    15    78
 9    F    M    15   100
 </code></pre></div><p>For the numerical variable (age) we can define the range as \(R_{\text{age}}=\left(\max{\text{age}}-\min{\text{age}}\right)\).</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">age_min <span style="font-weight:bold">=</span> df[[<span style="color:#b84">&#34;Age1&#34;</span>, <span style="color:#b84">&#34;Age2&#34;</span>]]<span style="font-weight:bold">.</span>min()<span style="font-weight:bold">.</span>min()
-age_max <span style="font-weight:bold">=</span> df[[<span style="color:#b84">&#34;Age1&#34;</span>, <span style="color:#b84">&#34;Age2&#34;</span>]]<span style="font-weight:bold">.</span>max()<span style="font-weight:bold">.</span>max()
-R_age <span style="font-weight:bold">=</span> age_max <span style="font-weight:bold">-</span> age_min
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>age_min <span style=font-weight:700>=</span> df[[<span style=color:#b84>&#34;Age1&#34;</span>, <span style=color:#b84>&#34;Age2&#34;</span>]]<span style=font-weight:700>.</span>min()<span style=font-weight:700>.</span>min()
+age_max <span style=font-weight:700>=</span> df[[<span style=color:#b84>&#34;Age1&#34;</span>, <span style=color:#b84>&#34;Age2&#34;</span>]]<span style=font-weight:700>.</span>max()<span style=font-weight:700>.</span>max()
+R_age <span style=font-weight:700>=</span> age_max <span style=font-weight:700>-</span> age_min
 </code></pre></div><p>We can now calculate the score for each numerical field</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">s_numeric</span>(x1, x2, R):
-    <span style="font-weight:bold">return</span> <span style="color:#099">1</span> <span style="font-weight:bold">-</span> <span style="color:#999">abs</span>(x1<span style="font-weight:bold">-</span>x2)<span style="font-weight:bold">/</span>R
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df[<span style="color:#b84">&#39;s_age&#39;</span>] <span style="font-weight:bold">=</span> df<span style="font-weight:bold">.</span>apply(<span style="font-weight:bold">lambda</span> x: s_numeric(x[<span style="color:#b84">&#39;Age1&#39;</span>], x[<span style="color:#b84">&#39;Age2&#39;</span>], R_age), axis<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>s_numeric</span>(x1, x2, R):
+    <span style=font-weight:700>return</span> <span style=color:#099>1</span> <span style=font-weight:700>-</span> <span style=color:#999>abs</span>(x1<span style=font-weight:700>-</span>x2)<span style=font-weight:700>/</span>R
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df[<span style=color:#b84>&#39;s_age&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: s_numeric(x[<span style=color:#b84>&#39;Age1&#39;</span>], x[<span style=color:#b84>&#39;Age2&#39;</span>], R_age), axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 df
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2  s_age
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age
 0    M    M    15    15  1.000
 1    M    M    15    36  0.753
 2    F    F    15    58  0.494
@@ -309,11 +244,11 @@ df
 8    F    M    15    78  0.259
 9    F    M    15   100  0.000
 </code></pre></div><p>For categorical variables we can define the following score function:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">s_categorical</span>(x1, x2):
-    <span style="font-weight:bold">return</span> <span style="color:#099">1</span> <span style="font-weight:bold">if</span> x1<span style="font-weight:bold">==</span>x2 <span style="font-weight:bold">else</span> <span style="color:#099">0</span>
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df[<span style="color:#b84">&#39;s_sex&#39;</span>] <span style="font-weight:bold">=</span> df<span style="font-weight:bold">.</span>apply(<span style="font-weight:bold">lambda</span> x: s_categorical(x[<span style="color:#b84">&#39;Sex1&#39;</span>], x[<span style="color:#b84">&#39;Sex2&#39;</span>]), axis<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>s_categorical</span>(x1, x2):
+    <span style=font-weight:700>return</span> <span style=color:#099>1</span> <span style=font-weight:700>if</span> x1<span style=font-weight:700>==</span>x2 <span style=font-weight:700>else</span> <span style=color:#099>0</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df[<span style=color:#b84>&#39;s_sex&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: s_categorical(x[<span style=color:#b84>&#39;Sex1&#39;</span>], x[<span style=color:#b84>&#39;Sex2&#39;</span>]), axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 df
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2  s_age  s_sex
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age  s_sex
 0    M    M    15    15  1.000      1
 1    M    M    15    36  0.753      1
 2    F    F    15    58  0.494      1
@@ -325,12 +260,12 @@ df
 8    F    M    15    78  0.259      0
 9    F    M    15   100  0.000      0
 </code></pre></div><p>We can now calculate the final score using</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">math</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>math</span>
 
-df[<span style="color:#b84">&#39;s&#39;</span>] <span style="font-weight:bold">=</span> df<span style="font-weight:bold">.</span>apply(<span style="font-weight:bold">lambda</span> x: (x[<span style="color:#b84">&#39;s_age&#39;</span>] <span style="font-weight:bold">+</span> x[<span style="color:#b84">&#39;s_sex&#39;</span>])<span style="font-weight:bold">/</span><span style="color:#099">2.0</span>, axis<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
-df[<span style="color:#b84">&#39;d&#39;</span>] <span style="font-weight:bold">=</span> df<span style="font-weight:bold">.</span>apply(<span style="font-weight:bold">lambda</span> x: math<span style="font-weight:bold">.</span>sqrt(<span style="color:#099">1.0</span> <span style="font-weight:bold">-</span> x[<span style="color:#b84">&#39;s&#39;</span>]), axis<span style="font-weight:bold">=</span><span style="color:#099">1</span>)
+df[<span style=color:#b84>&#39;s&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: (x[<span style=color:#b84>&#39;s_age&#39;</span>] <span style=font-weight:700>+</span> x[<span style=color:#b84>&#39;s_sex&#39;</span>])<span style=font-weight:700>/</span><span style=color:#099>2.0</span>, axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
+df[<span style=color:#b84>&#39;d&#39;</span>] <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>apply(<span style=font-weight:700>lambda</span> x: math<span style=font-weight:700>.</span>sqrt(<span style=color:#099>1.0</span> <span style=font-weight:700>-</span> x[<span style=color:#b84>&#39;s&#39;</span>]), axis<span style=font-weight:700>=</span><span style=color:#099>1</span>)
 df
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">  Sex1 Sex2  Age1  Age2  s_age  s_sex     s     d
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  Sex1 Sex2  Age1  Age2  s_age  s_sex     s     d
 0    M    M    15    15  1.000      1 1.000 0.000
 1    M    M    15    36  0.753      1 0.876 0.351
 2    F    F    15    58  0.494      1 0.747 0.503
@@ -341,40 +276,38 @@ df
 7    F    M    15    58  0.494      0 0.247 0.868
 8    F    M    15    78  0.259      0 0.129 0.933
 9    F    M    15   100  0.000      0 0.000 1.000
-</code></pre></div><h2 id="range-impact">Range impact</h2>
-<h3 id="varying-bounds">Varying bounds</h3>
+</code></pre></div><h2 id=range-impact>Range impact</h2>
+<h3 id=varying-bounds>Varying bounds</h3>
 <p>Let&rsquo;s visualise how the choice of range can affect the scoring, if can set it arbitrarily.
 First let&rsquo;s pick two random points, \(x_1=(30, M)\) and \(x_2=(35, F)\).</p>
 <p>We will vary the bounds from a \(15\leq x_{min}&lt;30\) and \(35&lt; x_{max} \leq 100\).</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">score</span>(x1, x2, R):
-    s_0 <span style="font-weight:bold">=</span> <span style="color:#099">1</span><span style="font-weight:bold">-</span><span style="color:#999">abs</span>(x1[<span style="color:#099">0</span>]<span style="font-weight:bold">-</span>x2[<span style="color:#099">0</span>])<span style="font-weight:bold">/</span>R
-    s_1 <span style="font-weight:bold">=</span> <span style="color:#099">1</span> <span style="font-weight:bold">if</span> x1[<span style="color:#099">1</span>]<span style="font-weight:bold">==</span>x2[<span style="color:#099">1</span>] <span style="font-weight:bold">else</span> <span style="color:#099">0</span>
-    <span style="font-weight:bold">return</span> (s_0 <span style="font-weight:bold">+</span> s_1)<span style="font-weight:bold">/</span><span style="color:#099">2.0</span>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>score</span>(x1, x2, R):
+    s_0 <span style=font-weight:700>=</span> <span style=color:#099>1</span><span style=font-weight:700>-</span><span style=color:#999>abs</span>(x1[<span style=color:#099>0</span>]<span style=font-weight:700>-</span>x2[<span style=color:#099>0</span>])<span style=font-weight:700>/</span>R
+    s_1 <span style=font-weight:700>=</span> <span style=color:#099>1</span> <span style=font-weight:700>if</span> x1[<span style=color:#099>1</span>]<span style=font-weight:700>==</span>x2[<span style=color:#099>1</span>] <span style=font-weight:700>else</span> <span style=color:#099>0</span>
+    <span style=font-weight:700>return</span> (s_0 <span style=font-weight:700>+</span> s_1)<span style=font-weight:700>/</span><span style=color:#099>2.0</span>
 
-<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">distance</span>(s):
-    <span style="font-weight:bold">return</span> math<span style="font-weight:bold">.</span>sqrt(<span style="color:#099">1.0</span><span style="font-weight:bold">-</span>s)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="font-weight:bold">as</span> <span style="color:#555">np</span>
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>distance</span>(s):
+    <span style=font-weight:700>return</span> math<span style=font-weight:700>.</span>sqrt(<span style=color:#099>1.0</span><span style=font-weight:700>-</span>s)
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
-x1 <span style="font-weight:bold">=</span> (<span style="color:#099">30</span>, <span style="color:#b84">&#39;M&#39;</span>)
-x2 <span style="font-weight:bold">=</span> (<span style="color:#099">35</span>, <span style="color:#b84">&#39;F&#39;</span>)
-bmin <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="color:#099">15</span>, <span style="color:#099">30</span>, num<span style="font-weight:bold">=</span><span style="color:#099">1000</span>)
-bmax <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="color:#099">36</span>, <span style="color:#099">100</span>, num<span style="font-weight:bold">=</span><span style="color:#099">1000</span>)
-scores_min <span style="font-weight:bold">=</span> [distance(score(x1, x2, <span style="color:#099">100</span><span style="font-weight:bold">-</span>bm)) <span style="font-weight:bold">for</span> bm <span style="font-weight:bold">in</span> bmin]
-scores_max <span style="font-weight:bold">=</span> [distance(score(x1, x2, bm<span style="font-weight:bold">-</span><span style="color:#099">15</span>)) <span style="font-weight:bold">for</span> bm <span style="font-weight:bold">in</span> bmax]
-</code></pre></div><figure><img src="/ox-hugo/gower-1.png"/>
+x1 <span style=font-weight:700>=</span> (<span style=color:#099>30</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>35</span>, <span style=color:#b84>&#39;F&#39;</span>)
+bmin <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>15</span>, <span style=color:#099>30</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>)
+bmax <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>36</span>, <span style=color:#099>100</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>)
+scores_min <span style=font-weight:700>=</span> [distance(score(x1, x2, <span style=color:#099>100</span><span style=font-weight:700>-</span>bm)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmin]
+scores_max <span style=font-weight:700>=</span> [distance(score(x1, x2, bm<span style=font-weight:700>-</span><span style=color:#099>15</span>)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmax]
+</code></pre></div><figure><img src=/ox-hugo/gower-1.png>
 </figure>
-
 <p>Let&rsquo;s try with more separated points</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x1 <span style="font-weight:bold">=</span> (<span style="color:#099">16</span>, <span style="color:#b84">&#39;M&#39;</span>)
-x2 <span style="font-weight:bold">=</span> (<span style="color:#099">90</span>, <span style="color:#b84">&#39;F&#39;</span>)
-bmin <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="color:#099">15</span>, <span style="color:#099">16</span>, num<span style="font-weight:bold">=</span><span style="color:#099">1000</span>, endpoint<span style="font-weight:bold">=</span><span style="font-weight:bold">False</span>)
-bmax <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="color:#099">91</span>, <span style="color:#099">100</span>, num<span style="font-weight:bold">=</span><span style="color:#099">1000</span>)
-scores_min <span style="font-weight:bold">=</span> [distance(score(x1, x2, <span style="color:#099">100</span><span style="font-weight:bold">-</span>bm)) <span style="font-weight:bold">for</span> bm <span style="font-weight:bold">in</span> bmin]
-scores_max <span style="font-weight:bold">=</span> [distance(score(x1, x2, bm<span style="font-weight:bold">-</span><span style="color:#099">16</span>)) <span style="font-weight:bold">for</span> bm <span style="font-weight:bold">in</span> bmax]
-</code></pre></div><figure><img src="/ox-hugo/gower-2.png"/>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x1 <span style=font-weight:700>=</span> (<span style=color:#099>16</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>90</span>, <span style=color:#b84>&#39;F&#39;</span>)
+bmin <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>15</span>, <span style=color:#099>16</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>, endpoint<span style=font-weight:700>=</span><span style=font-weight:700>False</span>)
+bmax <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#099>91</span>, <span style=color:#099>100</span>, num<span style=font-weight:700>=</span><span style=color:#099>1000</span>)
+scores_min <span style=font-weight:700>=</span> [distance(score(x1, x2, <span style=color:#099>100</span><span style=font-weight:700>-</span>bm)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmin]
+scores_max <span style=font-weight:700>=</span> [distance(score(x1, x2, bm<span style=font-weight:700>-</span><span style=color:#099>16</span>)) <span style=font-weight:700>for</span> bm <span style=font-weight:700>in</span> bmax]
+</code></pre></div><figure><img src=/ox-hugo/gower-2.png>
 </figure>
-
-<h3 id="varying-range-directly">Varying range directly</h3>
+<h3 id=varying-range-directly>Varying range directly</h3>
 <p>We will now try to see how the distance between two point comparisons (very close, very far) changes when varying the range directly.
 We will choose two sets of points, \(x_1=(1000, M), x_2=(1001, F)\) and \(x_1=(500, M), x_2=(50000, F)\).
 The range will vary between</p>
@@ -383,53 +316,50 @@ The range will vary between</p>
 \]</p>
 <p>We are also interested on the weight the categorical variable will have on the final distance with varying bounds, so we will also calculate them for an alternative \(x_2'=(1001, M)\) anf \(x_2'=(50000, M)\).</p>
 <p>For the first set of points we will have:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x1 <span style="font-weight:bold">=</span> (<span style="color:#099">1000.0</span>, <span style="color:#b84">&#39;M&#39;</span>)
-x2 <span style="font-weight:bold">=</span> (<span style="color:#099">1001.0</span>, <span style="color:#b84">&#39;F&#39;</span>)
-MAX_RANGE <span style="font-weight:bold">=</span> <span style="color:#099">100000</span>
-R <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="color:#999">max</span>(x1[<span style="color:#099">0</span>], x2[<span style="color:#099">0</span>])<span style="font-weight:bold">-</span><span style="color:#999">min</span>(x1[<span style="color:#099">0</span>], x2[<span style="color:#099">0</span>]), MAX_RANGE, num<span style="font-weight:bold">=</span><span style="color:#099">100000</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x1 <span style=font-weight:700>=</span> (<span style=color:#099>1000.0</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>1001.0</span>, <span style=color:#b84>&#39;F&#39;</span>)
+MAX_RANGE <span style=font-weight:700>=</span> <span style=color:#099>100000</span>
+R <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#999>max</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>])<span style=font-weight:700>-</span><span style=color:#999>min</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>]), MAX_RANGE, num<span style=font-weight:700>=</span><span style=color:#099>100000</span>)
 
-distances_M <span style="font-weight:bold">=</span> [distance(score(x1, x2, i)) <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> R]
-distances_F <span style="font-weight:bold">=</span> [distance(score(x1, (x2[<span style="color:#099">0</span>], <span style="color:#b84">&#39;M&#39;</span>), i)) <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> R]
-</code></pre></div><figure><img src="/ox-hugo/gower-3.png"/>
+distances_M <span style=font-weight:700>=</span> [distance(score(x1, x2, i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+distances_F <span style=font-weight:700>=</span> [distance(score(x1, (x2[<span style=color:#099>0</span>], <span style=color:#b84>&#39;M&#39;</span>), i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+</code></pre></div><figure><img src=/ox-hugo/gower-3.png>
 </figure>
-
 <p>And for far away points we will have:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x1 <span style="font-weight:bold">=</span> (<span style="color:#099">500.0</span>, <span style="color:#b84">&#39;M&#39;</span>)
-x2 <span style="font-weight:bold">=</span> (<span style="color:#099">50000.0</span>, <span style="color:#b84">&#39;F&#39;</span>)
-MAX_RANGE <span style="font-weight:bold">=</span> <span style="color:#099">100000</span>
-R <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="color:#999">max</span>(x1[<span style="color:#099">0</span>], x2[<span style="color:#099">0</span>])<span style="font-weight:bold">-</span><span style="color:#999">min</span>(x1[<span style="color:#099">0</span>], x2[<span style="color:#099">0</span>]), MAX_RANGE, num<span style="font-weight:bold">=</span><span style="color:#099">100000</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x1 <span style=font-weight:700>=</span> (<span style=color:#099>500.0</span>, <span style=color:#b84>&#39;M&#39;</span>)
+x2 <span style=font-weight:700>=</span> (<span style=color:#099>50000.0</span>, <span style=color:#b84>&#39;F&#39;</span>)
+MAX_RANGE <span style=font-weight:700>=</span> <span style=color:#099>100000</span>
+R <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=color:#999>max</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>])<span style=font-weight:700>-</span><span style=color:#999>min</span>(x1[<span style=color:#099>0</span>], x2[<span style=color:#099>0</span>]), MAX_RANGE, num<span style=font-weight:700>=</span><span style=color:#099>100000</span>)
 
-distances_M <span style="font-weight:bold">=</span> [distance(score(x1, x2, i)) <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> R]
-distances_F <span style="font-weight:bold">=</span> [distance(score(x1, (x2[<span style="color:#099">0</span>], <span style="color:#b84">&#39;M&#39;</span>), i)) <span style="font-weight:bold">for</span> i <span style="font-weight:bold">in</span> R]
-</code></pre></div><figure><img src="/ox-hugo/gower-4.png"/>
+distances_M <span style=font-weight:700>=</span> [distance(score(x1, x2, i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+distances_F <span style=font-weight:700>=</span> [distance(score(x1, (x2[<span style=color:#099>0</span>], <span style=color:#b84>&#39;M&#39;</span>), i)) <span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> R]
+</code></pre></div><figure><img src=/ox-hugo/gower-4.png>
 </figure>
-
-<h2 id="categorical-impact">Categorical impact</h2>
+<h2 id=categorical-impact>Categorical impact</h2>
 <p>Predictably, in the scenario where we calculate the mean of the Gower distances, for a point \(x\) with \(p\) features, \(x=(x_{1},\dots,x_{p})\), the contribution to the final distance of a categorial variable will be either \(0\) or \(1/p\), regardless of the range.</p>
-<h2 id="missing-range">Missing range</h2>
+<h2 id=missing-range>Missing range</h2>
 <p>For the previous examples the range \(R\) was available, but how to calculate the mixed distance when the numerical range is absent?</p>
-<p>A possible way is to use scale each feature using <span class="underline">unit scaling</span>:</p>
+<p>A possible way is to use scale each feature using <span class=underline>unit scaling</span>:</p>
 <p>\[
 f_u(x) = \frac{x}{||x||}
 \]</p>
 <p>We will visualise how a difference varying from \(-1000 \leq \delta \leq 1000\) varies with the \(f_u(\delta)\) transformation.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">f_unit</span>(x):
-    <span style="font-weight:bold">return</span> np<span style="font-weight:bold">.</span>exp(x)<span style="font-weight:bold">/</span>(np<span style="font-weight:bold">.</span>exp(x)<span style="font-weight:bold">+</span><span style="color:#099">1.0</span>)
-<span style="font-weight:bold">def</span> <span style="color:#900;font-weight:bold">ilogit</span>(eta):
-    <span style="font-weight:bold">return</span> <span style="color:#099">1.0</span> <span style="font-weight:bold">-</span> <span style="color:#099">1.0</span><span style="font-weight:bold">/</span>(np<span style="font-weight:bold">.</span>exp(eta)<span style="font-weight:bold">+</span><span style="color:#099">1</span>)
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>f_unit</span>(x):
+    <span style=font-weight:700>return</span> np<span style=font-weight:700>.</span>exp(x)<span style=font-weight:700>/</span>(np<span style=font-weight:700>.</span>exp(x)<span style=font-weight:700>+</span><span style=color:#099>1.0</span>)
+<span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>ilogit</span>(eta):
+    <span style=font-weight:700>return</span> <span style=color:#099>1.0</span> <span style=font-weight:700>-</span> <span style=color:#099>1.0</span><span style=font-weight:700>/</span>(np<span style=font-weight:700>.</span>exp(eta)<span style=font-weight:700>+</span><span style=color:#099>1</span>)
 
-delta <span style="font-weight:bold">=</span> np<span style="font-weight:bold">.</span>linspace(<span style="font-weight:bold">-</span><span style="color:#099">10</span>, <span style="color:#099">10</span>, num<span style="font-weight:bold">=</span><span style="color:#099">20000</span>)
-transformed <span style="font-weight:bold">=</span> [ilogit(<span style="color:#999">abs</span>(x)) <span style="font-weight:bold">for</span> x <span style="font-weight:bold">in</span> delta]
+delta <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linspace(<span style=font-weight:700>-</span><span style=color:#099>10</span>, <span style=color:#099>10</span>, num<span style=font-weight:700>=</span><span style=color:#099>20000</span>)
+transformed <span style=font-weight:700>=</span> [ilogit(<span style=color:#999>abs</span>(x)) <span style=font-weight:700>for</span> x <span style=font-weight:700>in</span> delta]
 
-ax <span style="font-weight:bold">=</span> sns<span style="font-weight:bold">.</span>scatterplot(delta, transformed)
-ax<span style="font-weight:bold">.</span>set(xlabel<span style="font-weight:bold">=</span><span style="color:#b84">&#34;Range&#34;</span>, ylabel<span style="font-weight:bold">=</span><span style="color:#b84">&#34;Distance&#34;</span>,
-      title<span style="font-weight:bold">=</span><span style="color:#b84">&#34;Gower distance</span><span style="color:#b84">\n</span><span style="color:#b84">for varying range (far away points)&#34;</span>)
-<span style="color:#998;font-style:italic"># ax.set(ylim=(0, 1), xscale=&#34;log&#34;)</span>
-plt<span style="font-weight:bold">.</span>show()
+ax <span style=font-weight:700>=</span> sns<span style=font-weight:700>.</span>scatterplot(delta, transformed)
+ax<span style=font-weight:700>.</span>set(xlabel<span style=font-weight:700>=</span><span style=color:#b84>&#34;Range&#34;</span>, ylabel<span style=font-weight:700>=</span><span style=color:#b84>&#34;Distance&#34;</span>,
+      title<span style=font-weight:700>=</span><span style=color:#b84>&#34;Gower distance</span><span style=color:#b84>\n</span><span style=color:#b84>for varying range (far away points)&#34;</span>)
+<span style=color:#998;font-style:italic># ax.set(ylim=(0, 1), xscale=&#34;log&#34;)</span>
+plt<span style=font-weight:700>.</span>show()
 transformed
-</code></pre></div><figure><img src="/ox-hugo/gower-5.png"/>
+</code></pre></div><figure><img src=/ox-hugo/gower-5.png>
 </figure>
-
 <table>
 <thead>
 <tr>
@@ -2438,193 +2368,133 @@ transformed
 <td>0.9998769688750465</td>
 <td>0.9998768457913877</td>
 <td>0.9998767225846077</td>
-<td>&hellip;</td>
+<td>&mldr;</td>
 </tr>
 </tbody>
 </table>
-<section class="footnotes" role="doc-endnotes">
+<section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>: <gower1971general> Gower, J. C. (1971). A general coefficient of similarity and some of its properties. Biometrics, (), 857–871.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:1 role=doc-endnote>
+<p>: <gower1971general> Gower, J. C. (1971). A general coefficient of similarity and some of its properties. Biometrics, (), 857–871.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
-<p>: This is for instance the case we deal with in the <a href="/counterfactuals-with-constraint-solvers.html">counterfactuals with constraint solvers</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id=fn:2 role=doc-endnote>
+<p>: This is for instance the case we deal with in the <a href=/counterfactuals-with-constraint-solvers.html>counterfactuals with constraint solvers</a>.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
-
-    </div>
-  </article>
-
-
-
-  
-  
-
-
-
-
-
-
-  <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/map/">All pages</a></li>
-         
-          <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </div>
-
-    
-    <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#scoring">Scoring</a>
-      <ul>
-        <li><a href="#numerical-variables">Numerical variables</a></li>
-        <li><a href="#categorical-variables">Categorical variables</a></li>
-      </ul>
-    </li>
-    <li><a href="#example">Example</a></li>
-    <li><a href="#range-impact">Range impact</a>
-      <ul>
-        <li><a href="#varying-bounds">Varying bounds</a></li>
-        <li><a href="#varying-range-directly">Varying range directly</a></li>
-      </ul>
-    </li>
-    <li><a href="#categorical-impact">Categorical impact</a></li>
-    <li><a href="#missing-range">Missing range</a></li>
-  </ul>
-</nav>
-    </div>
-    
-
-    <div id="share-footer" style="display: none">
-      
-      <ul>
-  
-  
-    
-  
-  
-  <li>
-    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label="Facebook">
-      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&text=Gower%20distance" aria-label="Twitter">
-      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label="Linkedin">
-      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&is_video=false&description=Gower%20distance" aria-label="Pinterest">
-      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="mailto:?subject=Gower%20distance&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label="Email">
-      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label="Pocket">
-      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label="reddit">
-      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&name=Gower%20distance&description=For%20features%20%5c%28x_i%3d%5c%7bx_%7bi1%7d%2c%5cdots%2cx_%7bip%7d%5c%7d%5c%29%20and%20%5c%28x_j%3d%5c%7bx_%7bj1%7d%2c%5cdots%2cx_%7bjp%7d%5c%7d%5c%29%2c%20the%20Gower%20similarity%20matrix%c2%a01%20can%20be%20defined%20as%0a%5c%5b%20S_%7b%5ctext%7bGower%7d%7d%28x_i%2c%20x_j%29%20%3d%20%5cfrac%7b%5csum_%7bk%3d1%7d%5ep%20s_%7bijk%7d%5cdelta_%7bijk%7d%7d%7b%5csum_%7bk%3d1%7d%5ep%20%5cdelta_%7bijk%7d%7d.%20%5c%5d%0aFor%20each%20feature%20%5c%28k%3d1%2c%5cdots%2cp%5c%29%20a%20score%20%5c%28s_%7bijk%7d%5c%29%20is%20calculated.%20A%20quantity%20%5c%28%5cdelta_%7bijk%7d%5c%29%20is%20also%20calculated%20having%20possible%20values%20%5c%28%5c%7b0%2c1%5c%7d%5c%29%20depending%20on%20whether%20the%20variables%20%5c%28x_i%5c%29%20and%20%5c%28x_j%5c%29%20can%20be%20compared%20or%20not%20%28e.g.%20if%20they%20have%20different%20types%29.%0aA%20special%20case2%20for%20when%20no%20missing%20values%20exist%20can%20be%20formulated%20as%20the%20mean%20of%20the%20Gower%20similarity%20scores%2c%20that%20is%3a" aria-label="Tumblr">
-      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html&t=Gower%20distance" aria-label="Hacker News">
-      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      
-        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
-          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
-          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
-          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
-          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
 </div>
-
-
-  <footer id="footer">
-  <div class="footer-left">
-    Copyright  &copy; 2022  Rui Vieira 
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-        <li><a href="/">Home</a></li>
-         
-        <li><a href="/map/">All pages</a></li>
-         
-        <li><a href="/search.html">Search</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+</article>
+<div id=footer-post-container>
+<div id=footer-post>
+<div id=nav-footer style=display:none>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</div>
+<div id=toc-footer style=display:none>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#scoring>Scoring</a>
+<ul>
+<li><a href=#numerical-variables>Numerical variables</a></li>
+<li><a href=#categorical-variables>Categorical variables</a></li>
+</ul>
+</li>
+<li><a href=#example>Example</a></li>
+<li><a href=#range-impact>Range impact</a>
+<ul>
+<li><a href=#varying-bounds>Varying bounds</a></li>
+<li><a href=#varying-range-directly>Varying range directly</a></li>
+</ul>
+</li>
+<li><a href=#categorical-impact>Categorical impact</a></li>
+<li><a href=#missing-range>Missing range</a></li>
+</ul>
+</nav>
+</div>
+<div id=share-footer style=display:none>
+<ul>
+<li>
+<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label=Facebook>
+<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&text=Gower%20distance" aria-label=Twitter>
+<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label=Linkedin>
+<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&is_video=false&description=Gower%20distance" aria-label=Pinterest>
+<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="mailto:?subject=Gower%20distance&body=Check out this article: https%3a%2f%2fruivieira.dev%2fgower-distance.html" aria-label=Email>
+<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label=Pocket>
+<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&title=Gower%20distance" aria-label=reddit>
+<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2fgower-distance.html&name=Gower%20distance&description=For%20features%20%5c%28x_i%3d%5c%7bx_%7bi1%7d%2c%5cdots%2cx_%7bip%7d%5c%7d%5c%29%20and%20%5c%28x_j%3d%5c%7bx_%7bj1%7d%2c%5cdots%2cx_%7bjp%7d%5c%7d%5c%29%2c%20the%20Gower%20similarity%20matrix%c2%a01%20can%20be%20defined%20as%0a%5c%5b%20S_%7b%5ctext%7bGower%7d%7d%28x_i%2c%20x_j%29%20%3d%20%5cfrac%7b%5csum_%7bk%3d1%7d%5ep%20s_%7bijk%7d%5cdelta_%7bijk%7d%7d%7b%5csum_%7bk%3d1%7d%5ep%20%5cdelta_%7bijk%7d%7d.%20%5c%5d%0aFor%20each%20feature%20%5c%28k%3d1%2c%5cdots%2cp%5c%29%20a%20score%20%5c%28s_%7bijk%7d%5c%29%20is%20calculated.%20A%20quantity%20%5c%28%5cdelta_%7bijk%7d%5c%29%20is%20also%20calculated%20having%20possible%20values%20%5c%28%5c%7b0%2c1%5c%7d%5c%29%20depending%20on%20whether%20the%20variables%20%5c%28x_i%5c%29%20and%20%5c%28x_j%5c%29%20can%20be%20compared%20or%20not%20%28e.g.%20if%20they%20have%20different%20types%29.%0aA%20special%20case2%20for%20when%20no%20missing%20values%20exist%20can%20be%20formulated%20as%20the%20mean%20of%20the%20Gower%20similarity%20scores%2c%20that%20is%3a" aria-label=Tumblr>
+<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2fgower-distance.html&t=Gower%20distance" aria-label="Hacker News">
+<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div id=actions-footer>
+<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
+<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
+<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
+<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
+<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
+</div>
+</div>
+</div>
+<footer id=footer>
+<div class=footer-left>
+Copyright &copy; 2022 Rui Vieira
+</div>
+<div class=footer-right>
+<nav>
+<ul>
+<li><a href=/>Home</a></li>
+<li><a href=/map/>All pages</a></li>
+<li><a href=/search.html>Search</a></li>
+</ul>
+</nav>
+</div>
 </footer>
-
-
-  </div>
+</div>
 </body>
-
-<link rel="stylesheet" href=/css/fa.min.css>
+<link rel=stylesheet href=/css/fa.min.css>
 <script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/main.js></script>
-
-
-
-  
-
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
 </html>
