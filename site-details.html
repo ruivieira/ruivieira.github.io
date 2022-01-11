@@ -21,7 +21,7 @@ The CSS evolution (size, number of rules, etc) can be tracked over at Project Wa
 The site is generated from a set of org-mode files using Emacs, which mainly performs the following tasks:">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ruivieira.dev/site-details.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2022-01-02T00:49:16+00:00">
+<meta property="article:modified_time" content="2022-01-08T12:22:14+00:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Site details">
 <meta name=twitter:description content="Assets This site&rsquo;s CSS size is 84.1Kb. This, however, includes the following dependencies:
@@ -155,8 +155,8 @@ Site details
 </h1>
 <div class=meta>
 <div class=postdate>
-Updated <time datetime="2022-01-02 00:49:16 +0000 GMT" itemprop=datePublished>2022-01-02</time>
-<span class=commit-hash>(2da3d03)</span>
+Updated <time datetime="2022-01-08 12:22:14 +0000 GMT" itemprop=datePublished>2022-01-08</time>
+<span class=commit-hash>(b4fbb0c)</span>
 </div>
 </div>
 </header>
@@ -196,13 +196,23 @@ be bookmarked or shared. Please keep in mind that this intented for transitory l
 <p>As mentioned previously, search is done 100% client-side, so no information is collected about your search queries.</p>
 <p>The privacy record of this site can be verified independently by using <a href="https://themarkup.org/blacklight?url=ruivieira.dev">Blacklight</a>.</p>
 <h2 id=javascript>Javascript</h2>
-<p>All pages <strong>will work</strong> the same with or without Javascript, except the following:</p>
+<p>If you want to disable Javascript for this site, please do! It won&rsquo;t affect any of the main content.
+All pages <strong>will work</strong> the same with or without Javascript, except the following:</p>
 <ul>
 <li>The <a href=/graph.html>link graph page</a></li>
 <li>The <a href=#search>search page</a></li>
 <li><a href=#deep-linking>Deep linking</a></li>
 </ul>
-<p>So if you want to disable Javascript for this site, please do! It won&rsquo;t affect any of the content.</p>
+<p>Some sections are progressively enhanced by Javascript, but will work without it.
+As an example, many dates are represented by a <code>time</code> tag such as</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:navy>time</span>
+  <span style=color:teal>datetime</span><span style=font-weight:700>=</span><span style=color:#b84>&#34;2021-11-28 15:21:54 +0000 GMT&#34;</span>
+  <span style=color:teal>itemprop</span><span style=font-weight:700>=</span><span style=color:#b84>&#34;datePublished&#34;</span>&gt;2021-11-28&lt;/<span style=color:navy>time</span>&gt;
+</code></pre></div><p>These are converted to a relative date by Javascript resulting in</p>
+<p>
+<time datetime="2021-11-28 15:21:54 +0000 GMT" itemprop=datePublished>2021-11-28</time>
+</p>
+However, if no Javascript is available, the former date will still display.
 <h2 id=text-mode>Text mode</h2>
 <p>Apart from the obvious lack of images, the vast majority of this site will also work with a text-based browser (such as <a href=https://invisible-island.net/lynx/>lynx</a>).</p>
 <p>Even the code examples are quite readable (for instance, <code>pandas</code> dataframes are properly rendered as text tables).</p>
