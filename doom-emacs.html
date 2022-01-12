@@ -22,7 +22,7 @@ Languages Python Black formatter To allow formatting of Python blocks in org-mod
 Go The following modules must be enabled in init.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ruivieira.dev/doom-emacs.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2022-01-04T20:58:34+00:00">
+<meta property="article:modified_time" content="2022-01-12T22:57:05+00:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="DOOM Emacs">
 <meta name=twitter:description content="This an annotated version of my DOOM Emacs configuration. The source files can be found on Github or Sourcehut.
@@ -135,6 +135,7 @@ Go The following modules must be enabled in init.">
 <ul>
 <li><a href=#python>Python</a></li>
 <li><a href=#go>Go</a></li>
+<li><a href=#pikchr>Pikchr</a></li>
 </ul>
 </li>
 <li><a href=#ui>UI</a>
@@ -173,8 +174,8 @@ DOOM Emacs
 </h1>
 <div class=meta>
 <div class=postdate>
-Updated <time datetime="2022-01-04 20:58:34 +0000 GMT" itemprop=datePublished>2022-01-04</time>
-<span class=commit-hash>(f66a37a)</span>
+Updated <time datetime="2022-01-12 22:57:05 +0000 GMT" itemprop=datePublished>2022-01-12</time>
+<span class=commit-hash>(f31bd4d)</span>
 </div>
 </div>
 </header>
@@ -205,9 +206,14 @@ The source files can be found on <a href=https://github.com/ruivieira/.doom.d>Gi
 </code></pre></div><p>This will install the <code>web-mode</code> package<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>
 To specify the sepcific template engine as Go <kbd>M-x</kbd> <code>web-mode-set-engine</code> to <code>go</code>.</p>
 <p>Running <code>doom sync</code> will finish the setup.</p>
+<h3 id=pikchr>Pikchr</h3>
+<p>Support for <a href=/pikchr.html>Pikchr</a><sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup> is added via the <code>pikchr-mode</code> package. By adding</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:teal>package!</span> <span style=color:teal>pikchr-mode</span>)
+</code></pre></div><p>It is necessary to install the <code>pikchr</code> binary according to the instructions in <a href=/pikchr.html>Pikchr</a>.
+That page also contains examples.</p>
 <h2 id=ui>UI</h2>
 <h3 id=prettify-symbols>Prettify symbols</h3>
-<p>Since Emacs 24.4<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup> there is a builtin <code>prettify-symbols-mode</code>. It can be customized by changing <code>prettify-symbols-alist</code>. These strings will be replace by our selection, typically an unicode symbol. In this configuration we use the following:</p>
+<p>Since Emacs 24.4<sup id=fnref:5><a href=#fn:5 class=footnote-ref role=doc-noteref>5</a></sup> there is a builtin <code>prettify-symbols-mode</code>. It can be customized by changing <code>prettify-symbols-alist</code>. These strings will be replace by our selection, typically an unicode symbol. In this configuration we use the following:</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp>(<span style=color:#999>defun</span> <span style=color:teal>my/pretty-symbols</span> ()
   (<span style=color:#999>setq</span> <span style=color:teal>prettify-symbols-alist</span>
           <span style=font-weight:700>&#39;</span>((<span style=color:#b84>&#34;#+begin_src python&#34;</span> <span style=font-weight:700>.</span> <span style=color:#b84>&#34;🐍&#34;</span>)
@@ -272,7 +278,10 @@ $ sudo dnf -y install libvterm <span style=color:#998;font-style:italic># Fedora
 <p><a href=https://web-mode.org/>https://web-mode.org/</a>&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 <li id=fn:4 role=doc-endnote>
-<p><a href=https://www.emacswiki.org/emacs/PrettySymbol>https://www.emacswiki.org/emacs/PrettySymbol</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+<p><a href=https://pikchr.org/>https://pikchr.org/</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+<li id=fn:5 role=doc-endnote>
+<p><a href=https://www.emacswiki.org/emacs/PrettySymbol>https://www.emacswiki.org/emacs/PrettySymbol</a>&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -294,6 +303,7 @@ $ sudo dnf -y install libvterm <span style=color:#998;font-style:italic># Fedora
 <ul>
 <li><a href=#python>Python</a></li>
 <li><a href=#go>Go</a></li>
+<li><a href=#pikchr>Pikchr</a></li>
 </ul>
 </li>
 <li><a href=#ui>UI</a>
