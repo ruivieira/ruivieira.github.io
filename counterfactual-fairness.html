@@ -19,12 +19,12 @@
 The Law School Admission Council conducted a survey across 163 law schools in the United States. It contains information on 21,790 law students such as their entrance exam scores (LSAT), their grade-point average (GPA) collected prior to law school, and their first year average grade (FYA). Given this data, a school may wish to predict if an applicant will have a high `FYA`.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ruivieira.dev/counterfactual-fairness.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00">
+<meta property="article:modified_time" content="2022-03-02T21:09:11+00:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Counterfactual Fairness">
 <meta name=twitter:description content="Building counterfactually fair models Data To evaluate counterfactual fairness we will be using the &ldquo;law school&rdquo; dataset1.
 The Law School Admission Council conducted a survey across 163 law schools in the United States. It contains information on 21,790 law students such as their entrance exam scores (LSAT), their grade-point average (GPA) collected prior to law school, and their first year average grade (FYA). Given this data, a school may wish to predict if an applicant will have a high `FYA`.">
-<link rel=stylesheet href=https://ruivieira.dev/css/styles.c7943c484a0ec624069ce4f9908c7aad84700a9adbf05dc4b61a91514c462f7ac69eb9afa125b9b4d0418de29d3cb150a48c4fbd3c6cb716ac308290ea466621.css integrity="sha512-x5Q8SEoOxiQGnOT5kIx6rYRwCprb8F3EthqRUUxGL3rGnrmvoSW5tNBBjeKdPLFQpIxPvTxstxasMIKQ6kZmIQ=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<link rel=stylesheet href=https://ruivieira.dev/css/styles.8316e137fb94caefa5bbc43fcebf980aeac03b43dfb526e90ef42c54565d4248cab93ce2b80980586983c22cbf2c2a0e6fe92f1ed32996d1608b7a92812bf3ab.css integrity="sha512-gxbhN/uUyu+lu8Q/zr+YCurAO0PftSbpDvQsVFZdQkjKuTziuAmAWGmDwiy/LCoOb+kvHtMpltFgi3qSgSvzqw=="><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
 <script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
 <link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
 </head>
@@ -168,8 +168,8 @@ Counterfactual Fairness
 </h1>
 <div class=meta>
 <div class=postdate>
-Updated <time datetime="2022-01-03 21:56:06 +0000 GMT" itemprop=datePublished>2022-01-03</time>
-<span class=commit-hash>(261c776)</span>
+Updated <time datetime="2022-03-02 21:09:11 +0000 GMT" itemprop=datePublished>2022-03-02</time>
+<span class=commit-hash>(d95ed60)</span>
 </div>
 </div>
 </header>
@@ -212,7 +212,7 @@ df<span style=font-weight:700>.</span>iloc[:, : <span style=color:#099>7</span>]
 2           0      0      0         0        0      0            0      1
 5           0      0      0         1        0      0            0      0
 6           0      0      0         0        0      0            0      1
-</code></pre></div><p>We also want to expand the `sex` variable into `male`/`female` categorical variables and remove the original.</p>
+</code></pre></div><p>We also want to expand the <code>sex</code> variable into <code>male</code> / <code>female</code> categorical variables and remove the original.</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df[<span style=color:#b84>&#34;male&#34;</span>] <span style=font-weight:700>=</span> df[<span style=color:#b84>&#34;sex&#34;</span>]<span style=font-weight:700>.</span>map(<span style=font-weight:700>lambda</span> x: <span style=color:#099>1</span> <span style=font-weight:700>if</span> x <span style=font-weight:700>==</span> <span style=color:#099>2</span> <span style=font-weight:700>else</span> <span style=color:#099>0</span>)
 df[<span style=color:#b84>&#34;female&#34;</span>] <span style=font-weight:700>=</span> df[<span style=color:#b84>&#34;sex&#34;</span>]<span style=font-weight:700>.</span>map(<span style=font-weight:700>lambda</span> x: <span style=color:#099>1</span> <span style=font-weight:700>if</span> x <span style=font-weight:700>==</span> <span style=color:#099>1</span> <span style=font-weight:700>else</span> <span style=color:#099>0</span>)
 df <span style=font-weight:700>=</span> df<span style=font-weight:700>.</span>drop(axis<span style=font-weight:700>=</span><span style=color:#099>1</span>, columns<span style=font-weight:700>=</span>[<span style=color:#b84>&#34;sex&#34;</span>])
@@ -295,7 +295,7 @@ features to construct a Level 1 counterfactually fair predictor as described in 
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>from</span> <span style=color:#555>sklearn.linear_model</span> <span style=font-weight:700>import</span> LinearRegression
 
 linreg_unfair <span style=font-weight:700>=</span> LinearRegression()
-</code></pre></div><p>The inputs will then be the totality of the variabes (protected variables \(A\), as well as `UGPA` and `LSAT`).</p>
+</code></pre></div><p>The inputs will then be the totality of the variabes (protected variables \(A\), as well as <code>UGPA</code> and <code>LSAT</code>).</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 
 X <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
@@ -313,7 +313,7 @@ X <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hst
  [ 0.   0.   0.  ...  1.   2.9 33. ]
  [ 0.   0.   0.  ...  0.   2.9 31. ]
  [ 0.   0.   0.  ...  0.   3.6 39. ]]
-</code></pre></div><p>As for our target, we are trying to predict `ZFYA` (first year average grade).</p>
+</code></pre></div><p>As for our target, we are trying to predict <code>ZFYA</code> (first year average grade).</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>y <span style=font-weight:700>=</span> df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>]
 y[:<span style=color:#099>10</span>]
 </code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>10454    0.56
@@ -416,10 +416,10 @@ L(\theta)\equiv \sum_{i=1}^n \mathbb{E}[l(y^{(i)},g_\theta(U^{(i)}, x^{(i)}_{\ns
 <p>\[
 U^{(i)}\sim P_{\mathcal{M}}(U|x^{(i)}, a^{(i)})
 \]</p>
-<p>where \(P_{\mathcal{M}}(U|x,a)\) is the conditional distribution of the background variables as given by a causal model M that is available by assumption.</p>
+<p>where \(P_{\mathcal{M}}(U|x,a)\) is the conditional distribution of the background variables as given by a causal model \(M\) that is available by assumption.</p>
 <p>If this expectation cannot be calculated analytically, Markov chain Monte Carlo (MCMC) can be used to approximate it as in the following algorithm.</p>
 <p>We will follow the model specified in the original paper, where the latent variable considered is \(K\), which represents a student&rsquo;s <strong><strong>knowledge</strong></strong>.
-\(K\) will affect `GPA`, `LSAT` and the outcome, `FYA`.
+\(K\) will affect <code>GPA</code>, <code>LSAT</code> and the outcome, <code>FYA</code>.
 The model can be defined by:</p>
 <p>\begin{aligned}
 GPA &\sim \mathcal{N}(GPA_0 + w_{GPA}^KK + w_{GPA}^RR + w_{GPA}^SS, \sigma_{GPA}) \\
@@ -586,7 +586,7 @@ predictions_latent
 <span style=color:#999>print</span>(RMSE_latent)
 </code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>0.9262963924423802
 </code></pre></div><h3 id=additive-error-model>Additive error model</h3>
-<p>Finally, in <strong><strong>Level 3</strong></strong>, we model `GPA`, `LSAT`, and `FYA` as continuous variables with additive error terms
+<p>Finally, in <strong><strong>Level 3</strong></strong>, we model <code>GPA</code>, <code>LSAT</code>, and <code>FYA</code> as continuous variables with additive error terms
 independent of race and sex<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>.</p>
 <p>This corresponds to</p>
 <p>\begin{aligned}
@@ -595,9 +595,9 @@ LSAT &= b_L + w^R_{LSAT}R + w^S_{LSAT}S + \epsilon_{LSAT}, \epsilon_{LSAT} \sim 
 FYA &= b_{FYA} + w^R_{FYA}R + w^S_{FYA}S + \epsilon_{FYA} , \epsilon_{FYA} \sim p(\epsilon_{FYA})
 \end{aligned}</p>
 <p>We estimate the error terms \(\epsilon_{GPA}, \epsilon_{LSAT}\) by first fitting two models that each use race and sex to individually
-predict `GPA` and `LSAT`. We then compute the residuals of each model (_e.g._, \(\epsilon_{GPA} =GPA−\hat{Y}_{GPA}(R, S)\)).
-We use these residual estimates of \(\epsilon_{GPA}, \epsilon_{LSAT}\) to predict \(FYA\). In [^Kusner2017] this is called <span class=underline>Fair Add</span>.</p>
-<p>Since the process is similar for the individual predictions for `GPA` and `LSAT`, we will write a method to avoid repetion.</p>
+predict <code>GPA</code> and <code>LSAT</code>. We then compute the residuals of each model (<em>e.g.</em>, \(\epsilon_{GPA} =GPA−\hat{Y}_{GPA}(R, S)\)).
+We use these residual estimates of \(\epsilon_{GPA}, \epsilon_{LSAT}\) to predict \(FYA\). In <sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup> this is called <em>Fair Add</em>.</p>
+<p>Since the process is similar for the individual predictions for <code>GPA</code> and <code>LSAT</code>, we will write a method to avoid repetion.</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>calculate_epsilon</span>(data, var_name, protected_attr):
     X <span style=font-weight:700>=</span> data[protected_attr]
     y <span style=font-weight:700>=</span> data[var_name]
@@ -655,7 +655,7 @@ plt<span style=font-weight:700>.</span>xlabel(<span style=color:#b84>&#34;$\epsi
 plt<span style=font-weight:700>.</span>show()
 </code></pre></div><figure><img src=/ox-hugo/1fbff0daab700f9804c68166ea84bef906ac3f93.png>
 </figure>
-<p>We finally use the calculated \(\epsilon\) to train a model in order to predict `FYA`.
+<p>We finally use the calculated \(\epsilon\) to train a model in order to predict <code>FYA</code>.
 We start by getting the subset of the \(\epsilon\) which match the training indices.</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>hstack(
     (
@@ -775,7 +775,7 @@ plt<span style=font-weight:700>.</span>show()
 </figure>
 <h3 id=finding-sensitive-features>Finding sensitive features</h3>
 <p>Typically a \(SPD > 0.1\) and a \(DI &lt; 0.9\) might indicate discrimination on those features.
-All <span class=underline>protected attributes</span> fail the SPD test and, in our dataset, we have two features (`Hispanic` and `Mexican`) which clearly fail the DI test.</p>
+All <span class=underline>protected attributes</span> fail the SPD test and, in our dataset, we have two features (<code>Hispanic</code> and <code>Mexican</code>) which clearly fail the DI test.</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>for</span> a <span style=font-weight:700>in</span> [<span style=color:#b84>&#34;Mexican&#34;</span>, <span style=color:#b84>&#34;Hispanic&#34;</span>]:
     spd <span style=font-weight:700>=</span> demographic_parity_difference(y_true<span style=font-weight:700>=</span>df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],
                                         y_pred<span style=font-weight:700>=</span>df_train[<span style=color:#b84>&#34;ZFYA&#34;</span>],

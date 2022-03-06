@@ -44,7 +44,7 @@ $(document).ready(function() {
     $("#header > #nav > ul").toggleClass("responsive");
   });
 
-
+  
   /**
    * Controls the different versions of  the menu in blog post articles 
    * for Desktop, tablet and mobile.
