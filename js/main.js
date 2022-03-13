@@ -36,6 +36,8 @@ function showDateDelta() {
 
 $(document).ready(function() {
 
+  const markInstance = new Mark("div.content");
+
   showDateDelta();
   /**
    * Shows the responsive navigation menu on mobile.
@@ -135,5 +137,20 @@ $(document).ready(function() {
       });
     }
   }
+
+
+  $(".focus").each((i, obj) => {
+    $(obj).click(() => {
+      const focused = $(obj).data("focused");
+      const keyword = $(obj).data("keyword")
+      if (focused == undefined || focused == "false") {
+        $(obj).data("focused", "true");
+        markInstance.mark(keyword);
+      } else {
+        $(obj).data("focused", "false");
+        markInstance.unmark();
+      }
+    });
+  })
 
 });
