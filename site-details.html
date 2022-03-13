@@ -130,8 +130,13 @@ The site is generated from a set of org-mode files using Emacs, which mainly per
 <nav id=TableOfContents>
 <ul>
 <li><a href=#assets>Assets</a></li>
+<li><a href=#navigation>Navigation</a>
+<ul>
 <li><a href=#search>Search</a></li>
 <li><a href=#deep-linking>Deep linking</a></li>
+<li><a href=#keyword-focus>Keyword focus</a></li>
+</ul>
+</li>
 <li><a href=#privacy>Privacy</a></li>
 <li><a href=#javascript>Javascript</a></li>
 <li><a href=#text-mode>Text mode</a></li>
@@ -177,7 +182,8 @@ This, however, includes the following dependencies:</p>
 <li>Build the client-side search index</li>
 <li>convert the <code>org-mode</code> files to HTML<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></li>
 </ul>
-<h2 id=search>Search</h2>
+<h2 id=navigation>Navigation</h2>
+<h3 id=search>Search</h3>
 <p>The site is searchable from <a href=/search.html>here</a>.
 The search page also allows for query string searches using the <code>q</code> keyword, for instance:</p>
 <pre tabindex=0><code class=language-nil data-lang=nil>/search.html?q=statistics
@@ -186,9 +192,12 @@ The search page also allows for query string searches using the <code>q</code> k
 <p>Highlighting of terms is also possible just adding the query parameter <code>?h=...</code> to <strong>any page</strong>. For instance, to highlight the term <code>privacy</code> on this page, simply go to</p>
 <pre tabindex=0><code class=language-nil data-lang=nil>/site-details.html?h=privacy
 </code></pre><p>or click <a href="/site-details.html?h=privacy">here</a>.</p>
-<h2 id=deep-linking>Deep linking</h2>
+<h3 id=deep-linking>Deep linking</h3>
 <p>This site implements &ldquo;deep links&rdquo;. This means that any section of text selected will generate a new URL which links directly to it. This link can
 be bookmarked or shared. Please keep in mind that this intented for transitory linking, since long-term structure of the page is not guaranteed.</p>
+<h3 id=keyword-focus>Keyword focus</h3>
+<p>Some <span class=focus data-keyword=page>keywords</span> are clickable and will highlight all occurences of a certain term throughtout the page.
+The main use case is, for instance, code-heavy pages where a certain variable or term might benefit from standing out to understand the concepts more easily.</p>
 <h2 id=privacy>Privacy</h2>
 <p>No cookies are used on this site.</p>
 <p>All site traffic statistics are captured using <a href=https://www.goatcounter.com/>GoatCounter</a>. Goatcounter is an open-source, privacy-friendly analytics site, which <strong>doesn&rsquo;t use cookies</strong> and collects minimal information, just enough to produce a few useful summaries. In line with the desire for total transparency for all visitors, I&rsquo;ve made the realtime stats dashboard for this site <strong>public</strong> and available at <a href="https://ruivieira-dev.goatcounter.com/?hl-period=year">https://ruivieira-dev.goatcounter.com/</a>. You can see for yourself which data is collected.</p>
@@ -202,7 +211,9 @@ All pages <strong>will work</strong> the same with or without Javascript, except
 <li>The <a href=/graph.html>link graph page</a></li>
 <li>The <a href=#search>search page</a></li>
 <li><a href=#deep-linking>Deep linking</a></li>
+<li><a href=#keyword-focus>Keyword focus</a></li>
 </ul>
+<p>All of these are simply navigation helpers and the content does not depend on this functionality.</p>
 <p>Some sections are progressively enhanced by Javascript, but will work without it.
 As an example, many dates are represented by a <code>time</code> tag such as</p>
 <div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:navy>time</span>
@@ -247,8 +258,13 @@ However, if no Javascript is available, the former date will still display.</p>
 <nav id=TableOfContents>
 <ul>
 <li><a href=#assets>Assets</a></li>
+<li><a href=#navigation>Navigation</a>
+<ul>
 <li><a href=#search>Search</a></li>
 <li><a href=#deep-linking>Deep linking</a></li>
+<li><a href=#keyword-focus>Keyword focus</a></li>
+</ul>
+</li>
 <li><a href=#privacy>Privacy</a></li>
 <li><a href=#javascript>Javascript</a></li>
 <li><a href=#text-mode>Text mode</a></li>
