@@ -1,293 +1,36 @@
-<!doctype html><html lang=en-uk>
-<head>
-<script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+<!doctype html><html lang=en-uk><head><script data-goatcounter=https://ruivieira-dev.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 <script type=module src=/js/deeplinks/deeplinks.js></script>
-<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous>
-<link rel=stylesheet href=/css/kbd.css type=text/css>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<title> Random walk · Rui Vieira</title>
-<link rel=canonical href=https://ruivieira.dev/random-walk.html>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="all,follow">
-<meta name=googlebot content="index,follow,snippet,archive">
-<meta property="og:title" content="Random walk">
-<meta property="og:description" content="Introduction A random walk is a stochastic process which describes a path made of consecutive random steps.
+<link rel=preload href=/lib/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=preload href=/lib/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=preload href=/lib/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=preload href=/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2 as=font type=font/woff2 crossorigin=anonymous><link rel=stylesheet href=/css/kbd.css type=text/css><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Random walk · Rui Vieira</title><link rel=canonical href=https://ruivieira.dev/random-walk.html><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="all,follow"><meta name=googlebot content="index,follow,snippet,archive"><meta property="og:title" content="Random walk"><meta property="og:description" content="Introduction A random walk is a stochastic process which describes a path made of consecutive random steps.
 Gaussian In Gaussian random walk the steps follow a continous Gaussian distribution. We will look at two different types, the univariate and multivariate kind.
 Univariate A univariate Gaussian Random Walk, is a series of i.i.d. \(\mathcal{N}(0,1)\) random variables such that
 \begin{align*} X_0&=0 \\ X_t&=X_{t−1}+\epsilon_t \end{align*}
-Where \(t=1,2,\dots\) and \(\epsilon_t\) is a series of i.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://ruivieira.dev/random-walk.html"><meta property="article:section" content="posts">
-<meta property="article:modified_time" content="2022-01-03T21:56:06+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Random walk">
-<meta name=twitter:description content="Introduction A random walk is a stochastic process which describes a path made of consecutive random steps.
+Where \(t=1,2,\dots\) and \(\epsilon_t\) is a series of i."><meta property="og:type" content="article"><meta property="og:url" content="https://ruivieira.dev/random-walk.html"><meta property="article:section" content="posts"><meta property="article:modified_time" content="2022-01-03T21:56:06+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Random walk"><meta name=twitter:description content="Introduction A random walk is a stochastic process which describes a path made of consecutive random steps.
 Gaussian In Gaussian random walk the steps follow a continous Gaussian distribution. We will look at two different types, the univariate and multivariate kind.
 Univariate A univariate Gaussian Random Walk, is a series of i.i.d. \(\mathcal{N}(0,1)\) random variables such that
 \begin{align*} X_0&=0 \\ X_t&=X_{t−1}+\epsilon_t \end{align*}
-Where \(t=1,2,\dots\) and \(\epsilon_t\) is a series of i.">
-<link rel=stylesheet href=https://ruivieira.dev/css/styles.css><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
-<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]-->
-<link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico>
-</head>
-<body class="max-width mx-auto px3 ltr">
-<div class="content index py4">
-<div id=header-post>
-<a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
+Where \(t=1,2,\dots\) and \(\epsilon_t\) is a series of i."><link rel=stylesheet href=https://ruivieira.dev/css/styles.css><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js></script>
+<script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]--><link rel=icon type=image/png href=https://ruivieira.dev/images/favicon.ico></head><body class="max-width mx-auto px3 ltr"><div class="content index py4"><div id=header-post><a id=menu-icon href=#><i class="fas fa-bars fa-lg"></i></a>
 <a id=menu-icon-tablet href=#><i class="fas fa-bars fa-lg"></i></a>
-<a id=top-icon-tablet href=# onclick="$('html, body').animate({scrollTop:0},'fast')" style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
-<span id=menu>
-<span id=nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</span>
-<br>
-<span id=actions>
-<ul>
-<li>
-<a class=icon href=https://ruivieira.dev/reading-list.html aria-label=Previous>
-<i class="fas fa-chevron-left" aria-hidden=true onmouseover="$('#i-prev').toggle()" onmouseout="$('#i-prev').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=https://ruivieira.dev/quarkus.html aria-label=Next>
-<i class="fas fa-chevron-right" aria-hidden=true onmouseover="$('#i-next').toggle()" onmouseout="$('#i-next').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up" aria-hidden=true onmouseover="$('#i-top').toggle()" onmouseout="$('#i-top').toggle()"></i>
-</a>
-</li>
-<li>
-<a class=icon href=# aria-label=Share>
-<i class="fas fa-share-alt" aria-hidden=true onmouseover="$('#i-share').toggle()" onmouseout="$('#i-share').toggle()" onclick="return $('#share').toggle(),!1"></i>
-</a>
-</li>
-</ul>
-<span id=i-prev class=info style=display:none>Previous post</span>
+<a id=top-icon-tablet href=# onclick='$("html, body").animate({scrollTop:0},"fast")' style=display:none aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+<span id=menu><span id=nav><ul><li><a href=/>Home</a></li><li><a href=/map/>All pages</a></li><li><a href=/search.html>Search</a></li></ul></span><br><span id=actions><ul><li><a class=icon href=https://ruivieira.dev/reading-list.html aria-label=Previous><i class="fas fa-chevron-left" aria-hidden=true onmouseover='$("#i-prev").toggle()' onmouseout='$("#i-prev").toggle()'></i></a></li><li><a class=icon href=https://ruivieira.dev/quarkus.html aria-label=Next><i class="fas fa-chevron-right" aria-hidden=true onmouseover='$("#i-next").toggle()' onmouseout='$("#i-next").toggle()'></i></a></li><li><a class=icon href=# onclick='$("html, body").animate({scrollTop:0},"fast")' aria-label="Top of Page"><i class="fas fa-chevron-up" aria-hidden=true onmouseover='$("#i-top").toggle()' onmouseout='$("#i-top").toggle()'></i></a></li><li><a class=icon href=# aria-label=Share><i class="fas fa-share-alt" aria-hidden=true onmouseover='$("#i-share").toggle()' onmouseout='$("#i-share").toggle()' onclick='return $("#share").toggle(),!1'></i></a></li></ul><span id=i-prev class=info style=display:none>Previous post</span>
 <span id=i-next class=info style=display:none>Next post</span>
 <span id=i-top class=info style=display:none>Back to top</span>
-<span id=i-share class=info style=display:none>Share post</span>
-</span>
-<br>
-<div id=share style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Facebook>
-<i class="fab fa-facebook" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&text=Random%20walk" aria-label=Twitter>
-<i class="fab fa-twitter" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Linkedin>
-<i class="fab fa-linkedin" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&is_video=false&description=Random%20walk" aria-label=Pinterest>
-<i class="fab fa-pinterest" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Random%20walk&body=Check out this article: https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Email>
-<i class="fas fa-envelope" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Pocket>
-<i class="fab fa-get-pocket" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=reddit>
-<i class="fab fa-reddit" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&name=Random%20walk&description=Introduction%20A%20random%20walk%20is%20a%20stochastic%20process%20which%20describes%20a%20path%20made%20of%20consecutive%20random%20steps.%0aGaussian%20In%20Gaussian%20random%20walk%20the%20steps%20follow%20a%20continous%20Gaussian%20distribution.%20We%20will%20look%20at%20two%20different%20types%2c%20the%20univariate%20and%20multivariate%20kind.%0aUnivariate%20A%20univariate%20Gaussian%20Random%20Walk%2c%20is%20a%20series%20of%20i.i.d.%20%5c%28%5cmathcal%7bN%7d%280%2c1%29%5c%29%20random%20variables%20such%20that%0a%5cbegin%7balign%2a%7d%20X_0%26amp%3b%3d0%20%5c%5c%20X_t%26amp%3b%3dX_%7bt%e2%88%921%7d%2b%5cepsilon_t%20%5cend%7balign%2a%7d%0aWhere%20%5c%28t%3d1%2c2%2c%5cdots%5c%29%20and%20%5c%28%5cepsilon_t%5c%29%20is%20a%20series%20of%20i." aria-label=Tumblr>
-<i class="fab fa-tumblr" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html&t=Random%20walk" aria-label="Hacker News">
-<i class="fab fa-hacker-news" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div>
-<div id=toc>
-<h4>Contents</h4>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#introduction>Introduction</a></li>
-<li><a href=#gaussian>Gaussian</a>
-<ul>
-<li><a href=#univariate>Univariate</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-<h4>Related</h4>
-<nav>
-<ul>
-<li class="header-post toc"><a href=https://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html>Containerised Streaming Data Generation using State-Space Models</a></li>
-<li class="header-post toc"><a href=https://ruivieira.dev/synthetic-data-generation.html>Synthetic Data Generation</a></li>
-</ul>
-</nav>
-</div>
-</span>
-</div>
-<article class=post itemscope itemtype=http://schema.org/BlogPosting>
-<header>
-<h1 class=posttitle itemprop="name headline">
-Random walk
-</h1>
-<div class=meta>
-<div class=postdate>
-Updated <time datetime="2022-01-03 21:56:06 +0000 GMT" itemprop=datePublished>2022-01-03</time>
-<span class=commit-hash>(261c776)</span>
-</div>
-</div>
-</header>
-<div class=content itemprop=articleBody>
-<h2 id=introduction>Introduction</h2>
-<p>A <em>random walk</em> is a stochastic process which describes a path made of consecutive random steps.</p>
-<h2 id=gaussian>Gaussian</h2>
-<p>In Gaussian random walk the steps follow a continous Gaussian distribution.
-We will look at two different types, the univariate and multivariate kind.</p>
-<h3 id=univariate>Univariate</h3>
-<p>A univariate Gaussian Random Walk, is a series of <em>i.i.d.</em> \(\mathcal{N}(0,1)\) random variables such that</p>
-<p>\begin{align*}
+<span id=i-share class=info style=display:none>Share post</span></span><br><div id=share style=display:none><ul><li><a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Facebook><i class="fab fa-facebook" aria-hidden=true></i></a></li><li><a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&text=Random%20walk" aria-label=Twitter><i class="fab fa-twitter" aria-hidden=true></i></a></li><li><a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Linkedin><i class="fab fa-linkedin" aria-hidden=true></i></a></li><li><a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&is_video=false&description=Random%20walk" aria-label=Pinterest><i class="fab fa-pinterest" aria-hidden=true></i></a></li><li><a class=icon href="mailto:?subject=Random%20walk&body=Check out this article: https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Email><i class="fas fa-envelope" aria-hidden=true></i></a></li><li><a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Pocket><i class="fab fa-get-pocket" aria-hidden=true></i></a></li><li><a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=reddit><i class="fab fa-reddit" aria-hidden=true></i></a></li><li><a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&name=Random%20walk&description=Introduction%20A%20random%20walk%20is%20a%20stochastic%20process%20which%20describes%20a%20path%20made%20of%20consecutive%20random%20steps.%0aGaussian%20In%20Gaussian%20random%20walk%20the%20steps%20follow%20a%20continous%20Gaussian%20distribution.%20We%20will%20look%20at%20two%20different%20types%2c%20the%20univariate%20and%20multivariate%20kind.%0aUnivariate%20A%20univariate%20Gaussian%20Random%20Walk%2c%20is%20a%20series%20of%20i.i.d.%20%5c%28%5cmathcal%7bN%7d%280%2c1%29%5c%29%20random%20variables%20such%20that%0a%5cbegin%7balign%2a%7d%20X_0%26amp%3b%3d0%20%5c%5c%20X_t%26amp%3b%3dX_%7bt%e2%88%921%7d%2b%5cepsilon_t%20%5cend%7balign%2a%7d%0aWhere%20%5c%28t%3d1%2c2%2c%5cdots%5c%29%20and%20%5c%28%5cepsilon_t%5c%29%20is%20a%20series%20of%20i." aria-label=Tumblr><i class="fab fa-tumblr" aria-hidden=true></i></a></li><li><a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html&t=Random%20walk" aria-label="Hacker News"><i class="fab fa-hacker-news" aria-hidden=true></i></a></li></ul></div><div id=toc><h4>Contents</h4><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#gaussian>Gaussian</a><ul><li><a href=#univariate>Univariate</a></li></ul></li></ul></nav><h4>Related</h4><nav><ul><li class="header-post toc"><a href=https://ruivieira.dev/containerised-streaming-data-generation-using-state-space-models.html>Containerised Streaming Data Generation using State-Space Models</a></li><li class="header-post toc"><a href=https://ruivieira.dev/synthetic-data-generation.html>Synthetic Data Generation</a></li></ul></nav></div></span></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><header><h1 class=posttitle itemprop="name headline">Random walk</h1><div class=meta><div class=postdate>Updated <time datetime="2022-01-03 21:56:06 +0000 GMT" itemprop=datePublished>2022-01-03</time>
+<span class=commit-hash>(261c776)</span></div></div></header><div class=content itemprop=articleBody><h2 id=introduction>Introduction</h2><p>A <em>random walk</em> is a stochastic process which describes a path made of consecutive random steps.</p><h2 id=gaussian>Gaussian</h2><p>In Gaussian random walk the steps follow a continous Gaussian distribution.
+We will look at two different types, the univariate and multivariate kind.</p><h3 id=univariate>Univariate</h3><p>A univariate Gaussian Random Walk, is a series of <em>i.i.d.</em> \(\mathcal{N}(0,1)\) random variables such that</p><p>\begin{align*}
 X_0&=0 \\
 X_t&=X_{t−1}+\epsilon_t
-\end{align*}</p>
-<p>Where \(t=1,2,\dots\) and \(\epsilon_t\) is a series of <em>i.i.d.</em> \(\mathcal{N}(0,1)\) random variables.</p>
-<p>Let&rsquo;s illustrate a simple univariate Gaussian random walk in <a href=/python.html>Python</a>, by plotting 1000 realisations.</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
-
-N <span style=font-weight:700>=</span> <span style=color:#099>1000</span>
-np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>seed(<span style=color:#099>23</span>)
-realisations <span style=font-weight:700>=</span> []
-<span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N):
-    realisations<span style=font-weight:700>.</span>append(np<span style=font-weight:700>.</span>cumsum(np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>normal(size<span style=font-weight:700>=</span><span style=color:#099>100</span>)))
-</code></pre></div><figure><img src=/ox-hugo/rw-uni-gaussian.png>
-</figure>
-</div>
-</article>
-<div id=footer-post-container>
-<div id=footer-post>
-<div id=nav-footer style=display:none>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</div>
-<div id=toc-footer style=display:none>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#introduction>Introduction</a></li>
-<li><a href=#gaussian>Gaussian</a>
-<ul>
-<li><a href=#univariate>Univariate</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-<div id=share-footer style=display:none>
-<ul>
-<li>
-<a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Facebook>
-<i class="fab fa-facebook fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&text=Random%20walk" aria-label=Twitter>
-<i class="fab fa-twitter fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Linkedin>
-<i class="fab fa-linkedin fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&is_video=false&description=Random%20walk" aria-label=Pinterest>
-<i class="fab fa-pinterest fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="mailto:?subject=Random%20walk&body=Check out this article: https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Email>
-<i class="fas fa-envelope fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Pocket>
-<i class="fab fa-get-pocket fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=reddit>
-<i class="fab fa-reddit fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&name=Random%20walk&description=Introduction%20A%20random%20walk%20is%20a%20stochastic%20process%20which%20describes%20a%20path%20made%20of%20consecutive%20random%20steps.%0aGaussian%20In%20Gaussian%20random%20walk%20the%20steps%20follow%20a%20continous%20Gaussian%20distribution.%20We%20will%20look%20at%20two%20different%20types%2c%20the%20univariate%20and%20multivariate%20kind.%0aUnivariate%20A%20univariate%20Gaussian%20Random%20Walk%2c%20is%20a%20series%20of%20i.i.d.%20%5c%28%5cmathcal%7bN%7d%280%2c1%29%5c%29%20random%20variables%20such%20that%0a%5cbegin%7balign%2a%7d%20X_0%26amp%3b%3d0%20%5c%5c%20X_t%26amp%3b%3dX_%7bt%e2%88%921%7d%2b%5cepsilon_t%20%5cend%7balign%2a%7d%0aWhere%20%5c%28t%3d1%2c2%2c%5cdots%5c%29%20and%20%5c%28%5cepsilon_t%5c%29%20is%20a%20series%20of%20i." aria-label=Tumblr>
-<i class="fab fa-tumblr fa-lg" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html&t=Random%20walk" aria-label="Hacker News">
-<i class="fab fa-hacker-news fa-lg" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div>
-<div id=actions-footer>
-<a id=menu-toggle class=icon href=# onclick="return $('#nav-footer').toggle(),!1" aria-label=Menu>
-<i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
-<a id=toc-toggle class=icon href=# onclick="return $('#toc-footer').toggle(),!1" aria-label=TOC>
-<i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
-<a id=share-toggle class=icon href=# onclick="return $('#share-footer').toggle(),!1" aria-label=Share>
-<i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
-<a id=top style=display:none class=icon href=# onclick="$('html, body').animate({scrollTop:0},'fast')" aria-label="Top of Page">
-<i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a>
-</div>
-</div>
-</div>
-<footer id=footer>
-<div class=footer-left>
-Copyright &copy; 2022 Rui Vieira
-</div>
-<div class=footer-right>
-<nav>
-<ul>
-<li><a href=/>Home</a></li>
-<li><a href=/map/>All pages</a></li>
-<li><a href=/search.html>Search</a></li>
-</ul>
-</nav>
-</div>
-</footer>
-</div>
-</body>
-<link rel=stylesheet href=/css/fa.min.css>
-<script src=/js/jquery-3.6.0.min.js></script>
+\end{align*}</p><p>Where \(t=1,2,\dots\) and \(\epsilon_t\) is a series of <em>i.i.d.</em> \(\mathcal{N}(0,1)\) random variables.</p><p>Let&rsquo;s illustrate a simple univariate Gaussian random walk in <a href=/python.html>Python</a>, by plotting 1000 realisations.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>N <span style=font-weight:700>=</span> <span style=color:#099>1000</span>
+</span></span><span style=display:flex><span>np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>seed(<span style=color:#099>23</span>)
+</span></span><span style=display:flex><span>realisations <span style=font-weight:700>=</span> []
+</span></span><span style=display:flex><span><span style=font-weight:700>for</span> i <span style=font-weight:700>in</span> <span style=color:#999>range</span>(N):
+</span></span><span style=display:flex><span>    realisations<span style=font-weight:700>.</span>append(np<span style=font-weight:700>.</span>cumsum(np<span style=font-weight:700>.</span>random<span style=font-weight:700>.</span>normal(size<span style=font-weight:700>=</span><span style=color:#099>100</span>)))
+</span></span></code></pre></div><figure><img src=/ox-hugo/rw-uni-gaussian.png></figure></div></article><div id=footer-post-container><div id=footer-post><div id=nav-footer style=display:none><ul><li><a href=/>Home</a></li><li><a href=/map/>All pages</a></li><li><a href=/search.html>Search</a></li></ul></div><div id=toc-footer style=display:none><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#gaussian>Gaussian</a><ul><li><a href=#univariate>Univariate</a></li></ul></li></ul></nav></div><div id=share-footer style=display:none><ul><li><a class=icon href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Facebook><i class="fab fa-facebook fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://twitter.com/share?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&text=Random%20walk" aria-label=Twitter><i class="fab fa-twitter fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Linkedin><i class="fab fa-linkedin fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&is_video=false&description=Random%20walk" aria-label=Pinterest><i class="fab fa-pinterest fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="mailto:?subject=Random%20walk&body=Check out this article: https%3a%2f%2fruivieira.dev%2frandom-walk.html" aria-label=Email><i class="fas fa-envelope fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://getpocket.com/save?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=Pocket><i class="fab fa-get-pocket fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://reddit.com/submit?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&title=Random%20walk" aria-label=reddit><i class="fab fa-reddit fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="http://www.tumblr.com/share/link?url=https%3a%2f%2fruivieira.dev%2frandom-walk.html&name=Random%20walk&description=Introduction%20A%20random%20walk%20is%20a%20stochastic%20process%20which%20describes%20a%20path%20made%20of%20consecutive%20random%20steps.%0aGaussian%20In%20Gaussian%20random%20walk%20the%20steps%20follow%20a%20continous%20Gaussian%20distribution.%20We%20will%20look%20at%20two%20different%20types%2c%20the%20univariate%20and%20multivariate%20kind.%0aUnivariate%20A%20univariate%20Gaussian%20Random%20Walk%2c%20is%20a%20series%20of%20i.i.d.%20%5c%28%5cmathcal%7bN%7d%280%2c1%29%5c%29%20random%20variables%20such%20that%0a%5cbegin%7balign%2a%7d%20X_0%26amp%3b%3d0%20%5c%5c%20X_t%26amp%3b%3dX_%7bt%e2%88%921%7d%2b%5cepsilon_t%20%5cend%7balign%2a%7d%0aWhere%20%5c%28t%3d1%2c2%2c%5cdots%5c%29%20and%20%5c%28%5cepsilon_t%5c%29%20is%20a%20series%20of%20i." aria-label=Tumblr><i class="fab fa-tumblr fa-lg" aria-hidden=true></i></a></li><li><a class=icon href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fruivieira.dev%2frandom-walk.html&t=Random%20walk" aria-label="Hacker News"><i class="fab fa-hacker-news fa-lg" aria-hidden=true></i></a></li></ul></div><div id=actions-footer><a id=menu-toggle class=icon href=# onclick='return $("#nav-footer").toggle(),!1' aria-label=Menu><i class="fas fa-bars fa-lg" aria-hidden=true></i> Menu</a>
+<a id=toc-toggle class=icon href=# onclick='return $("#toc-footer").toggle(),!1' aria-label=TOC><i class="fas fa-list fa-lg" aria-hidden=true></i> TOC</a>
+<a id=share-toggle class=icon href=# onclick='return $("#share-footer").toggle(),!1' aria-label=Share><i class="fas fa-share-alt fa-lg" aria-hidden=true></i> share</a>
+<a id=top style=display:none class=icon href=# onclick='$("html, body").animate({scrollTop:0},"fast")' aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg" aria-hidden=true></i> Top</a></div></div></div><footer id=footer><div class=footer-left>Copyright &copy; 2022 Rui Vieira</div><div class=footer-right><nav><ul><li><a href=/>Home</a></li><li><a href=/map/>All pages</a></li><li><a href=/search.html>Search</a></li></ul></nav></div></footer></div></body><link rel=stylesheet href=/css/fa.min.css><script src=/js/jquery-3.6.0.min.js></script>
 <script src=/js/mark.min.js></script>
 <script src=/js/main.js></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
-</html>
+<script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]},svg:{fontCache:"global"}}</script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></html>
