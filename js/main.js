@@ -139,7 +139,7 @@ $(document).ready(function() {
   }
 
 
-  $(".focus").each((i, obj) => {
+  $(".focus").each((_, obj) => {
     $(obj).click(() => {
       const focused = $(obj).data("focused");
       const keyword = $(obj).data("keyword")
@@ -152,5 +152,6 @@ $(document).ready(function() {
       }
     });
   })
+
 
 });
