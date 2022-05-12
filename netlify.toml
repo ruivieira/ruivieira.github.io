@@ -1,17 +1,5 @@
 [[redirects]]
-  from = "https://notes.ruivieira.dev/*"
-  to = "https://publish.obsidian.md/serve?url=notes.ruivieira.dev/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "https://docs.ruivieira.dev/*"
-  to = "https://ruivieira.dev/docs/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "https://ruivieira.dev/notes/*"
-  to = "https://publish.obsidian.md/serve?url=ruivieira.dev/notes/:splat"
+  from = "/scratch/*"
+  to = "https://publish.obsidian.md/rui/:splat"
   status = 200
   force = true
