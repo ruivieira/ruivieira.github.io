@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "styles.css",
-	"sourceRoot": "/Users/rui/Sync/code/sites/blog-source-obsidian",
+	"sourceRoot": "/home/rui/Sync/code/sites/blog-source-obsidian",
 	"sources": [
 		"themes/ruivieiradev/assets/scss/style.scss",
 		"themes/ruivieiradev/assets/scss/_variables.scss",
