@@ -78,8 +78,8 @@ We will create a dataset of $\mathbb{R}^2$ data (for easier plotting), with thre
 </code></pre><p>For each pair of points, we then get the norm of $x_i-x_j$. For instance, for $i=0\in c_k$ and $i=1\in c_l$, we would have:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>values[<span style=color:#099>0</span>, <span style=color:#099>1</span>] <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>linalg<span style=font-weight:700>.</span>norm(ck[<span style=color:#099>0</span>]<span style=font-weight:700>-</span>cl[<span style=color:#099>1</span>])
 </span></span><span style=display:flex><span><span style=color:#999>print</span>(ck[<span style=color:#099>0</span>], cl[<span style=color:#099>1</span>])
 </span></span><span style=display:flex><span><span style=color:#999>print</span>(values[<span style=color:#099>0</span>, <span style=color:#099>1</span>])
-</span></span></code></pre></div><pre><code>[ 5.84161203 -3.98182959  1.          0.        ] [-5.24664039  5.60223387  2.          1.        ]
-14.724252577342527
+</span></span></code></pre></div><pre><code>[-5.37039106  3.47555168  2.          0.        ] [ 5.46312794 -3.08938807  1.          1.        ]
+12.746119711608184
 </code></pre><p>The calculation of $\delta(c_k, c_l)$ between two clusters $c_k$ and $c_l$ will be defined as follows:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=font-weight:700>as</span> <span style=color:#555>np</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>δ</span>(ck, cl):  
@@ -98,8 +98,8 @@ We will create a dataset of $\mathbb{R}^2$ data (for easier plotting), with thre
 </span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> np<span style=font-weight:700>.</span>max(values)
 </span></span></code></pre></div><p>So, for instance, for our $c_k$ and $c_l$ we would have:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#999>print</span>(Δ(ck))
 </span></span><span style=display:flex><span><span style=color:#999>print</span>(Δ(cl))
-</span></span></code></pre></div><pre><code>6.173844284636552
-6.726025773561468
+</span></span></code></pre></div><pre><code>6.726025773561468
+6.173844284636552
 </code></pre><p>We can now define the <em>Dunn index</em> as</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>dunn</span>(k_list):
 </span></span><span style=display:flex><span>    δs <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>ones([<span style=color:#999>len</span>(k_list), <span style=color:#999>len</span>(k_list)])
 </span></span><span style=display:flex><span>    Δs <span style=font-weight:700>=</span> np<span style=font-weight:700>.</span>zeros([<span style=color:#999>len</span>(k_list), <span style=color:#099>1</span>])
