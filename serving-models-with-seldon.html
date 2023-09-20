@@ -22,19 +22,19 @@ c|a &\sim \mathcal{N}\left(a + 20, 100\right) \\
 a|k &\sim \mathcal{U}\left(A_k, B_k\right),\quad A=\left\lbrace16, 25, 50, 61\right\rbrace,B=\left\lbrace24, 49, 60, 90\right\rbrace \\
 k &\sim \mathcal{M}\left(4, \left\lbrace 0.15, 0.4, 0.2, 0.25\right\rbrace\right)
 \end{aligned}
-$$</p><figure><img src=https://ruivieira.dev/site/images/seldon_segments.png alt=seldon_segments.png loading=lazy></figure><p>Let&rsquo;s assume we have eight distinct events ($e=\left(0, 1, \dots, 7\right)$). We sample them from a multinomial
+$$</p><figure><img src=https://ruivieira.dev/pages/site/images/seldon_segments.png alt=seldon_segments.png loading=lazy></figure><p>Let&rsquo;s assume we have eight distinct events ($e=\left(0, 1, \dots, 7\right)$). We sample them from a multinomial
 distribution and also assume that two different age bands have different distributions, just to add some variation.</p><p>$$
 e = \begin{cases} \mathcal{M}\left(7, \left\lbrace 0.026, 0.195, 0.156, 0.208, 0.130, 0.205, 0.078 \right\rbrace\right) & \text{if}\ a &lt; 50 \\
 \mathcal{M}\left(7, \left\lbrace 0.052, 0.143, 0.169, 0.182, 0.164, 0.182, 0.104 \right\rbrace\right) & \text{if}\ a \geq 50
 \end{cases}
-$$</p><figure><img src=https://ruivieira.dev/site/images/seldon_hist_event_income.png alt=seldon_hist_event_income.png loading=lazy></figure><p>The responses are calculated as <code>0</code> or <code>1</code>, representing &ldquo;true&rdquo; or &ldquo;false&rdquo;, and sampled from Bernoulli
+$$</p><figure><img src=https://ruivieira.dev/pages/site/images/seldon_hist_event_income.png alt=seldon_hist_event_income.png loading=lazy></figure><p>The responses are calculated as <code>0</code> or <code>1</code>, representing &ldquo;true&rdquo; or &ldquo;false&rdquo;, and sampled from Bernoulli
 distributions, with different distributions depending on the event, again just to add some variation.</p><p>$$
 r = \begin{cases}
 \text{Bernoulli}\left(0.6\right) & \text{if}\ e \in \left(2, 3, 4, 6\right) \\
 \text{Bernoulli}\left(0.4\right) & \text{if}\ e \in \left(1, 5, 7\right)
 \end{cases}
 $$</p><p>To predict the response of a customer, we use a logistic model, with coefficients $\beta_{age}=-0.0004$ and $\beta_{income}=0.0001$. For the customer level, we use a negative binomial model with coefficients $\beta_{age}=-0.0233$ and $\beta_{income}=0.0054$.
-This results in the following distribution of customer levels:</p><figure><img src=https://ruivieira.dev/site/images/seldon_level.png alt=seldon_level.png loading=lazy></figure><p>Finally, we create the response according to negative binomial model with coefficients $\beta_{level}=0.1862$ and $\beta_{response}=0.2076$. We get the following segments, stratified by age and income:</p><figure><img src=https://ruivieira.dev/site/images/seldon_segments.png alt=seldon_segments.png loading=lazy></figure><h2 id=train-model x-intersect="currentHeading = '#train-model'">Train model</h2><p>Now that we have our simulated data, we can train a model.
+This results in the following distribution of customer levels:</p><figure><img src=https://ruivieira.dev/pages/site/images/seldon_level.png alt=seldon_level.png loading=lazy></figure><p>Finally, we create the response according to negative binomial model with coefficients $\beta_{level}=0.1862$ and $\beta_{response}=0.2076$. We get the following segments, stratified by age and income:</p><figure><img src=https://ruivieira.dev/pages/site/images/seldon_segments.png alt=seldon_segments.png loading=lazy></figure><h2 id=train-model x-intersect="currentHeading = '#train-model'">Train model</h2><p>Now that we have our simulated data, we can train a model.
 Generally, it is straightforward to train model data when in <code>pandas</code> data frame format.
 Let&rsquo;s proceed with creating a data frame with the data we&rsquo;ve just generated:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=font-weight:700>as</span> <span style=color:#555>pd</span>
 </span></span><span style=display:flex><span>
